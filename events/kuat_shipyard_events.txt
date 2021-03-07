@@ -1,0 +1,1633 @@
+namespace = kuat_shipyard
+@kuat_escort_build_time = 2400
+@kuat_eclipse_build_time = 2400
+@kuat_battlecruiser_build_time = 1000
+@kuat_titan_build_time = 1000
+@kuat_dreadnought_build_time = 1200
+@kuat_dominance_class_build_time = 1200
+#通讯主界面
+country_event = {
+	id = kuat_shipyard.1
+	title = kuat_shipyard.title
+	desc = kuat_shipyard.1.a.desc
+	# 可以添加更多文案，满足条件的文案会随机出现，无条件视为满足条件。
+	# desc = 文本
+	# 或带条件的形式
+	# desc = {
+	# 	trigger = {
+	# 		条件，与事件同作用域
+	# 	}
+	# 	text = 文本
+	# }
+	picture_event_data = {
+		portrait = event_target:Kuat_people
+		room = kuat_mega_shipyard_room
+	}
+	custom_gui = "kuat_event_diplomacy_window"
+	custom_gui_option = "kuat_event_diplomacy_option"
+	#show_sound = event_default
+	location = event_target:fallen_empire_kuat.capital_scope
+	is_triggered_only = yes
+	diplomatic = yes
+	trigger = {
+		is_ai = no
+		can_communicate_with_kuat = yes
+		OR = {
+			kuat_shipyard_diplo_event_active = no
+			from = {
+				is_same_value = root
+			}
+		}
+		OR = {
+			from = {
+				is_same_value = root
+			}
+			from = {
+				is_country_type = kuat_shipyard
+			}
+		}
+	}
+	option = {
+		name = kuat_shipyard.1.a
+		allow = {
+			custom_tooltip = {
+				fail_text = kuat_shipyard.1.a.opinion.tooltip
+				event_target:fallen_empire_kuat = {
+					opinion = {
+						who = root
+						value >= 50
+					}
+				}
+			}
+		}
+		hidden_effect = {
+			country_event = {
+				id = kuat_shipyard.2
+			}
+		}
+	}
+	option = {
+		name = kuat_shipyard.exit
+		default_hide_option = yes
+	}
+} 
+
+#建造舰船界面
+country_event = {
+	id = kuat_shipyard.2
+	title = kuat_shipyard.title
+	desc = kuat_shipyard.2.desc
+	picture_event_data = {
+		portrait = event_target:Kuat_people
+		room = kuat_mega_shipyard_room
+	}
+	custom_gui = "kuat_event_diplomacy_window"
+	custom_gui_option = "kuat_event_diplomacy_option"
+	#show_sound = event_default
+	location = event_target:fallen_empire_kuat.capital_scope
+	is_triggered_only = yes
+	diplomatic = yes
+	trigger = {
+		is_ai = no
+		can_communicate_with_kuat = yes
+	}
+	#护航舰
+	option = {
+		name = kuat_shipyard.2.a
+		allow = {
+			custom_tooltip = {
+				fail_text = kuat_shipyard.3.a.opinion.tooltip
+				NOR = {
+					any_owned_ship = {
+						is_ship_size = knigjt_hammer_executor
+					}
+					check_variable = {
+						which = fallen_empire_escort_queue
+						value > 0
+					}
+				}
+			}
+			custom_tooltip = {
+				fail_text = kuat_shipyard.2.a.opinion.tooltip
+				event_target:fallen_empire_kuat = {
+					opinion = {
+						who = root
+						value >= 500
+					}
+				}
+			}
+		}
+		hidden_effect = {
+			country_event = {
+				id = kuat_shipyard.21
+			}
+		}
+	}
+	#日蚀
+	option = {
+		name = kuat_shipyard.2.f
+		allow = {
+			custom_tooltip = {
+				fail_text = kuat_shipyard.3.a.opinion.tooltip
+				NOR = {
+					any_owned_ship = {
+						is_ship_size = eclipse
+					}
+					check_variable = {
+						which = eclipse_nub
+						value > 0
+					}
+				}
+			}
+			custom_tooltip = {
+				fail_text = kuat_shipyard.2.a.opinion.tooltip
+				event_target:fallen_empire_kuat = {
+					opinion = {
+						who = root
+						value >= 500
+					}
+				}
+			}
+		}
+		hidden_effect = {
+			country_event = {
+				id = kuat_shipyard.26
+			}
+		}
+	}
+	#战列巡洋舰
+	option = {
+		name = kuat_shipyard.2.b
+		allow = {
+			custom_tooltip = {
+				fail_text = kuat_shipyard.2.b.opinion.tooltip
+				event_target:fallen_empire_kuat = {
+					opinion = {
+						who = root
+						value >= 100
+					}
+				}
+			}
+		}
+		hidden_effect = {
+			country_event = {
+				id = kuat_shipyard.22
+			}
+		}
+	}
+	#泰坦
+	option = {
+		name = kuat_shipyard.2.c
+		allow = {
+			custom_tooltip = {
+				fail_text = kuat_shipyard.2.c.opinion.tooltip
+				event_target:fallen_empire_kuat = {
+					opinion = {
+						who = root
+						value >= 200
+					}
+				}
+			}
+		}
+		hidden_effect = {
+			country_event = {
+				id = kuat_shipyard.23
+			}
+		}
+	}
+	#战士级
+	option = {
+		name = kuat_shipyard.2.d
+		allow = {
+			custom_tooltip = {
+				fail_text = kuat_shipyard.2.d.opinion.tooltip
+				event_target:fallen_empire_kuat = {
+					opinion = {
+						who = root
+						value >= 300
+					}
+				}
+			}
+		}
+		hidden_effect = {
+			country_event = {
+				id = kuat_shipyard.24
+			}
+		}
+	}
+	#支配者级
+	option = {
+		name = kuat_shipyard.2.e
+		allow = {
+			custom_tooltip = {
+				fail_text = kuat_shipyard.2.e.opinion.tooltip
+				event_target:fallen_empire_kuat = {
+					opinion = {
+						who = root
+						value >= 350
+					}
+				}
+				count_owned_ship = {
+					limit = {
+						is_ship_size = nebula_dominance
+					}
+					count <= 10
+				}
+				check_variable = {
+					which = dominance_class_queue
+					value <= 10
+				}
+			}
+		}
+		hidden_effect = {
+			country_event = {
+				id = kuat_shipyard.25
+			}
+		}
+	}
+	option = {
+		name = kuat_shipyard.return
+		hidden_effect = {
+			country_event = {
+				id = kuat_shipyard.1
+			}
+		}
+	}
+	option = {
+		name = kuat_shipyard.exit
+		default_hide_option = yes
+	}
+}
+
+#建造护航舰
+country_event = {
+	id = kuat_shipyard.21
+	title = kuat_shipyard.title
+	desc = {
+		trigger = {
+			check_variable = {
+				which = fallen_empire_escort_queue
+				value > 0
+			}
+		}
+		text = kuat_shipyard.21.a.desc
+	}
+	desc = {
+		trigger = {
+			check_variable = {
+				which = fallen_empire_escort_queue
+				value <= 0
+			}
+		}
+		text = kuat_shipyard.21.b.desc
+	}
+	picture_event_data = {
+		portrait = event_target:Kuat_people
+		room = kuat_mega_shipyard_room
+	}
+	custom_gui = "kuat_event_diplomacy_window"
+	custom_gui_option = "kuat_event_diplomacy_option"
+	#show_sound = event_default
+	location = event_target:fallen_empire_kuat.capital_scope
+	is_triggered_only = yes
+	diplomatic = yes
+	trigger = {
+		is_ai = no
+		can_communicate_with_kuat = yes
+	}
+	option = {
+		name = kuat_shipyard.21.a
+		allow = {
+			custom_tooltip = {
+				fail_text = kuat_shipyard.3.a.opinion.tooltip
+				NOR = {
+					any_owned_ship = {
+						is_ship_size = knigjt_hammer_executor
+					}
+					check_variable = {
+						which = fallen_empire_escort_queue
+						value > 0
+					}
+				}
+			}
+			resource_stockpile_compare = {
+				resource = alloys
+				value >= 300000
+			}
+		}
+		custom_tooltip = kuat_shipyard.21.a.tooltip
+		add_resource = {
+			alloys = -300000
+		}
+		hidden_effect = {
+			change_variable = {
+				which = fallen_empire_escort_queue
+				value = 1
+			}
+			country_event = {
+				id = kuat_shipyard.21
+			}
+			country_event = {
+				id = kuat_shipyard.211
+				days = @kuat_escort_build_time
+			}
+		}
+	}
+	option = {
+		name = kuat_shipyard.21.b
+		allow = {
+			custom_tooltip = {
+				fail_text = kuat_shipyard.21.b.need_queue.tooltip
+				check_variable = {
+					which = fallen_empire_escort_queue
+					value > 0
+				}
+			}
+		}
+		custom_tooltip = kuat_shipyard.21.b.tooltip
+		add_resource = {
+			alloys = 200000
+		}
+		hidden_effect = {
+			subtract_variable = {
+				which = fallen_empire_escort_queue
+				value = 1
+			}
+			country_event = {
+				id = kuat_shipyard.21
+			}
+		}
+	}
+	option = {
+		name = kuat_shipyard.return
+		hidden_effect = {
+			country_event = {
+				id = kuat_shipyard.1
+			}
+		}
+	}
+	option = {
+		name = kuat_shipyard.exit
+		default_hide_option = yes
+	}
+}
+
+#护航舰到达
+country_event = {
+	id = kuat_shipyard.211
+	hide_window = yes
+	is_triggered_only = yes
+	trigger = {
+		can_communicate_with_kuat = yes
+		check_variable = {
+			which = fallen_empire_escort_queue
+			value > 0
+		}
+		# event_target:fallen_empire_kuat = {
+		# 	opinion = {
+		# 		who = root
+		# 		value >= 100
+		# 	}
+		# }
+	}
+	immediate = {
+		capital_scope = {
+			create_fleet = {
+				settings = {
+					spawn_debris = no
+				}
+				effect = {
+					set_owner = root
+					create_ship = {
+						name = "Sage Class Escort"
+						design = "Name_boss_EXECUTOR"
+					}
+					set_location = {
+						target = prev
+						distance = 20
+						angle = random
+					}
+				}
+			}
+		}
+		create_message = {
+			type = "SPACEPORT_CONSTRUCTION_MESSAGE_TYPE"
+			localization = "kuat_escort_arrived_desc"
+			days = 30
+			target = from
+			variable = {
+				type = name
+				localization = "capital_planet"
+				scope = root.capital_scope
+			}
+		}
+		subtract_variable = {
+			which = fallen_empire_escort_queue
+			value = 1
+		}
+		event_target:fallen_empire_kuat = {
+			add_opinion_modifier = {
+				modifier = opinion_kuat_ship_built
+				who = root
+			}
+		}
+	}
+}
+
+#建造战列巡洋舰
+country_event = {
+	id = kuat_shipyard.22
+	title = kuat_shipyard.title
+	desc = {
+		trigger = {
+			check_variable = {
+				which = fallen_empire_battlecruiser_queue
+				value > 0
+			}
+			check_variable = {
+				which = fallen_empire_battlecruiser_queue
+				value <= 4
+			}
+		}
+		text = kuat_shipyard.22.a.desc
+	}
+	desc = {
+		trigger = {
+			check_variable = {
+				which = fallen_empire_battlecruiser_queue
+				value > 4
+			}
+		}
+		text = kuat_shipyard.22.a5.desc
+	}
+	desc = {
+		trigger = {
+			check_variable = {
+				which = fallen_empire_battlecruiser_queue
+				value <= 0
+			}
+		}
+		text = kuat_shipyard.22.b.desc
+	}
+	custom_gui = "kuat_event_diplomacy_window"
+	custom_gui_option = "kuat_event_diplomacy_option"
+	picture_event_data = {
+		portrait = event_target:Kuat_people
+		room = kuat_mega_shipyard_room
+	}
+	#show_sound = event_default
+	location = event_target:fallen_empire_kuat.capital_scope
+	is_triggered_only = yes
+	diplomatic = yes
+	trigger = {
+		is_ai = no
+		can_communicate_with_kuat = yes
+	}
+	option = {
+		name = kuat_shipyard.22.a
+		allow = {
+			resource_stockpile_compare = {
+				resource = alloys
+				value >= 5000
+			}
+		}
+		custom_tooltip = kuat_shipyard.22.a.tooltip
+		add_resource = {
+			alloys = -5000
+		}
+		hidden_effect = {
+			change_variable = {
+				which = fallen_empire_battlecruiser_queue
+				value = 1
+			}
+			country_event = {
+				id = kuat_shipyard.22
+			}
+			country_event = {
+				id = kuat_shipyard.221
+				days = @kuat_battlecruiser_build_time
+			}
+		}
+	}
+	option = {
+		name = kuat_shipyard.22.a5
+		allow = {
+			resource_stockpile_compare = {
+				resource = alloys
+				value >= 25000
+			}
+		}
+		custom_tooltip = kuat_shipyard.22.a.tooltip
+		add_resource = {
+			alloys = -25000
+		}
+		hidden_effect = {
+			change_variable = {
+				which = fallen_empire_battlecruiser_queue
+				value = 5
+			}
+			country_event = {
+				id = kuat_shipyard.22
+			}
+			country_event = {
+				id = kuat_shipyard.222
+				days = @kuat_battlecruiser_build_time
+			}
+		}
+	}
+	option = {
+		name = kuat_shipyard.22.b
+		allow = {
+			custom_tooltip = {
+				fail_text = kuat_shipyard.22.b.need_queue.tooltip
+				check_variable = {
+					which = fallen_empire_battlecruiser_queue
+					value > 0
+				}
+			}
+		}
+		custom_tooltip = kuat_shipyard.22.b.tooltip
+		add_resource = {
+			alloys = 1600
+		}
+		hidden_effect = {
+			subtract_variable = {
+				which = fallen_empire_battlecruiser_queue
+				value = 1
+			}
+			country_event = {
+				id = kuat_shipyard.22
+			}
+		}
+	}
+	option = {
+		name = kuat_shipyard.22.b5
+		allow = {
+			custom_tooltip = {
+				fail_text = kuat_shipyard.22.b.need_queue.tooltip
+				check_variable = {
+					which = fallen_empire_battlecruiser_queue
+					value > 4
+				}
+			}
+		}
+		custom_tooltip = kuat_shipyard.22.b.tooltip
+		add_resource = {
+			alloys = 8000
+		}
+		hidden_effect = {
+			subtract_variable = {
+				which = fallen_empire_battlecruiser_queue
+				value = 5
+			}
+			country_event = {
+				id = kuat_shipyard.22
+			}
+		}
+	}
+	option = {
+		name = kuat_shipyard.return
+		hidden_effect = {
+			country_event = {
+				id = kuat_shipyard.1
+			}
+		}
+	}
+	option = {
+		name = kuat_shipyard.exit
+		default_hide_option = yes
+	}
+}
+
+#战列巡洋舰到达
+country_event = {
+	id = kuat_shipyard.221
+	hide_window = yes
+	is_triggered_only = yes
+	trigger = {
+		can_communicate_with_kuat = yes
+		check_variable = {
+			which = fallen_empire_battlecruiser_queue
+			value > 0
+		}
+		# event_target:fallen_empire_kuat = {
+		# 	opinion = {
+		# 		who = root
+		# 		value >= 100
+		# 	}
+		# }
+	}
+	immediate = {
+		capital_scope = {
+			create_fleet = {
+				settings = {
+					spawn_debris = no
+				}
+				effect = {
+					set_owner = root
+					create_ship = {
+						name = "Horriwer Class Destroyer"
+						design = "Name_boss_Horriwer"
+					}
+					set_location = {
+						target = prev
+						distance = 20
+						angle = random
+					}
+				}
+			}
+		}
+		create_message = {
+			type = "SPACEPORT_CONSTRUCTION_MESSAGE_TYPE"
+			localization = "kuat_battlecruiser_arrived_desc"
+			days = 30
+			target = from
+			variable = {
+				type = name
+				localization = "capital_planet"
+				scope = root.capital_scope
+			}
+		}
+		subtract_variable = {
+			which = fallen_empire_battlecruiser_queue
+			value = 1
+		}
+		event_target:fallen_empire_kuat = {
+			add_opinion_modifier = {
+				modifier = opinion_kuat_ship_built
+				who = root
+			}
+		}
+	}
+}
+
+country_event = {
+	id = kuat_shipyard.222
+	hide_window = yes
+	is_triggered_only = yes
+	trigger = {
+		can_communicate_with_kuat = yes
+		check_variable = {
+			which = fallen_empire_battlecruiser_queue
+			value > 4
+		}
+	}
+	immediate = {
+		capital_scope = {
+			create_fleet = {
+				settings = {
+					spawn_debris = no
+				}
+				effect = {
+					set_owner = root
+					while = {
+						count = 5
+						create_ship = {
+							name = "Horriwer Class Destroyer"
+							design = "Name_boss_Horriwer"
+						}
+					}
+					set_location = {
+						target = prev
+						distance = 20
+						angle = random
+					}
+				}
+			}
+		}
+		create_message = {
+			type = "SPACEPORT_CONSTRUCTION_MESSAGE_TYPE"
+			localization = "kuat_battlecruiser_arrived_desc"
+			days = 30
+			target = from
+			variable = {
+				type = name
+				localization = "capital_planet"
+				scope = root.capital_scope
+			}
+		}
+		subtract_variable = {
+			which = fallen_empire_battlecruiser_queue
+			value = 5
+		}
+		event_target:fallen_empire_kuat = {
+			while = {
+				count = 6
+				add_opinion_modifier = {
+					modifier = opinion_kuat_ship_built
+					who = root
+				}
+			}
+		}
+	}
+}
+
+#建造泰坦
+country_event = {
+	id = kuat_shipyard.23
+	title = kuat_shipyard.title
+	desc = {
+		trigger = {
+			check_variable = {
+				which = fallen_empire_titan_queue
+				value > 0
+			}
+			check_variable = {
+				which = fallen_empire_titan_queue
+				value <= 4
+			}
+		}
+		text = kuat_shipyard.23.a.desc
+	}
+	desc = {
+		trigger = {
+			check_variable = {
+				which = fallen_empire_titan_queue
+				value > 4
+			}
+		}
+		text = kuat_shipyard.23.a5.desc
+	}
+	desc = {
+		trigger = {
+			check_variable = {
+				which = fallen_empire_titan_queue
+				value <= 0
+			}
+		}
+		text = kuat_shipyard.23.b.desc
+	}
+	custom_gui = "kuat_event_diplomacy_window"
+	custom_gui_option = "kuat_event_diplomacy_option"
+	picture_event_data = {
+		portrait = event_target:Kuat_people
+		room = kuat_mega_shipyard_room
+	}
+	#show_sound = event_default
+	location = event_target:fallen_empire_kuat.capital_scope
+	is_triggered_only = yes
+	diplomatic = yes
+	trigger = {
+		is_ai = no
+		can_communicate_with_kuat = yes
+	}
+	option = {
+		name = kuat_shipyard.23.a
+		allow = {
+			resource_stockpile_compare = {
+				resource = alloys
+				value >= 10000
+			}
+		}
+		custom_tooltip = kuat_shipyard.23.a.tooltip
+		add_resource = {
+			alloys = -10000
+		}
+		hidden_effect = {
+			change_variable = {
+				which = fallen_empire_titan_queue
+				value = 1
+			}
+			country_event = {
+				id = kuat_shipyard.23
+			}
+			country_event = {
+				id = kuat_shipyard.231
+				days = @kuat_titan_build_time
+			}
+		}
+	}
+	option = {
+		name = kuat_shipyard.23.a5
+		allow = {
+			resource_stockpile_compare = {
+				resource = alloys
+				value >= 50000
+			}
+		}
+		custom_tooltip = kuat_shipyard.23.a.tooltip
+		add_resource = {
+			alloys = -50000
+		}
+		hidden_effect = {
+			change_variable = {
+				which = fallen_empire_titan_queue
+				value = 5
+			}
+			country_event = {
+				id = kuat_shipyard.23
+			}
+			country_event = {
+				id = kuat_shipyard.232
+				days = @kuat_titan_build_time
+			}
+		}
+	}
+	option = {
+		name = kuat_shipyard.23.b
+		allow = {
+			custom_tooltip = {
+				fail_text = kuat_shipyard.23.b.need_queue.tooltip
+				check_variable = {
+					which = fallen_empire_titan_queue
+					value > 0
+				}
+			}
+		}
+		custom_tooltip = kuat_shipyard.23.b.tooltip
+		add_resource = {
+			alloys = 4800
+		}
+		hidden_effect = {
+			subtract_variable = {
+				which = fallen_empire_titan_queue
+				value = 1
+			}
+			country_event = {
+				id = kuat_shipyard.23
+			}
+		}
+	}
+	option = {
+		name = kuat_shipyard.23.b5
+		allow = {
+			custom_tooltip = {
+				fail_text = kuat_shipyard.23.b.need_queue.tooltip
+				check_variable = {
+					which = fallen_empire_titan_queue
+					value > 4
+				}
+			}
+		}
+		custom_tooltip = kuat_shipyard.23.b.tooltip
+		add_resource = {
+			alloys = 24000
+		}
+		hidden_effect = {
+			subtract_variable = {
+				which = fallen_empire_titan_queue
+				value = 5
+			}
+			country_event = {
+				id = kuat_shipyard.23
+			}
+		}
+	}
+	option = {
+		name = kuat_shipyard.return
+		hidden_effect = {
+			country_event = {
+				id = kuat_shipyard.1
+			}
+		}
+	}
+	option = {
+		name = kuat_shipyard.exit
+		default_hide_option = yes
+	}
+}
+
+#泰坦到达
+country_event = {
+	id = kuat_shipyard.231
+	hide_window = yes
+	is_triggered_only = yes
+	trigger = {
+		can_communicate_with_kuat = yes
+		check_variable = {
+			which = fallen_empire_titan_queue
+			value > 0
+		}
+		# event_target:fallen_empire_kuat = {
+		# 	opinion = {
+		# 		who = root
+		# 		value >= 100
+		# 	}
+		# }
+	}
+	immediate = {
+		capital_scope = {
+			create_fleet = {
+				settings = {
+					spawn_debris = no
+				}
+				effect = {
+					set_owner = root
+					create_ship = {
+						name = "Empire-II Class Stardestroyer"
+						design = "Name_boss_EMPIRE"
+						graphical_culture = fallen_empire_01
+					}
+					set_location = {
+						target = prev
+						distance = 20
+						angle = random
+					}
+				}
+			}
+		}
+		create_message = {
+			type = "SPACEPORT_CONSTRUCTION_MESSAGE_TYPE"
+			localization = "kuat_titan_arrived_desc"
+			days = 30
+			target = from
+			variable = {
+				type = name
+				localization = "capital_planet"
+				scope = root.capital_scope
+			}
+		}
+		subtract_variable = {
+			which = fallen_empire_titan_queue
+			value = 1
+		}
+		event_target:fallen_empire_kuat = {
+			add_opinion_modifier = {
+				modifier = opinion_kuat_ship_built
+				who = root
+			}
+		}
+	}
+}
+
+country_event = {
+	id = kuat_shipyard.232
+	hide_window = yes
+	is_triggered_only = yes
+	trigger = {
+		can_communicate_with_kuat = yes
+		check_variable = {
+			which = fallen_empire_titan_queue
+			value > 4
+		}
+	}
+	immediate = {
+		capital_scope = {
+			create_fleet = {
+				settings = {
+					spawn_debris = no
+				}
+				effect = {
+					set_owner = root
+					while = {
+						count = 5
+						create_ship = {
+							name = "Empire-II Class Stardestroyer"
+							design = "Name_boss_EMPIRE"
+							graphical_culture = fallen_empire_01
+						}
+					}
+					set_location = {
+						target = prev
+						distance = 20
+						angle = random
+					}
+				}
+			}
+		}
+		create_message = {
+			type = "SPACEPORT_CONSTRUCTION_MESSAGE_TYPE"
+			localization = "kuat_titan_arrived_desc"
+			days = 30
+			target = from
+			variable = {
+				type = name
+				localization = "capital_planet"
+				scope = root.capital_scope
+			}
+		}
+		subtract_variable = {
+			which = fallen_empire_titan_queue
+			value = 5
+		}
+		event_target:fallen_empire_kuat = {
+			while = {
+				count = 6
+				add_opinion_modifier = {
+					modifier = opinion_kuat_ship_built
+					who = root
+				}
+			}
+		}
+	}
+}
+
+#建造战士级
+country_event = {
+	id = kuat_shipyard.24
+	title = kuat_shipyard.title
+	desc = {
+		trigger = {
+			check_variable = {
+				which = balletor_class_queue
+				value > 0
+			}
+		}
+		text = kuat_shipyard.24.a.desc
+	}
+	desc = {
+		trigger = {
+			check_variable = {
+				which = balletor_class_queue
+				value <= 0
+			}
+		}
+		text = kuat_shipyard.24.b.desc
+	}
+	custom_gui = "kuat_event_diplomacy_window"
+	custom_gui_option = "kuat_event_diplomacy_option"
+	picture_event_data = {
+		portrait = event_target:Kuat_people
+		room = kuat_mega_shipyard_room
+	}
+	#show_sound = event_default
+	location = event_target:fallen_empire_kuat.capital_scope
+	is_triggered_only = yes
+	diplomatic = yes
+	trigger = {
+		is_ai = no
+		can_communicate_with_kuat = yes
+	}
+	option = {
+		name = kuat_shipyard.24.a
+		allow = {
+			resource_stockpile_compare = {
+				resource = alloys
+				value >= 30000
+			}
+		}
+		custom_tooltip = kuat_shipyard.24.a.tooltip
+		add_resource = {
+			alloys = -30000
+		}
+		hidden_effect = {
+			change_variable = {
+				which = balletor_class_queue
+				value = 1
+			}
+			country_event = {
+				id = kuat_shipyard.24
+			}
+			country_event = {
+				id = kuat_shipyard.241
+				days = @kuat_dreadnought_build_time
+			}
+		}
+	}
+	option = {
+		name = kuat_shipyard.24.b
+		allow = {
+			custom_tooltip = {
+				fail_text = kuat_shipyard.24.b.need_queue.tooltip
+				check_variable = {
+					which = balletor_class_queue
+					value > 0
+				}
+			}
+		}
+		custom_tooltip = kuat_shipyard.24.b.tooltip
+		add_resource = {
+			alloys = 10000
+		}
+		hidden_effect = {
+			subtract_variable = {
+				which = balletor_class_queue
+				value = 1
+			}
+			country_event = {
+				id = kuat_shipyard.24
+			}
+		}
+	}
+	option = {
+		name = kuat_shipyard.return
+		hidden_effect = {
+			country_event = {
+				id = kuat_shipyard.1
+			}
+		}
+	}
+	option = {
+		name = kuat_shipyard.exit
+		default_hide_option = yes
+	}
+}
+
+#战士级到达
+country_event = {
+	id = kuat_shipyard.241
+	hide_window = yes
+	is_triggered_only = yes
+	trigger = {
+		can_communicate_with_kuat = yes
+		check_variable = {
+			which = balletor_class_queue
+			value > 0
+		}
+		# event_target:fallen_empire_kuat = {
+		# 	opinion = {
+		# 		who = root
+		# 		value >= 400
+		# 	}
+		# }
+	}
+	immediate = {
+		capital_scope = {
+			create_fleet = {
+				settings = {
+					spawn_debris = no
+				}
+				effect = {
+					set_owner = root
+					create_ship = {
+						name = "Balletor Class Stellar Dreadnought"
+						design = "Name_boss_BELLATOR"
+					}
+					set_location = {
+						target = prev
+						distance = 20
+						angle = random
+					}
+				}
+			}
+		}
+		create_message = {
+			type = "SPACEPORT_CONSTRUCTION_MESSAGE_TYPE"
+			localization = "kuat_balletor_class_arrived_desc"
+			days = 30
+			target = from
+			variable = {
+				type = name
+				localization = "capital_planet"
+				scope = root.capital_scope
+			}
+		}
+		subtract_variable = {
+			which = balletor_class_queue
+			value = 1
+		}
+		event_target:fallen_empire_kuat = {
+			add_opinion_modifier = {
+				modifier = opinion_kuat_ship_built
+				who = root
+			}
+		}
+	}
+}
+
+#建造支配者级
+country_event = {
+	id = kuat_shipyard.25
+	title = kuat_shipyard.title
+	desc = {
+		trigger = {
+			check_variable = {
+				which = dominance_class_queue
+				value > 0
+			}
+		}
+		text = kuat_shipyard.25.a.desc
+	}
+	desc = {
+		trigger = {
+			check_variable = {
+				which = dominance_class_queue
+				value <= 0
+			}
+		}
+		text = kuat_shipyard.25.b.desc
+	}
+	custom_gui = "kuat_event_diplomacy_window"
+	custom_gui_option = "kuat_event_diplomacy_option"
+	picture_event_data = {
+		portrait = event_target:Kuat_people
+		room = kuat_mega_shipyard_room
+	}
+	#show_sound = event_default
+	location = event_target:fallen_empire_kuat.capital_scope
+	is_triggered_only = yes
+	diplomatic = yes
+	trigger = {
+		is_ai = no
+		can_communicate_with_kuat = yes
+	}
+	option = {
+		name = kuat_shipyard.25.a
+		allow = {
+			custom_tooltip = {
+				fail_text = kuat_shipyard_fail_tooltip
+				resource_stockpile_compare = {
+					resource = alloys
+					value >= 100000
+				}
+				count_owned_ship = {
+					limit = {
+						is_ship_size = nebula_dominance
+					}
+					count <= 10
+				}
+				check_variable = {
+					which = dominance_class_queue
+					value <= 10
+				}
+			}
+		}
+		custom_tooltip = kuat_shipyard.25.a.tooltip
+		add_resource = {
+			alloys = -100000
+		}
+		hidden_effect = {
+			change_variable = {
+				which = dominance_class_queue
+				value = 1
+			}
+			country_event = {
+				id = kuat_shipyard.25
+			}
+			country_event = {
+				id = kuat_shipyard.251
+				days = @kuat_dominance_class_build_time
+			}
+		}
+	}
+	option = {
+		name = kuat_shipyard.25.b
+		allow = {
+			custom_tooltip = {
+				fail_text = kuat_shipyard.25.b.need_queue.tooltip
+				check_variable = {
+					which = dominance_class_queue
+					value > 0
+				}
+			}
+		}
+		custom_tooltip = kuat_shipyard.25.b.tooltip
+		add_resource = {
+			alloys = 80000
+		}
+		hidden_effect = {
+			subtract_variable = {
+				which = dominance_class_queue
+				value = 1
+			}
+			country_event = {
+				id = kuat_shipyard.25
+			}
+		}
+	}
+	option = {
+		name = kuat_shipyard.return
+		hidden_effect = {
+			country_event = {
+				id = kuat_shipyard.1
+			}
+		}
+	}
+	option = {
+		name = kuat_shipyard.exit
+		default_hide_option = yes
+	}
+}
+
+#支配者级到达
+country_event = {
+	id = kuat_shipyard.251
+	hide_window = yes
+	is_triggered_only = yes
+	trigger = {
+		can_communicate_with_kuat = yes
+		check_variable = {
+			which = dominance_class_queue
+			value > 0
+		}
+		# event_target:fallen_empire_kuat = {
+		# 	opinion = {
+		# 		who = root
+		# 		value >= 500
+		# 	}
+		# }
+	}
+	immediate = {
+		capital_scope = {
+			create_fleet = {
+				settings = {
+					spawn_debris = no
+				}
+				effect = {
+					set_owner = root
+					create_ship = {
+						name = "Dominance Class Super Stardestroyer"
+						design = "Name_boss_Dominance"
+					}
+					set_location = {
+						target = prev
+						distance = 20
+						angle = random
+					}
+				}
+			}
+		}
+		create_message = {
+			type = "SPACEPORT_CONSTRUCTION_MESSAGE_TYPE"
+			localization = "kuat_dominance_class_arrived_desc"
+			days = 30
+			target = from
+			variable = {
+				type = name
+				localization = "capital_planet"
+				scope = root.capital_scope
+			}
+		}
+		subtract_variable = {
+			which = dominance_class_queue
+			value = 1
+		}
+		event_target:fallen_empire_kuat = {
+			add_opinion_modifier = {
+				modifier = opinion_kuat_ship_built
+				who = root
+			}
+		}
+	}
+}
+
+#建造日蚀
+country_event = {
+	id = kuat_shipyard.26
+	title = kuat_shipyard.title
+	desc = {
+		trigger = {
+			check_variable = {
+				which = eclipse_nub
+				value > 0
+			}
+		}
+		text = kuat_shipyard.26.a.desc
+	}
+	desc = {
+		trigger = {
+			check_variable = {
+				which = eclipse_nub
+				value <= 0
+			}
+		}
+		text = kuat_shipyard.26.b.desc
+	}
+	custom_gui = "kuat_event_diplomacy_window"
+	custom_gui_option = "kuat_event_diplomacy_option"
+	picture_event_data = {
+		portrait = event_target:Kuat_people
+		room = kuat_mega_shipyard_room
+	}
+	#show_sound = event_default
+	location = event_target:fallen_empire_kuat.capital_scope
+	is_triggered_only = yes
+	diplomatic = yes
+	trigger = {
+		is_ai = no
+		can_communicate_with_kuat = yes
+	}
+	option = {
+		name = kuat_shipyard.26.a
+		allow = {
+			resource_stockpile_compare = {
+				resource = alloys
+				value >= 300000
+			}
+			NOR = {
+				any_owned_ship = {
+					is_ship_size = eclipse
+				}
+				check_variable = {
+					which = eclipse_nub
+					value > 0
+				}
+			}
+		}
+		custom_tooltip = kuat_shipyard.26.a.tooltip
+		add_resource = {
+			alloys = -300000
+		}
+		hidden_effect = {
+			change_variable = {
+				which = eclipse_nub
+				value = 1
+			}
+			country_event = {
+				id = kuat_shipyard.26
+			}
+			country_event = {
+				id = kuat_shipyard.261
+				days = @kuat_eclipse_build_time
+			}
+		}
+	}
+	option = {
+		name = kuat_shipyard.26.b
+		allow = {
+			custom_tooltip = {
+				fail_text = kuat_shipyard.26.b.need_queue.tooltip
+				check_variable = {
+					which = eclipse_nub
+					value > 0
+				}
+			}
+		}
+		custom_tooltip = kuat_shipyard.26.b.tooltip
+		add_resource = {
+			alloys = 200000
+		}
+		hidden_effect = {
+			subtract_variable = {
+				which = eclipse_nub
+				value = 1
+			}
+			country_event = {
+				id = kuat_shipyard.26
+			}
+		}
+	}
+	option = {
+		name = kuat_shipyard.return
+		hidden_effect = {
+			country_event = {
+				id = kuat_shipyard.1
+			}
+		}
+	}
+	option = {
+		name = kuat_shipyard.exit
+		default_hide_option = yes
+	}
+}
+
+#日蚀到达
+country_event = {
+	id = kuat_shipyard.261
+	hide_window = yes
+	is_triggered_only = yes
+	trigger = {
+		can_communicate_with_kuat = yes
+		check_variable = {
+			which = eclipse_nub
+			value > 0
+		}
+		# event_target:fallen_empire_kuat = {
+		# 	opinion = {
+		# 		who = root
+		# 		value >= 100
+		# 	}
+		# }
+	}
+	immediate = {
+		capital_scope = {
+			create_fleet = {
+				settings = {
+					spawn_debris = no
+				}
+				effect = {
+					set_owner = root
+					create_ship = {
+						name = "Eclipse Class"
+						design = "Name_boss_eclipse"
+					}
+					set_location = {
+						target = prev
+						distance = 20
+						angle = random
+					}
+				}
+			}
+		}
+		create_message = {
+			type = "SPACEPORT_CONSTRUCTION_MESSAGE_TYPE"
+			localization = "kuat_eclipse_arrived_desc"
+			days = 30
+			target = from
+			variable = {
+				type = name
+				localization = "capital_planet"
+				scope = root.capital_scope
+			}
+		}
+		subtract_variable = {
+			which = eclipse_nub
+			value = 1
+		}
+		event_target:fallen_empire_kuat = {
+			add_opinion_modifier = {
+				modifier = opinion_kuat_ship_built
+				who = root
+			}
+		}
+	}
+}
+
+#做出敌对行为后取消舰船建造
+country_event = {
+	id = kuat_shipyard.3
+	title = kuat_shipyard.title
+	desc = kuat_shipyard.3.desc
+	picture_event_data = {
+		portrait = event_target:Kuat_people
+		planet_background = pc_ringworld_habitable
+		graphical_culture = fallen_empire_01
+		city_level = event_target:empire_founding
+		room = personality_fallen_empire_cyan_room
+	}
+	custom_gui = "kuat_event_diplomacy_window"
+	custom_gui_option = "kuat_event_diplomacy_option"
+	show_sound = event_default
+	location = event_target:fallen_empire_kuat.capital_scope
+	diplomatic = yes
+	mean_time_to_happen = {
+		months = 1
+	}
+	trigger = {
+		exists = event_target:fallen_empire_kuat
+		exists = event_target:kuat_shipyard_country
+		OR = {
+			is_hostile = event_target:fallen_empire_kuat
+			is_hostile = event_target:kuat_shipyard_country
+			event_target:fallen_empire_kuat = {
+				opinion = {
+					who = root
+					value <= -100
+				}
+			}
+		}
+		OR = {
+			check_variable = {
+				which = fallen_empire_escort_queue
+				value > 0
+			}
+			check_variable = {
+				which = fallen_empire_battlecruiser_queue
+				value > 0
+			}
+			check_variable = {
+				which = fallen_empire_titan_queue
+				value > 0
+			}
+			check_variable = {
+				which = balletor_class_queue
+				value > 0
+			}
+			check_variable = {
+				which = dominance_class_queue
+				value > 0
+			}
+			check_variable = {
+				which = eclipse_nub
+				value > 0
+			}
+		}
+	}
+	immediate = {
+		set_variable = {
+			which = fallen_empire_escort_queue
+			value = 0
+		}
+		set_variable = {
+			which = fallen_empire_battlecruiser_queue
+			value = 0
+		}
+		set_variable = {
+			which = fallen_empirece_titan_queue
+			value = 0
+		}
+		set_variable = {
+			which = balletor_class_queue
+			value = 0
+		}
+		set_variable = {
+			which = dominance_class_queue
+			value = 0
+		}
+		set_variable = {
+			which = eclipse_nub
+			value = 0
+		}
+	}
+	option = {
+		name = kuat_shipyard.3.a
+	}
+} 
+
+#每月检测，夸特消失后摧毁船厂国家
+event = {
+	id = kuat_shipyard.4
+	hide_window = yes
+	is_triggered_only = yes
+	trigger = {
+		NOT = {
+			exists = event_target:fallen_empire_kuat
+		}
+		exists = event_target:kuat_shipyard_country
+	}
+	immediate = {
+		event_target:kuat_shipyard_country = {
+			destroy_country = yes
+		}
+	}
+}

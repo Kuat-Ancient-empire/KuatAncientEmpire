@@ -1,0 +1,246 @@
+#Scope type varies depending on what is selected
+# This = selected object or player country
+# From = player country
+STAR_WAR_MENUE_1 = {
+	potential = {
+		always = yes
+	}
+	allow = {
+		hidden_trigger = {
+			has_global_flag = install_kuat_mod
+		}
+	}
+	effect = {
+		custom_tooltip = "TOPBAR_MENU_STAR_WAR"
+		country_event = {
+			id = exe_invasion.1000
+		}
+	}
+}
+
+#diffult
+kuat_set_difficulty_group = {
+	potential = { always = yes }
+	allow = { always = yes }
+	effect = { }
+}
+kuat_set_difficulty_easy = {
+	potential = {
+		hidden_trigger = { NOT = { has_global_flag = special_exe_invasion } }
+	}
+	allow = {
+		hidden_trigger = { always = yes }
+	}
+	effect = {
+		custom_tooltip = "exe_invasion.1001.c"
+		custom_tooltip = "exe_invasion.1001.c.tooltip"
+		hidden_effect = {
+			if = {
+				limit = {
+					OR = {
+						has_global_flag = ban_exe_invasion
+						has_global_flag = normal_exe_invasion
+						has_global_flag = difficult_exe_invasion
+						has_global_flag = fire_diificult_option
+					}
+				}
+				remove_global_flag = ban_exe_invasion
+				remove_global_flag = normal_exe_invasion
+				remove_global_flag = difficult_exe_invasion
+				remove_global_flag = fire_diificult_option
+			}
+			set_global_flag = easy_exe_invasion
+		}
+	}
+}
+kuat_set_difficulty_easy_alt = {
+	potential = {
+		hidden_trigger = {  has_global_flag = easy_exe_invasion } 
+	}
+	allow = {
+		hidden_trigger = { always = yes }
+	}
+	effect = {
+		custom_tooltip = "exe_invasion.1001.c"
+		custom_tooltip = "exe_invasion.1009.desc"
+	}
+}
+kuat_set_difficulty_normal = {
+	potential = {
+		hidden_trigger = { NOT = { has_global_flag = special_exe_invasion } }
+	}
+	allow = {
+		hidden_trigger = { always = yes }
+	}
+	effect = {
+		custom_tooltip = "exe_invasion.1001.b"
+		custom_tooltip = "exe_invasion.1001.b.tooltip"
+		hidden_effect = {
+			if = {
+				limit = {
+					OR = {
+						has_global_flag = ban_exe_invasion
+						has_global_flag = easy_exe_invasion
+						has_global_flag = difficult_exe_invasion
+						has_global_flag = fire_diificult_option
+					}
+				}
+				remove_global_flag = ban_exe_invasion
+				remove_global_flag = easy_exe_invasion
+				remove_global_flag = difficult_exe_invasion
+				remove_global_flag = fire_diificult_option
+			}
+			set_global_flag = normal_exe_invasion
+		}
+	}
+}
+kuat_set_difficulty_normal_alt = {
+	potential = {
+		hidden_trigger = { has_global_flag = normal_exe_invasion }
+	}
+	allow = {
+		hidden_trigger = { always = yes }
+	}
+	effect = {
+		custom_tooltip = "exe_invasion.1001.b"
+		custom_tooltip = "exe_invasion.1009.normal"
+	}
+}
+kuat_set_difficulty_hard_1 = {
+	potential = {
+		hidden_trigger = { NOT = { has_global_flag = special_exe_invasion } }
+	}
+	allow = {
+		hidden_trigger = { always = yes }
+	}
+	effect = {
+		custom_tooltip = "exe_invasion.1001.d"
+		custom_tooltip = "exe_invasion.1001.d.tooltip"
+		hidden_effect = {
+			if = {
+				limit = {
+					OR = {
+						has_global_flag = ban_exe_invasion
+						has_global_flag = normal_exe_invasion
+						has_global_flag = easy_exe_invasion
+					}
+				}
+				remove_global_flag = ban_exe_invasion
+				remove_global_flag = normal_exe_invasion
+				remove_global_flag = easy_exe_invasion
+			}
+			set_global_flag = difficult_exe_invasion
+			set_global_flag = fire_diificult_option
+		}
+	}
+}
+kuat_set_difficulty_hard_1_alt = {
+	potential = {
+		hidden_trigger = { has_global_flag = difficult_exe_invasion }
+	}
+	allow = {
+		hidden_trigger = { always = yes }
+	}
+	effect = {
+		custom_tooltip = "exe_invasion.1001.d"
+		custom_tooltip = "exe_invasion.1009.difficult"
+		if = {
+			limit = { has_global_flag = has_ancient_empire_mod }
+			custom_tooltip = "exe_invasion.1009.addon"
+		}
+	}
+}
+kuat_set_difficulty_ban = {
+	potential = {
+		hidden_trigger = { NOT = { has_global_flag = special_exe_invasion } }
+	}
+	allow = {
+		hidden_trigger = { always = yes }
+	}
+	effect = {
+		custom_tooltip = "exe_invasion.1001.a"
+		custom_tooltip = "exe_invasion.1001.a.tooltip"
+		hidden_effect = {
+			if = {
+				limit = {
+					OR = {
+						has_global_flag = easy_exe_invasion
+						has_global_flag = normal_exe_invasion
+						has_global_flag = difficult_exe_invasion
+						has_global_flag = fire_diificult_option
+					}
+				}
+				remove_global_flag = easy_exe_invasion
+				remove_global_flag = normal_exe_invasion
+				remove_global_flag = difficult_exe_invasion
+				remove_global_flag = fire_diificult_option
+			}
+			set_global_flag = ban_exe_invasion
+		}
+	}
+}
+kuat_set_difficulty_ban_alt = {
+	potential = {
+		hidden_trigger = { has_global_flag = ban_exe_invasion }
+	}
+	allow = {
+		hidden_trigger = { always = yes }
+	}
+	effect = {
+		custom_tooltip = "exe_invasion.1001.a"
+		custom_tooltip = "exe_invasion.1009.ban"
+	}
+}
+
+
+#return
+kuat_set_return_one = {
+	potential = { always = yes }
+	allow = { hidden_trigger = { has_global_flag = fire_diificult_option } }
+	effect = {
+		custom_tooltip = "exe_invasion.1010.e"
+		custom_tooltip = "exe_invasion.1010.e.tooltip"
+		hidden_effect = {
+			remove_global_flag = ban_kuat_return
+			remove_global_flag = begin_kuat_return
+			set_global_flag = begin_kuat_return
+		}
+	}
+}
+kuat_set_return_one_alt = {
+	potential = { hidden_trigger = { has_global_flag = begin_kuat_return } }
+	allow = { hidden_trigger = { has_global_flag = fire_diificult_option } }
+	effect = {
+		custom_tooltip = "exe_invasion.1010.e"
+		custom_tooltip = "exe_invasion.1010.begin"
+		if = {
+			limit = { has_global_flag = has_ancient_empire_mod }
+			custom_tooltip = "exe_invasion.1009.addon"
+		}
+	}
+}
+kuat_set_return_two = {
+	potential = { always = yes }
+	allow = { hidden_trigger = { has_global_flag = fire_diificult_option } }
+	effect = {
+		custom_tooltip = "exe_invasion.1001.e"
+		custom_tooltip = "exe_invasion.1001.e.tooltip"
+		hidden_effect = {
+			remove_global_flag = begin_kuat_return
+			remove_global_flag = ban_kuat_return
+			set_global_flag = ban_kuat_return
+		}
+	}
+}
+kuat_set_return_two_alt = {
+	potential = { hidden_trigger = { has_global_flag = ban_kuat_return } }
+	allow = { hidden_trigger = { has_global_flag = fire_diificult_option } }
+	effect = {
+		custom_tooltip = "exe_invasion.1001.e"
+		custom_tooltip = "exe_invasion.1010.ban"
+		if = {
+			limit = { has_global_flag = has_ancient_empire_mod }
+			custom_tooltip = "exe_invasion.1009.addon"
+		}
+	}
+}

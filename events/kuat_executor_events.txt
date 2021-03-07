@@ -1,0 +1,1891 @@
+namespace = executor_build
+country_event = {
+	id = executor_build.1
+	hide_window = yes
+	is_triggered_only = yes
+	fire_only_once = yes
+	trigger = {
+		is_ai = no
+	}
+	immediate = {
+		set_country_flag = executorbuilding
+		random_system = {
+			limit = {
+				has_owner = no
+				any_neighbor_system = {
+					has_owner = no
+				}
+				ag_is_create_system = no
+			}
+			spawn_megastructure = {
+				type = exe_outer_gate
+				owner = space_owner
+				graphical_culture = "humanoid_01"
+				orbit_angle = 225
+				orbit_distance = 200
+				location = solar_system
+			}
+			set_star_flag = ag_exe_invasion_gate_system
+		}
+	}
+}
+
+event = {
+	id = executor_build.22
+	hide_window = yes
+	is_triggered_only = yes
+	fire_only_once = yes
+	trigger = {
+		mid_game_years_passed >= 0
+	}
+	immediate = {
+		every_playable_country = {
+			limit = {
+				is_ai = no
+			}
+			set_country_flag = can_pass_by
+			country_event = { id = executor_build.93 }
+		}
+	}
+}
+
+country_event = {
+	id = executor_build.93
+	title = executor_build.93.title
+	desc = executor_build.93.desc
+	diplomatic = yes
+	picture_event_data = {
+		room = l-gateway_room
+	}
+	custom_gui = "kuat_event_m_window"
+	custom_gui_option = "kuat_event_m_option"
+	is_triggered_only = yes
+	option = {
+		name = executor_build.93.RESPON
+	}
+}
+
+country_event = {
+	id = executor_build.94
+	hide_window = yes
+	is_triggered_only = yes
+	trigger = {
+		NOT = { has_origin = origin_parit }
+	}
+	immediate = {
+		event_target:fallen_empire_kuat = {
+			add_opinion_modifier = {
+				who = prev
+				modifier = opinion_kuat_new
+			}
+		}
+	}
+}
+
+##########################
+## STAR GAME FOR SYSTEM ##
+##########################
+event = {
+	id = executor_build.2
+	hide_window = yes
+	is_triggered_only = yes
+	immediate = {
+		set_spawn_system_batch = begin
+		no_scope = {
+			spawn_system = {
+				initializer = "Kuat_system"
+				min_distance >= 550
+				max_distance <= 550
+				min_orientation_angle >= 0
+				max_orientation_angle <= 0
+				hyperlane = no
+			}
+			spawn_system = {
+				initializer = "Kuat_system_1"
+				min_distance >= 570
+				max_distance <= 570
+				min_orientation_angle >= 0
+				max_orientation_angle <= 0
+				hyperlane = no
+			}
+			spawn_system = {
+				initializer = "Kuat_system_2"
+				min_distance >= 570
+				max_distance <= 570
+				min_orientation_angle >= 5
+				max_orientation_angle <= 5
+				hyperlane = no
+			}
+			spawn_system = {
+				initializer = "Kuat_system_3"
+				min_distance >= 550
+				max_distance <= 550
+				min_orientation_angle >= 5
+				max_orientation_angle <= 5
+				hyperlane = no
+			}
+		}
+		set_spawn_system_batch = end
+		every_playable_country = {
+			country_event = { id = executor_build.3 days = 30 }
+		}
+		set_global_flag = kuat_spawned
+	}
+}
+
+country_event = {
+	id = executor_build.3
+	title = executor_build.title
+	desc = {
+		trigger = {
+			NOR = {
+				has_global_flag = has_swgs_country
+				has_origin = origin_parit
+			}
+		}
+		text = executor_build.desc
+	}
+	desc = {
+		trigger = {
+			has_global_flag = has_swgs_country
+		}
+		text = executor_build_special.desc
+	}
+	desc = {
+		trigger = {
+			has_origin = origin_parit
+		}
+		text = executor_build_special_parit.desc
+	}
+	diplomatic = yes
+	picture_event_data = {
+		portrait = event_target:Kuat_people
+		planet_background = pc_ringworld_habitable
+		graphical_culture = fallen_empire_01
+		city_level = event_target:empire_founding
+		room = personality_fallen_empire_cyan_room
+	}
+	custom_gui = "kuat_event_diplomacy_window"
+	custom_gui_option = "kuat_event_diplomacy_option"
+	is_triggered_only = yes
+	trigger = {
+		NOT = { is_country_type = default_ev }
+	}
+	immediate = {
+		if = {
+			limit = { has_origin = origin_parit }
+			set_country_flag = has_parit_girl
+			event_target:fallen_empire_kuat = {
+				add_opinion_modifier = {
+					who = prev
+					modifier = opinion_kuat_new_parit
+				}
+			}
+		}
+		establish_communications_no_message = event_target:empire_founding
+		establish_communications_no_message = event_target:kuat_shipyard_country
+	}
+	option = {
+		name = executor_build.a
+		hidden_effect = {
+			country_event = { id = executor_build.94 days = 10 }
+			country_event = { id = executor_build.371 days = 30 }
+		}
+	}
+}
+
+country_event = {
+	id = executor_build.9
+	title = executor_build.title
+	desc = {
+		trigger = {
+			NOR = {
+				has_global_flag = has_swgs_country
+				has_origin = origin_parit
+			}
+		}
+		text = executor_build.desc
+	}
+	desc = {
+		trigger = {
+			has_global_flag = has_swgs_country
+		}
+		text = executor_build_special.desc
+	}
+	desc = {
+		trigger = {
+			has_origin = origin_parit
+		}
+		text = executor_build_special_parit.desc
+	}
+	diplomatic = yes
+	picture_event_data = {
+		portrait = event_target:Kuat_people
+		planet_background = pc_ringworld_habitable
+		graphical_culture = fallen_empire_01
+		city_level = event_target:empire_founding
+		room = personality_fallen_empire_cyan_room
+	}
+	custom_gui = "kuat_event_diplomacy_window"
+	custom_gui_option = "kuat_event_diplomacy_option"
+	is_triggered_only = yes
+	trigger = { is_country_type = default_ev }
+	immediate = {
+		if = {
+			limit = { has_origin = origin_parit }
+			set_country_flag = has_parit_girl
+			event_target:fallen_empire_kuat = {
+				add_opinion_modifier = {
+					who = prev
+					modifier = opinion_kuat_new_parit
+				}
+			}
+		}
+		establish_communications_no_message = event_target:empire_founding
+		establish_communications_no_message = event_target:kuat_shipyard_country
+	}
+	option = {
+		name = executor_build.a
+		country_event = { id = executor_build.94 days = 10 }
+	}
+}
+
+##########################
+# KUAT CRISIS AWAKENING ##
+##########################
+country_event = {
+	id = executor_build.4
+	title = OK
+	desc = OK
+	hide_window = yes
+	fire_only_once = yes
+	trigger = {
+		is_country_type = kuat_fallen_empire
+		is_at_war = no
+		OR = {
+			end_game_years_passed >= 0
+			ag_is_against_country = yes
+		}
+	}
+	mean_time_to_happen = {
+		years = 200000
+		modifier = {
+			factor = 0
+			ag_is_against_country = yes
+		}
+	}
+	immediate = {
+		if = {
+			limit = {
+				any_country = {
+					OR = {
+						AND = {
+							is_country_type = wg_crisis_country
+							has_global_flag = wg_crisis_insane
+						}
+						AND = {
+							is_country_type = afk_crisis_country
+							has_global_flag = afk_crisis_real
+						}
+					}
+				}
+			}
+			every_playable_country = {
+				limit = {
+					is_ai = no
+				}
+				country_event = { id = ai_action.10 days = 5 }
+			}
+		}
+		country_event = { id = executor_build.20 }
+		country_event = { id = ai_action.7 days = 10 }
+		every_playable_country = {
+			limit = {
+				is_ai = no
+			}
+			country_event = { id = executor_build.21 }
+		}
+	}
+}
+
+country_event = {
+	id = executor_build.21
+	title = fallen_empires_awakening.2.name
+	desc = fallen_empires_awakening.2.desc
+	diplomatic = yes
+	picture_event_data = {
+		room = fallen_empire_room
+	}
+	custom_gui = "kuat_event_window"
+	custom_gui_option = "kuat_event_option"
+	show_sound = event_alien_signal
+	location = from
+	is_triggered_only = yes
+	option = {
+		name = fallen_empires_awakening.2.a
+	}
+	option = {
+		name = fallen_empires_awakening.2.b
+	}
+}
+
+country_event = {
+	id = executor_build.20
+	title = OK
+	desc = OK
+	hide_window = yes
+	is_triggered_only = yes
+	immediate = {
+		set_country_flag = sleepers_awake_first_sleeper
+		set_country_type = kuat_awakened_fallen_empire
+		change_government = {
+			civics = {
+				civic = civic_revanchist_fervor
+				civic = civic_ancient_caches_of_technology
+			}
+		}
+		create_kuat_awakening_fleet = yes
+		# Establish communications
+		every_country = {
+			limit = {
+				NOT = { has_communications = root }
+			}
+			establish_communications_no_message = root
+			root = { save_event_target_as = contact_empire }
+			country_event = { id = action.1 }
+			# if = {
+			# 	limit = { 
+			# 		is_ai = no 
+			# 		NOT = { is_at_war_with = event_target:fallen_empire_kuat }
+			# 	}
+			# 	set_faction_hostility = {
+			# 		target = event_target:fallen_empire_kuat
+			# 		set_hostile = no
+			# 		set_friendly = yes
+			# 	}
+			# 	set_faction_hostility = {
+			# 		target = event_target:fallen_empire_kuat_fleet
+			# 		set_hostile = no
+			# 		set_friendly = yes
+			# 	}
+			# }
+		}
+	}
+}
+
+##########################
+##### GIVE TECHNOLOGY ####
+##########################
+country_event = {
+	id = executor_build.5
+	hide_window = yes
+	is_triggered_only = yes
+	trigger = {
+		has_country_flag = fallen_empire_kuat
+	}
+	immediate = {
+		every_country = {
+			limit = {
+				is_ai = no
+				any_system_within_border = {
+					ag_is_kuat_system = yes
+				}
+			}
+			country_event = { id = executor_build.6 }
+		}
+	}
+}
+
+country_event = {
+	id = executor_build.6
+	title = executor_build.6.title
+	desc = executor_build.6.desc
+	diplomatic = yes
+	picture_event_data = {
+		room = exploding_ship_room
+	}
+	custom_gui = "kuat_event_m_window"
+	custom_gui_option = "kuat_event_m_option"
+	is_triggered_only = yes
+	immediate = { set_global_flag = can_have_tecn }
+	option = {
+		name = executor_build.6.a
+		give_technology = { tech = tech_kuat_noway }
+		hidden_effect = {
+			create_ship_design = { design = Name_boss_BELLATOR }
+			add_ship_design = last_created_design
+			create_ship_design = { design = Name_boss_Horriwer }
+			add_ship_design = last_created_design
+			create_ship_design = { design = Name_boss_EMPIRE }
+			add_ship_design = last_created_design
+		}
+	}
+}
+
+##########################
+##### KUAT AWAKENING #####
+##########################
+country_event = {
+	id = executor_build.7
+	title = OK
+	desc = OK
+	hide_window = yes
+	fire_only_once = yes
+	trigger = {
+		is_country_type = kuat_fallen_empire
+		is_at_war = no
+		NOT = { exists = event_target:fallen_empire_kuat_fleet }
+		ag_is_against_country = no
+		mid_game_years_passed >= 0
+	}
+	mean_time_to_happen = {
+		years = 50
+		modifier = {
+			factor = 2
+			num_fallen_empires > 1
+			num_fallen_empires < 3
+		}
+		modifier = {
+			factor = 4
+			num_fallen_empires > 2
+			num_fallen_empires < 4
+		}
+		modifier = {
+			factor = 6
+			num_fallen_empires > 3
+		}
+		modifier = {
+			factor = 0
+			NOT = { exists = event_target:fallen_empire_kuat_fleet }
+		}
+	}
+	immediate = {
+		every_playable_country = {
+			limit = {
+				is_ai = no
+			}
+			country_event = { id = executor_build.21 }
+		}
+		country_event = { id = executor_build.20 }
+		random_playable_country = {
+			limit = {
+				is_same_value = event_target:target_for_kuat
+			}
+			country_event = { id = executor_build.24 days = 5 }
+		}
+	}
+}
+
+country_event = {
+	id = executor_build.23
+	hide_window = yes
+	is_triggered_only = yes
+	trigger = {
+		exists = event_target:fallen_empire_kuat
+		is_country_type = kuat_fleet
+		fromfrom = {
+			is_ship_size = exe_starbase
+		}
+	}
+	immediate = {
+		from = {
+			save_global_event_target_as = target_for_kuat
+		}
+		destroy_country = yes
+	}
+}
+
+country_event = {
+	id = executor_build.24
+	title = executor_build.24.title
+	desc = executor_build.24.desc
+	diplomatic = yes
+	diplomatic_title = executor_build.24.title
+	picture_event_data = {
+		portrait = event_target:Kuat_people
+		planet_background = pc_ringworld_habitable
+		graphical_culture = fallen_empire_01
+		city_level = event_target:empire_founding
+		room = personality_fallen_empire_cyan_room
+	}
+	custom_gui = "kuat_event_diplomacy_window"
+	custom_gui_option = "kuat_event_diplomacy_option"
+	is_triggered_only = yes
+	trigger = {
+		exists = event_target:fallen_empire_kuat
+		OR = {
+			is_ai = no
+			is_country_type = fallen_empire
+			is_country_type = awakened_fallen_empire
+		}
+	}
+	option = {
+		name = executor_build.24.a
+		hidden_effect = {
+			event_target:fallen_empire_kuat = {
+				declare_war = {
+					target = event_target:target_for_kuat
+					name = "Name_kuat_war"
+					attacker_war_goal = Kuat_total_war
+				}
+			}
+		}
+	}
+}
+
+##########################
+# BEAT BY PLAYER REBORN ##
+##########################
+country_event = {
+	id = executor_build.10
+	is_triggered_only = yes
+	hide_window = yes
+	trigger = {
+		has_country_flag = fallen_empire_kuat
+		fromfrom = {
+			is_ship_size = knigjt_hammer_executor
+			has_ship_flag = ship_ruins
+		}
+	}
+	immediate = {
+		solar_system = {
+			set_star_flag = explode_kuat_system
+		}
+		from = {
+			country_event = { id = executor_build.11 days = 1 }
+		}
+	}
+}
+
+country_event = {
+	id = executor_build.11
+	is_triggered_only = yes
+	hide_window = no
+	title = executor_build.11.title
+	desc = executor_build.11.desc
+	diplomatic = yes
+	picture_event_data = {
+		room = exploding_ship_room
+	}
+	custom_gui = "kuat_event_window"
+	custom_gui_option = "kuat_event_option"
+	immediate = {
+		country_event = { id = executor_build.12 days = 10 }
+	}
+	option = {
+		name = executor_build.11.a
+	}
+}
+
+country_event = {
+	id = executor_build.12
+	is_triggered_only = yes
+	hide_window = yes
+	immediate = {
+		every_system = {
+			limit = {
+				has_star_flag = explode_kuat_system
+			}
+			every_fleet_in_system = {
+				destroy_fleet = this
+			}
+		}
+		country_event = { id = executor_build.13 days = 5 }
+	}
+}
+
+country_event = {
+	id = executor_build.13
+	is_triggered_only = yes
+	hide_window = no
+	title = executor_build.13.title
+	desc = executor_build.13.desc
+	diplomatic = yes
+	picture_event_data = {
+		room = machine_space_battle_room
+	}
+	custom_gui = "kuat_event_m_window"
+	custom_gui_option = "kuat_event_m_option"
+	immediate = {
+		event_target:fallen_empire_kuat = {
+			every_system_within_border = {
+				limit = {
+					has_star_flag = Kuat_system
+				}
+				create_starbase = {
+					owner = event_target:fallen_empire_kuat
+					size = "starbase_citadel"
+					module = "shipyard"
+					module = "shipyard"
+					module = "shipyard"
+					module = "hangar_bay"
+					module = "gun_battery"
+					module = "gun_battery"
+					building = "target_uplink_computer"
+					building = "defense_grid"
+					building = "colossus_yards"
+					building = "titan_yards"
+				}
+				create_fleet = {
+					name = "Name_DFLEET"
+					effect = {
+						set_owner = event_target:fallen_empire_kuat
+						random_list = {
+							5 = {
+								while = {
+									count = 1
+									create_ship = {
+										name = "Executor Class Super Stardestroyer"
+										design = "Name_boss_EXECUTOR"
+										prefix = no
+										upgradable = no
+									}
+								}
+							}
+							5 = {
+								while = {
+									count = 1
+									create_ship = {
+										name = "Eclipse Class Super Stardestroyer"
+										design = "Name_boss_eclipse"
+										prefix = no
+										upgradable = no
+									}
+								}
+							}
+							5 = {
+								while = {
+									count = 1
+									create_ship = {
+										name = "Dominance Class Super Stardestroyer"
+										design = "Name_boss_Dominance"
+										prefix = no
+										upgradable = no
+									}
+								}
+							}
+						}
+						while = {
+							count = 2
+							create_ship = {
+								name = "Balletor Class Stellar Dreadnought"
+								design = "Name_boss_BELLATOR"
+								prefix = no
+								upgradable = no
+							}
+						}
+						while = {
+							count = 8
+							create_ship = {
+								name = "Empire-II Class Stardestroyer"
+								design = "Name_boss_EMPIRE"
+								prefix = no
+								upgradable = no
+							}
+						}
+						while = {
+							count = 15
+							create_ship = {
+								name = "Harrower Class Stardestroyer"
+								design = "Name_boss_Horriwer"
+								prefix = no
+								upgradable = no
+							}
+						}
+						set_location = event_target:fallen_empire_kuat.capital_scope
+						set_fleet_stance = aggressive
+						set_fleet_bombardment_stance = indiscriminate
+					}
+					settings = {
+						spawn_debris = no
+						can_disband = no
+						is_boss = yes
+					}
+				}
+			}
+		}
+	}
+	option = {
+		name = OK
+	}
+}
+
+##########################
+### BUILDING EXECUTOR ####
+##########################
+ship_event = {
+	id = executor_build.90
+	hide_window = yes
+	is_triggered_only = yes
+	trigger = {
+		is_ship_size = nebula_executor
+	}
+	immediate = {
+		set_ship_flag = executor
+		if = {
+			limit = {
+				exists = event_target:fallen_empire_kuat
+			}
+			owner = { country_event = { id = executor_build.91 } }
+		}
+	}
+}
+
+country_event = {
+	id = executor_build.91
+	title = executor_build.91.title
+	desc = executor_build.91.desc
+	diplomatic = yes
+	is_triggered_only = yes
+	fire_only_once = yes
+	picture_event_data = {
+		portrait = event_target:Kuat_people
+		planet_background = event_target:fallen_empire_kuat
+		graphical_culture = fallen_empire_01
+		city_level = event_target:fallen_empire_kuat
+		room = event_target:fallen_empire_kuat.ruler
+	}
+	custom_gui = "kuat_event_diplomacy_window"
+	custom_gui_option = "kuat_event_diplomacy_option"
+	trigger = {
+		any_country = {
+			has_country_flag = fallen_empire_kuat
+		}
+	}
+	option = {
+		name = executor_build.91.a
+		allow = {
+			has_country_resource = {
+				type = energy
+				amount >= 5000
+			}
+		}
+		add_resource = { energy = -5000 }
+		event_target:fallen_empire_kuat = {
+			add_opinion_modifier = {
+				who = prev
+				modifier = opinion_kuat_shipc_can_get_1
+			}
+		}
+	}
+	option = {
+		name = executor_build.91.b
+		event_target:fallen_empire_kuat = {
+			add_opinion_modifier = {
+				who = prev
+				modifier = opinion_kuat_shipc_can_not_get
+			}
+		}
+	}
+}
+
+country_event = {
+	id = executor_build.92
+	title = executor_build.91.title
+	desc = executor_build.92.desc
+	diplomatic = yes
+	picture_event_data = {
+		room = clocks_room
+	}
+	custom_gui = "kuat_event_m_window"
+	custom_gui_option = "kuat_event_m_option"
+	is_triggered_only = yes
+	trigger = {
+		mid_game_years_passed >= 20
+		is_ai = no
+		any_owned_ship = { has_ship_flag = executor }
+		is_at_war = no
+		any_country = { has_country_flag = fallen_empire_kuat }
+	}
+	option = {
+		name = executor_build.91.a
+		allow = {
+			has_country_resource = {
+				type = energy
+				amount >= 5000
+			}
+		}
+		add_resource = { energy = -5000 }
+		event_target:fallen_empire_kuat = {
+			add_opinion_modifier = {
+				who = prev
+				modifier = opinion_kuat_shipc_can_get_1
+			}
+		}
+	}
+	option = {
+		name = executor_build.91.b
+		event_target:fallen_empire_kuat = {
+			add_opinion_modifier = {
+				who = prev
+				modifier = opinion_kuat_shipc_can_not_get
+			}
+		}
+	}
+}
+
+##########################
+##### FIND SYSTEM ########
+##########################
+country_event = {
+	id = executor_build.100
+	title = executor_build.100.title
+	desc = executor_build.100.desc
+	is_triggered_only = yes
+	diplomatic = yes
+	picture_event_data = {
+		portrait = event_target:Kuat_people
+		planet_background = pc_ringworld_habitable
+		graphical_culture = fallen_empire_01
+		city_level = event_target:empire_founding
+		room = personality_fallen_empire_cyan_room
+	}
+	custom_gui = "kuat_event_diplomacy_window"
+	custom_gui_option = "kuat_event_diplomacy_option"
+	trigger = {
+		any_country = {
+			is_kuat_fallen_empire = yes
+		}
+		is_ai = no
+	}
+	option = {
+		name = executor_build_op_a.a
+		event_target:fallen_empire_kuat = {
+			add_opinion_modifier = {
+				who = prev
+				modifier = opinion_kuat_shipc_can_get
+			}
+		}
+	}
+}
+
+##########################
+##### EVENT FLAG #########
+##########################
+event = {
+	id = executor_build.1000
+	hide_window = yes
+	is_triggered_only = yes
+	immediate = {
+		if = {
+			limit = {
+				NOR = {
+					has_global_flag = ag_spawnsystem_gatekeeper_any_time
+					has_global_flag = ag_spawnsystem_gatekeeper_mid_game
+				}
+			}
+			set_global_flag = ag_spawnsystem_gatekeeper_mid_game
+		}
+	}
+}
+
+
+##########################
+##### Parit start ########
+##########################
+country_event = {
+	id = executor_build.258
+	hide_window = no
+	title = "executor_build.258.title"
+	desc = "executor_build.258.desc"
+	diplomatic = yes
+	picture_event_data = {
+		portrait = event_target:Kuat_people
+		planet_background = pc_ringworld_habitable
+		graphical_culture = fallen_empire_01
+		city_level = event_target:empire_founding
+		room = personality_fallen_empire_cyan_room
+	}
+	custom_gui = "kuat_event_diplomacy_window"
+	custom_gui_option = "kuat_event_diplomacy_option"
+	is_triggered_only = yes
+	trigger = {
+		is_ai = no
+		exists = event_target:fallen_empire_kuat
+		has_origin = origin_parit
+	}
+	option = {
+		name = "executor_build.258.a"
+		hidden_effect = {
+			event_target:fallen_empire_kuat = { add_opinion_modifier = { who = root modifier = opinion_kuat_new_parit_finish } }
+		}
+	}
+}
+
+event = {
+	id = executor_build.278
+	hide_window = yes
+	is_triggered_only = yes
+	trigger = {
+		exists = event_target:fallen_empire_kuat
+		any_country = {
+			is_ai = no
+			has_origin = origin_parit
+		}
+		years_passed >= 35
+	}
+	immediate = {
+		every_playable_country = {
+			limit = {
+				is_ai = no
+				has_origin = origin_parit
+				has_communications = event_target:fallen_empire_kuat
+			}
+			random_list = {
+				1 = {
+					modifier = {
+						add = 1
+						check_variable = { which = years_not_trigger_parit_evt value >= 8 }
+					}
+					set_variable = { which = years_not_trigger_parit_evt value = 0 }
+					country_event = { id = executor_build.279 days = 1 random = 179 }
+				}
+				14 = {
+					modifier = {
+						add = -2
+						check_variable = { which = years_not_trigger_parit_evt value >= 2 }
+					}
+					modifier = {
+						add = -3
+						check_variable = { which = years_not_trigger_parit_evt value >= 3 }
+					}
+					modifier = {
+						add = -4
+						check_variable = { which = years_not_trigger_parit_evt value >= 4 }
+					}
+					modifier = {
+						add = -5
+						check_variable = { which = years_not_trigger_parit_evt value >= 5 }
+					}
+					modifier = {
+						factor = 0
+						check_variable = { which = years_not_trigger_parit_evt value >= 10 }
+					}
+					if = {
+						limit = { always = yes }
+						change_variable = { which = years_not_trigger_parit_evt value = 1 }
+					}
+				}
+			}
+		}
+	}
+}
+
+country_event = {
+	id = executor_build.279
+	hide_window = yes
+	is_triggered_only = yes
+	trigger = {
+		is_ai = no
+		has_origin = origin_parit
+		has_communications = event_target:fallen_empire_kuat
+		NOT = { is_hostile = event_target:fallen_empire_kuat }
+	}
+	immediate = {
+		random_list = {
+			5 = {
+				modifier = {
+					factor = 2
+					is_at_war = yes
+				}
+				country_event = { id = executor_build.259 }
+				change_variable = { which = num_resource_event value = 1 }
+			}
+			2 = {
+				modifier = {
+					add = 2
+					is_at_war = yes
+				}
+				modifier = {
+					factor = 3
+					check_variable = { which = num_resource_event value >= 10 }
+				}
+				modifier = {
+					factor = 0
+					check_variable = { which = num_battleship_event value >= 10 }
+				}
+				country_event = { id = executor_build.260 }
+				change_variable = { which = num_battleship_event value = 1 }
+			}
+			1 = {
+				modifier = {
+					add = 2
+					is_at_war = yes
+				}
+				modifier = {
+					factor = 3
+					check_variable = { which = num_resource_event value >= 25 }
+				}
+				modifier = {
+					factor = 4
+					check_variable = { which = num_battleship_event value >= 10 }
+				}
+				modifier = {
+					factor = 0
+					check_variable = { which = num_flagship_event value > 2 }
+				}
+				country_event = { id = executor_build.261 }
+				change_variable = { which = num_flagship_event value = 1 }
+			}
+		}
+	}
+}
+
+country_event = {
+	id = executor_build.259
+	title = "executor_build.259.title"
+	desc = "executor_build.259.desc"
+	hide_window = no
+	diplomatic = yes
+	picture_event_data = {
+		portrait = event_target:Kuat_people
+		planet_background = pc_ringworld_habitable
+		graphical_culture = fallen_empire_01
+		city_level = event_target:empire_founding
+		room = personality_fallen_empire_cyan_room
+	}
+	custom_gui = "kuat_event_diplomacy_window"
+	custom_gui_option = "kuat_event_diplomacy_option"
+	is_triggered_only = yes
+
+	trigger = {
+		exists = event_target:fallen_empire_kuat
+		NOT = { is_at_war_with = event_target:fallen_empire_kuat }
+	}
+
+	option = {
+		name = executor_build.259.a
+		hidden_effect = {
+			if = {
+				limit = { NOT = { has_country_flag = only_communicate_once } }
+				event_target:fallen_empire_kuat = {
+					add_opinion_modifier = { who = root modifier = opinion_kuat_new_parit_finish_1 }
+				}
+				set_country_flag = only_communicate_once
+			}
+			if = {
+				limit = {
+					is_at_war = yes
+				}
+				random_list = {
+					6 = { add_resource = { alloys = 5000 } }
+					5 = { add_resource = { alloys = 6000 } }
+					4 = { add_resource = { alloys = 6000 } }
+					3 = { add_resource = { alloys = 10000 } }
+					2 = { add_resource = { alloys = 25000 } }
+					1 = { add_resource = { alloys = 30000 } }
+				}
+			} else = {
+				random_list = {
+					5 = { add_modifier = { modifier = country_production_for_parit days = 1800 } }
+					5 = { add_modifier = { modifier = country_production_for_parit_default days = 1800 } }
+				}
+			}
+		}
+	}
+}
+
+country_event = {
+	id = executor_build.260
+	title = "executor_build.260.title"
+	desc = "executor_build.260.desc"
+	hide_window = no
+	diplomatic = yes
+	picture_event_data = {
+		portrait = event_target:Kuat_people
+		planet_background = pc_ringworld_habitable
+		graphical_culture = fallen_empire_01
+		city_level = event_target:empire_founding
+		room = personality_fallen_empire_cyan_room
+	}
+	custom_gui = "kuat_event_diplomacy_window"
+	custom_gui_option = "kuat_event_diplomacy_option"
+	is_triggered_only = yes
+	trigger = {
+		exists = event_target:fallen_empire_kuat
+		NOT = { is_at_war_with = event_target:fallen_empire_kuat }
+		event_target:fallen_empire_kuat = { opinion = { who = root value >= 150 } }
+	}
+	option = {
+		name = "executor_build.260.a"
+		hidden_effect = {
+			if = {
+				limit = { is_at_war = yes }
+				create_fleet = {
+					effect = {
+						set_owner = prev
+						create_ship = { design = "Name_boss_BELLATOR" }
+						add_modifier = { modifier = kuat_fleet_power }
+						set_location = prev.capital_scope
+						set_fleet_stance = aggressive
+						set_fleet_bombardment_stance = indiscriminate
+					}
+				}
+			} else = {
+				create_fleet = {
+					effect = {
+						set_owner = prev
+						while = {
+							count = 3
+							create_ship = { design = "Name_boss_EMPIRE" }
+						}
+						add_modifier = { modifier = kuat_fleet_power }
+						set_fleet_stance = aggressive
+						set_fleet_bombardment_stance = indiscriminate
+						set_location = prev.capital_scope
+					}
+				}
+			}
+		}
+	}
+}
+
+country_event = {
+	id = executor_build.261
+	title = "executor_build.261.title"
+	desc = "executor_build.261.desc"
+	hide_window = no
+	diplomatic = yes
+	picture_event_data = {
+		portrait = event_target:Kuat_people
+		planet_background = pc_ringworld_habitable
+		graphical_culture = fallen_empire_01
+		city_level = event_target:empire_founding
+		room = personality_fallen_empire_cyan_room
+	}
+	custom_gui = "kuat_event_diplomacy_window"
+	custom_gui_option = "kuat_event_diplomacy_option"
+	is_triggered_only = yes
+	trigger = {
+		exists = event_target:fallen_empire_kuat
+		NOT = { is_at_war_with = event_target:fallen_empire_kuat }
+	}
+	immediate = {
+		if = {
+			limit = { is_at_war = yes }
+			create_fleet = {
+				effect = {
+					set_owner = prev
+					create_ship = { design = "Name_boss_Dominance" }
+					add_modifier = { modifier = kuat_fleet_power }
+					set_location = prev.capital_scope
+					set_fleet_stance = aggressive
+					set_fleet_bombardment_stance = indiscriminate
+				}
+			}
+			add_modifier = { modifier = ship_firing_default_for_parit days = 3600 }
+		} else = {
+			create_fleet = {
+				effect = {
+					set_owner = prev
+					create_ship = { design = "Name_boss_EXECUTOR" }
+					add_modifier = { modifier = kuat_fleet_power }
+					set_location = prev.capital_scope
+					set_fleet_stance = aggressive
+					set_fleet_bombardment_stance = indiscriminate
+				}
+			}
+		}
+	}
+	option = { name = "executor_build.261.a" }
+}
+
+##########################
+### Millatary base########
+##########################
+country_event = {
+	id = executor_build.371
+	hide_window = yes
+	trigger = {
+		exists = event_target:fallen_empire_kuat
+	}
+	is_triggered_only = yes
+	fire_only_once = yes
+	immediate = {
+		create_country = {
+			name = "Kuat Drive Yards Military Base"
+			type = kuat_fleet
+			name_list = "MAM3"
+			species = event_target:Kuat_people
+			flag = {
+				icon = {
+					category = "Kuat"
+					file = "Kuat_flags_01.dds"
+				}
+				background = {
+					category = "backgrounds"
+					file = "00_solid.dds"
+				}
+				colors = {
+					"blue"
+					"blue"
+					"null"
+					"null"
+				}
+			}
+			effect = {
+				save_global_event_target_as = fallen_empire_kuat_fleet
+				set_graphical_culture = fallen_empire_kuat_01
+				set_country_flag = fallen_empire_kuat_fleet
+				add_resource = {
+					minerals = 1000000
+					energy = 1000000
+					food = 1000000
+					influence = 1000000
+					sr_dark_matter = 1000000
+					sr_living_metal = 100000
+					sr_zro = 1000000
+					consumer_goods = 1000000
+				}
+				add_modifier = { modifier = Kuat_ship }
+				create_ship_design = { design = "NAME_KUAT_Starbase" }
+				add_ship_design = last_created_design
+				set_faction_hostility = {
+					target = event_target:fallen_empire_kuat
+					set_hostile = no
+					set_friendly = yes
+				}
+			}
+		}
+		random_system = {
+			limit = {
+				ag_is_create_system = no
+				has_owner = no
+				any_neighbor_system = {
+					ignore_hyperlanes = yes
+					has_owner = no
+				}
+			}
+			set_spawn_system_batch = begin
+			spawn_system = {
+				initializer = kuat_base_system
+			}
+			set_spawn_system_batch = end
+		}
+		every_playable_country = {
+			limit = {
+				is_ai = no
+			}
+			country_event = { id = executor_build.372 }
+			country_event = { id = executor_build.9 days = 30 }
+		}
+	}
+}
+
+country_event = {
+	id = executor_build.372
+	title = "executor_build.372.name"
+	desc = "executor_build.372.desc"
+	diplomatic = yes
+	custom_gui = "kuat_event_diplomacy_window"
+	custom_gui_option = "kuat_event_diplomacy_option"
+	picture_event_data = {
+		portrait = event_target:Kuat_people
+		room = kuat_mega_shipyard_room
+	}
+	is_triggered_only = yes
+	immediate = {
+		establish_communications_no_message = event_target:fallen_empire_kuat_fleet
+	}
+	option = {
+		name = "? ? ? ? ?"
+	}
+}
+
+country_event = {
+	id = executor_build.373
+	title = "executor_build.373.name"
+	desc = "executor_build.373.desc"
+	diplomatic = yes
+	picture_event_data = {
+		portrait = event_target:Kuat_people
+		room = kuat_mega_shipyard_room
+	}
+	custom_gui = "kuat_event_diplomacy_window"
+	custom_gui_option = "kuat_event_diplomacy_option"
+	is_triggered_only = yes
+
+	trigger = {
+		is_ai = no
+		can_communicate_with_kuat_fleet = yes
+		OR = {
+			kuat_fleet_diplo_event_active = no
+			from = {
+				is_same_value = root
+			}
+		}
+		OR = {
+			from = {
+				is_same_value = root
+			}
+			from = {
+				is_country_type = kuat_fleet
+			}
+		}
+	}
+
+	option = {
+		name = executor_build.373.hiring
+		hidden_effect = {
+			country_event = { id = executor_build.374 }
+		}
+	}
+
+	option = {
+		name = executor_build.373.trading
+		trigger = {
+			custom_tooltip = {
+				fail_text = need_lower_than_100
+				event_target:fallen_empire_kuat = {
+					opinion = {
+						who = root
+						value < 1000
+					}
+				}
+			}
+		}
+		allow = {
+			custom_tooltip = {
+				fail_text = need_5000_alloys
+				resource_stockpile_compare = {
+					resource = energy
+					value > 5000
+				}
+			}
+		}
+		hidden_effect = {
+			add_resource = {
+				energy = -5000
+			}
+			event_target:fallen_empire_kuat = {
+				add_opinion_modifier = {
+					modifier = opinion_kuat_buy_op_ship_credit
+					who = root
+				}
+			}
+		}
+		response_text = executor_build.373.trading.a
+	}
+
+	option = {
+		name = executor_build.373.back
+		default_hide_option = yes
+	}
+}
+
+country_event = {
+	id = executor_build.374
+	is_triggered_only = yes
+	title = "executor_build.374.title"
+	desc = "executor_build.374.desc"
+	diplomatic = yes
+	picture_event_data = {
+		portrait = event_target:Kuat_people
+		room = kuat_mega_shipyard_room
+	}
+	custom_gui = "kuat_event_diplomacy_window"
+	custom_gui_option = "kuat_event_diplomacy_option"
+	trigger = {
+		is_ai = no
+		can_communicate_with_kuat_fleet = yes
+	}
+
+	option = {
+		name = "executor_build_hiring_eclipse.374"
+		allow = {
+			custom_tooltip = {
+				fail_text = executor_build.374.tooltip
+				event_target:fallen_empire_kuat = {
+					opinion = {
+						who = root
+						value > 100
+					}
+				}
+				mid_game_years_passed > 25
+				check_variable = { which = num_hiring_eclipse value < 1 }
+				resource_stockpile_compare = { resource = energy value > 200000 }
+			}
+		} 
+		hidden_effect = {
+			add_resource = { energy = -200000 }
+			save_event_target_as = hiring_country_eclipse
+			change_variable = { which = num_hiring_eclipse value = 1 }
+			create_message = {
+				type = "SPACEPORT_CONSTRUCTION_MESSAGE_TYPE"
+				localization = "kuat_hiring_arrived_desc"
+				days = 30
+				target = from
+				variable = {
+					type = name
+					localization = "capital_planet"
+					scope = root.capital_scope
+				}
+			}
+			create_fleet = {
+				name = "Name_DFLEET"
+				effect = {
+					set_owner = prev
+					while = {
+						count = 1
+						create_ship = {
+							design = "Name_boss_eclipse"
+							upgradable = no
+						}
+					}
+					set_location = prev.capital_scope
+					set_fleet_flag = will_be_return_eclipse
+					set_fleet_stance = aggressive
+					set_fleet_bombardment_stance = indiscriminate
+					fleet_event = { id = executor_build.386 days = 7200 }
+				}
+				settings = {
+					is_boss = yes
+					can_disband = no
+					spawn_debris = no
+					can_change_leader = no
+					can_upgrade = no
+					can_change_composition = no
+				}
+			}
+		}
+	}
+	option = {
+		name = "executor_build.374.hiring"
+		allow = {
+			custom_tooltip = {
+				fail_text = executor_build.374.tooltip
+				event_target:fallen_empire_kuat = {
+					opinion = {
+						who = root
+						value > 100
+					}
+				}
+				OR = {
+					AND = {
+						is_at_war = yes
+						NOT = {
+							is_at_war_with = event_target:fallen_empire_kuat
+						}
+					}
+					ag_is_defense_galaxy_kuat_fleet = yes
+				}
+				check_variable = { which = num_hiring value < 1 }
+				resource_stockpile_compare = {
+					resource = energy
+					value > 200000
+				}
+			}
+		} 
+		hidden_effect = {
+			add_resource = { energy = -200000 }
+			save_event_target_as = hiring_country
+			change_variable = { which = num_hiring value = 1 }
+			create_message = {
+				type = "SPACEPORT_CONSTRUCTION_MESSAGE_TYPE"
+				localization = "kuat_hiring_arrived_desc"
+				days = 30
+				target = from
+				variable = {
+					type = name
+					localization = "capital_planet"
+					scope = root.capital_scope
+				}
+			}
+			create_fleet = {
+				name = "Name_DFLEET"
+				effect = {
+					set_owner = prev
+					while = {
+						count = 10
+						create_ship = {
+							design = "Name_boss_EMPIRE"
+							upgradable = no
+						}
+					}
+					set_location = prev.capital_scope
+					set_fleet_flag = will_be_return
+					set_fleet_stance = aggressive
+					set_fleet_bombardment_stance = indiscriminate
+					fleet_event = { id = executor_build.376 days = 3600 }
+				}
+				settings = {
+					is_boss = yes
+					can_disband = no
+					spawn_debris = no
+					can_change_leader = no
+					can_upgrade = no
+					can_change_composition = no
+				}
+			}
+		}
+	}
+	option = {
+		name = executor_build.373.back
+		default_hide_option = yes
+	}
+}
+
+fleet_event = {
+	id = executor_build.376
+	diplomatic = yes
+	title = "executor_build.376.title"
+	desc = "executor_build.376.desc"
+	picture_event_data = {
+		portrait = event_target:Kuat_people
+		room = kuat_mega_shipyard_room
+	}
+	custom_gui = "kuat_event_diplomacy_window"
+	custom_gui_option = "kuat_event_diplomacy_option"
+	is_triggered_only = yes
+
+	option = {
+		name = executor_build.376.a
+		destroy_fleet = this
+		event_target:hiring_country = {
+			set_variable = { which = num_hiring value = 0 }
+		}
+	}
+}
+
+fleet_event = {
+	id = executor_build.386
+	diplomatic = yes
+	title = "executor_build.376.title"
+	desc = "executor_build.376.desc"
+	picture_event_data = {
+		portrait = event_target:Kuat_people
+		room = kuat_mega_shipyard_room
+	}
+	custom_gui = "kuat_event_diplomacy_window"
+	custom_gui_option = "kuat_event_diplomacy_option"
+	is_triggered_only = yes
+
+	option = {
+		name = executor_build.376.a
+		destroy_fleet = this
+		event_target:hiring_country_eclipse = {
+			set_variable = { which = num_hiring_eclipse value = 0 }
+		}
+	}
+}
+
+country_event = {
+	id = executor_build.3761
+	hide_window = yes
+	is_triggered_only = yes
+	trigger = {
+		fromfrom = {
+			OR = {
+				has_fleet_flag = will_be_return
+				has_fleet_flag = will_be_return_eclipse
+			}
+		}
+	}
+	immediate = {
+		if = {
+			limit = {
+				fromfrom = { has_fleet_flag = will_be_return }
+			}
+			event_target:hiring_country = {
+				set_variable = { which = num_hiring value = 0 }
+			}
+		}
+		if = {
+			limit = { 
+				fromfrom = { has_fleet_flag = will_be_return_eclipse } 
+			}
+			event_target:hiring_country_eclipse = {
+				set_variable = { which = num_hiring_eclipse value = 0 }
+			}
+		}
+	}
+}
+
+country_event = {
+	id = executor_build.377
+	hide_window = yes
+	is_triggered_only = yes
+
+	trigger = {
+		exists = event_target:fallen_empire_kuat
+		is_country_type = kuat_fleet
+	}
+
+	immediate = {
+		from = {
+			country_event = { id = executor_build.378 }
+		}
+	}
+}
+
+country_event = {
+	id = executor_build.378
+	diplomatic = yes
+	title = executor_build.378.title
+	desc = executor_build.378.desc
+	picture_event_data = {
+		portrait = event_target:Kuat_people
+		room = kuat_mega_shipyard_room
+	}
+	custom_gui = "kuat_event_diplomacy_window"
+	custom_gui_option = "kuat_event_diplomacy_option"
+	is_triggered_only = yes
+
+	option = {
+		name = executor_build.378.a
+		event_target:fallen_empire_kuat = {
+			add_opinion_modifier = {
+				who = prevprev
+				modifier = opinion_mutual_threat_kuat_fleet
+			}
+		}
+	}
+}
+
+event = {
+	id = executor_build.375
+	hide_window = yes
+	is_triggered_only = yes
+	trigger = {
+		NOT = { exists = event_target:fallen_empire_kuat }
+		exists = event_target:fallen_empire_kuat_fleet
+	}
+	immediate = {
+		event_target:fallen_empire_kuat_fleet = {
+			destroy_country = yes
+		}
+	}
+}
+
+##########################
+###   DEBUG EVENT  #######
+##########################
+# country_event = {
+# 	id = executor_build.2999
+# 	picture_event_data = { room = kuat_council_fleet_room }
+# 	show_sound = event_mystic_reveal
+# 	diplomatic = yes
+# 	custom_gui = "kuat_event_window"
+# 	custom_gui_option = "kuat_event_option"
+# 	is_triggered_only = yes
+# 	title = "exe_invasion.2999.name"
+# 	desc = "exe_invasion.2999.desc"
+
+# 	trigger = {
+# 		is_ai = no
+# 		has_global_flag = gigastructures_enabled
+# 	}
+
+# 	option = {
+# 		name = {
+# 			trigger = {
+# 				NOT = { has_global_flag = ban_megastructrue_qsd }
+# 			}
+# 			text = "executor_build.2999_QSD"
+# 		}
+# 		name = {
+# 			trigger = {
+# 				has_global_flag = ban_megastructrue_qsd
+# 			}
+# 			text = "executor_build.2999_QSD_disable"
+# 		}
+# 		hidden_effect = {
+# 			if = {
+# 				limit = { NOT = { has_global_flag = ban_megastructrue_qsd } }
+# 				set_global_flag = ban_megastructrue_qsd
+# 			} 
+# 			else = {
+# 				remove_global_flag = ban_megastructrue_qsd
+# 			}
+# 			country_event = { id = executor_build.2999 }
+# 		}
+# 	}
+# 	option = {
+# 		name = {
+# 			trigger = {
+# 				NOT = { has_global_flag = ban_megastructrue_ehof }
+# 			}
+# 			text = "executor_build.2999_EHOF"
+# 		}
+# 		name = {
+# 			trigger = {
+# 				has_global_flag = ban_megastructrue_ehof
+# 			}
+# 			text = "executor_build.2999_EHOF_disable"
+# 		}
+# 		hidden_effect = {
+# 			if = {
+# 				limit = { NOT = { has_global_flag = ban_megastructrue_ehof } }
+# 				set_global_flag = ban_megastructrue_ehof
+# 			} 
+# 			else = {
+# 				remove_global_flag = ban_megastructrue_ehof
+# 			}
+# 			country_event = { id = executor_build.2999 }
+# 		}
+# 	}
+# 	option = {
+# 		name = {
+# 			trigger = {
+# 				NOT = { has_global_flag = ban_megastructrue_penrose }
+# 			}
+# 			text = "executor_build.2999_PENROSE"
+# 		}
+# 		name = {
+# 			trigger = {
+# 				has_global_flag = ban_megastructrue_penrose 
+# 			}
+# 			text = "executor_build.2999_PENROSE_disable"
+# 		}
+# 		hidden_effect = {
+# 			if = {
+# 				limit = { NOT = { has_global_flag = ban_megastructrue_penrose } }
+# 				set_global_flag = ban_megastructrue_penrose
+# 			} 
+# 			else = {
+# 				remove_global_flag = ban_megastructrue_penrose
+# 			}
+# 			country_event = { id = executor_build.2999 }
+# 		}
+# 	}
+# 	option = {
+# 		name = {
+# 			trigger = {
+# 				NOT = { has_global_flag = ban_megastructrue_beem }
+# 			}
+# 			text = "executor_build.2999_DYSHON_BEEN"
+# 		}
+# 		name = {
+# 			trigger = {
+# 				has_global_flag = ban_megastructrue_beem
+# 			}
+# 			text = "executor_build.2999_DYSHON_BEEN_disable"
+# 		}
+# 		hidden_effect = {
+# 			if = {
+# 				limit = { NOT = { has_global_flag = ban_megastructrue_beem } }
+# 				set_global_flag = ban_megastructrue_beem
+# 			} 
+# 			else = {
+# 				remove_global_flag = ban_megastructrue_beem
+# 			}
+# 			country_event = { id = executor_build.2999 }
+# 		}
+# 	}
+# 	option = {
+# 		name = "executor_build.2999_ALL"
+# 		hidden_effect = {
+# 			remove_global_flag = ban_megastructrue_ehof
+# 			remove_global_flag = ban_megastructrue_qsd
+# 			remove_global_flag = ban_megastructrue_penrose
+# 			remove_global_flag = ban_all_megastructrue
+# 			remove_global_flag = ban_megastructrue_beem
+# 			set_global_flag = ban_all_megastructrue
+# 		}
+# 	}
+# 	option = {
+# 		name = "executor_build.2999_BAN"
+# 		hidden_effect = {
+# 			remove_global_flag = ban_megastructrue_ehof
+# 			remove_global_flag = ban_megastructrue_qsd
+# 			remove_global_flag = ban_megastructrue_penrose
+# 			remove_global_flag = ban_all_megastructrue
+# 			remove_global_flag = ban_megastructrue_beem
+# 		}
+# 	}
+# }
+
+# country_event = {
+# 	id = executor_build.2000
+# 	hide_window = yes
+# 	is_triggered_only = yes
+
+# 	trigger = {
+# 		has_global_flag = ban_all_megastructrue
+# 	}
+
+# 	immediate = {
+# 		every_megastructure = {
+# 			limit = {
+# 				is_giga_megastructure_ban = yes
+# 			}
+# 			remove_megastructure = this
+# 		}
+# 	}
+# }
+
+# country_event = {
+# 	id = executor_build.2001
+# 	hide_window = yes
+# 	is_triggered_only = yes
+
+# 	trigger = {
+# 		has_global_flag = ban_megastructrue_beem
+# 	}
+
+# 	immediate = {
+# 		every_megastructure = {
+# 			limit = {
+# 				is_nicoll_beam = yes
+# 			}
+# 			remove_megastructure = this
+# 		}
+# 	}
+# }
+
+# country_event = {
+# 	id = executor_build.2002
+# 	hide_window = yes
+# 	is_triggered_only = yes
+
+# 	trigger = {
+# 		has_global_flag = ban_megastructrue_penrose
+# 	}
+
+# 	immediate = {
+# 		every_megastructure = {
+# 			limit = {
+# 				is_penrose_sphere = yes
+# 			}
+# 			remove_megastructure = this
+# 		}
+# 	}
+# }
+
+# country_event = {
+# 	id = executor_build.2003
+# 	hide_window = yes
+# 	is_triggered_only = yes
+
+# 	trigger = {
+# 		has_global_flag = ban_megastructrue_ehof
+# 	}
+
+# 	immediate = {
+# 		every_megastructure = {
+# 			limit = {
+# 				is_ehof_megastructure = yes
+# 			}
+# 			remove_megastructure = this
+# 		}
+# 	}
+# }
+
+# country_event = {
+# 	id = executor_build.2004
+# 	hide_window = yes
+# 	is_triggered_only = yes
+
+# 	trigger = {
+# 		has_global_flag = ban_megastructrue_qsd
+# 	}
+
+# 	immediate = {
+# 		every_megastructure = {
+# 			limit = {
+# 				is_quasi_stellar_obliterator = yes
+# 			}
+# 			remove_megastructure = this
+# 		}
+# 	}
+# }

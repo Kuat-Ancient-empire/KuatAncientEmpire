@@ -1,0 +1,1557 @@
+namespace = kuat_missions
+#1x:殖民低宜居星球
+#触发器
+country_event = {
+	id = kuat_missions.1
+	hide_window = yes
+	mean_time_to_happen = {
+		years = 20
+	}
+	trigger = {
+		NOR = {
+			has_global_flag = kuat_mission_1_actived
+			has_country_flag = kuat_mission_1_finished
+			has_origin = origin_parit
+		}
+		is_ai = no
+		is_at_war = no
+		exists = event_target:fallen_empire_kuat
+		event_target:fallen_empire_kuat = {
+			is_at_war = no
+			has_communications = root
+		}
+		any_system = {
+			OR = {
+				is_within_borders_of = root
+				is_neighbor_of = root
+			}
+			any_system_planet = {
+				is_colony = no
+				is_under_colonization = no
+				can_colonize = {
+					who = root
+					status = yes
+				}
+				habitability = {
+					who = root.owner_species
+					value <= 0.3
+				}
+			}
+		}
+	}
+	immediate = {
+		set_global_flag = kuat_mission_1_actived
+		set_global_flag = kuat_mission_1_locked
+		random_planet = {
+			limit = {
+				is_colony = no
+				is_under_colonization = no
+				can_colonize = {
+					who = root
+					status = yes
+				}
+				habitability = {
+					who = root.owner_species
+					value <= 0.3
+				}
+				solar_system = {
+					OR = {
+						is_within_borders_of = root
+						is_neighbor_of = root
+					}
+				}
+			}
+			save_event_target_as = kuat_mission_1_target_planet
+		}
+		country_event = {
+			id = kuat_missions.11
+			days = 5
+			random = 30
+		}
+	}
+}
+
+#任务通知
+country_event = {
+	id = kuat_missions.11
+	title = kuat_missions.title
+	desc = kuat_missions.11.desc
+	picture_event_data = {
+		portrait = event_target:Kuat_people
+		planet_background = pc_ringworld_habitable
+		graphical_culture = fallen_empire_01
+		city_level = event_target:fallen_empire_kuat
+		room = personality_fallen_empire_cyan_room
+	}
+	custom_gui = "kuat_event_diplomacy_window"
+	custom_gui_option = "kuat_event_diplomacy_option"
+	show_sound = event_default
+	location = event_target:fallen_empire_kuat.capital_scope
+	is_triggered_only = yes
+	diplomatic = yes
+	option = {
+		name = kuat_missions.accept
+		custom_tooltip = kuat_missions.accept.tooltip
+		hidden_effect = {
+			event_target:kuat_mission_1_target_planet = {
+				set_planet_flag = kuat_mission_1_target_planet
+			}
+			set_country_flag = kuat_mission_1_accepted
+			set_timed_country_flag = {
+				flag = kuat_mission_1_timer
+				days = 7300
+			}
+			begin_event_chain = {
+				event_chain = kuat_mission_1_chain
+				target = root
+			}
+			create_point_of_interest = {
+				id = exe_first_mission.1
+				name = exe_first_mission.1
+				desc = "exe_first_mission_desc_1"
+				event_chain = kuat_mission_1_chain
+				location = event_target:kuat_mission_1_target_planet
+			}
+			remove_global_flag = kuat_mission_1_locked
+		}
+	}
+	option = {
+		name = kuat_missions.refuse
+		custom_tooltip = kuat_missions.refuse.tooltip
+		response_text = kuat_missions.refuse.response
+		hidden_effect = {
+			remove_global_flag = kuat_mission_1_actived
+			event_target:fallen_empire_kuat = {
+				add_opinion_modifier = {
+					modifier = opinion_refused_kuat_mission_1
+					who = root
+				}
+			}
+			add_modifier = {
+				modifier = refused_kuat_mission_debuff
+				days = 10800
+			}
+			remove_global_flag = kuat_mission_1_locked
+		}
+	}
+}
+
+#任务成功
+country_event = {
+	id = kuat_missions.12
+	title = kuat_missions.title
+	desc = kuat_missions.12.desc
+	picture_event_data = {
+		portrait = event_target:Kuat_people
+		planet_background = pc_ringworld_habitable
+		graphical_culture = fallen_empire_01
+		city_level = event_target:fallen_empire_kuat
+		room = personality_fallen_empire_cyan_room
+	}
+	custom_gui = "kuat_event_diplomacy_window"
+	custom_gui_option = "kuat_event_diplomacy_option"
+	show_sound = event_default
+	location = event_target:fallen_empire_kuat.capital_scope
+	mean_time_to_happen = {
+		days = 5
+	}
+	diplomatic = yes
+	trigger = {
+		has_global_flag = kuat_mission_1_actived
+		has_country_flag = kuat_mission_1_accepted
+		any_owned_planet = {
+			has_planet_flag = kuat_mission_1_target_planet
+			num_pops > 4
+		}
+	}
+	immediate = {
+		remove_global_flag = kuat_mission_1_actived
+		remove_country_flag = kuat_mission_1_accepted
+		remove_country_flag = kuat_mission_1_timer
+		every_owned_planet = {
+			limit = {
+				has_planet_flag = kuat_mission_1_target_planet
+			}
+			remove_planet_flag = kuat_mission_1_target_planet
+		}
+		set_country_flag = kuat_mission_1_finished
+	}
+	option = {
+		name = kuat_missions.finish
+		hidden_effect = {
+			remove_point_of_interest = exe_first_mission.1
+			end_event_chain = kuat_mission_1_chain
+			event_target:fallen_empire_kuat = {
+				add_opinion_modifier = {
+					modifier = opinion_finish_kuat_mission_1
+					who = root
+				}
+			}
+		}
+	}
+}
+
+#任务超时
+country_event = {
+	id = kuat_missions.13
+	title = kuat_missions.title
+	desc = kuat_missions.13.desc
+	picture_event_data = {
+		portrait = event_target:Kuat_people
+		planet_background = pc_ringworld_habitable
+		graphical_culture = fallen_empire_01
+		city_level = event_target:fallen_empire_kuat
+		room = personality_fallen_empire_cyan_room
+	}
+	custom_gui = "kuat_event_diplomacy_window"
+	custom_gui_option = "kuat_event_diplomacy_option"
+	show_sound = event_default
+	location = event_target:fallen_empire_kuat.capital_scope
+	mean_time_to_happen = {
+		days = 5
+	}
+	diplomatic = yes
+	trigger = {
+		has_global_flag = kuat_mission_1_actived
+		has_country_flag = kuat_mission_1_accepted
+		NOR = {
+			has_country_flag = kuat_mission_1_timer
+			any_owned_planet = {
+				has_planet_flag = kuat_mission_1_target_planet
+				num_pops > 4
+			}
+		}
+	}
+	immediate = {
+		remove_global_flag = kuat_mission_1_actived
+		remove_country_flag = kuat_mission_1_accepted
+		every_planet = {
+			limit = {
+				has_planet_flag = kuat_mission_1_target_planet
+			}
+			remove_planet_flag = kuat_mission_1_target_planet
+		}
+	}
+	option = {
+		name = kuat_missions.failed
+		hidden_effect = {
+			remove_point_of_interest = exe_first_mission.1
+			end_event_chain = kuat_mission_1_chain
+			event_target:fallen_empire_kuat = {
+				add_opinion_modifier = {
+					modifier = opinion_failed_kuat_mission_1
+					who = root
+				}
+			}
+			add_modifier = {
+				modifier = refused_kuat_mission_debuff
+				days = 10800
+			}
+		}
+	}
+}
+
+#国家灭亡导致任务无效
+country_event = {
+	id = kuat_missions.14
+	hide_window = yes
+	mean_time_to_happen = {
+		days = 5
+	}
+	trigger = {
+		has_global_flag = kuat_mission_1_actived
+		NOT = {
+			has_global_flag = kuat_mission_1_locked
+		}
+		OR = {
+			NOT = {
+				exists = event_target:fallen_empire_kuat
+			}
+			AND = {
+				exists = event_target:fallen_empire_kuat
+				event_target:fallen_empire_kuat = {
+					any_country = {
+						has_country_flag = kuat_mission_1_accepted
+						is_at_war_with = prev
+					}
+				}
+			}
+			NOT = {
+				any_country = {
+					has_country_flag = kuat_mission_1_accepted
+				}
+			}
+		}
+	}
+	immediate = {
+		remove_global_flag = kuat_mission_1_actived
+		every_country = {
+			limit = {
+				has_country_flag = kuat_mission_1_accepted
+			}
+			remove_country_flag = kuat_mission_1_accepted
+		}
+		every_planet = {
+			limit = {
+				has_planet_flag = kuat_mission_1_target_planet
+			}
+			remove_planet_flag = kuat_mission_1_target_planet
+		}
+		every_country = {
+			limit = {
+				has_event_chain = kuat_mission_1_chain
+			}
+			end_event_chain = kuat_mission_1_chain
+		}
+	}
+}
+
+#2x:和军事孤立者接壤
+#触发器
+country_event = {
+	id = kuat_missions.2
+	hide_window = yes
+	mean_time_to_happen = {
+		years = 100
+		modifier = {
+			factor = 0.7
+			has_country_flag = kuat_mission_1_finished
+		}
+	}
+	trigger = {
+		NOR = {
+			has_global_flag = kuat_mission_2_actived
+			has_country_flag = kuat_mission_2_finished
+			has_origin = origin_parit
+		}
+		is_ai = no
+		is_at_war = no
+		fleet_power > 200000
+		exists = event_target:fallen_empire_kuat
+		event_target:fallen_empire_kuat = {
+			is_at_war = no
+			has_communications = root
+		}
+		any_country = {
+			has_ai_personality_behaviour = demands_clear_borders
+			is_at_war = no
+			has_communications = root
+		}
+	}
+	immediate = {
+		set_global_flag = kuat_mission_2_actived
+		set_global_flag = kuat_mission_2_locked
+		random_country = {
+			limit = {
+				has_ai_personality_behaviour = demands_clear_borders
+				is_at_war = no
+				has_communications = root
+			}
+			save_event_target_as = kuat_mission_2_target_country
+		}
+		country_event = {
+			id = kuat_missions.21
+			days = 5
+			random = 30
+		}
+	}
+}
+
+#任务通知
+country_event = {
+	id = kuat_missions.21
+	title = kuat_missions.title
+	desc = kuat_missions.21.desc
+	picture_event_data = {
+		portrait = event_target:Kuat_people
+		planet_background = pc_ringworld_habitable
+		graphical_culture = fallen_empire_01
+		city_level = event_target:fallen_empire_kuat
+		room = personality_fallen_empire_cyan_room
+	}
+	custom_gui = "kuat_event_diplomacy_window"
+	custom_gui_option = "kuat_event_diplomacy_option"
+	show_sound = event_default
+	location = event_target:fallen_empire_kuat.capital_scope
+	is_triggered_only = yes
+	diplomatic = yes
+	option = {
+		name = kuat_missions.accept
+		custom_tooltip = kuat_missions.accept.tooltip
+		hidden_effect = {
+			event_target:kuat_mission_2_target_country = {
+				set_country_flag = kuat_mission_2_target_country
+			}
+			set_country_flag = kuat_mission_2_accepted
+			set_timed_country_flag = {
+				flag = kuat_mission_2_timer
+				days = 7300
+			}
+			begin_event_chain = {
+				event_chain = kuat_mission_2_chain
+				target = root
+			}
+			remove_global_flag = kuat_mission_2_locked
+		}
+	}
+	option = {
+		name = kuat_missions.refuse
+		custom_tooltip = kuat_missions.refuse.tooltip
+		response_text = kuat_missions.refuse.response
+		hidden_effect = {
+			remove_global_flag = kuat_mission_2_actived
+			event_target:fallen_empire_kuat = {
+				add_opinion_modifier = {
+					modifier = opinion_refused_kuat_mission_2
+					who = root
+				}
+			}
+			add_modifier = {
+				modifier = refused_kuat_mission_debuff_alt
+				days = 10800
+			}
+			remove_global_flag = kuat_mission_2_locked
+		}
+	}
+}
+
+#建成哨站统计变量
+ship_event = {
+	id = kuat_missions.22
+	hide_window = yes
+	is_triggered_only = yes
+	trigger = {
+		has_global_flag = kuat_mission_2_actived
+		owner = {
+			has_country_flag = kuat_mission_2_accepted
+			has_country_flag = kuat_mission_2_timer
+			NOT = {
+				has_country_flag = kuat_mission_outpost_timer_flag
+			}
+		}
+		solar_system = {
+			any_system = {
+				exists = space_owner
+				space_owner = {
+					has_country_flag = kuat_mission_2_target_country
+				}
+				has_hyperlane_to = prev
+			}
+		}
+	}
+	immediate = {
+		owner = {
+			set_country_flag = kuat_mission_outpost_timer_flag
+			set_variable = {
+				which = kuat_mission_outpost_timer
+				value = 0
+			}
+		}
+	}
+}
+
+#每月检测变量
+country_event = {
+	id = kuat_missions.23
+	hide_window = yes
+	is_triggered_only = yes
+	trigger = {
+		has_global_flag = kuat_mission_2_actived
+		has_country_flag = kuat_mission_2_accepted
+		has_country_flag = kuat_mission_2_timer
+		has_country_flag = kuat_mission_outpost_timer_flag
+	}
+	immediate = {
+		if = {
+			limit = {
+				any_system_within_border = {
+					any_system = {
+						exists = space_owner
+						space_owner = {
+							has_country_flag = kuat_mission_2_target_country
+						}
+						has_hyperlane_to = prev
+					}
+				}
+			}
+			change_variable = {
+				which = kuat_mission_outpost_timer
+				value = 1
+			}
+		}
+		else = {
+			remove_country_flag = kuat_mission_outpost_timer_flag
+			set_variable = {
+				which = kuat_mission_outpost_timer
+				value = 0
+			}
+		}
+	}
+}
+
+#任务成功
+country_event = {
+	id = kuat_missions.24
+	title = kuat_missions.title
+	desc = kuat_missions.24.desc
+	picture_event_data = {
+		portrait = event_target:Kuat_people
+		planet_background = pc_ringworld_habitable
+		graphical_culture = fallen_empire_01
+		city_level = event_target:fallen_empire_kuat
+		room = personality_fallen_empire_cyan_room
+	}
+	custom_gui = "kuat_event_diplomacy_window"
+	custom_gui_option = "kuat_event_diplomacy_option"
+	show_sound = event_default
+	location = event_target:fallen_empire_kuat.capital_scope
+	mean_time_to_happen = {
+		days = 5
+	}
+	diplomatic = yes
+	trigger = {
+		has_global_flag = kuat_mission_2_actived
+		has_country_flag = kuat_mission_2_accepted
+		has_country_flag = kuat_mission_2_timer
+		has_country_flag = kuat_mission_outpost_timer_flag
+		check_variable = {
+			which = kuat_mission_outpost_timer
+			value >= 60
+		}
+	}
+	immediate = {
+		remove_global_flag = kuat_mission_2_actived
+		remove_country_flag = kuat_mission_2_accepted
+		remove_country_flag = kuat_mission_2_timer
+		remove_country_flag = kuat_mission_outpost_timer_flag
+		set_variable = {
+			which = kuat_mission_outpost_timer
+			value = 0
+		}
+		every_country = {
+			limit = {
+				has_country_flag = kuat_mission_2_target_country
+			}
+			remove_country_flag = kuat_mission_2_target_country
+		}
+		set_country_flag = kuat_mission_2_finished
+	}
+	option = {
+		name = kuat_missions.finish
+		hidden_effect = {
+			end_event_chain = kuat_mission_2_chain
+			event_target:fallen_empire_kuat = {
+				add_opinion_modifier = {
+					modifier = opinion_finish_kuat_mission_2
+					who = root
+				}
+			}
+		}
+		add_resource = {
+			alloys = 50000
+			rare_crystals = 50
+			exotic_gases = 50
+			volatile_motes = 50
+		}
+	}
+}
+
+#任务超时
+country_event = {
+	id = kuat_missions.25
+	title = kuat_missions.title
+	desc = kuat_missions.25.desc
+	picture_event_data = {
+		portrait = event_target:Kuat_people
+		planet_background = pc_ringworld_habitable
+		graphical_culture = fallen_empire_01
+		city_level = event_target:fallen_empire_kuat
+		room = personality_fallen_empire_cyan_room
+	}
+	custom_gui = "kuat_event_diplomacy_window"
+	custom_gui_option = "kuat_event_diplomacy_option"
+	show_sound = event_default
+	location = event_target:fallen_empire_kuat.capital_scope
+	mean_time_to_happen = {
+		days = 5
+	}
+	diplomatic = yes
+	trigger = {
+		has_global_flag = kuat_mission_2_actived
+		has_country_flag = kuat_mission_2_accepted
+		NOR = {
+			has_country_flag = kuat_mission_2_timer
+			has_country_flag = kuat_mission_outpost_timer_flag
+			check_variable = {
+				which = kuat_mission_outpost_timer
+				value >= 60
+			}
+		}
+	}
+	immediate = {
+		remove_global_flag = kuat_mission_2_actived
+		remove_country_flag = kuat_mission_2_accepted
+		remove_country_flag = kuat_mission_2_timer
+		remove_country_flag = kuat_mission_outpost_timer_flag
+		set_variable = {
+			which = kuat_mission_outpost_timer
+			value = 0
+		}
+		every_country = {
+			limit = {
+				has_country_flag = kuat_mission_2_target_country
+			}
+			remove_country_flag = kuat_mission_2_target_country
+		}
+	}
+	option = {
+		name = kuat_missions.failed
+		hidden_effect = {
+			end_event_chain = kuat_mission_2_chain
+			event_target:fallen_empire_kuat = {
+				add_opinion_modifier = {
+					modifier = opinion_failed_kuat_mission_2
+					who = root
+				}
+			}
+			add_modifier = {
+				modifier = refused_kuat_mission_debuff_alt
+				days = 10800
+			}
+		}
+	}
+}
+
+#国家灭亡导致任务无效
+country_event = {
+	id = kuat_missions.26
+	hide_window = yes
+	mean_time_to_happen = {
+		days = 5
+	}
+	trigger = {
+		has_global_flag = kuat_mission_2_actived
+		NOT = {
+			has_global_flag = kuat_mission_2_locked
+		}
+		OR = {
+			NOT = {
+				exists = event_target:fallen_empire_kuat
+			}
+			AND = {
+				exists = event_target:fallen_empire_kuat
+				event_target:fallen_empire_kuat = {
+					any_country = {
+						has_country_flag = kuat_mission_2_accepted
+						is_at_war_with = prev
+					}
+				}
+			}
+			NOT = {
+				any_country = {
+					has_country_flag = kuat_mission_2_accepted
+				}
+			}
+			NOT = {
+				any_country = {
+					has_country_flag = kuat_mission_2_target_country
+				}
+			}
+		}
+	}
+	immediate = {
+		remove_global_flag = kuat_mission_2_actived
+		every_country = {
+			if = {
+				limit = {
+					has_country_flag = kuat_mission_2_accepted
+				}
+				remove_country_flag = kuat_mission_2_accepted
+			}
+			if = {
+				limit = {
+					has_country_flag = kuat_mission_2_timer
+				}
+				remove_country_flag = kuat_mission_2_timer
+			}
+			if = {
+				limit = {
+					has_country_flag = kuat_mission_outpost_timer_flag
+				}
+				remove_country_flag = kuat_mission_outpost_timer_flag
+			}
+		}
+		every_country = {
+			limit = {
+				has_country_flag = kuat_mission_2_target_country
+			}
+			remove_country_flag = kuat_mission_2_target_country
+		}
+		every_country = {
+			limit = {
+				has_event_chain = kuat_mission_2_chain
+			}
+			end_event_chain = kuat_mission_2_chain
+		}
+	}
+}
+
+#3x:殖民圣地
+#触发器
+country_event = {
+	id = kuat_missions.3
+	hide_window = yes
+	mean_time_to_happen = {
+		years = 100
+		modifier = {
+			factor = 0.1
+			has_country_flag = kuat_mission_2_finished
+		}
+	}
+	trigger = {
+		NOR = {
+			has_global_flag = kuat_mission_3_actived
+			has_country_flag = kuat_mission_3_finished
+		}
+		is_ai = no
+		is_at_war = no
+		fleet_power > 200000
+		exists = event_target:fallen_empire_kuat
+		event_target:fallen_empire_kuat = {
+			is_at_war = no
+			has_communications = root
+		}
+		any_country = {
+			has_ai_personality_behaviour = holy_planets
+			is_at_war = no
+			has_communications = root
+		}
+		any_planet = {
+			has_modifier = "holy_planet"
+			is_planet_class = pc_gaia
+		}
+	}
+	immediate = {
+		set_global_flag = kuat_mission_3_actived
+		set_global_flag = kuat_mission_3_locked
+		random_planet = {
+			limit = {
+				has_modifier = "holy_planet"
+				is_planet_class = pc_gaia
+			}
+			save_event_target_as = kuat_mission_3_target_planet
+		}
+		country_event = {
+			id = kuat_missions.31
+			days = 5
+			random = 30
+		}
+	}
+}
+
+#任务通知
+country_event = {
+	id = kuat_missions.31
+	title = kuat_missions.title
+	desc = kuat_missions.31.desc
+	picture_event_data = {
+		portrait = event_target:Kuat_people
+		planet_background = pc_ringworld_habitable
+		graphical_culture = fallen_empire_01
+		city_level = event_target:fallen_empire_kuat
+		room = personality_fallen_empire_cyan_room
+	}
+	custom_gui = "kuat_event_diplomacy_window"
+	custom_gui_option = "kuat_event_diplomacy_option"
+	show_sound = event_default
+	location = event_target:fallen_empire_kuat.capital_scope
+	is_triggered_only = yes
+	diplomatic = yes
+	option = {
+		name = kuat_missions.accept
+		custom_tooltip = kuat_missions.accept.tooltip
+		hidden_effect = {
+			event_target:kuat_mission_3_target_planet = {
+				set_planet_flag = kuat_mission_3_target_planet
+			}
+			set_country_flag = kuat_mission_3_accepted
+			set_timed_country_flag = {
+				flag = kuat_mission_3_timer
+				days = 7300
+			}
+			begin_event_chain = {
+				event_chain = kuat_mission_3_chain
+				target = root
+			}
+			create_point_of_interest = {
+				id = kuat_mission.3
+				name = kuat_mission.3
+				event_chain = kuat_mission_3_chain
+				location = event_target:kuat_mission_3_target_planet
+			}
+			remove_global_flag = kuat_mission_3_locked
+		}
+	}
+	option = {
+		name = kuat_missions.refuse
+		custom_tooltip = kuat_missions.refuse.tooltip
+		response_text = kuat_missions.refuse.response
+		hidden_effect = {
+			remove_global_flag = kuat_mission_3_actived
+			event_target:fallen_empire_kuat = {
+				add_opinion_modifier = {
+					modifier = opinion_refused_kuat_mission_2
+					who = root
+				}
+			}
+			add_modifier = {
+				modifier = refused_kuat_mission_debuff_alt
+				days = 10800
+			}
+			remove_global_flag = kuat_mission_3_locked
+		}
+	}
+}
+
+#任务成功
+country_event = {
+	id = kuat_missions.32
+	title = kuat_missions.title
+	desc = kuat_missions.32.desc
+	picture_event_data = {
+		portrait = event_target:Kuat_people
+		planet_background = pc_ringworld_habitable
+		graphical_culture = fallen_empire_01
+		city_level = event_target:fallen_empire_kuat
+		room = personality_fallen_empire_cyan_room
+	}
+	custom_gui = "kuat_event_diplomacy_window"
+	custom_gui_option = "kuat_event_diplomacy_option"
+	show_sound = event_default
+	location = event_target:fallen_empire_kuat.capital_scope
+	mean_time_to_happen = {
+		days = 5
+	}
+	diplomatic = yes
+	trigger = {
+		has_global_flag = kuat_mission_3_actived
+		has_country_flag = kuat_mission_3_accepted
+		any_owned_planet = {
+			has_planet_flag = kuat_mission_3_target_planet
+			num_pops > 4
+		}
+	}
+	immediate = {
+		remove_global_flag = kuat_mission_3_actived
+		remove_country_flag = kuat_mission_3_accepted
+		remove_country_flag = kuat_mission_3_timer
+		every_owned_planet = {
+			limit = {
+				has_planet_flag = kuat_mission_3_target_planet
+			}
+			remove_planet_flag = kuat_mission_3_target_planet
+		}
+		set_country_flag = kuat_mission_3_finished
+	}
+	option = {
+		name = kuat_missions.finish
+		hidden_effect = {
+			end_event_chain = kuat_mission_3_chain
+			event_target:fallen_empire_kuat = {
+				add_opinion_modifier = {
+					modifier = opinion_finish_kuat_mission_3
+					who = root
+				}
+			}
+		}
+		add_resource = {
+			alloys = 80000
+			rare_crystals = 80
+			exotic_gases = 80
+			volatile_motes = 80
+		}
+	}
+}
+
+#任务超时
+country_event = {
+	id = kuat_missions.33
+	title = kuat_missions.title
+	desc = kuat_missions.33.desc
+	picture_event_data = {
+		portrait = event_target:Kuat_people
+		planet_background = pc_ringworld_habitable
+		graphical_culture = fallen_empire_01
+		city_level = event_target:fallen_empire_kuat
+		room = personality_fallen_empire_cyan_room
+	}
+	custom_gui = "kuat_event_diplomacy_window"
+	custom_gui_option = "kuat_event_diplomacy_option"
+	show_sound = event_default
+	location = event_target:fallen_empire_kuat.capital_scope
+	mean_time_to_happen = {
+		days = 5
+	}
+	diplomatic = yes
+	trigger = {
+		has_global_flag = kuat_mission_3_actived
+		has_country_flag = kuat_mission_3_accepted
+		NOR = {
+			has_country_flag = kuat_mission_3_timer
+			any_owned_planet = {
+				has_planet_flag = kuat_mission_3_target_planet
+				num_pops > 4
+			}
+		}
+	}
+	immediate = {
+		remove_global_flag = kuat_mission_3_actived
+		remove_country_flag = kuat_mission_3_accepted
+		every_planet = {
+			limit = {
+				has_planet_flag = kuat_mission_3_target_planet
+			}
+			remove_planet_flag = kuat_mission_3_target_planet
+		}
+	}
+	option = {
+		name = kuat_missions.failed
+		hidden_effect = {
+			end_event_chain = kuat_mission_3_chain
+			event_target:fallen_empire_kuat = {
+				add_opinion_modifier = {
+					modifier = opinion_failed_kuat_mission_2
+					who = root
+				}
+			}
+			add_modifier = {
+				modifier = refused_kuat_mission_debuff_alt
+				days = 10800
+			}
+		}
+	}
+}
+
+#国家灭亡导致任务无效
+country_event = {
+	id = kuat_missions.34
+	hide_window = yes
+	mean_time_to_happen = {
+		days = 5
+	}
+	trigger = {
+		has_global_flag = kuat_mission_3_actived
+		NOT = {
+			has_global_flag = kuat_mission_3_locked
+		}
+		OR = {
+			NOT = {
+				exists = event_target:fallen_empire_kuat
+			}
+			AND = {
+				exists = event_target:fallen_empire_kuat
+				event_target:fallen_empire_kuat = {
+					any_country = {
+						has_country_flag = kuat_mission_3_accepted
+						is_at_war_with = prev
+					}
+				}
+			}
+			NOT = {
+				any_country = {
+					has_country_flag = kuat_mission_3_accepted
+				}
+			}
+			NOT = {
+				any_country = {
+					has_ai_personality_behaviour = holy_planets
+				}
+			}
+			NOT = {
+				any_planet = {
+					has_modifier = "holy_planet"
+					is_planet_class = pc_gaia
+				}
+			}
+		}
+	}
+	immediate = {
+		remove_global_flag = kuat_mission_3_actived
+		every_country = {
+			limit = {
+				has_country_flag = kuat_mission_3_accepted
+			}
+			remove_country_flag = kuat_mission_3_accepted
+		}
+		every_planet = {
+			limit = {
+				has_planet_flag = kuat_mission_3_target_planet
+			}
+			remove_planet_flag = kuat_mission_3_target_planet
+		}
+		every_country = {
+			limit = {
+				has_event_chain = kuat_mission_3_chain
+			}
+			end_event_chain = kuat_mission_3_chain
+		}
+	}
+}
+
+#4x:随机消灭一个堕落帝国
+#触发器
+country_event = {
+	id = kuat_missions.4
+	hide_window = yes
+	mean_time_to_happen = {
+		years = 100
+		modifier = {
+			factor = 0.1
+			has_country_flag = kuat_mission_3_finished
+		}
+	}
+	trigger = {
+		mid_game_years_passed >= 25
+		NOR = {
+			has_global_flag = kuat_mission_4_actived
+			has_country_flag = kuat_mission_4_finished
+		}
+		is_ai = no
+		is_at_war = no
+		fleet_power > 200000
+		exists = event_target:fallen_empire_kuat
+		event_target:fallen_empire_kuat = {
+			is_at_war = no
+			has_communications = root
+		}
+		any_country = {
+			OR = {
+				is_country_type = fallen_empire
+				is_country_type = awakened_fallen_empire
+			}
+			is_at_war = no
+			has_communications = root
+		}
+	}
+	immediate = {
+		set_global_flag = kuat_mission_4_actived
+		set_global_flag = kuat_mission_4_locked
+		random_country = {
+			limit = {
+				OR = {
+					is_country_type = fallen_empire
+					is_country_type = awakened_fallen_empire
+				}
+				is_at_war = no
+				has_communications = root
+			}
+			save_event_target_as = kuat_mission_4_target_country
+			capital_scope = {
+				save_event_target_as = kuat_mission_4_target_planet
+			}
+		}
+		country_event = {
+			id = kuat_missions.41
+			days = 5
+			random = 30
+		}
+	}
+}
+
+#任务通知
+country_event = {
+	id = kuat_missions.41
+	title = kuat_missions.title
+	desc = kuat_missions.41.desc
+	picture_event_data = {
+		portrait = event_target:Kuat_people
+		planet_background = pc_ringworld_habitable
+		graphical_culture = fallen_empire_01
+		city_level = event_target:fallen_empire_kuat
+		room = personality_fallen_empire_cyan_room
+	}
+	custom_gui = "kuat_event_diplomacy_window"
+	custom_gui_option = "kuat_event_diplomacy_option"
+	show_sound = event_default
+	location = event_target:fallen_empire_kuat.capital_scope
+	is_triggered_only = yes
+	diplomatic = yes
+	option = {
+		name = kuat_missions.accept
+		custom_tooltip = kuat_missions.accept.tooltip
+		hidden_effect = {
+			event_target:kuat_mission_4_target_country = {
+				set_country_flag = kuat_mission_4_target_country
+			}
+			event_target:kuat_mission_4_target_planet = {
+				set_planet_flag = kuat_mission_4_target_planet
+			}
+			set_country_flag = kuat_mission_4_accepted
+			set_timed_country_flag = {
+				flag = kuat_mission_4_timer
+				days = 7300
+			}
+			begin_event_chain = {
+				event_chain = kuat_mission_4_chain
+				target = root
+			}
+			remove_global_flag = kuat_mission_4_locked
+		}
+	}
+	option = {
+		name = kuat_missions.refuse
+		custom_tooltip = kuat_missions.refuse.tooltip
+		response_text = kuat_missions.refuse.response
+		hidden_effect = {
+			remove_global_flag = kuat_mission_4_actived
+			event_target:fallen_empire_kuat = {
+				add_opinion_modifier = {
+					modifier = opinion_failed_kuat_mission_2
+					who = root
+				}
+			}
+			add_modifier = {
+				modifier = refused_kuat_mission_debuff_alt
+				days = 10800
+			}
+			remove_global_flag = kuat_mission_4_locked
+		}
+	}
+}
+
+#任务成功
+country_event = {
+	id = kuat_missions.42
+	title = kuat_missions.title
+	desc = kuat_missions.42.desc
+	picture_event_data = {
+		portrait = event_target:Kuat_people
+		planet_background = pc_ringworld_habitable
+		graphical_culture = fallen_empire_01
+		city_level = event_target:fallen_empire_kuat
+		room = personality_fallen_empire_cyan_room
+	}
+	custom_gui = "kuat_event_diplomacy_window"
+	custom_gui_option = "kuat_event_diplomacy_option"
+	show_sound = event_default
+	location = event_target:fallen_empire_kuat.capital_scope
+	mean_time_to_happen = {
+		days = 5
+	}
+	diplomatic = yes
+	trigger = {
+		has_global_flag = kuat_mission_4_actived
+		has_country_flag = kuat_mission_4_accepted
+		any_owned_planet = {
+			has_planet_flag = kuat_mission_4_target_planet
+		}
+		NOT = {
+			any_country = {
+				has_country_flag = kuat_mission_4_target_country
+			}
+		}
+	}
+	immediate = {
+		remove_global_flag = kuat_mission_4_actived
+		remove_country_flag = kuat_mission_4_accepted
+		remove_country_flag = kuat_mission_4_timer
+		every_owned_planet = {
+			limit = {
+				has_planet_flag = kuat_mission_4_target_planet
+			}
+			remove_planet_flag = kuat_mission_4_target_planet
+		}
+		set_country_flag = kuat_mission_4_finished
+	}
+	option = {
+		name = kuat_missions.finish
+		hidden_effect = {
+			end_event_chain = kuat_mission_4_chain
+			event_target:fallen_empire_kuat = {
+				add_opinion_modifier = {
+					modifier = opinion_finish_kuat_mission_4
+					who = root
+				}
+			}
+		}
+		add_resource = {
+			alloys = 100000
+			rare_crystals = 100
+			exotic_gases = 100
+			volatile_motes = 100
+		}
+	}
+}
+
+#任务超时
+country_event = {
+	id = kuat_missions.43
+	title = kuat_missions.title
+	desc = kuat_missions.43.desc
+	picture_event_data = {
+		portrait = event_target:Kuat_people
+		planet_background = pc_ringworld_habitable
+		graphical_culture = fallen_empire_01
+		city_level = event_target:fallen_empire_kuat
+		room = personality_fallen_empire_cyan_room
+	}
+	custom_gui = "kuat_event_diplomacy_window"
+	custom_gui_option = "kuat_event_diplomacy_option"
+	show_sound = event_default
+	location = event_target:fallen_empire_kuat.capital_scope
+	mean_time_to_happen = {
+		days = 5
+	}
+	diplomatic = yes
+	trigger = {
+		has_global_flag = kuat_mission_4_actived
+		has_country_flag = kuat_mission_4_accepted
+		AND = {
+			NOT = {
+				has_country_flag = kuat_mission_4_timer
+			}
+			OR = {
+				NOT = {
+					any_owned_planet = {
+						has_planet_flag = kuat_mission_4_target_planet
+					}
+				}
+				any_country = {
+					has_country_flag = kuat_mission_4_target_country
+				}
+			}
+		}
+	}
+	immediate = {
+		remove_global_flag = kuat_mission_4_actived
+		remove_country_flag = kuat_mission_4_accepted
+		every_planet = {
+			limit = {
+				has_planet_flag = kuat_mission_4_target_planet
+			}
+			remove_planet_flag = kuat_mission_4_target_planet
+		}
+		every_country = {
+			limit = {
+				has_country_flag = kuat_mission_4_target_country
+			}
+			remove_country_flag = kuat_mission_4_target_country
+		}
+	}
+	option = {
+		name = kuat_missions.failed
+		hidden_effect = {
+			end_event_chain = kuat_mission_4_chain
+			event_target:fallen_empire_kuat = {
+				add_opinion_modifier = {
+					modifier = opinion_failed_kuat_mission_2
+					who = root
+				}
+			}
+			add_modifier = {
+				modifier = refused_kuat_mission_debuff_alt
+				days = 10800
+			}
+		}
+	}
+}
+
+#国家灭亡导致任务无效
+country_event = {
+	id = kuat_missions.44
+	hide_window = yes
+	mean_time_to_happen = {
+		days = 5
+	}
+	trigger = {
+		has_global_flag = kuat_mission_4_actived
+		NOT = {
+			has_global_flag = kuat_mission_4_locked
+		}
+		OR = {
+			NOT = {
+				exists = event_target:fallen_empire_kuat
+			}
+			AND = {
+				exists = event_target:fallen_empire_kuat
+				event_target:fallen_empire_kuat = {
+					any_country = {
+						has_country_flag = kuat_mission_4_accepted
+						is_at_war_with = prev
+					}
+				}
+			}
+			NOT = {
+				any_country = {
+					has_country_flag = kuat_mission_4_accepted
+				}
+			}
+		}
+	}
+	immediate = {
+		remove_global_flag = kuat_mission_4_actived
+		every_country = {
+			limit = {
+				has_country_flag = kuat_mission_4_accepted
+			}
+			remove_country_flag = kuat_mission_4_accepted
+		}
+		every_planet = {
+			limit = {
+				has_planet_flag = kuat_mission_4_target_planet
+			}
+			remove_planet_flag = kuat_mission_4_target_planet
+		}
+		every_country = {
+			limit = {
+				has_event_chain = kuat_mission_4_chain
+			}
+			end_event_chain = kuat_mission_4_chain
+		}
+	}
+}
+
+#5x:改变思潮为极端和平主义
+#触发器
+country_event = {
+	id = kuat_missions.5
+	hide_window = yes
+	mean_time_to_happen = {
+		years = 100
+		modifier = {
+			factor = 0.1
+			has_country_flag = kuat_mission_4_finished
+		}
+	}
+	trigger = {
+		has_faction = prosperity
+		years_passed >= 60
+		NOR = {
+			has_global_flag = kuat_mission_5_actived
+			has_country_flag = kuat_mission_5_finished
+			has_origin = origin_parit
+		}
+		is_ai = no
+		is_at_war = no
+		NOT = {
+			has_ethic = ethic_fanatic_pacifist
+		}
+		exists = event_target:fallen_empire_kuat
+		event_target:fallen_empire_kuat = {
+			is_at_war = no
+			has_communications = root
+		}
+	}
+	immediate = {
+		random_list = {
+			70 = {
+				set_timed_global_flag = {
+					flag = kuat_mission_5_actived
+					days = 360
+				}
+			}
+			30 = {
+				set_global_flag = kuat_mission_5_actived
+				set_global_flag = kuat_mission_5_locked
+				country_event = {
+					id = kuat_missions.51
+					days = 5
+					random = 30
+				}
+			}
+		}
+	}
+}
+
+#任务通知
+country_event = {
+	id = kuat_missions.51
+	title = kuat_missions.title
+	desc = kuat_missions.51.desc
+	picture_event_data = {
+		portrait = event_target:Kuat_people
+		planet_background = pc_ringworld_habitable
+		graphical_culture = fallen_empire_01
+		city_level = event_target:fallen_empire_kuat
+		room = personality_fallen_empire_cyan_room
+	}
+	custom_gui = "kuat_event_diplomacy_window"
+	custom_gui_option = "kuat_event_diplomacy_option"
+	show_sound = event_default
+	location = event_target:fallen_empire_kuat.capital_scope
+	is_triggered_only = yes
+	diplomatic = yes
+	option = {
+		name = kuat_missions.accept
+		custom_tooltip = kuat_missions.accept.tooltip
+		hidden_effect = {
+			set_country_flag = kuat_mission_5_accepted
+			set_timed_country_flag = {
+				flag = kuat_mission_5_timer
+				days = 7300
+			}
+			begin_event_chain = {
+				event_chain = kuat_mission_5_chain
+				target = root
+			}
+			remove_global_flag = kuat_mission_5_locked
+		}
+	}
+	option = {
+		name = kuat_missions.refuse
+		custom_tooltip = kuat_missions.refuse.tooltip
+		response_text = kuat_missions.refuse.response
+		hidden_effect = {
+			remove_global_flag = kuat_mission_5_actived
+			event_target:fallen_empire_kuat = {
+				add_opinion_modifier = {
+					modifier = opinion_refused_kuat_mission_2
+					who = root
+				}
+			}
+			add_modifier = {
+				modifier = refused_kuat_mission_debuff_alt
+				days = 10800
+			}
+			remove_global_flag = kuat_mission_5_locked
+		}
+	}
+}
+
+#任务成功
+country_event = {
+	id = kuat_missions.52
+	title = kuat_missions.title
+	desc = kuat_missions.52.desc
+	picture_event_data = {
+		portrait = event_target:Kuat_people
+		planet_background = pc_ringworld_habitable
+		graphical_culture = fallen_empire_01
+		city_level = event_target:fallen_empire_kuat
+		room = personality_fallen_empire_cyan_room
+	}
+	custom_gui = "kuat_event_diplomacy_window"
+	custom_gui_option = "kuat_event_diplomacy_option"
+	show_sound = event_default
+	location = event_target:fallen_empire_kuat.capital_scope
+	mean_time_to_happen = {
+		days = 5
+	}
+	diplomatic = yes
+	trigger = {
+		has_global_flag = kuat_mission_5_actived
+		has_country_flag = kuat_mission_5_accepted
+		has_ethic = ethic_fanatic_pacifist
+	}
+	immediate = {
+		remove_global_flag = kuat_mission_5_actived
+		remove_country_flag = kuat_mission_5_accepted
+		remove_country_flag = kuat_mission_5_timer
+		set_country_flag = kuat_mission_5_finished
+	}
+	option = {
+		name = kuat_missions.finish
+		hidden_effect = {
+			end_event_chain = kuat_mission_5_chain
+			event_target:fallen_empire_kuat = {
+				add_opinion_modifier = {
+					modifier = opinion_finish_kuat_mission_5
+					who = root
+				}
+			}
+		}
+	}
+}
+
+#任务超时
+country_event = {
+	id = kuat_missions.53
+	title = kuat_missions.title
+	desc = kuat_missions.53.desc
+	picture_event_data = {
+		portrait = event_target:Kuat_people
+		planet_background = pc_ringworld_habitable
+		graphical_culture = fallen_empire_01
+		city_level = event_target:fallen_empire_kuat
+		room = personality_fallen_empire_cyan_room
+	}
+	custom_gui = "kuat_event_diplomacy_window"
+	custom_gui_option = "kuat_event_diplomacy_option"
+	show_sound = event_default
+	location = event_target:fallen_empire_kuat.capital_scope
+	mean_time_to_happen = {
+		days = 5
+	}
+	diplomatic = yes
+	trigger = {
+		has_global_flag = kuat_mission_5_actived
+		has_country_flag = kuat_mission_5_accepted
+		NOR = {
+			has_country_flag = kuat_mission_5_timer
+			has_ethic = ethic_fanatic_pacifist
+		}
+	}
+	immediate = {
+		remove_global_flag = kuat_mission_5_actived
+		remove_country_flag = kuat_mission_5_accepted
+	}
+	option = {
+		name = kuat_missions.failed
+		hidden_effect = {
+			end_event_chain = kuat_mission_5_chain
+			event_target:fallen_empire_kuat = {
+				add_opinion_modifier = {
+					modifier = opinion_failed_kuat_mission_2
+					who = root
+				}
+			}
+			add_modifier = {
+				modifier = refused_kuat_mission_debuff_alt
+				days = 10800
+			}
+		}
+	}
+}
+
+#国家灭亡导致任务无效
+country_event = {
+	id = kuat_missions.54
+	hide_window = yes
+	mean_time_to_happen = {
+		days = 5
+	}
+	trigger = {
+		has_global_flag = kuat_mission_5_actived
+		NOT = {
+			has_global_flag = kuat_mission_5_locked
+		}
+		OR = {
+			NOT = {
+				exists = event_target:fallen_empire_kuat
+			}
+			AND = {
+				exists = event_target:fallen_empire_kuat
+				event_target:fallen_empire_kuat = {
+					any_country = {
+						has_country_flag = kuat_mission_5_accepted
+						is_at_war_with = prev
+					}
+				}
+			}
+			NOT = {
+				any_country = {
+					has_country_flag = kuat_mission_5_accepted
+				}
+			}
+		}
+	}
+	immediate = {
+		remove_global_flag = kuat_mission_5_actived
+		every_country = {
+			limit = {
+				has_event_chain = kuat_mission_5_chain
+			}
+			end_event_chain = kuat_mission_5_chain
+		}
+	}
+}

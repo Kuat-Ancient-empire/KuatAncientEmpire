@@ -1,0 +1,265 @@
+@entity_x = 0
+@entity_y = -20
+exe_outer_gate = {
+	entity = "gateway_entity"
+	construction_entity = "construction_platform_entity"
+	portrait = "GFX_megastructure_construction_background"
+	place_entity_on_planet_plane = no
+	build_outside_gravity_well = no
+	show_galactic_map_icon = no
+	construction_blocks_others = no
+	potential = {
+		always = no
+	}
+	bypass_type = exe_outer_gate
+}
+
+exe_outer_gate_locked = {
+	entity = "gateway_entity"
+	construction_entity = "construction_platform_entity"
+	portrait = "GFX_megastructure_construction_background"
+	place_entity_on_planet_plane = no
+	build_outside_gravity_well = no
+	show_galactic_map_icon = no
+	construction_blocks_others = no
+	potential = {
+		always = no
+	}
+	upgrade_from = {
+		exe_outer_gate
+	}
+}
+
+Shield_Gate = {
+	entity = "kuat_01_Shield_Gate_entity"
+	construction_entity = "construction_platform_entity"
+	portrait = "GFX_megastructure_construction_background"
+	place_entity_on_planet_plane = no
+	build_outside_gravity_well = no
+	show_galactic_map_icon = no
+	construction_blocks_others = no
+	bypass_type = exe_inner_gate
+	ship_modifier = {
+		ship_starting_experience_add = 100
+	}
+	station_modifier = {
+		starbase_shipyard_capacity_add = 10
+	}
+	country_modifier = {
+		starbase_shipyard_build_speed_mult = 1	
+	}
+	potential = {
+		always = no
+	}
+}
+
+exe_megastructure_starbase_platfrom = {
+	entity = "construction_platform_entity"
+	construction_entity = "construction_platform_entity"
+	portrait = "GFX_megastructure_construction_background"	
+	place_entity_on_planet_plane = no
+	show_galactic_map_icon = no	
+	build_time = 2080	
+	upgrade_desc = hide	
+	entity_offset = { x = @entity_x y = @entity_y }
+	resources = {
+		category = megastructures
+		cost = {
+			alloys = 5000
+			influence = 150
+		}		
+	}
+	potential = {
+		has_technology = tech_kuat_starbase
+	}
+	possible = {
+		custom_tooltip = {
+			fail_text = "requires_inside_border"
+			is_inside_border = from
+		}		
+		custom_tooltip = {
+			fail_text = "requires_surveyed_system"
+			NOT = {
+				any_system_planet = {
+					is_surveyed = {
+						who = prev.from
+						status = no
+					}
+				}
+			}
+		}
+		custom_tooltip = {
+			fail_text = "requires_no_black_hole_neutron_star_pulsar"
+			NOR = {
+				is_star_class = sc_black_hole
+				is_star_class = sc_neutron_star
+				is_star_class = sc_pulsar
+			}
+		}
+		custom_tooltip = {
+			fail_text = "requires_no_binary_trinary"
+			NOR = {
+				is_star_class = sc_binary_1
+				is_star_class = sc_binary_2
+				is_star_class = sc_binary_3
+				is_star_class = sc_binary_4
+				is_star_class = sc_binary_5
+				is_star_class = sc_binary_6
+				is_star_class = sc_binary_7
+				is_star_class = sc_binary_8
+				is_star_class = sc_binary_9
+				is_star_class = sc_binary_10
+				is_star_class = sc_trinary_1
+				is_star_class = sc_trinary_2
+				is_star_class = sc_trinary_3
+				is_star_class = sc_trinary_4
+			}
+		}
+		custom_tooltip = {
+			fail_text = "kuat_requires_no_existing_station"
+			from = {
+				NOT = {
+					any_owned_megastructure = {
+						OR = {
+							is_megastructure_type = exe_megastructure_starbase_platfrom
+							is_megastructure_type = exe_megastructure_starbase
+						}
+					}
+					any_owned_fleet = { is_ship_size = exe_megastructure_starbase }
+				}
+			}
+		}
+	}
+	placement_rules = {
+		planet_possible = {
+			custom_tooltip = {
+				fail_text = "must_build_around_star"
+				is_star = yes
+			}
+			custom_tooltip = {
+				fail_text = "requires_no_anomaly"
+				has_anomaly = no
+			}
+			custom_tooltip = {
+				fail_text = "requires_no_orbital_station"
+				has_orbital_station = no
+			}
+			custom_tooltip = {
+				fail_text = "kuat_requires_exe_construction_section"
+				NOT = { has_planet_flag = has_exe_starbase }
+			}
+		}
+	}
+	
+	on_build_start = { }
+	on_build_cancel = { }
+	on_build_complete = {
+		fromfrom.planet = { set_planet_flag = has_exe_starbase }
+	}
+	construction_blocked_by_others = no
+	construction_blocks_others = no
+	ai_weight = { weight = 0 }
+}
+
+exe_megastructure_starbase = {
+	entity = "exe_megastructure_starbase_section_entity"
+	construction_entity = "exe_megastructure_starbase_section_entity"
+	portrait = "GFX_megastructure_construction_background"	
+	place_entity_on_planet_plane = no
+	show_galactic_map_icon = no	
+	build_time = 3090	
+	upgrade_desc = hide	
+	entity_offset = { x = 0 y = 0 }	
+	upgrade_from = { exe_megastructure_starbase_platfrom }	
+	resources = {
+		category = megastructures
+		cost = {
+			alloys = 500000
+		}
+	}	
+	potential = { has_technology = tech_kuat_starbase }	
+	possible = {
+		custom_tooltip = {
+			fail_text = "kuat_requires_no_existing_station"
+			from = {
+				NOT  = {
+					any_owned_megastructure = {
+						is_megastructure_type = exe_megastructure_starbase
+					}
+					any_owned_fleet = { is_ship_size = exe_megastructure_starbase }
+				}
+			}
+		}
+	}	
+	placement_rules = {}	
+	on_build_start = {}
+	on_build_cancel = {}
+	on_build_complete = {
+		fromfrom.planet = {
+			remove_planet_flag = has_exe_starbase
+			set_planet_size = -1
+			solar_system = {
+				set_star_flag = kuat_starbase_megastructure_in_system
+				every_system_planet = {
+					limit = {
+						exists = owner
+						owner = { NOT = { is_same_value = from } }
+					}
+					add_modifier = { modifier = "exe_megastructure_starbase_in_system" }
+				}
+			}
+		}
+		add_threat = { who = from amount = 50 }
+		create_fleet = {
+			name = "Name_Eternal_station_fleet"
+			settings = { spawn_debris = no can_disband = no }
+			effect = {
+				set_fleet_flag = kuat_station_player
+				set_owner = from
+				create_ship = {
+					design = "NAME_EXE_STARBASE_MEGASTRUCTURE"
+					effect = { set_ship_flag = kuat_station_player }
+				}
+				set_location = { target = fromfrom distance = -1 angle = 0 }
+			}
+		}
+		from = {
+			save_global_event_target_as = build_the_exe_eternal_starbase
+			set_global_flag = will_pay_for_the_starbase
+			every_owned_starbase = {
+				limit = {
+					has_starbase_size = exe_megastructure_starbase
+					NAND = {
+						has_starbase_building = titan_yards
+						has_starbase_building = colossus_yards
+					}
+				}
+				if = {
+					limit = { NOT = { has_starbase_building = titan_yards } }
+					set_starbase_building = {
+						slot = 1
+						building = titan_yards
+					}
+				}
+				if = {
+					limit = { NOT = { has_starbase_building = colossus_yards } }
+					set_starbase_building = {
+						slot = 2
+						building = colossus_yards
+					}
+				}
+			}
+			country_event = { id = kuat_legacy.48 }
+		}
+		remove_megastructure = fromfrom
+		every_playable_country = {
+			limit = {
+				NOT = { is_same_value = event_target:build_the_exe_eternal_starbase }
+			}
+			country_event = { id = kuat_legacy.47 }
+		}
+	}
+	construction_blocked_by_others = no
+	construction_blocks_others = no	
+	ai_weight = { weight = 1000 }
+}

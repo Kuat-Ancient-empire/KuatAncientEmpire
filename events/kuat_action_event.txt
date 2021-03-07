@@ -1,0 +1,245 @@
+namespace = ai_action
+#WAR
+country_event = {
+	id = ai_action.1
+	hide_window = yes
+	is_triggered_only = yes
+	trigger = {
+		has_country_flag = fallen_empire_kuat
+		is_at_war = yes
+		NOT = { any_owned_fleet = { has_fleet_flag = first_attack_fleet } }
+		NOR = {
+			has_global_flag = wind_up_for_attack_fleet
+			has_global_flag = wind_up_for_kuat_fleet
+		}
+	}
+	immediate = {
+		every_country = {
+			limit = { is_at_war_with = event_target:fallen_empire_kuat }
+			set_country_flag = warning_country
+			save_global_event_target_as = wraith_country_target
+		}
+		if = {
+			limit = {
+				NOT = { has_global_flag = wind_up_for_attack_fleet }
+			}
+			create_kuat_defender_and_attack_fleet = yes
+			set_timed_global_flag = { flag = wind_up_for_attack_fleet days = 360 }
+		}	
+		event_target:fallen_empire_kuat_fleet = {
+			every_system_within_border = {
+				save_event_target_as = begin_kuat_fleet_system
+				set_star_flag = begin_kuat_fleet_system
+			}
+			if = {
+				limit = { 
+					NOT = { has_global_flag = wind_up_for_kuat_fleet }
+				}
+				create_kuat_millatery_defender_and_attack_fleet = yes
+				set_timed_global_flag = { flag = wind_up_for_kuat_fleet days = 360 }
+			}
+		}
+	}
+}
+
+planet_event = { 
+	id = ai_action.2
+	hide_window = yes
+	is_triggered_only = yes
+	trigger = {
+		has_planet_flag = ruins_planet
+		planet_devastation = 100
+	}
+	immediate = {
+		if = {
+			limit = {
+				has_planet_flag = phaseshifting_active
+			}
+			remove_planet_flag = phaseshifting_active
+			remove_modifier = phaseshifted
+		}
+		destroy_colony = yes
+		if = {
+			limit = {
+				ag_is_ringworld = yes
+			}
+			change_pc = pc_ringworld_habitable_damaged
+			reset_planet = yes
+		}
+		else_if = {
+			limit = {
+				ag_is_habitat = yes
+			}
+			remove_planet = yes
+		}
+		else = {
+			change_pc = pc_shattered
+		}
+		remove_planet_flag = ruins_planet
+		#recall fleet
+		if = {
+			limit = {
+				event_target:wraith_country_target = {
+					OR = {
+						num_owned_planets < 1
+						NOT = {
+							is_at_war_with = event_target:fallen_empire_kuat
+						}
+					}
+				}
+			}
+			every_country = {
+				limit = {
+					has_country_flag = warning_country
+				}
+				remove_country_flag = warning_country
+				clear_global_event_target = wraith_country_target
+			}
+			event_target:fallen_empire_kuat = {
+				every_owned_fleet = {
+					limit = {
+						has_fleet_flag = first_attack_fleet
+					}
+					clear_fleet_actions = this
+					clear_orders = yes
+					destroy_fleet = this
+				}
+			}
+			event_target:fallen_empire_kuat_fleet = {
+				every_owned_fleet = {
+					limit = {
+						has_fleet_flag = second_attack_fleet
+					}
+					clear_fleet_actions = this
+					clear_orders = yes
+					destroy_fleet = this
+				}
+			}
+		}
+	}
+}
+
+country_event = {
+	id = ai_action.5
+	hide_window = yes
+	is_triggered_only = yes
+	immediate = {
+		if = {
+			limit = {
+				has_country_flag = warning_country
+				NOT = { is_at_war_with = event_target:fallen_empire_kuat }
+			}
+			remove_country_flag = warning_country
+			clear_global_event_target = wraith_country_target
+			event_target:fallen_empire_kuat = {
+				every_owned_fleet = {
+					limit = { has_fleet_flag = first_attack_fleet }
+					clear_fleet_actions = this
+					clear_orders = yes
+					destroy_fleet = this
+				}
+			}
+			event_target:fallen_empire_kuat_fleet = {
+				every_owned_fleet = {
+					limit = { has_fleet_flag = second_attack_fleet }
+					clear_fleet_actions = this
+					clear_orders = yes
+					destroy_fleet = this
+				}
+			}
+		}
+	}
+}
+
+#United fleet against
+country_event = {
+	id = ai_action.10
+	title = ai.7.title
+	desc = ai.7.desc
+	diplomatic = yes
+	picture_event_data = {
+		portrait = event_target:Kuat_people
+		planet_background = pc_ringworld_habitable
+		graphical_culture = fallen_empire_01
+		city_level = event_target:empire_founding
+		room = personality_fallen_empire_cyan_room
+	}
+	custom_gui = "kuat_event_diplomacy_window"
+	custom_gui_option = "kuat_event_diplomacy_option"
+	is_triggered_only = yes
+	trigger = {
+		OR = {
+			has_global_flag = wg_crisis_insane
+			has_global_flag = afk_crisis_real
+		}
+	}
+	option = { name = ai.7.title.a }
+}
+
+country_event = {
+	id = ai_action.7
+	hide_window = yes
+	is_triggered_only = yes
+	trigger = {
+		OR = {
+			AND = {
+				exists = event_target:afk_crisis_country
+				has_global_flag = afk_crisis_real
+			}
+			AND = {
+				exists = event_target:wg_crisis_country
+				has_global_flag = wg_crisis_insane
+			}
+		}
+		is_at_war = no
+		NOT = { any_owned_fleet = { has_fleet_flag = defensive_galaxy_fleet } }
+		has_country_flag = fallen_empire_kuat
+		NOT = { has_global_flag = wind_up_for_defensive_fleet }
+	}
+	immediate = {
+		create_kuat_defender_and_attack_crisis_fleet = yes
+		set_timed_global_flag = { flag = wind_up_for_defensive_fleet days = 360 }
+	}
+}
+
+country_event = {
+	id = ai_action.8
+	hide_window = yes
+	is_triggered_only = yes
+	trigger = {
+		OR = {
+			AND = {
+				exists = event_target:afk_crisis_country
+				has_global_flag = afk_crisis_real
+			}
+			AND = {
+				exists = event_target:wg_crisis_country
+				has_global_flag = wg_crisis_insane
+			}
+		}
+		is_at_war = no
+		fromfrom = { has_fleet_flag = defensive_galaxy_fleet }
+	}
+	immediate = {
+		if = {
+			limit = {
+				any_country = {
+					if = {
+						limit = { is_country_type = wg_crisis_country }
+						any_owned_ship = { NOT = { is_ship_size = wg_dimensional_portal } }
+					}
+					else_if = {
+						limit = { is_country_type = afk_crisis_country }
+						any_owned_ship = { NOT = { is_ship_size = swgs_afk_crisis_starbase } }
+					}
+				}
+			}
+			event_target:fallen_empire_kuat = {
+				every_owned_fleet = {
+					limit = { has_fleet_flag = defensive_galaxy_fleet }
+					destroy_fleet = this
+				}
+			}
+		}
+	}
+}

@@ -1,0 +1,1425 @@
+# Home System - Machine
+Kuat_system = {
+	name = "NAME_Kuat"
+	class = "rl_standard_stars"
+	flags = {
+		Kuat_system
+	}
+	planet = {
+		class = star
+		orbit_distance = 0
+		orbit_angle = 0
+		size = 1
+	}
+	planet = {
+		class = pc_gaia
+		name = "Kuat"
+		orbit_angle = 0
+		orbit_distance = 0.1
+		deposit_blockers = none
+		modifiers = none
+		has_ring = no
+		size = 70
+		init_effect = {
+			#创建国家前必须先创建物种。
+			if = {
+				limit = {
+					has_global_flag = has_wg_country
+				}
+				create_species = {
+					name = "Kuat"
+					class = "Star_wars_girls"
+					portrait = "Starwars"
+					traits = random
+					immortal = yes
+					extra_trait_points = 3
+					pop_ethics = ethic_militarist
+					allow_negative_traits = no
+					effect = {
+						save_global_event_target_as = Kuat_people
+					}
+				}
+			}
+			else = {
+				create_species = {
+					name = "Kuat"
+					class = HUM
+					portrait = human
+					traits = random
+					immortal = yes
+					extra_trait_points = 3
+					pop_ethics = ethic_militarist
+					allow_negative_traits = no
+					effect = {
+						save_global_event_target_as = Kuat_people
+					}
+				}
+			}
+			#设置星球拥有者或者创建舰队前必须创建国家。
+			create_country = {
+				name = "Kuat Drive Yards"
+				species = event_target:Kuat_people
+				name_list = "MAM3"
+				type = kuat_fallen_empire
+				flag = {
+					icon = {
+						category = "Kuat"
+						file = "Kuat_flags_01.dds"
+					}
+					background = {
+						category = "backgrounds"
+						file = "00_solid.dds"
+					}
+					colors = {
+						"blue"
+						"blue"
+						"null"
+						"null"
+					}
+				}
+				ignore_initial_colony_error = yes
+				authority = auth_imperial
+				civics = {
+					civic = civic_lethargic_leadership
+					civic = civic_empire_in_decline
+				}
+				origin = "origin_fallen_empire"
+				ethos = {
+					ethic = ethic_fanatic_materialist
+				}
+				effect = {
+					set_global_flag = install_kuat_mod
+					save_global_event_target_as = empire_founding
+					#方便找到这个国家用的。
+					save_global_event_target_as = fallen_empire_kuat
+					set_graphical_culture = fallen_empire_kuat_01
+					set_country_flag = fallen_empire_kuat
+					add_resource = {
+						minerals = 1000000
+						energy = 1000000
+						food = 1000000
+						influence = 1000000
+						sr_dark_matter = 1000000
+						sr_living_metal = 100000
+						sr_zro = 1000000
+						consumer_goods = 1000000
+					}
+					# must initialize global designs here
+					add_global_ship_design = "NAME_Enforcer"
+					add_global_ship_design = "NAME_Savant"
+					add_global_ship_design = "NAME_Scholar"
+					add_global_ship_design = "NAME_Sage"
+					add_global_ship_design = "NAME_Cloaker"
+					add_global_ship_design = "NAME_Librarian"
+					add_global_ship_design = "NAME_Seeker"
+					add_global_ship_design = "NAME_FE_Starbase"
+					add_global_ship_design = "Name_boss_Dominance"
+					add_global_ship_design = "Name_boss_EXECUTOR"
+					add_modifier = {
+						modifier = Kuat_ship
+					}
+					random_owned_leader = {
+						limit = {
+							has_global_flag = has_wg_country
+							leader_class = ruler
+						}
+						set_skill = 9
+						change_leader_portrait = sw06
+					}
+				}
+			}
+			create_country = {
+				name = "Kuat Mega Shipyard"
+				type = kuat_shipyard
+				flag = {
+					icon = {
+						category = "Kuat"
+						file = "Kuat_flags_01.dds"
+					}
+					background = {
+						category = "backgrounds"
+						file = "00_solid.dds"
+					}
+					colors = {
+						"blue"
+						"blue"
+						"null"
+						"null"
+					}
+				}
+				effect = {
+					save_global_event_target_as = kuat_shipyard_country
+					establish_communications_no_message = event_target:fallen_empire_kuat
+				}
+			}
+			set_planet_flag = fallen_empire_world
+			prevent_anomaly = yes
+			set_owner = event_target:fallen_empire_kuat
+			add_building = building_kuat_command_center
+			add_building = building_kuat_databank
+			add_building = building_kuat_shield
+			add_building = building_kuat_resource_center
+			add_building = building_kuat_resource_center
+			add_building = building_kuat_resource_center
+			add_building = building_kuat_foundry
+			add_building = building_kuat_foundry
+			add_building = building_kuat_foundry
+			add_building = building_kuat_foundry
+			add_building = building_kuat_foundry
+			add_building = building_kuat_ground_yards
+			add_building = building_kuat_ground_yards
+			add_building = building_kuat_ground_yards
+			add_building = building_kuat_ground_yards
+			add_building = building_kuat_ground_yards
+			while = {
+				count = 5
+				add_district = district_rw_nexus
+			}
+			while = {
+				count = 122
+				create_pop = {
+					species = owner_main_species
+				}
+			}
+			while = {
+				count = 70
+				add_district = district_city
+			}
+		}
+	}
+	change_orbit = 45
+	planet = {
+		class = "pc_ringworld_tech"
+		name = "NAME_Circuit_I"
+		orbit_angle = 30
+		orbit_distance = 0
+		init_effect = {
+			set_planet_flag = kuat_system_ring_1
+		}
+	}
+	planet = {
+		class = "pc_ringworld_seam"
+		name = "NAME_Superstructure_I"
+		orbit_angle = 30
+		orbit_distance = 0
+		init_effect = {
+			set_planet_flag = kuat_system_ring_2
+		}
+	}
+	planet = {
+		class = "pc_ringworld_habitable"
+		name = "Hollande"
+		orbit_angle = 30
+		orbit_distance = 0
+		deposit_blockers = none
+		modifiers = none
+		init_effect = {
+			set_planet_flag = kuat_system_ring_3
+			set_planet_flag = ring_planet_world
+			set_planet_flag = fallen_empire_world
+			prevent_anomaly = yes
+			set_owner = event_target:fallen_empire_kuat
+			set_controller = event_target:fallen_empire_kuat
+			set_capital = yes
+			add_building = building_kuat_command_center
+			add_building = building_kuat_databank
+			add_building = building_kuat_shield
+			add_building = building_kuat_resource_center
+			add_building = building_kuat_resource_center
+			add_building = building_kuat_resource_center
+			add_building = building_kuat_foundry
+			add_building = building_kuat_foundry
+			add_building = building_kuat_foundry
+			add_building = building_kuat_foundry
+			add_building = building_kuat_foundry
+			add_building = building_kuat_ground_yards
+			add_building = building_kuat_ground_yards
+			add_building = building_kuat_ground_yards
+			add_building = building_kuat_ground_yards
+			add_building = building_kuat_ground_yards
+			while = {
+				count = 5
+				add_district = district_rw_science
+			}
+			while = {
+				count = 10
+				create_pop = {
+					species = owner_main_species
+				}
+			}
+			while = {
+				count = 1000
+				create_army = {
+					owner = THIS
+					type = defense_army
+				}
+			}
+			save_global_event_target_as = mega_1
+			#引用原版封装效果的堕落帝国必须具备四大思潮，否则刷不了船。
+			#以下代码为手动实现封装效果。		
+		}
+	}
+	planet = {
+		class = "pc_ringworld_tech"
+		name = "NAME_Circuit_II"
+		orbit_angle = 30
+		orbit_distance = 0
+		init_effect = {
+			set_planet_flag = kuat_system_ring_4
+		}
+	}
+	planet = {
+		class = "pc_ringworld_seam"
+		name = "NAME_Superstructure_II"
+		orbit_angle = 30
+		orbit_distance = 0
+		init_effect = {
+			set_planet_flag = kuat_system_ring_5
+		}
+	}
+	planet = {
+		class = "pc_ringworld_habitable"
+		name = "Coruscant"
+		orbit_angle = 30
+		orbit_distance = 0
+		deposit_blockers = none
+		modifiers = none
+		init_effect = {
+			set_planet_flag = kuat_system_ring_6
+			set_planet_flag = ring_planet_world
+			set_planet_flag = fallen_empire_world
+			prevent_anomaly = yes
+			set_owner = event_target:fallen_empire_kuat
+			add_building = building_kuat_command_center
+			add_building = building_kuat_databank
+			add_building = building_kuat_shield
+			add_building = building_kuat_resource_center
+			add_building = building_kuat_resource_center
+			add_building = building_kuat_resource_center
+			add_building = building_kuat_foundry
+			add_building = building_kuat_foundry
+			add_building = building_kuat_foundry
+			add_building = building_kuat_foundry
+			add_building = building_kuat_foundry
+			add_building = building_kuat_ground_yards
+			add_building = building_kuat_ground_yards
+			add_building = building_kuat_ground_yards
+			add_building = building_kuat_ground_yards
+			add_building = building_kuat_ground_yards
+			while = {
+				count = 5
+				add_district = district_rw_city
+			}
+			while = {
+				count = 10
+				create_pop = {
+					species = owner_main_species
+				}
+			}
+			while = {
+				count = 5
+				add_district = district_rw_city
+			}
+			save_global_event_target_as = mega_2
+		}
+	}
+	planet = {
+		class = "pc_ringworld_tech"
+		name = "NAME_Circuit_III"
+		orbit_angle = 30
+		orbit_distance = 0
+		init_effect = {
+			set_planet_flag = kuat_system_ring_7
+		}
+	}
+	planet = {
+		class = "pc_ringworld_seam"
+		name = "NAME_Superstructure_III"
+		orbit_angle = 30
+		orbit_distance = 0
+		init_effect = {
+			set_planet_flag = kuat_system_ring_8
+		}
+	}
+	planet = {
+		class = "pc_ringworld_habitable"
+		name = "Fondor"
+		orbit_angle = 30
+		orbit_distance = 0
+		deposit_blockers = none
+		modifiers = none
+		init_effect = {
+			set_planet_flag = kuat_system_ring_9
+			set_planet_flag = ring_planet_world
+			set_planet_flag = fallen_empire_world
+			prevent_anomaly = yes
+			set_owner = event_target:fallen_empire_kuat
+			add_building = building_kuat_command_center
+			add_building = building_kuat_databank
+			add_building = building_kuat_shield
+			add_building = building_kuat_resource_center
+			add_building = building_kuat_resource_center
+			add_building = building_kuat_resource_center
+			add_building = building_kuat_foundry
+			add_building = building_kuat_foundry
+			add_building = building_kuat_foundry
+			add_building = building_kuat_foundry
+			add_building = building_kuat_foundry
+			add_building = building_kuat_ground_yards
+			add_building = building_kuat_ground_yards
+			add_building = building_kuat_ground_yards
+			add_building = building_kuat_ground_yards
+			add_building = building_kuat_ground_yards
+			while = {
+				count = 5
+				add_district = district_rw_generator
+			}
+			while = {
+				count = 10
+				create_pop = {
+					species = owner_main_species
+				}
+			}
+			while = {
+				count = 5
+				add_district = district_rw_city
+			}
+			save_global_event_target_as = mega_3
+		}
+	}
+	planet = {
+		class = "pc_ringworld_tech"
+		name = "NAME_Circuit_III"
+		orbit_angle = 30
+		orbit_distance = 0
+		init_effect = {
+			set_planet_flag = kuat_system_ring_10
+		}
+	}
+	planet = {
+		class = "pc_ringworld_seam"
+		name = "NAME_Superstructure_III"
+		orbit_angle = 30
+		orbit_distance = 0
+		init_effect = {
+			set_planet_flag = kuat_system_ring_11
+		}
+	}
+	planet = {
+		class = "pc_ringworld_habitable"
+		name = "Koriban"
+		orbit_angle = 30
+		orbit_distance = 0
+		deposit_blockers = none
+		modifiers = none
+		init_effect = {
+			set_planet_flag = kuat_system_ring_12
+			set_planet_flag = ring_planet_world
+		}
+	}
+	init_effect = {
+		save_global_event_target_as = Kuat_system_4
+		spawn_megastructure = {
+			type = "Shield_Gate"
+			owner = event_target:kuat_shipyard_country
+			location = system_star
+		}
+		create_starbase = {
+			size = "starbase_citadel"
+			owner = event_target:fallen_empire_kuat
+			module = "shipyard"
+			module = "gun_battery"
+			module = "gun_battery"
+			module = "gun_battery"
+			module = "gun_battery"
+			module = "gun_battery"
+			building = "target_uplink_computer"
+			building = "defense_grid"
+			building = "colossus_yards"
+			building = "titan_yards"
+		}
+		create_capital_kuat_fleet = yes
+	}
+}
+
+Kuat_system_1 = {
+	name = "NAME_Kuat_1"
+	class = "rl_standard_stars"
+	flags = {
+		Kuat_system_1
+	}
+	planet = {
+		class = star
+		orbit_distance = 0
+		orbit_angle = 0
+		size = 1
+	}
+	planet = {
+		class = pc_gaia
+		name = "Angel"
+		orbit_angle = 0
+		orbit_distance = 0.1
+		deposit_blockers = none
+		modifiers = none
+		has_ring = no
+		size = 70
+		init_effect = {
+			#创建国家前必须先创建物种。
+			#设置星球拥有者或者创建舰队前必须创建国家。
+			set_planet_flag = fallen_empire_world
+			prevent_anomaly = yes
+			set_owner = event_target:fallen_empire_kuat
+			add_building = building_kuat_command_center
+			add_building = building_kuat_databank
+			add_building = building_kuat_shield
+			add_building = building_kuat_resource_center
+			add_building = building_kuat_resource_center
+			add_building = building_kuat_resource_center
+			add_building = building_kuat_foundry
+			add_building = building_kuat_foundry
+			add_building = building_kuat_foundry
+			add_building = building_kuat_foundry
+			add_building = building_kuat_foundry
+			add_building = building_kuat_ground_yards
+			add_building = building_kuat_ground_yards
+			add_building = building_kuat_ground_yards
+			add_building = building_kuat_ground_yards
+			add_building = building_kuat_ground_yards
+			while = {
+				count = 5
+				add_district = district_rw_nexus
+			}
+			while = {
+				count = 10
+				create_pop = {
+					species = owner_main_species
+				}
+			}
+			while = {
+				count = 70
+				add_district = district_city
+			}
+			create_kuat_system_fleet = yes
+		}
+	}
+	change_orbit = 45
+	planet = {
+		class = "pc_ringworld_tech"
+		name = "NAME_Circuit_I"
+		orbit_angle = 30
+		orbit_distance = 0
+		init_effect = {
+			set_planet_flag = kuat_system_ring_1
+		}
+	}
+	planet = {
+		class = "pc_ringworld_seam"
+		name = "NAME_Superstructure_I"
+		orbit_angle = 30
+		orbit_distance = 0
+		init_effect = {
+			set_planet_flag = kuat_system_ring_2
+		}
+	}
+	planet = {
+		class = "pc_ringworld_seam"
+		name = "NAME_Superstructure_I"
+		orbit_angle = 30
+		orbit_distance = 0
+		init_effect = {
+			set_planet_flag = kuat_system_ring_3
+		}
+	}
+	planet = {
+		class = "pc_ringworld_tech"
+		name = "NAME_Circuit_II"
+		orbit_angle = 30
+		orbit_distance = 0
+		init_effect = {
+			set_planet_flag = kuat_system_ring_4
+		}
+	}
+	planet = {
+		class = "pc_ringworld_seam"
+		name = "NAME_Superstructure_II"
+		orbit_angle = 30
+		orbit_distance = 0
+		init_effect = {
+			set_planet_flag = kuat_system_ring_5
+		}
+	}
+	planet = {
+		class = "pc_ringworld_seam"
+		name = "NAME_Superstructure_I"
+		orbit_angle = 30
+		orbit_distance = 0
+		init_effect = {
+			set_planet_flag = kuat_system_ring_6
+		}
+	}
+	planet = {
+		class = "pc_ringworld_tech"
+		name = "NAME_Circuit_III"
+		orbit_angle = 30
+		orbit_distance = 0
+		init_effect = {
+			set_planet_flag = kuat_system_ring_7
+		}
+	}
+	planet = {
+		class = "pc_ringworld_seam"
+		name = "NAME_Superstructure_III"
+		orbit_angle = 30
+		orbit_distance = 0
+		init_effect = {
+			set_planet_flag = kuat_system_ring_8
+		}
+	}
+	planet = {
+		class = "pc_ringworld_seam"
+		name = "NAME_Superstructure_I"
+		orbit_angle = 30
+		orbit_distance = 0
+		init_effect = {
+			set_planet_flag = kuat_system_ring_9
+		}
+	}
+	planet = {
+		class = "pc_ringworld_tech"
+		name = "NAME_Circuit_III"
+		orbit_angle = 30
+		orbit_distance = 0
+		init_effect = {
+			set_planet_flag = kuat_system_ring_10
+		}
+	}
+	planet = {
+		class = "pc_ringworld_seam"
+		name = "NAME_Superstructure_III"
+		orbit_angle = 30
+		orbit_distance = 0
+		init_effect = {
+			set_planet_flag = kuat_system_ring_11
+		}
+	}
+	planet = {
+		class = "pc_ringworld_seam"
+		name = "NAME_Superstructure_I"
+		orbit_angle = 30
+		orbit_distance = 0
+		init_effect = {
+			set_planet_flag = kuat_system_ring_12
+		}
+	}
+	init_effect = {
+		save_global_event_target_as = Kuat_system_1
+		spawn_megastructure = {
+			type = "Shield_Gate"
+			location = system_star
+			owner = space_owner
+		}
+		spawn_megastructure = {
+			type = "exe_outer_gate"
+			orbit_angle = 225
+			orbit_distance = 200
+			location = solar_system
+			graphical_culture = "humanoid_01"
+		}
+		create_starbase = {
+			size = "starbase_citadel"
+			owner = event_target:fallen_empire_kuat
+			module = "shipyard"
+			module = "gun_battery"
+			module = "gun_battery"
+			module = "gun_battery"
+			module = "gun_battery"
+			module = "gun_battery"
+			building = "target_uplink_computer"
+			building = "defense_grid"
+			building = "colossus_yards"
+			building = "titan_yards"
+		}
+	}
+}
+
+Kuat_system_2 = {
+	name = "NAME_Kuat_2"
+	class = "rl_standard_stars"
+	flags = {
+		Kuat_system_2
+	}
+	planet = {
+		class = star
+		orbit_distance = 0
+		orbit_angle = 0
+		size = 1
+	}
+	planet = {
+		class = pc_gaia
+		name = "Bravery"
+		orbit_angle = 0
+		orbit_distance = 0.1
+		deposit_blockers = none
+		modifiers = none
+		has_ring = no
+		size = 70
+		init_effect = {
+			set_planet_flag = fallen_empire_world
+			prevent_anomaly = yes
+			set_owner = event_target:fallen_empire_kuat
+			add_building = building_kuat_command_center
+			add_building = building_kuat_databank
+			add_building = building_kuat_shield
+			add_building = building_kuat_resource_center
+			add_building = building_kuat_resource_center
+			add_building = building_kuat_resource_center
+			add_building = building_kuat_foundry
+			add_building = building_kuat_foundry
+			add_building = building_kuat_foundry
+			add_building = building_kuat_foundry
+			add_building = building_kuat_foundry
+			add_building = building_kuat_ground_yards
+			add_building = building_kuat_ground_yards
+			add_building = building_kuat_ground_yards
+			add_building = building_kuat_ground_yards
+			add_building = building_kuat_ground_yards
+			while = {
+				count = 10
+				create_pop = {
+					species = owner_main_species
+				}
+			}
+			while = {
+				count = 70
+				add_district = district_city
+			}
+			create_kuat_system_fleet = yes
+		}
+	}
+	change_orbit = 45
+	planet = {
+		class = "pc_ringworld_tech"
+		name = "NAME_Circuit_I"
+		orbit_angle = 30
+		orbit_distance = 0
+		init_effect = {
+			set_planet_flag = kuat_system_ring_1
+		}
+	}
+	planet = {
+		class = "pc_ringworld_seam"
+		name = "NAME_Superstructure_I"
+		orbit_angle = 30
+		orbit_distance = 0
+		init_effect = {
+			set_planet_flag = kuat_system_ring_2
+		}
+	}
+	planet = {
+		class = "pc_ringworld_seam"
+		name = "NAME_Superstructure_I"
+		orbit_angle = 30
+		orbit_distance = 0
+		init_effect = {
+			set_planet_flag = kuat_system_ring_3
+		}
+	}
+	planet = {
+		class = "pc_ringworld_tech"
+		name = "NAME_Circuit_II"
+		orbit_angle = 30
+		orbit_distance = 0
+		init_effect = {
+			set_planet_flag = kuat_system_ring_4
+		}
+	}
+	planet = {
+		class = "pc_ringworld_seam"
+		name = "NAME_Superstructure_II"
+		orbit_angle = 30
+		orbit_distance = 0
+		init_effect = {
+			set_planet_flag = kuat_system_ring_5
+		}
+	}
+	planet = {
+		class = "pc_ringworld_seam"
+		name = "NAME_Superstructure_I"
+		orbit_angle = 30
+		orbit_distance = 0
+		init_effect = {
+			set_planet_flag = kuat_system_ring_6
+		}
+	}
+	planet = {
+		class = "pc_ringworld_tech"
+		name = "NAME_Circuit_III"
+		orbit_angle = 30
+		orbit_distance = 0
+		init_effect = {
+			set_planet_flag = kuat_system_ring_7
+		}
+	}
+	planet = {
+		class = "pc_ringworld_seam"
+		name = "NAME_Superstructure_III"
+		orbit_angle = 30
+		orbit_distance = 0
+		init_effect = {
+			set_planet_flag = kuat_system_ring_8
+		}
+	}
+	planet = {
+		class = "pc_ringworld_seam"
+		name = "NAME_Superstructure_I"
+		orbit_angle = 30
+		orbit_distance = 0
+		init_effect = {
+			set_planet_flag = kuat_system_ring_9
+		}
+	}
+	planet = {
+		class = "pc_ringworld_tech"
+		name = "NAME_Circuit_III"
+		orbit_angle = 30
+		orbit_distance = 0
+		init_effect = {
+			set_planet_flag = kuat_system_ring_10
+		}
+	}
+	planet = {
+		class = "pc_ringworld_seam"
+		name = "NAME_Superstructure_III"
+		orbit_angle = 30
+		orbit_distance = 0
+		init_effect = {
+			set_planet_flag = kuat_system_ring_11
+		}
+	}
+	planet = {
+		class = "pc_ringworld_seam"
+		name = "NAME_Superstructure_I"
+		orbit_angle = 30
+		orbit_distance = 0
+		init_effect = {
+			set_planet_flag = kuat_system_ring_12
+		}
+	}
+	init_effect = {
+		save_global_event_target_as = Kuat_system_2
+		spawn_megastructure = {
+			type = "Shield_Gate"
+			location = system_star
+			owner = space_owner
+		}
+		create_starbase = {
+			size = "starbase_citadel"
+			owner = event_target:fallen_empire_kuat
+			module = "shipyard"
+			module = "gun_battery"
+			module = "gun_battery"
+			module = "gun_battery"
+			module = "gun_battery"
+			module = "gun_battery"
+			building = "target_uplink_computer"
+			building = "defense_grid"
+			building = "colossus_yards"
+			building = "titan_yards"
+		}
+	}
+}
+
+Kuat_system_3 = {
+	name = "NAME_Kuat_3"
+	class = "rl_standard_stars"
+	flags = {
+		Kuat_system_3
+	}
+	planet = {
+		class = star
+		orbit_distance = 0
+		orbit_angle = 0
+		size = 1
+	}
+	planet = {
+		class = pc_gaia
+		name = "Alderan"
+		orbit_angle = 0
+		orbit_distance = 0.1
+		deposit_blockers = none
+		modifiers = none
+		has_ring = no
+		size = 70
+		init_effect = {
+			set_planet_flag = fallen_empire_world
+			prevent_anomaly = yes
+			set_owner = event_target:fallen_empire_kuat
+			add_building = building_kuat_command_center
+			add_building = building_kuat_databank
+			add_building = building_kuat_shield
+			add_building = building_kuat_resource_center
+			add_building = building_kuat_resource_center
+			add_building = building_kuat_resource_center
+			add_building = building_kuat_foundry
+			add_building = building_kuat_foundry
+			add_building = building_kuat_foundry
+			add_building = building_kuat_foundry
+			add_building = building_kuat_foundry
+			add_building = building_kuat_ground_yards
+			add_building = building_kuat_ground_yards
+			add_building = building_kuat_ground_yards
+			add_building = building_kuat_ground_yards
+			add_building = building_kuat_ground_yards
+			while = {
+				count = 10
+				create_pop = {
+					species = owner_main_species
+				}
+			}
+			while = {
+				count = 70
+				add_district = district_city
+			}
+			create_kuat_system_fleet = yes
+		}
+	}
+	change_orbit = 45
+	planet = {
+		class = "pc_ringworld_tech"
+		name = "NAME_Circuit_I"
+		orbit_angle = 30
+		orbit_distance = 0
+		init_effect = {
+			set_planet_flag = kuat_system_ring_1
+		}
+	}
+	planet = {
+		class = "pc_ringworld_seam"
+		name = "NAME_Superstructure_I"
+		orbit_angle = 30
+		orbit_distance = 0
+		init_effect = {
+			set_planet_flag = kuat_system_ring_2
+		}
+	}
+	planet = {
+		class = "pc_ringworld_seam"
+		name = "NAME_Superstructure_I"
+		orbit_angle = 30
+		orbit_distance = 0
+		init_effect = {
+			set_planet_flag = kuat_system_ring_3
+		}
+	}
+	planet = {
+		class = "pc_ringworld_tech"
+		name = "NAME_Circuit_II"
+		orbit_angle = 30
+		orbit_distance = 0
+		init_effect = {
+			set_planet_flag = kuat_system_ring_4
+		}
+	}
+	planet = {
+		class = "pc_ringworld_seam"
+		name = "NAME_Superstructure_II"
+		orbit_angle = 30
+		orbit_distance = 0
+		init_effect = {
+			set_planet_flag = kuat_system_ring_5
+		}
+	}
+	planet = {
+		class = "pc_ringworld_seam"
+		name = "NAME_Superstructure_I"
+		orbit_angle = 30
+		orbit_distance = 0
+		init_effect = {
+			set_planet_flag = kuat_system_ring_6
+		}
+	}
+	planet = {
+		class = "pc_ringworld_tech"
+		name = "NAME_Circuit_III"
+		orbit_angle = 30
+		orbit_distance = 0
+		init_effect = {
+			set_planet_flag = kuat_system_ring_7
+		}
+	}
+	planet = {
+		class = "pc_ringworld_seam"
+		name = "NAME_Superstructure_III"
+		orbit_angle = 30
+		orbit_distance = 0
+		init_effect = {
+			set_planet_flag = kuat_system_ring_8
+		}
+	}
+	planet = {
+		class = "pc_ringworld_seam"
+		name = "NAME_Superstructure_I"
+		orbit_angle = 30
+		orbit_distance = 0
+		init_effect = {
+			set_planet_flag = kuat_system_ring_9
+		}
+	}
+	planet = {
+		class = "pc_ringworld_tech"
+		name = "NAME_Circuit_III"
+		orbit_angle = 30
+		orbit_distance = 0
+		init_effect = {
+			set_planet_flag = kuat_system_ring_10
+		}
+	}
+	planet = {
+		class = "pc_ringworld_seam"
+		name = "NAME_Superstructure_III"
+		orbit_angle = 30
+		orbit_distance = 0
+		init_effect = {
+			set_planet_flag = kuat_system_ring_11
+		}
+	}
+	planet = {
+		class = "pc_ringworld_seam"
+		name = "NAME_Superstructure_I"
+		orbit_angle = 30
+		orbit_distance = 0
+		init_effect = {
+			set_planet_flag = kuat_system_ring_12
+		}
+	}
+	init_effect = {
+		save_global_event_target_as = Kuat_system_3
+		spawn_megastructure = {
+			type = "Shield_Gate"
+			location = system_star
+			owner = space_owner
+		}
+		create_starbase = {
+			size = "starbase_citadel"
+			owner = event_target:fallen_empire_kuat
+			module = "shipyard"
+			module = "gun_battery"
+			module = "gun_battery"
+			module = "gun_battery"
+			module = "gun_battery"
+			module = "gun_battery"
+			building = "target_uplink_computer"
+			building = "defense_grid"
+			building = "colossus_yards"
+			building = "titan_yards"
+		}
+	}
+}
+
+kuat_base_system = {
+	class = "rl_standard_stars"
+	name = "Name_Kuat_base"
+	max_instances = 1
+	spawn_chance = 9999
+	flags = {
+		kuat_military_base_system_home
+		ag_exe_invasion_gate_system
+	}
+	asteroid_belt = {
+		type = rocky_asteroid_belt
+		radius = 270
+	}
+	planet = {
+		class = "pc_g_star"
+		orbit_distance = 0
+		orbit_angle = 1
+		size = 35
+		has_ring = no
+		init_effect = {
+			create_fleet = {
+				effect = {
+					set_owner = event_target:fallen_empire_kuat_fleet
+					while = {
+						count = 3
+						create_ship = {
+							name = random
+							design = "Name_boss_EMPIRE"
+						}
+					}
+					set_location = {
+						target = prev
+						distance = 300
+						angle = 40
+					}
+				}
+			}
+			create_fleet = {
+				effect = {
+					set_owner = event_target:fallen_empire_kuat_fleet
+					while = {
+						count = 3
+						create_ship = {
+							name = random
+							design = "Name_boss_EMPIRE"
+						}
+					}
+					set_location = {
+						target = prev
+						distance = 300
+						angle = 90
+					}
+				}
+			}
+			create_fleet = {
+				effect = {
+					set_owner = event_target:fallen_empire_kuat_fleet
+					while = {
+						count = 3
+						create_ship = {
+							name = random
+							design = "Name_boss_EMPIRE"
+						}
+					}
+					set_location = {
+						target = prev
+						distance = 300
+						angle = 140
+					}
+				}
+			}
+			create_fleet = {
+				effect = {
+					set_owner = event_target:fallen_empire_kuat_fleet
+					while = {
+						count = 3
+						create_ship = {
+							name = random
+							design = "Name_boss_EMPIRE"
+						}
+					}
+					set_location = {
+						target = prev
+						distance = 300
+						angle = 200
+					}
+				}
+			}
+			create_fleet = {
+				effect = {
+					set_owner = event_target:fallen_empire_kuat_fleet
+					while = {
+						count = 3
+						create_ship = {
+							name = random
+							design = "Name_boss_EMPIRE"
+						}
+					}
+					set_location = {
+						target = prev
+						distance = 300
+						angle = 250
+					}
+				}
+			}
+			create_fleet = {
+				effect = {
+					set_owner = event_target:fallen_empire_kuat_fleet
+					while = {
+						count = 3
+						create_ship = {
+							name = random
+							design = "Name_boss_EMPIRE"
+						}
+					}
+					set_location = {
+						target = prev
+						distance = 300
+						angle = 280
+					}
+				}
+			}
+			create_fleet = {
+				effect = {
+					set_owner = event_target:fallen_empire_kuat_fleet
+					while = {
+						count = 3
+						create_ship = {
+							name = random
+							design = "Name_boss_EMPIRE"
+						}
+					}
+					set_location = {
+						target = prev
+						distance = 300
+						angle = 330
+					}
+				}
+			}
+			create_fleet = {
+				effect = {
+					set_owner = event_target:fallen_empire_kuat_fleet
+					while = {
+						count = 3
+						create_ship = {
+							name = random
+							design = "Name_boss_EMPIRE"
+						}
+					}
+					set_location = {
+						target = prev
+						distance = 300
+						angle = 0
+					}
+				}
+			}
+		}
+	}
+	change_orbit = 250
+	planet = {
+		class = "pc_asteroid"
+		orbit_angle = -80
+		size = 5
+		has_ring = no
+		flags = {
+			raid_source
+		}
+		init_effect = {
+			create_fleet = {
+				effect = {
+					set_owner = event_target:fallen_empire_kuat_fleet
+					create_ship = {
+						name = random
+						design = "Name_boss_EMPIRE"
+					}
+					set_formation_scale = 2
+					set_fleet_stance = aggressive
+					set_aggro_range_measure_from = self
+					set_aggro_range = 250
+					set_location = {
+						target = prev
+						distance = 20
+						angle = random
+					}
+				}
+				settings = {
+					garrison = yes
+				}
+			}
+		}
+	}
+	planet = {
+		class = "pc_asteroid"
+		orbit_distance = 0
+		orbit_angle = -80
+		size = 5
+		has_ring = no
+		init_effect = {
+			set_deposit = d_minerals_8
+		}
+	}
+	planet = {
+		class = "pc_asteroid"
+		orbit_distance = 0
+		orbit_angle = -80
+		size = 5
+		has_ring = no
+	}
+	planet = {
+		class = "pc_asteroid"
+		orbit_distance = 0
+		orbit_angle = -80
+		size = 5
+		has_ring = no
+	}
+	planet = {
+		class = "pc_asteroid"
+		orbit_distance = 0
+		orbit_angle = -80
+		size = 5
+		has_ring = no
+		init_effect = {
+			set_deposit = d_minerals_8
+		}
+	}
+	planet = {
+		class = "pc_asteroid"
+		orbit_distance = 0
+		orbit_angle = -80
+		size = 5
+		has_ring = no
+		init_effect = {
+			create_fleet = {
+				name = "Name_DFLEET"
+				effect = {
+					set_owner = event_target:fallen_empire_kuat_fleet
+					while = {
+						count = 3
+						create_ship = {
+							name = random
+							design = "Name_boss_EMPIRE"
+						}
+					}
+					set_formation_scale = 2
+					set_fleet_stance = aggressive
+					set_fleet_flag = wg_Da_Khan_gate_main_fleet
+					set_aggro_range_measure_from = self
+					set_aggro_range = 250
+					set_location = {
+						target = prev
+						distance = 20
+						angle = 120
+					}
+				}
+				settings = {
+					garrison = yes
+				}
+			}
+		}
+	}
+	planet = {
+		class = "pc_asteroid"
+		orbit_distance = 0
+		orbit_angle = -80
+		size = 5
+		has_ring = no
+		init_effect = {
+			create_fleet = {
+				effect = {
+					set_owner = event_target:fallen_empire_kuat_fleet
+					while = {
+						count = 3
+						create_ship = {
+							name = random
+							design = "Name_boss_EMPIRE"
+						}
+					}
+					set_formation_scale = 2
+					set_fleet_stance = aggressive
+					set_aggro_range_measure_from = self
+					set_aggro_range = 250
+					set_location = {
+						target = prev
+						distance = 20
+						angle = 120
+					}
+				}
+				settings = {
+					garrison = yes
+				}
+			}
+		}
+	}
+	planet = {
+		class = "pc_asteroid"
+		orbit_distance = 0
+		orbit_angle = -80
+		size = 5
+		has_ring = no
+	}
+	planet = {
+		class = "pc_asteroid"
+		orbit_distance = 0
+		orbit_angle = -80
+		size = 5
+		has_ring = no
+		init_effect = {
+			set_deposit = d_minerals_8
+		}
+	}
+	planet = {
+		class = "pc_asteroid"
+		orbit_distance = 0
+		orbit_angle = -80
+		size = 5
+		has_ring = no
+	}
+	planet = {
+		class = "pc_asteroid"
+		orbit_distance = 0
+		orbit_angle = -80
+		size = 5
+		has_ring = no
+	}
+	planet = {
+		class = pc_barren_cold
+		orbit_distance = 40
+		size = 12
+		orbit_angle = 125
+		init_effect = {
+		}
+	}
+	planet = {
+		class = "pc_gas_giant"
+		orbit_distance = 30
+		size = 25
+		orbit_angle = 225
+		init_effect = {
+			add_deposit = d_exotic_gases_5
+			add_deposit = d_exotic_gases_5
+			add_deposit = d_exotic_gases_5
+			create_fleet = {
+				effect = {
+					set_owner = event_target:fallen_empire_kuat_fleet
+					while = {
+						count = 3
+						create_ship = {
+							name = random
+							design = "Name_boss_EMPIRE"
+						}
+					}
+					set_formation_scale = 2
+					set_fleet_stance = aggressive
+					set_aggro_range_measure_from = self
+					set_aggro_range = 250
+					set_location = {
+						target = prev
+						distance = 20
+						angle = 120
+					}
+				}
+				settings = {
+					garrison = yes
+				}
+			}
+		}
+	}
+	planet = {
+		class = "pc_gas_giant"
+		orbit_distance = 30
+		size = 20
+		orbit_angle = 225
+		init_effect = {
+			add_deposit = d_exotic_gases_5
+			add_deposit = d_exotic_gases_5
+		}
+	}
+	planet = {
+		class = pc_barren_cold
+		orbit_distance = 40
+		size = 15
+		orbit_angle = 155
+	}
+	init_effect = {
+		create_starbase = {
+			owner = event_target:fallen_empire_kuat_fleet
+			size = exe_starbase
+			module = "gun_battery"
+			module = "gun_battery"
+			module = "gun_battery"
+			module = "gun_battery"
+			module = "gun_battery"
+			module = "gun_battery"
+			building = "target_uplink_computer"
+			building = "defense_grid"
+			building = "colossus_yards"
+			building = "titan_yards"
+		}
+		spawn_megastructure = {
+			type = "exe_outer_gate"
+			orbit_angle = 225
+			orbit_distance = 200
+			location = solar_system
+			graphical_culture = "humanoid_01"
+		}
+	}
+}

@@ -1,0 +1,3120 @@
+#Etenal fleet invasion AI
+ag_exe_spawn_outer_gate_fallback = {
+	event_target:exe_invasion_outer_gate_spawn_system = {
+		spawn_system = {
+			initializer = "exe_invasion_fallback_init"
+			min_distance >= 30
+			max_distance <= 15
+		}
+	}
+	random_system = {
+		limit = {
+			has_star_flag = ag_exe_invasion_gate_system_fallback
+		}
+		every_system = {
+			limit = {
+				NOR = {
+					has_star_flag = Kuat_system
+					has_star_flag = Kuat_system_1
+					has_star_flag = Kuat_system_2
+					has_star_flag = Kuat_system_3
+					is_same_value = prev
+					has_hyperlane_to = prev
+				}
+				distance = {
+					source = prev
+					min_distance >= 0
+					max_distance <= 30
+					type = euclidean
+					use_bypasses = no
+				}
+			}
+			random_list = {
+				40 = {
+				}
+				60 = {
+					add_hyperlane = {
+						from = this
+						to = prev
+					}
+				}
+			}
+		}
+	}
+}
+
+ag_exe_invasion_fleet_wandering_action = {
+	clear_orders = yes
+	clear_fleet_actions = this
+	random_list = {
+		75 = {
+			solar_system = {
+				random_neighbor_system = {
+					ignore_hyperlanes = no
+					save_event_target_as = ag_exe_invasion_fleet_wandering_action_target
+				}
+			}
+			if = {
+				limit = {
+					exists = event_target:ag_exe_invasion_fleet_wandering_action_target
+				}
+				event_target:ag_exe_invasion_fleet_wandering_action_target = {
+					random_system_planet = {
+						limit = {
+							is_primary_star = yes
+						}
+						prevprev = {
+							auto_move_to_planet = {
+								target = prev
+								clear_auto_move_on_arrival = yes
+							}
+						}
+					}
+				}
+			}
+			else = {
+				fleet_event = {
+					id = exe_invasion.12
+					days = 10
+					random = 2
+				}
+			}
+		}
+		25 = {
+			modifier = {
+				factor = 0
+				any_owned_ship = {
+					has_ship_flag = ag_jump_drive_cooldown
+				}
+			}
+			random_system = {
+				limit = {
+					NOT = {
+						is_same_value = prev.solar_system
+					}
+					# distance = {
+					# 	source = prev.solar_system
+					# 	type = hyperlane
+					# 	use_bypasses = yes
+					# 	min_jumps = 1
+					# 	max_jumps = 125
+					# }
+					OR = {
+						AND = {
+							exists = starbase
+							starbase = {
+								exists = owner
+								owner = {
+									is_hostile = event_target:ag_kuat_invasion_country
+								}
+							}
+						}
+						any_system_planet = {
+							exists = owner
+							owner = {
+								is_hostile = event_target:ag_kuat_invasion_country
+							}
+							exists = controller
+							controller = {
+								is_hostile = event_target:ag_kuat_invasion_country
+							}
+							OR = {
+								is_colony = yes
+								is_under_colonization = yes
+							}
+							NOT = {
+								any_fleet_in_orbit = {
+									exists = owner
+									owner = {
+										is_same_value = event_target:ag_kuat_invasion_country
+									}
+									NOT = {
+										is_same_value = root
+									}
+								}
+							}
+						}
+						any_ship_in_system = {
+							is_disabled = no
+							is_ship_class = shipclass_military
+							exists = owner
+							owner = {
+								is_hostile = event_target:ag_kuat_invasion_country
+							}
+						}
+					}
+				}
+				save_event_target_as = ag_exe_invasion_fleet_wandering_action_target
+			}
+			if = {
+				limit = {
+					exists = event_target:ag_exe_invasion_fleet_wandering_action_target
+				}
+				event_target:ag_exe_invasion_fleet_wandering_action_target = {
+					random_system_planet = {
+						limit = {
+							is_primary_star = yes
+						}
+						prevprev = {
+							create_ambient_object = {
+								type = horror_spawn_object
+								location = this
+								use_3d_location = yes
+								entity_offset = {
+									min = 0
+									max = 0
+								}
+								entity_offset_angle = {
+									min = 0
+									max = 0
+								}
+								entity_offset_height = {
+									min = 0
+									max = 0
+								}
+								entity_scale_to_size = yes
+								scale = 1
+							}
+							set_location = {
+								target = prev
+								distance = 300
+								angle = random
+							}
+							create_ambient_object = {
+								type = horror_spawn_object
+								location = this
+								use_3d_location = yes
+								entity_offset = {
+									min = 0
+									max = 0
+								}
+								entity_offset_angle = {
+									min = 0
+									max = 0
+								}
+								entity_offset_height = {
+									min = 0
+									max = 0
+								}
+								entity_scale_to_size = yes
+								scale = 1
+							}
+							while = {
+								limit = {
+									any_owned_ship = {
+										NOT = {
+											has_ship_flag = ag_jump_drive_cooldown
+										}
+									}
+								}
+								random_owned_ship = {
+									limit = {
+										NOT = {
+											has_ship_flag = ag_jump_drive_cooldown
+										}
+									}
+									set_timed_ship_flag = {
+										flag = ag_jump_drive_cooldown
+										days = 50
+									}
+									add_modifier = {
+										modifier = "jump_drive_cooldown"
+										days = 50
+									}
+								}
+							}
+							auto_move_to_planet = {
+								target = prev
+								clear_auto_move_on_arrival = yes
+							}
+						}
+					}
+				}
+			}
+			else = {
+				solar_system = {
+					random_neighbor_system = {
+						ignore_hyperlanes = no
+						save_event_target_as = ag_exe_invasion_fleet_wandering_action_target
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:ag_exe_invasion_fleet_wandering_action_target
+					}
+					event_target:ag_exe_invasion_fleet_wandering_action_target = {
+						random_system_planet = {
+							limit = {
+								is_primary_star = yes
+							}
+							prevprev = {
+								auto_move_to_planet = {
+									target = prev
+									clear_auto_move_on_arrival = yes
+								}
+							}
+						}
+					}
+				}
+				else = {
+					fleet_event = {
+						id = exe_invasion.12
+						days = 10
+						random = 2
+					}
+				}
+			}
+		}
+	}
+}
+
+ag_exe_invasion_fleet_action = {
+	if = {
+		limit = {
+			root = {
+				exists = solar_system
+				solar_system = {
+					any_system_planet = {
+						exists = owner
+						owner = {
+							is_hostile = event_target:ag_kuat_invasion_country
+						}
+						exists = controller
+						controller = {
+							is_hostile = event_target:ag_kuat_invasion_country
+						}
+						OR = {
+							is_colony = yes
+							is_under_colonization = yes
+						}
+						NOT = {
+							any_fleet_in_orbit = {
+								exists = owner
+								owner = {
+									is_same_value = event_target:ag_kuat_invasion_country
+								}
+								NOT = {
+									is_same_value = root
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+		root = {
+			solar_system = {
+				random_system_planet = {
+					limit = {
+						exists = owner
+						owner = {
+							is_hostile = event_target:ag_kuat_invasion_country
+						}
+						exists = controller
+						controller = {
+							is_hostile = event_target:ag_kuat_invasion_country
+						}
+						OR = {
+							is_colony = yes
+							is_under_colonization = yes
+						}
+						NOT = {
+							any_fleet_in_orbit = {
+								exists = owner
+								owner = {
+									is_same_value = event_target:ag_kuat_invasion_country
+								}
+								NOT = {
+									is_same_value = root
+								}
+							}
+						}
+					}
+					prevprev = {
+						auto_move_to_planet = {
+							target = prev
+							clear_auto_move_on_arrival = yes
+						}
+					}
+				}
+			}
+		}
+	}
+	else_if = {
+		limit = {
+			root = {
+				exists = solar_system
+				solar_system = {
+					any_ship_in_system = {
+						is_disabled = no
+						is_ship_class = shipclass_military
+						exists = owner
+						owner = {
+							is_hostile = event_target:ag_kuat_invasion_country
+						}
+					}
+				}
+			}
+		}
+		root = {
+			solar_system = {
+				random_fleet_in_system = {
+					limit = {
+						exists = owner
+						owner = {
+							is_hostile = event_target:ag_kuat_invasion_country
+						}
+						any_owned_ship = {
+							is_disabled = no
+							is_ship_class = shipclass_military
+						}
+					}
+					prevprev = {
+						auto_follow_fleet = {
+							target = prev
+							attack_fleet = yes
+						}
+					}
+				}
+			}
+		}
+	}
+	else_if = {
+		limit = {
+			solar_system = {
+				any_neighbor_system = {
+					ignore_hyperlanes = no
+					OR = {
+						AND = {
+							exists = starbase
+							starbase = {
+								exists = owner
+								owner = {
+									is_hostile = event_target:ag_kuat_invasion_country
+								}
+							}
+						}
+						any_ship_in_system = {
+							is_disabled = no
+							is_ship_class = shipclass_military
+							exists = owner
+							owner = {
+								is_hostile = event_target:ag_kuat_invasion_country
+							}
+						}
+					}
+				}
+			}
+		}
+		solar_system = {
+			random_neighbor_system = {
+				ignore_hyperlanes = no
+				limit = {
+					OR = {
+						AND = {
+							exists = starbase
+							starbase = {
+								exists = owner
+								owner = {
+									is_hostile = event_target:ag_kuat_invasion_country
+								}
+							}
+						}
+						any_ship_in_system = {
+							is_disabled = no
+							is_ship_class = shipclass_military
+							exists = owner
+							owner = {
+								is_hostile = event_target:ag_kuat_invasion_country
+							}
+						}
+					}
+				}
+				random_system_planet = {
+					limit = {
+						is_primary_star = yes
+					}
+					prevprevprev = {
+						auto_move_to_planet = {
+							target = prev
+							clear_auto_move_on_arrival = yes
+						}
+					}
+				}
+			}
+		}
+	}
+	else_if = {
+		limit = {
+			solar_system = {
+				ag_is_kuat_system = yes
+			}
+			any_system = {
+				has_star_flag = ag_exe_invasion_gate_system
+				any_system_megastructure = {
+					is_megastructure_type = exe_outer_gate
+				}
+			}
+		}
+		if = {
+			limit = {
+				solar_system = {
+					has_star_flag = Kuat_system
+				}
+			}
+			random_system = {
+				limit = {
+					has_star_flag = Kuat_system_3
+				}
+				random_system_planet = {
+					limit = {
+						is_primary_star = yes
+					}
+					prevprev = {
+						auto_move_to_planet = {
+							target = prev
+							clear_auto_move_on_arrival = yes
+						}
+					}
+				}
+			}
+		}
+		else_if = {
+			limit = {
+				solar_system = {
+					has_star_flag = Kuat_system_3
+				}
+			}
+			random_system = {
+				limit = {
+					has_star_flag = Kuat_system_2
+				}
+				random_system_planet = {
+					limit = {
+						is_primary_star = yes
+					}
+					prevprev = {
+						auto_move_to_planet = {
+							target = prev
+							clear_auto_move_on_arrival = yes
+						}
+					}
+				}
+			}
+		}
+		else_if = {
+			limit = {
+				solar_system = {
+					has_star_flag = Kuat_system_2
+				}
+			}
+			random_system = {
+				limit = {
+					has_star_flag = Kuat_system_1
+				}
+				random_system_planet = {
+					limit = {
+						is_primary_star = yes
+					}
+					prevprev = {
+						auto_move_to_planet = {
+							target = prev
+							clear_auto_move_on_arrival = yes
+						}
+					}
+				}
+			}
+		}
+		else_if = {
+			limit = {
+				solar_system = {
+					has_star_flag = Kuat_system_1
+				}
+			}
+			random_system = {
+				limit = {
+					has_star_flag = ag_exe_invasion_gate_system
+					any_system_megastructure = {
+						is_megastructure_type = exe_outer_gate
+					}
+				}
+				random_system_planet = {
+					limit = {
+						is_primary_star = yes
+					}
+					prevprev = {
+						auto_move_to_planet = {
+							target = prev
+							clear_auto_move_on_arrival = yes
+						}
+					}
+				}
+			}
+		}
+	}
+	else_if = {
+		limit = {
+			always = yes
+		}
+		random_list = {
+			25 = {
+				closest_system = {
+					max_steps = 50
+					limit = {
+						NOT = {
+							is_same_value = root.solar_system
+						}
+						OR = {
+							AND = {
+								exists = starbase
+								starbase = {
+									exists = owner
+									owner = {
+										is_hostile = event_target:ag_kuat_invasion_country
+									}
+								}
+							}
+							any_system_planet = {
+								exists = owner
+								owner = {
+									is_hostile = event_target:ag_kuat_invasion_country
+								}
+								exists = controller
+								controller = {
+									is_hostile = event_target:ag_kuat_invasion_country
+								}
+								OR = {
+									is_colony = yes
+									is_under_colonization = yes
+								}
+								NOT = {
+									any_fleet_in_orbit = {
+										exists = owner
+										owner = {
+											is_same_value = event_target:ag_kuat_invasion_country
+										}
+										NOT = {
+											is_same_value = root
+										}
+									}
+								}
+							}
+						}
+						prev = {
+							can_access_system = prev
+						}
+					}
+					save_event_target_as = ag_kuat_invasion_fleet_action_target
+				}
+				if = {
+					limit = {
+						exists = event_target:ag_kuat_invasion_fleet_action_target
+					}
+					event_target:ag_kuat_invasion_fleet_action_target = {
+						if = {
+							limit = {
+								any_system_planet = {
+									exists = owner
+									owner = {
+										is_hostile = event_target:ag_kuat_invasion_country
+									}
+									exists = controller
+									controller = {
+										is_hostile = event_target:ag_kuat_invasion_country
+									}
+									OR = {
+										is_colony = yes
+										is_under_colonization = yes
+									}
+									NOT = {
+										any_fleet_in_orbit = {
+											exists = owner
+											owner = {
+												is_same_value = event_target:ag_kuat_invasion_country
+											}
+											NOT = {
+												is_same_value = root
+											}
+										}
+									}
+								}
+							}
+							random_system_planet = {
+								limit = {
+									exists = owner
+									owner = {
+										is_hostile = event_target:ag_kuat_invasion_country
+									}
+									exists = controller
+									controller = {
+										is_hostile = event_target:ag_kuat_invasion_country
+									}
+									OR = {
+										is_colony = yes
+										is_under_colonization = yes
+									}
+									NOT = {
+										any_fleet_in_orbit = {
+											exists = owner
+											owner = {
+												is_same_value = event_target:ag_kuat_invasion_country
+											}
+											NOT = {
+												is_same_value = root
+											}
+										}
+									}
+								}
+								random_list = {
+									80 = {
+										prevprev = {
+											auto_move_to_planet = {
+												target = prev
+												clear_auto_move_on_arrival = yes
+											}
+										}
+									}
+									20 = {
+										modifier = {
+											factor = 0
+											prevprev = {
+												any_owned_ship = {
+													has_ship_flag = ag_jump_drive_cooldown
+												}
+											}
+										}
+										prevprev = {
+											create_ambient_object = {
+												type = horror_spawn_object
+												location = this
+												use_3d_location = yes
+												entity_offset = {
+													min = 0
+													max = 0
+												}
+												entity_offset_angle = {
+													min = 0
+													max = 0
+												}
+												entity_offset_height = {
+													min = 0
+													max = 0
+												}
+												entity_scale_to_size = yes
+												scale = 1
+											}
+											set_location = {
+												target = prev
+												distance = 300
+												angle = random
+											}
+											create_ambient_object = {
+												type = horror_spawn_object
+												location = this
+												use_3d_location = yes
+												entity_offset = {
+													min = 0
+													max = 0
+												}
+												entity_offset_angle = {
+													min = 0
+													max = 0
+												}
+												entity_offset_height = {
+													min = 0
+													max = 0
+												}
+												entity_scale_to_size = yes
+												scale = 1
+											}
+											while = {
+												limit = {
+													any_owned_ship = {
+														NOT = {
+															has_ship_flag = ag_jump_drive_cooldown
+														}
+													}
+												}
+												random_owned_ship = {
+													limit = {
+														NOT = {
+															has_ship_flag = ag_jump_drive_cooldown
+														}
+													}
+													set_timed_ship_flag = {
+														flag = ag_jump_drive_cooldown
+														days = 200
+													}
+													add_modifier = {
+														modifier = "jump_drive_cooldown"
+														days = 200
+													}
+												}
+											}
+											auto_move_to_planet = {
+												target = prev
+												clear_auto_move_on_arrival = yes
+											}
+										}
+									}
+								}
+							}
+						}
+						else = {
+							random_system_planet = {
+								limit = {
+									is_primary_star = yes
+								}
+								prevprev = {
+									auto_move_to_planet = {
+										target = prev
+										clear_auto_move_on_arrival = yes
+									}
+								}
+							}
+						}
+					}
+				}
+				else = {
+					closest_system = {
+						max_steps = 50
+						limit = {
+							NOT = {
+								is_same_value = root.solar_system
+							}
+							OR = {
+								AND = {
+									exists = starbase
+									starbase = {
+										exists = owner
+										owner = {
+											is_hostile = event_target:ag_kuat_invasion_country
+										}
+									}
+								}
+								any_system_planet = {
+									exists = owner
+									owner = {
+										is_hostile = event_target:ag_kuat_invasion_country
+									}
+									exists = controller
+									controller = {
+										is_hostile = event_target:ag_kuat_invasion_country
+									}
+									OR = {
+										is_colony = yes
+										is_under_colonization = yes
+									}
+									NOT = {
+										any_fleet_in_orbit = {
+											exists = owner
+											owner = {
+												is_same_value = event_target:ag_kuat_invasion_country
+											}
+											NOT = {
+												is_same_value = root
+											}
+										}
+									}
+								}
+							}
+						}
+						save_event_target_as = ag_kuat_invasion_fleet_action_target
+					}
+					if = {
+						limit = {
+							exists = event_target:ag_kuat_invasion_fleet_action_target
+						}
+						event_target:ag_kuat_invasion_fleet_action_target = {
+							if = {
+								limit = {
+									any_system_planet = {
+										exists = owner
+										owner = {
+											is_hostile = event_target:ag_kuat_invasion_country
+										}
+										exists = controller
+										controller = {
+											is_hostile = event_target:ag_kuat_invasion_country
+										}
+										OR = {
+											is_colony = yes
+											is_under_colonization = yes
+										}
+										NOT = {
+											any_fleet_in_orbit = {
+												exists = owner
+												owner = {
+													is_same_value = event_target:ag_kuat_invasion_country
+												}
+												NOT = {
+													is_same_value = root
+												}
+											}
+										}
+									}
+								}
+								random_system_planet = {
+									limit = {
+										exists = owner
+										owner = {
+											is_hostile = event_target:ag_kuat_invasion_country
+										}
+										exists = controller
+										controller = {
+											is_hostile = event_target:ag_kuat_invasion_country
+										}
+										OR = {
+											is_colony = yes
+											is_under_colonization = yes
+										}
+										NOT = {
+											any_fleet_in_orbit = {
+												exists = owner
+												owner = {
+													is_same_value = event_target:ag_kuat_invasion_country
+												}
+												NOT = {
+													is_same_value = root
+												}
+											}
+										}
+									}
+									random_list = {
+										80 = {
+											prevprev = {
+												auto_move_to_planet = {
+													target = prev
+													clear_auto_move_on_arrival = yes
+												}
+											}
+										}
+										20 = {
+											modifier = {
+												factor = 0
+												prevprev = {
+													any_owned_ship = {
+														has_ship_flag = ag_jump_drive_cooldown
+													}
+												}
+											}
+											prevprev = {
+												create_ambient_object = {
+													type = horror_spawn_object
+													location = this
+													use_3d_location = yes
+													entity_offset = {
+														min = 0
+														max = 0
+													}
+													entity_offset_angle = {
+														min = 0
+														max = 0
+													}
+													entity_offset_height = {
+														min = 0
+														max = 0
+													}
+													entity_scale_to_size = yes
+													scale = 1
+												}
+												set_location = {
+													target = prev
+													distance = 300
+													angle = random
+												}
+												create_ambient_object = {
+													type = horror_spawn_object
+													location = this
+													use_3d_location = yes
+													entity_offset = {
+														min = 0
+														max = 0
+													}
+													entity_offset_angle = {
+														min = 0
+														max = 0
+													}
+													entity_offset_height = {
+														min = 0
+														max = 0
+													}
+													entity_scale_to_size = yes
+													scale = 1
+												}
+												while = {
+													limit = {
+														any_owned_ship = {
+															NOT = {
+																has_ship_flag = ag_jump_drive_cooldown
+															}
+														}
+													}
+													random_owned_ship = {
+														limit = {
+															NOT = {
+																has_ship_flag = ag_jump_drive_cooldown
+															}
+														}
+														set_timed_ship_flag = {
+															flag = ag_jump_drive_cooldown
+															days = 200
+														}
+														add_modifier = {
+															modifier = "jump_drive_cooldown"
+															days = 200
+														}
+													}
+												}
+												auto_move_to_planet = {
+													target = prev
+													clear_auto_move_on_arrival = yes
+												}
+											}
+										}
+									}
+								}
+							}
+							else = {
+								random_system_planet = {
+									limit = {
+										is_primary_star = yes
+									}
+									prevprev = {
+										auto_move_to_planet = {
+											target = prev
+											clear_auto_move_on_arrival = yes
+										}
+									}
+								}
+							}
+						}
+					}
+					else = {
+						ag_exe_invasion_fleet_wandering_action = yes
+					}
+				}
+			}
+			25 = {
+				random_system = {
+					limit = {
+						NOT = {
+							is_same_value = root.solar_system
+						}
+						distance = {
+							source = root.solar_system
+							type = hyperlane
+							use_bypasses = yes
+							min_jumps = 1
+							max_jumps = 10
+						}
+						OR = {
+							AND = {
+								exists = starbase
+								starbase = {
+									exists = owner
+									owner = {
+										is_hostile = event_target:ag_kuat_invasion_country
+									}
+								}
+							}
+							any_system_planet = {
+								exists = owner
+								owner = {
+									is_hostile = event_target:ag_kuat_invasion_country
+								}
+								exists = controller
+								controller = {
+									is_hostile = event_target:ag_kuat_invasion_country
+								}
+								OR = {
+									is_colony = yes
+									is_under_colonization = yes
+								}
+								NOT = {
+									any_fleet_in_orbit = {
+										exists = owner
+										owner = {
+											is_same_value = event_target:ag_kuat_invasion_country
+										}
+										NOT = {
+											is_same_value = root
+										}
+									}
+								}
+							}
+						}
+						prev = {
+							can_access_system = prev
+						}
+					}
+					save_event_target_as = ag_kuat_invasion_fleet_action_target
+				}
+				if = {
+					limit = {
+						exists = event_target:ag_kuat_invasion_fleet_action_target
+					}
+					event_target:ag_kuat_invasion_fleet_action_target = {
+						if = {
+							limit = {
+								any_system_planet = {
+									exists = owner
+									owner = {
+										is_hostile = event_target:ag_kuat_invasion_country
+									}
+									exists = controller
+									controller = {
+										is_hostile = event_target:ag_kuat_invasion_country
+									}
+									OR = {
+										is_colony = yes
+										is_under_colonization = yes
+									}
+									NOT = {
+										any_fleet_in_orbit = {
+											exists = owner
+											owner = {
+												is_same_value = event_target:ag_kuat_invasion_country
+											}
+											NOT = {
+												is_same_value = root
+											}
+										}
+									}
+								}
+							}
+							random_system_planet = {
+								limit = {
+									exists = owner
+									owner = {
+										is_hostile = event_target:ag_kuat_invasion_country
+									}
+									exists = controller
+									controller = {
+										is_hostile = event_target:ag_kuat_invasion_country
+									}
+									OR = {
+										is_colony = yes
+										is_under_colonization = yes
+									}
+									NOT = {
+										any_fleet_in_orbit = {
+											exists = owner
+											owner = {
+												is_same_value = event_target:ag_kuat_invasion_country
+											}
+											NOT = {
+												is_same_value = root
+											}
+										}
+									}
+								}
+								random_list = {
+									80 = {
+										prevprev = {
+											auto_move_to_planet = {
+												target = prev
+												clear_auto_move_on_arrival = yes
+											}
+										}
+									}
+									20 = {
+										modifier = {
+											factor = 0
+											prevprev = {
+												any_owned_ship = {
+													has_ship_flag = ag_jump_drive_cooldown
+												}
+											}
+										}
+										prevprev = {
+											create_ambient_object = {
+												type = horror_spawn_object
+												location = this
+												use_3d_location = yes
+												entity_offset = {
+													min = 0
+													max = 0
+												}
+												entity_offset_angle = {
+													min = 0
+													max = 0
+												}
+												entity_offset_height = {
+													min = 0
+													max = 0
+												}
+												entity_scale_to_size = yes
+												scale = 1
+											}
+											set_location = {
+												target = prev
+												distance = 300
+												angle = random
+											}
+											create_ambient_object = {
+												type = horror_spawn_object
+												location = this
+												use_3d_location = yes
+												entity_offset = {
+													min = 0
+													max = 0
+												}
+												entity_offset_angle = {
+													min = 0
+													max = 0
+												}
+												entity_offset_height = {
+													min = 0
+													max = 0
+												}
+												entity_scale_to_size = yes
+												scale = 1
+											}
+											while = {
+												limit = {
+													any_owned_ship = {
+														NOT = {
+															has_ship_flag = ag_jump_drive_cooldown
+														}
+													}
+												}
+												random_owned_ship = {
+													limit = {
+														NOT = {
+															has_ship_flag = ag_jump_drive_cooldown
+														}
+													}
+													set_timed_ship_flag = {
+														flag = ag_jump_drive_cooldown
+														days = 200
+													}
+													add_modifier = {
+														modifier = "jump_drive_cooldown"
+														days = 200
+													}
+												}
+											}
+											auto_move_to_planet = {
+												target = prev
+												clear_auto_move_on_arrival = yes
+											}
+										}
+									}
+								}
+							}
+						}
+						else = {
+							random_system_planet = {
+								limit = {
+									is_primary_star = yes
+								}
+								prevprev = {
+									auto_move_to_planet = {
+										target = prev
+										clear_auto_move_on_arrival = yes
+									}
+								}
+							}
+						}
+					}
+				}
+				else = {
+					random_system = {
+						limit = {
+							NOT = {
+								is_same_value = root.solar_system
+							}
+							distance = {
+								source = root.solar_system
+								type = hyperlane
+								use_bypasses = yes
+								min_jumps = 1
+								max_jumps = 10
+							}
+							OR = {
+								AND = {
+									exists = starbase
+									starbase = {
+										exists = owner
+										owner = {
+											is_hostile = event_target:ag_kuat_invasion_country
+										}
+									}
+								}
+								any_system_planet = {
+									exists = owner
+									owner = {
+										is_hostile = event_target:ag_kuat_invasion_country
+									}
+									exists = controller
+									controller = {
+										is_hostile = event_target:ag_kuat_invasion_country
+									}
+									OR = {
+										is_colony = yes
+										is_under_colonization = yes
+									}
+									NOT = {
+										any_fleet_in_orbit = {
+											exists = owner
+											owner = {
+												is_same_value = event_target:ag_kuat_invasion_country
+											}
+											NOT = {
+												is_same_value = root
+											}
+										}
+									}
+								}
+							}
+						}
+						save_event_target_as = ag_kuat_invasion_fleet_action_target
+					}
+					if = {
+						limit = {
+							exists = event_target:ag_kuat_invasion_fleet_action_target
+						}
+						event_target:ag_kuat_invasion_fleet_action_target = {
+							if = {
+								limit = {
+									any_system_planet = {
+										exists = owner
+										owner = {
+											is_hostile = event_target:ag_kuat_invasion_country
+										}
+										exists = controller
+										controller = {
+											is_hostile = event_target:ag_kuat_invasion_country
+										}
+										OR = {
+											is_colony = yes
+											is_under_colonization = yes
+										}
+										NOT = {
+											any_fleet_in_orbit = {
+												exists = owner
+												owner = {
+													is_same_value = event_target:ag_kuat_invasion_country
+												}
+												NOT = {
+													is_same_value = root
+												}
+											}
+										}
+									}
+								}
+								random_system_planet = {
+									limit = {
+										exists = owner
+										owner = {
+											is_hostile = event_target:ag_kuat_invasion_country
+										}
+										exists = controller
+										controller = {
+											is_hostile = event_target:ag_kuat_invasion_country
+										}
+										OR = {
+											is_colony = yes
+											is_under_colonization = yes
+										}
+										NOT = {
+											any_fleet_in_orbit = {
+												exists = owner
+												owner = {
+													is_same_value = event_target:ag_kuat_invasion_country
+												}
+												NOT = {
+													is_same_value = root
+												}
+											}
+										}
+									}
+									random_list = {
+										80 = {
+											prevprev = {
+												auto_move_to_planet = {
+													target = prev
+													clear_auto_move_on_arrival = yes
+												}
+											}
+										}
+										20 = {
+											modifier = {
+												factor = 0
+												prevprev = {
+													any_owned_ship = {
+														has_ship_flag = ag_jump_drive_cooldown
+													}
+												}
+											}
+											prevprev = {
+												create_ambient_object = {
+													type = horror_spawn_object
+													location = this
+													use_3d_location = yes
+													entity_offset = {
+														min = 0
+														max = 0
+													}
+													entity_offset_angle = {
+														min = 0
+														max = 0
+													}
+													entity_offset_height = {
+														min = 0
+														max = 0
+													}
+													entity_scale_to_size = yes
+													scale = 1
+												}
+												set_location = {
+													target = prev
+													distance = 300
+													angle = random
+												}
+												create_ambient_object = {
+													type = horror_spawn_object
+													location = this
+													use_3d_location = yes
+													entity_offset = {
+														min = 0
+														max = 0
+													}
+													entity_offset_angle = {
+														min = 0
+														max = 0
+													}
+													entity_offset_height = {
+														min = 0
+														max = 0
+													}
+													entity_scale_to_size = yes
+													scale = 1
+												}
+												while = {
+													limit = {
+														any_owned_ship = {
+															NOT = {
+																has_ship_flag = ag_jump_drive_cooldown
+															}
+														}
+													}
+													random_owned_ship = {
+														limit = {
+															NOT = {
+																has_ship_flag = ag_jump_drive_cooldown
+															}
+														}
+														set_timed_ship_flag = {
+															flag = ag_jump_drive_cooldown
+															days = 200
+														}
+														add_modifier = {
+															modifier = "jump_drive_cooldown"
+															days = 200
+														}
+													}
+												}
+												auto_move_to_planet = {
+													target = prev
+													clear_auto_move_on_arrival = yes
+												}
+											}
+										}
+									}
+								}
+							}
+							else = {
+								random_system_planet = {
+									limit = {
+										is_primary_star = yes
+									}
+									prevprev = {
+										auto_move_to_planet = {
+											target = prev
+											clear_auto_move_on_arrival = yes
+										}
+									}
+								}
+							}
+						}
+					}
+					else = {
+						ag_exe_invasion_fleet_wandering_action = yes
+					}
+				}
+			}
+			25 = {
+				closest_system = {
+					max_steps = 50
+					limit = {
+						NOT = {
+							is_same_value = root.solar_system
+						}
+						any_ship_in_system = {
+							is_disabled = no
+							is_ship_class = shipclass_military
+							exists = owner
+							owner = {
+								is_hostile = event_target:ag_kuat_invasion_country
+							}
+						}
+						prev = {
+							can_access_system = prev
+						}
+					}
+					save_event_target_as = ag_kuat_invasion_fleet_action_target
+				}
+				if = {
+					limit = {
+						exists = event_target:ag_kuat_invasion_fleet_action_target
+					}
+					event_target:ag_kuat_invasion_fleet_action_target = {
+						random_fleet_in_system = {
+							limit = {
+								exists = owner
+								owner = {
+									is_hostile = event_target:ag_kuat_invasion_country
+								}
+								any_owned_ship = {
+									is_disabled = no
+									is_ship_class = shipclass_military
+								}
+							}
+							random_list = {
+								75 = {
+									prevprev = {
+										auto_follow_fleet = {
+											target = prev
+											attack_fleet = yes
+										}
+									}
+								}
+								25 = {
+									modifier = {
+										factor = 0
+										prevprev = {
+											any_owned_ship = {
+												has_ship_flag = ag_jump_drive_cooldown
+											}
+										}
+									}
+									prevprev = {
+										create_ambient_object = {
+											type = horror_spawn_object
+											location = this
+											use_3d_location = yes
+											entity_offset = {
+												min = 0
+												max = 0
+											}
+											entity_offset_angle = {
+												min = 0
+												max = 0
+											}
+											entity_offset_height = {
+												min = 0
+												max = 0
+											}
+											entity_scale_to_size = yes
+											scale = 1
+										}
+										set_location = {
+											target = prev
+											distance = 150
+											angle = random
+										}
+										create_ambient_object = {
+											type = horror_spawn_object
+											location = this
+											use_3d_location = yes
+											entity_offset = {
+												min = 0
+												max = 0
+											}
+											entity_offset_angle = {
+												min = 0
+												max = 0
+											}
+											entity_offset_height = {
+												min = 0
+												max = 0
+											}
+											entity_scale_to_size = yes
+											scale = 1
+										}
+										while = {
+											limit = {
+												any_owned_ship = {
+													NOT = {
+														has_ship_flag = ag_jump_drive_cooldown
+													}
+												}
+											}
+											random_owned_ship = {
+												limit = {
+													NOT = {
+														has_ship_flag = ag_jump_drive_cooldown
+													}
+												}
+												set_timed_ship_flag = {
+													flag = ag_jump_drive_cooldown
+													days = 200
+												}
+												add_modifier = {
+													modifier = "jump_drive_cooldown"
+													days = 200
+												}
+											}
+										}
+										auto_follow_fleet = {
+											target = prev
+											attack_fleet = yes
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+				else = {
+					closest_system = {
+						max_steps = 50
+						limit = {
+							NOT = {
+								is_same_value = root.solar_system
+							}
+							any_ship_in_system = {
+								is_disabled = no
+								is_ship_class = shipclass_military
+								exists = owner
+								owner = {
+									is_hostile = event_target:ag_kuat_invasion_country
+								}
+							}
+						}
+						save_event_target_as = ag_kuat_invasion_fleet_action_target
+					}
+					if = {
+						limit = {
+							exists = event_target:ag_kuat_invasion_fleet_action_target
+						}
+						event_target:ag_kuat_invasion_fleet_action_target = {
+							random_fleet_in_system = {
+								limit = {
+									exists = owner
+									owner = {
+										is_hostile = event_target:ag_kuat_invasion_country
+									}
+									any_owned_ship = {
+										is_disabled = no
+										is_ship_class = shipclass_military
+									}
+								}
+								random_list = {
+									75 = {
+										prevprev = {
+											auto_follow_fleet = {
+												target = prev
+												attack_fleet = yes
+											}
+										}
+									}
+									25 = {
+										modifier = {
+											factor = 0
+											prevprev = {
+												any_owned_ship = {
+													has_ship_flag = ag_jump_drive_cooldown
+												}
+											}
+										}
+										prevprev = {
+											create_ambient_object = {
+												type = horror_spawn_object
+												location = this
+												use_3d_location = yes
+												entity_offset = {
+													min = 0
+													max = 0
+												}
+												entity_offset_angle = {
+													min = 0
+													max = 0
+												}
+												entity_offset_height = {
+													min = 0
+													max = 0
+												}
+												entity_scale_to_size = yes
+												scale = 1
+											}
+											set_location = {
+												target = prev
+												distance = 150
+												angle = random
+											}
+											create_ambient_object = {
+												type = horror_spawn_object
+												location = this
+												use_3d_location = yes
+												entity_offset = {
+													min = 0
+													max = 0
+												}
+												entity_offset_angle = {
+													min = 0
+													max = 0
+												}
+												entity_offset_height = {
+													min = 0
+													max = 0
+												}
+												entity_scale_to_size = yes
+												scale = 1
+											}
+											while = {
+												limit = {
+													any_owned_ship = {
+														NOT = {
+															has_ship_flag = ag_jump_drive_cooldown
+														}
+													}
+												}
+												random_owned_ship = {
+													limit = {
+														NOT = {
+															has_ship_flag = ag_jump_drive_cooldown
+														}
+													}
+													set_timed_ship_flag = {
+														flag = ag_jump_drive_cooldown
+														days = 200
+													}
+													add_modifier = {
+														modifier = "jump_drive_cooldown"
+														days = 200
+													}
+												}
+											}
+											auto_follow_fleet = {
+												target = prev
+												attack_fleet = yes
+											}
+										}
+									}
+								}
+							}
+						}
+					}
+					else = {
+						ag_exe_invasion_fleet_wandering_action = yes
+					}
+				}
+			}
+			25 = {
+				random_system = {
+					limit = {
+						NOT = {
+							is_same_value = root.solar_system
+						}
+						distance = {
+							source = root.solar_system
+							type = hyperlane
+							use_bypasses = yes
+							min_jumps = 1
+							max_jumps = 10
+						}
+						any_ship_in_system = {
+							is_disabled = no
+							is_ship_class = shipclass_military
+							exists = owner
+							owner = {
+								is_hostile = event_target:ag_kuat_invasion_country
+							}
+						}
+						prev = {
+							can_access_system = prev
+						}
+					}
+					save_event_target_as = ag_kuat_invasion_fleet_action_target
+				}
+				if = {
+					limit = {
+						exists = event_target:ag_kuat_invasion_fleet_action_target
+					}
+					event_target:ag_kuat_invasion_fleet_action_target = {
+						random_fleet_in_system = {
+							limit = {
+								exists = owner
+								owner = {
+									is_hostile = event_target:ag_kuat_invasion_country
+								}
+								any_owned_ship = {
+									is_disabled = no
+									is_ship_class = shipclass_military
+								}
+							}
+							random_list = {
+								75 = {
+									prevprev = {
+										auto_follow_fleet = {
+											target = prev
+											attack_fleet = yes
+										}
+									}
+								}
+								25 = {
+									modifier = {
+										factor = 0
+										prevprev = {
+											any_owned_ship = {
+												has_ship_flag = ag_jump_drive_cooldown
+											}
+										}
+									}
+									prevprev = {
+										create_ambient_object = {
+											type = horror_spawn_object
+											location = this
+											use_3d_location = yes
+											entity_offset = {
+												min = 0
+												max = 0
+											}
+											entity_offset_angle = {
+												min = 0
+												max = 0
+											}
+											entity_offset_height = {
+												min = 0
+												max = 0
+											}
+											entity_scale_to_size = yes
+											scale = 1
+										}
+										set_location = {
+											target = prev
+											distance = 150
+											angle = random
+										}
+										create_ambient_object = {
+											type = horror_spawn_object
+											location = this
+											use_3d_location = yes
+											entity_offset = {
+												min = 0
+												max = 0
+											}
+											entity_offset_angle = {
+												min = 0
+												max = 0
+											}
+											entity_offset_height = {
+												min = 0
+												max = 0
+											}
+											entity_scale_to_size = yes
+											scale = 1
+										}
+										while = {
+											limit = {
+												any_owned_ship = {
+													NOT = {
+														has_ship_flag = ag_jump_drive_cooldown
+													}
+												}
+											}
+											random_owned_ship = {
+												limit = {
+													NOT = {
+														has_ship_flag = ag_jump_drive_cooldown
+													}
+												}
+												set_timed_ship_flag = {
+													flag = ag_jump_drive_cooldown
+													days = 200
+												}
+												add_modifier = {
+													modifier = "jump_drive_cooldown"
+													days = 200
+												}
+											}
+										}
+										auto_follow_fleet = {
+											target = prev
+											attack_fleet = yes
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+				else = {
+					random_system = {
+						limit = {
+							NOT = {
+								is_same_value = root.solar_system
+							}
+							distance = {
+								source = root.solar_system
+								type = hyperlane
+								use_bypasses = yes
+								min_jumps = 1
+								max_jumps = 10
+							}
+							any_ship_in_system = {
+								is_disabled = no
+								is_ship_class = shipclass_military
+								exists = owner
+								owner = {
+									is_hostile = event_target:ag_kuat_invasion_country
+								}
+							}
+						}
+						save_event_target_as = ag_kuat_invasion_fleet_action_target
+					}
+					if = {
+						limit = {
+							exists = event_target:ag_kuat_invasion_fleet_action_target
+						}
+						event_target:ag_kuat_invasion_fleet_action_target = {
+							random_fleet_in_system = {
+								limit = {
+									exists = owner
+									owner = {
+										is_hostile = event_target:ag_kuat_invasion_country
+									}
+									any_owned_ship = {
+										is_disabled = no
+										is_ship_class = shipclass_military
+									}
+								}
+								random_list = {
+									75 = {
+										prevprev = {
+											auto_follow_fleet = {
+												target = prev
+												attack_fleet = yes
+											}
+										}
+									}
+									25 = {
+										modifier = {
+											factor = 0
+											prevprev = {
+												any_owned_ship = {
+													has_ship_flag = ag_jump_drive_cooldown
+												}
+											}
+										}
+										prevprev = {
+											create_ambient_object = {
+												type = horror_spawn_object
+												location = this
+												use_3d_location = yes
+												entity_offset = {
+													min = 0
+													max = 0
+												}
+												entity_offset_angle = {
+													min = 0
+													max = 0
+												}
+												entity_offset_height = {
+													min = 0
+													max = 0
+												}
+												entity_scale_to_size = yes
+												scale = 1
+											}
+											set_location = {
+												target = prev
+												distance = 150
+												angle = random
+											}
+											create_ambient_object = {
+												type = horror_spawn_object
+												location = this
+												use_3d_location = yes
+												entity_offset = {
+													min = 0
+													max = 0
+												}
+												entity_offset_angle = {
+													min = 0
+													max = 0
+												}
+												entity_offset_height = {
+													min = 0
+													max = 0
+												}
+												entity_scale_to_size = yes
+												scale = 1
+											}
+											while = {
+												limit = {
+													any_owned_ship = {
+														NOT = {
+															has_ship_flag = ag_jump_drive_cooldown
+														}
+													}
+												}
+												random_owned_ship = {
+													limit = {
+														NOT = {
+															has_ship_flag = ag_jump_drive_cooldown
+														}
+													}
+													set_timed_ship_flag = {
+														flag = ag_jump_drive_cooldown
+														days = 200
+													}
+													add_modifier = {
+														modifier = "jump_drive_cooldown"
+														days = 200
+													}
+												}
+											}
+											auto_follow_fleet = {
+												target = prev
+												attack_fleet = yes
+											}
+										}
+									}
+								}
+							}
+						}
+					}
+					else = {
+						ag_exe_invasion_fleet_wandering_action = yes
+					}
+				}
+			}
+		}
+	}
+}
+
+#AWAKENING FLEET
+create_kuat_awakening_fleet = {
+	every_system_within_border = {
+		create_fleet = {
+			name = "Name_DFLEET"
+			effect = {
+				set_owner = event_target:fallen_empire_kuat
+				while = {
+					count = 1
+					create_ship = {
+						name = "Dominance Class Super Stardestroyer"
+						design = "Name_boss_Dominance"
+						prefix = no
+						upgradable = no
+					}
+				}
+				while = {
+					count = 10
+					create_ship = {
+						name = "Empire-II Class Stardestroyer"
+						design = "Name_boss_EMPIRE"
+						prefix = no
+						upgradable = no
+					}
+				}
+				while = {
+					count = 15
+					create_ship = {
+						name = "Harrower Class Stardestroyer"
+						design = "Name_boss_Horriwer"
+						prefix = no
+						upgradable = no
+					}
+				}
+				set_location = prev.star
+				set_fleet_stance = aggressive
+				set_fleet_bombardment_stance = indiscriminate
+			}
+			settings = {
+				is_boss = yes
+			}
+		}
+	}
+}
+
+#RETURN FLEET
+create_kuat_return_fleet_1 = {
+	every_system_within_border = {
+		limit = {
+			ag_is_kuat_system = yes
+		}
+		create_fleet = {
+			name = "Name_DFLEET_II"
+			effect = {
+				set_owner = event_target:return_kuat_awakening_country
+				random_list = {
+					5 = {
+						while = {
+							count = 1
+							create_ship = {
+								name = "Eclipse Class Super Stardestroyer"
+								design = "Name_boss_eclipse"
+								prefix = no
+								upgradable = no
+							}
+						}
+					}
+					5 = {
+						while = {
+							count = 3
+							create_ship = {
+								name = "Dominance Class Super Stardestroyer"
+								design = "Name_boss_CRISIS_Dominance_1"
+								prefix = no
+								upgradable = no
+							}
+						}
+					}
+				}
+				while = {
+					count = 10
+					create_ship = {
+						name = "Balletor Class Stellar Dreadnought"
+						design = "Name_boss_crisis_BELLATOR_1"
+						prefix = no
+						upgradable = no
+					}
+				}
+				while = {
+					count = 15
+					create_ship = {
+						name = "Empire-II Class Stardestroyer"
+						design = "Name_boss_crisis_EMPIRE_1"
+						prefix = no
+						upgradable = no
+					}
+				}
+				while = {
+					count = 25
+					create_ship = {
+						name = "Harrower Class Destroyer"
+						design = "Name_criss_boss_Horriwer_1"
+						prefix = no
+						upgradable = no
+					}
+				}
+				set_location = prev.star
+				set_fleet_stance = aggressive
+				set_fleet_bombardment_stance = indiscriminate
+			}
+			settings = {
+				spawn_debris = no
+				is_boss = yes
+			}
+		}
+	}
+}
+
+create_kuat_return_starbase = {
+	every_system_within_border = {
+		create_starbase = {
+			owner = event_target:return_kuat_awakening_country
+			size = "starbase_citadel"
+			module = "shipyard"
+			module = "shipyard"
+			module = "shipyard"
+			module = "shipyard"
+			module = "shipyard"
+			module = "shipyard"
+			building = "target_uplink_computer"
+			building = "defense_grid"
+			building = "colossus_yards"
+			building = "titan_yards"
+			effect = {
+				while = {
+					count = 10
+					create_fallen_empire_platform = yes
+				}
+			}
+		}
+	}
+}
+
+#GW WAR FLEET
+create_kuat_millatery_defender_and_attack_fleet = {
+	create_fleet = {
+		name = "Name_DFLEET"
+		effect = {
+			set_owner = event_target:fallen_empire_kuat_fleet
+			while = {
+				count = 15
+				create_ship = {
+					name = "Empire-II Class Stardestroyer"
+					design = "Name_boss_EMPIRE"
+					prefix = no
+					upgradable = no
+				}
+			}
+			save_event_target_as = fallen_empire_kuat_fleet_attack
+			set_location = event_target:begin_kuat_fleet_system.star
+			set_fleet_stance = aggressive
+			set_fleet_flag = second_attack_fleet
+			set_fleet_bombardment_stance = indiscriminate
+			fleet_execute_order_1 = yes
+		}
+		settings = {
+			spawn_debris = no
+			can_disband = no
+			is_boss = yes
+		}
+	}
+}
+
+create_kuat_defender_and_attack_fleet = {
+	every_system_within_border = {
+		limit = {
+			ag_is_kuat_system = yes
+		}
+		create_fleet = {
+			name = "Name_DFLEET"
+			effect = {
+				set_owner = event_target:fallen_empire_kuat
+				while = {
+					count = 5
+					create_ship = {
+						name = "Balletor Class Stellar Dreadnought"
+						design = "Name_boss_BELLATOR"
+						prefix = no
+						upgradable = no
+					}
+				}
+				while = {
+					count = 10
+					create_ship = {
+						name = "Empire-II Class Stardestroyer"
+						design = "Name_boss_EMPIRE"
+						prefix = no
+						upgradable = no
+					}
+				}
+				while = {
+					count = 15
+					create_ship = {
+						name = "Harrower Class Stardestroyer"
+						design = "Name_boss_Horriwer"
+						prefix = no
+						upgradable = no
+					}
+				}
+				set_location = prev.star
+				set_fleet_stance = aggressive
+				set_fleet_bombardment_stance = indiscriminate
+				set_fleet_flag = first_attack_fleet
+				fleet_execute_order_1 = yes
+			}
+			settings = {
+				spawn_debris = no
+				can_disband = no
+				is_boss = yes
+			}
+		}
+	}
+}
+
+create_kuat_defender_and_attack_crisis_fleet = {
+	random_system_within_border = {
+		limit = {
+			has_star_flag = Kuat_system
+		}
+		create_defender_and_attacker_crisis = yes
+	}
+}
+
+create_defender_and_attacker_crisis = {
+	create_fleet = {
+		name = "Name_DFLEET"
+		effect = {
+			set_owner = event_target:fallen_empire_kuat
+			while = {
+				count = 1
+				create_ship = {
+					name = "Eclipse Class Super Stardestroyer"
+					design = "Name_boss_eclipse"
+					prefix = no
+					upgradable = no
+				}
+			}
+			while = {
+				count = 6
+				create_ship = {
+					name = "Empire-II Class Stardestroyer"
+					design = "Name_boss_EMPIRE"
+					prefix = no
+					upgradable = no
+				}
+			}
+			while = {
+				count = 12
+				create_ship = {
+					name = "Harrower Class Stardestroyer"
+					design = "Name_boss_Horriwer"
+					prefix = no
+					upgradable = no
+				}
+			}
+			set_location = prev.star
+			set_fleet_stance = aggressive
+			set_fleet_flag = defensive_galaxy_fleet
+			set_fleet_bombardment_stance = indiscriminate
+			fleet_execute_order_3 = yes
+		}
+		settings = {
+			spawn_debris = no
+			can_disband = no
+			is_boss = yes
+		}
+	}
+}
+
+create_kuat_system_fleet = {
+	create_fleet = {
+		name = "Name_DFLEET"
+		effect = {
+			set_owner = event_target:fallen_empire_kuat
+			while = {
+				count = 5
+				create_ship = {
+					name = "Balletor Class Stellar Dreadnought"
+					design = "Name_boss_BELLATOR"
+					prefix = no
+					upgradable = no
+				}
+			}
+			while = {
+				count = 8
+				create_ship = {
+					name = "Empire-II Class Stardestroyer"
+					design = "Name_boss_EMPIRE"
+					prefix = no
+					upgradable = no
+				}
+			}
+			while = {
+				count = 15
+				create_ship = {
+					name = "Harrower Class Stardestroyer"
+					design = "Name_boss_Horriwer"
+					prefix = no
+					upgradable = no
+				}
+			}
+			set_location = prev
+			set_fleet_stance = aggressive
+			set_fleet_bombardment_stance = indiscriminate
+		}
+		settings = {
+			spawn_debris = no
+			can_disband = no
+			is_boss = yes
+		}
+	}
+}
+
+create_capital_kuat_fleet = {
+	create_fleet = {
+		name = "Pride of the Core Fleet"
+		effect = {
+			set_owner = event_target:fallen_empire_kuat
+			random_list = {
+				5 = {
+					while = {
+						count = 1
+						create_ship = {
+							name = "Executor Class Super Stardestroyer"
+							design = "Name_boss_EXECUTOR"
+							prefix = no
+							upgradable = no
+							effect = {
+								set_ship_flag = ship_ruins
+							}
+						}
+					}
+				}
+				5 = {
+					while = {
+						count = 1
+						create_ship = {
+							name = "Eclipse Class Super Stardestroyer"
+							design = "Name_boss_eclipse"
+							prefix = no
+							upgradable = no
+							effect = {
+								set_ship_flag = ship_ruins
+							}
+						}
+					}
+				}
+				5 = {
+					while = {
+						count = 1
+						create_ship = {
+							name = "Dominance Class Super Stardestroyer"
+							design = "Name_boss_Dominance"
+							prefix = no
+							upgradable = no
+							effect = {
+								set_ship_flag = ship_ruins
+							}
+						}
+					}
+				}
+			}
+			while = {
+				count = 5
+				create_ship = {
+					name = "Balletor Class Stellar Dreadnought"
+					design = "Name_boss_BELLATOR"
+					prefix = no
+					upgradable = no
+				}
+			}
+			while = {
+				count = 15
+				create_ship = {
+					name = "Empire-II Class Stardestroyer"
+					design = "Name_boss_EMPIRE"
+					prefix = no
+					upgradable = no
+				}
+			}
+			while = {
+				count = 25
+				create_ship = {
+					name = "Harrower Class Stardestroyer"
+					design = "Name_boss_Horriwer"
+					prefix = no
+				}
+			}
+			set_location = event_target:fallen_empire_kuat.capital_scope
+			set_fleet_stance = aggressive
+			set_fleet_flag = executor_boss
+			set_fleet_bombardment_stance = indiscriminate
+		}
+		settings = {
+			spawn_debris = no
+			can_disband = no
+			is_boss = yes
+		}
+	}
+}
+
+# scope: ship
+increase_executor_power = {
+	if = {
+		limit = { has_hp <= 1000000 }
+		add_modifier = { modifier = increase_hp_5000000_times days = $DAYS$ }
+	}
+	else_if = {
+		limit = { has_hp <= 2000000 }
+		add_modifier = { modifier = increase_hp_4000000_times days = $DAYS$ }
+	}
+	else_if = {
+		limit = { has_hp <= 3000000 }
+		add_modifier = { modifier = increase_hp_3000000_times days = $DAYS$ }
+	}
+	else_if = {
+		limit = { has_hp <= 4000000 }
+		add_modifier = { modifier = increase_hp_2000000_times days = $DAYS$ }
+	}
+	else_if = {
+		limit = { has_hp <= 10000000 }
+		add_modifier = { modifier = increase_hp_1000000_times days = $DAYS$ }
+	}
+}
+
+increase_ship_hp_effect_change = {
+	if = {
+		limit = { root.from = { ag_is_ancient_country = no } }
+		every_owned_ship = {
+			limit = { NOT = { is_ship_size = scout_UAV } }
+			set_timed_ship_flag = { flag = is_invisiable_trigger days = $DAYS$ }
+			increase_executor_power = { DAYS = $DAYS$ }
+			ship_event = { id = exe_invasion.119 }
+		}
+	} else = {
+		every_owned_ship = {
+			limit = { NOT = { is_ship_size = scout_UAV } }
+			set_timed_ship_flag = { flag = is_invisiable_trigger days = $DAYS$ }
+			ship_event = { id = exe_invasion.119 }
+		}
+	}
+	add_modifier = { modifier = Eternal_submit days = $DAYS$ }
+}
+
+#CRISIS FLEET
+create_easy_exe_invasion_ship = {
+	create_fleet = {
+		name = "Name_Eternal"
+		settings = {
+			spawn_debris = no
+			can_disband = no
+			is_boss = yes
+		}
+		effect = {
+			set_fleet_flag = ag_kuat_invasion_fleet
+			set_owner = event_target:ag_kuat_invasion_country
+			set_fleet_bombardment_stance = exe_invasion_bombardment
+			while = {
+				count = 1
+				create_ship = {
+					name = "Executor Class Super Stardestroyer"
+					design = "Name_boss_crisis_EXECUTOR_2"
+					prefix = no
+				}
+			}
+			while = {
+				count = 3
+				create_ship = {
+					name = "Balletor Class Stellar Dreadnought"
+					design = "Name_boss_CRISIS_Dominance_2"
+					prefix = no
+				}
+			}
+			while = {
+				count = 5
+				create_ship = {
+					name = "Dominance Class Super Stardestroyer"
+					design = "Name_boss_crisis_BELLATOR_2"
+					prefix = no
+				}
+			}
+			while = {
+				count = 10
+				create_ship = {
+					name = "Empire-II Class Stardestroyer"
+					design = "Name_boss_crisis_EMPIRE_2"
+					prefix = no
+				}
+			}
+			while = {
+				count = 15
+				create_ship = {
+					name = "Harrower Class Stardestroyer"
+					design = "Name_criss_boss_Horriwer_2"
+					prefix = no
+				}
+			}
+			set_location = {
+				target = root
+				distance = 25
+				angle = 0
+			}
+			fleet_event = { id = exe_invasion.51 days = 1 }
+			fleet_event = { id = exe_invasion.1987 }
+		}
+	}
+}
+
+create_normal_exe_invasion_ship = {
+	create_fleet = {
+		name = "Name_Eternal"
+		settings = {
+			spawn_debris = no
+			can_disband = no
+			is_boss = yes
+		}
+		effect = {
+			set_fleet_flag = ag_kuat_invasion_fleet
+			set_owner = event_target:ag_kuat_invasion_country
+			set_fleet_bombardment_stance = exe_invasion_bombardment
+			while = {
+				count = 1
+				create_ship = {
+					name = "Executor Class Super Stardestroyer"
+					design = "Name_boss_crisis_EXECUTOR_1"
+					prefix = no
+				}
+			}
+			while = {
+				count = 3
+				create_ship = {
+					name = "Balletor Class Stellar Dreadnought"
+					design = "Name_boss_CRISIS_Dominance_1"
+					prefix = no
+				}
+			}
+			while = {
+				count = 8
+				create_ship = {
+					name = "Dominance Class Super Stardestroyer"
+					design = "Name_boss_crisis_BELLATOR_1"
+					prefix = no
+				}
+			}
+			while = {
+				count = 10
+				create_ship = {
+					name = "Empire-II Class Stardestroyer"
+					design = "Name_boss_crisis_EMPIRE_1"
+					prefix = no
+				}
+			}
+			while = {
+				count = 20
+				create_ship = {
+					name = "Harrower Class Stardestroyer"
+					design = "Name_criss_boss_Horriwer_1"
+					prefix = no
+				}
+			}
+			set_location = {
+				target = root
+				distance = 25
+				angle = 0
+			}
+			fleet_event = { id = exe_invasion.51 days = 1 }
+			fleet_event = { id = exe_invasion.1987 }
+		}
+	}
+}
+
+create_difficult_exe_invasion_ship = {
+	create_fleet = {
+		name = "Name_Eternal"
+		settings = {
+			spawn_debris = no
+			can_disband = no
+			is_boss = yes
+		}
+		effect = {
+			set_fleet_flag = ag_kuat_invasion_fleet
+			set_owner = event_target:ag_kuat_invasion_country
+			set_fleet_bombardment_stance = exe_invasion_bombardment
+			while = {
+				count = 2
+				create_ship = {
+					name = "Executor Class Super Stardestroyer"
+					design = "Name_boss_crisis_EXECUTOR"
+					prefix = no
+				}
+			}
+			while = {
+				count = 3
+				create_ship = {
+					name = "Balletor Class Stellar Dreadnought"
+					design = "Name_boss_CRISIS_Dominance"
+					prefix = no
+				}
+			}
+			while = {
+				count = 8
+				create_ship = {
+					name = "Dominance Class Super Stardestroyer"
+					design = "Name_boss_crisis_BELLATOR"
+					prefix = no
+				}
+			}
+			while = {
+				count = 10
+				create_ship = {
+					name = "Empire-II Class Stardestroyer"
+					design = "Name_boss_crisis_EMPIRE"
+					prefix = no
+				}
+			}
+			while = {
+				count = 20
+				create_ship = {
+					name = "Harrower Class Stardestroyer"
+					design = "Name_criss_boss_Horriwer"
+					prefix = no
+				}
+			}
+			set_location = {
+				target = root
+				distance = 25
+				angle = 0
+			}
+			fleet_event = { id = exe_invasion.51 days = 1 }
+			fleet_event = { id = exe_invasion.1987 }
+		}
+	}
+}
+
+create_difficult_special_exe_invasion_ship = {
+	create_fleet = {
+		name = "Name_Eternal"
+		settings = {
+			spawn_debris = no
+			can_disband = no
+			is_boss = yes
+		}
+		effect = {
+			set_fleet_flag = ag_kuat_invasion_fleet
+			set_owner = event_target:ag_kuat_invasion_country
+			set_fleet_bombardment_stance = exe_invasion_bombardment
+			while = {
+				count = 1
+				create_ship = {
+					name = "Executor Class Super Stardestroyer"
+					design = "Name_boss_crisis_EXECUTOR"
+					prefix = no
+				}
+			}
+			while = {
+				count = 1
+				create_ship = {
+					name = "Eclipse Class Super Stardestroyer"
+					design = "Name_boss_eclipse"
+					prefix = no
+				}
+			}
+			while = {
+				count = 2
+				create_ship = {
+					name = "Balletor Class Stellar Dreadnought"
+					design = "Name_boss_CRISIS_Dominance"
+					prefix = no
+				}
+			}
+			while = {
+				count = 5
+				create_ship = {
+					name = "Dominance Class Super Stardestroyer"
+					design = "Name_boss_crisis_BELLATOR"
+					prefix = no
+				}
+			}
+			while = {
+				count = 10
+				create_ship = {
+					name = "Empire-II Class Stardestroyer"
+					design = "Name_boss_crisis_EMPIRE"
+					prefix = no
+				}
+			}
+			while = {
+				count = 15
+				create_ship = {
+					name = "Harrower Class Stardestroyer"
+					design = "Name_criss_boss_Horriwer"
+					prefix = no
+				}
+			}
+			set_location = {
+				target = root
+				distance = 25
+				angle = 0
+			}
+			fleet_event = { id = exe_invasion.51 days = 1 }
+			fleet_event = { id = exe_invasion.1987 }
+		}
+	}
+}
+
+#FIND THE WAR ENEMY
+fleet_execute_order_1 = {
+	queue_actions = {
+		repeat = {
+			effect = {
+				id = executor.1.c
+				solar_system = {
+					set_variable = {
+						which = kuat_fleet_id
+						value = 0
+					}
+				}
+				if = {
+					limit = {
+						has_fleet_flag = kuat_cannot_find_path
+					}
+					random_system = {
+						limit = {
+							any_system_planet = {
+								is_colony = no
+							}
+							closest_system = {
+								min_steps = 1
+								any_system_planet = {
+									OR = {
+										is_colony = yes
+										is_colonizable = yes
+									}
+									owner = {
+										is_at_war_with = event_target:fallen_empire_kuat
+									}
+								}
+							}
+						}
+						random_system_planet = {
+							prevprev = {
+								set_location = {
+									target = PREV
+									distance = 300
+									angle = random
+								}
+							}
+						}
+					}
+					remove_fleet_flag = kuat_cannot_find_path
+				}
+			}
+			find_closest_system = {
+				trigger = {
+					id = executor.1
+					prev = {
+						can_access_system = prev
+					}
+					OR = {
+						any_system_planet = {
+							owner = {
+								is_at_war_with = event_target:fallen_empire_kuat
+							}
+							OR = {
+								is_colony = yes
+								is_colonizable = yes
+							}
+						}
+						AND = {
+							exists = starbase
+							starbase = {
+								owner = {
+									is_at_war_with = event_target:fallen_empire_kuat
+								}
+							}
+						}
+					}
+					any_fleet_in_system = {
+						NOT = {
+							is_same_value = prevprev
+						}
+					}
+					check_variable = {
+						which = kuat_fleet_id
+						value < 1
+					}
+				}
+				found_system = {
+					effect = {
+						id = executor.2.r1
+						set_variable = {
+							which = kuat_fleet_id
+							value = root
+						}
+					}
+					move_to = this
+					repeat = {
+						while = {
+							id = executor.2.t0
+							any_system_planet = {
+								owner = {
+									is_at_war_with = event_target:fallen_empire_kuat
+								}
+								OR = {
+									is_colony = yes
+									is_colonizable = yes
+								}
+							}
+						}
+						find_closest_planet = {
+							trigger = {
+								id = executor.2
+								OR = {
+									is_colony = yes
+									is_colonizable = yes
+								}
+								solar_system = {
+									any_fleet_in_system = {
+										is_same_value = prevprevprev.prev
+									}
+								}
+								owner = {
+									is_at_war_with = event_target:fallen_empire_kuat
+								}
+							}
+							found_planet = {
+								orbit_planet = this
+								effect = {
+									id = executor.3
+									set_planet_flag = ruins_planet
+									prevprev = {
+										set_fleet_flag = kuat_fallen_bombaring_fleet
+									}
+								}
+								repeat = {
+									while = {
+										id = executor.3.t0
+										prevprev = {
+											has_fleet_flag = kuat_fallen_bombaring_fleet
+										}
+									}
+									effect = {
+										id = executor.3.t1
+										if = {
+											limit = {
+												is_colony = no
+												is_colonizable = no
+											}
+											prevprev = {
+												remove_fleet_flag = kuat_fallen_bombaring_fleet
+											}
+										}
+									}
+									wait = 5
+								}
+							}
+						}
+					}
+					wait = 15
+				}
+				failed = {
+					effect = {
+						id = executor.1.b
+						set_fleet_flag = kuat_cannot_find_path
+					}
+					wait = 60
+				}
+			}
+		}
+	} 
+}
+
+#FIND THE CRISIS AI
+fleet_execute_order_3 = {
+	queue_actions = {
+		repeat = {
+			find_closest_system = {
+				trigger = {
+					id = executor.20
+					any_fleet_in_system = {
+						any_owned_ship = {
+							OR = {
+								is_ship_size = wg_dimensional_portal
+								is_ship_size = swgs_afk_crisis_starbase
+							}
+						}
+					}
+				}
+				found_system = {
+					move_to = this
+					repeat = {
+						while = {
+							id = executor.20.aa
+							any_fleet_in_system = {
+								any_owned_ship = {
+									OR = {
+										is_ship_size = wg_dimensional_portal
+										is_ship_size = swgs_afk_crisis_starbase
+									}
+								}
+							}
+						}
+						move_to = this
+						wait = 5
+					}
+					wait = 15
+				}
+			}
+		}
+	}
+}
+
+#fromfromfrom fleet
+# ag_effect_destroyed_fleet = { $create_buff$_fleet = this }
+exe_invasion_country_trigger = {
+	if = {
+		limit = { 
+			NOT = { has_fleet_flag = ag_is_combat_ship_trigger_flag }
+			ag_owner_is_feeling_debuff_broken = yes 
+		}
+		set_timed_fleet_flag = { flag = ag_is_combat_ship_trigger_flag days = 5 }
+		prev.fromfrom = { add_modifier = { modifier = ship_firing_default_debuff_own days = 30 } }
+	}
+	if = {
+		limit = { NOT = { has_fleet_flag = kill_leader_only_once } }
+		set_timed_fleet_flag = { flag = kill_leader_only_once days = 1 }
+		if = {
+			limit = { owner = { ag_is_combat_country_trigger = yes } }
+			if = {
+				limit = { owner = { is_country_type = default } }
+				save_event_target_as = is_interesting_players_default
+				random_list = {
+					1 = {
+						modifier = {
+							factor = 1000
+							any_owned_ship = { has_ship_flag = invincible }
+						}
+						modifier = {
+							factor = 20
+							has_global_flag = special_exe_invasion
+						}
+						leader = { 
+							save_event_target_as = is_interesting_leader 
+							prev = {
+								create_message = {
+									type = "LEADER_DEATH"
+									localization = "LEADER_DEATH_MESSAGE_SHIP"
+									days = 30
+									variable = {
+										type = name
+										localization = "kuat_leader_name"
+										scope = event_target:is_interesting_leader
+									}
+									target = event_target:is_interesting_players_default.owner
+								}
+							}
+							kill_leader = { type = admiral show_notification = no }
+						}
+					}
+					99 = { }
+				}
+			}
+			else_if = {
+				limit = { owner = { is_country_type = default_ev } }
+				save_event_target_as = is_interesting_players_default_ev
+				random_list = {
+					1 = {
+						modifier = {
+							factor = 1000
+							any_owned_ship = { has_ship_flag = invincible }
+						}
+						modifier = {
+							factor = 20
+							has_global_flag = special_exe_invasion
+						}
+						leader = { 
+							save_event_target_as = is_interesting_leader 
+							prev = {
+								create_message = {
+									type = "LEADER_DEATH"
+									localization = "LEADER_DEATH_MESSAGE_SHIP"
+									days = 30
+									variable = {
+										type = name
+										localization = "kuat_leader_name"
+										scope = event_target:is_interesting_leader
+									}
+									target = event_target:is_interesting_players_default_ev.owner
+								}
+							}
+							kill_leader = { type = admiral show_notification = no }
+						}
+					}
+					99 = { }
+				}
+			}
+			else_if = {
+				limit = { owner = { is_country_type = ag_ancient_gamma_guardian } }
+				random_list = {
+					5 = {
+						modifier = {
+							factor = 0
+							any_owned_ship = { has_modifier = ship_firing_default_debuff }
+						}
+						add_modifier = { modifier = ship_firing_default_debuff days = 2 }
+					}
+					5 = { }
+				}
+			}
+			else_if = {
+				limit = { owner = { is_country_type = wg_crisis_country } }
+				save_event_target_as = is_interesting_players_wg_crisis_country
+				random_list = {
+					1 = {
+						modifier = {
+							factor = 20
+							has_global_flag = special_exe_invasion
+						}
+						leader = { 
+							save_event_target_as = is_interesting_leader 
+							prev = {
+								create_message = {
+									type = "LEADER_DEATH"
+									localization = "LEADER_DEATH_MESSAGE_SHIP"
+									days = 30
+									variable = {
+										type = name
+										localization = "kuat_leader_name"
+										scope = event_target:is_interesting_leader
+									}
+									target = event_target:is_interesting_players_wg_crisis_country.owner
+								}
+							}
+							kill_leader = { type = admiral show_notification = no }
+						}
+					}
+					99 = { }
+				}
+			}
+			else_if = {
+				limit = { owner = { is_country_type = ag_zeta_crisis_country } }
+				random_list = {
+					5 = {
+						modifier = {
+							factor = 0
+							any_owned_ship = { has_modifier = ship_firing_default_debuff }
+						}
+						add_modifier = { modifier = ship_firing_default_debuff days = 2 }
+					}
+					5 = { }
+				}
+			}
+			else_if = {
+				limit = { owner = { is_country_type = afk_crisis_country } }
+				save_event_target_as = is_interesting_players_afk_crisis_country
+				random_list = {
+					1 = {
+						modifier = {
+							factor = 20
+							has_global_flag = special_exe_invasion
+						}
+						leader = { 
+							save_event_target_as = is_interesting_leader 
+							prev = {
+								create_message = {
+									type = "LEADER_DEATH"
+									localization = "LEADER_DEATH_MESSAGE_SHIP"
+									days = 30
+									variable = {
+										type = name
+										localization = "kuat_leader_name"
+										scope = event_target:is_interesting_leader
+									}
+									target = event_target:is_interesting_players_afk_crisis_country.owner
+								}
+							}
+							kill_leader = { type = admiral show_notification = no }
+						}
+					}
+					99 = { }
+				}
+			}
+		} else = {
+			save_event_target_as = is_interesting_players_for_some_shit_mod
+			random_list = {
+				199 = { every_owned_ship = { reduce_hp_percent = 99 } }
+				99 = {
+					add_modifier = { modifier = ship_firing_debuff days = 11 }
+					leader = { 
+						save_event_target_as = is_interesting_leader 
+						prev = {
+							create_message = {
+								type = "LEADER_DEATH"
+								localization = "LEADER_DEATH_MESSAGE_SHIP"
+								days = 30
+								variable = {
+									type = name
+									localization = "kuat_leader_name"
+									scope = event_target:is_interesting_leader
+								}
+								target = event_target:is_interesting_players_for_some_shit_mod.owner
+							}
+						}
+						kill_leader = { type = admiral show_notification = no }
+					}
+				}
+				1 = { destroy_fleet = this }
+			}
+		}
+	}
+}
