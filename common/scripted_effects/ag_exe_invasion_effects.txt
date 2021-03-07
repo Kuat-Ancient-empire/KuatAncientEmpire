@@ -2041,21 +2041,12 @@ fleet_execute_order_1 = {
 		repeat = {
 			effect = {
 				id = executor.1.c
-				solar_system = {
-					set_variable = {
-						which = kuat_fleet_id
-						value = 0
-					}
-				}
+				solar_system = { set_variable = { which = kuat_fleet_id value = 0 } }
 				if = {
-					limit = {
-						has_fleet_flag = kuat_cannot_find_path
-					}
+					limit = { has_fleet_flag = kuat_cannot_find_path }
 					random_system = {
 						limit = {
-							any_system_planet = {
-								is_colony = no
-							}
+							any_system_planet = { is_colony = no }
 							closest_system = {
 								min_steps = 1
 								any_system_planet = {
@@ -2063,9 +2054,7 @@ fleet_execute_order_1 = {
 										is_colony = yes
 										is_colonizable = yes
 									}
-									owner = {
-										is_at_war_with = event_target:fallen_empire_kuat
-									}
+									owner = { is_at_war_with = event_target:fallen_empire_kuat }
 								}
 							}
 						}
@@ -2085,14 +2074,10 @@ fleet_execute_order_1 = {
 			find_closest_system = {
 				trigger = {
 					id = executor.1
-					prev = {
-						can_access_system = prev
-					}
+					prev = { can_access_system = prev }
 					OR = {
 						any_system_planet = {
-							owner = {
-								is_at_war_with = event_target:fallen_empire_kuat
-							}
+							owner = { is_at_war_with = event_target:fallen_empire_kuat }
 							OR = {
 								is_colony = yes
 								is_colonizable = yes
@@ -2100,39 +2085,25 @@ fleet_execute_order_1 = {
 						}
 						AND = {
 							exists = starbase
-							starbase = {
-								owner = {
-									is_at_war_with = event_target:fallen_empire_kuat
-								}
-							}
+							starbase = { owner = { is_at_war_with = event_target:fallen_empire_kuat } }
 						}
 					}
 					any_fleet_in_system = {
-						NOT = {
-							is_same_value = prevprev
-						}
+						NOT = { is_same_value = prevprev }
 					}
-					check_variable = {
-						which = kuat_fleet_id
-						value < 1
-					}
+					check_variable = { which = kuat_fleet_id value < 1 }
 				}
 				found_system = {
 					effect = {
 						id = executor.2.r1
-						set_variable = {
-							which = kuat_fleet_id
-							value = root
-						}
+						set_variable = { which = kuat_fleet_id value = root }
 					}
 					move_to = this
 					repeat = {
 						while = {
 							id = executor.2.t0
 							any_system_planet = {
-								owner = {
-									is_at_war_with = event_target:fallen_empire_kuat
-								}
+								owner = { is_at_war_with = event_target:fallen_empire_kuat }
 								OR = {
 									is_colony = yes
 									is_colonizable = yes
@@ -2146,30 +2117,20 @@ fleet_execute_order_1 = {
 									is_colony = yes
 									is_colonizable = yes
 								}
-								solar_system = {
-									any_fleet_in_system = {
-										is_same_value = prevprevprev.prev
-									}
-								}
-								owner = {
-									is_at_war_with = event_target:fallen_empire_kuat
-								}
+								solar_system = { any_fleet_in_system = { is_same_value = prevprevprev.prev } }
+								owner = { is_at_war_with = event_target:fallen_empire_kuat }
 							}
 							found_planet = {
 								orbit_planet = this
 								effect = {
 									id = executor.3
 									set_planet_flag = ruins_planet
-									prevprev = {
-										set_fleet_flag = kuat_fallen_bombaring_fleet
-									}
+									prevprev = { set_fleet_flag = kuat_fallen_bombaring_fleet }
 								}
 								repeat = {
 									while = {
 										id = executor.3.t0
-										prevprev = {
-											has_fleet_flag = kuat_fallen_bombaring_fleet
-										}
+										prevprev = { has_fleet_flag = kuat_fallen_bombaring_fleet }
 									}
 									effect = {
 										id = executor.3.t1
@@ -2178,24 +2139,19 @@ fleet_execute_order_1 = {
 												is_colony = no
 												is_colonizable = no
 											}
-											prevprev = {
-												remove_fleet_flag = kuat_fallen_bombaring_fleet
-											}
+											prevprev = { remove_fleet_flag = kuat_fallen_bombaring_fleet }
 										}
-									}
-									wait = 5
+									} wait = 5
 								}
 							}
 						}
-					}
-					wait = 15
+					} wait = 15
 				}
 				failed = {
 					effect = {
 						id = executor.1.b
 						set_fleet_flag = kuat_cannot_find_path
-					}
-					wait = 60
+					} wait = 60
 				}
 			}
 		}
@@ -2234,8 +2190,7 @@ fleet_execute_order_3 = {
 						}
 						move_to = this
 						wait = 5
-					}
-					wait = 15
+					} wait = 15
 				}
 			}
 		}
