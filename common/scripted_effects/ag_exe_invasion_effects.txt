@@ -8,9 +8,7 @@ ag_exe_spawn_outer_gate_fallback = {
 		}
 	}
 	random_system = {
-		limit = {
-			has_star_flag = ag_exe_invasion_gate_system_fallback
-		}
+		limit = { has_star_flag = ag_exe_invasion_gate_system_fallback }
 		every_system = {
 			limit = {
 				NOR = {
@@ -30,14 +28,8 @@ ag_exe_spawn_outer_gate_fallback = {
 				}
 			}
 			random_list = {
-				40 = {
-				}
-				60 = {
-					add_hyperlane = {
-						from = this
-						to = prev
-					}
-				}
+				40 = { }
+				60 = { add_hyperlane = { from = this to = prev } }
 			}
 		}
 	}
@@ -55,69 +47,33 @@ ag_exe_invasion_fleet_wandering_action = {
 				}
 			}
 			if = {
-				limit = {
-					exists = event_target:ag_exe_invasion_fleet_wandering_action_target
-				}
+				limit = { exists = event_target:ag_exe_invasion_fleet_wandering_action_target }
 				event_target:ag_exe_invasion_fleet_wandering_action_target = {
 					random_system_planet = {
-						limit = {
-							is_primary_star = yes
-						}
-						prevprev = {
-							auto_move_to_planet = {
-								target = prev
-								clear_auto_move_on_arrival = yes
-							}
-						}
+						limit = { is_primary_star = yes }
+						prevprev = { auto_move_to_planet = { target = prev clear_auto_move_on_arrival = yes } }
 					}
 				}
-			}
-			else = {
-				fleet_event = {
-					id = exe_invasion.12
-					days = 10
-					random = 2
-				}
-			}
+			} else = { fleet_event = { id = exe_invasion.12 days = 10 random = 2 } }
 		}
 		25 = {
-			modifier = {
-				factor = 0
-				any_owned_ship = {
-					has_ship_flag = ag_jump_drive_cooldown
-				}
+			modifier = { 
+				factor = 0 
+				any_owned_ship = { has_ship_flag = ag_jump_drive_cooldown } 
 			}
 			random_system = {
 				limit = {
-					NOT = {
-						is_same_value = prev.solar_system
-					}
-					# distance = {
-					# 	source = prev.solar_system
-					# 	type = hyperlane
-					# 	use_bypasses = yes
-					# 	min_jumps = 1
-					# 	max_jumps = 125
-					# }
+					NOT = { is_same_value = prev.solar_system }
 					OR = {
 						AND = {
 							exists = starbase
-							starbase = {
-								exists = owner
-								owner = {
-									is_hostile = event_target:ag_kuat_invasion_country
-								}
-							}
+							starbase = { exists = owner owner = { is_hostile = event_target:ag_kuat_invasion_country } }
 						}
 						any_system_planet = {
 							exists = owner
-							owner = {
-								is_hostile = event_target:ag_kuat_invasion_country
-							}
+							owner = { is_hostile = event_target:ag_kuat_invasion_country }
 							exists = controller
-							controller = {
-								is_hostile = event_target:ag_kuat_invasion_country
-							}
+							controller = { is_hostile = event_target:ag_kuat_invasion_country }
 							OR = {
 								is_colony = yes
 								is_under_colonization = yes
@@ -125,12 +81,8 @@ ag_exe_invasion_fleet_wandering_action = {
 							NOT = {
 								any_fleet_in_orbit = {
 									exists = owner
-									owner = {
-										is_same_value = event_target:ag_kuat_invasion_country
-									}
-									NOT = {
-										is_same_value = root
-									}
+									owner = { is_same_value = event_target:ag_kuat_invasion_country }
+									NOT = { is_same_value = root }
 								}
 							}
 						}
@@ -138,40 +90,25 @@ ag_exe_invasion_fleet_wandering_action = {
 							is_disabled = no
 							is_ship_class = shipclass_military
 							exists = owner
-							owner = {
-								is_hostile = event_target:ag_kuat_invasion_country
-							}
+							owner = { is_hostile = event_target:ag_kuat_invasion_country }
 						}
 					}
 				}
 				save_event_target_as = ag_exe_invasion_fleet_wandering_action_target
 			}
 			if = {
-				limit = {
-					exists = event_target:ag_exe_invasion_fleet_wandering_action_target
-				}
+				limit = { exists = event_target:ag_exe_invasion_fleet_wandering_action_target }
 				event_target:ag_exe_invasion_fleet_wandering_action_target = {
 					random_system_planet = {
-						limit = {
-							is_primary_star = yes
-						}
+						limit = { is_primary_star = yes }
 						prevprev = {
 							create_ambient_object = {
 								type = horror_spawn_object
 								location = this
 								use_3d_location = yes
-								entity_offset = {
-									min = 0
-									max = 0
-								}
-								entity_offset_angle = {
-									min = 0
-									max = 0
-								}
-								entity_offset_height = {
-									min = 0
-									max = 0
-								}
+								entity_offset = { min = 0 max = 0 }
+								entity_offset_angle = { min = 0 max = 0 }
+								entity_offset_height = { min = 0 max = 0 }
 								entity_scale_to_size = yes
 								scale = 1
 							}
@@ -184,54 +121,29 @@ ag_exe_invasion_fleet_wandering_action = {
 								type = horror_spawn_object
 								location = this
 								use_3d_location = yes
-								entity_offset = {
-									min = 0
-									max = 0
-								}
-								entity_offset_angle = {
-									min = 0
-									max = 0
-								}
-								entity_offset_height = {
-									min = 0
-									max = 0
-								}
+								entity_offset = { min = 0 max = 0 }
+								entity_offset_angle = { min = 0 max = 0 }
+								entity_offset_height = { min = 0 max = 0 }
 								entity_scale_to_size = yes
 								scale = 1
 							}
 							while = {
 								limit = {
-									any_owned_ship = {
-										NOT = {
-											has_ship_flag = ag_jump_drive_cooldown
-										}
-									}
+									any_owned_ship = { NOT = { has_ship_flag = ag_jump_drive_cooldown } }
 								}
 								random_owned_ship = {
 									limit = {
-										NOT = {
-											has_ship_flag = ag_jump_drive_cooldown
-										}
+										NOT = { has_ship_flag = ag_jump_drive_cooldown }
 									}
-									set_timed_ship_flag = {
-										flag = ag_jump_drive_cooldown
-										days = 50
-									}
-									add_modifier = {
-										modifier = "jump_drive_cooldown"
-										days = 50
-									}
+									set_timed_ship_flag = { flag = ag_jump_drive_cooldown days = 50 }
+									add_modifier = { modifier = "jump_drive_cooldown" days = 50 }
 								}
 							}
-							auto_move_to_planet = {
-								target = prev
-								clear_auto_move_on_arrival = yes
-							}
+							auto_move_to_planet = { target = prev clear_auto_move_on_arrival = yes }
 						}
 					}
 				}
-			}
-			else = {
+			} else = {
 				solar_system = {
 					random_neighbor_system = {
 						ignore_hyperlanes = no
@@ -239,30 +151,14 @@ ag_exe_invasion_fleet_wandering_action = {
 					}
 				}
 				if = {
-					limit = {
-						exists = event_target:ag_exe_invasion_fleet_wandering_action_target
-					}
+					limit = { exists = event_target:ag_exe_invasion_fleet_wandering_action_target }
 					event_target:ag_exe_invasion_fleet_wandering_action_target = {
 						random_system_planet = {
-							limit = {
-								is_primary_star = yes
-							}
-							prevprev = {
-								auto_move_to_planet = {
-									target = prev
-									clear_auto_move_on_arrival = yes
-								}
-							}
+							limit = { is_primary_star = yes }
+							prevprev = { auto_move_to_planet = { target = prev clear_auto_move_on_arrival = yes } }
 						}
 					}
-				}
-				else = {
-					fleet_event = {
-						id = exe_invasion.12
-						days = 10
-						random = 2
-					}
-				}
+				} else = { fleet_event = { id = exe_invasion.12 days = 10 random = 2 } }
 			}
 		}
 	}
@@ -276,13 +172,9 @@ ag_exe_invasion_fleet_action = {
 				solar_system = {
 					any_system_planet = {
 						exists = owner
-						owner = {
-							is_hostile = event_target:ag_kuat_invasion_country
-						}
+						owner = { is_hostile = event_target:ag_kuat_invasion_country }
 						exists = controller
-						controller = {
-							is_hostile = event_target:ag_kuat_invasion_country
-						}
+						controller = { is_hostile = event_target:ag_kuat_invasion_country }
 						OR = {
 							is_colony = yes
 							is_under_colonization = yes
@@ -290,12 +182,8 @@ ag_exe_invasion_fleet_action = {
 						NOT = {
 							any_fleet_in_orbit = {
 								exists = owner
-								owner = {
-									is_same_value = event_target:ag_kuat_invasion_country
-								}
-								NOT = {
-									is_same_value = root
-								}
+								owner = { is_same_value = event_target:ag_kuat_invasion_country }
+								NOT = { is_same_value = root }
 							}
 						}
 					}
@@ -307,13 +195,9 @@ ag_exe_invasion_fleet_action = {
 				random_system_planet = {
 					limit = {
 						exists = owner
-						owner = {
-							is_hostile = event_target:ag_kuat_invasion_country
-						}
+						owner = { is_hostile = event_target:ag_kuat_invasion_country }
 						exists = controller
-						controller = {
-							is_hostile = event_target:ag_kuat_invasion_country
-						}
+						controller = { is_hostile = event_target:ag_kuat_invasion_country }
 						OR = {
 							is_colony = yes
 							is_under_colonization = yes
@@ -321,21 +205,12 @@ ag_exe_invasion_fleet_action = {
 						NOT = {
 							any_fleet_in_orbit = {
 								exists = owner
-								owner = {
-									is_same_value = event_target:ag_kuat_invasion_country
-								}
-								NOT = {
-									is_same_value = root
-								}
+								owner = { is_same_value = event_target:ag_kuat_invasion_country }
+								NOT = { is_same_value = root }
 							}
 						}
 					}
-					prevprev = {
-						auto_move_to_planet = {
-							target = prev
-							clear_auto_move_on_arrival = yes
-						}
-					}
+					prevprev = { auto_move_to_planet = { target = prev clear_auto_move_on_arrival = yes } }
 				}
 			}
 		}
@@ -349,9 +224,7 @@ ag_exe_invasion_fleet_action = {
 						is_disabled = no
 						is_ship_class = shipclass_military
 						exists = owner
-						owner = {
-							is_hostile = event_target:ag_kuat_invasion_country
-						}
+						owner = { is_hostile = event_target:ag_kuat_invasion_country }
 					}
 				}
 			}
@@ -361,20 +234,13 @@ ag_exe_invasion_fleet_action = {
 				random_fleet_in_system = {
 					limit = {
 						exists = owner
-						owner = {
-							is_hostile = event_target:ag_kuat_invasion_country
-						}
+						owner = { is_hostile = event_target:ag_kuat_invasion_country }
 						any_owned_ship = {
 							is_disabled = no
 							is_ship_class = shipclass_military
 						}
 					}
-					prevprev = {
-						auto_follow_fleet = {
-							target = prev
-							attack_fleet = yes
-						}
-					}
+					prevprev = { auto_follow_fleet = { target = prev attack_fleet = yes } }
 				}
 			}
 		}
@@ -389,18 +255,14 @@ ag_exe_invasion_fleet_action = {
 							exists = starbase
 							starbase = {
 								exists = owner
-								owner = {
-									is_hostile = event_target:ag_kuat_invasion_country
-								}
+								owner = { is_hostile = event_target:ag_kuat_invasion_country }
 							}
 						}
 						any_ship_in_system = {
 							is_disabled = no
 							is_ship_class = shipclass_military
 							exists = owner
-							owner = {
-								is_hostile = event_target:ag_kuat_invasion_country
-							}
+							owner = { is_hostile = event_target:ag_kuat_invasion_country }
 						}
 					}
 				}
@@ -415,40 +277,27 @@ ag_exe_invasion_fleet_action = {
 							exists = starbase
 							starbase = {
 								exists = owner
-								owner = {
-									is_hostile = event_target:ag_kuat_invasion_country
-								}
+								owner = { is_hostile = event_target:ag_kuat_invasion_country }
 							}
 						}
 						any_ship_in_system = {
 							is_disabled = no
 							is_ship_class = shipclass_military
 							exists = owner
-							owner = {
-								is_hostile = event_target:ag_kuat_invasion_country
-							}
+							owner = { is_hostile = event_target:ag_kuat_invasion_country }
 						}
 					}
 				}
 				random_system_planet = {
-					limit = {
-						is_primary_star = yes
-					}
-					prevprevprev = {
-						auto_move_to_planet = {
-							target = prev
-							clear_auto_move_on_arrival = yes
-						}
-					}
+					limit = { is_primary_star = yes }
+					prevprevprev = { auto_move_to_planet = { target = prev clear_auto_move_on_arrival = yes } }
 				}
 			}
 		}
 	}
 	else_if = {
 		limit = {
-			solar_system = {
-				ag_is_kuat_system = yes
-			}
+			solar_system = { ag_is_kuat_system = yes }
 			any_system = {
 				has_star_flag = ag_exe_invasion_gate_system
 				any_system_megastructure = {
@@ -458,78 +307,43 @@ ag_exe_invasion_fleet_action = {
 		}
 		if = {
 			limit = {
-				solar_system = {
-					has_star_flag = Kuat_system
-				}
+				solar_system = { has_star_flag = Kuat_system }
 			}
 			random_system = {
-				limit = {
-					has_star_flag = Kuat_system_3
-				}
+				limit = { has_star_flag = Kuat_system_3 }
 				random_system_planet = {
-					limit = {
-						is_primary_star = yes
-					}
-					prevprev = {
-						auto_move_to_planet = {
-							target = prev
-							clear_auto_move_on_arrival = yes
-						}
-					}
+					limit = { is_primary_star = yes }
+					prevprev = { auto_move_to_planet = { target = prev clear_auto_move_on_arrival = yes } }
 				}
 			}
 		}
 		else_if = {
 			limit = {
-				solar_system = {
-					has_star_flag = Kuat_system_3
-				}
+				solar_system = { has_star_flag = Kuat_system_3 }
 			}
 			random_system = {
-				limit = {
-					has_star_flag = Kuat_system_2
-				}
+				limit = { has_star_flag = Kuat_system_2 }
 				random_system_planet = {
-					limit = {
-						is_primary_star = yes
-					}
-					prevprev = {
-						auto_move_to_planet = {
-							target = prev
-							clear_auto_move_on_arrival = yes
-						}
-					}
+					limit = { is_primary_star = yes }
+					prevprev = { auto_move_to_planet = { target = prev clear_auto_move_on_arrival = yes } }
 				}
 			}
 		}
 		else_if = {
 			limit = {
-				solar_system = {
-					has_star_flag = Kuat_system_2
-				}
+				solar_system = { has_star_flag = Kuat_system_2 }
 			}
 			random_system = {
-				limit = {
-					has_star_flag = Kuat_system_1
-				}
+				limit = { has_star_flag = Kuat_system_1 }
 				random_system_planet = {
-					limit = {
-						is_primary_star = yes
-					}
-					prevprev = {
-						auto_move_to_planet = {
-							target = prev
-							clear_auto_move_on_arrival = yes
-						}
-					}
+					limit = { is_primary_star = yes }
+					prevprev = { auto_move_to_planet = { target = prev clear_auto_move_on_arrival = yes } }
 				}
 			}
 		}
 		else_if = {
 			limit = {
-				solar_system = {
-					has_star_flag = Kuat_system_1
-				}
+				solar_system = { has_star_flag = Kuat_system_1 }
 			}
 			random_system = {
 				limit = {
@@ -539,50 +353,33 @@ ag_exe_invasion_fleet_action = {
 					}
 				}
 				random_system_planet = {
-					limit = {
-						is_primary_star = yes
-					}
-					prevprev = {
-						auto_move_to_planet = {
-							target = prev
-							clear_auto_move_on_arrival = yes
-						}
-					}
+					limit = { is_primary_star = yes }
+					prevprev = { auto_move_to_planet = { target = prev clear_auto_move_on_arrival = yes } }
 				}
 			}
 		}
 	}
 	else_if = {
-		limit = {
-			always = yes
-		}
+		limit = { always = yes }
 		random_list = {
 			25 = {
 				closest_system = {
 					max_steps = 50
 					limit = {
-						NOT = {
-							is_same_value = root.solar_system
-						}
+						NOT = { is_same_value = root.solar_system }
 						OR = {
 							AND = {
 								exists = starbase
 								starbase = {
 									exists = owner
-									owner = {
-										is_hostile = event_target:ag_kuat_invasion_country
-									}
+									owner = { is_hostile = event_target:ag_kuat_invasion_country }
 								}
 							}
 							any_system_planet = {
 								exists = owner
-								owner = {
-									is_hostile = event_target:ag_kuat_invasion_country
-								}
+								owner = { is_hostile = event_target:ag_kuat_invasion_country }
 								exists = controller
-								controller = {
-									is_hostile = event_target:ag_kuat_invasion_country
-								}
+								controller = { is_hostile = event_target:ag_kuat_invasion_country }
 								OR = {
 									is_colony = yes
 									is_under_colonization = yes
@@ -590,38 +387,26 @@ ag_exe_invasion_fleet_action = {
 								NOT = {
 									any_fleet_in_orbit = {
 										exists = owner
-										owner = {
-											is_same_value = event_target:ag_kuat_invasion_country
-										}
-										NOT = {
-											is_same_value = root
-										}
+										owner = { is_same_value = event_target:ag_kuat_invasion_country }
+										NOT = { is_same_value = root }
 									}
 								}
 							}
 						}
-						prev = {
-							can_access_system = prev
-						}
+						prev = { can_access_system = prev }
 					}
 					save_event_target_as = ag_kuat_invasion_fleet_action_target
 				}
 				if = {
-					limit = {
-						exists = event_target:ag_kuat_invasion_fleet_action_target
-					}
+					limit = { exists = event_target:ag_kuat_invasion_fleet_action_target }
 					event_target:ag_kuat_invasion_fleet_action_target = {
 						if = {
 							limit = {
 								any_system_planet = {
 									exists = owner
-									owner = {
-										is_hostile = event_target:ag_kuat_invasion_country
-									}
+									owner = { is_hostile = event_target:ag_kuat_invasion_country }
 									exists = controller
-									controller = {
-										is_hostile = event_target:ag_kuat_invasion_country
-									}
+									controller = { is_hostile = event_target:ag_kuat_invasion_country }
 									OR = {
 										is_colony = yes
 										is_under_colonization = yes
@@ -629,12 +414,8 @@ ag_exe_invasion_fleet_action = {
 									NOT = {
 										any_fleet_in_orbit = {
 											exists = owner
-											owner = {
-												is_same_value = event_target:ag_kuat_invasion_country
-											}
-											NOT = {
-												is_same_value = root
-											}
+											owner = { is_same_value = event_target:ag_kuat_invasion_country }
+											NOT = { is_same_value = root }
 										}
 									}
 								}
@@ -642,13 +423,9 @@ ag_exe_invasion_fleet_action = {
 							random_system_planet = {
 								limit = {
 									exists = owner
-									owner = {
-										is_hostile = event_target:ag_kuat_invasion_country
-									}
+									owner = { is_hostile = event_target:ag_kuat_invasion_country }
 									exists = controller
-									controller = {
-										is_hostile = event_target:ag_kuat_invasion_country
-									}
+									controller = { is_hostile = event_target:ag_kuat_invasion_country }
 									OR = {
 										is_colony = yes
 										is_under_colonization = yes
@@ -656,31 +433,22 @@ ag_exe_invasion_fleet_action = {
 									NOT = {
 										any_fleet_in_orbit = {
 											exists = owner
-											owner = {
-												is_same_value = event_target:ag_kuat_invasion_country
-											}
-											NOT = {
-												is_same_value = root
-											}
+											owner = { is_same_value = event_target:ag_kuat_invasion_country }
+											NOT = { is_same_value = root }
 										}
 									}
 								}
 								random_list = {
 									80 = {
 										prevprev = {
-											auto_move_to_planet = {
-												target = prev
-												clear_auto_move_on_arrival = yes
-											}
+											auto_move_to_planet = { target = prev clear_auto_move_on_arrival = yes }
 										}
 									}
 									20 = {
 										modifier = {
 											factor = 0
 											prevprev = {
-												any_owned_ship = {
-													has_ship_flag = ag_jump_drive_cooldown
-												}
+												any_owned_ship = { has_ship_flag = ag_jump_drive_cooldown }
 											}
 										}
 										prevprev = {
@@ -688,18 +456,9 @@ ag_exe_invasion_fleet_action = {
 												type = horror_spawn_object
 												location = this
 												use_3d_location = yes
-												entity_offset = {
-													min = 0
-													max = 0
-												}
-												entity_offset_angle = {
-													min = 0
-													max = 0
-												}
-												entity_offset_height = {
-													min = 0
-													max = 0
-												}
+												entity_offset = { min = 0 max = 0 }
+												entity_offset_angle = { min = 0 max = 0 }
+												entity_offset_height = { min = 0 max = 0 }
 												entity_scale_to_size = yes
 												scale = 1
 											}
@@ -712,70 +471,39 @@ ag_exe_invasion_fleet_action = {
 												type = horror_spawn_object
 												location = this
 												use_3d_location = yes
-												entity_offset = {
-													min = 0
-													max = 0
-												}
-												entity_offset_angle = {
-													min = 0
-													max = 0
-												}
-												entity_offset_height = {
-													min = 0
-													max = 0
-												}
+												entity_offset = { min = 0 max = 0 }
+												entity_offset_angle = { min = 0 max = 0 }
+												entity_offset_height = { min = 0 max = 0 }
 												entity_scale_to_size = yes
 												scale = 1
 											}
 											while = {
 												limit = {
 													any_owned_ship = {
-														NOT = {
-															has_ship_flag = ag_jump_drive_cooldown
-														}
+														NOT = { has_ship_flag = ag_jump_drive_cooldown }
 													}
 												}
 												random_owned_ship = {
 													limit = {
-														NOT = {
-															has_ship_flag = ag_jump_drive_cooldown
-														}
+														NOT = { has_ship_flag = ag_jump_drive_cooldown }
 													}
-													set_timed_ship_flag = {
-														flag = ag_jump_drive_cooldown
-														days = 200
-													}
-													add_modifier = {
-														modifier = "jump_drive_cooldown"
-														days = 200
-													}
+													set_timed_ship_flag = { flag = ag_jump_drive_cooldown days = 200 }
+													add_modifier = { modifier = "jump_drive_cooldown" days = 200 }
 												}
 											}
-											auto_move_to_planet = {
-												target = prev
-												clear_auto_move_on_arrival = yes
-											}
+											auto_move_to_planet = { target = prev clear_auto_move_on_arrival = yes }
 										}
 									}
 								}
 							}
-						}
-						else = {
+						} else = {
 							random_system_planet = {
-								limit = {
-									is_primary_star = yes
-								}
-								prevprev = {
-									auto_move_to_planet = {
-										target = prev
-										clear_auto_move_on_arrival = yes
-									}
-								}
+								limit = { is_primary_star = yes }
+								prevprev = { auto_move_to_planet = { target = prev clear_auto_move_on_arrival = yes } }
 							}
 						}
 					}
-				}
-				else = {
+				} else = {
 					closest_system = {
 						max_steps = 50
 						limit = {
@@ -787,20 +515,14 @@ ag_exe_invasion_fleet_action = {
 									exists = starbase
 									starbase = {
 										exists = owner
-										owner = {
-											is_hostile = event_target:ag_kuat_invasion_country
-										}
+										owner = { is_hostile = event_target:ag_kuat_invasion_country }
 									}
 								}
 								any_system_planet = {
 									exists = owner
-									owner = {
-										is_hostile = event_target:ag_kuat_invasion_country
-									}
+									owner = { is_hostile = event_target:ag_kuat_invasion_country }
 									exists = controller
-									controller = {
-										is_hostile = event_target:ag_kuat_invasion_country
-									}
+									controller = { is_hostile = event_target:ag_kuat_invasion_country }
 									OR = {
 										is_colony = yes
 										is_under_colonization = yes
@@ -811,9 +533,7 @@ ag_exe_invasion_fleet_action = {
 											owner = {
 												is_same_value = event_target:ag_kuat_invasion_country
 											}
-											NOT = {
-												is_same_value = root
-											}
+											NOT = { is_same_value = root }
 										}
 									}
 								}
@@ -822,21 +542,15 @@ ag_exe_invasion_fleet_action = {
 						save_event_target_as = ag_kuat_invasion_fleet_action_target
 					}
 					if = {
-						limit = {
-							exists = event_target:ag_kuat_invasion_fleet_action_target
-						}
+						limit = { exists = event_target:ag_kuat_invasion_fleet_action_target }
 						event_target:ag_kuat_invasion_fleet_action_target = {
 							if = {
 								limit = {
 									any_system_planet = {
 										exists = owner
-										owner = {
-											is_hostile = event_target:ag_kuat_invasion_country
-										}
+										owner = { is_hostile = event_target:ag_kuat_invasion_country }
 										exists = controller
-										controller = {
-											is_hostile = event_target:ag_kuat_invasion_country
-										}
+										controller = { is_hostile = event_target:ag_kuat_invasion_country }
 										OR = {
 											is_colony = yes
 											is_under_colonization = yes
@@ -844,12 +558,8 @@ ag_exe_invasion_fleet_action = {
 										NOT = {
 											any_fleet_in_orbit = {
 												exists = owner
-												owner = {
-													is_same_value = event_target:ag_kuat_invasion_country
-												}
-												NOT = {
-													is_same_value = root
-												}
+												owner = { is_same_value = event_target:ag_kuat_invasion_country }
+												NOT = { is_same_value = root }
 											}
 										}
 									}
@@ -857,13 +567,9 @@ ag_exe_invasion_fleet_action = {
 								random_system_planet = {
 									limit = {
 										exists = owner
-										owner = {
-											is_hostile = event_target:ag_kuat_invasion_country
-										}
+										owner = { is_hostile = event_target:ag_kuat_invasion_country }
 										exists = controller
-										controller = {
-											is_hostile = event_target:ag_kuat_invasion_country
-										}
+										controller = { is_hostile = event_target:ag_kuat_invasion_country }
 										OR = {
 											is_colony = yes
 											is_under_colonization = yes
@@ -871,31 +577,22 @@ ag_exe_invasion_fleet_action = {
 										NOT = {
 											any_fleet_in_orbit = {
 												exists = owner
-												owner = {
-													is_same_value = event_target:ag_kuat_invasion_country
-												}
-												NOT = {
-													is_same_value = root
-												}
+												owner = { is_same_value = event_target:ag_kuat_invasion_country }
+												NOT = { is_same_value = root }
 											}
 										}
 									}
 									random_list = {
 										80 = {
 											prevprev = {
-												auto_move_to_planet = {
-													target = prev
-													clear_auto_move_on_arrival = yes
-												}
+												auto_move_to_planet = { target = prev clear_auto_move_on_arrival = yes }
 											}
 										}
 										20 = {
 											modifier = {
 												factor = 0
 												prevprev = {
-													any_owned_ship = {
-														has_ship_flag = ag_jump_drive_cooldown
-													}
+													any_owned_ship = { has_ship_flag = ag_jump_drive_cooldown }
 												}
 											}
 											prevprev = {
@@ -903,18 +600,9 @@ ag_exe_invasion_fleet_action = {
 													type = horror_spawn_object
 													location = this
 													use_3d_location = yes
-													entity_offset = {
-														min = 0
-														max = 0
-													}
-													entity_offset_angle = {
-														min = 0
-														max = 0
-													}
-													entity_offset_height = {
-														min = 0
-														max = 0
-													}
+													entity_offset = { min = 0 max = 0 }
+													entity_offset_angle = { min = 0 max = 0 }
+													entity_offset_height = { min = 0 max = 0 }
 													entity_scale_to_size = yes
 													scale = 1
 												}
@@ -927,80 +615,45 @@ ag_exe_invasion_fleet_action = {
 													type = horror_spawn_object
 													location = this
 													use_3d_location = yes
-													entity_offset = {
-														min = 0
-														max = 0
-													}
-													entity_offset_angle = {
-														min = 0
-														max = 0
-													}
-													entity_offset_height = {
-														min = 0
-														max = 0
-													}
+													entity_offset = { min = 0 max = 0 }
+													entity_offset_angle = { min = 0 max = 0 }
+													entity_offset_height = { min = 0 max = 0 }
 													entity_scale_to_size = yes
 													scale = 1
 												}
 												while = {
 													limit = {
 														any_owned_ship = {
-															NOT = {
-																has_ship_flag = ag_jump_drive_cooldown
-															}
+															NOT = { has_ship_flag = ag_jump_drive_cooldown }
 														}
 													}
 													random_owned_ship = {
 														limit = {
-															NOT = {
-																has_ship_flag = ag_jump_drive_cooldown
-															}
+															NOT = { has_ship_flag = ag_jump_drive_cooldown }
 														}
-														set_timed_ship_flag = {
-															flag = ag_jump_drive_cooldown
-															days = 200
-														}
-														add_modifier = {
-															modifier = "jump_drive_cooldown"
-															days = 200
-														}
+														set_timed_ship_flag = { flag = ag_jump_drive_cooldown days = 200 }
+														add_modifier = { modifier = "jump_drive_cooldown" days = 200 }
 													}
 												}
-												auto_move_to_planet = {
-													target = prev
-													clear_auto_move_on_arrival = yes
-												}
+												auto_move_to_planet = { target = prev clear_auto_move_on_arrival = yes }
 											}
 										}
 									}
 								}
-							}
-							else = {
+							} else = {
 								random_system_planet = {
-									limit = {
-										is_primary_star = yes
-									}
-									prevprev = {
-										auto_move_to_planet = {
-											target = prev
-											clear_auto_move_on_arrival = yes
-										}
-									}
+									limit = { is_primary_star = yes }
+									prevprev = { auto_move_to_planet = { target = prev clear_auto_move_on_arrival = yes } }
 								}
 							}
 						}
-					}
-					else = {
-						ag_exe_invasion_fleet_wandering_action = yes
-					}
+					} else = { ag_exe_invasion_fleet_wandering_action = yes }
 				}
 			}
 			25 = {
 				random_system = {
 					limit = {
-						NOT = {
-							is_same_value = root.solar_system
-						}
+						NOT = { is_same_value = root.solar_system }
 						distance = {
 							source = root.solar_system
 							type = hyperlane
@@ -1013,20 +666,14 @@ ag_exe_invasion_fleet_action = {
 								exists = starbase
 								starbase = {
 									exists = owner
-									owner = {
-										is_hostile = event_target:ag_kuat_invasion_country
-									}
+									owner = { is_hostile = event_target:ag_kuat_invasion_country }
 								}
 							}
 							any_system_planet = {
 								exists = owner
-								owner = {
-									is_hostile = event_target:ag_kuat_invasion_country
-								}
+								owner = { is_hostile = event_target:ag_kuat_invasion_country }
 								exists = controller
-								controller = {
-									is_hostile = event_target:ag_kuat_invasion_country
-								}
+								controller = { is_hostile = event_target:ag_kuat_invasion_country }
 								OR = {
 									is_colony = yes
 									is_under_colonization = yes
@@ -1034,38 +681,26 @@ ag_exe_invasion_fleet_action = {
 								NOT = {
 									any_fleet_in_orbit = {
 										exists = owner
-										owner = {
-											is_same_value = event_target:ag_kuat_invasion_country
-										}
-										NOT = {
-											is_same_value = root
-										}
+										owner = { is_same_value = event_target:ag_kuat_invasion_country }
+										NOT = { is_same_value = root }
 									}
 								}
 							}
 						}
-						prev = {
-							can_access_system = prev
-						}
+						prev = { can_access_system = prev }
 					}
 					save_event_target_as = ag_kuat_invasion_fleet_action_target
 				}
 				if = {
-					limit = {
-						exists = event_target:ag_kuat_invasion_fleet_action_target
-					}
+					limit = { exists = event_target:ag_kuat_invasion_fleet_action_target }
 					event_target:ag_kuat_invasion_fleet_action_target = {
 						if = {
 							limit = {
 								any_system_planet = {
 									exists = owner
-									owner = {
-										is_hostile = event_target:ag_kuat_invasion_country
-									}
+									owner = { is_hostile = event_target:ag_kuat_invasion_country }
 									exists = controller
-									controller = {
-										is_hostile = event_target:ag_kuat_invasion_country
-									}
+									controller = { is_hostile = event_target:ag_kuat_invasion_country }
 									OR = {
 										is_colony = yes
 										is_under_colonization = yes
@@ -1073,12 +708,8 @@ ag_exe_invasion_fleet_action = {
 									NOT = {
 										any_fleet_in_orbit = {
 											exists = owner
-											owner = {
-												is_same_value = event_target:ag_kuat_invasion_country
-											}
-											NOT = {
-												is_same_value = root
-											}
+											owner = { is_same_value = event_target:ag_kuat_invasion_country }
+											NOT = { is_same_value = root }
 										}
 									}
 								}
@@ -1086,13 +717,9 @@ ag_exe_invasion_fleet_action = {
 							random_system_planet = {
 								limit = {
 									exists = owner
-									owner = {
-										is_hostile = event_target:ag_kuat_invasion_country
-									}
+									owner = { is_hostile = event_target:ag_kuat_invasion_country }
 									exists = controller
-									controller = {
-										is_hostile = event_target:ag_kuat_invasion_country
-									}
+									controller = { is_hostile = event_target:ag_kuat_invasion_country }
 									OR = {
 										is_colony = yes
 										is_under_colonization = yes
@@ -1103,19 +730,14 @@ ag_exe_invasion_fleet_action = {
 											owner = {
 												is_same_value = event_target:ag_kuat_invasion_country
 											}
-											NOT = {
-												is_same_value = root
-											}
+											NOT = { is_same_value = root }
 										}
 									}
 								}
 								random_list = {
 									80 = {
 										prevprev = {
-											auto_move_to_planet = {
-												target = prev
-												clear_auto_move_on_arrival = yes
-											}
+											auto_move_to_planet = { target = prev clear_auto_move_on_arrival = yes }
 										}
 									}
 									20 = {
@@ -1132,18 +754,9 @@ ag_exe_invasion_fleet_action = {
 												type = horror_spawn_object
 												location = this
 												use_3d_location = yes
-												entity_offset = {
-													min = 0
-													max = 0
-												}
-												entity_offset_angle = {
-													min = 0
-													max = 0
-												}
-												entity_offset_height = {
-													min = 0
-													max = 0
-												}
+												entity_offset = { min = 0 max = 0 }
+												entity_offset_angle = { min = 0 max = 0 }
+												entity_offset_height = { min = 0 max = 0 }
 												entity_scale_to_size = yes
 												scale = 1
 											}
@@ -1156,75 +769,42 @@ ag_exe_invasion_fleet_action = {
 												type = horror_spawn_object
 												location = this
 												use_3d_location = yes
-												entity_offset = {
-													min = 0
-													max = 0
-												}
-												entity_offset_angle = {
-													min = 0
-													max = 0
-												}
-												entity_offset_height = {
-													min = 0
-													max = 0
-												}
+												entity_offset = { min = 0 max = 0 }
+												entity_offset_angle = { min = 0 max = 0 }
+												entity_offset_height = { min = 0 max = 0 }
 												entity_scale_to_size = yes
 												scale = 1
 											}
 											while = {
 												limit = {
 													any_owned_ship = {
-														NOT = {
-															has_ship_flag = ag_jump_drive_cooldown
-														}
+														NOT = { has_ship_flag = ag_jump_drive_cooldown }
 													}
 												}
 												random_owned_ship = {
 													limit = {
-														NOT = {
-															has_ship_flag = ag_jump_drive_cooldown
-														}
+														NOT = { has_ship_flag = ag_jump_drive_cooldown }
 													}
-													set_timed_ship_flag = {
-														flag = ag_jump_drive_cooldown
-														days = 200
-													}
-													add_modifier = {
-														modifier = "jump_drive_cooldown"
-														days = 200
-													}
+													set_timed_ship_flag = { flag = ag_jump_drive_cooldown days = 200 }
+													add_modifier = { modifier = "jump_drive_cooldown" days = 200 }
 												}
 											}
-											auto_move_to_planet = {
-												target = prev
-												clear_auto_move_on_arrival = yes
-											}
+											auto_move_to_planet = { target = prev clear_auto_move_on_arrival = yes }
 										}
 									}
 								}
 							}
-						}
-						else = {
+						} else = {
 							random_system_planet = {
-								limit = {
-									is_primary_star = yes
-								}
-								prevprev = {
-									auto_move_to_planet = {
-										target = prev
-										clear_auto_move_on_arrival = yes
-									}
-								}
+								limit = { is_primary_star = yes }
+								prevprev = { auto_move_to_planet = { target = prev clear_auto_move_on_arrival = yes } }
 							}
 						}
 					}
-				}
-				else = {
+				} else = {
 					random_system = {
 						limit = {
-							NOT = {
-								is_same_value = root.solar_system
-							}
+							NOT = { is_same_value = root.solar_system }
 							distance = {
 								source = root.solar_system
 								type = hyperlane
@@ -1237,20 +817,14 @@ ag_exe_invasion_fleet_action = {
 									exists = starbase
 									starbase = {
 										exists = owner
-										owner = {
-											is_hostile = event_target:ag_kuat_invasion_country
-										}
+										owner = { is_hostile = event_target:ag_kuat_invasion_country }
 									}
 								}
 								any_system_planet = {
 									exists = owner
-									owner = {
-										is_hostile = event_target:ag_kuat_invasion_country
-									}
+									owner = { is_hostile = event_target:ag_kuat_invasion_country }
 									exists = controller
-									controller = {
-										is_hostile = event_target:ag_kuat_invasion_country
-									}
+									controller = { is_hostile = event_target:ag_kuat_invasion_country }
 									OR = {
 										is_colony = yes
 										is_under_colonization = yes
@@ -1258,12 +832,8 @@ ag_exe_invasion_fleet_action = {
 									NOT = {
 										any_fleet_in_orbit = {
 											exists = owner
-											owner = {
-												is_same_value = event_target:ag_kuat_invasion_country
-											}
-											NOT = {
-												is_same_value = root
-											}
+											owner = { is_same_value = event_target:ag_kuat_invasion_country }
+											NOT = { is_same_value = root }
 										}
 									}
 								}
@@ -1272,21 +842,15 @@ ag_exe_invasion_fleet_action = {
 						save_event_target_as = ag_kuat_invasion_fleet_action_target
 					}
 					if = {
-						limit = {
-							exists = event_target:ag_kuat_invasion_fleet_action_target
-						}
+						limit = { exists = event_target:ag_kuat_invasion_fleet_action_target }
 						event_target:ag_kuat_invasion_fleet_action_target = {
 							if = {
 								limit = {
 									any_system_planet = {
 										exists = owner
-										owner = {
-											is_hostile = event_target:ag_kuat_invasion_country
-										}
+										owner = { is_hostile = event_target:ag_kuat_invasion_country }
 										exists = controller
-										controller = {
-											is_hostile = event_target:ag_kuat_invasion_country
-										}
+										controller = { is_hostile = event_target:ag_kuat_invasion_country }
 										OR = {
 											is_colony = yes
 											is_under_colonization = yes
@@ -1294,12 +858,8 @@ ag_exe_invasion_fleet_action = {
 										NOT = {
 											any_fleet_in_orbit = {
 												exists = owner
-												owner = {
-													is_same_value = event_target:ag_kuat_invasion_country
-												}
-												NOT = {
-													is_same_value = root
-												}
+												owner = { is_same_value = event_target:ag_kuat_invasion_country }
+												NOT = { is_same_value = root }
 											}
 										}
 									}
@@ -1307,13 +867,9 @@ ag_exe_invasion_fleet_action = {
 								random_system_planet = {
 									limit = {
 										exists = owner
-										owner = {
-											is_hostile = event_target:ag_kuat_invasion_country
-										}
+										owner = { is_hostile = event_target:ag_kuat_invasion_country }
 										exists = controller
-										controller = {
-											is_hostile = event_target:ag_kuat_invasion_country
-										}
+										controller = { is_hostile = event_target:ag_kuat_invasion_country }
 										OR = {
 											is_colony = yes
 											is_under_colonization = yes
@@ -1321,31 +877,22 @@ ag_exe_invasion_fleet_action = {
 										NOT = {
 											any_fleet_in_orbit = {
 												exists = owner
-												owner = {
-													is_same_value = event_target:ag_kuat_invasion_country
-												}
-												NOT = {
-													is_same_value = root
-												}
+												owner = { is_same_value = event_target:ag_kuat_invasion_country }
+												NOT = { is_same_value = root }
 											}
 										}
 									}
 									random_list = {
 										80 = {
 											prevprev = {
-												auto_move_to_planet = {
-													target = prev
-													clear_auto_move_on_arrival = yes
-												}
+												auto_move_to_planet = { target = prev clear_auto_move_on_arrival = yes }
 											}
 										}
 										20 = {
 											modifier = {
 												factor = 0
 												prevprev = {
-													any_owned_ship = {
-														has_ship_flag = ag_jump_drive_cooldown
-													}
+													any_owned_ship = { has_ship_flag = ag_jump_drive_cooldown }
 												}
 											}
 											prevprev = {
@@ -1353,18 +900,9 @@ ag_exe_invasion_fleet_action = {
 													type = horror_spawn_object
 													location = this
 													use_3d_location = yes
-													entity_offset = {
-														min = 0
-														max = 0
-													}
-													entity_offset_angle = {
-														min = 0
-														max = 0
-													}
-													entity_offset_height = {
-														min = 0
-														max = 0
-													}
+													entity_offset = { min = 0 max = 0 }
+													entity_offset_angle = { min = 0 max = 0 }
+													entity_offset_height = { min = 0 max = 0 }
 													entity_scale_to_size = yes
 													scale = 1
 												}
@@ -1377,106 +915,63 @@ ag_exe_invasion_fleet_action = {
 													type = horror_spawn_object
 													location = this
 													use_3d_location = yes
-													entity_offset = {
-														min = 0
-														max = 0
-													}
-													entity_offset_angle = {
-														min = 0
-														max = 0
-													}
-													entity_offset_height = {
-														min = 0
-														max = 0
-													}
+													entity_offset = { min = 0 max = 0 }
+													entity_offset_angle = { min = 0 max = 0 }
+													entity_offset_height = { min = 0 max = 0 }
 													entity_scale_to_size = yes
 													scale = 1
 												}
 												while = {
 													limit = {
 														any_owned_ship = {
-															NOT = {
-																has_ship_flag = ag_jump_drive_cooldown
-															}
+															NOT = { has_ship_flag = ag_jump_drive_cooldown }
 														}
 													}
 													random_owned_ship = {
 														limit = {
-															NOT = {
-																has_ship_flag = ag_jump_drive_cooldown
-															}
+															NOT = { has_ship_flag = ag_jump_drive_cooldown }
 														}
-														set_timed_ship_flag = {
-															flag = ag_jump_drive_cooldown
-															days = 200
-														}
-														add_modifier = {
-															modifier = "jump_drive_cooldown"
-															days = 200
-														}
+														set_timed_ship_flag = { flag = ag_jump_drive_cooldown days = 200 }
+														add_modifier = { modifier = "jump_drive_cooldown" days = 200 }
 													}
 												}
-												auto_move_to_planet = {
-													target = prev
-													clear_auto_move_on_arrival = yes
-												}
+												auto_move_to_planet = { target = prev clear_auto_move_on_arrival = yes }
 											}
 										}
 									}
 								}
-							}
-							else = {
+							} else = {
 								random_system_planet = {
-									limit = {
-										is_primary_star = yes
-									}
-									prevprev = {
-										auto_move_to_planet = {
-											target = prev
-											clear_auto_move_on_arrival = yes
-										}
-									}
+									limit = { is_primary_star = yes }
+									prevprev = { auto_move_to_planet = { target = prev clear_auto_move_on_arrival = yes } }
 								}
 							}
 						}
-					}
-					else = {
-						ag_exe_invasion_fleet_wandering_action = yes
-					}
+					} else = { ag_exe_invasion_fleet_wandering_action = yes }
 				}
 			}
 			25 = {
 				closest_system = {
 					max_steps = 50
 					limit = {
-						NOT = {
-							is_same_value = root.solar_system
-						}
+						NOT = { is_same_value = root.solar_system }
 						any_ship_in_system = {
 							is_disabled = no
 							is_ship_class = shipclass_military
 							exists = owner
-							owner = {
-								is_hostile = event_target:ag_kuat_invasion_country
-							}
+							owner = { is_hostile = event_target:ag_kuat_invasion_country }
 						}
-						prev = {
-							can_access_system = prev
-						}
+						prev = { can_access_system = prev }
 					}
 					save_event_target_as = ag_kuat_invasion_fleet_action_target
 				}
 				if = {
-					limit = {
-						exists = event_target:ag_kuat_invasion_fleet_action_target
-					}
+					limit = { exists = event_target:ag_kuat_invasion_fleet_action_target }
 					event_target:ag_kuat_invasion_fleet_action_target = {
 						random_fleet_in_system = {
 							limit = {
 								exists = owner
-								owner = {
-									is_hostile = event_target:ag_kuat_invasion_country
-								}
+								owner = { is_hostile = event_target:ag_kuat_invasion_country }
 								any_owned_ship = {
 									is_disabled = no
 									is_ship_class = shipclass_military
@@ -1485,10 +980,7 @@ ag_exe_invasion_fleet_action = {
 							random_list = {
 								75 = {
 									prevprev = {
-										auto_follow_fleet = {
-											target = prev
-											attack_fleet = yes
-										}
+										auto_follow_fleet = { target = prev attack_fleet = yes }
 									}
 								}
 								25 = {
@@ -1505,18 +997,9 @@ ag_exe_invasion_fleet_action = {
 											type = horror_spawn_object
 											location = this
 											use_3d_location = yes
-											entity_offset = {
-												min = 0
-												max = 0
-											}
-											entity_offset_angle = {
-												min = 0
-												max = 0
-											}
-											entity_offset_height = {
-												min = 0
-												max = 0
-											}
+											entity_offset = { min = 0 max = 0 }
+											entity_offset_angle = { min = 0 max = 0 }
+											entity_offset_height = { min = 0 max = 0 }
 											entity_scale_to_size = yes
 											scale = 1
 										}
@@ -1529,84 +1012,53 @@ ag_exe_invasion_fleet_action = {
 											type = horror_spawn_object
 											location = this
 											use_3d_location = yes
-											entity_offset = {
-												min = 0
-												max = 0
-											}
-											entity_offset_angle = {
-												min = 0
-												max = 0
-											}
-											entity_offset_height = {
-												min = 0
-												max = 0
-											}
+											entity_offset = { min = 0 max = 0 }
+											entity_offset_angle = { min = 0 max = 0 }
+											entity_offset_height = { min = 0 max = 0 }
 											entity_scale_to_size = yes
 											scale = 1
 										}
 										while = {
 											limit = {
 												any_owned_ship = {
-													NOT = {
-														has_ship_flag = ag_jump_drive_cooldown
-													}
+													NOT = { has_ship_flag = ag_jump_drive_cooldown }
 												}
 											}
 											random_owned_ship = {
 												limit = {
-													NOT = {
-														has_ship_flag = ag_jump_drive_cooldown
-													}
+													NOT = { has_ship_flag = ag_jump_drive_cooldown }
 												}
-												set_timed_ship_flag = {
-													flag = ag_jump_drive_cooldown
-													days = 200
-												}
-												add_modifier = {
-													modifier = "jump_drive_cooldown"
-													days = 200
-												}
+												set_timed_ship_flag = { flag = ag_jump_drive_cooldown days = 200 }
+												add_modifier = { modifier = "jump_drive_cooldown" days = 200 }
 											}
 										}
-										auto_follow_fleet = {
-											target = prev
-											attack_fleet = yes
-										}
+										auto_follow_fleet = { target = prev attack_fleet = yes }
 									}
 								}
 							}
 						}
 					}
-				}
-				else = {
+				} else = {
 					closest_system = {
 						max_steps = 50
 						limit = {
-							NOT = {
-								is_same_value = root.solar_system
-							}
+							NOT = { is_same_value = root.solar_system }
 							any_ship_in_system = {
 								is_disabled = no
 								is_ship_class = shipclass_military
 								exists = owner
-								owner = {
-									is_hostile = event_target:ag_kuat_invasion_country
-								}
+								owner = { is_hostile = event_target:ag_kuat_invasion_country }
 							}
 						}
 						save_event_target_as = ag_kuat_invasion_fleet_action_target
 					}
 					if = {
-						limit = {
-							exists = event_target:ag_kuat_invasion_fleet_action_target
-						}
+						limit = { exists = event_target:ag_kuat_invasion_fleet_action_target }
 						event_target:ag_kuat_invasion_fleet_action_target = {
 							random_fleet_in_system = {
 								limit = {
 									exists = owner
-									owner = {
-										is_hostile = event_target:ag_kuat_invasion_country
-									}
+									owner = { is_hostile = event_target:ag_kuat_invasion_country }
 									any_owned_ship = {
 										is_disabled = no
 										is_ship_class = shipclass_military
@@ -1615,10 +1067,7 @@ ag_exe_invasion_fleet_action = {
 								random_list = {
 									75 = {
 										prevprev = {
-											auto_follow_fleet = {
-												target = prev
-												attack_fleet = yes
-											}
+											auto_follow_fleet = { target = prev attack_fleet = yes }
 										}
 									}
 									25 = {
@@ -1635,18 +1084,9 @@ ag_exe_invasion_fleet_action = {
 												type = horror_spawn_object
 												location = this
 												use_3d_location = yes
-												entity_offset = {
-													min = 0
-													max = 0
-												}
-												entity_offset_angle = {
-													min = 0
-													max = 0
-												}
-												entity_offset_height = {
-													min = 0
-													max = 0
-												}
+												entity_offset = { min = 0 max = 0 }
+												entity_offset_angle = { min = 0 max = 0 }
+												entity_offset_height = { min = 0 max = 0 }
 												entity_scale_to_size = yes
 												scale = 1
 											}
@@ -1659,66 +1099,39 @@ ag_exe_invasion_fleet_action = {
 												type = horror_spawn_object
 												location = this
 												use_3d_location = yes
-												entity_offset = {
-													min = 0
-													max = 0
-												}
-												entity_offset_angle = {
-													min = 0
-													max = 0
-												}
-												entity_offset_height = {
-													min = 0
-													max = 0
-												}
+												entity_offset = { min = 0 max = 0 }
+												entity_offset_angle = { min = 0 max = 0 }
+												entity_offset_height = { min = 0 max = 0 }
 												entity_scale_to_size = yes
 												scale = 1
 											}
 											while = {
 												limit = {
 													any_owned_ship = {
-														NOT = {
-															has_ship_flag = ag_jump_drive_cooldown
-														}
+														NOT = { has_ship_flag = ag_jump_drive_cooldown }
 													}
 												}
 												random_owned_ship = {
 													limit = {
-														NOT = {
-															has_ship_flag = ag_jump_drive_cooldown
-														}
+														NOT = { has_ship_flag = ag_jump_drive_cooldown }
 													}
-													set_timed_ship_flag = {
-														flag = ag_jump_drive_cooldown
-														days = 200
-													}
-													add_modifier = {
-														modifier = "jump_drive_cooldown"
-														days = 200
-													}
+													set_timed_ship_flag = { flag = ag_jump_drive_cooldown days = 200 }
+													add_modifier = { modifier = "jump_drive_cooldown" days = 200 }
 												}
 											}
-											auto_follow_fleet = {
-												target = prev
-												attack_fleet = yes
-											}
+											auto_follow_fleet = { target = prev attack_fleet = yes }
 										}
 									}
 								}
 							}
 						}
-					}
-					else = {
-						ag_exe_invasion_fleet_wandering_action = yes
-					}
+					} else = { ag_exe_invasion_fleet_wandering_action = yes }
 				}
 			}
 			25 = {
 				random_system = {
 					limit = {
-						NOT = {
-							is_same_value = root.solar_system
-						}
+						NOT = { is_same_value = root.solar_system }
 						distance = {
 							source = root.solar_system
 							type = hyperlane
@@ -1730,27 +1143,19 @@ ag_exe_invasion_fleet_action = {
 							is_disabled = no
 							is_ship_class = shipclass_military
 							exists = owner
-							owner = {
-								is_hostile = event_target:ag_kuat_invasion_country
-							}
+							owner = { is_hostile = event_target:ag_kuat_invasion_country }
 						}
-						prev = {
-							can_access_system = prev
-						}
+						prev = { can_access_system = prev }
 					}
 					save_event_target_as = ag_kuat_invasion_fleet_action_target
 				}
 				if = {
-					limit = {
-						exists = event_target:ag_kuat_invasion_fleet_action_target
-					}
+					limit = { exists = event_target:ag_kuat_invasion_fleet_action_target }
 					event_target:ag_kuat_invasion_fleet_action_target = {
 						random_fleet_in_system = {
 							limit = {
 								exists = owner
-								owner = {
-									is_hostile = event_target:ag_kuat_invasion_country
-								}
+								owner = { is_hostile = event_target:ag_kuat_invasion_country }
 								any_owned_ship = {
 									is_disabled = no
 									is_ship_class = shipclass_military
@@ -1759,10 +1164,7 @@ ag_exe_invasion_fleet_action = {
 							random_list = {
 								75 = {
 									prevprev = {
-										auto_follow_fleet = {
-											target = prev
-											attack_fleet = yes
-										}
+										auto_follow_fleet = { target = prev attack_fleet = yes }
 									}
 								}
 								25 = {
@@ -1779,18 +1181,9 @@ ag_exe_invasion_fleet_action = {
 											type = horror_spawn_object
 											location = this
 											use_3d_location = yes
-											entity_offset = {
-												min = 0
-												max = 0
-											}
-											entity_offset_angle = {
-												min = 0
-												max = 0
-											}
-											entity_offset_height = {
-												min = 0
-												max = 0
-											}
+											entity_offset = { min = 0 max = 0 }
+											entity_offset_angle = { min = 0 max = 0 }
+											entity_offset_height = { min = 0 max = 0 }
 											entity_scale_to_size = yes
 											scale = 1
 										}
@@ -1803,61 +1196,36 @@ ag_exe_invasion_fleet_action = {
 											type = horror_spawn_object
 											location = this
 											use_3d_location = yes
-											entity_offset = {
-												min = 0
-												max = 0
-											}
-											entity_offset_angle = {
-												min = 0
-												max = 0
-											}
-											entity_offset_height = {
-												min = 0
-												max = 0
-											}
+											entity_offset = { min = 0 max = 0 }
+											entity_offset_angle = { min = 0 max = 0 }
+											entity_offset_height = { min = 0 max = 0 }
 											entity_scale_to_size = yes
 											scale = 1
 										}
 										while = {
 											limit = {
 												any_owned_ship = {
-													NOT = {
-														has_ship_flag = ag_jump_drive_cooldown
-													}
+													NOT = { has_ship_flag = ag_jump_drive_cooldown }
 												}
 											}
 											random_owned_ship = {
 												limit = {
-													NOT = {
-														has_ship_flag = ag_jump_drive_cooldown
-													}
+													NOT = { has_ship_flag = ag_jump_drive_cooldown }
 												}
-												set_timed_ship_flag = {
-													flag = ag_jump_drive_cooldown
-													days = 200
-												}
-												add_modifier = {
-													modifier = "jump_drive_cooldown"
-													days = 200
-												}
+												set_timed_ship_flag = { flag = ag_jump_drive_cooldown days = 200 }
+												add_modifier = { modifier = "jump_drive_cooldown" days = 200 }
 											}
 										}
-										auto_follow_fleet = {
-											target = prev
-											attack_fleet = yes
-										}
+										auto_follow_fleet = { target = prev attack_fleet = yes }
 									}
 								}
 							}
 						}
 					}
-				}
-				else = {
+				} else = {
 					random_system = {
 						limit = {
-							NOT = {
-								is_same_value = root.solar_system
-							}
+							NOT = { is_same_value = root.solar_system }
 							distance = {
 								source = root.solar_system
 								type = hyperlane
@@ -1869,24 +1237,18 @@ ag_exe_invasion_fleet_action = {
 								is_disabled = no
 								is_ship_class = shipclass_military
 								exists = owner
-								owner = {
-									is_hostile = event_target:ag_kuat_invasion_country
-								}
+								owner = { is_hostile = event_target:ag_kuat_invasion_country }
 							}
 						}
 						save_event_target_as = ag_kuat_invasion_fleet_action_target
 					}
 					if = {
-						limit = {
-							exists = event_target:ag_kuat_invasion_fleet_action_target
-						}
+						limit = { exists = event_target:ag_kuat_invasion_fleet_action_target }
 						event_target:ag_kuat_invasion_fleet_action_target = {
 							random_fleet_in_system = {
 								limit = {
 									exists = owner
-									owner = {
-										is_hostile = event_target:ag_kuat_invasion_country
-									}
+									owner = { is_hostile = event_target:ag_kuat_invasion_country }
 									any_owned_ship = {
 										is_disabled = no
 										is_ship_class = shipclass_military
@@ -1895,19 +1257,14 @@ ag_exe_invasion_fleet_action = {
 								random_list = {
 									75 = {
 										prevprev = {
-											auto_follow_fleet = {
-												target = prev
-												attack_fleet = yes
-											}
+											auto_follow_fleet = { target = prev attack_fleet = yes }
 										}
 									}
 									25 = {
 										modifier = {
 											factor = 0
 											prevprev = {
-												any_owned_ship = {
-													has_ship_flag = ag_jump_drive_cooldown
-												}
+												any_owned_ship = { has_ship_flag = ag_jump_drive_cooldown }
 											}
 										}
 										prevprev = {
@@ -1915,18 +1272,9 @@ ag_exe_invasion_fleet_action = {
 												type = horror_spawn_object
 												location = this
 												use_3d_location = yes
-												entity_offset = {
-													min = 0
-													max = 0
-												}
-												entity_offset_angle = {
-													min = 0
-													max = 0
-												}
-												entity_offset_height = {
-													min = 0
-													max = 0
-												}
+												entity_offset = { min = 0 max = 0 }
+												entity_offset_angle = { min = 0 max = 0 }
+												entity_offset_height = { min = 0 max = 0 }
 												entity_scale_to_size = yes
 												scale = 1
 											}
@@ -1939,58 +1287,33 @@ ag_exe_invasion_fleet_action = {
 												type = horror_spawn_object
 												location = this
 												use_3d_location = yes
-												entity_offset = {
-													min = 0
-													max = 0
-												}
-												entity_offset_angle = {
-													min = 0
-													max = 0
-												}
-												entity_offset_height = {
-													min = 0
-													max = 0
-												}
+												entity_offset = { min = 0 max = 0 }
+												entity_offset_angle = { min = 0 max = 0 }
+												entity_offset_height = { min = 0 max = 0 }
 												entity_scale_to_size = yes
 												scale = 1
 											}
 											while = {
 												limit = {
 													any_owned_ship = {
-														NOT = {
-															has_ship_flag = ag_jump_drive_cooldown
-														}
+														NOT = { has_ship_flag = ag_jump_drive_cooldown }
 													}
 												}
 												random_owned_ship = {
 													limit = {
-														NOT = {
-															has_ship_flag = ag_jump_drive_cooldown
-														}
+														NOT = { has_ship_flag = ag_jump_drive_cooldown }
 													}
-													set_timed_ship_flag = {
-														flag = ag_jump_drive_cooldown
-														days = 200
-													}
-													add_modifier = {
-														modifier = "jump_drive_cooldown"
-														days = 200
-													}
+													set_timed_ship_flag = { flag = ag_jump_drive_cooldown days = 200 }
+													add_modifier = { modifier = "jump_drive_cooldown" days = 200 }
 												}
 											}
-											auto_follow_fleet = {
-												target = prev
-												attack_fleet = yes
-											}
+											auto_follow_fleet = { target = prev attack_fleet = yes }
 										}
 									}
 								}
 							}
 						}
-					}
-					else = {
-						ag_exe_invasion_fleet_wandering_action = yes
-					}
+					} else = { ag_exe_invasion_fleet_wandering_action = yes }
 				}
 			}
 		}
