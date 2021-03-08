@@ -1294,9 +1294,7 @@ ship_event = {
 	id = exe_invasion.119
 	hide_window = yes
 	is_triggered_only = yes
-	trigger = {
-		has_ship_flag = is_invisiable_trigger
-	}
+	trigger = { has_ship_flag = is_invisiable_trigger }
 	immediate = {
 		repair_ship = yes
 		ship_event = { id = exe_invasion.119 days = 1 }
@@ -1321,116 +1319,81 @@ country_event = {
 		}
 	}
 	immediate = {
-		FROMFROM = {
-			if = {
-				limit = { 
-					NOT = { has_fleet_flag = fire_for_once }
-					count_owned_ship = {
-						limit = {
-							ag_is_flagship_system_proection_false = yes
-						} count = 1
-					}
-				}
-				set_timed_fleet_flag = { flag = fire_for_once days = 15 }
-				if = {
-					limit = { 
-						any_owned_ship = { is_ship_size = nebula_dominance } 
-					}
-					increase_ship_hp_effect_change = { DAYS = 1 }
-					ROOT.FROMFROMFROM = { add_modifier = { modifier = ship_firing_debuff_invisiable_protection days = 1 } }
-				}
-				else_if = {
-					limit = { 
-						any_owned_ship = { is_ship_size = exe_megastructure_starbase } 
-					}
-					increase_ship_hp_effect_change = { DAYS = 2 }
-					ROOT.FROMFROMFROM = { add_modifier = { modifier = ship_firing_debuff_invisiable_protection days = 2 } }
-				}
-				else_if = {
+		FROMFROM = { if = {
+			limit = { 
+				NOT = { has_fleet_flag = fire_for_once }
+				count_owned_ship = {
 					limit = {
-						any_owned_ship = { is_ship_size = nebula_executor }
-					}
-					increase_ship_hp_effect_change = { DAYS = 2 }
-					ROOT.FROMFROMFROM = { add_modifier = { modifier = ship_firing_debuff_invisiable_protection days = 2 } }
-				}
-				else_if = {
-					limit = {
-						any_owned_ship = { is_ship_size = knigjt_hammer_executor }
-					}
-					increase_ship_hp_effect_change = { DAYS = 3 }
-					ROOT.FROMFROMFROM = { add_modifier = { modifier = ship_firing_debuff_invisiable_protection days = 3 } }
-				}
-				else_if = {
-					limit = {
-						any_owned_ship = { is_ship_size = eclipse }
-					}
-					increase_ship_hp_effect_change = { DAYS = 3 }
-					ROOT.FROMFROMFROM = { add_modifier = { modifier = ship_firing_debuff_invisiable_protection days = 3 } }
-				}
-				else_if = {
-					limit = {
-						any_owned_ship = { is_ship_size = Annihilator }
-					}
-					increase_ship_hp_effect_change = { DAYS = 4 }
-					ROOT.FROMFROMFROM = { add_modifier = { modifier = ship_firing_debuff_invisiable_protection days = 4 } }
-				}
-				else_if = {
-					limit = { 
-						any_owned_ship = { is_ship_size = ag_delta_titan_0 } 
-					}
-					increase_ship_hp_effect_change = { DAYS = 1 }
-					ROOT.FROMFROMFROM = { add_modifier = { modifier = ship_firing_debuff_invisiable_protection days = 1 } }
-				}
-				else_if = {
-					limit = { 
-						any_owned_ship = { is_ship_size = ag_ancient_wandering_ship_0 } 
-					}
-					increase_ship_hp_effect_change = { DAYS = 1 }
-					ROOT.FROMFROMFROM = { add_modifier = { modifier = ship_firing_debuff_invisiable_protection days = 1 } }
-				}
-				else_if = {
-					limit = { 
-						any_owned_ship = { is_ship_size = ag_gamma_station_0 } 
-					}
-					increase_ship_hp_effect_change = { DAYS = 1 }
-					ROOT.FROMFROMFROM = { add_modifier = { modifier = ship_firing_debuff_invisiable_protection days = 1 } }
-				}
-				else_if = {
-					limit = { 
-						any_owned_ship = { is_ship_size = ag_delta_titan_1 } 
-					}
-					increase_ship_hp_effect_change = { DAYS = 2 }
-					ROOT.FROMFROMFROM = { add_modifier = { modifier = ship_firing_debuff_invisiable_protection days = 2 } }
-				}
-				else_if = {
-					limit = { 
-						any_owned_ship = { is_ship_size = ag_ancient_wandering_ship_1 } 
-					}
-					increase_ship_hp_effect_change = { DAYS = 2 }
-					ROOT.FROMFROMFROM = { add_modifier = { modifier = ship_firing_debuff_invisiable_protection days = 2 } }
-				}
-				else_if = {
-					limit = { 
-						any_owned_ship = { is_ship_size = ag_gamma_station_1 } 
-					}
-					increase_ship_hp_effect_change = { DAYS = 2 }
-					ROOT.FROMFROMFROM = { add_modifier = { modifier = ship_firing_debuff_invisiable_protection days = 2 } }
-				}
-				else_if = {
-					limit = { 
-						any_owned_ship = { is_ship_size = ag_zeta_titan } 
-					}
-					increase_ship_hp_effect_change = { DAYS = 2 }
-					ROOT.FROMFROMFROM = { add_modifier = { modifier = ship_firing_debuff_invisiable_protection days = 2 } }
-				}
-				else_if = {
-					limit = { 
-						any_owned_ship = { is_ship_size = ag_zeta_titan_psi } 
-					}
-					increase_ship_hp_effect_change = { DAYS = 2 }
-					ROOT.FROMFROMFROM = { add_modifier = { modifier = ship_firing_debuff_invisiable_protection days = 2 } }
-				}
+						ag_is_flagship_system_proection_false = yes
+					} count = 1
+				} root.fromfromfrom = { NOT = { has_fleet_flag = ship_firing_debuff_invisiable_protection } }
 			}
+			set_timed_fleet_flag = { flag = fire_for_once days = 4 }
+			if = {
+				limit = { any_owned_ship = { is_ship_size = Annihilator } }
+				increase_ship_hp_effect_change = { DAYS = 4 }
+				set_fromfromfrom_check_invsiable_time_flag = { DAYS = 4 }
+			}
+			else_if = {
+				limit = { any_owned_ship = { is_ship_size = eclipse } }
+				increase_ship_hp_effect_change = { DAYS = 3 }
+				set_fromfromfrom_check_invsiable_time_flag = { DAYS = 3 }
+			}
+			else_if = {
+				limit = { any_owned_ship = { is_ship_size = eclipse } }
+				increase_ship_hp_effect_change = { DAYS = 3 }
+				set_fromfromfrom_check_invsiable_time_flag = { DAYS = 3 }
+			}
+			else_if = {
+				limit = { any_owned_ship = { is_ship_size = nebula_executor } }
+				increase_ship_hp_effect_change = { DAYS = 2 }
+				set_fromfromfrom_check_invsiable_time_flag = { DAYS = 2 }
+			}
+			else_if = {
+				limit = { any_owned_ship = { is_ship_size = ag_delta_titan_1 } }
+				increase_ship_hp_effect_change = { DAYS = 2 }
+				set_fromfromfrom_check_invsiable_time_flag = { DAYS = 2 }
+			}
+			else_if = {
+				limit = { any_owned_ship = { is_ship_size = ag_ancient_wandering_ship_1 } }
+				increase_ship_hp_effect_change = { DAYS = 2 }
+				set_fromfromfrom_check_invsiable_time_flag = { DAYS = 2 }
+			}
+			else_if = {
+				limit = { any_owned_ship = { is_ship_size = ag_gamma_station_1 } }
+				increase_ship_hp_effect_change = { DAYS = 2 }
+				set_fromfromfrom_check_invsiable_time_flag = { DAYS = 2 }
+			}
+			else_if = {
+				limit = { any_owned_ship = { is_ship_size = ag_zeta_titan } }
+				increase_ship_hp_effect_change = { DAYS = 2 }
+				set_fromfromfrom_check_invsiable_time_flag = { DAYS = 2 }
+			}
+			else_if = {
+				limit = { any_owned_ship = { is_ship_size = ag_zeta_titan_psi } }
+				increase_ship_hp_effect_change = { DAYS = 2 }
+				set_fromfromfrom_check_invsiable_time_flag = { DAYS = 2 }
+			}
+			else_if = {
+				limit = { any_owned_ship = { is_ship_size = nebula_dominance } }
+				increase_ship_hp_effect_change = { DAYS = 1 }
+				set_fromfromfrom_check_invsiable_time_flag = { DAYS = 1 }
+			}
+			else_if = {
+				limit = { any_owned_ship = { is_ship_size = ag_delta_titan_0 } }
+				increase_ship_hp_effect_change = { DAYS = 1 }
+				set_fromfromfrom_check_invsiable_time_flag = { DAYS = 1 }
+			}
+			else_if = {
+				limit = { any_owned_ship = { is_ship_size = ag_ancient_wandering_ship_0 } }
+				increase_ship_hp_effect_change = { DAYS = 1 }
+				set_fromfromfrom_check_invsiable_time_flag = { DAYS = 1 }
+			}
+			else_if = {
+				limit = { any_owned_ship = { is_ship_size = ag_gamma_station_0 } }
+				increase_ship_hp_effect_change = { DAYS = 1 }
+				set_fromfromfrom_check_invsiable_time_flag = { DAYS = 1 }
+			} }
 		}
 	}
 }
@@ -1478,24 +1441,22 @@ country_event = {
 		has_global_flag = special_exe_invasion
 	}
 	immediate = {
-		FROMFROM = {
-			if = {
-				limit = {
-					NOT = { has_fleet_flag = trigger_modifer_special_invasion }
-					any_owned_ship = {
-						OR = {
-							is_ship_size = knigjt_hammer_executor
-							is_ship_size = eclipse
-							is_ship_size = Annihilator
-						}
+		FROMFROM = { if = {
+			limit = {
+				NOT = { has_fleet_flag = trigger_modifer_special_invasion }
+				any_owned_ship = {
+					OR = {
+						is_ship_size = knigjt_hammer_executor
+						is_ship_size = eclipse
+						is_ship_size = Annihilator
 					}
-				}
-				set_fleet_flag = trigger_modifer_special_invasion
-				add_modifier = { modifier = Eternal_support }
-				increase_ship_hp_effect_change = { DAYS = 4 }
+				} root.fromfromfrom = { NOT = { has_fleet_flag = ship_firing_debuff_invisiable_protection } }
 			}
-		}
-		FROMFROMFROM = { add_modifier = { modifier = ship_firing_debuff_invisiable_protection days = 4 } }
+			set_fleet_flag = trigger_modifer_special_invasion
+			add_modifier = { modifier = Eternal_support }
+			increase_ship_hp_effect_change = { DAYS = 4 }
+			set_fromfromfrom_check_invsiable_time_flag = { DAYS = 4 }
+		} }
 	}
 }
 
