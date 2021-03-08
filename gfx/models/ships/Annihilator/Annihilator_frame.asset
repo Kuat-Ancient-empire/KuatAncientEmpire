@@ -1,7 +1,33 @@
 entity = {
 	name = "Annihilator_entity"
-	pdxmesh = "Annihilator_frame_mesh"
+	pdxmesh = "molluscoid_01_titan_frame_mesh"
 	scale = 0.8
+	default_state = "idle"
+	state = { name = "idle" animation = "idle" 
+	
+		start_event = { trigger_once = yes sound = { soundeffect = "amb_titan_ship_hum_01" } }
+		start_event = { trigger_once = yes sound = { soundeffect = "amb_titan_ship_hum_02" } }
+		start_event = { trigger_once = yes sound = { soundeffect = "amb_titan_ship_hum_03" } }
+	
+	}
+	state = { name = "moving" animation = "idle"
+		event =  { trigger_once = yes sound = { soundeffect = "moving_out_titan" } }
+	}
+	state = { name = "death" animation = "death" looping = no 
+		event = { time = 2.5 node = "explosion_locator_01" particle = "ship_explosion_particle" keep_particle = yes trigger_once = yes sound = { soundeffect = "ship_explosion" } }
+		event = { time = 3.5 node = "explosion_locator_02" particle = "ship_explosion_particle" keep_particle = yes trigger_once = yes sound = { soundeffect = "ship_explosion" } }
+		event = { time = 5.5 node = "explosion_locator_03" particle = "ship_explosion_particle" keep_particle = yes trigger_once = yes sound = { soundeffect = "ship_explosion" } }
+		event = { time = 7.5 node = "explosion_locator_04" particle = "ship_explosion_particle" keep_particle = yes trigger_once = yes sound = { soundeffect = "ship_explosion" } }
+		event = { time = 9.5 node = "explosion_locator_05" particle = "ship_explosion_particle" keep_particle = yes trigger_once = yes sound = { soundeffect = "ship_explosion" } }
+		event = { time = 12.5 node = "ship_main" particle = "dreadnought_explosion_particle" keep_particle = yes trigger_once = yes sound = { soundeffect = "amb_titan_ship_death" } }
+	}
+}
+
+entity = {
+	name = "Annihilator_section_entity"
+	pdxmesh = "Annihilator_section_mesh"
+	locator = { name = root position = { 0 0 0 } rotation = { 0 0 0 } }
+	attach = { root = "Annihilator_main_entity"  }
 	default_state = "idle"
 	state = { name = "idle" 
 		start_event = { trigger_once = yes sound = { soundeffect = "amb_titan_ship_hum_01" } }
@@ -50,12 +76,10 @@ entity = {
 		event = { time = 2 node = "target_locator_5" particle = "ship_explosion_particle" sound = { soundeffect = ship_destroyed } }
 		event = { time = 14 node = "target_locator_6" particle = "ship_explosion_particle" sound = { soundeffect = ship_destroyed } }
 	}
-
-	game_data = { size = 35 }
 }
 
 entity = {
-	name = "Annihilator_section_entity"
-	pdxmesh = "Annihilator_section_mesh"
+	name = "Annihilator_main_entity"
+	pdxmesh = "Annihilator_frame_mesh"
 }
 
