@@ -1757,7 +1757,7 @@ increase_executor_power = {
 
 increase_ship_hp_effect_change = {
 	if = {
-		limit = { root.from = { ag_is_ancient_country_flagship = no } }
+		limit = { root.from = { ag_is_ancient_country = no } }
 		every_owned_ship = {
 			limit = { NOT = { is_ship_size = scout_UAV } }
 			set_timed_ship_flag = { flag = is_invisiable_trigger days = $DAYS$ }
@@ -1771,15 +1771,20 @@ increase_ship_hp_effect_change = {
 			ship_event = { id = exe_invasion.119 }
 		}
 	}
-	add_modifier = { modifier = Eternal_submit days = $DAYS$ }
+	set_fleet_modifier = { SUBMODIFIER = Eternal_submit }
+	remove_modifier = ship_firing_debuff_invisiable_protection
 }
 
 set_fromfromfrom_check_invsiable_time_flag = {
-	ROOT.FROMFROMFROM = { 
-		remove_modifier = ship_firing_debuff_invisiable_protection
+	ROOT.FROMFROMFROM = {
 		add_modifier = { modifier = ship_firing_debuff_invisiable_protection days = $DAYS$ }
 		set_timed_fleet_flag = { flag = ship_firing_debuff_invisiable_protection days = $DAYS$ } 
 	}
+}
+
+set_fleet_modifier = {
+	add_modifier = { modifier = $SUBMODIFIER$ }
+	set_fleet_flag = has_$SUBMODIFIER$
 }
 
 #CRISIS FLEET
