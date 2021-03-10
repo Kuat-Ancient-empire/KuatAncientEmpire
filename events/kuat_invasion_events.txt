@@ -5,6 +5,7 @@ event = {
 	hide_window = yes
 	is_triggered_only = yes
 	trigger = {
+		NOT = { any_country = { has_origin = origin_kuat_apocalyptic } }
 		has_global_flag = kuat_spawned
 		NOR = {
 			has_global_flag = ban_exe_invasion
@@ -49,6 +50,7 @@ event = {
 	hide_window = yes
 	is_triggered_only = yes
 	trigger = {
+		NOT = { any_country = { has_origin = origin_kuat_apocalyptic } }
 		has_global_flag = exe_invasion_seed
 		NOT = { has_global_flag = exe_invasion_signs_cooldown }
 		NOT = { has_global_flag = exe_invasion_3_fired }
@@ -100,6 +102,7 @@ event = {
 	hide_window = yes
 	is_triggered_only = yes
 	trigger = {
+		NOT = { any_country = { has_origin = origin_kuat_apocalyptic } }
 		has_global_flag = exe_invasion_3_fired
 		NOT = { has_global_flag = exe_invasion_signs_cooldown }
 		NOT = { has_global_flag = exe_invasion_5_fired }
@@ -155,6 +158,7 @@ event = {
 	hide_window = yes
 	is_triggered_only = yes
 	trigger = {
+		NOT = { any_country = { has_origin = origin_kuat_apocalyptic } }
 		has_global_flag = exe_invasion_5_fired
 		NOT = {
 			has_global_flag = exe_invasion_signs_cooldown
@@ -196,6 +200,7 @@ event = {
 	hide_window = yes
 	is_triggered_only = yes
 	trigger = {
+		NOT = { any_country = { has_origin = origin_kuat_apocalyptic } }
 		has_global_flag = exe_invasion_7_fired
 		NOT = { has_global_flag = exe_invasion_signs_cooldown }
 		NOT = { has_global_flag = exe_invasion_begin }
@@ -1218,38 +1223,30 @@ country_event = {
 		}
 	}
 	immediate = {
-		fromfrom = {
+		fromfrom = { if = {
+			limit = {
+				NOT = { has_fleet_flag = has_Eternal_support }
+				count_owned_ship = {
+					limit = {
+						ag_is_flagship_system_proection_true = yes
+					} count = 1
+				} any_owned_ship = { ag_is_flagship_system_proection_true = no }
+			}
+			set_fleet_modifier = { SUB = Eternal_support }
 			if = {
-				limit = {
-					NOT = { has_fleet_flag = fire_for_once }
-					count_owned_ship = {
-						limit = {
-							ag_is_flagship_system_proection_true = yes
-						} count = 1
-					}
-					any_owned_ship = { ag_is_flagship_system_proection_true = no }
+				limit = { root.from = { ag_is_ancient_country = no } }
+				random_owned_ship = {
+					limit = { ag_is_flagship_system_proection_true = yes }
+					set_ship_flag = is_invisiable_trigger
+					increase_executor_power = { DAYS = 30 }
+					ship_event = { id = exe_invasion.117 }
 				}
-				set_fleet_flag = fire_for_once
-				add_modifier = { modifier = Eternal_support }
-				if = {
-					limit = { root.from = { ag_is_ancient_country = no } }
-					random_owned_ship = {
-						limit = {
-							ag_is_flagship_system_proection_true = yes
-						}
-						set_ship_flag = is_invisiable_trigger
-						increase_executor_power = { DAYS = 30 }
-						ship_event = { id = exe_invasion.117 }
-					}
-				} else = {
-					random_owned_ship = {
-						limit = {
-							ag_is_flagship_system_proection_true = yes
-						}
-						set_ship_flag = is_invisiable_trigger
-						ship_event = { id = exe_invasion.117 }
-					}
-				}
+			} else = {
+				random_owned_ship = {
+					limit = { ag_is_flagship_system_proection_true = yes }
+					set_ship_flag = is_invisiable_trigger
+					ship_event = { id = exe_invasion.117 }
+				} }
 			}
 		}
 	}
@@ -1275,18 +1272,13 @@ country_event = {
 	is_triggered_only = yes
 	trigger = {
 		from = { is_country_type = ag_kuat_invasion_country }
-		fromfrom = { has_fleet_flag = fire_for_once }
+		fromfrom = { has_fleet_flag = has_Eternal_support }
 		OR = {
 			has_global_flag = difficult_exe_invasion
 			has_global_flag = special_exe_invasion
 		}
 	}
-	immediate = {
-		FROMFROM = {
-			remove_fleet_flag = fire_for_once
-			remove_modifier = Eternal_support
-		}
-	}
+	immediate = { FROMFROM = { remove_fleet_flag = has_Eternal_support remove_modifier = Eternal_support } }
 }
 
 #FLEET INVISIABLE
@@ -1452,7 +1444,7 @@ country_event = {
 					}
 				} root.fromfromfrom = { NOT = { has_fleet_flag = ship_firing_debuff_invisiable_protection } }
 			}
-			set_fleet_modifier = { SUBMODIFIER = Eternal_support }
+			set_fleet_modifier = { SUB = Eternal_support }
 			increase_ship_hp_effect_change = { DAYS = 4 }
 			set_fromfromfrom_check_invsiable_time_flag = { DAYS = 4 }
 		} }

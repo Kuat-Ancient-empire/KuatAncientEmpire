@@ -13,6 +13,7 @@ country_event = {
 	fire_only_once = yes
 	trigger = {
 		is_ai = no
+		has_origin = origin_kuat_apocalyptic
 	}
 	immediate = {
 		set_country_flag = executorbuilding
@@ -96,6 +97,9 @@ event = {
 	id = executor_build.2
 	hide_window = yes
 	is_triggered_only = yes
+	trigger = {
+		NOT = { any_country = { has_origin = origin_kuat_apocalyptic } }
+	}
 	immediate = {
 		set_spawn_system_batch = begin
 		no_scope = {
@@ -725,6 +729,7 @@ ship_event = {
 	hide_window = yes
 	is_triggered_only = yes
 	trigger = {
+		owner = { NOT = { has_origin = origin_kuat_apocalyptic } }
 		is_ship_size = nebula_executor
 	}
 	immediate = {
@@ -754,35 +759,16 @@ country_event = {
 	}
 	custom_gui = "kuat_event_diplomacy_window"
 	custom_gui_option = "kuat_event_diplomacy_option"
-	trigger = {
-		any_country = {
-			has_country_flag = fallen_empire_kuat
-		}
-	}
+	trigger = { any_country = { has_country_flag = fallen_empire_kuat } }
 	option = {
 		name = executor_build.91.a
-		allow = {
-			has_country_resource = {
-				type = energy
-				amount >= 5000
-			}
-		}
+		allow = { has_country_resource = { type = energy amount >= 5000 } }
 		add_resource = { energy = -5000 }
-		event_target:fallen_empire_kuat = {
-			add_opinion_modifier = {
-				who = prev
-				modifier = opinion_kuat_shipc_can_get_1
-			}
-		}
+		event_target:fallen_empire_kuat = { add_opinion_modifier = { who = prev modifier = opinion_kuat_shipc_can_get_1 } }
 	}
 	option = {
 		name = executor_build.91.b
-		event_target:fallen_empire_kuat = {
-			add_opinion_modifier = {
-				who = prev
-				modifier = opinion_kuat_shipc_can_not_get
-			}
-		}
+		event_target:fallen_empire_kuat = { add_opinion_modifier = { who = prev modifier = opinion_kuat_shipc_can_not_get } }
 	}
 }
 
@@ -802,32 +788,17 @@ country_event = {
 		is_ai = no
 		any_owned_ship = { has_ship_flag = executor }
 		is_at_war = no
-		any_country = { has_country_flag = fallen_empire_kuat }
+		exists = event_target:fallen_empire_kuat
 	}
 	option = {
 		name = executor_build.91.a
-		allow = {
-			has_country_resource = {
-				type = energy
-				amount >= 5000
-			}
-		}
+		allow = { has_country_resource = { type = energy amount >= 5000 } }
 		add_resource = { energy = -5000 }
-		event_target:fallen_empire_kuat = {
-			add_opinion_modifier = {
-				who = prev
-				modifier = opinion_kuat_shipc_can_get_1
-			}
-		}
+		event_target:fallen_empire_kuat = { add_opinion_modifier = { who = prev modifier = opinion_kuat_shipc_can_get_1 } }
 	}
 	option = {
 		name = executor_build.91.b
-		event_target:fallen_empire_kuat = {
-			add_opinion_modifier = {
-				who = prev
-				modifier = opinion_kuat_shipc_can_not_get
-			}
-		}
+		event_target:fallen_empire_kuat = { add_opinion_modifier = { who = prev modifier = opinion_kuat_shipc_can_not_get } }
 	}
 }
 
@@ -850,19 +821,12 @@ country_event = {
 	custom_gui = "kuat_event_diplomacy_window"
 	custom_gui_option = "kuat_event_diplomacy_option"
 	trigger = {
-		any_country = {
-			is_kuat_fallen_empire = yes
-		}
+		exists = event_target:fallen_empire_kuat
 		is_ai = no
 	}
 	option = {
 		name = executor_build_op_a.a
-		event_target:fallen_empire_kuat = {
-			add_opinion_modifier = {
-				who = prev
-				modifier = opinion_kuat_shipc_can_get
-			}
-		}
+		event_target:fallen_empire_kuat = { add_opinion_modifier = { who = prev modifier = opinion_kuat_shipc_can_get } }
 	}
 }
 
@@ -873,6 +837,9 @@ event = {
 	id = executor_build.1000
 	hide_window = yes
 	is_triggered_only = yes
+	trigger = {
+		NOT = { any_country = { has_origin = origin_kuat_apocalyptic } }
+	}
 	immediate = {
 		if = {
 			limit = {
@@ -1223,12 +1190,7 @@ country_event = {
 					category = "backgrounds"
 					file = "00_solid.dds"
 				}
-				colors = {
-					"blue"
-					"blue"
-					"null"
-					"null"
-				}
+				colors = { "blue" "blue" "null" "null" }
 			}
 			effect = {
 				save_global_event_target_as = fallen_empire_kuat_fleet
@@ -1264,15 +1226,11 @@ country_event = {
 				}
 			}
 			set_spawn_system_batch = begin
-			spawn_system = {
-				initializer = kuat_base_system
-			}
+			spawn_system = { initializer = kuat_base_system }
 			set_spawn_system_batch = end
 		}
 		every_playable_country = {
-			limit = {
-				is_ai = no
-			}
+			limit = { is_ai = no }
 			country_event = { id = executor_build.372 }
 			country_event = { id = executor_build.9 days = 30 }
 		}
@@ -1291,12 +1249,8 @@ country_event = {
 		room = kuat_mega_shipyard_room
 	}
 	is_triggered_only = yes
-	immediate = {
-		establish_communications_no_message = event_target:fallen_empire_kuat_fleet
-	}
-	option = {
-		name = "? ? ? ? ?"
-	}
+	immediate = { establish_communications_no_message = event_target:fallen_empire_kuat_fleet }
+	option = { name = "? ? ? ? ?" }
 }
 
 country_event = {
