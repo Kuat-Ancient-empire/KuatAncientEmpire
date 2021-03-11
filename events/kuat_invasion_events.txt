@@ -226,7 +226,10 @@ event = {
 		}
 		last_created_country = {
 			save_global_event_target_as = ag_kuat_invasion_country
-			set_country_flag = ag_kuat_invasion_country
+			if = { #不是第二波永恒，则设置国家flag
+				limit = { has_global_flag = special_exe_invasion }
+				set_country_flag = ag_kuat_invasion_special_country
+			} else = { set_country_flag = ag_kuat_invasion_country }
 			set_global_flag = has_ag_kuat_invasion_country
 			set_graphical_culture = fallen_empire_kuat_01
 			create_ship_design = { design = "NAME_EXE_Starbase" }
@@ -242,10 +245,6 @@ event = {
 					set_hostile = no
 					set_friendly = yes
 				}
-			}
-			if = {
-				limit = { has_global_flag = special_exe_invasion }
-				set_country_flag = ag_kuat_invasion_special_country
 			}
 		}
 		if = {
@@ -920,24 +919,18 @@ country_event = {
 				}
 			}
 		}
-		fromfromfrom = {
-			has_fleet_flag = ag_kuat_invasion_fleet
-		}
+		fromfromfrom = { has_fleet_flag = ag_kuat_invasion_fleet }
 		has_global_flag = can_win_the_fleet
 	}
 	immediate = {
 		every_country = {
 			limit = {
-				NOT = {
-					is_same_value = event_target:ag_kuat_invasion_country
-				}
+				NOT = { is_same_value = event_target:ag_kuat_invasion_country }
 			}
 			if = {
 				limit = { NOT = { has_global_flag = special_exe_invasion } }
 				country_event = { id = exe_invasion.33 }
-			} else = {
-				country_event = { id = exe_invasion.333 }
-			}
+			} else = { country_event = { id = exe_invasion.333 } }
 		}
 		add_threat = { who = root amount = 50 }
 		set_global_flag = exe_invasion_ended
@@ -964,7 +957,10 @@ country_event = {
 		hidden_effect = {
 			if = {
 				limit = {
-					has_global_flag = difficult_exe_invasion
+					OR = {
+						has_global_flag = difficult_exe_invasion
+						has_global_flag = normal_exe_invasion
+					}
 				}
 				set_global_flag = fire_the_kuat_return
 			}
@@ -1103,17 +1099,13 @@ ship_event = {
 	immediate = {
 		solar_system = {
 			random_system_megastructure = {
-				limit = {
-					is_megastructure_type = exe_outer_gate
-				}
+				limit = { is_megastructure_type = exe_outer_gate }
 				upgrade_megastructure_to = exe_outer_gate_locked
 				finish_upgrade = yes
 			}
 		}
 	}
-	option = {
-		name = "exe_invasion.42.a"
-	}
+	option = { name = "exe_invasion.42.a" }
 }
 
 #Spawn starbase
@@ -1123,52 +1115,40 @@ fleet_event = {
 	is_triggered_only = yes
 	trigger = {
 		has_global_flag = exe_invasion_begin
-		NOT = {
-			has_global_flag = exe_invasion_ended
-		}
+		NOT = { has_global_flag = exe_invasion_ended }
 		has_fleet_flag = ag_kuat_invasion_fleet
 	}
 	immediate = {
 		if = {
-			limit = {
-				exists = solar_system
-			}
-			solar_system = {
-				if = {
-					limit = {
-						NOR = {
-							any_ship_in_system = {
-								is_ship_class = shipclass_starbase
-								exists = owner
-								owner = {
-									is_same_value = event_target:ag_kuat_invasion_country
-								}
-							}
-							any_ship_in_system = {
-								exists = owner
-								owner = {
-									is_hostile = event_target:ag_kuat_invasion_country
-								}
-							}
-							any_system_planet = {
-								exists = owner
-								owner = {
-									is_hostile = event_target:ag_kuat_invasion_country
-								}
-							}
+			limit = { exists = solar_system }
+			solar_system = { if = {
+				limit = {
+					NOR = {
+						any_ship_in_system = {
+							is_ship_class = shipclass_starbase
+							exists = owner
+							owner = { is_same_value = event_target:ag_kuat_invasion_country }
+						}
+						any_ship_in_system = {
+							exists = owner
+							owner = { is_hostile = event_target:ag_kuat_invasion_country }
+						}
+						any_system_planet = {
+							exists = owner
+							owner = { is_hostile = event_target:ag_kuat_invasion_country }
 						}
 					}
-					create_starbase = {
-						size = exe_starbase
-						owner = event_target:ag_kuat_invasion_country
-						module = "gun_battery"
-						module = "gun_battery"
-						module = "gun_battery"
-						module = "gun_battery"
-						module = "gun_battery"
-						module = "gun_battery"
-					}
 				}
+				create_starbase = {
+					size = exe_starbase
+					owner = event_target:ag_kuat_invasion_country
+					module = "gun_battery"
+					module = "gun_battery"
+					module = "gun_battery"
+					module = "gun_battery"
+					module = "gun_battery"
+					module = "gun_battery"
+				} }
 			}
 		}
 		fleet_event = { id = exe_invasion.51 days = 1 }
@@ -1203,7 +1183,7 @@ country_event = {
 	immediate = { fromfromfrom = { exe_invasion_country_trigger = yes } }
 }
 
-#flagship protection
+#flagship protection difficult
 country_event = {
 	id = exe_invasion.116
 	hide_window = yes
@@ -1273,7 +1253,7 @@ country_event = {
 	immediate = { FROMFROM = { remove_fleet_flag = has_Eternal_support remove_modifier = Eternal_support } }
 }
 
-#FLEET INVISIABLE
+#FLEET INVISIABLE WITHOUT SPECIAL
 country_event = {
 	id = exe_invasion.120
 	hide_window = yes
@@ -1281,7 +1261,7 @@ country_event = {
 	trigger = {
 		is_ai = no
 		NOT = { is_country_type = ag_kuat_invasion_country }
-		from = { NOT = { has_country_flag = ag_kuat_invasion_special_country } }
+		from = { NOT = { has_country_flag = ag_kuat_invasion_country } }
 	}
 	immediate = {
 		FROMFROM = { if = {
@@ -1296,16 +1276,16 @@ country_event = {
 			set_timed_fleet_flag = { flag = fire_for_once days = 1 }
 			if = {
 				limit = { any_owned_ship = { is_ship_size = Annihilator } }
+				increase_ship_hp_effect_change = { DAYS = 5 }
+				set_fromfromfrom_check_invsiable_time_flag = { DAYS = 5 }
+			}
+			else_if = {
+				limit = { any_owned_ship = { is_ship_size = eclipse } }
 				increase_ship_hp_effect_change = { DAYS = 4 }
 				set_fromfromfrom_check_invsiable_time_flag = { DAYS = 4 }
 			}
 			else_if = {
-				limit = { any_owned_ship = { is_ship_size = eclipse } }
-				increase_ship_hp_effect_change = { DAYS = 3 }
-				set_fromfromfrom_check_invsiable_time_flag = { DAYS = 3 }
-			}
-			else_if = {
-				limit = { any_owned_ship = { is_ship_size = eclipse } }
+				limit = { any_owned_ship = { is_ship_size = knigjt_hammer_executor } }
 				increase_ship_hp_effect_change = { DAYS = 3 }
 				set_fromfromfrom_check_invsiable_time_flag = { DAYS = 3 }
 			}
@@ -1315,27 +1295,7 @@ country_event = {
 				set_fromfromfrom_check_invsiable_time_flag = { DAYS = 2 }
 			}
 			else_if = {
-				limit = { any_owned_ship = { is_ship_size = ag_delta_titan_1 } }
-				increase_ship_hp_effect_change = { DAYS = 2 }
-				set_fromfromfrom_check_invsiable_time_flag = { DAYS = 2 }
-			}
-			else_if = {
-				limit = { any_owned_ship = { is_ship_size = ag_ancient_wandering_ship_1 } }
-				increase_ship_hp_effect_change = { DAYS = 2 }
-				set_fromfromfrom_check_invsiable_time_flag = { DAYS = 2 }
-			}
-			else_if = {
-				limit = { any_owned_ship = { is_ship_size = ag_gamma_station_1 } }
-				increase_ship_hp_effect_change = { DAYS = 2 }
-				set_fromfromfrom_check_invsiable_time_flag = { DAYS = 2 }
-			}
-			else_if = {
-				limit = { any_owned_ship = { is_ship_size = ag_zeta_titan } }
-				increase_ship_hp_effect_change = { DAYS = 2 }
-				set_fromfromfrom_check_invsiable_time_flag = { DAYS = 2 }
-			}
-			else_if = {
-				limit = { any_owned_ship = { is_ship_size = ag_zeta_titan_psi } }
+				limit = { any_owned_ship = { is_ship_size = exe_megastructure_starbase } }
 				increase_ship_hp_effect_change = { DAYS = 2 }
 				set_fromfromfrom_check_invsiable_time_flag = { DAYS = 2 }
 			}
@@ -1345,17 +1305,27 @@ country_event = {
 				set_fromfromfrom_check_invsiable_time_flag = { DAYS = 1 }
 			}
 			else_if = {
-				limit = { any_owned_ship = { is_ship_size = ag_delta_titan_0 } }
+				limit = { any_owned_ship = { is_ship_size = ag_delta_titan_1 } }
 				increase_ship_hp_effect_change = { DAYS = 1 }
 				set_fromfromfrom_check_invsiable_time_flag = { DAYS = 1 }
 			}
 			else_if = {
-				limit = { any_owned_ship = { is_ship_size = ag_ancient_wandering_ship_0 } }
+				limit = { any_owned_ship = { is_ship_size = ag_ancient_wandering_ship_1 } }
 				increase_ship_hp_effect_change = { DAYS = 1 }
 				set_fromfromfrom_check_invsiable_time_flag = { DAYS = 1 }
 			}
 			else_if = {
-				limit = { any_owned_ship = { is_ship_size = ag_gamma_station_0 } }
+				limit = { any_owned_ship = { is_ship_size = ag_gamma_station_1 } }
+				increase_ship_hp_effect_change = { DAYS = 1 }
+				set_fromfromfrom_check_invsiable_time_flag = { DAYS = 1 }
+			}
+			else_if = {
+				limit = { any_owned_ship = { is_ship_size = ag_zeta_titan } }
+				increase_ship_hp_effect_change = { DAYS = 1 }
+				set_fromfromfrom_check_invsiable_time_flag = { DAYS = 1 }
+			}
+			else_if = {
+				limit = { any_owned_ship = { is_ship_size = ag_zeta_titan_psi } }
 				increase_ship_hp_effect_change = { DAYS = 1 }
 				set_fromfromfrom_check_invsiable_time_flag = { DAYS = 1 }
 			} }
@@ -1374,7 +1344,7 @@ ship_event = {
 	}
 }
 
-#entering gateway
+#entering gateway WITHOUT SPECIAL
 fleet_event = {
 	id = exe_invasion.1987
 	hide_window = yes
@@ -1427,8 +1397,8 @@ country_event = {
 				} root.fromfromfrom = { NOT = { has_fleet_flag = ship_firing_debuff_invisiable_protection } }
 			}
 			set_fleet_modifier = { SUB = Eternal_support }
-			increase_ship_hp_effect_change = { DAYS = 4 }
-			set_fromfromfrom_check_invsiable_time_flag = { DAYS = 4 }
+			increase_ship_hp_effect_change = { DAYS = 5 }
+			set_fromfromfrom_check_invsiable_time_flag = { DAYS = 5 }
 		} }
 	}
 }
@@ -1438,8 +1408,7 @@ country_event = {
 	hide_window = yes
 	is_triggered_only = yes
 	trigger = {
-		is_country_type = ag_kuat_invasion_country
-		has_global_flag = special_exe_invasion
+		has_country_flag = ag_kuat_invasion_special_country
 		FROMFROM = { has_fleet_flag = has_Eternal_support }
 	}
 	immediate = { FROMFROM = { remove_modifier = Eternal_support remove_fleet_flag = has_Eternal_support } }
