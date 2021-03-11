@@ -8,15 +8,17 @@ building_kuat_command_center = {
 		exists = owner
 		owner = {
 			OR = {
+				has_origin = origin_kuat_apocalyptic
 				is_country_type = kuat_fallen_empire
 				is_country_type = kuat_awakened_fallen_empire
 				is_country_type = awakened_return_kuat_empire
 			}
 		}
 	}
+	prerequisites = { tech_kuat_command_center }
 	planet_modifier = {
-		planet_jobs_produces_mult = 0.1
-		planet_crime_add = -50
+		planet_jobs_produces_mult = 0.50
+		planet_crime_add = -300
 		planet_amenities_add = 300
 		planet_housing_add = 300
 		planet_max_buildings_add = 16
@@ -42,45 +44,58 @@ building_kuat_command_center = {
 			job_fe_protector_add = 5
 		}
 	}
-	resources = {
-		category = planet_buildings
-		upkeep = {
-			energy = 100
+	triggered_planet_modifier = {
+		potential = {
+			exists = owner
+			owner = {
+				NOR = {
+					is_country_type = kuat_fallen_empire
+					is_country_type = kuat_awakened_fallen_empire
+					is_country_type = awakened_return_kuat_empire
+				}
+			}
+		}
+		modifier = {
+			job_alloy_drone_per_pop = 10
+			job_researcher_per_pop = 10
 		}
 	}
-	upgrades = {
+	resources = {
+		category = planet_buildings
+		upkeep = { energy = 100 }
 	}
-	ai_weight = {
-		weight = 100
-	}
+	upgrades = { }
+	ai_weight = { weight = 100 }
 }
 
 building_kuat_databank = {
 	base_buildtime = 480
-	can_build = no
+	can_build = yes
 	can_demolish = yes
+	category = research
 	icon = building_kuat_databank
 	add_to_first_building_slot = yes
 	potential = {
 		exists = owner
 		owner = {
 			OR = {
+				has_origin = origin_kuat_apocalyptic
 				is_country_type = kuat_fallen_empire
 				is_country_type = kuat_awakened_fallen_empire
 				is_country_type = awakened_return_kuat_empire
 			}
 		}
 	}
+	allow = { buildings_simple_allow = yes }
 	resources = {
 		category = planet_buildings
+		cost = { minerals = 2000 }
 		produces = {
 			physics_research = 200
 			society_research = 200
 			engineering_research = 200
 		}
-		upkeep = {
-			energy = 50
-		}
+		upkeep = { energy = 50 }
 		produces = {
 			trigger = {
 				exists = owner
@@ -97,6 +112,12 @@ building_kuat_databank = {
 			engineering_research = 300
 		}
 	}
+	country_modifier = {
+		planet_jobs_physics_research_produces_mult = 0.5
+		planet_jobs_society_research_produces_mult = 0.5
+		planet_jobs_engineering_research_produces_mult = 0.5
+	}
+	prerequisites = { tech_kuat_databank }
 }
 
 building_kuat_foundry = {
@@ -104,14 +125,13 @@ building_kuat_foundry = {
 	can_build = yes
 	can_demolish = yes
 	icon = building_kuat_foundry
-	category = resource
-	allow = {
-		always = yes
-	}
+	category = manufacturing
+	allow = { buildings_simple_allow = yes }
 	potential = {
 		exists = owner
 		owner = {
 			OR = {
+				has_origin = origin_kuat_apocalyptic
 				has_country_flag = can_be_kuat_building
 				is_country_type = kuat_fallen_empire
 				is_country_type = kuat_awakened_fallen_empire
@@ -121,34 +141,33 @@ building_kuat_foundry = {
 	}
 	resources = {
 		category = planet_buildings
-		cost = {
-			minerals = 200
-		}
+		cost = { minerals = 2000 }
 		produces = {
 			alloys = 50
 			energy = 100
 			consumer_goods = 50
 		}
-		upkeep = {
-			minerals = 50
-			food = 100
-		}
+		upkeep = { food = 100 }
 	}
-	prerequisites = {
-		tech_kuat_founfry
+	country_modifier = {
+		planet_jobs_alloys_produces_mult = 0.5
+		planet_jobs_consumer_goods_produces_mult = 0.5
 	}
-	upgrades = {
-	}
+	prerequisites = { tech_kuat_founfry }
+	upgrades = { }
 }
 
 building_kuat_resource_center = {
 	base_buildtime = 480
+	can_build = yes
 	can_demolish = yes
+	category = resource
 	icon = building_kuat_resource_center
 	potential = {
 		exists = owner
 		owner = {
 			OR = {
+				has_origin = origin_kuat_apocalyptic
 				is_country_type = kuat_fallen_empire
 				is_country_type = kuat_awakened_fallen_empire
 				is_country_type = awakened_return_kuat_empire
@@ -157,15 +176,16 @@ building_kuat_resource_center = {
 	}
 	resources = {
 		category = planet_buildings
+		cost = { minerals = 2000 }
 		produces = {
 			energy = 250
 			minerals = 250
-			food = 150
-			rare_crystals = 1
-			exotic_gases = 1
-			volatile_motes = 1
-			sr_dark_matter = 1
-			sr_living_metal = 1
+			food = 250
+			rare_crystals = 25
+			exotic_gases = 25
+			volatile_motes = 25
+			sr_dark_matter = 25
+			sr_living_metal = 25
 		}
 		produces = {
 			trigger = {
@@ -178,32 +198,37 @@ building_kuat_resource_center = {
 					}
 				}
 			}
-			energy = 150
-			minerals = 150
-			food = 150
-			rare_crystals = 2
-			exotic_gases = 2
-			volatile_motes = 2
-			sr_dark_matter = 2
-			sr_living_metal = 2
+			energy = 300
+			minerals = 300
+			food = 300
+			rare_crystals = 70
+			exotic_gases = 70
+			volatile_motes = 70
+			sr_dark_matter = 70
+			sr_living_metal = 70
 		}
 	}
+	prerequisites = { tech_kuat_resource_center }
 }
 
 building_kuat_shield = {
-	can_build = no
+	can_build = yes
+	can_demolish = yes
 	icon = building_kuat_shield
+	category = army
 	planetary_ftl_inhibitor = yes
 	potential = {
 		exists = owner
 		owner = {
 			OR = {
+				has_origin = origin_kuat_apocalyptic
 				is_country_type = kuat_fallen_empire
 				is_country_type = kuat_awakened_fallen_empire
 				is_country_type = awakened_return_kuat_empire
 			}
 		}
 	}
+	allow = { buildings_simple_allow = yes }
 	destroy_trigger = {
 		exists = owner
 		owner = {
@@ -225,19 +250,16 @@ building_kuat_shield = {
 				}
 			}
 		}
-		modifier = {
-			job_soldier_add = 30
-		}
+		modifier = { job_soldier_add = 30 }
 	}
 	planet_modifier = {
-		army_damage_mult = 0.25
-		planet_orbital_bombardment_damage = -0.9
+		army_damage_mult = 1
+		planet_orbital_bombardment_damage = -0.95
 	}
 	resources = {
 		category = planet_buildings
-		upkeep = {
-			energy = 100
-		}
+		cost = { minerals = 2000 }
+		upkeep = { energy = 100 }
 	}
 	triggered_planet_modifier = {
 		potential = {
@@ -250,20 +272,23 @@ building_kuat_shield = {
 				}
 			}
 		}
-		modifier = {
-			job_fe_protector_add = 35
-		}
+		modifier = { job_fe_protector_add = 35 }
 	}
+	prerequisites = { tech_kuat_shield }
 }
 
 building_kuat_ground_yards = {
 	base_buildtime = 360
 	icon = building_kuat_ground_yards
-	can_build = no
+	can_build = yes
+	can_demolish = yes
+	category = government
+	allow = { buildings_simple_allow = yes }
 	potential = {
 		exists = owner
 		owner = {
 			OR = {
+				has_origin = origin_kuat_apocalyptic
 				is_country_type = kuat_fallen_empire
 				is_country_type = kuat_awakened_fallen_empire
 				is_country_type = awakened_return_kuat_empire
@@ -272,22 +297,9 @@ building_kuat_ground_yards = {
 	}
 	resources = {
 		category = planet_buildings
-		upkeep = {
-			energy = 20
-			alloys = 20
-		}
+		cost = { alloys = 50000 }
+		upkeep = { energy = 100 alloys = 100 }
 	}
-	country_modifier = {
-		starbase_shipyard_build_speed_mult = 0.2
-		country_naval_cap_add = 100
-	}
-	ai_weight = {
-		weight = 1
-		modifier = {
-			factor = 5
-			owner = {
-				is_country_type = awakened_fallen_empire
-			}
-		}
-	}
+	country_modifier = { starbase_shipyard_build_speed_mult = 3 }
+	prerequisites = { tech_kuat_ground_yards }
 }

@@ -1,0 +1,72 @@
+#Planetary_Target_Marker = {
+#	owned_planets_only = no
+#	sound = swfo_starkillerbase_completed_speech01
+#	icon = decision_star_pulsar
+#
+#	resources = {
+#		category = decisions
+#		cost = {
+#			energy = 10000
+#			influence = 200
+#		}
+#	}
+#
+#	potential = {
+#		from = {
+#			has_civic = civic_first_order_military
+#			has_megastructure = swfo_starkillerbase_0
+#		}
+#		colonizeable_planet = yes
+#		NOT = { has_planet_flag = built_target }
+#	}
+#
+#	ai_weight = {
+#		weight = 0
+#	}
+#	
+#	effect = {
+#		set_planet_flag = built_target
+#		event_target:starkillerbase_location01 = {
+#			change_variable = {
+#				which = num_targets
+#				value = 1
+#			}
+#		}
+#		solar_system = {
+#			spawn_megastructure = {
+#				type = starkiller_planet_target_marker_0
+#				location = prev
+#				owner = from
+#			}
+#		}
+#	}
+#}
+
+Building_The_Kuat_Command_Line = {
+	owned_planets_only = yes
+	sound = event_air_raid_siren
+	icon = decision_arcology_project
+	resources = {
+		category = decisions
+		cost = { minerals = 5000 }
+	}
+	potential = {
+		num_pops >= 100
+		from = { has_technology = tech_kuat_command_center }
+		NOT = { has_building = building_kuat_command_center }
+	}
+	effect = {
+		custom_tooltip = "building_kuat_command_center"
+		if = {
+			limit = { has_building = building_system_capital }
+			remove_building = building_system_capital
+			add_building = building_kuat_command_center
+		}
+		else_if = {
+			limit = { has_building = building_nirvana_empire_palace }
+			remove_building = building_nirvana_empire_palace
+			add_building = building_kuat_command_center
+		}
+	}
+	ai_weight = { weight = 0 }
+}
