@@ -2046,6 +2046,61 @@ create_difficult_special_exe_invasion_ship = {
 	}
 }
 
+create_elternal_warbase = {
+	event_target:kuat_system_fleet = { create_elternal_system_warbase = yes }
+	event_target:ag_exe_invasion_gate_system = { create_elternal_system_warbase = yes }
+}
+
+create_elternal_system_warbase = {
+	set_star_flag = eternal_starbase_megastructure_in_system
+	system_star = {
+		set_planet_size = -1
+		if = {
+			limit = { OR = {
+				has_global_flag = normal_exe_invasion
+				has_global_flag = special_exe_invasion
+			} }
+			create_fleet = {
+				name = "Name_Eternal_station_fleet"
+				settings = { spawn_debris = no can_disband = no }
+				effect = {
+					save_event_target_as = kuat_station_elternal
+					set_owner = event_target:ag_kuat_invasion_country
+					create_ship = { design = "NAME_EXE_STARBASE_MEGASTRUCTURE" }
+					set_location = { target = prev distance = -1 angle = 0 }
+					fleet_event = { id = exe_invasion.125 days = 400 }
+					add_modifier = { modifier = ship_firing_default_debuff_own days = 400 }
+				}
+			}
+		} else = {
+			create_fleet = {
+				name = "Name_Eternal_station_fleet"
+				settings = { spawn_debris = no can_disband = no }
+				effect = {
+					save_event_target_as = kuat_station_elternal
+					set_owner = event_target:ag_kuat_invasion_country
+					create_ship = { design = "NAME_EXE_STARBASE_MEGASTRUCTURE_1" }
+					set_location = { target = prev distance = -1 angle = 0 }
+					fleet_event = { id = exe_invasion.125 days = 400 }
+					add_modifier = { modifier = ship_firing_default_debuff_own days = 400 }
+				}
+			}
+		}
+		create_ambient_object = {
+			type = "space_storm_1"
+			location = this
+		}
+		last_created_ambient_object = {
+			set_ambient_object_flag = space_storm_object
+			set_location = {
+				target = prev
+				distance = 0
+				angle = random
+			}
+		}
+	}
+}
+
 #FIND THE WAR ENEMY
 fleet_execute_order_1 = {
 	queue_actions = {

@@ -160,12 +160,8 @@ event = {
 	trigger = {
 		NOT = { any_country = { has_origin = origin_kuat_apocalyptic } }
 		has_global_flag = exe_invasion_5_fired
-		NOT = {
-			has_global_flag = exe_invasion_signs_cooldown
-		}
-		NOT = {
-			has_global_flag = exe_invasion_7_fired
-		}
+		NOT = { has_global_flag = exe_invasion_signs_cooldown }
+		NOT = { has_global_flag = exe_invasion_7_fired }
 	}
 	immediate = {
 		set_global_flag = exe_invasion_7_fired
@@ -425,33 +421,61 @@ event = {
 country_event = {
 	id = exe_invasion.10
 	title = "exe_invasion.10.name"
-	desc = "exe_invasion.10.desc"
-	diplomatic = yes
-	picture_event_data = {
-		room = Eternal_Empire4_room
+	desc = {
+		trigger = { has_global_flag = will_pay_for_the_starbase }
+		text = "exe_invasion.10.a.desc"
 	}
+	desc = {
+		trigger = { NOT = { has_global_flag = will_pay_for_the_starbase } }
+		text = "exe_invasion.10.desc"
+	}
+	diplomatic = yes
+	picture_event_data = { room = Eternal_Empire4_room }
 	custom_gui = "kuat_event_m_window"
 	custom_gui_option = "kuat_event_m_option"
 	show_sound = event_red_alert
 	location = root.capital_scope
 	is_triggered_only = yes
 	immediate = {
-		every_system = {
-			limit = { ag_is_kuat_system = yes }
-			every_fleet_in_system = {
-				limit = {
-					any_owned_ship = {
-						NOR = {
-							is_ship_class = shipclass_starbase
-							is_ship_class = shipclass_military_station
-							is_ship_class = shipclass_observation_station
-							is_ship_class = shipclass_research_station
-							is_ship_class = shipclass_mining_station
+		if = {
+			limit = { has_global_flag = will_pay_for_the_starbase }
+			every_system = {
+				limit = { ag_is_invasion_system = yes }
+				every_fleet_in_system = {
+					limit = {
+						any_owned_ship = {
+							NOR = {
+								is_ship_class = shipclass_starbase
+								is_ship_class = shipclass_military_station
+								is_ship_class = shipclass_observation_station
+								is_ship_class = shipclass_research_station
+								is_ship_class = shipclass_mining_station
+							}
 						}
+						owner = { is_ai = no }
 					}
-					owner = { is_ai = no }
+					set_location = owner.capital_scope
 				}
-				set_location = owner.capital_scope
+			}
+			country_event = { id = exe_invasion.128 }
+		} else = {
+			every_system = {
+				limit = { ag_is_invasion_system = yes }
+				every_fleet_in_system = {
+					limit = {
+						any_owned_ship = {
+							NOR = {
+								is_ship_class = shipclass_starbase
+								is_ship_class = shipclass_military_station
+								is_ship_class = shipclass_observation_station
+								is_ship_class = shipclass_research_station
+								is_ship_class = shipclass_mining_station
+							}
+						}
+						owner = { is_ai = no }
+					}
+					set_location = owner.capital_scope
+				}
 			}
 		}
 	}
@@ -459,6 +483,120 @@ country_event = {
 		name = "exe_invasion.10.a"
 		begin_event_chain = { event_chain = ag_exe_invasion_chain }
 	}
+}
+
+country_event = {
+	id = exe_invasion.128
+	hide_window = yes
+	is_triggered_only = yes
+	fire_only_once = yes
+	trigger = {
+		OR = {
+			has_global_flag = difficult_exe_invasion
+			has_global_flag = normal_exe_invasion
+			has_global_flag = special_exe_invasion
+		}
+	}
+	immediate = { create_elternal_warbase = yes }
+}
+
+fleet_event = {
+	id = exe_invasion.125
+	hide_window = yes
+	is_triggered_only = yes
+	trigger = { exists = event_target:kuat_station_elternal }
+	immediate = { 
+		destroy_fleet = this 
+		solar_system = {
+			remove_star_flag = eternal_starbase_megastructure_in_system
+			random_system_planet = {
+				limit = { is_primary_star = yes }
+				create_ambient_object = {
+					type = kuat_elternal_explosion_object
+					location = this
+					duration = 30					
+					use_3d_location = yes
+					entity_offset = { min = 0 max = 0 }
+					entity_offset_angle = { min = 0 max = 0 }
+					entity_offset_height = { min = 0 max = 0 }				
+					entity_scale_to_size = yes
+					scale = 0.3
+				}
+				change_pc = pc_black_hole
+				set_planet_size = 18
+			}
+			every_fleet_in_system = {
+				limit = { NOT = { owner = { is_country_type = ag_kuat_invasion_country } } }
+				add_modifier = { modifier = ship_firing_default_debuff days = 15 }
+			}
+			random_ambient_object = {
+				limit = { has_ambient_object_flag = space_storm_object }
+				destroy_ambient_object = this
+			}
+		}
+		every_playable_country = { country_event = { id = exe_invasion.126 } }
+	}
+}
+
+country_event = {
+	id = exe_invasion.126
+	title = "exe_invasion.126.name"
+	desc = "exe_invasion.126.desc"
+	diplomatic = yes
+	picture_event_data = { room = Eternal_Empire4_room }
+	custom_gui = "kuat_event_m_window"
+	custom_gui_option = "kuat_event_m_option"
+	show_sound = event_red_alert
+	is_triggered_only = yes
+	option = { name = exe_invasion.126.a }
+}
+
+country_event = {
+	id = exe_invasion.127
+	title = "exe_invasion.127.name"
+	desc = "exe_invasion.127.desc"
+	diplomatic = yes
+	picture_event_data = { room = Eternal_Empire4_room }
+	custom_gui = "kuat_event_m_window"
+	custom_gui_option = "kuat_event_m_option"
+	show_sound = event_red_alert
+	is_triggered_only = yes
+	trigger = {
+		fromfromfrom = {
+			is_ship_size = exe_megastructure_starbase
+			solar_system = { has_star_flag = eternal_starbase_megastructure_in_system }
+		}
+	}
+	immediate = {
+		fromfromfrom.solar_system = {
+			remove_star_flag = eternal_starbase_megastructure_in_system
+			random_system_planet = {
+				limit = { is_primary_star = yes }
+				change_pc = pc_black_hole
+				create_ambient_object = {
+					type = kuat_elternal_explosion_object
+					location = this
+					duration = 30					
+					use_3d_location = yes
+					entity_offset = { min = 0 max = 0 }
+					entity_offset_angle = { min = 0 max = 0 }
+					entity_offset_height = { min = 0 max = 0 }				
+					entity_scale_to_size = yes
+					scale = 0.3
+				}
+				set_planet_size = 18
+			}
+			every_fleet_in_system = {
+				limit = { NOT = { owner = { is_country_type = ag_kuat_invasion_country } } }
+				add_modifier = { modifier = ship_firing_default_debuff days = 15 }
+			}
+			random_ambient_object = {
+				limit = { has_ambient_object_flag = space_storm_object }
+				destroy_ambient_object = this
+			}
+		}
+	}
+	option = { name = exe_invasion.127.a }
 }
 
 #Invasion fleet arrived. 
