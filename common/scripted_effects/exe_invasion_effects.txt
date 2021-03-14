@@ -2270,89 +2270,41 @@ exe_invasion_country_trigger = {
 			if = {
 				limit = { owner = { is_country_type = default } }
 				random_list = {
-					5 = {
+					99 = {
 						modifier = { factor = 20 has_global_flag = special_exe_invasion }
-						leader = { 
-							save_event_target_as = is_interesting_leader 
-							owner = {
-								clone_leader = {
-									target = event_target:is_interesting_leader
-									class = admiral
-									effect = { save_event_target_as = cloner_leader set_owner = event_target:receves_leader_country }
-								}
-							}
-						} root.fromfrom = { 
-							leader = { kill_leader = { type = admiral show_notification = no } }	
-							assign_leader = event_target:cloner_leader
-						}
+						exe_reset_invasion_leader = yes
 					}
-					5 = { }
+					1 = { }
 				}
 			}
 			else_if = {
 				limit = { owner = { is_country_type = default_ev } }
 				random_list = {
-					5 = {
+					1 = {
 						modifier = { factor = 20 has_global_flag = special_exe_invasion }
-						leader = { 
-							save_event_target_as = is_interesting_leader 
-							owner = {
-								clone_leader = {
-									target = event_target:is_interesting_leader
-									class = admiral
-									effect = { save_event_target_as = cloner_leader set_owner = event_target:receves_leader_country }
-								}
-							}
-						} root.fromfrom = { 
-							leader = { kill_leader = { type = admiral show_notification = no } }	
-							assign_leader = event_target:cloner_leader
-						}
+						exe_reset_invasion_leader = yes
 					}
-					5 = { }
+					99 = { }
 				}
 			}
 			else_if = {
 				limit = { owner = { is_country_type = wg_crisis_country } }
 				random_list = {
-					5 = {
+					1 = {
 						modifier = { factor = 20 has_global_flag = special_exe_invasion }
-						leader = { 
-							save_event_target_as = is_interesting_leader 
-							owner = {
-								clone_leader = {
-									target = event_target:is_interesting_leader
-									class = admiral
-									effect = { save_event_target_as = cloner_leader set_owner = event_target:receves_leader_country }
-								}
-							}
-						} root.fromfrom = { 
-							leader = { kill_leader = { type = admiral show_notification = no } }	
-							assign_leader = event_target:cloner_leader
-						}
+						exe_reset_invasion_leader = yes
 					}
-					5 = { }
+					99 = { }
 				}
 			}
 			else_if = {
 				limit = { owner = { is_country_type = afk_crisis_country } }
 				random_list = {
-					5 = {
+					1 = {
 						modifier = { factor = 20 has_global_flag = special_exe_invasion }
-						leader = { 
-							save_event_target_as = is_interesting_leader 
-							owner = {
-								clone_leader = {
-									target = event_target:is_interesting_leader
-									class = admiral
-									effect = { save_event_target_as = cloner_leader set_owner = event_target:receves_leader_country }
-								}
-							}
-						} root.fromfrom = { 
-							leader = { kill_leader = { type = admiral show_notification = no } }	
-							assign_leader = event_target:cloner_leader
-						}
+						exe_reset_invasion_leader = yes
 					}
-					5 = { }
+					99 = { }
 				}
 			}
 		} else = {
@@ -2368,19 +2320,7 @@ exe_invasion_country_trigger = {
 				}
 				299 = {
 					add_modifier = { modifier = ship_firing_debuff days = 10 }
-					leader = { 
-						save_event_target_as = is_interesting_leader 
-						owner = {
-							clone_leader = {
-								target = event_target:is_interesting_leader
-								class = admiral
-								effect = { save_event_target_as = cloner_leader set_owner = root }
-							}
-						}
-					} root.fromfrom = { 
-						leader = { kill_leader = { type = admiral show_notification = no } }	
-						assign_leader = event_target:cloner_leader
-					}
+					exe_reset_invasion_leader = yes
 				}
 			}
 		}
@@ -2393,4 +2333,36 @@ exe_invasion_country_trigger = {
 		set_timed_fleet_flag = { flag = kill_leader_only_once days = 2 }
 		prev.fromfrom = { add_modifier = { modifier = ship_firing_default_debuff_own days = 10 } }
 	}
+}
+
+exe_reset_invasion_leader = {
+	leader = { 
+		save_event_target_as = is_interesting_leader 
+		owner = {
+			clone_leader = {
+				target = event_target:is_interesting_leader
+				class = admiral
+				effect = { save_event_target_as = cloner_leader set_owner = event_target:receves_leader_country }
+			}
+		}
+	} 
+	root.fromfrom = { 
+		if = {
+			limit = { NOT = { exists = leader } }
+			assign_leader = event_target:cloner_leader
+		}
+		else_if = {
+			limit = { owner = { any_owned_fleet = { NOT = { exists = leader } } } }
+			owner = {
+				random_owned_fleet = {
+					limit = { NOT = { exists = leader } }
+					assign_leader = event_target:cloner_leader
+				}
+			}
+		} else = {
+			leader = { kill_leader = { type = admiral show_notification = no } }
+			assign_leader = event_target:cloner_leader
+		}
+	}
+	owner = { country_event = { id = exe_invasion.129 } }
 }
