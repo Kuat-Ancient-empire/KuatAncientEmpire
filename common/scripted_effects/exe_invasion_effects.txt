@@ -2261,7 +2261,6 @@ fleet_execute_order_3 = {
 }
 
 #fromfromfrom fleet
-# ag_effect_destroyed_fleet = { $create_buff$_fleet = this }
 exe_invasion_country_trigger = {
 	if = {
 		limit = { NOT = { has_fleet_flag = kill_leader_only_once } }
@@ -2270,134 +2269,93 @@ exe_invasion_country_trigger = {
 			limit = { owner = { ag_is_combat_country_trigger = yes } }
 			if = {
 				limit = { owner = { is_country_type = default } }
-				save_event_target_as = is_interesting_players_default
 				random_list = {
-					1 = {
-						modifier = {
-							factor = 1000
-							any_owned_ship = { has_ship_flag = invincible }
-						}
-						modifier = {
-							factor = 20
-							has_global_flag = special_exe_invasion
-						}
+					5 = {
+						modifier = { factor = 20 has_global_flag = special_exe_invasion }
 						leader = { 
 							save_event_target_as = is_interesting_leader 
-							prev = {
-								create_message = {
-									type = "LEADER_DEATH"
-									localization = "LEADER_DEATH_MESSAGE_SHIP"
-									days = 30
-									variable = {
-										type = name
-										localization = "kuat_leader_name"
-										scope = event_target:is_interesting_leader
-									}
-									target = event_target:is_interesting_players_default.owner
+							owner = {
+								clone_leader = {
+									target = event_target:is_interesting_leader
+									class = admiral
+									effect = { save_event_target_as = cloner_leader set_owner = event_target:receves_leader_country }
 								}
 							}
-							kill_leader = { type = admiral show_notification = no }
+						} root.fromfrom = { 
+							leader = { kill_leader = { type = admiral show_notification = no } }	
+							assign_leader = event_target:cloner_leader
 						}
 					}
-					99 = { }
+					5 = { }
 				}
 			}
 			else_if = {
 				limit = { owner = { is_country_type = default_ev } }
-				save_event_target_as = is_interesting_players_default_ev
 				random_list = {
-					1 = {
-						modifier = {
-							factor = 1000
-							any_owned_ship = { has_ship_flag = invincible }
-						}
-						modifier = {
-							factor = 20
-							has_global_flag = special_exe_invasion
-						}
+					5 = {
+						modifier = { factor = 20 has_global_flag = special_exe_invasion }
 						leader = { 
 							save_event_target_as = is_interesting_leader 
-							prev = {
-								create_message = {
-									type = "LEADER_DEATH"
-									localization = "LEADER_DEATH_MESSAGE_SHIP"
-									days = 30
-									variable = {
-										type = name
-										localization = "kuat_leader_name"
-										scope = event_target:is_interesting_leader
-									}
-									target = event_target:is_interesting_players_default_ev.owner
+							owner = {
+								clone_leader = {
+									target = event_target:is_interesting_leader
+									class = admiral
+									effect = { save_event_target_as = cloner_leader set_owner = event_target:receves_leader_country }
 								}
 							}
-							kill_leader = { type = admiral show_notification = no }
+						} root.fromfrom = { 
+							leader = { kill_leader = { type = admiral show_notification = no } }	
+							assign_leader = event_target:cloner_leader
 						}
 					}
-					99 = { }
+					5 = { }
 				}
 			}
 			else_if = {
 				limit = { owner = { is_country_type = wg_crisis_country } }
-				save_event_target_as = is_interesting_players_wg_crisis_country
 				random_list = {
-					1 = {
-						modifier = {
-							factor = 20
-							has_global_flag = special_exe_invasion
-						}
+					5 = {
+						modifier = { factor = 20 has_global_flag = special_exe_invasion }
 						leader = { 
 							save_event_target_as = is_interesting_leader 
-							prev = {
-								create_message = {
-									type = "LEADER_DEATH"
-									localization = "LEADER_DEATH_MESSAGE_SHIP"
-									days = 30
-									variable = {
-										type = name
-										localization = "kuat_leader_name"
-										scope = event_target:is_interesting_leader
-									}
-									target = event_target:is_interesting_players_wg_crisis_country.owner
+							owner = {
+								clone_leader = {
+									target = event_target:is_interesting_leader
+									class = admiral
+									effect = { save_event_target_as = cloner_leader set_owner = event_target:receves_leader_country }
 								}
 							}
-							kill_leader = { type = admiral show_notification = no }
+						} root.fromfrom = { 
+							leader = { kill_leader = { type = admiral show_notification = no } }	
+							assign_leader = event_target:cloner_leader
 						}
 					}
-					99 = { }
+					5 = { }
 				}
 			}
 			else_if = {
 				limit = { owner = { is_country_type = afk_crisis_country } }
-				save_event_target_as = is_interesting_players_afk_crisis_country
 				random_list = {
-					1 = {
-						modifier = {
-							factor = 20
-							has_global_flag = special_exe_invasion
-						}
+					5 = {
+						modifier = { factor = 20 has_global_flag = special_exe_invasion }
 						leader = { 
 							save_event_target_as = is_interesting_leader 
-							prev = {
-								create_message = {
-									type = "LEADER_DEATH"
-									localization = "LEADER_DEATH_MESSAGE_SHIP"
-									days = 30
-									variable = {
-										type = name
-										localization = "kuat_leader_name"
-										scope = event_target:is_interesting_leader
-									}
-									target = event_target:is_interesting_players_afk_crisis_country.owner
+							owner = {
+								clone_leader = {
+									target = event_target:is_interesting_leader
+									class = admiral
+									effect = { save_event_target_as = cloner_leader set_owner = event_target:receves_leader_country }
 								}
 							}
-							kill_leader = { type = admiral show_notification = no }
+						} root.fromfrom = { 
+							leader = { kill_leader = { type = admiral show_notification = no } }	
+							assign_leader = event_target:cloner_leader
 						}
 					}
-					99 = { }
+					5 = { }
 				}
 			}
 		} else = {
-			save_event_target_as = is_interesting_players_for_some_shit_mod
 			random_list = {
 				99 = { prev.fromfrom = { add_modifier = { modifier = ship_firing_default_debuff_own days = 10 } } }
 				199 = { 
@@ -2412,20 +2370,16 @@ exe_invasion_country_trigger = {
 					add_modifier = { modifier = ship_firing_debuff days = 10 }
 					leader = { 
 						save_event_target_as = is_interesting_leader 
-						prev = {
-							create_message = {
-								type = "LEADER_DEATH"
-								localization = "LEADER_DEATH_MESSAGE_SHIP"
-								days = 30
-								variable = {
-									type = name
-									localization = "kuat_leader_name"
-									scope = event_target:is_interesting_leader
-								}
-								target = event_target:is_interesting_players_for_some_shit_mod.owner
+						owner = {
+							clone_leader = {
+								target = event_target:is_interesting_leader
+								class = admiral
+								effect = { save_event_target_as = cloner_leader set_owner = root }
 							}
 						}
-						kill_leader = { type = admiral show_notification = no }
+					} root.fromfrom = { 
+						leader = { kill_leader = { type = admiral show_notification = no } }	
+						assign_leader = event_target:cloner_leader
 					}
 				}
 			}
