@@ -42,17 +42,15 @@ Shield_Gate = {
 	ship_modifier = {
 		ship_starting_experience_add = 100
 	}
-	station_modifier = {
-		starbase_shipyard_capacity_add = 10
-	}
 	country_modifier = {
-		starbase_shipyard_build_speed_mult = 1	
+		ship_hull_damage_mult = 0.35
+		ship_shield_damage_mult = 0.35
+		ship_armor_damage_mult = 0.35
 	}
-	potential = {
-		always = no
-	}
+	potential = { always = no }
 }
 
+#eternal starbase
 exe_megastructure_starbase_platfrom = {
 	entity = "construction_platform_entity"
 	construction_entity = "construction_platform_entity"
@@ -69,9 +67,7 @@ exe_megastructure_starbase_platfrom = {
 			influence = 150
 		}		
 	}
-	potential = {
-		has_technology = tech_kuat_starbase
-	}
+	potential = { has_technology = tech_kuat_starbase }
 	possible = {
 		custom_tooltip = {
 			fail_text = "requires_inside_border"
@@ -161,9 +157,9 @@ exe_megastructure_starbase_platfrom = {
 	ai_weight = { weight = 0 }
 }
 
-exe_megastructure_starbase = {
-	entity = "exe_megastructure_starbase_section_entity"
-	construction_entity = "exe_megastructure_starbase_section_entity"
+exe_megastructure_starbase_skeletion = {
+	entity = "exe_megastructure_starbase_section_mega_entity"
+	construction_entity = "exe_megastructure_starbase_section_mega_entity"
 	portrait = "GFX_megastructure_construction_background"	
 	place_entity_on_planet_plane = no
 	show_galactic_map_icon = no	
@@ -171,6 +167,45 @@ exe_megastructure_starbase = {
 	upgrade_desc = hide	
 	entity_offset = { x = 0 y = 0 }	
 	upgrade_from = { exe_megastructure_starbase_platfrom }	
+	resources = {
+		category = megastructures
+		cost = {
+			alloys = 500000
+		}
+	}	
+	potential = { has_technology = tech_kuat_starbase }	
+	possible = {
+		custom_tooltip = {
+			fail_text = "kuat_requires_no_existing_station"
+			from = {
+				NOT  = {
+					any_owned_megastructure = { is_megastructure_type = exe_megastructure_starbase }
+					any_owned_fleet = { is_ship_size = exe_megastructure_starbase }
+				}
+			}
+		}
+	}	
+	placement_rules = {}	
+	on_build_start = {}
+	on_build_cancel = {}
+	on_build_complete = {
+		fromfrom.planet = { set_planet_size = -1 }
+	}
+	construction_blocked_by_others = no
+	construction_blocks_others = no	
+	ai_weight = { weight = 1000 }
+}
+
+exe_megastructure_starbase = {
+	entity = "exe_megastructure_starbase_section_mega_entity"
+	construction_entity = "exe_megastructure_starbase_section_mega_entity"
+	portrait = "GFX_megastructure_construction_background"	
+	place_entity_on_planet_plane = no
+	show_galactic_map_icon = no	
+	build_time = 15	
+	upgrade_desc = hide	
+	entity_offset = { x = 0 y = 0 }	
+	upgrade_from = { exe_megastructure_starbase_skeletion }	
 	resources = {
 		category = megastructures
 		cost = {
@@ -258,6 +293,286 @@ exe_megastructure_starbase = {
 			}
 			country_event = { id = kuat_legacy.47 }
 		}
+	}
+	construction_blocked_by_others = no
+	construction_blocks_others = no	
+	ai_weight = { weight = 1000 }
+}
+
+#black hole facility
+exe_black_hole_facility_platform = {
+	entity = "construction_platform_entity"
+	construction_entity = "construction_platform_entity"
+	portrait = "GFX_megastructure_construction_background"	
+	place_entity_on_planet_plane = no
+	show_galactic_map_icon = no	
+	build_time = 2080	
+	upgrade_desc = hide	
+	entity_offset = { x = -7 y = -7 }
+	potential = { has_technology = tech_kuat_megastructrue }
+	resources = {
+		category = megastructures
+		cost = {
+			alloys = 5000
+			influence = 150
+		}		
+	}
+	possible = {
+		custom_tooltip = {
+		 	fail_text = "requires_no_existing_megastructure"
+		 	has_no_non_gate_megastructure = yes
+		}
+		custom_tooltip = {
+			fail_text = "requires_no_habitable_planets"
+			NOT = { any_system_planet = { colonizeable_planet = yes } }
+		}
+		custom_tooltip = {
+			fail_text = "requires_inside_border"
+			is_inside_border = from
+		}		
+		custom_tooltip = {
+			fail_text = "requires_surveyed_system"
+			NOT = {
+				any_system_planet = {
+					is_surveyed = {
+						who = prev.from
+						status = no
+					}
+				}
+			}
+		}
+		custom_tooltip = {
+			fail_text = "requires_no_binary_trinary"
+			NOR = {
+				is_star_class = sc_binary_1
+				is_star_class = sc_binary_2
+				is_star_class = sc_binary_3
+				is_star_class = sc_binary_4
+				is_star_class = sc_binary_5
+				is_star_class = sc_binary_6
+				is_star_class = sc_binary_7
+				is_star_class = sc_binary_8
+				is_star_class = sc_binary_9
+				is_star_class = sc_binary_10
+				is_star_class = sc_trinary_1
+				is_star_class = sc_trinary_2
+				is_star_class = sc_trinary_3
+				is_star_class = sc_trinary_4
+			}
+		}
+		custom_tooltip = {
+			fail_text = "kuat_requires_no_existing_station"
+			from = {
+				NOT = {
+					any_owned_megastructure = {
+						OR = {
+							is_megastructure_type = exe_black_hole_facility_platform
+							is_megastructure_type = exe_black_hole_facility_1
+							is_megastructure_type = exe_black_hole_facility_2
+							is_megastructure_type = exe_black_hole_facility_3
+							is_megastructure_type = exe_black_hole_facility
+						}
+					}
+				}
+			}
+		}
+	}
+	placement_rules = {
+		planet_possible = {
+			custom_tooltip = {
+				fail_text = "must_build_around_star"
+				is_star = yes
+			}
+			custom_tooltip = {
+				fail_text = "requires_no_anomaly"
+				has_anomaly = no
+			}
+			custom_tooltip = {
+				fail_text = "requires_no_orbital_station"
+				has_orbital_station = no
+			}
+			custom_tooltip = {
+				fail_text = "kuat_requires_exe_construction_section"
+				NOT = { has_planet_flag = has_exe_black_hole_facility }
+			}
+		}
+	}
+	on_build_start = { }
+	on_build_cancel = { }
+	on_build_complete = {
+		set_star_flag = facility_build
+		fromfrom.planet = { set_planet_flag = has_exe_black_hole_facility }
+		from = { country_event = { id = kuat_origin.2 } }
+	}
+	construction_blocked_by_others = no
+	construction_blocks_others = no
+	ai_weight = { weight = 0 }
+}
+
+exe_black_hole_facility_1 = {
+	entity = "fallen_empire_kuat_01_ring_world_ration_dyson_1_entity"
+	construction_entity = "fallen_empire_kuat_01_ring_world_ration_dyson_1_entity"
+	portrait = "GFX_megastructure_construction_background"	
+	place_entity_on_planet_plane = no
+	show_galactic_map_icon = no	
+	build_time = 3090	
+	upgrade_desc = hide	
+	upgrade_from = { exe_black_hole_facility_platform }	
+	resources = {
+		category = megastructures
+		cost = {
+			alloys = 500000
+		}
+		produces = {
+			energy = 4000
+		}
+		upkeep = {
+			energy = 3000
+			exotic_gases = 75
+			volatile_motes = 75
+			rare_crystals = 75
+		}
+	}	
+	station_modifier = {
+		starbase_shipyard_capacity_add = 12
+	}	
+	placement_rules = {}	
+	on_build_start = {}
+	on_build_cancel = {}
+	on_build_complete = {
+		fromfrom.planet = { set_planet_size = 10 }
+		every_system_planet = { 
+			limit = { is_star = no }
+			remove_planet = yes 
+		}
+		set_asteroid_belt = { radius = 0 }
+		from = { country_event = { id = kuat_origin.3 } }
+	}
+	construction_blocked_by_others = no
+	construction_blocks_others = no	
+	ai_weight = { weight = 1000 }
+}
+
+exe_black_hole_facility_2 = {
+	entity = "fallen_empire_kuat_01_ring_world_ration_dyson_2_entity"
+	construction_entity = "fallen_empire_kuat_01_ring_world_ration_dyson_2_entity"
+	portrait = "GFX_megastructure_construction_background"	
+	place_entity_on_planet_plane = no
+	show_galactic_map_icon = no	
+	build_time = 3090	
+	upgrade_desc = hide	
+	upgrade_from = { exe_black_hole_facility_1 }	
+	resources = {
+		category = megastructures
+		cost = {
+			alloys = 500000
+		}
+		produces = {
+			energy = 5000
+			minerals = 4000
+		}
+		upkeep = {
+			energy = 3000
+			exotic_gases = 125
+			volatile_motes = 125
+			rare_crystals = 125
+		}
+	}	
+	station_modifier = {
+		starbase_shipyard_capacity_add = 25
+	}
+	placement_rules = {}	
+	on_build_start = {}
+	on_build_cancel = {}
+	on_build_complete = {
+		from = { country_event = { id = kuat_origin.4 } }
+	}
+	construction_blocked_by_others = no
+	construction_blocks_others = no	
+	ai_weight = { weight = 1000 }
+}
+
+exe_black_hole_facility_3 = {
+	entity = "fallen_empire_kuat_01_ring_world_ration_dyson_3_entity"
+	construction_entity = "fallen_empire_kuat_01_ring_world_ration_dyson_3_entity"
+	portrait = "GFX_megastructure_construction_background"	
+	place_entity_on_planet_plane = no
+	show_galactic_map_icon = no	
+	build_time = 3090	
+	upgrade_desc = hide		
+	upgrade_from = { exe_black_hole_facility_2 }	
+	resources = {
+		category = megastructures
+		cost = {
+			alloys = 500000
+		}
+		produces = {
+			minerals = 4000
+			energy = 6000
+			alloys = 4000
+		}
+		upkeep = {
+			energy = 3000
+			minerals = 3000
+			exotic_gases = 250
+			volatile_motes = 250
+			rare_crystals = 250
+		}
+	}	
+	station_modifier = {
+		starbase_shipyard_capacity_add = 50
+	}
+	placement_rules = {}	
+	on_build_start = {}
+	on_build_cancel = {}
+	on_build_complete = {
+		from = { country_event = { id = kuat_origin.5 } }
+	}
+	construction_blocked_by_others = no
+	construction_blocks_others = no	
+	ai_weight = { weight = 1000 }
+}
+
+exe_black_hole_facility = {
+	entity = "fallen_empire_kuat_01_ring_world_ration_dyson_entity"
+	construction_entity = "fallen_empire_kuat_01_ring_world_ration_dyson_entity"
+	portrait = "GFX_megastructure_construction_background"	
+	place_entity_on_planet_plane = no
+	show_galactic_map_icon = no	
+	build_time = 3090	
+	upgrade_desc = hide	
+	upgrade_from = { exe_black_hole_facility_3 }	
+	resources = {
+		category = megastructures
+		cost = {
+			alloys = 500000
+		}
+		produces = {
+			minerals = 10000
+			energy = 10000
+			alloys = 10000
+			sr_dark_matter = 1000
+		}
+		upkeep = {
+			energy = 4000
+			minerals = 4000
+			exotic_gases = 500
+			volatile_motes = 500
+			rare_crystals = 500
+		}
+	}	
+	country_modifier = {
+		starbase_shipyard_build_speed_mult = -0.5
+	}
+	station_modifier = {
+		starbase_shipyard_capacity_add = 300
+	}
+	placement_rules = {}	
+	on_build_start = {}
+	on_build_cancel = {}
+	on_build_complete = {
+		fromfrom.planet = { remove_planet_flag = has_exe_black_hole_facility }
+		from = { country_event = { id = kuat_origin.6 } }
 	}
 	construction_blocked_by_others = no
 	construction_blocks_others = no	
