@@ -362,22 +362,6 @@ country_event = {
 			establish_communications_no_message = root
 			root = { save_event_target_as = contact_empire }
 			country_event = { id = action.1 }
-			# if = {
-			# 	limit = { 
-			# 		is_ai = no 
-			# 		NOT = { is_at_war_with = event_target:fallen_empire_kuat }
-			# 	}
-			# 	set_faction_hostility = {
-			# 		target = event_target:fallen_empire_kuat
-			# 		set_hostile = no
-			# 		set_friendly = yes
-			# 	}
-			# 	set_faction_hostility = {
-			# 		target = event_target:fallen_empire_kuat_fleet
-			# 		set_hostile = no
-			# 		set_friendly = yes
-			# 	}
-			# }
 		}
 	}
 }
@@ -449,37 +433,19 @@ country_event = {
 	}
 	mean_time_to_happen = {
 		years = 50
-		modifier = {
-			factor = 2
-			num_fallen_empires > 1
-			num_fallen_empires < 3
-		}
-		modifier = {
-			factor = 4
-			num_fallen_empires > 2
-			num_fallen_empires < 4
-		}
-		modifier = {
-			factor = 6
-			num_fallen_empires > 3
-		}
-		modifier = {
-			factor = 0
-			NOT = { exists = event_target:fallen_empire_kuat_fleet }
-		}
+		modifier = { factor = 2 num_fallen_empires > 1 num_fallen_empires < 3 }
+		modifier = { factor = 4 num_fallen_empires > 2 num_fallen_empires < 4 }
+		modifier = { factor = 6 num_fallen_empires > 3 }
+		modifier = { factor = 0 NOT = { exists = event_target:fallen_empire_kuat_fleet } }
 	}
 	immediate = {
 		every_playable_country = {
-			limit = {
-				is_ai = no
-			}
+			limit = { is_ai = no }
 			country_event = { id = executor_build.21 }
 		}
 		country_event = { id = executor_build.20 }
 		random_playable_country = {
-			limit = {
-				is_same_value = event_target:target_for_kuat
-			}
+			limit = { is_same_value = event_target:target_for_kuat }
 			country_event = { id = executor_build.24 days = 5 }
 		}
 	}
@@ -492,14 +458,10 @@ country_event = {
 	trigger = {
 		exists = event_target:fallen_empire_kuat
 		is_country_type = kuat_fleet
-		fromfrom = {
-			is_ship_size = exe_starbase
-		}
+		fromfrom = { is_ship_size = exe_starbase }
 	}
 	immediate = {
-		from = {
-			save_global_event_target_as = target_for_kuat
-		}
+		from = { save_global_event_target_as = target_for_kuat }
 		destroy_country = yes
 	}
 }
@@ -520,14 +482,7 @@ country_event = {
 	custom_gui = "kuat_event_diplomacy_window"
 	custom_gui_option = "kuat_event_diplomacy_option"
 	is_triggered_only = yes
-	trigger = {
-		exists = event_target:fallen_empire_kuat
-		OR = {
-			is_ai = no
-			is_country_type = fallen_empire
-			is_country_type = awakened_fallen_empire
-		}
-	}
+	trigger = { exists = event_target:fallen_empire_kuat }
 	option = {
 		name = executor_build.24.a
 		hidden_effect = {
@@ -535,7 +490,7 @@ country_event = {
 				declare_war = {
 					target = event_target:target_for_kuat
 					name = "Name_kuat_war"
-					attacker_war_goal = Kuat_total_war
+					attacker_war_goal = kuat_humiliation
 				}
 			}
 		}
@@ -551,18 +506,11 @@ country_event = {
 	hide_window = yes
 	trigger = {
 		has_country_flag = fallen_empire_kuat
-		fromfrom = {
-			is_ship_size = knigjt_hammer_executor
-			has_ship_flag = ship_ruins
-		}
+		fromfrom = { has_ship_flag = ship_ruins }
 	}
 	immediate = {
-		solar_system = {
-			set_star_flag = explode_kuat_system
-		}
-		from = {
-			country_event = { id = executor_build.11 days = 1 }
-		}
+		solar_system = { set_star_flag = explode_kuat_system }
+		from = { country_event = { id = executor_build.11 days = 1 } }
 	}
 }
 
@@ -573,17 +521,11 @@ country_event = {
 	title = executor_build.11.title
 	desc = executor_build.11.desc
 	diplomatic = yes
-	picture_event_data = {
-		room = exploding_ship_room
-	}
+	picture_event_data = { room = exploding_ship_room }
 	custom_gui = "kuat_event_window"
 	custom_gui_option = "kuat_event_option"
-	immediate = {
-		country_event = { id = executor_build.12 days = 10 }
-	}
-	option = {
-		name = executor_build.11.a
-	}
+	immediate = { country_event = { id = executor_build.12 days = 10 } }
+	option = { name = executor_build.11.a }
 }
 
 country_event = {
@@ -592,12 +534,8 @@ country_event = {
 	hide_window = yes
 	immediate = {
 		every_system = {
-			limit = {
-				has_star_flag = explode_kuat_system
-			}
-			every_fleet_in_system = {
-				destroy_fleet = this
-			}
+			limit = { has_star_flag = explode_kuat_system }
+			every_fleet_in_system = { destroy_fleet = this }
 		}
 		country_event = { id = executor_build.13 days = 5 }
 	}
@@ -618,9 +556,7 @@ country_event = {
 	immediate = {
 		event_target:fallen_empire_kuat = {
 			every_system_within_border = {
-				limit = {
-					has_star_flag = Kuat_system
-				}
+				limit = { has_star_flag = Kuat_system }
 				create_starbase = {
 					owner = event_target:fallen_empire_kuat
 					size = "starbase_citadel"
@@ -714,9 +650,7 @@ country_event = {
 			}
 		}
 	}
-	option = {
-		name = OK
-	}
+	option = { name = OK }
 }
 
 ##########################

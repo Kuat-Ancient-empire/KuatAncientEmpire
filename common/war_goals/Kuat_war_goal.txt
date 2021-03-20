@@ -21,3 +21,30 @@ Kuat_total_war = {
 		country_event = { id = ai_action.5 days = 1 }
 	}
 }
+
+kuat_humiliation = {
+	casus_belli = Kuat_punishment	
+	hide_if_no_cb = yes
+	allowed_peace_offers = {
+		status_quo
+		surrender
+		demand_surrender
+	}
+	potential = { always = yes }
+	possible = { always = yes }
+	on_accept = {
+		custom_tooltip = wg_humiliation_fe_accept
+		save_event_target_as = fallen_empire_humiliator
+		random_system = {
+			limit = { has_star_flag = kuat_military_base_system_home }
+			every_fleet_in_system = { destroy_fleet = this }
+			create_kuat_fleet_country_type = yes
+			random_system_planet = {
+				limit = { is_primary_star = yes }
+				create_kuat_fleet_country_type_army = yes
+			}
+		}
+		from = { fallen_empire_humiliate_effect = yes }
+	}
+	ai_weight = { weight = 5 }
+}

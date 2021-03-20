@@ -1648,45 +1648,24 @@ create_capital_kuat_fleet = {
 			set_owner = event_target:fallen_empire_kuat
 			random_list = {
 				5 = {
-					while = {
-						count = 1
-						create_ship = {
-							name = "Executor Class Super Stardestroyer"
-							design = "Name_boss_EXECUTOR"
-							prefix = no
-							upgradable = no
-							effect = {
-								set_ship_flag = ship_ruins
-							}
-						}
+					create_ship = {
+						name = "Executor Class Super Stardestroyer"
+						design = "Name_boss_EXECUTOR"
+						effect = { set_ship_flag = ship_ruins }
 					}
 				}
 				5 = {
-					while = {
-						count = 1
-						create_ship = {
-							name = "Eclipse Class Super Stardestroyer"
-							design = "Name_boss_eclipse"
-							prefix = no
-							upgradable = no
-							effect = {
-								set_ship_flag = ship_ruins
-							}
-						}
+					create_ship = {
+						name = "Eclipse Class Super Stardestroyer"
+						design = "Name_boss_eclipse"
+						effect = { set_ship_flag = ship_ruins }
 					}
 				}
 				5 = {
-					while = {
-						count = 1
-						create_ship = {
-							name = "Dominance Class Super Stardestroyer"
-							design = "Name_boss_Dominance"
-							prefix = no
-							upgradable = no
-							effect = {
-								set_ship_flag = ship_ruins
-							}
-						}
+					create_ship = {
+						name = "Dominance Class Super Stardestroyer"
+						design = "Name_boss_Dominance"
+						effect = { set_ship_flag = ship_ruins }
 					}
 				}
 			}
@@ -1695,8 +1674,6 @@ create_capital_kuat_fleet = {
 				create_ship = {
 					name = "Balletor Class Stellar Dreadnought"
 					design = "Name_boss_BELLATOR"
-					prefix = no
-					upgradable = no
 				}
 			}
 			while = {
@@ -1704,8 +1681,6 @@ create_capital_kuat_fleet = {
 				create_ship = {
 					name = "Empire-II Class Stardestroyer"
 					design = "Name_boss_EMPIRE"
-					prefix = no
-					upgradable = no
 				}
 			}
 			while = {
@@ -1713,7 +1688,6 @@ create_capital_kuat_fleet = {
 				create_ship = {
 					name = "Harrower Class Stardestroyer"
 					design = "Name_boss_Horriwer"
-					prefix = no
 				}
 			}
 			set_location = event_target:fallen_empire_kuat.capital_scope
@@ -2360,4 +2334,109 @@ exe_reset_invasion_leader = {
 		}
 	}
 	owner = { country_event = { id = exe_invasion.129 } }
+}
+
+#create country
+create_kuat_fleet_country_type = {
+	create_country = {
+		name = "Kuat Drive Yards Military Base"
+		type = kuat_fleet
+		name_list = "MAM3"
+		species = event_target:Kuat_people
+		flag = {
+			icon = {
+				category = "Kuat"
+				file = "Kuat_flags_01.dds"
+			}
+			background = {
+				category = "backgrounds"
+				file = "00_solid.dds"
+			}
+			colors = { "blue" "blue" "null" "null" }
+		}
+		effect = {
+			save_global_event_target_as = fallen_empire_kuat_fleet
+			set_graphical_culture = fallen_empire_kuat_01
+			set_country_flag = fallen_empire_kuat_fleet
+			add_resource = {
+				minerals = 1000000
+				energy = 1000000
+				food = 1000000
+				influence = 1000000
+				sr_dark_matter = 1000000
+				sr_living_metal = 100000
+				sr_zro = 1000000
+				consumer_goods = 1000000
+			}
+			add_modifier = { modifier = Kuat_ship }
+			create_ship_design = { design = "NAME_KUAT_Starbase" }
+			add_ship_design = last_created_design
+			set_faction_hostility = {
+				target = event_target:fallen_empire_kuat
+				set_hostile = no
+				set_friendly = yes
+			}
+		}
+	}
+}
+
+create_kuat_fleet_country_type_army = {
+	create_fleet = {
+		name = "Pride of the Core Fleet"
+		effect = {
+			set_owner = event_target:fallen_empire_kuat_fleet
+			random_list = {
+				5 = {
+					create_ship = {
+						name = "Executor Class Super Stardestroyer"
+						design = "Name_boss_EXECUTOR"
+						effect = { set_ship_flag = ship_ruins }
+					}
+				}
+				5 = {
+					create_ship = {
+						name = "Eclipse Class Super Stardestroyer"
+						design = "Name_boss_eclipse"
+						effect = { set_ship_flag = ship_ruins }
+					}
+				}
+				5 = {
+					create_ship = {
+						name = "Dominance Class Super Stardestroyer"
+						design = "Name_boss_Dominance"
+						effect = { set_ship_flag = ship_ruins }
+					}
+				}
+			}
+			while = {
+				count = 5
+				create_ship = {
+					name = "Balletor Class Stellar Dreadnought"
+					design = "Name_boss_BELLATOR"
+				}
+			}
+			while = {
+				count = 15
+				create_ship = {
+					name = "Empire-II Class Stardestroyer"
+					design = "Name_boss_EMPIRE"
+				}
+			}
+			while = {
+				count = 25
+				create_ship = {
+					name = "Harrower Class Stardestroyer"
+					design = "Name_boss_Horriwer"
+				}
+			}
+			set_location = prev
+			set_fleet_stance = aggressive
+			set_fleet_bombardment_stance = indiscriminate
+		}
+		settings = {
+			spawn_debris = no
+			can_disband = no
+			is_boss = yes
+		}
+	}
 }
