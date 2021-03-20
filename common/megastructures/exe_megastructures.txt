@@ -371,6 +371,8 @@ exe_black_hole_facility_platform = {
 							is_megastructure_type = exe_black_hole_facility_2
 							is_megastructure_type = exe_black_hole_facility_3
 							is_megastructure_type = exe_black_hole_facility
+							is_megastructure_type = exe_black_hole_restore
+							is_megastructure_type = exe_black_hole_damage
 						}
 					}
 				}
@@ -413,8 +415,8 @@ exe_black_hole_facility_1 = {
 	entity = "fallen_empire_kuat_01_ring_world_ration_dyson_1_entity"
 	construction_entity = "fallen_empire_kuat_01_ring_world_ration_dyson_1_entity"
 	portrait = "GFX_megastructure_construction_background"	
-	place_entity_on_planet_plane = no
-	show_galactic_map_icon = no	
+	place_entity_on_planet_plane = yes
+	show_galactic_map_icon = yes	
 	build_time = 3090	
 	upgrade_desc = hide	
 	upgrade_from = { exe_black_hole_facility_platform }	
@@ -457,8 +459,8 @@ exe_black_hole_facility_2 = {
 	entity = "fallen_empire_kuat_01_ring_world_ration_dyson_2_entity"
 	construction_entity = "fallen_empire_kuat_01_ring_world_ration_dyson_2_entity"
 	portrait = "GFX_megastructure_construction_background"	
-	place_entity_on_planet_plane = no
-	show_galactic_map_icon = no	
+	place_entity_on_planet_plane = yes
+	show_galactic_map_icon = yes	
 	build_time = 3090	
 	upgrade_desc = hide	
 	upgrade_from = { exe_black_hole_facility_1 }	
@@ -496,8 +498,8 @@ exe_black_hole_facility_3 = {
 	entity = "fallen_empire_kuat_01_ring_world_ration_dyson_3_entity"
 	construction_entity = "fallen_empire_kuat_01_ring_world_ration_dyson_3_entity"
 	portrait = "GFX_megastructure_construction_background"	
-	place_entity_on_planet_plane = no
-	show_galactic_map_icon = no	
+	place_entity_on_planet_plane = yes
+	show_galactic_map_icon = yes	
 	build_time = 3090	
 	upgrade_desc = hide		
 	upgrade_from = { exe_black_hole_facility_2 }	
@@ -537,8 +539,8 @@ exe_black_hole_facility = {
 	entity = "fallen_empire_kuat_01_ring_world_ration_dyson_entity"
 	construction_entity = "fallen_empire_kuat_01_ring_world_ration_dyson_entity"
 	portrait = "GFX_megastructure_construction_background"	
-	place_entity_on_planet_plane = no
-	show_galactic_map_icon = no	
+	place_entity_on_planet_plane = yes
+	show_galactic_map_icon = yes	
 	build_time = 3090	
 	upgrade_desc = hide	
 	upgrade_from = { exe_black_hole_facility_3 }	
@@ -562,11 +564,72 @@ exe_black_hole_facility = {
 		}
 	}	
 	country_modifier = {
-		starbase_shipyard_build_speed_mult = -0.5
+		starbase_shipyard_build_speed_mult = 1
 	}
 	station_modifier = {
 		starbase_shipyard_capacity_add = 300
 	}
+	placement_rules = {}	
+	on_build_start = {}
+	on_build_cancel = {}
+	on_build_complete = {
+		fromfrom.planet = { remove_planet_flag = has_exe_black_hole_facility }
+		from = { country_event = { id = kuat_origin.6 } }
+	}
+	construction_blocked_by_others = no
+	construction_blocks_others = no	
+	ai_weight = { weight = 1000 }
+}
+
+exe_black_hole_damage = {
+	entity = "fallen_empire_kuat_01_ring_world_ration_dyson_destroy_entity"
+	construction_entity = "fallen_empire_kuat_01_ring_world_ration_dyson_destroy_entity"
+	portrait = "GFX_megastructure_construction_background"	
+	place_entity_on_planet_plane = yes
+	show_galactic_map_icon = yes	
+	upgrade_desc = hide	
+	potential = { always = no }
+	placement_rules = {}	
+	on_build_start = {}
+	on_build_cancel = {}
+	on_build_complete = { }
+	construction_blocked_by_others = no
+	construction_blocks_others = no	
+}
+
+exe_black_hole_restore = {
+	entity = "fallen_empire_kuat_01_ring_world_ration_dyson_entity"
+	construction_entity = "fallen_empire_kuat_01_ring_world_ration_dyson_entity"
+	portrait = "GFX_megastructure_construction_background"	
+	place_entity_on_planet_plane = yes
+	show_galactic_map_icon = yes	
+	build_time = 3090	
+	upgrade_desc = hide	
+	upgrade_from = { exe_black_hole_damage }	
+	potential = { 
+		has_country_flag = can_restore_the_black_hole
+		has_technology = tech_ring_world
+		has_technology = tech_dyson_sphere
+	}
+	resources = {
+		category = megastructures
+		cost = { alloys = 500000 }
+		produces = {
+			minerals = 4000
+			energy = 4000
+			alloys = 4000
+			sr_dark_matter = 1000
+		}
+		upkeep = {
+			energy = 4000
+			minerals = 4000
+			exotic_gases = 500
+			volatile_motes = 500
+			rare_crystals = 500
+		}
+	}	
+	country_modifier = { starbase_shipyard_build_speed_mult = 1 }
+	station_modifier = { starbase_shipyard_capacity_add = 100 }
 	placement_rules = {}	
 	on_build_start = {}
 	on_build_cancel = {}

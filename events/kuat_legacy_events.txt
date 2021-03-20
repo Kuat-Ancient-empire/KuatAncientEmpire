@@ -967,17 +967,332 @@ fleet_event = {
 	option = {
 		name = kuat_legacy.56.a
 		hidden_effect = {
+			owner = { set_country_flag = fire_the_legacy_kuat_stage_6 }
 			owner = { give_technology = { tech = tech_kuat_databank message = no } }
-			owner = { country_event = { id = achievement.1 } }
+			owner = { country_event = { id = kuat_legacy.57 days = 720 random = 180 } }
 		}
 		small_artifact_reward = yes
 	}
 }
 
 #6号
+country_event = {
+	id = kuat_legacy.57
+	title = "kuat_legacy.49.title"
+	desc = "kuat_legacy.49.desc"
+	diplomatic = yes
+	fire_only_once = yes
+	picture_event_data = { room = ancient_databank_room }
+	custom_gui = "kuat_event_m_window"
+	custom_gui_option = "kuat_event_m_option"
+	is_triggered_only = yes
+	trigger = { has_country_flag = fire_the_legacy_kuat_stage_6 }
+	immediate = {
+		save_event_target_as = interesting_country
+		random_system_within_border = {
+			limit = {
+				NOT = { has_star_flag = myst_system_2 }
+			}
+			spawn_system = { 
+				initializer = myst_system_3 
+				hyperlane = no
+			}
+		}
+	}
+	option = { name = kuat_legacy.49.a }
+}
 
+ship_event = {
+	id = kuat_legacy.58
+	hide_window = no
+	is_triggered_only = yes
+	title = kuat_legacy.50.title
+	desc = kuat_legacy.58.desc
+	diplomatic = yes
+	fire_only_once = yes
+	picture_event_data = { room = star_pulsar_room }
+	custom_gui = "kuat_event_window"
+	custom_gui_option = "kuat_event_option"
+	trigger = {
+		fromfrom = { has_country_flag = fire_the_legacy_kuat_stage_6 }
+		from = { has_star_flag = myst_system_3 }
+	}
+	immediate = {
+		fromfrom = {
+			add_event_chain_counter = {
+				event_chain = ag_legacy_invasion_chain
+				counter = ag_legacy_system_amount
+				amount = 1
+			}
+		}
+	}
+	option = { name = kuat_legacy.25.a }
+}
+
+planet_event = {
+	id = kuat_legacy.59
+	is_triggered_only = yes
+	hide_window = yes
+	trigger = {
+		has_planet_flag = will_be_add_3
+		from = { has_country_flag = fire_the_legacy_kuat_stage_6 }
+	}
+	immediate = {
+		enable_special_project = {
+			name = exe_kuat_unlock_the_shield
+			location = this
+			owner = from
+		}
+		from = { country_event = { id = kuat_legacy.60 } }
+	}
+}
+
+country_event = {
+	id = kuat_legacy.60
+	is_triggered_only = yes
+	title = kuat_legacy.60.title
+	desc = kuat_legacy.60.desc
+	diplomatic = yes
+	fire_only_once = yes
+	picture_event_data = { room = glitchy_matrix_room }
+	custom_gui = "kuat_event_m_window"
+	custom_gui_option = "kuat_event_m_option"
+	option = { name = kuat_legacy.25.a }
+}
+
+ship_event = {
+	id = kuat_legacy.61
+	is_triggered_only = yes
+	title = kuat_legacy.61.title
+	desc = kuat_legacy.61.desc
+	diplomatic = yes
+	fire_only_once = yes
+	picture_event_data = { room = fallen_empire_room }
+	custom_gui = "kuat_event_m_window"
+	custom_gui_option = "kuat_event_m_option"
+	immediate = {
+		solar_system = {
+			random_system_planet = {
+				limit = {
+					has_planet_flag = will_be_add_3
+				}
+				change_pc = pc_ringworld_habitable_damaged
+			}
+		}
+	}
+	option = { 
+		name = kuat_legacy.61.a 
+		hidden_effect = {
+			solar_system = {
+				random_system_planet = {
+					limit = {
+						has_planet_flag = will_be_add_3
+					}
+					create_archaeological_site = kuat_lagacy_8
+				}
+			}
+		}
+	}
+}
+
+fleet_event = {
+	id = kuat_legacy.62
+	hide_window = no
+	title = "kuat_legacy.62.title"
+	desc = "kuat_legacy.62.desc"
+	picture = GFX_evt_big_landing_ship
+	is_triggered_only = yes
+	archaeology = yes
+	immediate = {
+		from = { set_site_progress_locked = yes }
+	}
+
+	after = { 
+		from = { set_site_progress_locked = no } 
+	}
+	
+	option = { name = kuat_legacy.62.a }
+}
+
+fleet_event = {
+	id = kuat_legacy.63
+	hide_window = no
+	title = "kuat_legacy.63.title"
+	desc = "kuat_legacy.63.desc"
+	picture = GFX_evt_city_ruins
+	is_triggered_only = yes
+	archaeology = yes
+	immediate = {
+		from = { set_site_progress_locked = yes }
+	}
+
+	after = { 
+		from = { set_site_progress_locked = no } 
+	}
+	
+	option = { name = kuat_legacy.63.a }
+}
+
+fleet_event = {
+	id = kuat_legacy.64
+	hide_window = no
+	title = "kuat_legacy.64.title"
+	desc = "kuat_legacy.64.desc"
+	picture = GFX_evt_habitable_dig_site
+	is_triggered_only = yes
+	archaeology = yes
+	immediate = {
+		from = { set_site_progress_locked = yes }
+	}
+
+	after = { 
+		from = { set_site_progress_locked = no } 
+	}
+	
+	option = { name = kuat_legacy.64.a }
+}
+
+fleet_event = {
+	id = kuat_legacy.65
+	hide_window = no
+	title = "kuat_legacy.65.title"
+	desc = "kuat_legacy.65.desc"
+	picture = GFX_evt_dead_city
+	is_triggered_only = yes
+	archaeology = yes
+	immediate = {
+		from = { set_site_progress_locked = yes }
+	}
+
+	after = { 
+		from = { set_site_progress_locked = no } 
+	}
+	
+	option = {
+		name = kuat_legacy.65.a
+		small_artifact_reward = yes
+	}
+}
+
+fleet_event = {
+	id = kuat_legacy.66
+	hide_window = no
+	title = "kuat_legacy.66.title"
+	desc = "kuat_legacy.66.desc"
+	picture = GFX_evt_dead_city
+	is_triggered_only = yes
+	archaeology = yes
+	immediate = {
+		from = { set_site_progress_locked = yes }
+	}
+
+	after = { 
+		from = { set_site_progress_locked = no } 
+	}
+	
+	option = {
+		name = kuat_legacy.66.a
+		hidden_effect = {
+			owner = { set_country_flag = fire_the_legacy_kuat_stage_7 }
+			owner = { give_technology = { tech = tech_kuat_shield message = no } }
+			owner = { country_event = { id = kuat_legacy.67 days = 540 random = 100 } }
+		}
+		small_artifact_reward = yes
+	}
+}
 
 #7号
+country_event = {
+	id = kuat_legacy.67
+	title = "kuat_legacy.49.title"
+	desc = "kuat_legacy.49.desc"
+	diplomatic = yes
+	fire_only_once = yes
+	picture_event_data = { room = satellite_in_orbit_room }
+	custom_gui = "kuat_event_m_window"
+	custom_gui_option = "kuat_event_m_option"
+	is_triggered_only = yes
+	trigger = { has_country_flag = fire_the_legacy_kuat_stage_7 }
+	immediate = {
+		save_event_target_as = interesting_country
+		random_system_within_border = {
+			limit = {
+				NOT = { has_star_flag = myst_system_3 }
+			}
+			spawn_system = { 
+				initializer = myst_system_4 
+				hyperlane = no
+			}
+		}
+	}
+	option = { name = kuat_legacy.49.a }
+}
+
+ship_event = {
+	id = kuat_legacy.68
+	hide_window = no
+	is_triggered_only = yes
+	title = kuat_legacy.50.title
+	desc = kuat_legacy.68.desc
+	diplomatic = yes
+	fire_only_once = yes
+	picture_event_data = { room = black_hole_room }
+	custom_gui = "kuat_event_window"
+	custom_gui_option = "kuat_event_option"
+	trigger = {
+		fromfrom = { has_country_flag = fire_the_legacy_kuat_stage_7 }
+		from = { has_star_flag = myst_system_4 }
+	}
+	immediate = {
+		fromfrom = {
+			add_event_chain_counter = {
+				event_chain = ag_legacy_invasion_chain
+				counter = ag_legacy_system_amount
+				amount = 1
+			}
+		}
+	}
+	option = { name = kuat_legacy.25.a }
+}
+
+planet_event = {
+	id = kuat_legacy.69
+	is_triggered_only = yes
+	hide_window = yes
+	trigger = {
+		has_planet_flag = myst_system_4
+		from = { has_country_flag = fire_the_legacy_kuat_stage_7 }
+	}
+	immediate = { from = { country_event = { id = kuat_legacy.70 } } }
+}
+
+country_event = {
+	id = kuat_legacy.70
+	is_triggered_only = yes
+	title = kuat_legacy.61.title
+	desc = kuat_legacy.70.desc
+	diplomatic = yes
+	fire_only_once = yes
+	picture_event_data = { room = black_hole_room }
+	custom_gui = "kuat_event_m_window"
+	custom_gui_option = "kuat_event_m_option"
+	option = { 
+		name = kuat_legacy.25.a 
+		hidden_effect = {
+			set_country_flag = can_restore_the_black_hole
+			if = {
+				limit = { has_completed_event_chain_counter = {
+					event_chain = ag_legacy_invasion_chain
+					counter = ag_legacy_system_amount
+				} }
+				country_event = { id = kuat_legacy.26 days = 360 random = 100 }
+			}
+		}
+	}
+}
+
+
+#8号
 country_event = {
 	id = kuat_legacy.26
 	title = kuat_lagacy.26.title
@@ -991,13 +1306,9 @@ country_event = {
 	fire_only_once = yes
 	immediate = {
 		random_system = {
-			limit = {
-				has_star_flag = Kuat_system_1
-			}
+			limit = { has_star_flag = Kuat_system_1 }
 			random_system_planet = {
-				limit = {
-					is_planet_class = pc_ringworld_seam
-				}
+				limit = { is_planet_class = pc_ringworld_seam }
 				save_global_event_target_as = target_tomb_kuat
 			}
 		}
@@ -1006,25 +1317,17 @@ country_event = {
 		name = kuat_lagacy.26.a
 		hidden_effect = { 
 			if = {
-				limit = {
-					exists = event_target:fallen_empire_kuat
-				}
+				limit = { exists = event_target:fallen_empire_kuat }
 				if = {
-					limit = {
-						NOT = { is_at_war_with = event_target:fallen_empire_kuat }
-					}
+					limit = { NOT = { is_at_war_with = event_target:fallen_empire_kuat } }
 					set_country_flag = regular_kuat_exist
 				}
 				else_if = {
-					limit = {
-						is_at_war_with = event_target:fallen_empire_kuat
-					}
+					limit = { is_at_war_with = event_target:fallen_empire_kuat }
 					set_country_flag = impact_kuat_exist
 				}
 				country_event = { id = kuat_legacy.27 days = 1800 random = 100 }
-			} else = {
-				end_event_chain = ag_legacy_invasion_chain
-			} 
+			} else = { end_event_chain = ag_legacy_invasion_chain } 
 		}
 	}
 }
@@ -1033,31 +1336,23 @@ country_event = {
 	id = kuat_legacy.27
 	title = kuat_legacy.27.title
 	desc = {
-		trigger = {
-			has_country_flag = regular_kuat_exist
-		}
+		trigger = { has_country_flag = regular_kuat_exist }
 		text = kuat_legacy.27.desc
 	}
 	desc = {
-		trigger = {
-			has_country_flag = impact_kuat_exist
-		}
+		trigger = { has_country_flag = impact_kuat_exist }
 		text = kuat_legacy_27_second.desc
 	}
 	hide_window = no
 	is_triggered_only = yes
 	diplomatic = yes
-	picture_event_data = {
-		room = contingency_planet_room
-	}
+	picture_event_data = { room = contingency_planet_room }
 	custom_gui = "kuat_event_m_window"
 	custom_gui_option = "kuat_event_m_option"
 
 	option = {
 		name = kuat_legacy.27.a
-		trigger = {
-			has_country_flag = regular_kuat_exist
-		}
+		trigger = { has_country_flag = regular_kuat_exist }
 		hidden_effect = {
 			event_target:target_tomb_kuat = {
 				create_archaeological_site = kuat_lagacy_5
@@ -1074,9 +1369,7 @@ country_event = {
 	}
 	option = {
 		name = kuat_legacy.27.b
-		trigger = {
-			has_country_flag = impact_kuat_exist
-		}
+		trigger = { has_country_flag = impact_kuat_exist }
 		enable_special_project = {
 			name = exe_legacy_leberate_war
 			location = this.capital_scope
@@ -1100,15 +1393,8 @@ country_event = {
 	custom_gui = "kuat_event_diplomacy_window"
 	custom_gui_option = "kuat_event_diplomacy_option"
 	is_triggered_only = yes
-
-	trigger = {
-		exists = event_target:fallen_empire_kuat
-	}
-
-	immediate = {
-		save_event_target_as = player_for_system
-	}
-
+	trigger = { exists = event_target:fallen_empire_kuat }
+	immediate = { save_event_target_as = player_for_system }
 	option = {
 		name = kuat_legacy.41.a
 		hidden_effect = {
@@ -1117,9 +1403,7 @@ country_event = {
 					set_owner = event_target:player_for_system
 				}
 				every_system_planet = {
-					limit = {
-						is_colony = yes
-					}
+					limit = { is_colony = yes }
 					destroy_colony = yes
 					set_owner = event_target:player_for_system
 				}
@@ -1240,11 +1524,9 @@ fleet_event = {
 	immediate = {
 		from = { set_site_progress_locked = yes }
 	}
-
 	after = { 
 		from = { set_site_progress_locked = no } 
-	}
-	
+	}	
 	option = { name = kuat_legacy.30.a }
 }
 
@@ -1259,11 +1541,9 @@ fleet_event = {
 	immediate = {
 		from = { set_site_progress_locked = yes }
 	}
-
 	after = { 
 		from = { set_site_progress_locked = no } 
 	}
-	
 	option = { name = kuat_legacy.31.a }
 }
 
@@ -1368,14 +1648,7 @@ fleet_event = {
 	option = {
 		name = kuat_legacy.36.a
 		hidden_effect = {
-			owner = {
-				add_event_chain_counter = {
-					event_chain = ag_legacy_invasion_chain
-					counter = ag_legacy_system_amount
-					amount = 1
-				}
-				country_event = { id = kuat_legacy.37 days = 30 }
-			}
+			owner = { country_event = { id = kuat_legacy.37 days = 30 } }
 		}
 		large_artifact_reward = yes
 	}
@@ -1432,92 +1705,117 @@ country_event = {
 	title = "kuat_legacy.39.title"
 	custom_gui = "kuat_event_diplomacy_window"
 	custom_gui_option = "kuat_event_diplomacy_option"
-	desc = {
-		trigger = {
-			NOR = {
-				has_country_flag = choose_391
-				has_country_flag = choose_392
-				has_country_flag = choose_393
-			}
-		}
-		text = "kuat_legacy.39.desc"
-	}
-	desc = {
-		trigger = {
-			has_country_flag = choose_391
-			NOR = {
-				has_country_flag = choose_392
-				has_country_flag = choose_393
-			}
-		}
-		text = "kuat_legacy.391.desc"
-	}
-	desc = {
-		trigger = {
-			has_country_flag = choose_392
-			NOT = {
-				has_country_flag = choose_393
-			}
-		}
-		text = "kuat_legacy.392.desc"
-	}
-	desc = {
-		trigger = {
-			has_country_flag = choose_393
-		}
-		text = "kuat_legacy.393.desc"
-	}
+	desc = "kuat_legacy.39.desc"
 	diplomatic = yes
-	picture_event_data = {
-		room = no_video_feed_room 
-	}
+	picture_event_data = { room = no_video_feed_room }
 	is_triggered_only = yes
 	option = {
 		name = "kuat_legacy.391"
-		trigger = {
-			NOT = {
-				has_country_flag = choose_391
-			}
-		}
-		hidden_effect = {
-			set_country_flag = choose_391
-			country_event = { id = kuat_legacy.39 }
-		}
+		hidden_effect = { country_event = { id = kuat_legacy.71 } }
 	}
 	option = {
 		name = "kuat_legacy.392"
-		trigger = {
-			NOT = {
-				has_country_flag = choose_392
-			}
-			has_country_flag = choose_391
-		}
-		hidden_effect = {
-			set_country_flag = choose_392
-			country_event = { id = kuat_legacy.39 }
-		}
+		hidden_effect = { country_event = { id = kuat_legacy.72 } }
 	}
 	option = {
 		name = "kuat_legacy.393"
-		trigger = {
-			NOT = {
-				has_country_flag = choose_393
-			}
-			has_country_flag = choose_392
-			has_country_flag = choose_391
-		}
-		hidden_effect = {
-			set_country_flag = choose_393
-			country_event = { id = kuat_legacy.39 }
-		}
+		hidden_effect = { country_event = { id = kuat_legacy.73 } }
 	}
 	option = {
 		name = "kuat_legacy.394"
-		trigger = {
-			has_country_flag = choose_391
-			has_country_flag = choose_392
-			has_country_flag = choose_393
+		hidden_effect = {
+			set_country_flag = choose_395
+			end_event_chain = ag_legacy_invasion_chain
+			enable_special_project = {
+				name = exe_legacy_unlock_the_millitary_eclipse
+				location = THIS.capital_scope
+			}
 		}
+	}
+}
+
+country_event = {
+	id = kuat_legacy.71
+	hide_window = no
+	title = "kuat_legacy.39.title"
+	custom_gui = "kuat_event_diplomacy_window"
+	custom_gui_option = "kuat_event_diplomacy_option"
+	desc = "kuat_legacy.391.desc"
+	diplomatic = yes
+	picture_event_data = { room = no_video_feed_room }
+	is_triggered_only = yes
+	option = {
+		name = "kuat_legacy.392"
+		hidden_effect = { country_event = { id = kuat_legacy.72 } }
+	}
+	option = {
+		name = "kuat_legacy.393"
+		hidden_effect = { country_event = { id = kuat_legacy.73 } }
+	}
+	option = {
+		name = "kuat_legacy.394"
+		hidden_effect = {
+			set_country_flag = choose_395
+			end_event_chain = ag_legacy_invasion_chain
+			enable_special_project = {
+				name = exe_legacy_unlock_the_millitary_eclipse
+				location = THIS.capital_scope
+			}
+		}
+	}
+}
+
+country_event = {
+	id = kuat_legacy.72
+	hide_window = no
+	title = "kuat_legacy.39.title"
+	custom_gui = "kuat_event_diplomacy_window"
+	custom_gui_option = "kuat_event_diplomacy_option"
+	desc = "kuat_legacy.392.desc"
+	diplomatic = yes
+	picture_event_data = { room = no_video_feed_room }
+	is_triggered_only = yes
+	option = {
+		name = "kuat_legacy.391"
+		hidden_effect = { country_event = { id = kuat_legacy.71 } }
+	}
+	option = {
+		name = "kuat_legacy.393"
+		hidden_effect = { country_event = { id = kuat_legacy.73 } }
+	}
+	option = {
+		name = "kuat_legacy.394"
+		hidden_effect = {
+			set_country_flag = choose_395
+			end_event_chain = ag_legacy_invasion_chain
+			enable_special_project = {
+				name = exe_legacy_unlock_the_millitary_eclipse
+				location = THIS.capital_scope
+			}
+		}
+	}
+}
+
+country_event = {
+	id = kuat_legacy.73
+	hide_window = no
+	title = "kuat_legacy.39.title"
+	custom_gui = "kuat_event_diplomacy_window"
+	custom_gui_option = "kuat_event_diplomacy_option"
+	desc = "kuat_legacy.393.desc"
+	diplomatic = yes
+	picture_event_data = { room = no_video_feed_room }
+	is_triggered_only = yes
+	option = {
+		name = "kuat_legacy.391"
+		hidden_effect = { country_event = { id = kuat_legacy.71 } }
+	}
+	option = {
+		name = "kuat_legacy.392"
+		hidden_effect = { country_event = { id = kuat_legacy.72 } }
+	}
+	option = {
+		name = "kuat_legacy.394"
 		hidden_effect = {
 			set_country_flag = choose_395
 			end_event_chain = ag_legacy_invasion_chain
@@ -1535,9 +1833,7 @@ ship_event = {
 	title = "kuat_legacy.40.title"
 	desc = "kuat_legacy.40.desc"
 	diplomatic = yes
-	picture_event_data = {
-		room = automated_dreadnought_room
-	}
+	picture_event_data = { room = automated_dreadnought_room }
 	custom_gui = "kuat_event_m_window"
 	custom_gui_option = "kuat_event_m_option"
 	is_triggered_only = yes
@@ -1549,10 +1845,7 @@ ship_event = {
 				create_fleet = {
 					effect = {
 						set_owner = prev
-						create_ship = {
-							design = Name_boss_eclipse
-							prefix = no
-						}
+						create_ship = { design = Name_boss_eclipse }
 						set_location = prev.capital_scope
 						set_fleet_stance = aggressive
 						set_fleet_bombardment_stance = indiscriminate
