@@ -12,7 +12,7 @@ ag_exe_spawn_outer_gate_fallback = {
 		every_system = {
 			limit = {
 				NOR = {
-					has_star_flag = Kuat_system
+					has_star_flag = Kuat_system_4
 					has_star_flag = Kuat_system_1
 					has_star_flag = Kuat_system_2
 					has_star_flag = Kuat_system_3
@@ -307,7 +307,7 @@ ag_exe_invasion_fleet_action = {
 		}
 		if = {
 			limit = {
-				solar_system = { has_star_flag = Kuat_system }
+				solar_system = { has_star_flag = Kuat_system_4 }
 			}
 			random_system = {
 				limit = { has_star_flag = Kuat_system_3 }
@@ -1480,8 +1480,11 @@ create_kuat_millatery_defender_and_attack_fleet = {
 			set_location = event_target:begin_kuat_fleet_system.star
 			set_fleet_stance = aggressive
 			set_fleet_flag = second_attack_fleet
+			fleet_event = { id = ai_action.12 }
+			event_target:fallen_empire_kuat_fleet = { change_variable = { which = fleet_id value = 1 }}
+			set_variable = { which = fleet_id value = event_target:fallen_empire_kuat_fleet }
+			set_variable = { which = kuat_fleet_id value = fleet_id }
 			set_fleet_bombardment_stance = indiscriminate
-			fleet_execute_order_1 = yes
 		}
 		settings = {
 			spawn_debris = no
@@ -1493,9 +1496,7 @@ create_kuat_millatery_defender_and_attack_fleet = {
 
 create_kuat_defender_and_attack_fleet = {
 	every_system_within_border = {
-		limit = {
-			ag_is_kuat_system = yes
-		}
+		limit = { ag_is_kuat_system = yes }
 		create_fleet = {
 			name = "Name_DFLEET"
 			effect = {
@@ -1531,7 +1532,10 @@ create_kuat_defender_and_attack_fleet = {
 				set_fleet_stance = aggressive
 				set_fleet_bombardment_stance = indiscriminate
 				set_fleet_flag = first_attack_fleet
-				fleet_execute_order_1 = yes
+				fleet_event = { id = ai_action.12 }
+				event_target:fallen_empire_kuat = { change_variable = { which = fleet_id value = 1 }}
+            	set_variable = { which = fleet_id value = event_target:fallen_empire_kuat }
+            	set_variable = { which = kuat_fleet_id value = fleet_id }
 			}
 			settings = {
 				spawn_debris = no
@@ -1545,7 +1549,7 @@ create_kuat_defender_and_attack_fleet = {
 create_kuat_defender_and_attack_crisis_fleet = {
 	random_system_within_border = {
 		limit = {
-			has_star_flag = Kuat_system
+			has_star_flag = Kuat_system_4
 		}
 		create_defender_and_attacker_crisis = yes
 	}
@@ -2095,15 +2099,7 @@ fleet_execute_order_1 = {
 								}
 							}
 						}
-						random_system_planet = {
-							prevprev = {
-								set_location = {
-									target = PREV
-									distance = 300
-									angle = random
-								}
-							}
-						}
+						random_system_planet = { ROOT = { set_location = { target = PREV distance = 300 angle = random } } }
 					}
 					remove_fleet_flag = kuat_cannot_find_path
 				}
@@ -2111,7 +2107,7 @@ fleet_execute_order_1 = {
 			find_closest_system = {
 				trigger = {
 					id = executor.1
-					prev = { can_access_system = prev }
+					ROOT = { can_access_system = prev }
 					OR = {
 						any_system_planet = {
 							owner = { is_at_war_with = event_target:fallen_empire_kuat }
@@ -2125,9 +2121,7 @@ fleet_execute_order_1 = {
 							starbase = { owner = { is_at_war_with = event_target:fallen_empire_kuat } }
 						}
 					}
-					any_fleet_in_system = {
-						NOT = { is_same_value = prevprev }
-					}
+					any_fleet_in_system = { NOT = { is_same_value = ROOT } }
 					check_variable = { which = kuat_fleet_id value < 1 }
 				}
 				found_system = {
@@ -2154,7 +2148,7 @@ fleet_execute_order_1 = {
 									is_colony = yes
 									is_colonizable = yes
 								}
-								solar_system = { any_fleet_in_system = { is_same_value = prevprevprev.prev } }
+								solar_system = { any_fleet_in_system = { is_same_value = ROOT } }
 								owner = { is_at_war_with = event_target:fallen_empire_kuat }
 							}
 							found_planet = {
@@ -2162,12 +2156,12 @@ fleet_execute_order_1 = {
 								effect = {
 									id = executor.3
 									set_planet_flag = ruins_planet
-									prevprev = { set_fleet_flag = kuat_fallen_bombaring_fleet }
+									ROOT = { set_fleet_flag = kuat_fallen_bombaring_fleet }
 								}
 								repeat = {
 									while = {
 										id = executor.3.t0
-										prevprev = { has_fleet_flag = kuat_fallen_bombaring_fleet }
+										ROOT = { has_fleet_flag = kuat_fallen_bombaring_fleet }
 									}
 									effect = {
 										id = executor.3.t1
@@ -2176,19 +2170,162 @@ fleet_execute_order_1 = {
 												is_colony = no
 												is_colonizable = no
 											}
-											prevprev = { remove_fleet_flag = kuat_fallen_bombaring_fleet }
+											ROOT = { remove_fleet_flag = kuat_fallen_bombaring_fleet }
 										}
 									} wait = 5
 								}
 							}
 						}
-					} wait = 15
+						move_to = this
+						wait = 5
+					} 
+					wait = 15
 				}
 				failed = {
-					effect = {
-						id = executor.1.b
-						set_fleet_flag = kuat_cannot_find_path
-					} wait = 60
+					find_closest_system = {
+						trigger = {
+							id = executor.4.t5
+							ROOT = { can_access_system = prev }
+							OR = {
+								AND = {
+									exists = starbase
+									starbase = { owner = { is_at_war_with = event_target:fallen_empire_kuat } }
+								}
+								any_system_planet = {
+									owner = { is_at_war_with = event_target:fallen_empire_kuat }
+									OR = {
+										is_colony = yes
+										is_colonizable = yes
+									}
+								}
+							}
+						}
+						found_system = {
+							effect = {
+								id = executor.4.e5
+								set_variable = { which = kuat_fleet_id value = root }
+							}
+							move_to = this
+							repeat = {
+								while = {
+									id = executor.4.t0
+									any_system_planet = {
+										owner = { is_at_war_with = event_target:fallen_empire_kuat }
+										OR = {
+											is_colony = yes
+											is_colonizable = yes
+										}
+									}
+								}
+								find_closest_planet = {
+									trigger = {
+										id = executor.4.t5
+										OR = {
+											is_colony = yes
+											is_colonizable = yes
+										}
+										solar_system = { any_fleet_in_system = { is_same_value = ROOT } }
+										owner = { is_at_war_with = event_target:fallen_empire_kuat }
+									}
+									found_planet = {
+										orbit_planet = this
+										effect = {
+											id = executor.4.t4
+											set_planet_flag = ruins_planet
+											ROOT = { set_fleet_flag = kuat_fallen_bombaring_fleet }
+										}
+										repeat = {
+											while = {
+												id = executor.4.t3
+												ROOT = { has_fleet_flag = kuat_fallen_bombaring_fleet }
+											}
+											effect = {
+												id = executor.4.t1
+												if = {
+													limit = {
+														is_colony = no
+														is_colonizable = no
+													}
+													ROOT = { remove_fleet_flag = kuat_fallen_bombaring_fleet }
+												}
+											} wait = 5
+										}
+									}
+								}
+								move_to = this
+								wait = 5
+							} 
+							wait = 15
+						}
+						failed = {
+							find_closest_system = {
+								trigger = {
+									id = executor.5.t9
+									ROOT = { can_access_system = prev }
+								}
+								found_system = {
+									move_to = this
+									repeat = {
+										while = {
+											id = executor.5.t0
+											any_system_planet = {
+												owner = { is_at_war_with = event_target:fallen_empire_kuat }
+												OR = {
+													is_colony = yes
+													is_colonizable = yes
+												}
+											}
+										}
+										find_closest_planet = {
+											trigger = {
+												id = executor.5.t5
+												OR = {
+													is_colony = yes
+													is_colonizable = yes
+												}
+												solar_system = { any_fleet_in_system = { is_same_value = ROOT } }
+												owner = { is_at_war_with = event_target:fallen_empire_kuat }
+											}
+											found_planet = {
+												orbit_planet = this
+												effect = {
+													id = executor.5.t4
+													set_planet_flag = ruins_planet
+													ROOT = { set_fleet_flag = kuat_fallen_bombaring_fleet }
+												}
+												repeat = {
+													while = {
+														id = executor.5.t3
+														ROOT = { has_fleet_flag = kuat_fallen_bombaring_fleet }
+													}
+													effect = {
+														id = executor.5.t1
+														if = {
+															limit = {
+																is_colony = no
+																is_colonizable = no
+															}
+															ROOT = { remove_fleet_flag = kuat_fallen_bombaring_fleet }
+														}
+													} wait = 5
+												}
+											}
+										}
+										move_to = this
+										wait = 5
+									} 
+									wait = 15
+								}
+								failed = {
+									effect = {
+										id = executor.1.b
+										ROOT = { set_fleet_flag = kuat_cannot_find_path }
+									} 
+									wait = 60
+								}
+							}
+						}
+					}
 				}
 			}
 		}

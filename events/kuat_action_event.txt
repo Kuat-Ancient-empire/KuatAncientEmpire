@@ -72,9 +72,7 @@ planet_event = {
 			}
 			remove_planet = yes
 		}
-		else = {
-			change_pc = pc_shattered
-		}
+		else = { change_pc = pc_shattered }
 		remove_planet_flag = ruins_planet
 		#recall fleet
 		if = {
@@ -82,9 +80,7 @@ planet_event = {
 				event_target:wraith_country_target = {
 					OR = {
 						num_owned_planets < 1
-						NOT = {
-							is_at_war_with = event_target:fallen_empire_kuat
-						}
+						NOT = { is_at_war_with = event_target:fallen_empire_kuat }
 					}
 				}
 			}
@@ -149,31 +145,6 @@ country_event = {
 			}
 		}
 	}
-}
-
-#United fleet against
-country_event = {
-	id = ai_action.10
-	title = ai.7.title
-	desc = ai.7.desc
-	diplomatic = yes
-	picture_event_data = {
-		portrait = event_target:Kuat_people
-		planet_background = pc_ringworld_habitable
-		graphical_culture = fallen_empire_01
-		city_level = event_target:empire_founding
-		room = personality_fallen_empire_cyan_room
-	}
-	custom_gui = "kuat_event_diplomacy_window"
-	custom_gui_option = "kuat_event_diplomacy_option"
-	is_triggered_only = yes
-	trigger = {
-		OR = {
-			has_global_flag = wg_crisis_insane
-			has_global_flag = afk_crisis_real
-		}
-	}
-	option = { name = ai.7.title.a }
 }
 
 country_event = {
@@ -242,4 +213,87 @@ country_event = {
 			}
 		}
 	}
+}
+
+#United fleet against
+country_event = {
+	id = ai_action.10
+	title = ai.7.title
+	desc = ai.7.desc
+	diplomatic = yes
+	picture_event_data = {
+		portrait = event_target:Kuat_people
+		planet_background = pc_ringworld_habitable
+		graphical_culture = fallen_empire_01
+		city_level = event_target:empire_founding
+		room = personality_fallen_empire_cyan_room
+	}
+	custom_gui = "kuat_event_diplomacy_window"
+	custom_gui_option = "kuat_event_diplomacy_option"
+	is_triggered_only = yes
+	trigger = {
+		OR = {
+			has_global_flag = wg_crisis_insane
+			has_global_flag = afk_crisis_real
+		}
+	}
+	option = { name = ai.7.title.a }
+}
+
+country_event = {
+	id = ai_action.11
+	hide_window = yes
+	is_triggered_only = yes
+	trigger = {
+		has_country_flag = fallen_empire_kuat
+		FROMFROM = { 
+			OR = {
+				has_fleet_flag = first_attack_fleet
+				has_fleet_flag = second_attack_fleet
+			}
+		}
+	}
+	immediate = {
+		FROMFROM = { save_event_target_as = destroyed_fleet }
+		random_system = {
+			limit = {
+				check_variable = { which = kuat_fleet_id value = event_target:destroyed_fleet }
+			}
+			set_variable = { which = kuat_fleet_id value = 0 }
+		}
+	}
+}
+
+fleet_event = {
+	id = ai_action.12
+	hide_window = yes
+	is_triggered_only = yes
+	trigger = {
+		exists = this
+		owner = {
+			OR = {
+				has_country_flag = fallen_empire_kuat
+				is_country_type = kuat_fleet
+			}
+			event_target:fallen_empire_kuat = { is_at_war = yes }
+		}
+		OR = {
+			has_fleet_flag = first_attack_fleet
+			has_fleet_flag = second_attack_fleet
+		}
+		any_system = {
+			any_system_planet = {
+				OR = {
+					OR = {
+						is_colonizable = yes
+						has_planet_flag = phaseshifting_active
+					}
+					has_owner = yes
+					owner = { is_at_war_with = event_target:fallen_empire_kuat }
+				}
+				NOT = { has_planet_flag = ruins_planet }
+			}
+		}
+	}
+	immediate = { fleet_execute_order_1 = yes }
 }
