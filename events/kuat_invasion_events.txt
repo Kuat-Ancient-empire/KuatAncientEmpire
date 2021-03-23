@@ -1173,9 +1173,7 @@ country_event = {
 	title = "exe_invasion.41.name"
 	desc = "exe_invasion.41.desc"
 	diplomatic = yes
-	picture_event_data = {
-		room = drifting_gateway_room
-	}
+	picture_event_data = { room = drifting_gateway_room }
 	custom_gui = "kuat_event_m_window"
 	custom_gui_option = "kuat_event_m_option"
 	show_sound = event_mystic_reveal
@@ -1189,14 +1187,10 @@ country_event = {
 					has_star_flag = Kuat_system_2
 					has_star_flag = Kuat_system_3
 				}
-				any_system_megastructure = {
-					is_megastructure_type = exe_outer_gate
-				}
+				any_system_megastructure = { is_megastructure_type = exe_outer_gate }
 			}
 			random_system_megastructure = {
-				limit = {
-					is_megastructure_type = exe_outer_gate
-				}
+				limit = { is_megastructure_type = exe_outer_gate }
 				save_event_target_as = exe_outer_gate_to_lock
 			}
 		}
@@ -1221,9 +1215,7 @@ ship_event = {
 	title = "exe_invasion.42.name"
 	desc = "exe_invasion.42.desc"
 	diplomatic = yes
-	picture_event_data = {
-		room = drifting_gateway_room
-	}
+	picture_event_data = { room = drifting_gateway_room }
 	custom_gui = "kuat_event_m_window"
 	custom_gui_option = "kuat_event_m_option"
 	show_sound = event_mystic_reveal
@@ -1309,12 +1301,78 @@ country_event = {
 	id = exe_invasion.114
 	hide_window = yes
 	is_triggered_only = yes
-	trigger = { 
-		ag_is_combat_ship_trigger_event_trigger = yes 
-	}
+	trigger = { ag_is_combat_ship_trigger_event_trigger = yes }
 	immediate = { 
 		save_event_target_as = receves_leader_country
 		fromfromfrom = { exe_invasion_country_trigger = yes } 
+	}
+}
+
+#debug check modifier in eternal fleet
+country_event = {
+	id = exe_invasion.130
+	hide_window = yes
+	is_triggered_only = yes
+	trigger = {
+		OR = {
+			AND = {
+				fromfrom = { 
+					OR = {
+						has_fleet_flag = ag_kuat_invasion_fleet
+						has_fleet_flag = ag_kuat_invasion_starbase
+					} 
+				}
+				is_country_type = ag_kuat_invasion_country
+			}
+			is_kuat_fallen_empire = yes
+		}
+	}
+	immediate = { 
+		fromfromfrom = { 
+			if = {
+				limit = { NOT = { has_fleet_flag = fire_for_once } }
+				set_timed_fleet_flag = { flag = fire_for_once days = 2 }
+				if = {
+					limit = { 
+						ROOT = { is_country_type = ag_kuat_invasion_country } 
+						has_global_flag = difficult_exe_invasion 
+					}
+					trigger_penetration_mult_modifier = { 
+						shield_penetration = ship_shield_penetration_mult 
+						armor_penetration = ship_armor_penetration_mult
+						armor_damage = ship_armor_damage_mult
+						shield_damage = ship_shield_damage_mult
+						hull_damage = ship_hull_damage_mult
+						weapon_damage = ship_weapon_damage
+						tracking = ship_tracking_mult
+					}
+				} else = {
+					trigger_penetration_mult_modifier = { 
+						shield_penetration = ship_shield_penetration_mult 
+						armor_penetration = ship_armor_penetration_mult
+					}
+				}
+			} 
+		} 
+	}
+}
+
+country_event = {
+	id = exe_invasion.131
+	hide_window = yes
+	is_triggered_only = yes
+	trigger = { fromfromfrom = { has_fleet_flag = has_combat_modifier } }
+	immediate = { 
+		fromfromfrom = { 
+			remove_modifier = basic_shield_penetration_mult 
+			remove_modifier = basic_armor_penetration_mult
+			remove_modifier = basic_ship_armor_damage
+			remove_modifier = basic_ship_shield_damage
+			remove_modifier = basic_ship_hull_damage
+			remove_modifier = basic_ship_tracking
+			remove_modifier = basic_ship_weapon_damage
+			remove_fleet_flag = has_combat_modifier
+		} 
 	}
 }
 
