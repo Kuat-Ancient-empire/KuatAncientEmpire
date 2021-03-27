@@ -218,7 +218,7 @@ country_event = {
 			}
 			custom_tooltip = {
 				fail_text = kuat_shipyard.check
-				get_variable_alloys_check_allow = yes
+				get_variable_alloys_check_allow = no
 			}
 		}
 		custom_tooltip = kuat_shipyard.21.a.tooltip
@@ -335,7 +335,7 @@ country_event = {
 		allow = {
 			custom_tooltip = {
 				fail_text = kuat_shipyard.check
-				get_variable_alloys_check_allow = yes
+				get_variable_alloys_check_allow = no
 			}
 		}
 		custom_tooltip = kuat_shipyard.22.a.tooltip
@@ -385,7 +385,7 @@ country_event = {
 		allow = {
 			custom_tooltip = {
 				fail_text = kuat_shipyard.check
-				get_variable_alloys_check_allow = yes
+				get_variable_alloys_check_allow = no
 			}
 		}
 		hidden_effect = { country_event = { id = kuat_shipyard.221 } }
@@ -564,7 +564,7 @@ country_event = {
 		allow = {
 			custom_tooltip = {
 				fail_text = kuat_shipyard.check
-				get_variable_alloys_check_allow = yes
+				get_variable_alloys_check_allow = no
 			}
 		}
 		custom_tooltip = kuat_shipyard.23.a.tooltip
@@ -614,7 +614,7 @@ country_event = {
 		allow = {
 			custom_tooltip = {
 				fail_text = kuat_shipyard.check
-				get_variable_alloys_check_allow = yes
+				get_variable_alloys_check_allow = no
 			}
 		}
 		hidden_effect = { country_event = { id = kuat_shipyard.233 } }
@@ -759,8 +759,15 @@ country_event = {
 	desc = {
 		trigger = {
 			check_variable = { which = balletor_class_queue value > 0 }
+			check_variable = { which = balletor_class_queue value <= 4 }
 		}
 		text = kuat_shipyard.24.a.desc
+	}
+	desc = {
+		trigger = {
+			check_variable = { which = balletor_class_queue value > 4 }
+		}
+		text = kuat_shipyard.24.a5.desc
 	}
 	desc = {
 		trigger = {
@@ -786,7 +793,7 @@ country_event = {
 		allow = {
 			custom_tooltip = {
 				fail_text = kuat_shipyard.check
-				get_variable_alloys_check_allow = yes
+				get_variable_alloys_check_allow = no
 			}
 		}
 		custom_tooltip = kuat_shipyard.24.a.tooltip
@@ -813,6 +820,35 @@ country_event = {
 		}
 	}
 	option = {
+		name = kuat_shipyard.23.b5
+		hidden_effect = { set_country_flag = fire_five_impirial }
+		allow = {
+			custom_tooltip = {
+				fail_text = kuat_shipyard.24.b.need_queue.tooltip
+				check_variable = { which = balletor_class_queue value > 4 }
+			}
+		}
+		custom_tooltip = kuat_shipyard.24.b.tooltip
+		hidden_effect = { get_variable_alloys = yes }
+		hidden_effect = {
+			remove_country_flag = fire_five_impirial
+			subtract_variable = { which = balletor_class_queue value = 5 }
+			country_event = { id = kuat_shipyard.24 }
+		}
+	}
+	option = {
+		name = kuat_shipyard.23.a5
+		custom_tooltip = kuat_shipyard.23.a.tooltip
+		hidden_effect = { set_country_flag = fire_five_impirial }
+		allow = {
+			custom_tooltip = {
+				fail_text = kuat_shipyard.check
+				get_variable_alloys_check_allow = no
+			}
+		}
+		hidden_effect = { country_event = { id = kuat_shipyard.242 } }
+	}
+	option = {
 		name = kuat_shipyard.return
 		hidden_effect = { country_event = { id = kuat_shipyard.1 } remove_country_flag = building_the_balletor }
 	}
@@ -820,6 +856,73 @@ country_event = {
 		name = kuat_shipyard.exit
 		hidden_effect = { remove_country_flag = building_the_balletor }
 		default_hide_option = yes
+	}
+}
+
+country_event = {
+	id = kuat_shipyard.242
+	title = kuat_shipyard.title
+	desc = {
+		trigger = {
+			check_variable = { which = balletor_class_queue value > 0 }
+			check_variable = { which = balletor_class_queue value <= 4 }
+		}
+		text = kuat_shipyard.24.a.desc
+	}
+	desc = {
+		trigger = {
+			check_variable = { which = balletor_class_queue value > 4 }
+		}
+		text = kuat_shipyard.24.a5.desc
+	}
+	desc = {
+		trigger = {
+			check_variable = { which = balletor_class_queue value <= 0 }
+		}
+		text = kuat_shipyard.24.b.desc
+	}
+	custom_gui = "kuat_event_diplomacy_shipyard_window"
+	custom_gui_option = "kuat_event_diplomacy_shipyard_option"
+	picture_event_data = {
+		portrait = event_target:Kuat_people
+		room = kuat_mega_shipyard_room
+	}
+	location = event_target:fallen_empire_kuat.capital_scope
+	is_triggered_only = yes
+	diplomatic = yes
+	trigger = {
+		is_ai = no
+		can_communicate_with_kuat = yes
+	}
+	option = {
+		name = kuat_shipyard.confirm
+		custom_tooltip = kuat_shipyard.confirm.c.tooltip
+		allow = { 
+			custom_tooltip = {
+				fail_text = kuat_shipyard_queue
+				check_variable = { which = balletor_queue value > 0 } 
+			}
+		}
+		hidden_effect = { 
+			change_variable = { which = balletor_class_queue value = balletor_queue }
+			country_event = { id = kuat_shipyard.24 }
+			while = {
+				count = balletor_class_queue
+				country_event = { id = kuat_shipyard.241 days = 10 } 
+			}
+			remove_country_flag = fired_balletor
+			remove_country_flag = fire_five_impirial 
+			set_variable = { which = balletor_queue value = 0 }
+		}
+	}
+	option = {
+		name = kuat_shipyard.return
+		default_hide_option = yes
+		hidden_effect = { 
+			country_event = { id = kuat_shipyard.24 } 
+			remove_country_flag = fired_balletor
+			remove_country_flag = fire_five_impirial
+		}
 	}
 }
 
@@ -833,16 +936,36 @@ country_event = {
 		check_variable = { which = balletor_class_queue value > 0 }
 	}
 	immediate = {
+		country_event = { id = kuat_shipyard.243 days = 1 }
+		change_variable = { which = balletor_fleet_queue value = 1 }
+		subtract_variable = { which = balletor_class_queue value = 1 }
+		event_target:fallen_empire_kuat = { add_opinion_modifier = { modifier = opinion_kuat_ship_built who = root } }
+	}
+}
+
+country_event = {
+	id = kuat_shipyard.243
+	hide_window = yes
+	is_triggered_only = yes
+	trigger = {
+		can_communicate_with_kuat = yes
+		check_variable = { which = balletor_fleet_queue value > 0 }
+	}
+	immediate = {
 		capital_scope = {
 			create_fleet = {
-				settings = {
-					spawn_debris = no
-				}
+				settings = { spawn_debris = no }
 				effect = {
 					set_owner = root
-					create_ship = {
-						name = "Balletor Class Stellar Dreadnought"
-						design = "Name_boss_BELLATOR"
+					while = {
+						limit = {
+							root = { check_variable = { which = balletor_fleet_queue value > 0 } }
+						}
+						create_ship = {
+							name = "Balletor Class Stellar Dreadnought"
+							design = "Name_boss_BELLATOR"
+						}
+						root = { subtract_variable = { which = balletor_fleet_queue value = 1 } }
 					}
 					set_location = { target = prev distance = 20 angle = random }
 				}
@@ -853,14 +976,8 @@ country_event = {
 			localization = "kuat_balletor_class_arrived_desc"
 			days = 30
 			target = from
-			variable = {
-				type = name
-				localization = "capital_planet"
-				scope = root.capital_scope
-			}
+			variable = { type = name localization = "capital_planet" scope = root.capital_scope }
 		}
-		subtract_variable = { which = balletor_class_queue value = 1 }
-		event_target:fallen_empire_kuat = { add_opinion_modifier = { modifier = opinion_kuat_ship_built who = root } }
 	}
 }
 
@@ -898,7 +1015,7 @@ country_event = {
 		allow = {
 			custom_tooltip = {
 				fail_text = kuat_shipyard_fail_tooltip
-				get_variable_alloys_check_allow = yes
+				get_variable_alloys_check_allow = no
 				count_owned_ship = { limit = { is_ship_size = nebula_dominance } count < 11 }
 				check_variable = { which = dominance_class_queue value < 11 }
 			}
@@ -1010,7 +1127,7 @@ country_event = {
 		allow = {
 			custom_tooltip = {
 				fail_text = kuat_shipyard.check
-				get_variable_alloys_check_allow = yes
+				get_variable_alloys_check_allow = no
 			}
 			NOR = {
 				any_owned_ship = { is_ship_size = eclipse }

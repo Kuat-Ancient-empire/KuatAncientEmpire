@@ -273,6 +273,16 @@ kuat_set_shipyard_add = {
 				}
 			}
 		}
+		else_if = {
+			limit = { from = { has_country_flag = building_the_balletor } }
+			from = {
+				set_country_flag = fired_balletor
+				hidden_effect = { 
+					change_variable = { which = balletor_queue value = 5 } 
+					get_variable_alloys_bought = yes
+				}
+			}
+		}
 	}
 }
 kuat_set_shipyard_dicrease = {
@@ -283,6 +293,7 @@ kuat_set_shipyard_dicrease = {
 				OR = {
 					check_variable = { which = horriwer_queue value > 0 } 
 					check_variable = { which = empire_queue value > 0 }
+					check_variable = { which = balletor_queue value > 0 }
 				}
 			}
 		} 
@@ -305,6 +316,16 @@ kuat_set_shipyard_dicrease = {
 				set_country_flag = fired_empire
 				hidden_effect = { 
 					subtract_variable = { which = empire_queue value = 5 } 
+					get_variable_alloys = yes
+				}
+			}
+		}
+		else_if = {
+			limit = { from = { has_country_flag = building_the_balletor } }
+			from = {
+				set_country_flag = fired_balletor
+				hidden_effect = { 
+					subtract_variable = { which = balletor_queue value = 5 } 
 					get_variable_alloys = yes
 				}
 			}
