@@ -1,5 +1,5 @@
 #Changes: Line 196: "const float vEdgeSharpness = 20.0f" statt "const float vEdgeSharpness = 100.0f"
-#Changes: Line 195 habe ich wieder zu vanilla zurückgeändert: "float vEdgeWidth = 0.025f + 0.35f * vCamDistFactor * 1.6" statt "float vEdgeWidth = 0.025f + 0.35f * vCamDistFactor"
+#Changes: Line 195  "float vEdgeWidth = 0.025f + 0.35f * vCamDistFactor * 1.6" statt "float vEdgeWidth = 0.025f + 0.35f * vCamDistFactor"
 #Changes: Line 207: "float4 vColor = vAlphaEdge *  PrimaryColor + ( 1 - vAlphaEdge ) * PrimaryColor" statt "float4 vColor = vAlphaEdge *  PrimaryColor + ( 1 - vAlphaEdge ) * SecondaryColor"
 #Changes: Line 235: "vColor.a *= 0" statt "vColor.a *= 0.2f"
 

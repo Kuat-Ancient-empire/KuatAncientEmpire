@@ -50,356 +50,93 @@ set_fromfromfrom_check_invsiable_time_flag = {
 }
 
 # scope: fleet
-trigger_penetration_mult_modifier = {
+set_eternal_fleet_mult_modifier = {
 	[[shield_penetration] if = {
 		limit = { 
 			check_modifier_value = { modifier = $shield_penetration$ value > -1 } 
 			NOT = { has_fleet_flag = has_basic_$shield_penetration$ }
 		}
-		if = {
-			limit = { check_modifier_value = { modifier = $shield_penetration$ value >= 10 } }
-			set_invasion_fleet_basic_modifier = { SUB = basic_$shield_penetration$ FACTOR = 11 }
-		}
-		else_if = {
-			limit = { check_modifier_value = { modifier = $shield_penetration$ value >= 9 } }
-			set_invasion_fleet_basic_modifier = { SUB = basic_$shield_penetration$ FACTOR = 10 }
-		}
-		else_if = {
-			limit = { check_modifier_value = { modifier = $shield_penetration$ value >= 8 } }
-			set_invasion_fleet_basic_modifier = { SUB = basic_$shield_penetration$ FACTOR = 9 }
-		}
-		else_if = {
-			limit = { check_modifier_value = { modifier = $shield_penetration$ value >= 7 } }
-			set_invasion_fleet_basic_modifier = { SUB = basic_$shield_penetration$ FACTOR = 8 }
-		}
-		else_if = {
-			limit = { check_modifier_value = { modifier = $shield_penetration$ value >= 6 } }
-			set_invasion_fleet_basic_modifier = { SUB = basic_$shield_penetration$ FACTOR = 7 }
-		}
-		else_if = {
-			limit = { check_modifier_value = { modifier = $shield_penetration$ value >= 5 } }
-			set_invasion_fleet_basic_modifier = { SUB = basic_$shield_penetration$ FACTOR = 6 }
-		}
-		else_if = {
-			limit = { check_modifier_value = { modifier = $shield_penetration$ value >= 4 } }
-			set_invasion_fleet_basic_modifier = { SUB = basic_$shield_penetration$ FACTOR = 5 }
-		}
-		else_if = {
-			limit = { check_modifier_value = { modifier = $shield_penetration$ value >= 3 } }
-			set_invasion_fleet_basic_modifier = { SUB = basic_$shield_penetration$ FACTOR = 4 }
-		}
-		else_if = {
-			limit = { check_modifier_value = { modifier = $shield_penetration$ value >= 2 } }
-			set_invasion_fleet_basic_modifier = { SUB = basic_$shield_penetration$ FACTOR = 3 }
-		}
-		else_if = {
-			limit = { check_modifier_value = { modifier = $shield_penetration$ value >= 1 } }
-			set_invasion_fleet_basic_modifier = { SUB = basic_$shield_penetration$ FACTOR = 2 }
-		}
-		else_if = {
-			limit = { check_modifier_value = { modifier = $shield_penetration$ value >= 0 } }
-			set_invasion_fleet_basic_modifier = { SUB = basic_$shield_penetration$ FACTOR = 1 }
-		}
+		export_modifier_to_variable = { modifier = $shield_penetration$ variable = $shield_penetration$_value }
+		change_variable = { which = $shield_penetration$_value value = 1 }
+		set_invasion_fleet_basic_modifier = { SUB = basic_$shield_penetration$ FACTOR = $shield_penetration$_value }
 	}]
 	[[armor_penetration] if = {
 		limit = { 
 			check_modifier_value = { modifier = $armor_penetration$ value > -1 } 
 			NOT = { has_fleet_flag = has_basic_$armor_penetration$ }
 		}
-		if = {
-			limit = { check_modifier_value = { modifier = $armor_penetration$ value >= 10 } }
-			set_invasion_fleet_basic_modifier = { SUB = basic_$armor_penetration$ FACTOR = 11 }
-		}
-		else_if = {
-			limit = { check_modifier_value = { modifier = $armor_penetration$ value >= 9 } }
-			set_invasion_fleet_basic_modifier = { SUB = basic_$armor_penetration$ FACTOR = 10 }
-		}
-		else_if = {
-			limit = { check_modifier_value = { modifier = $armor_penetration$ value >= 8 } }
-			set_invasion_fleet_basic_modifier = { SUB = basic_$armor_penetration$ FACTOR = 9 }
-		}
-		else_if = {
-			limit = { check_modifier_value = { modifier = $armor_penetration$ value >= 7 } }
-			set_invasion_fleet_basic_modifier = { SUB = basic_$armor_penetration$ FACTOR = 8 }
-		}
-		else_if = {
-			limit = { check_modifier_value = { modifier = $armor_penetration$ value >= 6 } }
-			set_invasion_fleet_basic_modifier = { SUB = basic_$armor_penetration$ FACTOR = 7 }
-		}
-		else_if = {
-			limit = { check_modifier_value = { modifier = $armor_penetration$ value >= 5 } }
-			set_invasion_fleet_basic_modifier = { SUB = basic_$armor_penetration$ FACTOR = 6 }
-		}
-		else_if = {
-			limit = { check_modifier_value = { modifier = $armor_penetration$ value >= 4 } }
-			set_invasion_fleet_basic_modifier = { SUB = basic_$armor_penetration$ FACTOR = 5 }
-		}
-		else_if = {
-			limit = { check_modifier_value = { modifier = $armor_penetration$ value >= 3 } }
-			set_invasion_fleet_basic_modifier = { SUB = basic_$armor_penetration$ FACTOR = 4 }
-		}
-		else_if = {
-			limit = { check_modifier_value = { modifier = $armor_penetration$ value >= 2 } }
-			set_invasion_fleet_basic_modifier = { SUB = basic_$armor_penetration$ FACTOR = 3 }
-		}
-		else_if = {
-			limit = { check_modifier_value = { modifier = $armor_penetration$ value >= 1 } }
-			set_invasion_fleet_basic_modifier = { SUB = basic_$armor_penetration$ FACTOR = 2 }
-		}
-		else_if = {
-			limit = { check_modifier_value = { modifier = $armor_penetration$ value >= 0 } }
-			set_invasion_fleet_basic_modifier = { SUB = basic_$armor_penetration$ FACTOR = 1 }
-		}
+		export_modifier_to_variable = { modifier = $armor_penetration$ variable = $armor_penetration$_value }
+		change_variable = { which = $armor_penetration$_value value = 1 }
+		set_invasion_fleet_basic_modifier = { SUB = basic_$armor_penetration$ FACTOR = $armor_penetration$_value }
 	}]
 	[[armor_damage] if = {
 		limit = { 
-			check_modifier_value = { modifier = $armor_damage$ value > 0.25 } 
+			check_modifier_value = { modifier = $armor_damage$ value > -0.75 } 
 			NOT = { has_fleet_flag = has_basic_$armor_damage$ }
 		}
-		if = {
-			limit = { check_modifier_value = { modifier = $armor_damage$ value >= 10 } }
-			set_invasion_fleet_basic_modifier = { SUB = basic_$armor_damage$_mult factor = 10.75 }
-		}
-		else_if = {
-			limit = { check_modifier_value = { modifier = $armor_damage$ value >= 9 } }
-			set_invasion_fleet_basic_modifier = { SUB = basic_$armor_damage$ factor = 9.75 }
-		}
-		else_if = {
-			limit = { check_modifier_value = { modifier = $armor_damage$ value >= 8 } }
-			set_invasion_fleet_basic_modifier = { SUB = basic_$armor_damage$ factor = 8.75 }
-		}
-		else_if = {
-			limit = { check_modifier_value = { modifier = $armor_damage$ value >= 7 } }
-			set_invasion_fleet_basic_modifier = { SUB = basic_$armor_damage$ factor = 7.75 }
-		}
-		else_if = {
-			limit = { check_modifier_value = { modifier = $armor_damage$ value >= 6 } }
-			set_invasion_fleet_basic_modifier = { SUB = basic_$armor_damage$ factor = 6.75 }
-		}
-		else_if = {
-			limit = { check_modifier_value = { modifier = $armor_damage$ value >= 5 } }
-			set_invasion_fleet_basic_modifier = { SUB = basic_$armor_damage$ factor = 5.75 }
-		}
-		else_if = {
-			limit = { check_modifier_value = { modifier = $armor_damage$ value >= 4 } }
-			set_invasion_fleet_basic_modifier = { SUB = basic_$armor_damage$ factor = 4.75 }
-		}
-		else_if = {
-			limit = { check_modifier_value = { modifier = $armor_damage$ value >= 3 } }
-			set_invasion_fleet_basic_modifier = { SUB = basic_$armor_damage$ factor = 3.75 }
-		}
-		else_if = {
-			limit = { check_modifier_value = { modifier = $armor_damage$ value >= 2 } }
-			set_invasion_fleet_basic_modifier = { SUB = basic_$armor_damage$ factor = 2.75 }
-		}
-		else_if = {
-			limit = { check_modifier_value = { modifier = $armor_damage$ value >= 1 } }
-			set_invasion_fleet_basic_modifier = { SUB = basic_$armor_damage$ factor = 1.75 }
-		}
-		else_if = {
-			limit = { check_modifier_value = { modifier = $armor_damage$ value >= 0.25 } }
-			set_invasion_fleet_basic_modifier = { SUB = basic_$armor_damage$ factor = 1 }
-		}
+		export_modifier_to_variable = { modifier = $armor_damage$ variable = $armor_damage$_value }
+		change_variable = { which = $armor_damage$_value value = 0.75 }
+		set_invasion_fleet_basic_modifier = { SUB = basic_$armor_damage$ FACTOR = $armor_damage$_value }
 	}]
 	[[shield_damage] if = {
 		limit = { 
-			check_modifier_value = { modifier = $shield_damage$ value > 0.25 } 
+			check_modifier_value = { modifier = $shield_damage$ value > -0.75 } 
 			NOT = { has_fleet_flag = has_basic_$shield_damage$ }
 		}
-		if = {
-			limit = { check_modifier_value = { modifier = $shield_damage$ value >= 10 } }
-			set_invasion_fleet_basic_modifier = { SUB = basic_$shield_damage$ factor = 10.75 }
-		}
-		else_if = {
-			limit = { check_modifier_value = { modifier = $shield_damage$ value >= 9 } }
-			set_invasion_fleet_basic_modifier = { SUB = basic_$shield_damage$ factor = 9.75 }
-		}
-		else_if = {
-			limit = { check_modifier_value = { modifier = $shield_damage$ value >= 8 } }
-			set_invasion_fleet_basic_modifier = { SUB = basic_$shield_damage$ factor = 8.75 }
-		}
-		else_if = {
-			limit = { check_modifier_value = { modifier = $shield_damage$ value >= 7 } }
-			set_invasion_fleet_basic_modifier = { SUB = basic_$shield_damage$ factor = 7.75 }
-		}
-		else_if = {
-			limit = { check_modifier_value = { modifier = $shield_damage$ value >= 6 } }
-			set_invasion_fleet_basic_modifier = { SUB = basic_$shield_damage$ factor = 6.75 }
-		}
-		else_if = {
-			limit = { check_modifier_value = { modifier = $shield_damage$ value >= 5 } }
-			set_invasion_fleet_basic_modifier = { SUB = basic_$shield_damage$ factor = 5.75 }
-		}
-		else_if = {
-			limit = { check_modifier_value = { modifier = $shield_damage$ value >= 4 } }
-			set_invasion_fleet_basic_modifier = { SUB = basic_$shield_damage$ factor = 4.75 }
-		}
-		else_if = {
-			limit = { check_modifier_value = { modifier = $shield_damage$ value >= 3 } }
-			set_invasion_fleet_basic_modifier = { SUB = basic_$shield_damage$ factor = 3.75 }
-		}
-		else_if = {
-			limit = { check_modifier_value = { modifier = $shield_damage$ value >= 2 } }
-			set_invasion_fleet_basic_modifier = { SUB = basic_$shield_damage$ factor = 2.75 }
-		}
-		else_if = {
-			limit = { check_modifier_value = { modifier = $shield_damage$ value >= 1 } }
-			set_invasion_fleet_basic_modifier = { SUB = basic_$shield_damage$ factor = 1.75 }
-		}
-		else_if = {
-			limit = { check_modifier_value = { modifier = $shield_damage$ value >= 0.25 } }
-			set_invasion_fleet_basic_modifier = { SUB = basic_$shield_damage$ factor = 1 }
-		}
+		export_modifier_to_variable = { modifier = $shield_damage$ variable = $shield_damage$_value }
+		change_variable = { which = $shield_damage$_value value = 0.75 }
+		set_invasion_fleet_basic_modifier = { SUB = basic_$shield_damage$ FACTOR = $shield_damage$_value }
 	}]
 	[[hull_damage] if = {
 		limit = { 
-			check_modifier_value = { modifier = $hull_damage$ value > 0.25 } 
+			check_modifier_value = { modifier = $hull_damage$ value > -0.75 } 
 			NOT = { has_fleet_flag = has_basic_$hull_damage$ }
 		}
-		if = {
-			limit = { check_modifier_value = { modifier = $hull_damage$ value >= 10 } }
-			set_invasion_fleet_basic_modifier = { SUB = basic_$hull_damage$ factor = 10.75 }
-		}
-		else_if = {
-			limit = { check_modifier_value = { modifier = $hull_damage$ value >= 9 } }
-			set_invasion_fleet_basic_modifier = { SUB = basic_$hull_damage$ factor = 9.75 }
-		}
-		else_if = {
-			limit = { check_modifier_value = { modifier = $hull_damage$ value >= 8 } }
-			set_invasion_fleet_basic_modifier = { SUB = basic_$hull_damage$ factor = 8.75 }
-		}
-		else_if = {
-			limit = { check_modifier_value = { modifier = $hull_damage$ value >= 7 } }
-			set_invasion_fleet_basic_modifier = { SUB = basic_$hull_damage$ factor = 7.75 }
-		}
-		else_if = {
-			limit = { check_modifier_value = { modifier = $hull_damage$ value >= 6 } }
-			set_invasion_fleet_basic_modifier = { SUB = basic_$hull_damage$ factor = 6.75 }
-		}
-		else_if = {
-			limit = { check_modifier_value = { modifier = $hull_damage$ value >= 5 } }
-			set_invasion_fleet_basic_modifier = { SUB = basic_$hull_damage$ factor = 5.75 }
-		}
-		else_if = {
-			limit = { check_modifier_value = { modifier = $hull_damage$ value >= 4 } }
-			set_invasion_fleet_basic_modifier = { SUB = basic_$hull_damage$ factor = 4.75 }
-		}
-		else_if = {
-			limit = { check_modifier_value = { modifier = $hull_damage$ value >= 3 } }
-			set_invasion_fleet_basic_modifier = { SUB = basic_$hull_damage$ factor = 3.75 }
-		}
-		else_if = {
-			limit = { check_modifier_value = { modifier = $hull_damage$ value >= 2 } }
-			set_invasion_fleet_basic_modifier = { SUB = basic_$hull_damage$ factor = 2.75 }
-		}
-		else_if = {
-			limit = { check_modifier_value = { modifier = $hull_damage$ value >= 1 } }
-			set_invasion_fleet_basic_modifier = { SUB = basic_$hull_damage$ factor = 1.75 }
-		}
-		else_if = {
-			limit = { check_modifier_value = { modifier = $hull_damage$ value >= 0.25 } }
-			set_invasion_fleet_basic_modifier = { SUB = basic_$hull_damage$ factor = 1 }
-		}
+		export_modifier_to_variable = { modifier = $hull_damage$ variable = $hull_damage$_value }
+		change_variable = { which = $hull_damage$_value value = 0.75 }
+		set_invasion_fleet_basic_modifier = { SUB = basic_$hull_damage$ FACTOR = $hull_damage$_value }
 	}]
 	[[weapon_damage] if = {
 		limit = { 
-			check_modifier_value = { modifier = $weapon_damage$ value > 0.25 } 
+			check_modifier_value = { modifier = $weapon_damage$ value > -0.75 } 
 			NOT = { has_fleet_flag = has_basic_$weapon_damage$ }
 		}
-		if = {
-			limit = { check_modifier_value = { modifier = $weapon_damage$ value >= 10 } }
-			set_invasion_fleet_basic_modifier = { SUB = basic_$weapon_damage$ factor = 10.75 }
-		}
-		else_if = {
-			limit = { check_modifier_value = { modifier = $weapon_damage$ value >= 9 } }
-			set_invasion_fleet_basic_modifier = { SUB = basic_$weapon_damage$ factor = 9.75 }
-		}
-		else_if = {
-			limit = { check_modifier_value = { modifier = $weapon_damage$ value >= 8 } }
-			set_invasion_fleet_basic_modifier = { SUB = basic_$weapon_damage$ factor = 8.75 }
-		}
-		else_if = {
-			limit = { check_modifier_value = { modifier = $weapon_damage$ value >= 7 } }
-			set_invasion_fleet_basic_modifier = { SUB = basic_$weapon_damage$ factor = 7.75 }
-		}
-		else_if = {
-			limit = { check_modifier_value = { modifier = $weapon_damage$ value >= 6 } }
-			set_invasion_fleet_basic_modifier = { SUB = basic_$weapon_damage$ factor = 6.75 }
-		}
-		else_if = {
-			limit = { check_modifier_value = { modifier = $weapon_damage$ value >= 5 } }
-			set_invasion_fleet_basic_modifier = { SUB = basic_$weapon_damage$ factor = 5.75 }
-		}
-		else_if = {
-			limit = { check_modifier_value = { modifier = $weapon_damage$ value >= 4 } }
-			set_invasion_fleet_basic_modifier = { SUB = basic_$weapon_damage$ factor = 4.75 }
-		}
-		else_if = {
-			limit = { check_modifier_value = { modifier = $weapon_damage$ value >= 3 } }
-			set_invasion_fleet_basic_modifier = { SUB = basic_$weapon_damage$ factor = 3.75 }
-		}
-		else_if = {
-			limit = { check_modifier_value = { modifier = $weapon_damage$ value >= 2 } }
-			set_invasion_fleet_basic_modifier = { SUB = basic_$weapon_damage$ factor = 2.75 }
-		}
-		else_if = {
-			limit = { check_modifier_value = { modifier = $weapon_damage$ value >= 1 } }
-			set_invasion_fleet_basic_modifier = { SUB = basic_$weapon_damage$ factor = 1.75 }
-		}
-		else_if = {
-			limit = { check_modifier_value = { modifier = $weapon_damage$ value >= 0.25 } }
-			set_invasion_fleet_basic_modifier = { SUB = basic_$weapon_damage$ factor = 1 }
-		}
+		export_modifier_to_variable = { modifier = $weapon_damage$ variable = $weapon_damage$_value }
+		change_variable = { which = $weapon_damage$_value value = 0.75 }
+		set_invasion_fleet_basic_modifier = { SUB = basic_$weapon_damage$ FACTOR = $weapon_damage$_value }
 	}]
 	[[tracking] if = {
 		limit = { 
-			check_modifier_value = { modifier = $tracking$ value > 0.75 } 
+			check_modifier_value = { modifier = $tracking$ value > -0.25 } 
 			NOT = { has_fleet_flag = has_basic_$tracking$ }
 		}
-		if = {
-			limit = { check_modifier_value = { modifier = $tracking$ value >= 10 } }
-			set_invasion_fleet_basic_modifier = { SUB = basic_$tracking$ factor = 10.25 }
+		export_modifier_to_variable = { modifier = $tracking$ variable = $tracking$_value }
+		change_variable = { which = $tracking$_value value = 0.25 }
+		set_invasion_fleet_basic_modifier = { SUB = basic_$tracking$ FACTOR = $tracking$_value }
+	}]
+	[[hull_regen_add_perc] if = {
+		limit = { 
+			check_modifier_value = { modifier = $hull_regen_add_perc$ value < 0 } 
+			NOT = { has_fleet_flag = has_basic_$hull_regen_add_perc$ }
 		}
-		else_if = {
-			limit = { check_modifier_value = { modifier = $tracking$ value >= 9 } }
-			set_invasion_fleet_basic_modifier = { SUB = basic_$tracking$ factor = 9.25 }
+		export_modifier_to_variable = { modifier = $hull_regen_add_perc$ variable = hull_regen_add_perc_value }
+		set_invasion_fleet_basic_modifier = { SUB = basic_$hull_regen_add_perc$ FACTOR = hull_regen_add_perc_value }
+	}]
+	[[armor_regen_add_perc] if = {
+		limit = { 
+			check_modifier_value = { modifier = $armor_regen_add_perc$ value < 0 } 
+			NOT = { has_fleet_flag = has_basic_$armor_regen_add_perc$ }
 		}
-		else_if = {
-			limit = { check_modifier_value = { modifier = $tracking$ value >= 8 } }
-			set_invasion_fleet_basic_modifier = { SUB = basic_$tracking$ factor = 8.25 }
+		export_modifier_to_variable = { modifier = $armor_regen_add_perc$ variable = armor_regen_add_perc_value }
+		set_invasion_fleet_basic_modifier = { SUB = basic_$armor_regen_add_perc$ FACTOR = armor_regen_add_perc_value }
+	}]
+	[[shield_regen_add_perc] if = {
+		limit = { 
+			check_modifier_value = { modifier = $shield_regen_add_perc$ value < 0 } 
+			NOT = { has_fleet_flag = has_basic_$shield_regen_add_perc$ }
 		}
-		else_if = {
-			limit = { check_modifier_value = { modifier = $tracking$ value >= 7 } }
-			set_invasion_fleet_basic_modifier = { SUB = basic_$tracking$ factor = 7.25 }
-		}
-		else_if = {
-			limit = { check_modifier_value = { modifier = $tracking$ value >= 6 } }
-			set_invasion_fleet_basic_modifier = { SUB = basic_$tracking$ factor = 6.25 }
-		}
-		else_if = {
-			limit = { check_modifier_value = { modifier = $tracking$ value >= 5 } }
-			set_invasion_fleet_basic_modifier = { SUB = basic_$tracking$ factor = 5.25 }
-		}
-		else_if = {
-			limit = { check_modifier_value = { modifier = $tracking$ value >= 4 } }
-			set_invasion_fleet_basic_modifier = { SUB = basic_$tracking$ factor = 4.25 }
-		}
-		else_if = {
-			limit = { check_modifier_value = { modifier = $tracking$ value >= 3 } }
-			set_invasion_fleet_basic_modifier = { SUB = basic_$tracking$ factor = 3.25 }
-		}
-		else_if = {
-			limit = { check_modifier_value = { modifier = $tracking$ value >= 2 } }
-			set_invasion_fleet_basic_modifier = { SUB = basic_$tracking$ factor = 2.25 }
-		}
-		else_if = {
-			limit = { check_modifier_value = { modifier = $tracking$ value >= 1 } }
-			set_invasion_fleet_basic_modifier = { SUB = basic_$tracking$ factor = 1.25 }
-		}
-		else_if = {
-			limit = { check_modifier_value = { modifier = $tracking$ value >= 0.75 } }
-			set_invasion_fleet_basic_modifier = { SUB = basic_$tracking$ factor = 1 }
-		}
+		export_modifier_to_variable = { modifier = $shield_regen_add_perc$ variable = shield_regen_add_perc_value }
+		set_invasion_fleet_basic_modifier = { SUB = basic_$shield_regen_add_perc$ FACTOR = shield_regen_add_perc_value }
 	}]
 }
 

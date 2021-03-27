@@ -98,7 +98,7 @@ planet_event = {
 					}
 					clear_fleet_actions = this
 					clear_orders = yes
-					destroy_fleet = this
+					destroy_fleet = { target = this destroy_template = yes kill_leader = yes }
 				}
 			}
 			event_target:fallen_empire_kuat_fleet = {
@@ -108,7 +108,7 @@ planet_event = {
 					}
 					clear_fleet_actions = this
 					clear_orders = yes
-					destroy_fleet = this
+					destroy_fleet = { target = this destroy_template = yes kill_leader = yes }
 				}
 			}
 		}
@@ -132,7 +132,7 @@ country_event = {
 					limit = { has_fleet_flag = first_attack_fleet }
 					clear_fleet_actions = this
 					clear_orders = yes
-					destroy_fleet = this
+					destroy_fleet = { target = this destroy_template = yes kill_leader = yes }
 				}
 			}
 			event_target:fallen_empire_kuat_fleet = {
@@ -140,7 +140,7 @@ country_event = {
 					limit = { has_fleet_flag = second_attack_fleet }
 					clear_fleet_actions = this
 					clear_orders = yes
-					destroy_fleet = this
+					destroy_fleet = { target = this destroy_template = yes kill_leader = yes }
 				}
 			}
 		}
@@ -178,16 +178,6 @@ country_event = {
 	hide_window = yes
 	is_triggered_only = yes
 	trigger = {
-		OR = {
-			AND = {
-				exists = event_target:afk_crisis_country
-				has_global_flag = afk_crisis_real
-			}
-			AND = {
-				exists = event_target:wg_crisis_country
-				has_global_flag = wg_crisis_insane
-			}
-		}
 		is_at_war = no
 		fromfrom = { has_fleet_flag = defensive_galaxy_fleet }
 	}
@@ -208,7 +198,7 @@ country_event = {
 			event_target:fallen_empire_kuat = {
 				every_owned_fleet = {
 					limit = { has_fleet_flag = defensive_galaxy_fleet }
-					destroy_fleet = this
+					destroy_fleet = { target = this destroy_template = yes kill_leader = yes }
 				}
 			}
 		}
