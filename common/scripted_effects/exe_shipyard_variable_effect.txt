@@ -10,7 +10,12 @@ get_running_variable_alloys_bought = {
 
 get_ship_alloys_bounght = {
 	if = {
-		limit = { OR = { has_country_flag = building_the_eclipse has_country_flag = building_the_knigjt_hammer_executor } }
+		limit = { 
+			OR = { 
+				has_country_flag = building_the_eclipse 
+				has_country_flag = building_the_knigjt_hammer_executor 
+			} 
+		}
 		get_running_variable_alloys_bought = { first_alloys = 300000 basic = $basic$ }
 	}
 	else_if = {
@@ -22,21 +27,24 @@ get_ship_alloys_bounght = {
 		if = {
 			limit = { has_country_flag = fire_five_impirial }
 			get_running_variable_alloys_bought = { first_alloys = 150000 basic = $basic$ }
-		} else = { 	get_running_variable_alloys_bought = { first_alloys = 30000 basic = $basic$ } }
+		} 
+		else = { get_running_variable_alloys_bought = { first_alloys = 30000 basic = $basic$ } }
 	}
 	else_if = {
 		limit = { has_country_flag = building_the_empire }
 		if = {
 			limit = { has_country_flag = fire_five_impirial }
 			get_running_variable_alloys_bought = { first_alloys = 50000 basic = $basic$ }
-		} else = { get_running_variable_alloys_bought = { first_alloys = 10000 basic = $basic$ } }
+		} 
+		else = { get_running_variable_alloys_bought = { first_alloys = 10000 basic = $basic$ } }
 	}
 	else_if = {
 		limit = { has_country_flag = building_the_horriwer }
 		if = {
 			limit = { has_country_flag = fire_five_impirial }
 			get_running_variable_alloys_bought = { first_alloys = 40000 basic = $basic$ }
-		} else = { get_running_variable_alloys_bought = { first_alloys = 8000 basic = $basic$ } }
+		} 
+		else = { get_running_variable_alloys_bought = { first_alloys = 8000 basic = $basic$ } }
 	}
 }
 
@@ -74,7 +82,12 @@ get_running_variable_alloys = {
 
 get_ship_alloys = {
 	if = {
-		limit = { OR = { has_country_flag = building_the_eclipse has_country_flag = building_the_knigjt_hammer_executor } }
+		limit = { 
+			OR = { 
+				has_country_flag = building_the_eclipse 
+				has_country_flag = building_the_knigjt_hammer_executor 
+			} 
+		}
 		get_running_variable_alloys = { first_alloys = 300000 basic = $basic$ }
 	}
 	else_if = {
@@ -86,21 +99,24 @@ get_ship_alloys = {
 		if = {
 			limit = { has_country_flag = fire_five_impirial }
 			get_running_variable_alloys = { first_alloys = 150000 basic = $basic$ }
-		} else = { 	get_running_variable_alloys = { first_alloys = 30000 basic = $basic$ } }
+		} 
+		else = { get_running_variable_alloys = { first_alloys = 30000 basic = $basic$ } }
 	}
 	else_if = {
 		limit = { has_country_flag = building_the_empire }
 		if = {
 			limit = { has_country_flag = fire_five_impirial }
 			get_running_variable_alloys = { first_alloys = 50000 basic = $basic$ }
-		} else = { get_running_variable_alloys = { first_alloys = 10000 basic = $basic$ } }
+		} 
+		else = { get_running_variable_alloys = { first_alloys = 10000 basic = $basic$ } }
 	}
 	else_if = {
 		limit = { has_country_flag = building_the_horriwer }
 		if = {
 			limit = { has_country_flag = fire_five_impirial }
 			get_running_variable_alloys = { first_alloys = 40000 basic = $basic$ }
-		} else = { get_running_variable_alloys = { first_alloys = 8000 basic = $basic$ } }
+		}
+		else = { get_running_variable_alloys = { first_alloys = 8000 basic = $basic$ } }
 	}
 }
 
@@ -128,5 +144,79 @@ get_variable_alloys = {
 	else_if = {
 		limit = { event_target:fallen_empire_kuat = { opinion = { who = root value > 99 } } }
 		get_ship_alloys = { basic = 1 }
+	}
+}
+
+#variable for tips
+get_screen_alloys_need = {
+	set_variable = { which = ship_alloys value = $second_alloys$ }
+}
+
+get_screen_second_alloys_need = {
+	set_variable = { which = five_ship_alloys value = $third_alloys$ }
+}
+
+get_running_variable_screen_alloys = {
+	get_screen_alloys_need = { second_alloys = @\[ $second_alloys$ * $basic$ ] }
+}
+
+get_running_second_variable_screen_alloys = {
+	get_screen_second_alloys_need = { third_alloys = @\[ $third_alloys$ * $basic$ ] }
+}
+
+get_ship_screen_alloys = {
+	if = {
+		limit = { has_country_flag = building_the_eclipse }
+		get_running_variable_screen_alloys = { second_alloys = 300000 basic = $basic$ }
+	}
+	else_if = {
+		limit = { has_country_flag = building_the_knigjt_hammer_executor }
+		get_running_variable_screen_alloys = { second_alloys = 300000 basic = $basic$ }
+	}
+	else_if = {
+		limit = { has_country_flag = building_the_donimance }
+		get_running_variable_screen_alloys = { second_alloys = 100000 basic = $basic$ }
+	}
+	else_if = {
+		limit = { has_country_flag = building_the_balletor }
+		get_running_second_variable_screen_alloys = { third_alloys = 150000 basic = $basic$ }
+		get_running_variable_screen_alloys = { second_alloys = 30000 basic = $basic$ }
+	}
+	else_if = {
+		limit = { has_country_flag = building_the_empire }
+		get_running_second_variable_screen_alloys = { third_alloys = 50000 basic = $basic$ }
+		get_running_variable_screen_alloys = { second_alloys = 10000 basic = $basic$ }
+	}
+	else_if = {
+		limit = { has_country_flag = building_the_horriwer }
+		get_running_second_variable_screen_alloys = { third_alloys = 40000 basic = $basic$ }
+		get_running_variable_screen_alloys = { second_alloys = 8000 basic = $basic$ }
+	}
+}
+
+get_variable_screen_alloys = {
+	if = {
+		limit = { event_target:fallen_empire_kuat = { opinion = { who = root value > 999 } } }
+		get_ship_screen_alloys = { basic = 0.2 }
+	} 
+	else_if = {
+		limit = { event_target:fallen_empire_kuat = { opinion = { who = root value > 899 } } }
+		get_ship_screen_alloys = { basic = 0.4 }
+	}
+	else_if = {
+		limit = { event_target:fallen_empire_kuat = { opinion = { who = root value > 699 } } }
+		get_ship_screen_alloys = { basic = 0.6 }
+	}
+	else_if = {
+		limit = { event_target:fallen_empire_kuat = { opinion = { who = root value > 499 } } }
+		get_ship_screen_alloys = { basic = 0.8 }
+	}
+	else_if = {
+		limit = { event_target:fallen_empire_kuat = { opinion = { who = root value > 299 } } }
+		get_ship_screen_alloys = { basic = 0.9 }
+	}
+	else_if = {
+		limit = { event_target:fallen_empire_kuat = { opinion = { who = root value > 99 } } }
+		get_ship_screen_alloys = { basic = 1 }
 	}
 }
