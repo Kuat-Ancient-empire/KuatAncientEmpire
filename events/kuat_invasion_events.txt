@@ -508,6 +508,7 @@ fleet_event = {
 		destroy_fleet = this 
 		solar_system = {
 			remove_star_flag = eternal_starbase_megastructure_in_system
+			set_star_class = sc_black_hole
 			random_system_planet = {
 				limit = { is_primary_star = yes }
 				create_ambient_object = {
@@ -526,7 +527,7 @@ fleet_event = {
 			}
 			every_fleet_in_system = {
 				limit = { NOT = { owner = { is_country_type = ag_kuat_invasion_country } } }
-				add_modifier = { modifier = ship_firing_default_debuff days = 15 }
+				destroy_fleet = { target = this destroy_template = yes kill_leader = yes }
 			}
 			random_ambient_object = {
 				limit = { has_ambient_object_flag = space_storm_object }
@@ -586,9 +587,10 @@ country_event = {
 				}
 				set_planet_size = 18
 			}
+			set_star_class = sc_black_hole
 			every_fleet_in_system = {
 				limit = { NOT = { owner = { is_country_type = ag_kuat_invasion_country } } }
-				add_modifier = { modifier = ship_firing_default_debuff days = 15 }
+				destroy_fleet = { target = this destroy_template = yes kill_leader = yes }
 			}
 			random_ambient_object = {
 				limit = { has_ambient_object_flag = space_storm_object }
@@ -756,7 +758,6 @@ fleet_event = {
 		clear_fleet_actions = this
 		from = {
 			random_neighbor_system = {
-				ignore_hyperlanes = no
 				random_system_planet = {
 					limit = { is_primary_star = yes }
 					prevprev = {
@@ -1340,8 +1341,8 @@ country_event = {
 				every_owned_ship = {
 					limit = { is_ship_size = exe_megastructure_starbase }
 					set_fleet_modifier = { SUB = Eternal_support }
-					increase_ship_hp_effect_change = { DAYS = 10 }
-					set_fromfromfrom_check_invsiable_time_flag = { DAYS = 10 }
+					increase_ship_hp_effect_change = { DAYS = 15 }
+					set_fromfromfrom_check_invsiable_time_flag = { DAYS = 15 }
 				}
 			}
 		}
@@ -1490,7 +1491,7 @@ country_event = {
 	hide_window = yes
 	is_triggered_only = yes
 	trigger = { FROMFROM = { has_fleet_flag = has_Eternal_submit } }
-	immediate = { FROMFROM = { remove_modifier = Eternal_submit remove_fleet_flag = has_Eternal_submit } }
+	immediate = { FROMFROM = { remove_modifier = Eternal_submit  remove_fleet_flag = has_Eternal_submit } }
 }
 
 country_event = {
@@ -1537,6 +1538,10 @@ country_event = {
 					hull_regen_add_perc = ship_hull_regen_add_perc 
 					shield_regen_add_perc = ship_shield_regen_add_perc 
 					armor_regen_add_perc = ship_armor_regen_add_perc 
+					hull_mult = ship_hull_mult
+					armor_mult = ship_armor_mult
+					shield_mult = ship_shield_mult
+					weapon_range_mult = ship_weapon_range_mult
 				}
 			}	
 		}
@@ -1584,14 +1589,19 @@ country_event = {
 			remove_modifier = basic_ship_hull_regen_add_perc
 			remove_modifier = basic_ship_armor_regen_add_perc
 			remove_modifier = basic_ship_shield_regen_add_perc
+			remove_modifier = basic_ship_hull_mult
+			remove_modifier = basic_ship_armor_mult
+			remove_modifier = basic_ship_shield_mult
+			remove_modifier = basic_ship_weapon_range_mult
+			remove_fleet_flag = has_combat_modifier
 		}
 		fromfromfrom = { 
-			remove_modifier = basic_shield_penetration_mult 
-			remove_modifier = basic_armor_penetration_mult
-			remove_modifier = basic_ship_armor_damage
-			remove_modifier = basic_ship_shield_damage
-			remove_modifier = basic_ship_hull_damage
-			remove_modifier = basic_ship_tracking
+			remove_modifier = basic_ship_shield_penetration_mult 
+			remove_modifier = basic_ship_armor_penetration_mult
+			remove_modifier = basic_ship_armor_damage_mult
+			remove_modifier = basic_ship_shield_damage_mult
+			remove_modifier = basic_ship_hull_damage_mult
+			remove_modifier = basic_ship_tracking_mult
 			remove_modifier = basic_ship_weapon_damage
 			remove_fleet_flag = has_combat_modifier
 		} 
@@ -1603,16 +1613,8 @@ fleet_event = {
 	id = exe_invasion.1987
 	hide_window = yes
 	is_triggered_only = yes
-	trigger = {
-		NOT = { has_global_flag = special_exe_invasion }
-		NOT = { has_fleet_flag = fire_once }
-		owner = {
-			is_ai = yes
-			is_country_type = ag_kuat_invasion_country
-		}
-	}
+	trigger = { owner = { has_country_flag = ag_kuat_invasion_country } }
 	immediate = {
-		set_timed_fleet_flag = { flag = fire_once days = 5 }
 		every_owned_ship = {
 			set_timed_ship_flag = { flag = inviciable_time_for_gate days = 5 }
 			ship_event = { id = exe_invasion.1988 }

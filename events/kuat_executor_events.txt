@@ -28,7 +28,7 @@ country_event = {
 				graphical_culture = "humanoid_01"
 				orbit_angle = 225
 				orbit_distance = 200
-				location = solar_system
+				planet = system_star
 			}
 			save_global_event_target_as = ag_exe_invasion_gate_system
 			set_star_flag = ag_exe_invasion_gate_system
@@ -517,7 +517,10 @@ country_event = {
 					scale = 0.5
 				}
 			}
-			every_fleet_in_system = { destroy_fleet = { target = this destroy_template = yes kill_leader = yes } }
+			every_fleet_in_system = { 
+				limit = { owner = { is_kuat_fallen_empire = no } }
+				destroy_fleet = { target = this destroy_template = yes kill_leader = yes } 
+			}
 		}
 		country_event = { id = executor_build.13 days = 5 }
 	}
@@ -745,7 +748,7 @@ event = {
 						add = 1
 						check_variable = { which = years_not_trigger_parit_evt value >= 8 }
 					}
-					set_variable = { which = years_not_trigger_parit_evt value = 0 }
+					clear_variable = years_not_trigger_parit_evt
 					country_event = { id = executor_build.279 days = 1 random = 179 }
 				}
 				14 = {
@@ -1052,10 +1055,7 @@ country_event = {
 			limit = {
 				ag_is_create_system = no
 				has_owner = no
-				any_neighbor_system = {
-					ignore_hyperlanes = yes
-					has_owner = no
-				}
+				random_neighbor_system_euclidean = { has_owner = no }
 			}
 			set_spawn_system_batch = begin
 			spawn_system = { initializer = kuat_base_system }
@@ -1284,7 +1284,7 @@ fleet_event = {
 	option = {
 		name = executor_build.376.a
 		destroy_fleet = { target = this destroy_template = yes kill_leader = no }
-		event_target:hiring_country = { set_variable = { which = num_hiring value = 0 } }
+		event_target:hiring_country = { clear_variable = num_hiring }
 	}
 }
 
@@ -1303,9 +1303,7 @@ fleet_event = {
 	option = {
 		name = executor_build.376.a
 		destroy_fleet = { target = this destroy_template = yes kill_leader = no }
-		event_target:hiring_country_eclipse = {
-			set_variable = { which = num_hiring_eclipse value = 0 }
-		}
+		event_target:hiring_country_eclipse = { clear_variable = num_hiring_eclipse }
 	}
 }
 
@@ -1324,11 +1322,11 @@ country_event = {
 	immediate = {
 		if = {
 			limit = { fromfrom = { has_fleet_flag = will_be_return } }
-			event_target:hiring_country = { set_variable = { which = num_hiring value = 0 } }
+			event_target:hiring_country = { clear_variable = num_hiring }
 		}
 		if = {
 			limit = { fromfrom = { has_fleet_flag = will_be_return_eclipse } }
-			event_target:hiring_country_eclipse = { set_variable = { which = num_hiring_eclipse value = 0 } }
+			event_target:hiring_country_eclipse = { clear_variable = num_hiring_eclipse }
 		}
 	}
 }
@@ -1376,236 +1374,3 @@ event = {
 	}
 	immediate = { event_target:fallen_empire_kuat_fleet = { destroy_country = yes } }
 }
-
-##########################
-###   DEBUG EVENT  #######
-##########################
-# country_event = {
-# 	id = executor_build.2999
-# 	picture_event_data = { room = kuat_council_fleet_room }
-# 	show_sound = event_mystic_reveal
-# 	diplomatic = yes
-# 	custom_gui = "kuat_event_window"
-# 	custom_gui_option = "kuat_event_option"
-# 	is_triggered_only = yes
-# 	title = "exe_invasion.2999.name"
-# 	desc = "exe_invasion.2999.desc"
-
-# 	trigger = {
-# 		is_ai = no
-# 		has_global_flag = gigastructures_enabled
-# 	}
-
-# 	option = {
-# 		name = {
-# 			trigger = {
-# 				NOT = { has_global_flag = ban_megastructrue_qsd }
-# 			}
-# 			text = "executor_build.2999_QSD"
-# 		}
-# 		name = {
-# 			trigger = {
-# 				has_global_flag = ban_megastructrue_qsd
-# 			}
-# 			text = "executor_build.2999_QSD_disable"
-# 		}
-# 		hidden_effect = {
-# 			if = {
-# 				limit = { NOT = { has_global_flag = ban_megastructrue_qsd } }
-# 				set_global_flag = ban_megastructrue_qsd
-# 			} 
-# 			else = {
-# 				remove_global_flag = ban_megastructrue_qsd
-# 			}
-# 			country_event = { id = executor_build.2999 }
-# 		}
-# 	}
-# 	option = {
-# 		name = {
-# 			trigger = {
-# 				NOT = { has_global_flag = ban_megastructrue_ehof }
-# 			}
-# 			text = "executor_build.2999_EHOF"
-# 		}
-# 		name = {
-# 			trigger = {
-# 				has_global_flag = ban_megastructrue_ehof
-# 			}
-# 			text = "executor_build.2999_EHOF_disable"
-# 		}
-# 		hidden_effect = {
-# 			if = {
-# 				limit = { NOT = { has_global_flag = ban_megastructrue_ehof } }
-# 				set_global_flag = ban_megastructrue_ehof
-# 			} 
-# 			else = {
-# 				remove_global_flag = ban_megastructrue_ehof
-# 			}
-# 			country_event = { id = executor_build.2999 }
-# 		}
-# 	}
-# 	option = {
-# 		name = {
-# 			trigger = {
-# 				NOT = { has_global_flag = ban_megastructrue_penrose }
-# 			}
-# 			text = "executor_build.2999_PENROSE"
-# 		}
-# 		name = {
-# 			trigger = {
-# 				has_global_flag = ban_megastructrue_penrose 
-# 			}
-# 			text = "executor_build.2999_PENROSE_disable"
-# 		}
-# 		hidden_effect = {
-# 			if = {
-# 				limit = { NOT = { has_global_flag = ban_megastructrue_penrose } }
-# 				set_global_flag = ban_megastructrue_penrose
-# 			} 
-# 			else = {
-# 				remove_global_flag = ban_megastructrue_penrose
-# 			}
-# 			country_event = { id = executor_build.2999 }
-# 		}
-# 	}
-# 	option = {
-# 		name = {
-# 			trigger = {
-# 				NOT = { has_global_flag = ban_megastructrue_beem }
-# 			}
-# 			text = "executor_build.2999_DYSHON_BEEN"
-# 		}
-# 		name = {
-# 			trigger = {
-# 				has_global_flag = ban_megastructrue_beem
-# 			}
-# 			text = "executor_build.2999_DYSHON_BEEN_disable"
-# 		}
-# 		hidden_effect = {
-# 			if = {
-# 				limit = { NOT = { has_global_flag = ban_megastructrue_beem } }
-# 				set_global_flag = ban_megastructrue_beem
-# 			} 
-# 			else = {
-# 				remove_global_flag = ban_megastructrue_beem
-# 			}
-# 			country_event = { id = executor_build.2999 }
-# 		}
-# 	}
-# 	option = {
-# 		name = "executor_build.2999_ALL"
-# 		hidden_effect = {
-# 			remove_global_flag = ban_megastructrue_ehof
-# 			remove_global_flag = ban_megastructrue_qsd
-# 			remove_global_flag = ban_megastructrue_penrose
-# 			remove_global_flag = ban_all_megastructrue
-# 			remove_global_flag = ban_megastructrue_beem
-# 			set_global_flag = ban_all_megastructrue
-# 		}
-# 	}
-# 	option = {
-# 		name = "executor_build.2999_BAN"
-# 		hidden_effect = {
-# 			remove_global_flag = ban_megastructrue_ehof
-# 			remove_global_flag = ban_megastructrue_qsd
-# 			remove_global_flag = ban_megastructrue_penrose
-# 			remove_global_flag = ban_all_megastructrue
-# 			remove_global_flag = ban_megastructrue_beem
-# 		}
-# 	}
-# }
-
-# country_event = {
-# 	id = executor_build.2000
-# 	hide_window = yes
-# 	is_triggered_only = yes
-
-# 	trigger = {
-# 		has_global_flag = ban_all_megastructrue
-# 	}
-
-# 	immediate = {
-# 		every_megastructure = {
-# 			limit = {
-# 				is_giga_megastructure_ban = yes
-# 			}
-# 			remove_megastructure = this
-# 		}
-# 	}
-# }
-
-# country_event = {
-# 	id = executor_build.2001
-# 	hide_window = yes
-# 	is_triggered_only = yes
-
-# 	trigger = {
-# 		has_global_flag = ban_megastructrue_beem
-# 	}
-
-# 	immediate = {
-# 		every_megastructure = {
-# 			limit = {
-# 				is_nicoll_beam = yes
-# 			}
-# 			remove_megastructure = this
-# 		}
-# 	}
-# }
-
-# country_event = {
-# 	id = executor_build.2002
-# 	hide_window = yes
-# 	is_triggered_only = yes
-
-# 	trigger = {
-# 		has_global_flag = ban_megastructrue_penrose
-# 	}
-
-# 	immediate = {
-# 		every_megastructure = {
-# 			limit = {
-# 				is_penrose_sphere = yes
-# 			}
-# 			remove_megastructure = this
-# 		}
-# 	}
-# }
-
-# country_event = {
-# 	id = executor_build.2003
-# 	hide_window = yes
-# 	is_triggered_only = yes
-
-# 	trigger = {
-# 		has_global_flag = ban_megastructrue_ehof
-# 	}
-
-# 	immediate = {
-# 		every_megastructure = {
-# 			limit = {
-# 				is_ehof_megastructure = yes
-# 			}
-# 			remove_megastructure = this
-# 		}
-# 	}
-# }
-
-# country_event = {
-# 	id = executor_build.2004
-# 	hide_window = yes
-# 	is_triggered_only = yes
-
-# 	trigger = {
-# 		has_global_flag = ban_megastructrue_qsd
-# 	}
-
-# 	immediate = {
-# 		every_megastructure = {
-# 			limit = {
-# 				is_quasi_stellar_obliterator = yes
-# 			}
-# 			remove_megastructure = this
-# 		}
-# 	}
-# }
