@@ -8,5 +8,5 @@ tags={
 	"Spaceships"
 }
 name="SW:Kuat Ancient Empire"
-supported_version="2.8.*"
+supported_version="3.0.1"
 remote_file_id="2013495935"

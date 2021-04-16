@@ -505,7 +505,7 @@ fleet_event = {
 	is_triggered_only = yes
 	trigger = { exists = event_target:kuat_station_elternal }
 	immediate = { 
-		destroy_fleet = this 
+		destroy_fleet = { target = this destroy_template = yes kill_leader = yes }
 		solar_system = {
 			remove_star_flag = eternal_starbase_megastructure_in_system
 			set_star_class = sc_black_hole
@@ -527,6 +527,22 @@ fleet_event = {
 			}
 			every_fleet_in_system = {
 				limit = { NOT = { owner = { is_country_type = ag_kuat_invasion_country } } }
+				fire_on_action = {
+					on_action = on_fleet_destroyed_perp
+					scopes = {
+						from = event_target:ag_kuat_invasion_country
+						fromfrom = this
+						fromfromfrom = event_target:ag_kuat_invasion_country.fleet
+					}
+				}
+				fire_on_action = {
+					on_action = on_fleet_destroyed_victim
+					scopes = {
+						from = event_target:ag_kuat_invasion_country
+						fromfrom = this
+						fromfromfrom = event_target:ag_kuat_invasion_country.fleet
+					}
+				}
 				destroy_fleet = { target = this destroy_template = yes kill_leader = yes }
 			}
 			random_ambient_object = {
@@ -590,6 +606,22 @@ country_event = {
 			set_star_class = sc_black_hole
 			every_fleet_in_system = {
 				limit = { NOT = { owner = { is_country_type = ag_kuat_invasion_country } } }
+				fire_on_action = {
+					on_action = on_fleet_destroyed_perp
+					scopes = {
+						from = event_target:ag_kuat_invasion_country
+						fromfrom = this
+						fromfromfrom = event_target:ag_kuat_invasion_country.fleet
+					}
+				}
+				fire_on_action = {
+					on_action = on_fleet_destroyed_victim
+					scopes = {
+						from = event_target:ag_kuat_invasion_country
+						fromfrom = this
+						fromfromfrom = event_target:ag_kuat_invasion_country.fleet
+					}
+				}
 				destroy_fleet = { target = this destroy_template = yes kill_leader = yes }
 			}
 			random_ambient_object = {
