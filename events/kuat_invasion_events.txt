@@ -1548,6 +1548,7 @@ country_event = {
 	hide_window = yes
 	is_triggered_only = yes
 	trigger = {
+		has_global_flag = enable_modifer_check
 		OR = {
 			AND = {
 				fromfrom = { 
@@ -1566,14 +1567,16 @@ country_event = {
 			if = {
 				limit = { NOT = { has_fleet_flag = fire_for_once } }
 				set_timed_fleet_flag = { flag = fire_for_once days = 2 }
-				set_eternal_fleet_mult_modifier = { 
-					hull_regen_add_perc = ship_hull_regen_add_perc 
-					shield_regen_add_perc = ship_shield_regen_add_perc 
-					armor_regen_add_perc = ship_armor_regen_add_perc 
-					hull_mult = ship_hull_mult
-					armor_mult = ship_armor_mult
-					shield_mult = ship_shield_mult
-					weapon_range_mult = ship_weapon_range_mult
+				every_owned_ship = {
+					set_eternal_fleet_mult_modifier = { 
+						hull_regen_add_perc = ship_hull_regen_add_perc 
+						shield_regen_add_perc = ship_shield_regen_add_perc 
+						armor_regen_add_perc = ship_armor_regen_add_perc 
+						hull_mult = ship_hull_mult
+						armor_mult = ship_armor_mult
+						shield_mult = ship_shield_mult
+						weapon_range_mult = ship_weapon_range_mult
+					}
 				}
 			}	
 		}
@@ -1581,24 +1584,26 @@ country_event = {
 			if = {
 				limit = { NOT = { has_fleet_flag = fire_for_once } }
 				set_timed_fleet_flag = { flag = fire_for_once days = 2 }
-				if = {
-					limit = { 
-						ROOT = { is_country_type = ag_kuat_invasion_country } 
-						has_global_flag = difficult_exe_invasion 
-					}
-					set_eternal_fleet_mult_modifier = { 
-						shield_penetration = ship_shield_penetration_mult 
-						armor_penetration = ship_armor_penetration_mult
-						armor_damage = ship_armor_damage_mult
-						shield_damage = ship_shield_damage_mult
-						hull_damage = ship_hull_damage_mult
-						weapon_damage = ship_weapon_damage
-						tracking = ship_tracking_mult
-					}
-				} else = {
-					set_eternal_fleet_mult_modifier = { 
-						shield_penetration = ship_shield_penetration_mult 
-						armor_penetration = ship_armor_penetration_mult
+				every_owned_ship = {
+					if = {
+						limit = { 
+							ROOT = { is_country_type = ag_kuat_invasion_country } 
+							has_global_flag = difficult_exe_invasion 
+						}
+						set_eternal_fleet_mult_modifier = { 
+							shield_penetration = ship_shield_penetration_mult 
+							armor_penetration = ship_armor_penetration_mult
+							armor_damage = ship_armor_damage_mult
+							shield_damage = ship_shield_damage_mult
+							hull_damage = ship_hull_damage_mult
+							weapon_damage = ship_weapon_damage
+							tracking = ship_tracking_mult
+						}
+					} else = {
+						set_eternal_fleet_mult_modifier = { 
+							shield_penetration = ship_shield_penetration_mult 
+							armor_penetration = ship_armor_penetration_mult
+						}
 					}
 				}
 			} 
@@ -1611,6 +1616,7 @@ country_event = {
 	hide_window = yes
 	is_triggered_only = yes
 	trigger = { 
+		has_global_flag = enable_modifer_check
 		OR = {
 			fromfromfrom = { has_fleet_flag = has_combat_modifier } 
 			fromfrom = { has_fleet_flag = has_combat_modifier } 
@@ -1618,23 +1624,27 @@ country_event = {
 	}
 	immediate = { 
 		fromfrom = {
-			remove_modifier = basic_ship_hull_regen_add_perc
-			remove_modifier = basic_ship_armor_regen_add_perc
-			remove_modifier = basic_ship_shield_regen_add_perc
-			remove_modifier = basic_ship_hull_mult
-			remove_modifier = basic_ship_armor_mult
-			remove_modifier = basic_ship_shield_mult
-			remove_modifier = basic_ship_weapon_range_mult
+			every_owned_ship = {
+				remove_modifier = basic_ship_hull_regen_add_perc
+				remove_modifier = basic_ship_armor_regen_add_perc
+				remove_modifier = basic_ship_shield_regen_add_perc
+				remove_modifier = basic_ship_hull_mult
+				remove_modifier = basic_ship_armor_mult
+				remove_modifier = basic_ship_shield_mult
+				remove_modifier = basic_ship_weapon_range_mult
+			}
 			remove_fleet_flag = has_combat_modifier
 		}
 		fromfromfrom = { 
-			remove_modifier = basic_ship_shield_penetration_mult 
-			remove_modifier = basic_ship_armor_penetration_mult
-			remove_modifier = basic_ship_armor_damage_mult
-			remove_modifier = basic_ship_shield_damage_mult
-			remove_modifier = basic_ship_hull_damage_mult
-			remove_modifier = basic_ship_tracking_mult
-			remove_modifier = basic_ship_weapon_damage
+			every_owned_ship = {
+				remove_modifier = basic_ship_shield_penetration_mult 
+				remove_modifier = basic_ship_armor_penetration_mult
+				remove_modifier = basic_ship_armor_damage_mult
+				remove_modifier = basic_ship_shield_damage_mult
+				remove_modifier = basic_ship_hull_damage_mult
+				remove_modifier = basic_ship_tracking_mult
+				remove_modifier = basic_ship_weapon_damage
+			}
 			remove_fleet_flag = has_combat_modifier
 		} 
 	}
