@@ -48,133 +48,265 @@ set_fromfromfrom_check_invsiable_time_flag = {
 }
 
 # scope: fleet
+export_eternal_fleet_mult_modifier = {
+	[[shield_penetration] if = {
+		limit = { is_variable_set = $shield_penetration$_value has_ship_flag = has_$shield_penetration$ }
+		set_invasion_fleet_basic_modifier = { SUB = basic_$shield_penetration$ FACTOR = $shield_penetration$_value }
+		remove_ship_flag = has_$shield_penetration$
+	}]
+	[[armor_penetration] if = {
+		limit = { is_variable_set = $armor_penetration$_value has_ship_flag = has_$armor_penetration$ }
+		set_invasion_fleet_basic_modifier = { SUB = basic_$armor_penetration$ FACTOR = $armor_penetration$_value }
+		remove_ship_flag = has_$armor_penetration$
+	}]
+	[[armor_damage] if = {
+		limit = { is_variable_set = $armor_damage$_value has_ship_flag = has_$armor_damage$ }
+		set_invasion_fleet_basic_modifier = { SUB = basic_$armor_damage$ FACTOR = $armor_damage$_value }
+		remove_ship_flag = has_$armor_damage$
+	}]
+	[[shield_damage] if = {
+		limit = { is_variable_set = $shield_damage$_value has_ship_flag = has_$shield_damage$ }
+		set_invasion_fleet_basic_modifier = { SUB = basic_$shield_damage$ FACTOR = $shield_damage$_value }
+		remove_ship_flag = has_$shield_damage$
+	}]
+	[[hull_damage] if = {
+		limit = { is_variable_set = $hull_damage$_value has_ship_flag = has_$hull_damage$ }
+		set_invasion_fleet_basic_modifier = { SUB = basic_$hull_damage$ FACTOR = $hull_damage$_value }
+		remove_ship_flag = has_$hull_damage$
+	}]
+	[[weapon_damage] 	if = {
+		limit = { is_variable_set = $weapon_damage$_value has_ship_flag = has_$weapon_damage$ }
+		set_invasion_fleet_basic_modifier = { SUB = basic_$weapon_damage$ FACTOR = $weapon_damage$_value }
+		remove_ship_flag = has_$weapon_damage$
+	}]
+	[[tracking] if = {
+		limit = { is_variable_set = $tracking$_value has_ship_flag = has_$tracking$ }
+		set_invasion_fleet_basic_modifier = { SUB = basic_$tracking$ FACTOR = $tracking$_value }
+		remove_ship_flag = has_$tracking$
+	}]
+	[[hull_regen_add_perc] if = {
+		limit = { is_variable_set = $hull_regen_add_perc$_value has_ship_flag = has_$hull_regen_add_perc$ }
+		set_invasion_fleet_basic_modifier = { SUB = basic_$hull_regen_add_perc$ FACTOR = $hull_regen_add_perc$_value }
+		remove_ship_flag = has_$hull_regen_add_perc$
+	}]
+	[[armor_regen_add_perc] if = {
+		limit = { is_variable_set = $armor_regen_add_perc$_value has_ship_flag = has_$armor_regen_add_perc$ }
+		set_invasion_fleet_basic_modifier = { SUB = basic_$armor_regen_add_perc$ FACTOR = $armor_regen_add_perc$_value }
+		remove_ship_flag = has_$armor_regen_add_perc$
+	}]
+	[[shield_regen_add_perc] if = {
+		limit = { is_variable_set = $shield_regen_add_perc$_value has_ship_flag = has_$shield_regen_add_perc$ }
+		set_invasion_fleet_basic_modifier = { SUB = basic_$shield_regen_add_perc$ FACTOR = $shield_regen_add_perc$_value }
+		remove_ship_flag = has_$shield_regen_add_perc$
+	}]
+	[[hull_mult] if = {
+		limit = { is_variable_set = $hull_mult$_value has_ship_flag = has_$hull_mult$ }
+		set_invasion_fleet_basic_modifier = { SUB = basic_$hull_mult$ FACTOR = $hull_mult$_value }
+		remove_ship_flag = has_$hull_mult$
+	}]
+	[[armor_mult] if = {
+		limit = { is_variable_set = $armor_mult$_value has_ship_flag = has_$armor_mult$ }
+		set_invasion_fleet_basic_modifier = { SUB = basic_$armor_mult$ FACTOR = $armor_mult$_value }
+		remove_ship_flag = has_$armor_mult$
+	}]
+	[[shield_mult] if = {
+		limit = { is_variable_set = $shield_mult$_value has_ship_flag = has_$shield_mult$ }
+		set_invasion_fleet_basic_modifier = { SUB = basic_$shield_mult$ FACTOR = $shield_mult$_value }
+		remove_ship_flag = has_$shield_mult$
+	}]
+	[[weapon_range_mult] if = {
+		limit = { is_variable_set = $weapon_range_mult$_value has_ship_flag = has_$weapon_range_mult$ }
+		set_invasion_fleet_basic_modifier = { SUB = basic_$weapon_range_mult$ FACTOR = $weapon_range_mult$_value }
+		remove_ship_flag = has_$weapon_range_mult$
+	}]
+}
+
 set_eternal_fleet_mult_modifier = {
 	[[shield_penetration] if = {
 		limit = { 
 			NOT = { check_modifier_value = { modifier = $shield_penetration$ value = -1 } }
-			NOT = { has_ship_flag = has_basic_$shield_penetration$ }
+			NOT = { is_variable_set = $shield_penetration$_value }
 		}
 		export_modifier_to_variable = { modifier = $shield_penetration$ variable = $shield_penetration$_value }
-		change_variable = { which = $shield_penetration$_value value = 1 }
-		set_invasion_fleet_basic_modifier = { SUB = basic_$shield_penetration$ FACTOR = $shield_penetration$_value }
+		if = {
+			limit = { is_variable_set = $shield_penetration$_value }
+			change_variable = { which = $shield_penetration$_value value = 1 }
+			set_ship_flag = has_$shield_penetration$
+		}
 	}]
 	[[armor_penetration] if = {
 		limit = { 
 			NOT = { check_modifier_value = { modifier = $armor_penetration$ value = -1 } }
-			NOT = { has_ship_flag = has_basic_$armor_penetration$ }
+			NOT = { is_variable_set = $armor_penetration$_value }
 		}
 		export_modifier_to_variable = { modifier = $armor_penetration$ variable = $armor_penetration$_value }
-		change_variable = { which = $armor_penetration$_value value = 1 }
-		set_invasion_fleet_basic_modifier = { SUB = basic_$armor_penetration$ FACTOR = $armor_penetration$_value }
+		if = {
+			limit = { is_variable_set = $armor_penetration$_value }
+			change_variable = { which = $armor_penetration$_value value = 1 }
+			set_ship_flag = has_$armor_penetration$
+		}
 	}]
 	[[armor_damage] if = {
 		limit = { 
 			check_modifier_value = { modifier = $armor_damage$ value > -0.75 } 
-			NOT = { has_ship_flag = has_basic_$armor_damage$ }
+			NOT = { is_variable_set = $armor_damage$_value }
 		}
 		export_modifier_to_variable = { modifier = $armor_damage$ variable = $armor_damage$_value }
-		change_variable = { which = $armor_damage$_value value = 0.75 }
-		set_invasion_fleet_basic_modifier = { SUB = basic_$armor_damage$ FACTOR = $armor_damage$_value }
+		if = {
+			limit = { is_variable_set = $armor_damage$_value }
+			change_variable = { which = $armor_damage$_value value = 0.75 }
+			set_ship_flag = has_$armor_damage$
+		}
 	}]
 	[[shield_damage] if = {
 		limit = { 
 			check_modifier_value = { modifier = $shield_damage$ value > -0.75 } 
-			NOT = { has_ship_flag = has_basic_$shield_damage$ }
+			NOT = { is_variable_set = $shield_damage$_value }
 		}
 		export_modifier_to_variable = { modifier = $shield_damage$ variable = $shield_damage$_value }
-		change_variable = { which = $shield_damage$_value value = 0.75 }
-		set_invasion_fleet_basic_modifier = { SUB = basic_$shield_damage$ FACTOR = $shield_damage$_value }
+		if = {
+			limit = { is_variable_set = $shield_damage$_value }
+			change_variable = { which = $shield_damage$_value value = 0.75 }
+			set_ship_flag = has_$shield_damage$
+		}
 	}]
 	[[hull_damage] if = {
 		limit = { 
 			check_modifier_value = { modifier = $hull_damage$ value > -0.75 } 
-			NOT = { has_ship_flag = has_basic_$hull_damage$ }
+			NOT = { is_variable_set = $hull_damage$_value }
 		}
 		export_modifier_to_variable = { modifier = $hull_damage$ variable = $hull_damage$_value }
-		change_variable = { which = $hull_damage$_value value = 0.75 }
-		set_invasion_fleet_basic_modifier = { SUB = basic_$hull_damage$ FACTOR = $hull_damage$_value }
+		if = {
+			limit = { is_variable_set = $hull_damage$_value }
+			change_variable = { which = $hull_damage$_value value = 0.75 }
+			set_ship_flag = has_$hull_damage$
+		}
 	}]
 	[[weapon_damage] if = {
 		limit = { 
 			check_modifier_value = { modifier = $weapon_damage$ value > -0.75 } 
-			NOT = { has_ship_flag = has_basic_$weapon_damage$ }
+			NOT = { is_variable_set = $weapon_damage$_value }
 		}
 		export_modifier_to_variable = { modifier = $weapon_damage$ variable = $weapon_damage$_value }
-		change_variable = { which = $weapon_damage$_value value = 0.75 }
-		set_invasion_fleet_basic_modifier = { SUB = basic_$weapon_damage$ FACTOR = $weapon_damage$_value }
+		if = {
+			limit = { is_variable_set = $weapon_damage$_value }
+			change_variable = { which = $weapon_damage$_value value = 0.75 }
+			set_ship_flag = has_$weapon_damage$
+		}
 	}]
 	[[tracking] if = {
 		limit = { 
 			check_modifier_value = { modifier = $tracking$ value > -0.25 } 
-			NOT = { has_ship_flag = has_basic_$tracking$ }
+			NOT = { is_variable_set = $tracking$_value }
 		}
 		export_modifier_to_variable = { modifier = $tracking$ variable = $tracking$_value }
-		change_variable = { which = $tracking$_value value = 0.25 }
-		set_invasion_fleet_basic_modifier = { SUB = basic_$tracking$ FACTOR = $tracking$_value }
+		if = {
+			limit = { is_variable_set = $tracking$_value }
+			change_variable = { which = $tracking$_value value = 0.25 }
+			set_ship_flag = has_$tracking$
+		}
 	}]
 	[[hull_regen_add_perc] if = {
 		limit = { 
 			check_modifier_value = { modifier = $hull_regen_add_perc$ value < 0 } 
-			NOT = { has_ship_flag = has_basic_$hull_regen_add_perc$ }
+			NOT = { is_variable_set = $hull_regen_add_perc$_value }
 		}
 		export_modifier_to_variable = { modifier = $hull_regen_add_perc$ variable = $hull_regen_add_perc$_value }
-		subtract_variable = { which = $hull_regen_add_perc$_value value = 1 }
-		set_invasion_fleet_basic_modifier = { SUB = basic_$hull_regen_add_perc$ FACTOR = $hull_regen_add_perc$_value }
+		if = {
+			limit = { is_variable_set = $hull_regen_add_perc$_value }
+			subtract_variable = { which = $hull_regen_add_perc$_value value = 1 }
+			set_ship_flag = has_$hull_regen_add_perc$
+		}
 	}]
 	[[armor_regen_add_perc] if = {
 		limit = { 
 			check_modifier_value = { modifier = $armor_regen_add_perc$ value < 0 } 
-			NOT = { has_ship_flag = has_basic_$armor_regen_add_perc$ }
+			NOT = { is_variable_set = $armor_regen_add_perc$_value }
 		}
 		export_modifier_to_variable = { modifier = $armor_regen_add_perc$ variable = $armor_regen_add_perc$_value }
-		subtract_variable = { which = $armor_regen_add_perc$_value value = 1 }
-		set_invasion_fleet_basic_modifier = { SUB = basic_$armor_regen_add_perc$ FACTOR = $armor_regen_add_perc$_value }
+		if = {
+			limit = { is_variable_set = $armor_regen_add_perc$_value }
+			subtract_variable = { which = $armor_regen_add_perc$_value value = 1 }
+			set_ship_flag = has_$armor_regen_add_perc$
+		}
 	}]
 	[[shield_regen_add_perc] if = {
 		limit = { 
 			check_modifier_value = { modifier = $shield_regen_add_perc$ value < 0 } 
-			NOT = { has_ship_flag = has_basic_$shield_regen_add_perc$ }
+			NOT = { is_variable_set = $shield_regen_add_perc$_value }
 		}
 		export_modifier_to_variable = { modifier = $shield_regen_add_perc$ variable = $shield_regen_add_perc$_value }
-		subtract_variable = { which = $shield_regen_add_perc$_value value = 1 }
-		set_invasion_fleet_basic_modifier = { SUB = basic_$shield_regen_add_perc$ FACTOR = $shield_regen_add_perc$_value }
+		if = {
+			limit = { is_variable_set = $shield_regen_add_perc$_value }
+			subtract_variable = { which = $shield_regen_add_perc$_value value = 1 }
+			set_ship_flag = has_$shield_regen_add_perc$
+		}
 	}]
 	[[hull_mult] if = {
 		limit = { 
 			check_modifier_value = { modifier = $hull_mult$ value < 0 } 
-			NOT = { has_ship_flag = has_basic_$hull_mult$ }
+			NOT = { is_variable_set = $hull_mult$_value }
 		}
 		export_modifier_to_variable = { modifier = $hull_mult$ variable = $hull_mult$_value }
-		subtract_variable = { which = $hull_mult$_value value = 1 }
-		set_invasion_fleet_basic_modifier = { SUB = basic_$hull_mult$ FACTOR = $hull_mult$_value }
+		if = {
+			limit = { is_variable_set = $hull_mult$_value }
+			subtract_variable = { which = $hull_mult$_value value = 1 }
+			set_ship_flag = has_$hull_mult$
+		}
 	}]
 	[[armor_mult] if = {
 		limit = { 
 			check_modifier_value = { modifier = $armor_mult$ value < 0 } 
-			NOT = { has_ship_flag = has_basic_$armor_mult$ }
+			NOT = { is_variable_set = $armor_mult$_value }
 		}
 		export_modifier_to_variable = { modifier = $armor_mult$ variable = $armor_mult$_value }
-		subtract_variable = { which = $armor_mult$_value value = 1 }
-		set_invasion_fleet_basic_modifier = { SUB = basic_$armor_mult$ FACTOR = $armor_mult$_value }
+		if = {
+			limit = { is_variable_set = $armor_mult$_value }
+			subtract_variable = { which = $armor_mult$_value value = 1 }
+			set_ship_flag = has_$armor_mult$
+		}
 	}]
 	[[shield_mult] if = {
 		limit = { 
 			check_modifier_value = { modifier = $shield_mult$ value < 0 } 
-			NOT = { has_ship_flag = has_basic_$shield_mult$ }
+			NOT = { is_variable_set = $shield_mult$_value }
 		}
 		export_modifier_to_variable = { modifier = $shield_mult$ variable = $shield_mult$_value }
-		subtract_variable = { which = $shield_mult$_value value = 1 }
-		set_invasion_fleet_basic_modifier = { SUB = basic_$shield_mult$ FACTOR = $shield_mult$_value }
+		if = {
+			limit = { is_variable_set = $shield_mult$_value }
+			subtract_variable = { which = $shield_mult$_value value = 1 }
+			set_ship_flag = has_$shield_mult$
+		}
 	}]
 	[[weapon_range_mult] if = {
 		limit = { 
 			check_modifier_value = { modifier = $weapon_range_mult$ value < 0 } 
-			NOT = { has_ship_flag = has_basic_$weapon_range_mult$ }
+			NOT = { is_variable_set = $weapon_range_mult$_value }
 		}
 		export_modifier_to_variable = { modifier = $weapon_range_mult$ variable = $weapon_range_mult$_value }
-		subtract_variable = { which = $weapon_range_mult$_value value = 1 }
-		set_invasion_fleet_basic_modifier = { SUB = basic_$weapon_range_mult$ FACTOR = $weapon_range_mult$_value }
+		if = {
+			limit = { is_variable_set = $weapon_range_mult$_value }
+			subtract_variable = { which = $weapon_range_mult$_value value = 1 }
+			set_ship_flag = has_$weapon_range_mult$
+		}
 	}]
+}
+
+remove_eternal_fleet_mult_variable = {
+	[[shield_penetration] clear_variable = $shield_penetration$_value ]
+	[[armor_penetration] clear_variable = $armor_penetration$_value ]
+	[[armor_damage] clear_variable = $armor_damage$_value ]
+	[[shield_damage] clear_variable = $shield_damage$_value ]
+	[[hull_damage] clear_variable = $hull_damage$_value ]
+	[[weapon_damage] clear_variable = $weapon_damage$_value ]
+	[[tracking] clear_variable = $tracking$_value]
+	[[hull_regen_add_perc] clear_variable = $hull_regen_add_perc$_value ]
+	[[armor_regen_add_perc] clear_variable = $armor_regen_add_perc$_value ]
+	[[shield_regen_add_perc] clear_variable = $shield_regen_add_perc$_value ]
+	[[hull_mult] clear_variable = $hull_mult$_value ]
+	[[armor_mult] clear_variable = $armor_mult$_value ]
+	[[shield_mult] clear_variable = $shield_mult$_value ]
+	[[weapon_range_mult] clear_variable = $weapon_range_mult$_value ]
 }
 
 set_fleet_modifier = {
@@ -184,7 +316,6 @@ set_fleet_modifier = {
 
 set_invasion_fleet_basic_modifier = {
 	add_modifier = { modifier = $SUB$ multiplier = $FACTOR$ }
-	set_timed_ship_flag = { flag = has_$SUB$ days = 5 }
 	prev = { set_fleet_flag = has_combat_modifier }
 }
 
