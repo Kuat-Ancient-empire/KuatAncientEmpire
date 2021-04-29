@@ -182,7 +182,7 @@ country_event = {
 				fail_text = kuat_shipyard.3.a.opinion.tooltip
 				NOR = {
 					any_owned_ship = { is_ship_size = eclipse }
-					check_variable = { which = eclipse_nub value > 0 }
+					check_variable = { which = eclipse_class_queue value > 0 }
 				}
 			}
 			custom_tooltip = {
@@ -322,6 +322,10 @@ country_event = {
 			}
 		}
 		subtract_variable = { which = fallen_empire_escort_queue value = 1 }
+		if = {
+			limit = { check_variable = { which = fallen_empire_escort_queue value <= 0 } }
+			clear_variable = fallen_empire_escort_queue
+		}
 		event_target:fallen_empire_kuat = { add_opinion_modifier = { modifier = opinion_kuat_ship_built who = root } }
 	}
 }
@@ -513,6 +517,10 @@ country_event = {
 		country_event = { id = kuat_shipyard.223 days = 1 }
 		change_variable = { which = horriwer_fleet_queue value = 1 }
 		subtract_variable = { which = fallen_empire_battlecruiser_queue value = 1 }
+		if = {
+			limit = { check_variable = { which = fallen_empire_battlecruiser_queue value <= 0 } }
+			clear_variable = fallen_empire_battlecruiser_queue
+		}
 		event_target:fallen_empire_kuat = { add_opinion_modifier = { modifier = opinion_kuat_ship_built who = root } }
 	}
 }
@@ -742,6 +750,10 @@ country_event = {
 		country_event = { id = kuat_shipyard.232 days = 1 }
 		change_variable = { which = empire_fleet_queue value = 1 }
 		subtract_variable = { which = fallen_empire_titan_queue value = 1 }
+		if = {
+			limit = { check_variable = { which = fallen_empire_titan_queue value <= 0 } }
+			clear_variable = fallen_empire_titan_queue
+		}
 		event_target:fallen_empire_kuat = { add_opinion_modifier = { modifier = opinion_kuat_ship_built who = root } }
 	}
 }
@@ -971,6 +983,10 @@ country_event = {
 		country_event = { id = kuat_shipyard.243 days = 1 }
 		change_variable = { which = balletor_fleet_queue value = 1 }
 		subtract_variable = { which = balletor_class_queue value = 1 }
+		if = {
+			limit = { check_variable = { which = balletor_class_queue value <= 0 } }
+			clear_variable = balletor_class_queue
+		}
 		event_target:fallen_empire_kuat = { add_opinion_modifier = { modifier = opinion_kuat_ship_built who = root } }
 	}
 }
@@ -1127,6 +1143,10 @@ country_event = {
 			}
 		}
 		subtract_variable = { which = dominance_class_queue value = 1 }
+		if = {
+			limit = { check_variable = { which = dominance_class_queue value <= 0 } }
+			clear_variable = dominance_class_queue
+		}
 		event_target:fallen_empire_kuat = { add_opinion_modifier = { modifier = opinion_kuat_ship_built who = root } }
 	}
 }
@@ -1137,15 +1157,15 @@ country_event = {
 	title = kuat_shipyard.title
 	desc = {
 		trigger = {
-			check_variable = { which = eclipse_nub value > 0 }
+			check_variable = { which = eclipse_class_queue value > 0 }
 		}
 		text = kuat_shipyard.26.a.desc
 	}
 	desc = {
 		trigger = {
 			OR = {
-				NOT = { is_variable_set = eclipse_nub }
-				check_variable = { which = eclipse_nub value = 0 }
+				NOT = { is_variable_set = eclipse_class_queue }
+				check_variable = { which = eclipse_class_queue value = 0 }
 			}
 		}
 		text = kuat_shipyard.26.b.desc
@@ -1172,13 +1192,13 @@ country_event = {
 			}
 			NOR = {
 				any_owned_ship = { is_ship_size = eclipse }
-				check_variable = { which = eclipse_nub value > 0 }
+				check_variable = { which = eclipse_class_queue value > 0 }
 			}
 		}
 		custom_tooltip = kuat_shipyard.26.a.tooltip
 		hidden_effect = { get_variable_alloys_bought = yes }
 		hidden_effect = {
-			change_variable = { which = eclipse_nub value = 1 }
+			change_variable = { which = eclipse_class_queue value = 1 }
 			country_event = { id = kuat_shipyard.26 }
 			country_event = { id = kuat_shipyard.261 days = @kuat_eclipse_build_time }
 		}
@@ -1188,13 +1208,13 @@ country_event = {
 		allow = {
 			custom_tooltip = {
 				fail_text = kuat_shipyard.26.b.need_queue.tooltip
-				check_variable = { which = eclipse_nub value > 0 }
+				check_variable = { which = eclipse_class_queue value > 0 }
 			}
 		}
 		custom_tooltip = kuat_shipyard.26.b.tooltip
 		hidden_effect = { get_variable_alloys = yes }
 		hidden_effect = {
-			subtract_variable = { which = eclipse_nub value = 1 }
+			subtract_variable = { which = eclipse_class_queue value = 1 }
 			country_event = { id = kuat_shipyard.26 }
 		}
 	}
@@ -1216,7 +1236,7 @@ country_event = {
 	is_triggered_only = yes
 	trigger = {
 		can_communicate_with_kuat = yes
-		check_variable = { which = eclipse_nub value > 0 }
+		check_variable = { which = eclipse_class_queue value > 0 }
 	}
 	immediate = {
 		capital_scope = {
@@ -1243,7 +1263,11 @@ country_event = {
 				scope = root.capital_scope
 			}
 		}
-		subtract_variable = { which = eclipse_nub value = 1 }
+		subtract_variable = { which = eclipse_class_queue value = 1 }
+		if = {
+			limit = { check_variable = { which = eclipse_class_queue value <= 0 } }
+			clear_variable = eclipse_class_queue
+		}
 		event_target:fallen_empire_kuat = { add_opinion_modifier = { modifier = opinion_kuat_ship_built who = root } }
 	}
 }
@@ -1280,7 +1304,7 @@ country_event = {
 			check_variable = { which = fallen_empire_titan_queue value > 0 }
 			check_variable = { which = balletor_class_queue value > 0 }
 			check_variable = { which = dominance_class_queue value > 0 }
-			check_variable = { which = eclipse_nub value > 0 }
+			check_variable = { which = eclipse_class_queue value > 0 }
 		}
 	}
 	immediate = {
@@ -1289,7 +1313,7 @@ country_event = {
 		clear_variable = fallen_empire_titan_queue
 		clear_variable = balletor_class_queue
 		clear_variable = dominance_class_queue
-		clear_variable = eclipse_nub
+		clear_variable = eclipse_class_queue
 	}
 	option = { name = kuat_shipyard.3.a }
 } 

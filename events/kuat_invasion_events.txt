@@ -231,17 +231,6 @@ event = {
 			create_ship_design = { design = "NAME_EXE_Starbase" }
 			add_ship_design = last_created_design
 			add_modifier = { modifier = Elternal_creating }
-			if = {
-				limit = {
-					has_global_flag = wg_invasion_happened
-					has_global_flag = is_allied_ag_kuat
-				}
-				set_faction_hostility = {
-					target = event_target:wg_crisis_country
-					set_hostile = no
-					set_friendly = yes
-				}
-			}
 		}
 		if = {
 			limit = { NOT = { has_global_flag = will_pay_for_the_starbase } }
@@ -1219,7 +1208,7 @@ ship_event = {
 
 #Spawn starbase
 fleet_event = {
-	id = exe_invasion.34
+	id = exe_invasion.36
 	hide_window = yes
 	is_triggered_only = yes
 	trigger = {
@@ -1260,7 +1249,7 @@ fleet_event = {
 				} }
 			}
 		}
-		fleet_event = { id = exe_invasion.34 days = 1 }
+		fleet_event = { id = exe_invasion.36 days = 1 }
 	}
 }
 
@@ -1566,7 +1555,7 @@ country_event = {
 		fromfrom = {
 			if = {
 				limit = { NOT = { has_fleet_flag = fire_for_once } }
-				set_timed_fleet_flag = { flag = fire_for_once days = 2 }
+				set_timed_fleet_flag = { flag = fire_for_once days = 1 }
 				every_owned_ship = {
 					set_eternal_fleet_mult_modifier = { 
 						hull_regen_add_perc = ship_hull_regen_add_perc 
@@ -1576,14 +1565,24 @@ country_event = {
 						armor_mult = ship_armor_mult
 						shield_mult = ship_shield_mult
 						weapon_range_mult = ship_weapon_range_mult
+						weapon_damage_own = ship_weapon_damage
+						shield_penetration_own = ship_shield_penetration_mult
+						armor_penetration_own = ship_armor_penetration_mult
 					}
 				}
+				change_variable = { which = num_check_debug value = 1 }
+				if = {
+					limit = { check_variable = { which = num_check_debug value >= 3 } }
+					set_fleet_flag = fire_for_once
+					clear_variable = num_check_debug
+				}
+				root = { country_event = { id = exe_invasion.130 days = 1 } }
 			}	
 		}
 		fromfromfrom = { 
 			if = {
 				limit = { NOT = { has_fleet_flag = fire_for_once } }
-				set_timed_fleet_flag = { flag = fire_for_once days = 2 }
+				set_timed_fleet_flag = { flag = fire_for_once days = 1 }
 				every_owned_ship = {
 					if = {
 						limit = { 
@@ -1606,6 +1605,13 @@ country_event = {
 						}
 					}
 				}
+				change_variable = { which = num_check_debug value = 1 }
+				if = {
+					limit = { check_variable = { which = num_check_debug value >= 3 } }
+					set_fleet_flag = fire_for_once
+					clear_variable = num_check_debug
+				}
+				root = { country_event = { id = exe_invasion.130 days = 1 } }
 			} 
 		} 
 	}
@@ -1641,14 +1647,18 @@ country_event = {
 					shield_mult = ship_shield_mult
 					weapon_range_mult = ship_weapon_range_mult
 					shield_penetration = ship_shield_penetration_mult 
+					shield_penetration_own = ship_shield_penetration_mult
 					armor_penetration = ship_armor_penetration_mult
+					armor_penetration_own = ship_armor_penetration_mult
 					armor_damage = ship_armor_damage_mult
 					shield_damage = ship_shield_damage_mult
 					hull_damage = ship_hull_damage_mult
 					weapon_damage = ship_weapon_damage
+					weapon_damage_own = ship_weapon_damage
 					tracking = ship_tracking_mult
 				}
 			}
+			remove_fleet_flag = fire_for_once
 			remove_fleet_flag = has_combat_modifier
 		}
 		fromfromfrom = { 
@@ -1669,14 +1679,18 @@ country_event = {
 					shield_mult = ship_shield_mult
 					weapon_range_mult = ship_weapon_range_mult
 					shield_penetration = ship_shield_penetration_mult 
+					shield_penetration_own = ship_shield_penetration_mult
 					armor_penetration = ship_armor_penetration_mult
+					armor_penetration_own = ship_armor_penetration_mult
 					armor_damage = ship_armor_damage_mult
 					shield_damage = ship_shield_damage_mult
 					hull_damage = ship_hull_damage_mult
 					weapon_damage = ship_weapon_damage
+					weapon_damage_own = ship_weapon_damage
 					tracking = ship_tracking_mult
 				}
 			}
+			remove_fleet_flag = fire_for_once
 			remove_fleet_flag = has_combat_modifier
 		} 
 	}

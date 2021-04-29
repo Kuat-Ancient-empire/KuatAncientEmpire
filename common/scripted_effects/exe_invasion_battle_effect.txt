@@ -49,6 +49,7 @@ set_fromfromfrom_check_invsiable_time_flag = {
 
 # scope: fleet
 set_eternal_fleet_mult_modifier = {
+	#scope: fromfromfrom
 	[[shield_penetration] if = {
 		limit = { 
 			NOT = { check_modifier_value = { modifier = $shield_penetration$ value = -1 } }
@@ -165,6 +166,58 @@ set_eternal_fleet_mult_modifier = {
 				limit = { is_variable_set = $tracking$_value has_ship_flag = has_$tracking$ }
 				set_invasion_fleet_basic_modifier = { SUB = basic_$tracking$ FACTOR = $tracking$_value }
 				remove_ship_flag = has_$tracking$
+			}
+		}
+	}]
+	##scope: fromfrom
+	[[shield_penetration_own] if = {
+		limit = { 
+			NOT = { check_modifier_value = { modifier = $shield_penetration_own$ value < 1 } }
+			NOT = { is_variable_set = $shield_penetration_own$_value }
+		}
+		export_modifier_to_variable = { modifier = $shield_penetration_own$ variable = $shield_penetration_own$_value }
+		if = {
+			limit = { is_variable_set = $shield_penetration_own$_value }
+			subtract_variable = { which = $shield_penetration_own$_value value = 1 }
+			set_ship_flag = has_$shield_penetration_own$
+			if = {
+				limit = { is_variable_set = $shield_penetration_own$_value has_ship_flag = has_$shield_penetration_own$ }
+				set_invasion_fleet_basic_modifier = { SUB = basic_$shield_penetration_own$ FACTOR = $shield_penetration_own$_value }
+				remove_ship_flag = has_$shield_penetration_own$
+			}
+		}
+	}]
+	[[armor_penetration_own] if = {
+		limit = { 
+			NOT = { check_modifier_value = { modifier = $armor_penetration_own$ value < 1 } }
+			NOT = { is_variable_set = $armor_penetration_own$_value }
+		}
+		export_modifier_to_variable = { modifier = $armor_penetration_own$ variable = $armor_penetration_own$_value }
+		if = {
+			limit = { is_variable_set = $armor_penetration_own$_value }
+			subtract_variable = { which = $armor_penetration_own$_value value = 1 }
+			set_ship_flag = has_$armor_penetration_own$
+			if = {
+				limit = { is_variable_set = $armor_penetration_own$_value has_ship_flag = has_$armor_penetration_own$ }
+				set_invasion_fleet_basic_modifier = { SUB = basic_$armor_penetration_own$ FACTOR = $armor_penetration_own$_value }
+				remove_ship_flag = has_$armor_penetration_own$
+			}
+		}
+	}]
+	[[weapon_damage_own] if = {
+		limit = { 
+			check_modifier_value = { modifier = $weapon_damage_own$ value < 0 } 
+			NOT = { is_variable_set = $weapon_damage_own$_value }
+		}
+		export_modifier_to_variable = { modifier = $weapon_damage_own$ variable = $weapon_damage_own$_value }
+		if = {
+			limit = { is_variable_set = $weapon_damage_own$_value }
+			subtract_variable = { which = $weapon_damage_own$_value value = 1 }
+			set_ship_flag = has_$weapon_damage_own$
+			if = {
+				limit = { is_variable_set = $weapon_damage_own$_value has_ship_flag = has_$weapon_damage_own$ }
+				set_invasion_fleet_basic_modifier = { SUB = basic_$weapon_damage_own$ FACTOR = $weapon_damage_own$_value }
+				remove_ship_flag = has_$weapon_damage_own$
 			}
 		}
 	}]
@@ -304,6 +357,9 @@ remove_eternal_fleet_mult_variable = {
 	[[armor_mult] clear_variable = $armor_mult$_value ]
 	[[shield_mult] clear_variable = $shield_mult$_value ]
 	[[weapon_range_mult] clear_variable = $weapon_range_mult$_value ]
+	[[shield_penetration_own] clear_variable = $shield_penetration_own$_value ]
+	[[armor_penetration_own] clear_variable = $armor_penetration_own$_value ]
+	[[weapon_damage_own] clear_variable = $weapon_damage_own$_value ]
 }
 
 set_fleet_modifier = {
@@ -337,23 +393,6 @@ exe_invasion_country_trigger = {
 				random_list = {
 					1 = {
 						modifier = { factor = 0 root.from = { is_ai = yes } }
-						modifier = { add = 1 has_global_flag = special_exe_invasion }
-						exe_reset_invasion_leader = yes
-					}
-					1 = { }
-				}
-			}
-			else_if = {
-				limit = { 
-					owner = { 
-						OR = {
-							is_country_type = wg_crisis_country
-							is_country_type = afk_crisis_country
-						}
-					} 
-				}
-				random_list = {
-					1 = {
 						modifier = { add = 1 has_global_flag = special_exe_invasion }
 						exe_reset_invasion_leader = yes
 					}
