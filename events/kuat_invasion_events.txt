@@ -1310,18 +1310,6 @@ ship_event = {
 	option = { name = exe_invasion.1003.a }
 }
 
-#on ship battle and modifer diificult
-country_event = {
-	id = exe_invasion.114
-	hide_window = yes
-	is_triggered_only = yes
-	trigger = { ag_is_combat_ship_trigger_event_trigger = yes }
-	immediate = { 
-		save_event_target_as = receves_leader_country
-		fromfromfrom = { exe_invasion_country_trigger = yes } 
-	}
-}
-
 #flagship protection difficult
 country_event = {
 	id = exe_invasion.116
@@ -1515,21 +1503,21 @@ country_event = {
 	immediate = { FROMFROM = { remove_modifier = Eternal_submit  remove_fleet_flag = has_Eternal_submit } }
 }
 
-country_event = {
-	id = exe_invasion.129
-	hide_window = no
-	title = "exe_invasion.129.name"
-	desc = "exe_invasion.129.desc"
-	diplomatic = yes
-	picture_event_data = { room = exploding_ship_room }
-	custom_gui = "kuat_event_m_window"
-	custom_gui_option = "kuat_event_m_option"
-	show_sound = event_space_battle
-	is_triggered_only = yes
-	trigger = { NOT = { has_country_flag = fire_once_leader } }
-	immediate = { set_country_flag = fire_once_leader }
-	option = { name = "exe_invasion.129.a" }
-}
+# country_event = {
+# 	id = exe_invasion.129
+# 	hide_window = no
+# 	title = "exe_invasion.129.name"
+# 	desc = "exe_invasion.129.desc"
+# 	diplomatic = yes
+# 	picture_event_data = { room = exploding_ship_room }
+# 	custom_gui = "kuat_event_m_window"
+# 	custom_gui_option = "kuat_event_m_option"
+# 	show_sound = event_space_battle
+# 	is_triggered_only = yes
+# 	trigger = { NOT = { has_country_flag = fire_once_leader } }
+# 	immediate = { set_country_flag = fire_once_leader }
+# 	option = { name = "exe_invasion.129.a" }
+# }
 
 #debug check modifier in eternal fleet
 country_event = {
@@ -1538,24 +1526,13 @@ country_event = {
 	is_triggered_only = yes
 	trigger = {
 		has_global_flag = enable_modifer_check
-		OR = {
-			AND = {
-				fromfrom = { 
-					OR = {
-						has_fleet_flag = ag_kuat_invasion_fleet
-						has_fleet_flag = ag_kuat_invasion_starbase
-					} 
-				}
-				is_country_type = ag_kuat_invasion_country
-			}
-			is_kuat_fallen_empire = yes
-		}
+		ag_is_combat_ship_trigger_event_trigger = yes
 	}
 	immediate = { 
 		fromfrom = {
 			if = {
 				limit = { NOT = { has_fleet_flag = fire_for_once } }
-				set_timed_fleet_flag = { flag = fire_for_once days = 1 }
+				set_fleet_flag = fire_for_once
 				every_owned_ship = {
 					set_eternal_fleet_mult_modifier = { 
 						hull_regen_add_perc = ship_hull_regen_add_perc 
@@ -1570,19 +1547,12 @@ country_event = {
 						armor_penetration_own = ship_armor_penetration_mult
 					}
 				}
-				change_variable = { which = num_check_debug value = 1 }
-				if = {
-					limit = { check_variable = { which = num_check_debug value >= 3 } }
-					set_fleet_flag = fire_for_once
-					clear_variable = num_check_debug
-				}
-				root = { country_event = { id = exe_invasion.130 days = 1 } }
 			}	
 		}
 		fromfromfrom = { 
 			if = {
 				limit = { NOT = { has_fleet_flag = fire_for_once } }
-				set_timed_fleet_flag = { flag = fire_for_once days = 1 }
+				set_fleet_flag = fire_for_once
 				every_owned_ship = {
 					if = {
 						limit = { 
@@ -1605,15 +1575,8 @@ country_event = {
 						}
 					}
 				}
-				change_variable = { which = num_check_debug value = 1 }
-				if = {
-					limit = { check_variable = { which = num_check_debug value >= 3 } }
-					set_fleet_flag = fire_for_once
-					clear_variable = num_check_debug
-				}
-				root = { country_event = { id = exe_invasion.130 days = 1 } }
 			} 
-		} 
+		}
 	}
 }
 
