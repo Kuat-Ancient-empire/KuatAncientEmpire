@@ -1521,13 +1521,57 @@ country_event = {
 
 #debug check modifier in eternal fleet
 country_event = {
+	id = exe_invasion.129
+	hide_window = yes
+	is_triggered_only = yes
+	trigger = {
+		has_global_flag = enable_modifer_check
+		OR = {
+			is_country_type = ag_kuat_invasion_country
+			is_kuat_fallen_empire = yes
+		}
+	}
+	immediate = {
+		fire_on_action = {
+			on_action = on_eternal_fleet_entering_battle
+			scopes = {
+				from = event_target:eternal_target_country
+				fromfrom = event_target:eternal_country_fleet
+				fromfromfrom = event_target:eternal_target_fleet
+			}
+		}
+	}
+}
+
+country_event = {
 	id = exe_invasion.130
 	hide_window = yes
 	is_triggered_only = yes
 	trigger = {
 		has_global_flag = enable_modifer_check
-		ag_is_combat_ship_trigger_event_trigger = yes
+		OR = {
+			fromfrom = { 
+				OR = {
+					has_fleet_flag = ag_kuat_invasion_fleet
+					has_fleet_flag = ag_kuat_invasion_starbase
+				}  
+			} 
+			is_kuat_fallen_empire = yes
+		}
 	}
+	immediate = { 
+		from = { save_global_event_target_as = eternal_target_country }
+		fromfrom = { save_global_event_target_as = eternal_country_fleet }
+		fromfromfrom = { save_global_event_target_as = eternal_target_fleet }
+		country_event = { id = exe_invasion.129 days = 1 } 
+	}
+}
+
+country_event = {
+	id = exe_invasion.131
+	hide_window = yes
+	is_triggered_only = yes
+	trigger = { has_global_flag = enable_modifer_check }
 	immediate = { 
 		fromfrom = {
 			if = {
@@ -1581,7 +1625,7 @@ country_event = {
 }
 
 country_event = {
-	id = exe_invasion.131
+	id = exe_invasion.132
 	hide_window = yes
 	is_triggered_only = yes
 	trigger = { 
@@ -1592,6 +1636,9 @@ country_event = {
 		}
 	}
 	immediate = { 
+		clear_global_event_target = eternal_target_country
+		clear_global_event_target = eternal_country_fleet
+		clear_global_event_target = eternal_target_fleet
 		fromfrom = {
 			every_owned_ship = {
 				remove_modifier = basic_ship_hull_regen_add_perc
