@@ -180,26 +180,22 @@ country_event = {
 	trigger = {
 		is_at_war = no
 		fromfrom = { has_fleet_flag = defensive_galaxy_fleet }
-	}
-	immediate = {
-		if = {
-			limit = {
-				any_country = {
-					if = {
-						limit = { is_country_type = wg_crisis_country }
-						any_owned_ship = { NOT = { is_ship_size = wg_dimensional_portal } }
-					}
-					else_if = {
-						limit = { is_country_type = afk_crisis_country }
-						any_owned_ship = { NOT = { is_ship_size = swgs_afk_crisis_starbase } }
-					}
+		fromfromfrom = {
+			any_owned_ship = {
+				OR = {
+					is_ship_size = wg_dimensional_portal
+					is_ship_size = swgs_afk_crisis_starbase
 				}
 			}
-			event_target:fallen_empire_kuat = {
-				every_owned_fleet = {
-					limit = { has_fleet_flag = defensive_galaxy_fleet }
-					destroy_fleet = { target = this destroy_template = yes kill_leader = yes }
-				}
+		}
+	}
+	immediate = {
+		event_target:fallen_empire_kuat = {
+			every_owned_fleet = {
+				limit = { has_fleet_flag = defensive_galaxy_fleet }
+				clear_fleet_actions = this
+				clear_orders = yes
+				destroy_fleet = { target = this destroy_template = yes kill_leader = yes }
 			}
 		}
 	}

@@ -516,22 +516,6 @@ fleet_event = {
 			}
 			every_fleet_in_system = {
 				limit = { NOT = { owner = { is_country_type = ag_kuat_invasion_country } } }
-				fire_on_action = {
-					on_action = on_fleet_destroyed_perp
-					scopes = {
-						from = this.owner
-						fromfrom = event_target:ag_kuat_invasion_country.fleet
-						fromfromfrom = this
-					}
-				}
-				fire_on_action = {
-					on_action = on_fleet_destroyed_victim
-					scopes = {
-						from = event_target:ag_kuat_invasion_country
-						fromfrom = this
-						fromfromfrom = event_target:ag_kuat_invasion_country.fleet
-					}
-				}
 				destroy_fleet = { target = this destroy_template = yes kill_leader = yes }
 			}
 			random_ambient_object = {
@@ -595,22 +579,6 @@ country_event = {
 			set_star_class = sc_black_hole
 			every_fleet_in_system = {
 				limit = { NOT = { owner = { is_country_type = ag_kuat_invasion_country } } }
-				fire_on_action = {
-					on_action = on_fleet_destroyed_perp
-					scopes = {
-						from = this.owner
-						fromfrom = event_target:ag_kuat_invasion_country.fleet
-						fromfromfrom = this
-					}
-				}
-				fire_on_action = {
-					on_action = on_fleet_destroyed_victim
-					scopes = {
-						from = event_target:ag_kuat_invasion_country
-						fromfrom = this
-						fromfromfrom = event_target:ag_kuat_invasion_country.fleet
-					}
-				}
 				destroy_fleet = { target = this destroy_template = yes kill_leader = yes }
 			}
 			random_ambient_object = {
@@ -1533,9 +1501,9 @@ country_event = {
 		fire_on_action = {
 			on_action = on_eternal_fleet_entering_battle
 			scopes = {
-				from = event_target:eternal_target_country
-				fromfrom = event_target:eternal_country_fleet
-				fromfromfrom = event_target:eternal_target_fleet
+				from = root.fromfrom
+				fromfrom = root.fromfromfrom
+				fromfromfrom = root.fromfromfromfrom
 			}
 		}
 	}
@@ -1558,9 +1526,6 @@ country_event = {
 		}
 	}
 	immediate = { 
-		from = { save_global_event_target_as = eternal_target_country }
-		fromfrom = { save_global_event_target_as = eternal_country_fleet }
-		fromfromfrom = { save_global_event_target_as = eternal_target_fleet }
 		country_event = { id = exe_invasion.129 days = 1 } 
 	}
 }
@@ -1634,9 +1599,6 @@ country_event = {
 		}
 	}
 	immediate = { 
-		clear_global_event_target = eternal_target_country
-		clear_global_event_target = eternal_country_fleet
-		clear_global_event_target = eternal_target_fleet
 		fromfrom = {
 			every_owned_ship = {
 				remove_modifier = basic_ship_hull_regen_add_perc
