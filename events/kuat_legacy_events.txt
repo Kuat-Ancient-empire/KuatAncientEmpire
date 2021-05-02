@@ -973,9 +973,61 @@ fleet_event = {
 			owner = { set_country_flag = fire_the_legacy_kuat_stage_6 }
 			owner = { give_technology = { tech = tech_kuat_databank message = no } }
 			owner = { country_event = { id = kuat_legacy.57 days = 720 random = 180 } }
+			event_target:will_be_add_habitable_damaged = { 
+				change_pc = pc_ringworld_habitable 
+				add_deposit = d_str_kuat_spring
+			}
 		}
 		small_artifact_reward = yes
 	}
+}
+
+country_event = {
+	id = kuat_legacy.74
+	title = "kuat_lagacy.251.name"
+	desc = "kuat_lagacy.74.desc"
+	diplomatic = yes
+	fire_only_once = yes
+	picture_event_data = { room = contingency_planet_room }
+	custom_gui = "kuat_event_window"
+	custom_gui_option = "kuat_event_option"
+	trigger = {
+		is_ai = no
+		has_country_flag = fire_the_legacy_kuat_stage_6
+		event_target:will_be_add_ringworld = { num_assigned_jobs = { job = researcher value > 2 } }
+	}
+	mean_time_to_happen = { years = 5 }
+	immediate = {
+		enable_special_project = {
+			name = exe_return_kuat_protector
+			location = event_target:will_be_add_habitable_damaged
+		}
+	}
+	option = { name = "kuat_lagacy.252.a" }
+}
+
+ship_event = {
+	id = kuat_legacy.75
+	title = "kuat_lagacy.251.name"
+	desc = "kuat_lagacy.75.desc"
+	diplomatic = yes
+	fire_only_once = yes
+	picture_event_data = { room = analyzing_artifacts_room }
+	custom_gui = "kuat_event_window"
+	custom_gui_option = "kuat_event_option"
+	trigger = {
+		owner = {
+			is_ai = no
+			has_country_flag = fire_the_legacy_kuat_stage_6
+		}
+	}
+	immediate = {
+		owner = {
+			create_ship_design = { design = "Name_boss_Venator" }
+			add_ship_design = last_created_design
+		}
+	}
+	option = { name = "kuat_lagacy.75.a" }
 }
 
 #6号
