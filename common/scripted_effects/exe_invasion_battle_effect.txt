@@ -340,6 +340,58 @@ set_eternal_fleet_mult_modifier = {
 			}
 		}
 	}]
+	####BASICAL
+	[[weapon_type_energy] if = {
+		limit = { 
+			check_modifier_value = { modifier = $weapon_type_energy$ value < 0 } 
+			NOT = { is_variable_set = $weapon_type_energy$_value }
+		}
+		export_modifier_to_variable = { modifier = $weapon_type_energy$ variable = $weapon_type_energy$_value }
+		if = {
+			limit = { is_variable_set = $weapon_type_energy$_value }
+			subtract_variable = { which = $weapon_type_energy$_value value = 1 }
+			set_ship_flag = has_$weapon_type_energy$
+			if = {
+				limit = { is_variable_set = $weapon_type_energy$_value has_ship_flag = has_$weapon_type_energy$ }
+				set_invasion_fleet_basic_modifier = { SUB = basical_$weapon_type_energy$ FACTOR = $weapon_type_energy$_value }
+				remove_ship_flag = has_$weapon_type_energy$
+			}
+		}
+	}]
+	[[weapon_type_kinetic] if = {
+		limit = { 
+			check_modifier_value = { modifier = $weapon_type_kinetic$ value < 0 } 
+			NOT = { is_variable_set = $weapon_type_kinetic$_value }
+		}
+		export_modifier_to_variable = { modifier = $weapon_type_kinetic$ variable = $weapon_type_kinetic$_value }
+		if = {
+			limit = { is_variable_set = $weapon_type_kinetic$_value }
+			subtract_variable = { which = $weapon_type_kinetic$_value value = 1 }
+			set_ship_flag = has_$weapon_type_kinetic$
+			if = {
+				limit = { is_variable_set = $weapon_type_kinetic$_value has_ship_flag = has_$weapon_type_kinetic$ }
+				set_invasion_fleet_basic_modifier = { SUB = basical_$weapon_type_kinetic$ FACTOR = $weapon_type_kinetic$_value }
+				remove_ship_flag = has_$weapon_type_kinetic$
+			}
+		}
+	}]
+	[[weapon_type_explosive] if = {
+		limit = { 
+			check_modifier_value = { modifier = $weapon_type_explosive$ value < 0 } 
+			NOT = { is_variable_set = $weapon_type_explosive$_value }
+		}
+		export_modifier_to_variable = { modifier = $weapon_type_explosive$ variable = $weapon_type_explosive$_value }
+		if = {
+			limit = { is_variable_set = $weapon_type_explosive$_value }
+			subtract_variable = { which = $weapon_type_explosive$_value value = 1 }
+			set_ship_flag = has_$weapon_type_explosive$
+			if = {
+				limit = { is_variable_set = $weapon_type_explosive$_value has_ship_flag = has_$weapon_type_explosive$ }
+				set_invasion_fleet_basic_modifier = { SUB = basical_$weapon_type_explosive$ FACTOR = $weapon_type_explosive$_value }
+				remove_ship_flag = has_$weapon_type_explosive$
+			}
+		}
+	}]
 }
 
 remove_eternal_fleet_mult_variable = {
@@ -360,6 +412,9 @@ remove_eternal_fleet_mult_variable = {
 	[[shield_penetration_own] clear_variable = $shield_penetration_own$_value ]
 	[[armor_penetration_own] clear_variable = $armor_penetration_own$_value ]
 	[[weapon_damage_own] clear_variable = $weapon_damage_own$_value ]
+	[[weapon_type_energy] clear_variable = $weapon_type_energy$_value ]
+	[[weapon_type_explosive] clear_variable = $weapon_type_explosive$_value ]
+	[[weapon_type_kinetic] clear_variable = $weapon_type_kinetic$_value ]
 }
 
 set_fleet_modifier = {
