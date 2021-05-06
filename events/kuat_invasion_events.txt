@@ -1595,7 +1595,6 @@ country_event = {
 	hide_window = yes
 	is_triggered_only = yes
 	trigger = { 
-		has_global_flag = enable_modifer_check
 		OR = {
 			fromfromfrom = { has_fleet_flag = has_combat_modifier } 
 			fromfrom = { has_fleet_flag = has_combat_modifier } 
@@ -1692,6 +1691,35 @@ country_event = {
 			remove_fleet_flag = fire_for_once
 			remove_fleet_flag = has_combat_modifier
 		} 
+	}
+}
+
+country_event = {
+	id = exe_invasion.133
+	hide_window = yes
+	is_triggered_only = yes
+	trigger = {
+		is_kuat_fallen_empire = no
+		NOT = { is_country_type = ag_kuat_invasion_country }
+		OR = {
+			from = { is_kuat_fallen_empire = no }
+			from = { NOT = { is_country_type = ag_kuat_invasion_country } }
+		}
+		fromfrom = { any_owned_ship = { has_component = EXE_STARBASE_MEAGASTRUCTRUE_AUX_2 } }
+	}
+	immediate = {
+		fromfromfrom = { 
+			if = {
+				limit = { NOT = { has_fleet_flag = fire_for_once } }
+				set_fleet_flag = fire_for_once
+				every_owned_ship = {
+					set_eternal_fleet_mult_modifier = { 
+						shield_penetration = ship_shield_penetration_mult 
+						armor_penetration = ship_armor_penetration_mult
+					}
+				}
+			} 
+		}
 	}
 }
 
