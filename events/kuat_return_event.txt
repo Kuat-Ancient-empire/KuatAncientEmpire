@@ -393,9 +393,7 @@ event = {
 	immediate = {
 		set_global_flag = exe_kuat_return_6_fired
 		every_playable_country = {
-			limit = {
-				is_ai = no
-			}
+			limit = { is_ai = no }
 			country_event = { id = exe_kuat_return.11 days = 2 }
 		}
 	}
@@ -445,27 +443,31 @@ country_event = {
 	is_triggered_only = yes
 	trigger = { has_global_flag = ban_the_galaxy_guardiance_alliance }
 	immediate = {
-		every_country = {
-			limit = {
-				NOT = { has_country_flag = return_fallen_empire_kuat }
-				is_ai = yes
-				is_at_war = no
-				OR = {
-					is_country_type = default
-					is_country_type = fallen_empire
-					is_country_type = awakened_fallen_empire
-				}
-			}
-			join_alliance = {
-				who = root
-				override_requirements = yes
-				name = "Galactic Empire"
-			}
-			federation = {
-				set_federation_type = military_federation
-				add_federation_experience = 10000
-				set_federation_flag = galactic_alliance_for_kuat
-			}
+		join_alliance = {
+			who = root
+			name = "Galactic Empire"
+			override_requirements = yes
+		}
+		set_federation_leader = root
+		every_playable_country = {
+			limit = { has_federation = no is_ai = yes }
+			join_alliance = { who = root override_requirements = yes }
+		}
+		federation = {
+			add_cohesion = 200
+			add_federation_experience = 1000
+			set_federation_flag = galactic_alliance_for_kuat
+			set_federation_type = imperial_loyalists_federation
+			set_federation_law = centralization_imperial_loyalists
+			set_federation_law = succession_type_none
+			set_federation_law = succession_term_perpetual
+			set_federation_law = fleet_contribution_none
+			set_federation_law = treaties_separate_no_imperial_loyalists
+			set_federation_law = declare_war_president_vote_imperial_loyalists
+			set_federation_law = invite_members_president_vote_imperial_loyalists
+			set_federation_law = kick_members_president_vote_imperial_loyalists
+			set_federation_law = vote_weight_diplomatic_imperial_loyalists
+			set_federation_law = allow_subjects_to_join_yes_imperial_loyalists
 		}
 		event_target:player_declare_warer = { country_event = { id = exe_kuat_return.131 } }
 	}
@@ -516,50 +518,59 @@ country_event = {
 	fire_only_once = yes
 	hide_window = yes
 	is_triggered_only = yes
-	trigger = {
-		has_global_flag = build_the_galaxy_guardiance_alliance
-	}
+	trigger = { has_global_flag = build_the_galaxy_guardiance_alliance }
 	immediate = {
 		if = {
 			limit = { has_federation = yes }
-			every_country = {
-				limit = {
-					is_at_war = no
-					OR = {
-						is_country_type = default
-						is_country_type = fallen_empire
-						is_country_type = awakened_fallen_empire
-					}
-				}
-				join_alliance = {
-					who = root
-					override_requirements = yes
-				}
-				federation = {
-					add_federation_experience = 1000
-					set_federation_flag = galactic_alliance_for_kuat
-				}
+			set_federation_leader = root
+			every_playable_country = {
+				limit = { has_federation = no }
+				join_alliance = { who = root override_requirements = yes }
 			}
-		} else = {
-			every_country = {
-				limit = {
-					is_at_war = no
-					OR = {
-						is_country_type = default
-						is_country_type = fallen_empire
-						is_country_type = awakened_fallen_empire
-					}
-				}
-				join_alliance = {
-					who = root
-					override_requirements = yes
-					name = "Galactic Defense Federation"
-				}
-				federation = {
-					set_federation_type = military_federation
-					add_federation_experience = 10000
-					set_federation_flag = galactic_alliance_for_kuat
-				}
+			federation = {
+				set_name = "Name_DEFNECE"
+				add_cohesion = 200
+				add_federation_experience = 1000
+				set_federation_flag = galactic_alliance_for_kuat
+				set_federation_type = imperial_loyalists_federation
+				set_federation_law = centralization_imperial_loyalists
+				set_federation_law = succession_type_none
+				set_federation_law = succession_term_perpetual
+				set_federation_law = fleet_contribution_none
+				set_federation_law = treaties_separate_no_imperial_loyalists
+				set_federation_law = declare_war_president_vote_imperial_loyalists
+				set_federation_law = invite_members_president_vote_imperial_loyalists
+				set_federation_law = kick_members_president_vote_imperial_loyalists
+				set_federation_law = vote_weight_diplomatic_imperial_loyalists
+				set_federation_law = allow_subjects_to_join_yes_imperial_loyalists
+			}
+		} 
+		else = {
+			join_alliance = {
+				who = root
+				name = "Name_DEFNECE"
+				override_requirements = yes
+			}
+			set_federation_leader = root
+			every_playable_country = {
+				limit = { has_federation = no }
+				join_alliance = { who = root override_requirements = yes }
+			}
+			federation = {
+				add_cohesion = 200
+				add_federation_experience = 1000
+				set_federation_flag = galactic_alliance_for_kuat
+				set_federation_type = imperial_loyalists_federation
+				set_federation_law = centralization_imperial_loyalists
+				set_federation_law = succession_type_none
+				set_federation_law = succession_term_perpetual
+				set_federation_law = fleet_contribution_none
+				set_federation_law = treaties_separate_no_imperial_loyalists
+				set_federation_law = declare_war_president_vote_imperial_loyalists
+				set_federation_law = invite_members_president_vote_imperial_loyalists
+				set_federation_law = kick_members_president_vote_imperial_loyalists
+				set_federation_law = vote_weight_diplomatic_imperial_loyalists
+				set_federation_law = allow_subjects_to_join_yes_imperial_loyalists
 			}
 		}
 		country_event = { id = exe_kuat_return.13 }
@@ -681,6 +692,10 @@ country_event = {
 				country_event = { id = exe_kuat_return.16 }
 			}
 		}
+		if = {
+			limit = { has_federation = yes }
+			federation = { every_member = { leave_alliance = { override_requirements = yes } } }
+		}
 	}
 }
 
@@ -698,11 +713,21 @@ country_event = {
 	option = {
 		name = "exe_kuat_return.16.a"
 		win = yes
+		hidden_effect = {
+			if = {
+				limit = { has_federation = yes }
+				federation = { every_member = { leave_alliance = { override_requirements = yes } } }
+			}
+		}
 	}
 	option = {
 		name = "exe_kuat_return.16.b"
 		trigger = { has_global_flag = finish_five_stage_legacy_kuat }
 		hidden_effect = {
+			if = {
+				limit = { has_federation = yes }
+				federation = { every_member = { leave_alliance = { override_requirements = yes } } }
+			}
 			every_system = {
 				limit = { ag_is_kuat_system = yes }
 				every_system_planet = {
