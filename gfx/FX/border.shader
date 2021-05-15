@@ -2,7 +2,6 @@
 #Changes: Line 195  "float vEdgeWidth = 0.025f + 0.35f * vCamDistFactor * 1.6" statt "float vEdgeWidth = 0.025f + 0.35f * vCamDistFactor"
 #Changes: Line 207: "float4 vColor = vAlphaEdge *  PrimaryColor + ( 1 - vAlphaEdge ) * PrimaryColor" statt "float4 vColor = vAlphaEdge *  PrimaryColor + ( 1 - vAlphaEdge ) * SecondaryColor"
 #Changes: Line 235: "vColor.a *= 0" statt "vColor.a *= 0.2f"
-
 Includes = {
 	"constants.fxh"
 	"terra_incognita.fxh"
@@ -209,6 +208,10 @@ PixelShader =
 			//Add a black edge that becomes more visible the further away from the camera it is
 			vColor *= 1.0f - ( 0.25f * saturate( (vDist-vMid + vBlackBorderWidth)*vBlackBorderSharpness ) );
 			vColor[3] = saturate(vAlphaEdge + vAlphaFill) * vAlphaOuterEdge;
+
+			//Fade out based on Terra Incognita
+			float2 vTIUV = ( v.vPos.xy + GALAXY_SIZE * 0.5f ) / GALAXY_SIZE;
+			vColor.a *= tex2D( TerraIncognitaTexture, vTIUV ).a;
 			
 			return vColor;
 		}
