@@ -70,3 +70,58 @@ Building_The_Kuat_Command_Line = {
 	}
 	ai_weight = { weight = 0 }
 }
+
+Building_The_Kuat_Shield = {
+	owned_planets_only = yes
+	sound = event_air_raid_siren
+	icon = decision_planet_beam
+	enactment_time = 30
+	resources = {
+		category = decisions
+		cost = { energy = 100 }
+	}
+	potential = {
+		has_building = building_kuat_shield
+		NOT = { has_planet_flag = enable_kuat_shield }
+	}
+	effect = {
+		custom_tooltip = "building_kuat_shield_tooltip"
+		hidden_effect = {
+			create_ambient_object = {
+				type = kuat_planet_shield_effect_object
+				entity_scale_to_size = yes
+				use_3d_location = yes
+				entity_offset = { min = 0 max = 0 }
+				entity_offset_angle = { min = 0 max = 0 }
+				entity_offset_height = { min = 0 max = 0 }
+				scale = 1.4
+				location = this
+			}
+			set_planet_flag = enable_kuat_shield
+		}
+	}
+	ai_weight = { weight = 0 }
+}
+
+Destroy_The_Kuat_Shield = {
+	owned_planets_only = yes
+	sound = event_air_raid_siren
+	icon = decision_planet_beam
+	enactment_time = 30
+	resources = {
+		category = decisions
+		cost = { energy = 100 }
+	}
+	potential = {
+		has_building = building_kuat_shield
+		has_planet_flag = enable_kuat_shield
+	}
+	effect = {
+		custom_tooltip = "Destroy_The_Kuat_Shield_tooltip"
+		hidden_effect = {
+			destroy_ambient_object = kuat_planet_shield_effect_object
+			remove_planet = enable_kuat_shield
+		}
+	}
+	ai_weight = { weight = 0 }
+}
