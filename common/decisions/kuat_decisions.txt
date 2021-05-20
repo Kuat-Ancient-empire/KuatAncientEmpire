@@ -82,11 +82,14 @@ Building_The_Kuat_Shield = {
 	}
 	potential = {
 		has_building = building_kuat_shield
+		ag_is_ringworld = no
+		ag_is_habitat = no
 		NOT = { has_planet_flag = enable_kuat_shield }
+		NOT = { has_planet_flag = fallen_empire_world }
 	}
 	effect = {
 		custom_tooltip = "building_kuat_shield_tooltip"
-		hidden_effect = {
+		hidden_effect = { 
 			create_ambient_object = {
 				type = kuat_planet_shield_effect_object
 				entity_scale_to_size = yes
@@ -94,8 +97,11 @@ Building_The_Kuat_Shield = {
 				entity_offset = { min = 0 max = 0 }
 				entity_offset_angle = { min = 0 max = 0 }
 				entity_offset_height = { min = 0 max = 0 }
-				scale = 1.4
+				scale = 0.125
 				location = this
+				effect = { 
+					set_ambient_object_flag = kuat_planet_shield_effect_object_@root 
+				}
 			}
 			set_planet_flag = enable_kuat_shield
 		}
@@ -118,9 +124,14 @@ Destroy_The_Kuat_Shield = {
 	}
 	effect = {
 		custom_tooltip = "Destroy_The_Kuat_Shield_tooltip"
-		hidden_effect = {
-			destroy_ambient_object = kuat_planet_shield_effect_object
-			remove_planet = enable_kuat_shield
+		hidden_effect = { 
+			random_system_ambient_object = {
+				limit = {
+					has_ambient_object_flag = kuat_planet_shield_effect_object_@root
+				}
+				destroy_ambient_object = this
+			}
+			remove_planet_flag = enable_kuat_shield
 		}
 	}
 	ai_weight = { weight = 0 }
