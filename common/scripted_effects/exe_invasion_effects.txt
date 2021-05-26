@@ -1794,6 +1794,7 @@ create_capital_kuat_fleet = {
 		bombardment = indiscriminate
 		Executor = 1  Eclipse = 1  Dominance = 1  Balletor = 5  Imperial = 15  Harrower = 25
 		DIFF = 2
+		random_ship_flag = ship_ruins
 		fleet_stance = aggressive
 		Location = event_target:fallen_empire_kuat.capital_scope
 	}
@@ -2012,10 +2013,9 @@ create_exe_invasion_fleet = {
 			[[initial_invisable] fleet_event = { id = $initial_invisable$ }]
 			[[fleet_action] fleet_event = { id = $fleet_action$ }]
 			[[fleet_stance] set_fleet_stance = $fleet_stance$ ]
-			[[VAR_TARGET] $VAR_TARGET$ = { change_variable = { which = fleet_id value = 1 } }
-            set_variable = { which = fleet_id value = $VAR_TARGET$ }
-            set_variable = { which = kuat_fleet_id value = fleet_id }]
+			[[VAR_TARGET] $VAR_TARGET$ = { change_variable = { which = fleet_id value = 1 } } set_variable = { which = fleet_id value = $VAR_TARGET$ } set_variable = { which = kuat_fleet_id value = fleet_id }]
 			[[SAVE_TARGET] save_event_target_as = $SAVE_TARGET$ ]
+			[[random_ship_flag] random_owned_ship = { limit = { is_ship_size = eclipse } set_ship_flag = $random_ship_flag$ }]
 		}
 	}
 }
@@ -2065,90 +2065,24 @@ create_kuat_fleet_country_type = {
 }
 
 create_kuat_fleet_country_type_army = {
-	create_fleet = {
-		effect = {
-			set_owner = event_target:fallen_empire_kuat_fleet
-			random_list = {
-				5 = {
-					create_ship = {
-						name = "Executor Class Super Stardestroyer"
-						design = "Name_boss_EXECUTOR"
-						effect = { set_ship_flag = ship_ruins }
-					}
-				}
-				5 = {
-					create_ship = {
-						name = "Eclipse Class Super Stardestroyer"
-						design = "Name_boss_eclipse"
-						effect = { set_ship_flag = ship_ruins }
-					}
-				}
-				5 = {
-					create_ship = {
-						name = "Dominance Class Super Stardestroyer"
-						design = "Name_boss_Dominance"
-						effect = { set_ship_flag = ship_ruins }
-					}
-				}
-			}
-			while = {
-				count = 5
-				create_ship = {
-					name = "Balletor Class Stellar Dreadnought"
-					design = "Name_boss_BELLATOR"
-				}
-			}
-			while = {
-				count = 15
-				create_ship = {
-					name = "Empire-II Class Stardestroyer"
-					design = "Name_boss_EMPIRE"
-				}
-			}
-			while = {
-				count = 25
-				create_ship = {
-					name = "Harrower Class Stardestroyer"
-					design = "Name_boss_Horriwer"
-				}
-			}
-			set_location = prev
-			set_fleet_stance = aggressive
-			set_fleet_bombardment_stance = indiscriminate
-		}
-		settings = { spawn_debris = no can_disband = no is_boss = yes }
+	create_exe_invasion_fleet = {
+		Fleet_owner = event_target:fallen_empire_kuat_fleet
+		bombardment = indiscriminate
+		Executor = 1  Eclipse = 1  Dominance = 1  Balletor = 5  Imperial = 15  Harrower = 25
+		DIFF = 2
+		random_ship_flag = ship_ruins
+		fleet_stance = aggressive
+		Location = prev
 	}
 }
 
 create_kuat_fleet_country_type_defend_army = {
-	create_fleet = {
-		effect = {
-			set_owner = event_target:fallen_empire_kuat_fleet
-			while = {
-				count = 5
-				create_ship = {
-					name = "Balletor Class Stellar Dreadnought"
-					design = "Name_boss_BELLATOR"
-				}
-			}
-			while = {
-				count = 8
-				create_ship = {
-					name = "Empire-II Class Stardestroyer"
-					design = "Name_boss_EMPIRE"
-				}
-			}
-			while = {
-				count = 15
-				create_ship = {
-					name = "Harrower Class Stardestroyer"
-					design = "Name_boss_Horriwer"
-				}
-			}
-			set_location = prev
-			set_fleet_stance = aggressive
-			set_fleet_bombardment_stance = indiscriminate
-		}
-		settings = { spawn_debris = no can_disband = no is_boss = yes }
+	create_exe_invasion_fleet = {
+		Fleet_owner = event_target:fallen_empire_kuat_fleet
+		bombardment = indiscriminate
+		Balletor = 5  Imperial = 8  Harrower = 15
+		DIFF = 2
+		fleet_stance = aggressive
+		Location = prev
 	}
 }
