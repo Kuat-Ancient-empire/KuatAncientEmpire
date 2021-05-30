@@ -1,0 +1,152 @@
+# FIRST ORDER
+starkiller_base = {
+	name = starkiller_base_NAME
+	class = "sc_f"
+	max_instances = 1
+	usage = misc_system_init
+	flags = { starkiller_system }
+	#Asteroid Belts		
+	asteroid_belt = { type = rocky_asteroid_belt radius = 50 }
+	asteroid_belt = { type = rocky_asteroid_belt radius = 55 }
+	asteroid_belt = { type = rocky_asteroid_belt radius = 158 }
+	asteroid_belt = { type = crystal_asteroid_belt radius = 163 }
+	asteroid_belt = { type = rocky_asteroid_belt radius = 168 }
+	#Sun
+	planet = {
+		name = "Deep Space"
+		class = "pc_g_star"
+		orbit_distance = 0
+		orbit_angle = 1
+		size = 48
+		has_ring = no
+		init_effect = { save_global_event_target_as = sun_location }
+	}
+	planet = {
+		class = pc_arctic
+		orbit_distance = 60
+		orbit_angle = 2
+		has_ring = no
+		init_effect = {
+			prevent_anomaly = yes
+			set_planet_entity = {
+				entity = "nuked_planet_01_entity"
+				picture = pc_exegol
+			}
+			add_modifier = { modifier = "sith_fortress" }
+		}
+	}
+	#Starkiller Base
+	planet = {
+		name = "Ilum"
+		class = pc_arctic
+		orbit_distance = 26
+		orbit_angle = 88
+		starting_planet = yes
+		home_planet = yes
+		size = 35
+		has_ring = no
+		#Modifiers
+		init_effect = {
+			save_global_event_target_as = starkillerbase_location
+			set_planet_flag = buildingsoon
+			prevent_anomaly = yes
+			set_planet_entity = { entity = "pc_arctic" picture = pc_starkiller }
+			add_modifier = { modifier = "mobile_capital" }
+			add_modifier = { modifier = "mobile_training_facility" }
+			add_modifier = { modifier = "weapon_testing_labs" }
+			add_modifier = { modifier = "fostarkiller_base" }
+			add_modifier = { modifier = "thermal_oscillator" }
+			add_modifier = { modifier = "kyber_crystals" }
+			if = {
+				limit = { has_global_flag = has_wg_country }
+				create_species = {
+					name = "Kuat"
+					class = "Star_wars_girls"
+					portrait = "Starwars"
+					traits = random
+					immortal = yes
+					extra_trait_points = 3
+					pop_ethics = ethic_militarist
+					allow_negative_traits = no
+					effect = { save_event_target_as = event_species }
+				}
+			} else = {
+				create_species = {
+					name = "Kuat"
+					class = HUM
+					portrait = human
+					traits = random
+					immortal = yes
+					extra_trait_points = 3
+					pop_ethics = ethic_militarist
+					allow_negative_traits = no
+					effect = { save_event_target_as = event_species }
+				}
+			}
+			create_country = {
+				name = "Name_Kuat_Fire_base"
+				type = kuat_fire_base
+				species = event_target:event_species
+				flag = {
+					icon = {
+						category = "Kuat"
+						file = "flag_swsit_1.dds"
+					}
+					background = {
+						category = "backgrounds"
+						file = "00_solid.dds"
+					}
+					colors = { "red" "red" "null" "null" }
+				}
+				effect = {
+					set_graphical_culture = fallen_empire_kuat_01
+					save_global_event_target_as = kuat_firebase_country
+					establish_communications_no_message = event_target:fallen_empire_kuat
+					create_ship_design = { design = "NAME_KUAT_Starbase" }
+					add_ship_design = last_created_design
+				}
+			}
+			prevent_anomaly = yes
+			set_planet_flag = protection_megastructure_planet
+			set_owner = event_target:kuat_firebase_country
+			add_building = building_kuat_command_center
+			add_building = building_kuat_databank
+			add_building = building_kuat_shield
+			add_building = building_kuat_foundry
+			add_building = building_kuat_resource_center
+			while = { count = 11 create_pop = { species = event_target:event_species } }
+			while = { count = 20 add_district = district_city }
+			while = {
+				count = 120
+				create_army = {
+					owner = event_target:kuat_firebase_country
+					type = defense_army
+					species = event_target:event_species
+				}
+			}
+			create_kuat_fire_base_country_type_defend_army = yes
+		}
+	}
+	init_effect = {
+		save_global_event_target_as = sun_target_system
+		create_starbase = {
+			size = "starbase_citadel"
+			owner = event_target:kuat_firebase_country
+			module = "shipyard"
+			module = "gun_battery"
+			module = "gun_battery"
+			module = "gun_battery"
+			module = "gun_battery"
+			module = "gun_battery"
+			building = "target_uplink_computer"
+			building = "defense_grid"
+			building = "colossus_yards"
+			building = "titan_yards"
+		}
+		spawn_megastructure = {
+			type = "swfo_starkillerbase_1"
+			coords_from = event_target:starkillerbase_location
+			owner = event_target:kuat_firebase_country
+		}
+	}
+}

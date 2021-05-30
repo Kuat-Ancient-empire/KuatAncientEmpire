@@ -2070,7 +2070,6 @@ create_kuat_fleet_country_type_army = {
 		bombardment = indiscriminate
 		Executor = 1  Eclipse = 1  Dominance = 1  Balletor = 5  Imperial = 15  Harrower = 25
 		DIFF = 2
-		random_ship_flag = ship_ruins
 		fleet_stance = aggressive
 		Location = prev
 	}
@@ -2084,5 +2083,57 @@ create_kuat_fleet_country_type_defend_army = {
 		DIFF = 2
 		fleet_stance = aggressive
 		Location = prev
+	}
+}
+
+create_kuat_fire_base_country_type_defend_army = {
+	create_exe_invasion_fleet = {
+		Fleet_owner = event_target:kuat_firebase_country
+		bombardment = indiscriminate
+		Executor = 1  Eclipse = 1  Dominance = 1  Balletor = 5  Imperial = 15  Harrower = 25
+		DIFF = 2
+		fleet_stance = aggressive
+		Location = prev
+	}
+}
+
+#starkiller effect
+starkiller_destroyed_system_everything = {
+	every_system_megastructure = {
+		limit = {
+			NOT = { is_megastructure_type = starkiller_planet_target_marker_2 }
+		}
+		remove_megastructure = this
+	}
+	every_fleet_in_system = {
+		limit = { 
+			owner = { 
+				NOR = { 
+					is_same_value = root 
+					is_country_type = ag_kuat_invasion_country
+					is_kuat_fallen_empire = yes
+					is_country_type = kuat_fleet
+					is_country_type = kuat_fire_base
+					is_country_type = kuat_fire_base_hositle
+				} 
+			} 
+		}
+		fire_on_action = {
+			on_action = on_fleet_destroyed_victim
+			scopes = {
+				from = root
+				fromfrom = prev
+				fromfromfrom = root.fleet
+			}
+		}
+		fire_on_action = {
+			on_action = on_fleet_destroyed_perp
+			scopes = {
+				from = prev.owner
+				fromfrom = root.fleet
+				fromfromfrom = prev
+			}
+		}
+		destroy_fleet = { target = this destroy_template = yes kill_leader = yes }
 	}
 }

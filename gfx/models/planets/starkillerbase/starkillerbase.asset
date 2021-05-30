@@ -1,0 +1,147 @@
+#Megastructure
+entity = {
+	name = "starkillerbase_megastructure_entity"
+	cull_radius = 500.0
+	locator = { name = "starkillerbase_rotation" position = { 0 0 0 } rotation = { -50 0 0 }}
+	attach = { "starkillerbase_rotation" = "starkillerbase_megastructure_TEMPORARY_entity" }
+	game_data = { emissive_recolor_crunch = 0 }
+}
+
+entity = {
+	name = "starkillerbase_megastructure_TEMPORARY_entity"
+	locator = { name = "root"	position = { 0 0 0 } rotation = { 0 0 0 } }
+	attach = { root = "starkillerbase_entity" }
+	attach = { root = "starkillerbase2_entity" }
+	
+	default_state = "idle"
+	state = { name = "idle" animation = "idle" time_offset = { 0 100 }
+		start_event = { trigger_once = yes sound = { soundeffect = "amb_planet_class" } }
+		start_event = { trigger_once = yes sound = { soundeffect = "amb_planet_class_02" } }
+	}
+	game_data = { emissive_recolor_crunch = 0 }
+	scale = 2.0
+}
+
+###################################################
+entity = {
+	name = "starkillerbase_entity"
+	pdxmesh = "starkillerbase_mesh"
+	game_data = { emissive_recolor_crunch = 0 }
+}
+
+entity = {
+	name = "starkillerbase2_entity"
+	pdxmesh = "starkillerbase2_mesh"
+	game_data = { emissive_recolor_crunch = 0 }
+}
+
+###############################################megastructure fire entity######################################################################
+
+#Starkiller Laser Beam
+entity = { 
+	name = "starkillerbase_beamlaser_entity" #lazer beam effect entity	
+	default_state = "idle"
+	state = { 
+		name = "idle" state_time = 1
+		event = { time = 0.0 node = "polar_effect_1" particle = "starbasekiller_SW_effect"  keep_particle = no trigger_once = yes  sound = { soundeffect = "pulsar_star_idle_hum" } }
+	}
+	scale = 5
+	game_data = {
+		uv_animation_speed   = -0.1
+		uv_animation_direction  = { 0.4 0.4 }
+		bloom_factor = 0.5
+	}	
+}
+#Starkiller fires beamlaser with wormhole
+entity = { 
+	name = "starkillerbase_firing_entity" #laser beam from starkillerbase to wormhole effect
+
+	locator = { name = "megastructure_locator_1" position = { 0 0 0 } rotation = { 8 0 0 }}
+	locator = { name = "root_wormhole" position = { -317 0 347 } rotation = { 0 -90 -34 }}
+	locator = { name = "root_ring" position = { -322 0 352 } rotation = { 0 -90 -34 }}
+	locator = { name = "lazer_1" position = { 0 0 0 } rotation = { 138 0 0 }}
+	attach = { "megastructure_locator_1" = "starkillerbase_megastructure_entity"}	#Starkiller Base
+	attach = { "root_ring" = "starkiller_ring_world_second_back_ration_entity"}	#Wormhole
+	attach = { "root_wormhole" = "starbasekiller_portal_entity"}	#Wormhole
+	attach = { "lazer_1" = "starkillerbase_beamlaser_entity"}	#laser
+}
+
+
+#Portal near Starkiller Base
+entity = {
+	name = "starbasekiller_portal_entity" #hole entity
+	pdxmesh = "portal_mesh"
+	
+	locator = { name = "part1" 	position = { 0 0 0 } }
+	
+	default_state = idle
+	state = { name = "idle"		animation = "idle"		animation_blend_time = 0.3
+		start_event = { trigger_once = yes sound = { soundeffect = "ex_dimensional_portal_idle" } }
+	
+		event = { time = 0 node = "root2" particle = "portal_inner_effect_particle" keep_particle = yes trigger_once = yes }
+		event = { time = 0 node = "clock_12_locator" particle = "portal_effect_particle" keep_particle = yes trigger_once = yes sound = { soundeffect = "ex_dimensional_portal_thunder" } }
+		event = { time = 0 node = "clock_3_locator" particle = "portal_effect_particle" keep_particle = yes trigger_once = yes sound = { soundeffect = "ex_dimensional_portal_thunder" } }
+		event = { time = 0 node = "clock_6_locator" particle = "portal_effect_particle" keep_particle = yes trigger_once = yes sound = { soundeffect = "ex_dimensional_portal_thunder" } }
+		event = { time = 0 node = "clock_9_locator" particle = "portal_effect_particle" keep_particle = yes trigger_once = yes sound = { soundeffect = "ex_dimensional_portal_thunder" } }
+	}
+	scale = 7
+}
+
+#Marget fundation
+entity = {
+	name = "starkiller_market_entity"
+	locator = { name = "wormhole_a" position = { 0 340 0 } rotation = { 0 0 0 }}
+	attach = { "wormhole_a" = "starkiller_ring_world_second_back_ration_entity" }
+}
+
+#Attack Portal
+entity = {
+	name = "starkillerbase_target_portal_entity" 
+	locator = { name = "wormhole_b" position = { 0 350 0 } rotation = { 0 0 0 }}
+	locator = { name = "wormhole_a" position = { 0 340 0 } rotation = { 0 0 0 }}
+	attach = { "wormhole_a" = "starkiller_ring_world_second_back_ration_entity" }
+	attach = { "wormhole_b" = "starbasekiller_portal_entity" }
+}
+#Attack Portal with Beam
+entity = {
+	name = "starkillerbsae_target_portal_beam_entity" 
+	locator = { name = "wormhole_b" position = { 0 350 0 } rotation = { 0 0 0 }}
+	locator = { name = "wormhole_a" position = { 0 340 0 } rotation = { 0 0 0 }}
+	locator = { name = "firing_locator_1" position = { 0 350 0 } rotation = { 0 -90 0 }}
+	attach = { "wormhole_a" = "starkiller_ring_world_second_back_ration_entity" }
+	attach = { "wormhole_b" = "starbasekiller_portal_entity" }
+	attach = { "firing_locator_1" = "starkillerbase_beamlaser_entity" }
+}
+
+#Actual Starkiller sun drain
+entity = {
+	name = "starkiller_sun_drain_entity"
+	locator = { name = "sun_drain01" position = { 0 0 100 } rotation = { 90 -90 0 }}
+	attach = { "sun_drain01" = "starkiller_sun_drain"}
+}
+
+#TARGET MARGET
+entity = {
+	name = "starkiller_ring_world_second_back_ration_entity"
+	pdxmesh = "ring_world_ration_back_mesh"
+	scale = 0.0625
+	default_state = idle
+	attach = { root = fallen_empire_kuat_01_ringworld_tech_entity_01_full_entity }
+	state = { name = "idle" animation = "idle" animation_blend_time = 2  animation_speed = 0.35 }
+}
+
+
+#Starkiller sun drain TEMP 
+entity = {
+	name = "starkiller_sun_drain"
+	default_state = "idle"
+	state = { name = "idle" state_time = 1
+		event = { time = 0.0 node = "polar_effect_1" particle = "starkiller_sun_drain_particle"  keep_particle = no trigger_once = yes  sound = { soundeffect = "pulsar_star_idle_hum" } }
+	}
+	scale = 5
+	game_data = {
+		uv_animation_speed   = -0.1
+		uv_animation_direction  = { 0.4 0.4 }
+		bloom_factor = 0.5
+	}
+}
