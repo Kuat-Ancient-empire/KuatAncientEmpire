@@ -2105,6 +2105,7 @@ starkiller_destroyed_system_everything = {
 		}
 		remove_megastructure = this
 	}
+	root = { random_owned_fleet = { save_event_target_as = foa_target_fleet } }
 	every_fleet_in_system = {
 		limit = { 
 			owner = { 
@@ -2118,20 +2119,24 @@ starkiller_destroyed_system_everything = {
 				} 
 			} 
 		}
-		fire_on_action = {
-			on_action = on_fleet_destroyed_victim
-			scopes = {
-				from = root
-				fromfrom = prev
-				fromfromfrom = root.fleet
+		root = {
+			fire_on_action = {
+				on_action = on_fleet_destroyed_perp
+				scopes = {
+					from = prevprev.owner
+					fromfrom = event_target:foa_target_fleet
+					fromfromfrom = prevprev
+				}
 			}
 		}
-		fire_on_action = {
-			on_action = on_fleet_destroyed_perp
-			scopes = {
-				from = prev.owner
-				fromfrom = root.fleet
-				fromfromfrom = prev
+		owner = {
+			fire_on_action = {
+				on_action = on_fleet_destroyed_victim
+				scopes = {
+					from = root
+					fromfrom = prevprev
+					fromfromfrom = event_target:foa_target_fleet
+				}
 			}
 		}
 		destroy_fleet = { target = this destroy_template = yes kill_leader = yes }
