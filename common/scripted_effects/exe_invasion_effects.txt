@@ -1960,10 +1960,11 @@ create_elternal_system_warbase = {
 				effect = {
 					save_event_target_as = kuat_station_elternal
 					set_owner = event_target:ag_kuat_invasion_country
-					create_ship = { design = "NAME_EXE_STARBASE_MEGASTRUCTURE_1" effect = { set_disable_at_health = 0.10 set_ship_flag = enable_disable_ship } }
+					create_ship = { design = "NAME_EXE_STARBASE_MEGASTRUCTURE_1" effect = { set_disable_at_health = 0.01 set_ship_flag = enable_disable_ship } }
 					set_location = { target = prev distance = -1 angle = 0 }
-					fleet_event = { id = exe_invasion.125 days = $DAYS$ }
+					[[DAYS] fleet_event = { id = exe_invasion.125 days = $DAYS$ }]
 					set_fleet_flag = ag_kuat_invasion_starbase
+					[[lock] set_event_locked = $lock$ ]
 					add_modifier = { modifier = ship_firing_starbase_debuff_own days = $DAYS$ }
 				}
 			}
@@ -1974,10 +1975,11 @@ create_elternal_system_warbase = {
 				effect = {
 					save_event_target_as = kuat_station_elternal
 					set_owner = event_target:ag_kuat_invasion_country
-					create_ship = { design = "NAME_EXE_STARBASE_MEGASTRUCTURE" effect = { set_disable_at_health = 0.10 set_ship_flag = enable_disable_ship } }
+					create_ship = { design = "NAME_EXE_STARBASE_MEGASTRUCTURE" effect = { set_disable_at_health = 0.01 set_ship_flag = enable_disable_ship } }
 					set_location = { target = prev distance = -1 angle = 0 }
-					fleet_event = { id = exe_invasion.125 days = $DAYS$ }
+					[[DAYS] fleet_event = { id = exe_invasion.125 days = $DAYS$ }]
 					set_fleet_flag = ag_kuat_invasion_starbase
+					[[lock] set_event_locked = $lock$ ]
 					add_modifier = { modifier = ship_firing_starbase_debuff_own days = $DAYS$ }
 				}
 			}
@@ -1989,6 +1991,53 @@ create_elternal_system_warbase = {
 		last_created_ambient_object = {
 			set_ambient_object_flag = space_storm_object
 			set_location = { target = prev distance = 0 angle = random }
+		}
+	}
+}
+
+create_eternal_defensive_fleet = {
+	while = {
+		count = 2
+		create_exe_invasion_fleet = {
+			NAME = Name_Eternal
+			flag = ag_kuat_defenced_fleet
+			Fleet_owner = event_target:ag_kuat_invasion_country
+			bombardment = exe_invasion_bombardment
+			Executor = 1  Eclipse = 1  Dominance = 2  Balletor = 5  Imperial = 10  Harrower = 15
+			DIFF = 0
+			spawn_starbase = exe_return_invasion.36
+			Location = prev.star
+		}
+	}
+}
+
+create_exe_retrun_invasion_fleet_detail = {
+	random_list = {
+		5 = {
+			create_exe_invasion_fleet = {
+				NAME = Name_Eternal
+				flag = ag_kuat_invasion_fleet
+				Fleet_owner = event_target:ag_kuat_invasion_country
+				bombardment = exe_invasion_bombardment
+				Executor = 2  Dominance = 3  Balletor = 8  Imperial = 10  Harrower = 20
+				DIFF = 0
+				spawn_starbase = exe_return_invasion.36
+				Location = prev
+				initial_invisable = exe_invasion.1987
+			}
+		}
+		5 = { 
+			create_exe_invasion_fleet = {
+				NAME = Name_Eternal
+				flag = ag_kuat_invasion_fleet
+				Fleet_owner = event_target:ag_kuat_invasion_country
+				bombardment = exe_invasion_bombardment
+				Executor = 1  Eclipse = 1  Dominance = 2  Balletor = 5  Imperial = 10  Harrower = 15
+				DIFF = 0
+				spawn_starbase = exe_return_invasion.36
+				Location = prev
+				initial_invisable = exe_invasion.1987
+			}
 		}
 	}
 }
