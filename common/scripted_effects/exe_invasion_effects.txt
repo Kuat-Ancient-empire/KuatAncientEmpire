@@ -2046,7 +2046,7 @@ create_exe_retrun_invasion_fleet_detail = {
 create_exe_invasion_fleet = {
 	create_fleet = {
 		[[NAME] name = $NAME$ ]
-		settings = { spawn_debris = no can_disband = no is_boss = yes }
+		settings = { spawn_debris = no can_disband = no is_boss = yes can_upgrade = no }
 		effect = {
 			[[flag] set_fleet_flag = $flag$ ]
 			[[Fleet_owner] set_owner = $Fleet_owner$ ]
@@ -2065,6 +2065,7 @@ create_exe_invasion_fleet = {
 			[[VAR_TARGET] $VAR_TARGET$ = { change_variable = { which = fleet_id value = 1 } } set_variable = { which = fleet_id value = $VAR_TARGET$ } set_variable = { which = kuat_fleet_id value = fleet_id }]
 			[[SAVE_TARGET] save_event_target_as = $SAVE_TARGET$ ]
 			[[random_ship_flag] random_owned_ship = { limit = { is_ship_size = eclipse } set_ship_flag = $random_ship_flag$ }]
+			[[modifier] add_modifier = { modifier = $modifier$ }]
 		}
 	}
 }
@@ -2221,4 +2222,53 @@ foa_effect_the_crisis_ship = {
 			}
 		}
 	}
+}
+
+reset_return_eternal_fleet = {
+	remove_global_flag = can_win_the_fleet
+	remove_global_flag = ban_eternal_return
+	remove_global_flag = exe_return_invasion_seed
+	remove_global_flag = exe_return_invasion_3_fired
+	remove_global_flag = exe_return_invasion_5_fired
+	remove_global_flag = exe_return_invasion_7_fired
+	remove_global_flag = exe_return_invasion_begin
+	remove_global_flag = exe_return_invasion_ended
+	remove_global_flag = enbale_last_invasion
+	remove_global_flag = begin_eternal_return
+	remove_global_flag = ban_exe_invasion
+	remove_global_flag = can_win_the_fleet_stage_1
+	remove_country_flag = fire_first_find
+	remove_country_flag = second_first_find
+	remove_country_flag = third_first_find
+	clear_variable = num_vaild_system
+	every_system = {
+		limit = {
+			OR = {
+				has_star_flag = final_1_system
+				has_star_flag = final_2_system
+				has_star_flag = final_3_system
+			}
+		}
+		remove_star_flag = final_1_system
+		remove_star_flag = final_2_system
+		remove_star_flag = final_3_system
+	}
+	remove_country_flag = exe_return_invasion_2_fired
+	if = {
+		limit = {
+			OR = {
+				has_global_flag = ban_exe_invasion
+				has_global_flag = normal_exe_invasion
+				has_global_flag = easy_exe_invasion
+				has_global_flag = difficult_exe_invasion
+			}
+		}
+		remove_global_flag = ban_exe_invasion
+		remove_global_flag = normal_exe_invasion
+		remove_global_flag = easy_exe_invasion
+		remove_global_flag = difficult_exe_invasion
+	}
+	set_global_flag = difficult_exe_invasion
+	set_global_flag = enbale_last_invasion
+	set_global_flag = begin_eternal_return
 }

@@ -5,7 +5,6 @@ event = {
 	hide_window = yes
 	is_triggered_only = yes
 	trigger = {
-		NOT = { any_country = { has_origin = origin_kuat_apocalyptic } }
 		has_global_flag = enbale_last_invasion
 		has_global_flag = begin_eternal_return
 		NOR = {
@@ -16,6 +15,13 @@ event = {
 		}
 	}
 	immediate = {
+		if = {
+			limit = { any_country = {
+				has_origin = origin_kuat_apocalyptic
+			} }
+			remove_global_flag = disable_modifer_check
+			set_global_flag = enable_modifer_check
+		}
 		event_target:global_event_country = {
 			set_variable = { which = count_destroy_eternal_fleet value = 0 }
 		}
@@ -50,7 +56,6 @@ event = {
 	hide_window = yes
 	is_triggered_only = yes
 	trigger = {
-		NOT = { any_country = { has_origin = origin_kuat_apocalyptic } }
 		has_global_flag = exe_return_invasion_seed
 		NOT = { has_global_flag = exe_invasion_signs_cooldown }
 		NOT = { has_global_flag = exe_return_invasion_3_fired }
@@ -92,7 +97,6 @@ event = {
 	hide_window = yes
 	is_triggered_only = yes
 	trigger = {
-		NOT = { any_country = { has_origin = origin_kuat_apocalyptic } }
 		has_global_flag = exe_return_invasion_3_fired
 		NOT = { has_global_flag = exe_invasion_signs_cooldown }
 		NOT = { has_global_flag = exe_return_invasion_5_fired }
@@ -127,7 +131,6 @@ event = {
 	hide_window = yes
 	is_triggered_only = yes
 	trigger = {
-		NOT = { any_country = { has_origin = origin_kuat_apocalyptic } }
 		has_global_flag = exe_return_invasion_5_fired
 		NOT = { has_global_flag = exe_invasion_signs_cooldown }
 		NOT = { has_global_flag = exe_return_invasion_7_fired }
@@ -177,7 +180,6 @@ event = {
 	hide_window = yes
 	is_triggered_only = yes
 	trigger = {
-		NOT = { any_country = { has_origin = origin_kuat_apocalyptic } }
 		has_global_flag = exe_return_invasion_7_fired
 		NOT = { has_global_flag = exe_invasion_signs_cooldown }
 		NOT = { has_global_flag = exe_return_invasion_begin }
@@ -221,11 +223,121 @@ event = {
 				create_eternal_defensive_fleet = yes
 				create_elternal_system_warbase = { lock = yes }
 				system_star = {
-					planet_event = { id = exe_return_invasion.11 days = 1 }
-					planet_event = { id = exe_return_invasion.11 days = 5 }
-					planet_event = { id = exe_return_invasion.11 days = 15 }
-					planet_event = { id = exe_return_invasion.11 days = 25 }
-					planet_event = { id = exe_return_invasion.11 days = 50 }
+					if = {
+						limit = { any_country = { is_ai = no has_origin = origin_kuat_apocalyptic } }
+						if = {
+							limit = { event_target:global_event_country = {
+								check_variable = { which = eternal_fleet_return_index value = 1 }
+							} }
+							planet_event = { id = exe_return_invasion.11 days = 1 }
+						}
+						else_if = {
+							limit = { event_target:global_event_country = {
+								check_variable = { which = eternal_fleet_return_index value = 2 }
+							} }
+							planet_event = { id = exe_return_invasion.11 days = 1 }
+							planet_event = { id = exe_return_invasion.11 days = 5 }
+						}
+						else_if = {
+							limit = { event_target:global_event_country = {
+								check_variable = { which = eternal_fleet_return_index value = 3 }
+							} }
+							planet_event = { id = exe_return_invasion.11 days = 1 }
+							planet_event = { id = exe_return_invasion.11 days = 5 }
+							planet_event = { id = exe_return_invasion.11 days = 10 }
+						}
+						else_if = {
+							limit = { event_target:global_event_country = {
+								check_variable = { which = eternal_fleet_return_index value = 4 }
+							} }
+							planet_event = { id = exe_return_invasion.11 days = 1 }
+							planet_event = { id = exe_return_invasion.11 days = 5 }
+							planet_event = { id = exe_return_invasion.11 days = 10 }
+							planet_event = { id = exe_return_invasion.11 days = 15 }
+						}
+						else_if = {
+							limit = { event_target:global_event_country = {
+								check_variable = { which = eternal_fleet_return_index value = 5 }
+							} }
+							planet_event = { id = exe_return_invasion.11 days = 1 }
+							planet_event = { id = exe_return_invasion.11 days = 5 }
+							planet_event = { id = exe_return_invasion.11 days = 10 }
+							planet_event = { id = exe_return_invasion.11 days = 15 }
+							planet_event = { id = exe_return_invasion.11 days = 25 }
+						}
+						else_if = {
+							limit = { event_target:global_event_country = {
+								check_variable = { which = eternal_fleet_return_index value = 6 }
+							} }
+							planet_event = { id = exe_return_invasion.11 days = 1 }
+							planet_event = { id = exe_return_invasion.11 days = 5 }
+							planet_event = { id = exe_return_invasion.11 days = 10 }
+							planet_event = { id = exe_return_invasion.11 days = 15 }
+							planet_event = { id = exe_return_invasion.11 days = 25 }
+							planet_event = { id = exe_return_invasion.11 days = 50 }
+						}
+						else_if = {
+							limit = { event_target:global_event_country = {
+								check_variable = { which = eternal_fleet_return_index value = 7 }
+							} }
+							planet_event = { id = exe_return_invasion.11 days = 1 }
+							planet_event = { id = exe_return_invasion.11 days = 5 }
+							planet_event = { id = exe_return_invasion.11 days = 10 }
+							planet_event = { id = exe_return_invasion.11 days = 15 }
+							planet_event = { id = exe_return_invasion.11 days = 20 }
+							planet_event = { id = exe_return_invasion.11 days = 25 }
+							planet_event = { id = exe_return_invasion.11 days = 50 }
+						}
+						else_if = {
+							limit = { event_target:global_event_country = {
+								check_variable = { which = eternal_fleet_return_index value = 8 }
+							} }
+							planet_event = { id = exe_return_invasion.11 days = 1 }
+							planet_event = { id = exe_return_invasion.11 days = 5 }
+							planet_event = { id = exe_return_invasion.11 days = 10 }
+							planet_event = { id = exe_return_invasion.11 days = 15 }
+							planet_event = { id = exe_return_invasion.11 days = 20 }
+							planet_event = { id = exe_return_invasion.11 days = 25 }
+							planet_event = { id = exe_return_invasion.11 days = 30 }
+							planet_event = { id = exe_return_invasion.11 days = 50 }
+						}
+						else_if = {
+							limit = { event_target:global_event_country = {
+								check_variable = { which = eternal_fleet_return_index value = 9 }
+							} }
+							planet_event = { id = exe_return_invasion.11 days = 1 }
+							planet_event = { id = exe_return_invasion.11 days = 5 }
+							planet_event = { id = exe_return_invasion.11 days = 10 }
+							planet_event = { id = exe_return_invasion.11 days = 15 }
+							planet_event = { id = exe_return_invasion.11 days = 20 }
+							planet_event = { id = exe_return_invasion.11 days = 25 }
+							planet_event = { id = exe_return_invasion.11 days = 30 }
+							planet_event = { id = exe_return_invasion.11 days = 35 }
+							planet_event = { id = exe_return_invasion.11 days = 50 }
+						}
+						else_if = {
+							limit = { event_target:global_event_country = {
+								check_variable = { which = eternal_fleet_return_index value >= 10 }
+							} }
+							planet_event = { id = exe_return_invasion.11 days = 1 }
+							planet_event = { id = exe_return_invasion.11 days = 5 }
+							planet_event = { id = exe_return_invasion.11 days = 10 }
+							planet_event = { id = exe_return_invasion.11 days = 15 }
+							planet_event = { id = exe_return_invasion.11 days = 20 }
+							planet_event = { id = exe_return_invasion.11 days = 25 }
+							planet_event = { id = exe_return_invasion.11 days = 30 }
+							planet_event = { id = exe_return_invasion.11 days = 35 }
+							planet_event = { id = exe_return_invasion.11 days = 40 }
+							planet_event = { id = exe_return_invasion.11 days = 50 }
+						}
+					}
+					else = {
+						planet_event = { id = exe_return_invasion.11 days = 1 }
+						planet_event = { id = exe_return_invasion.11 days = 5 }
+						planet_event = { id = exe_return_invasion.11 days = 15 }
+						planet_event = { id = exe_return_invasion.11 days = 25 }
+						planet_event = { id = exe_return_invasion.11 days = 50 }
+					}
 				}
 				event_target:ag_kuat_invasion_country = {
 					country_event = { id = exe_return_invasion.19 days = 75 }
@@ -730,14 +842,149 @@ planet_event = {
 		}
 		event_target:ag_kuat_invasion_country = {
 			if = {
-				limit = { 
-					check_variable = { which = ag_kuat_invasion_fleet_arrived value = 20 }
+				limit = { any_country = { is_ai = no has_origin = origin_kuat_apocalyptic } }
+				if = {
+					limit = { 
+						event_target:global_event_country = {
+							check_variable = { which = eternal_fleet_return_index value = 1 }
+						}
+						check_variable = { which = ag_kuat_invasion_fleet_arrived value = 4 }
+					}
+					every_owned_fleet = {
+						limit = { has_fleet_flag = ag_kuat_invasion_fleet }
+						fleet_event = { id = exe_return_invasion.12 days = 1 random = 2 }
+					}
+					set_global_flag = can_win_the_fleet_stage_1
 				}
-				every_owned_fleet = {
-					limit = { has_fleet_flag = ag_kuat_invasion_fleet }
-					fleet_event = { id = exe_return_invasion.12 days = 1 random = 2 }
+				else_if = {
+					limit = { 
+						event_target:global_event_country = {
+							check_variable = { which = eternal_fleet_return_index value = 2 }
+						}
+						check_variable = { which = ag_kuat_invasion_fleet_arrived value = 8 }
+					}
+					every_owned_fleet = {
+						limit = { has_fleet_flag = ag_kuat_invasion_fleet }
+						fleet_event = { id = exe_return_invasion.12 days = 1 random = 2 }
+					}
+					set_global_flag = can_win_the_fleet_stage_1
 				}
-				set_global_flag = can_win_the_fleet_stage_1
+				else_if = {
+					limit = { 
+						event_target:global_event_country = {
+							check_variable = { which = eternal_fleet_return_index value = 3 }
+						}
+						check_variable = { which = ag_kuat_invasion_fleet_arrived value = 12 }
+					}
+					every_owned_fleet = {
+						limit = { has_fleet_flag = ag_kuat_invasion_fleet }
+						fleet_event = { id = exe_return_invasion.12 days = 1 random = 2 }
+					}
+					set_global_flag = can_win_the_fleet_stage_1
+				}
+				else_if = {
+					limit = { 
+						event_target:global_event_country = {
+							check_variable = { which = eternal_fleet_return_index value = 4 }
+						}
+						check_variable = { which = ag_kuat_invasion_fleet_arrived value = 16 }
+					}
+					every_owned_fleet = {
+						limit = { has_fleet_flag = ag_kuat_invasion_fleet }
+						fleet_event = { id = exe_return_invasion.12 days = 1 random = 2 }
+					}
+					set_global_flag = can_win_the_fleet_stage_1
+				}
+				else_if = {
+					limit = { 
+						event_target:global_event_country = {
+							check_variable = { which = eternal_fleet_return_index value = 5 }
+						}
+						check_variable = { which = ag_kuat_invasion_fleet_arrived value = 20 }
+					}
+					every_owned_fleet = {
+						limit = { has_fleet_flag = ag_kuat_invasion_fleet }
+						fleet_event = { id = exe_return_invasion.12 days = 1 random = 2 }
+					}
+					set_global_flag = can_win_the_fleet_stage_1
+				}
+				else_if = {
+					limit = { 
+						event_target:global_event_country = {
+							check_variable = { which = eternal_fleet_return_index value = 6 }
+						}
+						check_variable = { which = ag_kuat_invasion_fleet_arrived value = 24 }
+					}
+					every_owned_fleet = {
+						limit = { has_fleet_flag = ag_kuat_invasion_fleet }
+						fleet_event = { id = exe_return_invasion.12 days = 1 random = 2 }
+					}
+					set_global_flag = can_win_the_fleet_stage_1
+				}
+				else_if = {
+					limit = { 
+						event_target:global_event_country = {
+							check_variable = { which = eternal_fleet_return_index value = 7 }
+						}
+						check_variable = { which = ag_kuat_invasion_fleet_arrived value = 28 }
+					}
+					every_owned_fleet = {
+						limit = { has_fleet_flag = ag_kuat_invasion_fleet }
+						fleet_event = { id = exe_return_invasion.12 days = 1 random = 2 }
+					}
+					set_global_flag = can_win_the_fleet_stage_1
+				}
+				else_if = {
+					limit = { 
+						event_target:global_event_country = {
+							check_variable = { which = eternal_fleet_return_index value = 8 }
+						}
+						check_variable = { which = ag_kuat_invasion_fleet_arrived value = 32 }
+					}
+					every_owned_fleet = {
+						limit = { has_fleet_flag = ag_kuat_invasion_fleet }
+						fleet_event = { id = exe_return_invasion.12 days = 1 random = 2 }
+					}
+					set_global_flag = can_win_the_fleet_stage_1
+				}
+				else_if = {
+					limit = { 
+						event_target:global_event_country = {
+							check_variable = { which = eternal_fleet_return_index value = 9 }
+						}
+						check_variable = { which = ag_kuat_invasion_fleet_arrived value = 36 }
+					}
+					every_owned_fleet = {
+						limit = { has_fleet_flag = ag_kuat_invasion_fleet }
+						fleet_event = { id = exe_return_invasion.12 days = 1 random = 2 }
+					}
+					set_global_flag = can_win_the_fleet_stage_1
+				}
+				else_if = {
+					limit = { 
+						event_target:global_event_country = {
+							check_variable = { which = eternal_fleet_return_index value >= 10 }
+						}
+						check_variable = { which = ag_kuat_invasion_fleet_arrived value = 40 }
+					}
+					every_owned_fleet = {
+						limit = { has_fleet_flag = ag_kuat_invasion_fleet }
+						fleet_event = { id = exe_return_invasion.12 days = 1 random = 2 }
+					}
+					set_global_flag = can_win_the_fleet_stage_1
+				}
+			}
+			else = {
+				if = {
+					limit = { 
+						check_variable = { which = ag_kuat_invasion_fleet_arrived value = 20 }
+					}
+					every_owned_fleet = {
+						limit = { has_fleet_flag = ag_kuat_invasion_fleet }
+						fleet_event = { id = exe_return_invasion.12 days = 1 random = 2 }
+					}
+					set_global_flag = can_win_the_fleet_stage_1
+				}
 			} 
 		}
 	}
@@ -1216,14 +1463,30 @@ country_event = {
 	option = { 
 		name = "exe_return_invasion.35.b" 
 		hidden_effect = {
-			set_country_flag = can_be_kuat_building
-			set_global_flag = give_all_tech_flag
+			if = {
+				limit = { is_ai = no }
+				set_country_flag = can_be_kuat_building
+				set_global_flag = give_all_tech_flag
+			}
+			if = {
+				limit = { 
+					is_ai = no
+					has_origin = origin_kuat_apocalyptic 
+				}
+				event_target:global_event_country = {
+					change_variable = { which = eternal_fleet_return_index value = 1 }
+				}
+				reset_return_eternal_fleet = yes
+			}
 		}
 		end_event_chain = ag_exe_invasion_chain
-		add_research_option = tech_kuat_ground_yards
-		add_research_option = tech_kuat_megastructrue
-		add_research_option = tech_kuat_resource_center
-		add_research_option = tech_kuat_command_center
+		if = {
+			limit = { is_ai = no }
+			add_research_option = tech_kuat_ground_yards
+			add_research_option = tech_kuat_megastructrue
+			add_research_option = tech_kuat_resource_center
+			add_research_option = tech_kuat_command_center
+		}
 	}
 }
 

@@ -4,25 +4,373 @@ country_event = {
 	hide_window = yes
 	is_triggered_only = yes
 	trigger = { has_origin = origin_kuat_apocalyptic }
-	immediate = { set_global_flag = enable_origin_kuat_apocalyptic }
+	immediate = { 
+		set_global_flag = difficult_exe_invasion
+		set_global_flag = enable_modifer_check
+		set_global_flag = enable_origin_kuat_apocalyptic 
+	}
 }
 
+#Triggered on game start, for common start.
 country_event = {
 	id = kuat_origin.1
 	hide_window = yes
 	is_triggered_only = yes
+	
 	trigger = { has_origin = origin_kuat_apocalyptic }
+	
 	immediate = {
+		event_target:Kuat_system_int = {
+			random_system_planet = {
+				limit = { has_planet_flag = center_world }
+				save_event_target_as = new_home_planet
+			}
+		}
+		set_country_flag = can_have_starbase_country
+		set_country_flag = can_be_kuat_building
+		set_global_flag = give_all_tech_flag
+		set_global_flag = final_stage
+		set_global_flag = can_have_tecn
+		give_technology = { tech = tech_kuat_ground_yards message = no }
+		give_technology = { tech = tech_kuat_megastructrue message = no }
+		give_technology = { tech = tech_kuat_resource_center message = no }
+		give_technology = { tech = tech_kuat_command_center message = no }
+		give_technology = { tech = tech_kuat_founfry message = no }
+		give_technology = { tech = tech_kuat_databank message = no }
+		give_technology = { tech = tech_kuat_shield message = no }
+		give_technology = { tech = tech_kuat_reactor message = no }
+		give_technology = { tech = tech_kuat_THRUSTER message = no }
+		give_technology = { tech = tech_exe_jump_drive message = no }
+		give_technology = { tech = tech_kuat_noway message = no }
+		give_technology = { tech = tech_eternal_fleet message = no }
+		give_technology = { tech = tech_kuat_starbase message = no }
+		give_technology = { tech = tech_kuat_megastructrue message = no }
+		create_ship_design = { design = "Name_boss_Venator" }
+		add_ship_design = last_created_design
+		create_ship_design = { design = "Name_boss_BELLATOR" }
+		add_ship_design = last_created_design
+		create_ship_design = { design = "Name_boss_Horriwer" }
+		add_ship_design = last_created_design
+		create_ship_design = { design = "Name_boss_EMPIRE" }
+		add_ship_design = last_created_design
+		create_ship_design = { design = "Name_boss_EXECUTOR" }
+		add_ship_design = last_created_design
+		create_ship_design = { design = "Name_boss_Dominance" }
+		add_ship_design = last_created_design
+		create_ship_design = { design = "Name_boss_eclipse" }
+		add_ship_design = last_created_design
+		random_country = {
+			limit = { is_country_type = fallen_empire }
+			root = { copy_techs_from = { target = prev } }
+		}
+		set_country_flag = kuat_starting_country
+		random_owned_planet = {
+			save_event_target_as = previous_home_planet
+			solar_system = { save_event_target_as = previous_home_system }
+		}
+		event_target:previous_home_planet = {
+			solar_system = {
+				remove_star_flag = empire_home_system
+				remove_star_flag = ring_world_built
+				set_star_flag = empire_cluster
+			}
+		}
+		add_modifier = { modifier = being_kuat days = -1 }
+		event_target:Kuat_system_int = {
+			create_starbase = {
+				size = "starbase_starport"
+				module = "shipyard"
+				module = "trading_hub"
+				building = "crew_quarters"
+				owner = root
+			}
+		}
+		event_target:Kuat_system_int_1 = {
+			create_starbase = {
+				size = "starbase_starport"
+				module = "shipyard"
+				module = "trading_hub"
+				building = "crew_quarters"
+				owner = root
+			}
+		}
+		event_target:Kuat_system_int_2 = {
+			create_starbase = {
+				size = "starbase_starport"
+				module = "shipyard"
+				module = "trading_hub"
+				building = "crew_quarters"
+				owner = root
+			}
+		}
+		event_target:Kuat_system_int_3 = {
+			create_starbase = {
+				size = "starbase_starport"
+				module = "shipyard"
+				module = "trading_hub"
+				building = "crew_quarters"
+				owner = root
+			}
+		}
+		event_target:Kuat_system_int_4 = {
+			create_starbase = {
+				size = "starbase_starport"
+				module = "shipyard"
+				module = "trading_hub"
+				building = "crew_quarters"
+				owner = root
+			}
+		}
+		event_target:previous_home_planet = {
+			every_owned_pop = {
+				resettle_pop = {
+					pop = this
+					planet = event_target:new_home_planet
+				}
+				unemploy_pop = yes
+			}
+		}
+		event_target:Kuat_system_int = {
+			random_system_planet = {
+				limit = {
+					is_star = yes
+				}
+				save_event_target_as = new_home_system_loc
+			}
+			random_system_planet = {
+				limit = {
+					has_planet_flag = center_world
+				}
+				set_planet_flag = ring_center_kuat_world
+				set_owner = root
+				set_controller = root
+				set_capital = yes
+				solar_system = { generate_home_system_resources = yes }
+				generate_start_deposits_and_blockers = yes
+				generate_start_buildings_and_districts = yes
+				root = {
+					random_owned_leader = {
+						limit = {
+							leader_class = governor
+						}
+						unassign_leader = yes
+						save_event_target_as = target_governor
+					}
+				}
+				sector = { assign_leader = event_target:target_governor }
+				remove_all_buildings = yes
+				add_building = building_kuat_command_center
+				add_building = building_kuat_databank
+				add_building = building_kuat_shield
+				add_building = building_kuat_foundry
+				add_building = building_kuat_ground_yards
+				add_building = building_kuat_resource_center
+				add_building = building_kuat_resource_center
+				add_building = building_kuat_resource_center
+				add_building = building_kuat_resource_center
+				add_building = building_kuat_resource_center
+				add_building = building_kuat_resource_center
+				add_building = building_kuat_resource_center
+				add_building = building_kuat_resource_center
+				add_building = building_kuat_resource_center
+				add_building = building_kuat_resource_center
+				add_building = building_kuat_resource_center
+				while = { count = 122 create_pop = { species = owner_main_species } }
+				while = { count = 70 add_district = district_city }
+			}
+		}
+		event_target:previous_home_planet = {
+			solar_system = {
+				every_fleet_in_system = {
+					if = {
+						limit = { exists = leader }
+						leader = { unassign_leader = this }
+					}
+					delete_fleet = this
+				}
+				set_name = random
+				random_system_planet = {
+					limit = { is_star = yes }
+					set_name = solar_system
+				}
+			}
+			remove_planet = yes
+		}
+		every_owned_pop_species = { set_species_homeworld = event_target:new_home_planet }
+		create_fleet = {
+			effect = {
+				set_owner = root
+				create_ship = {
+					name = random
+					random_existing_design = science
+				}
+				set_fleet_stance = evasive
+				set_location = root.capital_scope.star
+				owner = {
+					random_owned_leader = {
+						limit = {
+							leader_class = scientist
+							NOR = {
+								is_researching_area = physics
+								is_researching_area = society
+								is_researching_area = engineering
+							}
+						}
+						save_event_target_as = ag_science_ship_leader
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:ag_science_ship_leader
+					}
+					set_leader = event_target:ag_science_ship_leader
+				}
+			}
+		}
+		set_name = Name_kuat
+		change_country_flag = {
+			icon = {
+				category = "Kuat"
+				file = "Kuat_flags_01.dds"
+			}
+			background = {
+				category = "backgrounds"
+				file = "00_solid.dds"
+			}
+			colors = { "blue" "blue" "null" "null" }
+		}
+		create_fleet = {
+			effect = {
+				set_owner = root
+				create_ship = {
+					name = random
+					random_existing_design = constructor
+				}
+				set_fleet_stance = evasive
+				set_location = root.capital_star
+			}
+		}
+		every_system_within_border = {
+			limit = { has_star_flag = kuat_initial_system }
+			create_exe_invasion_fleet = {
+				NAME = Name_DFLEET
+				Fleet_owner = root
+				bombardment = indiscriminate
+				Dominance = 1  Balletor = 2  Imperial = 8  Harrower = 15
+				DIFF = 2
+				Location = prev.star
+				fleet_stance = aggressive
+				modifier = being_kuat_fleet	
+			}
+		}
 		every_planet_within_border = {
-			limit = { has_planet_flag = ring_habitat_kuat_world }
-			set_name = "Name_kuat_system_1"
-			add_deposit = d_str_kuat_spring
-			while = { count = 3 remove_district = district_city }
-			while = { count = 3 remove_district = district_generator }
-			while = { count = 3 remove_district = district_mining }
-			while = { count = 3 remove_district = district_farming }
-			while = { count = 1 remove_district = district_rw_city }
-			while = { count = 1 remove_district = district_rw_science }
+			limit = {
+				has_planet_flag = center_world
+				NOT = { has_planet_flag = ring_center_kuat_world }
+			}
+			set_owner = root
+			set_controller = root
+			sector = { assign_leader = event_target:target_governor }
+			remove_all_buildings = yes
+			add_building = building_kuat_command_center
+			add_building = building_kuat_databank
+			add_building = building_kuat_shield
+			add_building = building_kuat_foundry
+			add_building = building_kuat_ground_yards
+			add_building = building_kuat_resource_center
+			add_building = building_kuat_resource_center
+			add_building = building_kuat_resource_center
+			add_building = building_kuat_resource_center
+			add_building = building_kuat_resource_center
+			add_building = building_kuat_resource_center
+			add_building = building_kuat_resource_center
+			add_building = building_kuat_resource_center
+			add_building = building_kuat_resource_center
+			add_building = building_kuat_resource_center
+			add_building = building_kuat_resource_center
+			while = { count = 122 create_pop = { species = owner_main_species } }
+			while = { count = 70 add_district = district_city }
+		}
+		country_event = { id = kuat_origin.7 days = 1 }
+	}
+}
+
+country_event = {
+	id = kuat_origin.7
+	hide_window = yes
+	is_triggered_only = yes
+	
+	immediate = {
+		if = {
+			limit = {
+				exists = event_target:previous_home_planet
+				event_target:previous_home_planet = {
+					num_pops > 0
+				}
+			}
+			random_galaxy_planet = {
+				limit = { has_planet_flag = ring_center_kuat_world }
+				save_event_target_as = new_home_planet
+				set_owner = root
+				set_controller = root
+				set_capital = yes
+			}
+			event_target:previous_home_planet = {
+				every_owned_pop = {
+					resettle_pop = {
+						pop = this
+						planet = event_target:new_home_planet
+					}
+				}
+				remove_planet = yes
+			}
+		}
+		capital_scope = { every_owned_pop = { unemploy_pop = yes } }
+		every_planet_within_border = {
+			limit = {
+				has_deposit_for = shipclass_mining_station
+				has_planet_flag = starting_mining_target
+				has_mining_station = no
+			}
+			create_mining_station = { owner = root }
+		}
+		every_planet_within_border = {
+			limit = {
+				has_deposit_for = shipclass_research_station
+				has_planet_flag = starting_research_target
+				has_research_station = no
+			}
+			create_research_station = { owner = root }
+		}
+		every_system = {
+			limit = {
+				has_star_flag = kuat_initial_system
+			}
+			#To prevent advanced AI control cluster systems if there are too many AI.
+			if = {
+				limit = {
+					exists = space_owner
+					space_owner = {
+						NOT = { has_country_flag = kuat_starting_country }
+					}
+				}
+				every_fleet_in_system = { delete_fleet = this }
+				every_system_planet = {
+					limit = { is_colony = yes }
+					every_owned_pop = { kill_pop = yes }
+					remove_all_buildings = yes
+					remove_all_districts = yes
+					destroy_colony = yes
+				}
+			}
+			#Remove hyperlane created by other mods.
+			every_system = {
+				limit = {
+					has_hyperlane_to = prev
+					NOT = { has_star_flag = kuat_initial_system }
+				}
+				remove_hyperlane = { from = this to = prev }
+			}
 		}
 	}
 }
