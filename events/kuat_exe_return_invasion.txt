@@ -21,6 +21,7 @@ event = {
 			} }
 			remove_global_flag = disable_modifer_check
 			set_global_flag = enable_modifer_check
+			set_global_flag = difficult_exe_invasion
 		}
 		event_target:global_event_country = {
 			set_variable = { which = count_destroy_eternal_fleet value = 0 }
@@ -227,7 +228,7 @@ event = {
 						limit = { any_country = { is_ai = no has_origin = origin_kuat_apocalyptic } }
 						if = {
 							limit = { event_target:global_event_country = {
-								check_variable = { which = eternal_fleet_return_index value = 1 }
+								check_variable = { which = eternal_fleet_return_index value <= 1 }
 							} }
 							planet_event = { id = exe_return_invasion.11 days = 1 }
 						}
@@ -805,7 +806,7 @@ planet_event = {
 				if = {
 					limit = { 
 						event_target:global_event_country = {
-							check_variable = { which = eternal_fleet_return_index value = 1 }
+							check_variable = { which = eternal_fleet_return_index value <= 1 }
 						}
 						check_variable = { which = ag_kuat_invasion_fleet_arrived value = 4 }
 					}
@@ -967,7 +968,7 @@ country_event = {
 					limit = { any_country = { is_ai = no has_origin = origin_kuat_apocalyptic } }
 					if = {
 						limit = { event_target:global_event_country = {
-							check_variable = { which = eternal_fleet_return_index value = 1 }
+							check_variable = { which = eternal_fleet_return_index value <= 1 }
 						} }
 						count_owned_fleet = { limit = { has_fleet_flag = ag_kuat_invasion_fleet } count < 4 }
 					}
