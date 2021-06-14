@@ -388,19 +388,9 @@ country_event = {
 	fire_only_once = yes
 	trigger = {
 		has_global_flag = exe_return_invasion_begin
-		event_target:global_event_country = {
-			check_variable = { which = count_destroy_eternal_fleet value > 10 }
-		}
+		retrun_first_station_check = yes
 	}
-	mean_time_to_happen = { 
-		years = 2
-		modifier = {
-			factor = 0.5
-			event_target:global_event_country = {
-				check_variable = { which = count_destroy_eternal_fleet value > 20 }
-			}
-		}
-	}
+	mean_time_to_happen = { years = 1 }
 	option = {
 		name = "exe_return_invasion.20.a"
 		hidden_effect = { add_modifier = { modifier = final_eternal_fleet days = -1 } }
@@ -417,31 +407,18 @@ country_event = {
 	custom_gui = "kuat_event_window"
 	custom_gui_option = "kuat_event_option"
 	show_sound = event_red_alert
-	fire_only_once = yes
 	location = root.capital_scope
 	trigger = {
 		has_global_flag = exe_return_invasion_begin
 		is_ai = no
-		event_target:global_event_country = {
-			check_variable = { which = count_destroy_eternal_fleet value > 20 }
-		}
-		NOT = { has_country_flag = fire_first_find }
+		retrun_first_station_check = yes
+		if = {
+			limit = { has_origin = origin_kuat_apocalyptic }
+			NOT = { has_country_flag = fire_first_find }
+		} 
+		else = { NOT = { any_country = { has_country_flag = fire_first_find } } }
 	}
-	mean_time_to_happen = { 
-		years = 6 
-		modifier = {
-			factor = 0.5
-			event_target:global_event_country = {
-				check_variable = { which = count_destroy_eternal_fleet value > 30 }
-			}
-		}
-		modifier = {
-			factor = 0.25
-			event_target:global_event_country = {
-				check_variable = { which = count_destroy_eternal_fleet value > 40 }
-			}
-		}
-	}
+	mean_time_to_happen = { years = 1 }
 	immediate = { 
 		set_country_flag = fire_first_find 
 		begin_event_chain = { event_chain = ag_find_invasion_chain }
@@ -470,27 +447,11 @@ country_event = {
 	trigger = {
 		has_global_flag = exe_return_invasion_begin
 		is_ai = no
-		event_target:global_event_country = {
-			check_variable = { which = count_destroy_eternal_fleet value > 40 }
-		}
+		retrun_second_station_check = yes
 		has_country_flag = fire_first_find
 		NOT = { has_country_flag = second_first_find }
 	}
-	mean_time_to_happen = { 
-		years = 6 
-		modifier = {
-			factor = 0.5
-			event_target:global_event_country = {
-				check_variable = { which = count_destroy_eternal_fleet value > 50 }
-			}
-		}
-		modifier = {
-			factor = 0.25
-			event_target:global_event_country = {
-				check_variable = { which = count_destroy_eternal_fleet value > 60 }
-			}
-		}
-	}
+	mean_time_to_happen = { years = 1 }
 	immediate = { set_country_flag = second_first_find }
 	option = {
 		name = "exe_return_invasion.24.a"
@@ -515,9 +476,7 @@ country_event = {
 	trigger = {
 		has_global_flag = exe_return_invasion_begin
 		is_ai = no
-		event_target:global_event_country = {
-			check_variable = { which = count_destroy_eternal_fleet value > 60 }
-		}
+		retrun_third_station_check = yes
 		has_country_flag = second_first_find
 		NOT = { has_country_flag = third_first_find }
 	}
