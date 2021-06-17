@@ -1234,10 +1234,41 @@ country_event = {
 				limit = {
 					NOT = { has_fleet_flag = has_Eternal_support }
 					has_enable_flag_ship_system = yes
+					has_enable_flag_ship_system_false = yes
 				}
-				increase_ship_hp_effect_change = { DAYS = 2 }
+				every_owned_ship = {
+					if = {
+						limit = { ag_is_flagship_system_proection_true = no }
+						set_timed_ship_flag = { flag = is_invisiable_trigger days = 1 }
+						increase_executor_power = { DAYS = 1 }
+						ship_event = { id = exe_invasion.119 }
+					}
+					else_if = {
+						limit = { ag_is_flagship_system_proection_true = yes }
+						set_ship_flag = is_invisiable_trigger
+						increase_executor_power = { DAYS = -1 }
+						ship_event = { id = exe_invasion.114 }
+					}
+				}
 				set_fleet_modifier = { SUB = Eternal_support }
 			}
+		}
+	}
+}
+
+ship_event = {
+	id = exe_invasion.114
+	hide_window = yes
+	is_triggered_only = yes
+	trigger = { has_ship_flag = is_invisiable_trigger }
+	immediate = {
+		if = {
+			limit = { fleet = { has_enable_flag_ship_system_false = yes } is_in_combat = yes }
+			repair_ship = yes ship_event = { id = exe_invasion.114 days = 1 }
+		}
+		else = {
+			remove_executor_power = yes
+			remove_ship_flag = is_invisiable_trigger
 		}
 	}
 }
@@ -1346,26 +1377,6 @@ country_event = {
 					limit = { any_owned_ship = { is_ship_size = nebula_dominance } }
 					increase_ship_hp_effect_change = { DAYS = 1 }
 				}
-				# else_if = {
-				# 	limit = { any_owned_ship = { is_ship_size = ag_delta_titan_1 } }
-				# 	increase_ship_hp_effect_change = { DAYS = 1 }
-				# }
-				# else_if = {
-				# 	limit = { any_owned_ship = { is_ship_size = ag_ancient_wandering_ship_1 } }
-				# 	increase_ship_hp_effect_change = { DAYS = 1 }
-				# }
-				# else_if = {
-				# 	limit = { any_owned_ship = { is_ship_size = ag_gamma_station_1 } }
-				# 	increase_ship_hp_effect_change = { DAYS = 1 }
-				# }
-				# else_if = {
-				# 	limit = { any_owned_ship = { is_ship_size = ag_zeta_titan } }
-				# 	increase_ship_hp_effect_change = { DAYS = 1 }
-				# }
-				# else_if = {
-				# 	limit = { any_owned_ship = { is_ship_size = ag_zeta_titan_psi } }
-				# 	increase_ship_hp_effect_change = { DAYS = 1 }
-				# } 
 				else_if = {
 					limit = { any_owned_ship = { is_ship_size = SWGS_Nemesis } }
 					increase_ship_hp_effect_change = { DAYS = 1 }
@@ -1427,22 +1438,6 @@ country_event = {
 	immediate = { FROMFROM = { remove_modifier = Eternal_submit  remove_fleet_flag = has_Eternal_submit } }
 }
 
-# country_event = {
-# 	id = exe_invasion.129
-# 	hide_window = no
-# 	title = "exe_invasion.129.name"
-# 	desc = "exe_invasion.129.desc"
-# 	diplomatic = yes
-# 	picture_event_data = { room = exploding_ship_room }
-# 	custom_gui = "kuat_event_m_window"
-# 	custom_gui_option = "kuat_event_m_option"
-# 	show_sound = event_space_battle
-# 	is_triggered_only = yes
-# 	trigger = { NOT = { has_country_flag = fire_once_leader } }
-# 	immediate = { set_country_flag = fire_once_leader }
-# 	option = { name = "exe_invasion.129.a" }
-# }
-
 #debug check modifier in eternal fleet
 country_event = {
 	id = exe_invasion.130
@@ -1456,48 +1451,282 @@ country_event = {
 		}
 	}
 	immediate = { 
-		enable_battleships_modifier_fixed = yes
-		country_event = { id = exe_invasion.129 days = 1 } 
+		fromfrom = {
+			if = {
+				limit = { NOT = { has_fleet_flag = fire_for_once } }
+				set_timed_fleet_flag = { flag = fire_for_once days = 1 }
+				every_owned_ship = {
+					set_ship_flag = is_modifiering
+					ship_event = { id = exe_invasion.137 }
+				}
+			}	
+		}
+		fromfromfrom = { 
+			if = {
+				limit = { NOT = { has_fleet_flag = fire_for_once } }
+				set_timed_fleet_flag = { flag = fire_for_once days = 1 }
+				every_owned_ship = {
+					set_ship_flag = is_modifiering
+					if = {
+						limit = { 
+							ROOT = { is_country_type = ag_kuat_invasion_country } 
+							has_global_flag = difficult_exe_invasion 
+						}
+						ship_event = { id = exe_invasion.131 }
+					} 
+					else = { ship_event = { id = exe_invasion.129 } }
+				}
+			} 
+		}
 	}
 }
 
-country_event = {
+
+@initial_value = 0
+@origin_value = 1
+@mult_origin_value = -1
+@fromfromfrom_scope_weapon_value = 0.25
+@mult_fromfromfrom_scope_weapon_value = -0.25
+@fromfromfrom_scope_value = 0.75
+@mult_fromfromfrom_scope_value = -0.75
+ship_event = {
+	id = exe_invasion.137
+	hide_window = yes
+	is_triggered_only = yes
+	trigger = { has_ship_flag = is_modifiering }
+	immediate = {
+		if = {
+			limit = { is_in_combat = yes }
+			if = {
+				limit = { NOT = { has_ship_flag = fire_ship_var } }
+				set_eternal_fleet_mult_modifier = { 
+					hull_regen_add_perc = ship_hull_regen_add_perc 
+					shield_regen_add_perc = ship_shield_regen_add_perc 
+					armor_regen_add_perc = ship_armor_regen_add_perc 
+					hull_mult = ship_hull_mult
+					armor_mult = ship_armor_mult
+					shield_mult = ship_shield_mult
+					weapon_range_mult = ship_weapon_range_mult
+					weapon_damage_own = ship_weapon_damage
+					shield_penetration_own = ship_shield_penetration_mult
+					armor_penetration_own = ship_armor_penetration_mult
+					weapon_type_energy = weapon_type_energy_weapon_damage_mult
+					weapon_type_kinetic = weapon_type_kinetic_weapon_damage_mult
+					weapon_type_explosive = weapon_type_explosive_weapon_damage_mult 
+				}
+				set_ship_flag = fire_ship_var
+			}
+			else_if = {
+				limit = { has_ship_flag = fire_ship_var }
+				if = {
+					limit = { check_modifier_value = { modifier = ship_shield_penetration_mult value < @origin_value } }
+					set_eternal_fleet_mult_modifier = { shield_penetration_own = ship_shield_penetration_mult }
+				}
+				if = {
+					limit = { check_modifier_value = { modifier = ship_armor_penetration_mult value < @origin_value } }
+					set_eternal_fleet_mult_modifier = { armor_penetration_own = ship_armor_penetration_mult }
+				}
+				if = {
+					limit = { check_modifier_value = { modifier = ship_weapon_damage value < @initial_value } }
+					set_eternal_fleet_mult_modifier = { weapon_damage_own = ship_weapon_damage }
+				}
+				if = {
+					limit = { check_modifier_value = { modifier = ship_hull_regen_add_perc value < @initial_value } }
+					set_eternal_fleet_mult_modifier = { hull_regen_add_perc = ship_hull_regen_add_perc }
+				}
+				if = {
+					limit = { check_modifier_value = { modifier = ship_armor_regen_add_perc value < @initial_value } }
+					set_eternal_fleet_mult_modifier = { armor_regen_add_perc = ship_armor_regen_add_perc }
+				}
+				if = {
+					limit = { check_modifier_value = { modifier = ship_shield_regen_add_perc value < @initial_value } }
+					set_eternal_fleet_mult_modifier = { shield_regen_add_perc = ship_shield_regen_add_perc }
+				}
+				if = {
+					limit = { check_modifier_value = { modifier = ship_hull_mult value < @initial_value } }
+					set_eternal_fleet_mult_modifier = { hull_mult = ship_hull_mult }
+				}
+				if = {
+					limit = { check_modifier_value = { modifier = ship_armor_mult value < @initial_value } }
+					set_eternal_fleet_mult_modifier = { armor_mult = ship_armor_mult }
+				}
+				if = {
+					limit = { check_modifier_value = { modifier = ship_shield_mult value < @initial_value } }
+					set_eternal_fleet_mult_modifier = { shield_mult = ship_shield_mult }
+				}
+				if = {
+					limit = { check_modifier_value = { modifier = ship_weapon_range_mult value < @initial_value } }
+					set_eternal_fleet_mult_modifier = { weapon_range_mult = ship_weapon_range_mult }
+				}
+				if = {
+					limit = { check_modifier_value = { modifier = weapon_type_energy_weapon_damage_mult value < @initial_value } }
+					set_eternal_fleet_mult_modifier = { weapon_type_energy = weapon_type_energy_weapon_damage_mult }
+				}
+				if = {
+					limit = { check_modifier_value = { modifier = weapon_type_kinetic_weapon_damage_mult value < @initial_value } }
+					set_eternal_fleet_mult_modifier = { weapon_type_kinetic = weapon_type_kinetic_weapon_damage_mult }
+				}
+				if = {
+					limit = { check_modifier_value = { modifier = weapon_type_explosive_weapon_damage_mult value < @initial_value } }
+					set_eternal_fleet_mult_modifier = { weapon_type_explosive = weapon_type_explosive_weapon_damage_mult }
+				}
+			}
+			ship_event = { id = exe_invasion.137 days = 1 }
+		}
+		else = {
+			remove_ship_flag = fire_ship_var
+			clear_battleship_modifier_fixed_ship = yes
+			remove_ship_flag = is_modifiering
+		}
+	}
+}
+
+ship_event = {
 	id = exe_invasion.129
 	hide_window = yes
 	is_triggered_only = yes
-	trigger = {
-		has_global_flag = enable_modifer_check
-		OR = {
-			is_country_type = ag_kuat_invasion_country
-			is_kuat_fallen_empire = yes
-		}
-	}
-	immediate = {
-		fire_on_action = {
-			on_action = on_eternal_fleet_entering_battle
-			scopes = {
-				from = root.fromfrom
-				fromfrom = root.fromfromfrom
-				fromfromfrom = root.fromfromfromfrom
+	trigger = { has_ship_flag = is_modifiering }
+	immediate = { 
+		if = {
+			limit = { is_in_combat = yes }
+			if = {
+				limit = { NOT = { has_ship_flag = fire_ship_var } }
+				set_eternal_fleet_mult_modifier = { 
+					shield_penetration = ship_shield_penetration_mult 
+					armor_penetration = ship_armor_penetration_mult
+				}
+				set_ship_flag = fire_ship_var
 			}
+			else_if = {
+				limit = { has_ship_flag = fire_ship_var }
+				if = {
+					limit = { NOT = { check_modifier_value = { modifier = ship_shield_penetration_mult value = @mult_origin_value } } }
+					set_eternal_fleet_mult_modifier = { shield_penetration = ship_shield_penetration_mult }
+				}
+				if = {
+					limit = { NOT = { check_modifier_value = { modifier = ship_armor_penetration_mult value = @mult_origin_value } } }
+					set_eternal_fleet_mult_modifier = { armor_penetration = ship_armor_penetration_mult }
+				}
+			}
+			ship_event = { id = exe_invasion.129 days = 1 }
+		}
+		else = {
+			clear_battleship_modifier_fixed_ship = yes
+			remove_ship_flag = fire_ship_var
+			remove_ship_flag = is_modifiering
 		}
 	}
 }
 
-country_event = {
+ship_event = {
 	id = exe_invasion.131
 	hide_window = yes
 	is_triggered_only = yes
-	trigger = { 
-		has_global_flag = enable_modifer_check 
-		OR = {
-			is_country_type = ag_kuat_invasion_country
-			is_kuat_fallen_empire = yes
-		}
-	}
+	trigger = { has_ship_flag = is_modifiering }
 	immediate = { 
-		clear_battleships_modifier_fixed = yes
-		enable_battleships_modifier_fixed = yes
+		if = {
+			limit = { is_in_combat = yes }
+			if = {
+				limit = { NOT = { has_ship_flag = fire_ship_var } }
+				set_eternal_fleet_mult_modifier = { 
+					shield_penetration = ship_shield_penetration_mult 
+					armor_penetration = ship_armor_penetration_mult
+					armor_damage = ship_armor_damage_mult
+					shield_damage = ship_shield_damage_mult
+					hull_damage = ship_hull_damage_mult
+					weapon_damage = ship_weapon_damage
+					tracking = ship_tracking_mult
+				}
+				set_ship_flag = fire_ship_var
+			}
+			else_if = {
+				limit = { has_ship_flag = fire_ship_var }
+				if = {
+					limit = { NOT = { check_modifier_value = { modifier = ship_shield_penetration_mult value = @mult_origin_value } } }
+					set_eternal_fleet_mult_modifier = { shield_penetration = ship_shield_penetration_mult }
+				}
+				if = {
+					limit = { NOT = { check_modifier_value = { modifier = ship_armor_penetration_mult value = @mult_origin_value } } }
+					set_eternal_fleet_mult_modifier = { armor_penetration = ship_armor_penetration_mult }
+				}
+				if = {
+					limit = { 
+						fleet = { has_enable_flag_ship_system = yes }
+						NOT = { check_modifier_value = { modifier = ship_armor_damage_mult value = @mult_fromfromfrom_scope_value } }
+					}
+					set_eternal_fleet_mult_modifier = { armor_damage = ship_armor_damage_mult }
+				}
+				if = {
+					limit = {
+						fleet = { has_enable_flag_ship_system = no }
+						NOT = { check_modifier_value = { modifier = ship_armor_damage_mult value = @mult_origin_value } }
+					}
+					set_eternal_fleet_mult_modifier = { armor_damage = ship_armor_damage_mult }
+				}
+				if = {
+					limit = { 
+						fleet = { has_enable_flag_ship_system = yes }
+						NOT = { check_modifier_value = { modifier = ship_shield_damage_mult value = @mult_fromfromfrom_scope_value } }
+					}
+					set_eternal_fleet_mult_modifier = { armor_damage = ship_shield_damage_mult }
+				}
+				if = {
+					limit = {
+						fleet = { has_enable_flag_ship_system = no }
+						NOT = { check_modifier_value = { modifier = ship_shield_damage_mult value = @mult_origin_value } }
+					}
+					set_eternal_fleet_mult_modifier = { armor_damage = ship_shield_damage_mult }
+				}
+				if = {
+					limit = { 
+						fleet = { has_enable_flag_ship_system = yes }
+						NOT = { check_modifier_value = { modifier = ship_hull_damage_mult value = @mult_fromfromfrom_scope_value } }
+					}
+					set_eternal_fleet_mult_modifier = { armor_damage = ship_hull_damage_mult }
+				}
+				if = {
+					limit = {
+						fleet = { has_enable_flag_ship_system = no }
+						NOT = { check_modifier_value = { modifier = ship_hull_damage_mult value = @mult_origin_value } }
+					}
+					set_eternal_fleet_mult_modifier = { armor_damage = ship_hull_damage_mult }
+				}
+				if = {
+					limit = { 
+						fleet = { has_enable_flag_ship_system = yes }
+						NOT = { check_modifier_value = { modifier = ship_weapon_damage value = @mult_fromfromfrom_scope_value } }
+					}
+					set_eternal_fleet_mult_modifier = { armor_damage = ship_weapon_damage }
+				}
+				if = {
+					limit = {
+						fleet = { has_enable_flag_ship_system = no }
+						NOT = { check_modifier_value = { modifier = ship_weapon_damage value = @mult_origin_value } }
+					}
+					set_eternal_fleet_mult_modifier = { armor_damage = ship_weapon_damage }
+				}
+				if = {
+					limit = { 
+						fleet = { has_enable_flag_ship_system = yes }
+						NOT = { check_modifier_value = { modifier = ship_tracking_mult value = @mult_fromfromfrom_scope_weapon_value } }
+					}
+					set_eternal_fleet_mult_modifier = { tracking = ship_tracking_mult }
+				}
+				if = {
+					limit = {
+						fleet = { has_enable_flag_ship_system = no }
+						NOT = { check_modifier_value = { modifier = ship_tracking_mult value = @mult_origin_value } }
+					}
+					set_eternal_fleet_mult_modifier = { tracking = ship_tracking_mult }
+				}
+			}
+			ship_event = { id = exe_invasion.131 days = 1 }
+		}
+		else = {
+			clear_battleship_modifier_fixed_ship = yes
+			remove_ship_flag = fire_ship_var
+			remove_ship_flag = is_modifiering
+		}
 	}
 }
 
@@ -1524,6 +1753,7 @@ country_event = {
 						shield_penetration = ship_shield_penetration_mult 
 						armor_penetration = ship_armor_penetration_mult
 					}
+					set_fleet_flag = has_component_combat_modifier
 				}
 			} 
 		}
@@ -1537,6 +1767,7 @@ country_event = {
 						armor_penetration_own = ship_armor_penetration_mult
 					}
 				}
+				set_fleet_flag = has_component_combat_modifier
 			} 
 		}
 	}
@@ -1548,8 +1779,8 @@ country_event = {
 	is_triggered_only = yes
 	trigger = { 
 		OR = {
-			fromfromfrom = { has_fleet_flag = has_combat_modifier } 
-			fromfrom = { has_fleet_flag = has_combat_modifier } 
+			fromfromfrom = { has_fleet_flag = has_component_combat_modifier } 
+			fromfrom = { has_fleet_flag = has_component_combat_modifier } 
 		}
 	}
 	immediate = { 
@@ -1572,12 +1803,12 @@ country_event = {
 	is_triggered_only = yes
 	trigger = {
 		exists = this
-		any_owned_fleet = { has_fleet_flag = has_combat_modifier }
+		any_owned_fleet = { has_fleet_flag = has_component_combat_modifier }
 	}
 	immediate = {
 		every_owned_fleet = {
 			limit = { 
-				has_fleet_flag = has_combat_modifier 
+				has_fleet_flag = has_component_combat_modifier 
 				is_in_combat = no
 			}
 			every_owned_ship = {
@@ -1622,6 +1853,7 @@ country_event = {
 				}
 			}
 			remove_fleet_flag = has_combat_modifier
+			remove_fleet_flag = has_component_combat_modifier
 		}
 		country_event = { id = exe_invasion.134 days = 5 }
 	}
