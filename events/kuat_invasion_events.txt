@@ -1236,18 +1236,21 @@ country_event = {
 					has_enable_flag_ship_system = yes
 					has_enable_flag_ship_system_false = yes
 				}
-				every_owned_ship = {
-					if = {
-						limit = { ag_is_flagship_system_proection_true = no }
-						set_timed_ship_flag = { flag = is_invisiable_trigger days = 1 }
-						increase_executor_power = { DAYS = 1 }
-						ship_event = { id = exe_invasion.119 }
-					}
-					else_if = {
-						limit = { ag_is_flagship_system_proection_true = yes }
-						set_ship_flag = is_invisiable_trigger
-						increase_executor_power = { DAYS = -1 }
-						ship_event = { id = exe_invasion.114 }
+				if = {
+					limit = { has_global_flag = enable_modifer_check }
+					every_owned_ship = {
+						if = {
+							limit = { ag_is_flagship_system_proection_true = no }
+							set_timed_ship_flag = { flag = is_invisiable_trigger days = 1 }
+							increase_executor_power = { DAYS = 1 }
+							ship_event = { id = exe_invasion.119 }
+						}
+						else_if = {
+							limit = { ag_is_flagship_system_proection_true = yes }
+							set_ship_flag = is_invisiable_trigger
+							increase_executor_power = { DAYS = -1 }
+							ship_event = { id = exe_invasion.114 }
+						}
 					}
 				}
 				set_fleet_modifier = { SUB = Eternal_support }
