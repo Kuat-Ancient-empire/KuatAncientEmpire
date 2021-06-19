@@ -111,50 +111,27 @@ event = {
 	id = executor_build.2
 	hide_window = yes
 	is_triggered_only = yes
-	trigger = {
-		NOT = { any_country = { has_origin = origin_kuat_apocalyptic } }
-	}
 	immediate = {
-		set_spawn_system_batch = begin
-		no_scope = {
-			spawn_system = {
-				initializer = "Kuat_system"
-				min_distance >= 550
-				max_distance <= 550
-				min_orientation_angle >= 0
-				max_orientation_angle <= 0
-				hyperlane = no
+		if = {
+			limit = { 
+				OR = {
+					NOT = { any_country = { has_origin = origin_kuat_apocalyptic } }
+					any_country = { has_origin = origin_kuat_apocalyptic is_ai = yes }
+				}
 			}
-			spawn_system = {
-				initializer = "Kuat_system_1"
-				min_distance >= 570
-				max_distance <= 570
-				min_orientation_angle >= 0
-				max_orientation_angle <= 0
-				hyperlane = no
+			kuat_system_initial_creating = yes
+			every_playable_country = {
+				country_event = { id = executor_build.3 days = 30 }
 			}
-			spawn_system = {
-				initializer = "Kuat_system_2"
-				min_distance >= 570
-				max_distance <= 570
-				min_orientation_angle >= 5
-				max_orientation_angle <= 5
-				hyperlane = no
-			}
-			spawn_system = {
-				initializer = "Kuat_system_3"
-				min_distance >= 550
-				max_distance <= 550
-				min_orientation_angle >= 5
-				max_orientation_angle <= 5
-				hyperlane = no
+			set_global_flag = kuat_spawned
+		}
+		else_if = {
+			limit = { any_country = { has_origin = origin_kuat_apocalyptic is_ai = no } }
+			random_system = {
+				limit = { has_star_flag = kuat_initial_origin_system }
+				kuat_origin_system_initial_creating = yes
 			}
 		}
-		set_spawn_system_batch = end
-		every_playable_country = {
-			country_event = { id = executor_build.3 days = 30 }
-		}
-		set_global_flag = kuat_spawned
 	}
 }
 
