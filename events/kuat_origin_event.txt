@@ -472,6 +472,478 @@ country_event = {
 		reset_return_eternal_fleet = yes
 		set_country_flag = can_pass_by
 		set_country_flag = can_pass_inner_by
+		create_country = {
+			name = "Name_Kuat_Support"
+			type = kuat_support
+			flag = {
+				icon = {
+					category = "Kuat"
+					file = "flag_swep_1.dds"
+				}
+				background = {
+					category = "backgrounds"
+					file = "circle.dds"
+				}
+				colors = { "red" "black" "null" "null" }
+			}
+			effect = {
+				save_global_event_target_as = kuat_support_country
+				establish_communications_no_message = root
+			}
+		}
 	}
 	option = { name = kuat_origin.8.a }
+}
+
+country_event = {
+	id = kuat_origin.9
+	title = kuat_origin.9.title
+	desc = kuat_origin.9.desc
+	picture_event_data = {
+		portrait = root.ruler
+		room = kuat_mega_shipyard_room
+	}
+	custom_gui = "kuat_event_diplomacy_window"
+	custom_gui_option = "kuat_event_diplomacy_option"
+	location = root.capital_scope
+	is_triggered_only = yes
+	diplomatic = yes
+	trigger = { 
+		OR = {
+			kuat_support_diplo_event_active = no
+			from = { is_same_value = root }
+		}
+		has_origin = origin_kuat_apocalyptic 
+		OR = {
+			from = { is_country_type = kuat_support }
+			from = { is_same_value = root }
+		}
+	}
+	#reinforment
+	option = {
+		name = kuat_origin.9.a
+		hidden_effect = { country_event = { id = kuat_origin.10 } }
+	}
+	#mission what
+	option = {
+		name = kuat_origin.9.b
+		hidden_effect = { country_event = { id = kuat_origin.11 } }
+	}
+	#about eternal
+	option = {
+		name = kuat_origin.9.c
+		hidden_effect = { country_event = { id = kuat_origin.14 } }
+	}
+	option = {
+		name = kuat_shipyard.exit
+		default_hide_option = yes
+	}
+}
+
+country_event = {
+	id = kuat_origin.10
+	title = kuat_origin.9.title
+	desc = kuat_origin.10.desc
+	picture_event_data = {
+		portrait = root.ruler
+		room = kuat_mega_shipyard_room
+	}
+	custom_gui = "kuat_event_diplomacy_window"
+	custom_gui_option = "kuat_event_diplomacy_option"
+	location = root.capital_scope
+	is_triggered_only = yes
+	diplomatic = yes
+	trigger = { has_origin = origin_kuat_apocalyptic }
+	#one flagship fleet
+	option = {
+		name = kuat_origin.10.a
+		allow = {
+			custom_tooltip = {
+				fail_text = kuat_origin.10.a.fail
+				check_variable = { which = eternal_bornus_var value > 250 }
+			}
+		}
+		hidden_effect = { 
+			subtract_variable = { which = eternal_bornus_var value = 250 }
+			capital_scope = {
+				create_exe_invasion_fleet = {
+					NAME = Name_DFLEET
+					flag = kuat_origin_fleet
+					Fleet_owner = root
+					fleet_stance = aggressive
+					bombardment = indiscriminate
+					Dominance = 1  Balletor = 48
+					DIFF = 2
+					modifier = being_kuat_fleet
+					Location = prev
+				}
+			}
+			create_message = {
+				type = "SPACEPORT_CONSTRUCTION_MESSAGE_TYPE"
+				localization = "kuat_support_class_arrived_desc"
+				days = 30
+				target = root
+				variable = { type = name localization = "capital_planet" scope = root.capital_scope }
+			}
+			country_event = { id = kuat_origin.10 }
+		}
+	}
+	#two flagship fleet
+	option = {
+		name = kuat_origin.10.b
+		allow = {
+			custom_tooltip = {
+				fail_text = kuat_origin.10.b.fail
+				check_variable = { which = eternal_bornus_var value > 500 }
+			}
+		}
+		hidden_effect = { 
+			subtract_variable = { which = eternal_bornus_var value = 500 }
+			capital_scope = {
+				create_exe_invasion_fleet = {
+					NAME = Name_DFLEET
+					Fleet_owner = root
+					flag = kuat_origin_fleet
+					fleet_stance = aggressive
+					bombardment = indiscriminate
+					Executor = 1  Balletor = 48
+					DIFF = 2
+					modifier = being_kuat_fleet
+					Location = prev
+				}
+			}
+			create_message = {
+				type = "SPACEPORT_CONSTRUCTION_MESSAGE_TYPE"
+				localization = "kuat_support_class_arrived_desc"
+				days = 30
+				target = root
+				variable = { type = name localization = "capital_planet" scope = root.capital_scope }
+			}
+			country_event = { id = kuat_origin.10 }
+		}
+	}
+	#three flagship fleet
+	option = {
+		name = kuat_origin.10.c
+		allow = {
+			custom_tooltip = {
+				fail_text = kuat_origin.10.c.fail
+				check_variable = { which = eternal_bornus_var value > 1000 }
+			}
+		}
+		hidden_effect = { 
+			subtract_variable = { which = eternal_bornus_var value = 1000 }
+			capital_scope = {
+				create_exe_invasion_fleet = {
+					NAME = Name_DFLEET
+					Fleet_owner = root
+					flag = kuat_origin_fleet
+					fleet_stance = aggressive
+					bombardment = indiscriminate
+					Eclipse = 1  Balletor = 48
+					DIFF = 2
+					modifier = being_kuat_fleet
+					Location = prev
+				}
+			}
+			create_message = {
+				type = "SPACEPORT_CONSTRUCTION_MESSAGE_TYPE"
+				localization = "kuat_support_class_arrived_desc"
+				days = 30
+				target = root
+				variable = { type = name localization = "capital_planet" scope = root.capital_scope }
+			}
+			country_event = { id = kuat_origin.10 }
+		}
+	}
+	option = {
+		name = kuat_shipyard.return
+		hidden_effect = { country_event = { id = kuat_origin.9 } }
+	}
+	option = {
+		name = kuat_shipyard.exit
+		default_hide_option = yes
+	}
+}
+
+country_event = {
+	id = kuat_origin.11
+	title = kuat_origin.9.title
+	desc = kuat_origin.11.desc
+	picture_event_data = {
+		portrait = root.ruler
+		room = kuat_mega_shipyard_room
+	}
+	custom_gui = "kuat_event_diplomacy_window"
+	custom_gui_option = "kuat_event_diplomacy_option"
+	location = root.capital_scope
+	is_triggered_only = yes
+	diplomatic = yes
+	trigger = { has_origin = origin_kuat_apocalyptic }
+	#what about now
+	option = {
+		name = kuat_origin.11.a
+		hidden_effect = { country_event = { id = kuat_origin.12 } }
+	}
+	#what about other area
+	option = {
+		name = kuat_origin.11.b
+		hidden_effect = { country_event = { id = kuat_origin.13 } }
+	}
+	option = {
+		name = kuat_shipyard.return
+		hidden_effect = { country_event = { id = kuat_origin.9 } }
+	}
+}
+
+country_event = {
+	id = kuat_origin.12
+	title = kuat_origin.9.title
+	desc = kuat_origin.12.desc
+	picture_event_data = {
+		portrait = root.ruler
+		room = kuat_mega_shipyard_room
+	}
+	custom_gui = "kuat_event_diplomacy_window"
+	custom_gui_option = "kuat_event_diplomacy_option"
+	location = root.capital_scope
+	is_triggered_only = yes
+	diplomatic = yes
+	trigger = { has_origin = origin_kuat_apocalyptic }
+	#just begining
+	option = {
+		name = kuat_origin.12.a
+		trigger = {
+			event_target:global_event_country = {
+				check_variable = { which = eternal_fleet_return_index value < 5 }
+			}
+		}
+		response_text = kuat_origin.12.a.respon
+	}
+	#just middle
+	option = {
+		name = kuat_origin.12.b
+		trigger = {
+			event_target:global_event_country = {
+				check_variable = { which = eternal_fleet_return_index value >= 5 }
+			}
+		}
+		response_text = kuat_origin.12.b.respon
+	}
+	#end of war
+	option = {
+		name = kuat_origin.12.c
+		trigger = {
+			event_target:global_event_country = {
+				check_variable = { which = eternal_fleet_return_index value > 10 }
+			}
+		}
+		custom_tooltip = kuat_origin.12.tooltip
+		hidden_effect = {
+			win = yes
+			every_owned_fleet = {
+				limit = { has_fleet_flag = kuat_origin_fleet }
+				delete_fleet = { target = this destroy_template = yes kill_leader = no }
+			}
+		}
+		response_text = kuat_origin.12.c.respon
+	}
+	option = {
+		name = kuat_shipyard.return
+		hidden_effect = { country_event = { id = kuat_origin.11 } }
+	}
+}
+
+country_event = {
+	id = kuat_origin.13
+	title = kuat_origin.9.title
+	desc = kuat_origin.13.desc
+	picture_event_data = {
+		portrait = root.ruler
+		room = kuat_mega_shipyard_room
+	}
+	custom_gui = "kuat_event_diplomacy_window"
+	custom_gui_option = "kuat_event_diplomacy_option"
+	location = root.capital_scope
+	is_triggered_only = yes
+	diplomatic = yes
+	trigger = { has_origin = origin_kuat_apocalyptic }
+	#most over
+	option = {
+		name = kuat_origin.13.a
+		hidden_effect = { add_random_research_option = { add_progress = 1 } }
+		response_text = kuat_origin.13.a.respon
+	}
+	option = {
+		name = kuat_shipyard.return
+		hidden_effect = { country_event = { id = kuat_origin.11 } }
+	}
+}
+
+#eternal fleet situation
+country_event = {
+	id = kuat_origin.14
+	title = kuat_origin.9.title
+	desc = kuat_origin.14.desc
+	picture_event_data = {
+		portrait = root.ruler
+		room = kuat_mega_shipyard_room
+	}
+	custom_gui = "kuat_event_diplomacy_window"
+	custom_gui_option = "kuat_event_diplomacy_option"
+	location = root.capital_scope
+	is_triggered_only = yes
+	diplomatic = yes
+	trigger = { has_origin = origin_kuat_apocalyptic }
+	#continue
+	option = {
+		name = kuat_origin.14.a
+		allow = {
+			custom_tooltip = {
+				fail_text = kuat_origin.10.b.fail
+				check_variable = { which = eternal_bornus_var value > 500 }
+			}
+		}
+		hidden_effect = { 
+			subtract_variable = { which = eternal_bornus_var value = 500 }
+			country_event = { id = kuat_origin.15 } 
+		}
+	}
+	option = {
+		name = kuat_shipyard.return
+		hidden_effect = { country_event = { id = kuat_origin.9 } }
+	}
+}
+
+#other battle area situation
+country_event = {
+	id = kuat_origin.15
+	title = kuat_origin.9.title
+	desc = kuat_origin.15.desc
+	desc = {
+		trigger = {
+			hidden:from = {
+				switch = {
+					trigger = has_country_flag
+					check_origin_kuat_area_1 = { text = kuat_origin.area_1 }
+					check_origin_kuat_area_2 = { text = kuat_origin.area_2 }
+					check_origin_kuat_area_3 = { text = kuat_origin.area_3 }
+					check_origin_kuat_area_4 = { text = kuat_origin.area_4 }
+				}
+			}
+		}
+	}
+	picture_event_data = {
+		portrait = root.ruler
+		room = kuat_mega_shipyard_room
+	}
+	custom_gui = "kuat_event_diplomacy_window"
+	custom_gui_option = "kuat_event_diplomacy_option"
+	location = root.capital_scope
+	is_triggered_only = yes
+	diplomatic = yes
+	trigger = { has_origin = origin_kuat_apocalyptic }
+	immediate = {
+		change_variable = { which = var_origin_15 value = 1 }
+	}
+	option = {
+		name = kuat_origin.15.a
+		hidden_effect = { 
+			set_timed_country_flag = {
+				flag = check_origin_kuat_area_1
+				days = 1
+			}
+			if = {
+				limit = { check_variable = { which = var_origin_15 value < 5 } }
+				add_random_research_option = { add_progress = 1 } 
+			}
+			remove_country_flag = check_origin_kuat_area_2
+			remove_country_flag = check_origin_kuat_area_3
+			remove_country_flag = check_origin_kuat_area_4
+			country_event = { id = kuat_origin.15 }
+		}
+	}
+	option = {
+		name = kuat_origin.15.b
+		hidden_effect = { 
+			set_timed_country_flag = {
+				flag = check_origin_kuat_area_2
+				days = 1
+			}
+			if = {
+				limit = { check_variable = { which = var_origin_15 value < 5 } }
+				add_random_research_option = { add_progress = 1 } 
+			}
+			remove_country_flag = check_origin_kuat_area_1
+			remove_country_flag = check_origin_kuat_area_3
+			remove_country_flag = check_origin_kuat_area_4
+			country_event = { id = kuat_origin.15 }
+		}
+	}
+	option = {
+		name = kuat_origin.15.c
+		hidden_effect = { 
+			set_timed_country_flag = {
+				flag = check_origin_kuat_area_3
+				days = 1
+			}
+			if = {
+				limit = { check_variable = { which = var_origin_15 value < 5 } }
+				add_random_research_option = { add_progress = 1 } 
+			}
+			remove_country_flag = check_origin_kuat_area_1
+			remove_country_flag = check_origin_kuat_area_2
+			remove_country_flag = check_origin_kuat_area_4
+			country_event = { id = kuat_origin.15 }
+		}
+	}
+	option = {
+		name = kuat_origin.15.d
+		hidden_effect = { 
+			if = {
+				limit = { NOT = { has_country_flag = fire_only_once } }
+				set_country_flag = fire_only_once
+				capital_scope = {
+					create_exe_invasion_fleet = {
+						NAME = Name_DFLEET
+						Fleet_owner = root
+						flag = kuat_origin_fleet
+						fleet_stance = aggressive
+						bombardment = indiscriminate
+						Eclipse = 1  Balletor = 48
+						DIFF = 2
+						modifier = being_kuat_fleet
+						Location = prev
+					}
+				}
+				create_message = {
+					type = "SPACEPORT_CONSTRUCTION_MESSAGE_TYPE"
+					localization = "kuat_support_class_arrived_desc"
+					days = 30
+					target = root
+					variable = { type = name localization = "capital_planet" scope = root.capital_scope }
+				}
+			}
+			set_timed_country_flag = {
+				flag = check_origin_kuat_area_4
+				days = 1
+			}
+			if = {
+				limit = { check_variable = { which = var_origin_15 value < 5 } }
+				add_random_research_option = { add_progress = 1 } 
+			}
+			remove_country_flag = check_origin_kuat_area_1
+			remove_country_flag = check_origin_kuat_area_2
+			remove_country_flag = check_origin_kuat_area_3
+			country_event = { id = kuat_origin.15 }
+		}
+	}
+	option = {
+		name = kuat_shipyard.return
+		hidden_effect = { country_event = { id = kuat_origin.14 } }
+	}
+	option = {
+		name = kuat_shipyard.exit
+		default_hide_option = yes
+	}
 }
