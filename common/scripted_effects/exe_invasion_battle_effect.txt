@@ -833,6 +833,40 @@ set_eternal_fleet_mult_modifier = {
 			}
 		}
 	}]
+	[[fire_rate_mult] if = {
+		limit = { NOT = { is_variable_set = $fire_rate_mult$_value } }
+		if = {
+			limit = { check_modifier_value = { modifier = $fire_rate_mult$ value < @initial_value } }
+			export_modifier_to_variable = { modifier = $fire_rate_mult$ variable = $fire_rate_mult$_value }
+			if = {
+				limit = { is_variable_set = $fire_rate_mult$_value }
+				subtract_variable = { which = $fire_rate_mult$_value value = @origin_value }
+				set_ship_flag = has_$fire_rate_mult$
+				if = {
+					limit = { is_variable_set = $fire_rate_mult$_value has_ship_flag = has_$fire_rate_mult$ }
+					set_invasion_fleet_basic_modifier = { SUB = basic_$fire_rate_mult$ FACTOR = $fire_rate_mult$_value }
+					remove_ship_flag = has_$fire_rate_mult$
+				}
+			}
+		}
+	}
+	else = {
+		if = {
+			limit = { is_variable_set = change_$fire_rate_mult$_value }
+			clear_variable = change_$fire_rate_mult$_value
+		}
+		export_modifier_to_variable = { modifier = $fire_rate_mult$ variable = change_$fire_rate_mult$_value }
+		if = {
+			limit = { is_variable_set = change_$fire_rate_mult$_value }
+			subtract_variable = { which = change_$fire_rate_mult$_value value = @origin_value }
+			set_ship_flag = has_$fire_rate_mult$_changed
+			if = {
+				limit = { is_variable_set = change_$fire_rate_mult$_value has_ship_flag = has_$fire_rate_mult$_changed }
+				set_invasion_fleet_basic_modifier = { SUB = change_basic_$fire_rate_mult$ FACTOR = change_$fire_rate_mult$_value }
+				remove_ship_flag = has_$fire_rate_mult$_changed
+			}
+		}
+	}]
 	####BASICAL
 	[[weapon_type_energy] if = {
 		limit = { NOT = { is_variable_set = $weapon_type_energy$_value } }
