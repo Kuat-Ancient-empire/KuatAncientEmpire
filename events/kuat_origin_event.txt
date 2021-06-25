@@ -819,17 +819,25 @@ country_event = {
 country_event = {
 	id = kuat_origin.15
 	title = kuat_origin.9.title
-	desc = kuat_origin.15.desc
 	desc = {
 		trigger = {
-			hidden:from = {
-				switch = {
-					trigger = has_country_flag
-					check_origin_kuat_area_1 = { text = kuat_origin.area_1 }
-					check_origin_kuat_area_2 = { text = kuat_origin.area_2 }
-					check_origin_kuat_area_3 = { text = kuat_origin.area_3 }
-					check_origin_kuat_area_4 = { text = kuat_origin.area_4 }
-				}
+			NOR = {
+				has_country_flag = check_origin_kuat_area_1
+				has_country_flag = check_origin_kuat_area_2
+				has_country_flag = check_origin_kuat_area_3
+				has_country_flag = check_origin_kuat_area_4
+			}
+		}
+		text = kuat_origin.15.desc
+	}
+	desc = {
+		trigger = {
+			switch = {
+				trigger = has_country_flag
+				check_origin_kuat_area_1 = { text = kuat_origin.area_1 }
+				check_origin_kuat_area_2 = { text = kuat_origin.area_2 }
+				check_origin_kuat_area_3 = { text = kuat_origin.area_3 }
+				check_origin_kuat_area_4 = { text = kuat_origin.area_4 }
 			}
 		}
 	}
@@ -849,10 +857,7 @@ country_event = {
 	option = {
 		name = kuat_origin.15.a
 		hidden_effect = { 
-			set_timed_country_flag = {
-				flag = check_origin_kuat_area_1
-				days = 1
-			}
+			set_country_flag = check_origin_kuat_area_1
 			if = {
 				limit = { check_variable = { which = var_origin_15 value < 5 } }
 				add_random_research_option = { add_progress = 1 } 
@@ -866,10 +871,7 @@ country_event = {
 	option = {
 		name = kuat_origin.15.b
 		hidden_effect = { 
-			set_timed_country_flag = {
-				flag = check_origin_kuat_area_2
-				days = 1
-			}
+			set_country_flag = check_origin_kuat_area_2
 			if = {
 				limit = { check_variable = { which = var_origin_15 value < 5 } }
 				add_random_research_option = { add_progress = 1 } 
@@ -883,10 +885,7 @@ country_event = {
 	option = {
 		name = kuat_origin.15.c
 		hidden_effect = { 
-			set_timed_country_flag = {
-				flag = check_origin_kuat_area_3
-				days = 1
-			}
+			set_country_flag = check_origin_kuat_area_3
 			if = {
 				limit = { check_variable = { which = var_origin_15 value < 5 } }
 				add_random_research_option = { add_progress = 1 } 
@@ -924,10 +923,7 @@ country_event = {
 					variable = { type = name localization = "capital_planet" scope = root.capital_scope }
 				}
 			}
-			set_timed_country_flag = {
-				flag = check_origin_kuat_area_4
-				days = 1
-			}
+			set_country_flag = check_origin_kuat_area_4
 			if = {
 				limit = { check_variable = { which = var_origin_15 value < 5 } }
 				add_random_research_option = { add_progress = 1 } 
@@ -940,10 +936,22 @@ country_event = {
 	}
 	option = {
 		name = kuat_shipyard.return
-		hidden_effect = { country_event = { id = kuat_origin.14 } }
+		hidden_effect = { 
+			remove_country_flag = check_origin_kuat_area_1
+			remove_country_flag = check_origin_kuat_area_2
+			remove_country_flag = check_origin_kuat_area_3
+			remove_country_flag = check_origin_kuat_area_4
+			country_event = { id = kuat_origin.14 } 
+		}
 	}
 	option = {
 		name = kuat_shipyard.exit
+		hidden_effect = { 
+			remove_country_flag = check_origin_kuat_area_1
+			remove_country_flag = check_origin_kuat_area_2
+			remove_country_flag = check_origin_kuat_area_3
+			remove_country_flag = check_origin_kuat_area_4
+		}
 		default_hide_option = yes
 	}
 }
