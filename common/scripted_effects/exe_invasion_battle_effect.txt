@@ -1,23 +1,39 @@
+@initial_value = 0
+#penetration value
+@origin_value = 1
+@mult_origin_value = -1
+#tracking weapondamage value
+@fromfromfrom_scope_weapon_value = 0.25
+@mult_fromfromfrom_scope_weapon_value = -0.25
+#eternal damage system value
+@fromfromfrom_scope_value = 0.75
+@mult_fromfromfrom_scope_value = -0.75
+
 # scope: ship
 increase_executor_power = {
 	if = {
-		limit = { has_hp <= 1000000 }
+		limit = { has_hp <= 2000000 }
+		clear_ship_modifier = { modifier = ship_hull_mult DAYS = $DAYS$ }
 		add_modifier = { modifier = increase_hp_5000000_times days = $DAYS$ }
 	}
 	else_if = {
-		limit = { has_hp <= 2000000 }
+		limit = { has_hp <= 4000000 }
+		clear_ship_modifier = { modifier = ship_hull_mult DAYS = $DAYS$ }
 		add_modifier = { modifier = increase_hp_4000000_times days = $DAYS$ }
 	}
 	else_if = {
-		limit = { has_hp <= 3000000 }
+		limit = { has_hp <= 6000000 }
+		clear_ship_modifier = { modifier = ship_hull_mult DAYS = $DAYS$ }
 		add_modifier = { modifier = increase_hp_3000000_times days = $DAYS$ }
 	}
 	else_if = {
-		limit = { has_hp <= 4000000 }
+		limit = { has_hp <= 8000000 }
+		clear_ship_modifier = { modifier = ship_hull_mult DAYS = $DAYS$ }
 		add_modifier = { modifier = increase_hp_2000000_times days = $DAYS$ }
 	}
 	else_if = {
 		limit = { has_hp <= 10000000 }
+		clear_ship_modifier = { modifier = ship_hull_mult DAYS = $DAYS$ }
 		add_modifier = { modifier = increase_hp_1000000_times days = $DAYS$ }
 	}
 }
@@ -36,11 +52,50 @@ increase_ship_hp_effect_change = {
 			ship_event = { id = exe_invasion.119 }
 		}
 	}
-	set_fleet_modifier = { SUB = Eternal_submit }
+	set_fleet_modifier = { SUB = Eternal_submit DAYS = -1 }
 	remove_modifier = ship_firing_debuff_invisiable_protection
 }
 
+clear_ship_modifier = {
+	if = {
+		limit = { NOT = { is_variable_set = $modifier$_value_iep } }
+		if = {
+			limit = { check_modifier_value = { modifier = $modifier$ value > @initial_value } }
+			export_modifier_to_variable = { modifier = $modifier$ variable = $modifier$_value_iep }
+			if = {
+				limit = { is_variable_set = $modifier$_value_iep }
+				set_ship_flag = has_$modifier$_iep
+				if = {
+					limit = { is_variable_set = $modifier$_value_iep has_ship_flag = has_$modifier$_iep }
+					set_invasion_fleet_basic_modifier = { SUB = iep_basic_$modifier$ FACTOR = $modifier$_value_iep DAYS = $DAYS$ }
+					remove_ship_flag = has_$modifier$_iep
+				}
+			}
+		}
+	}
+	else = {
+		if = {
+			limit = { is_variable_set = change_$modifier$_value_iep }
+			clear_variable = change_$modifier$_value_iep
+		}
+		export_modifier_to_variable = { modifier = $modifier$ variable = change_$modifier$_value_iep }
+		if = {
+			limit = { is_variable_set = change_$modifier$_value_iep }
+			set_ship_flag = has_$modifier$_iep_changed
+			if = {
+				limit = { is_variable_set = change_$modifier$_value_iep has_ship_flag = has_$modifier$_iep_changed }
+				set_invasion_fleet_basic_modifier = { SUB = iep_change_basic_$modifier$ FACTOR = change_$modifier$_value_iep DAYS = $DAYS$ }
+				remove_ship_flag = has_$modifier$_iep_changed
+			}
+		}
+	}
+}
+
 remove_executor_power = {
+	clear_variable = ship_hull_mult_value_iep
+	clear_variable = change_ship_hull_mult_value_iep
+	remove_modifier = iep_basic_ship_hull_mult
+	remove_modifier = iep_change_basic_ship_hull_mult
 	remove_modifier = increase_hp_5000000_times
 	remove_modifier = increase_hp_4000000_times
 	remove_modifier = increase_hp_3000000_times
@@ -48,29 +103,6 @@ remove_executor_power = {
 	remove_modifier = increase_hp_1000000_times
 }
 
-set_fromfromfrom_check_invsiable_time_flag = {
-	ROOT.FROMFROMFROM = {
-		add_modifier = { modifier = ship_firing_debuff_invisiable_protection days = $DAYS$ }
-		set_timed_fleet_flag = { flag = ship_firing_debuff_invisiable_protection days = $DAYS$ } 
-	}
-}
-
-set_time_modifier_or_flag = {
-	add_modifier = { modifier = $SUB$ days = $DAYS$ }
-	set_timed_fleet_flag = { flag = has_$SUB$ days = $DAYS$ } 
-}
-
-# scope: fleet
-@initial_value = 0
-#penetration value
-@origin_value = 1
-@mult_origin_value = -1
-#tracking weapondamage value
-@fromfromfrom_scope_weapon_value = 0.25
-@mult_fromfromfrom_scope_weapon_value = -0.25
-#eternal damage system value
-@fromfromfrom_scope_value = 0.75
-@mult_fromfromfrom_scope_value = -0.75
 set_eternal_fleet_mult_modifier = {
 	#scope: fromfromfrom
 	[[shield_penetration] if = { limit = { NOT = { is_variable_set = $shield_penetration$_value } }
@@ -996,67 +1028,12 @@ remove_eternal_fleet_mult_variable = {
 }
 
 set_fleet_modifier = {
-	add_modifier = { modifier = $SUB$ }
-	set_fleet_flag = has_$SUB$
+	add_modifier = { modifier = $SUB$ days = $DAY|-1$ }
+	set_timed_fleet_flag = { flag = has_$SUB$ days = $DAY|-1$ }
 }
 
 set_invasion_fleet_basic_modifier = { 
-	add_modifier = { modifier = $SUB$ multiplier = $FACTOR$ } 
-}
-
-enable_battleships_modifier_fixed = {
-	fromfrom = {
-		if = {
-			limit = { NOT = { has_fleet_flag = fire_for_once } }
-			set_timed_fleet_flag = { flag = fire_for_once days = 1 }
-			every_owned_ship = {
-				set_eternal_fleet_mult_modifier = { 
-					hull_regen_add_perc = ship_hull_regen_add_perc 
-					shield_regen_add_perc = ship_shield_regen_add_perc 
-					armor_regen_add_perc = ship_armor_regen_add_perc 
-					hull_mult = ship_hull_mult
-					armor_mult = ship_armor_mult
-					shield_mult = ship_shield_mult
-					weapon_range_mult = ship_weapon_range_mult
-					weapon_damage_own = ship_weapon_damage
-					shield_penetration_own = ship_shield_penetration_mult
-					armor_penetration_own = ship_armor_penetration_mult
-					weapon_type_energy = weapon_type_energy_weapon_damage_mult
-					weapon_type_kinetic = weapon_type_kinetic_weapon_damage_mult
-					weapon_type_explosive = weapon_type_explosive_weapon_damage_mult 
-				}
-			}
-		}	
-	}
-	fromfromfrom = { 
-		if = {
-			limit = { NOT = { has_fleet_flag = fire_for_once } }
-			set_timed_fleet_flag = { flag = fire_for_once days = 1 }
-			every_owned_ship = {
-				if = {
-					limit = { 
-						ROOT = { is_country_type = ag_kuat_invasion_country } 
-						has_global_flag = difficult_exe_invasion 
-					}
-					set_eternal_fleet_mult_modifier = { 
-						shield_penetration = ship_shield_penetration_mult 
-						armor_penetration = ship_armor_penetration_mult
-						armor_damage = ship_armor_damage_mult
-						shield_damage = ship_shield_damage_mult
-						hull_damage = ship_hull_damage_mult
-						weapon_damage = ship_weapon_damage
-						tracking = ship_tracking_mult
-					}
-				} 
-				else = {
-					set_eternal_fleet_mult_modifier = { 
-						shield_penetration = ship_shield_penetration_mult 
-						armor_penetration = ship_armor_penetration_mult
-					}
-				}
-			}
-		} 
-	}
+	add_modifier = { modifier = $SUB$ multiplier = $FACTOR$ days = $DAY|-1$ } 
 }
 
 clear_battleship_modifier_fixed_ship = {

@@ -506,7 +506,7 @@ country_event = {
 					NOT = { owner = { is_country_type = ag_kuat_invasion_country } } 
 					NOT = { has_fleet_flag = has_Eternal_power }
 				}
-				set_time_modifier_or_flag = { SUB = Eternal_power DAYS = 360 }
+				set_fleet_modifier = { SUB = Eternal_power DAYS = 360 }
 			}
 			random_ambient_object = {
 				limit = { has_ambient_object_flag = space_storm_object }
@@ -1231,29 +1231,21 @@ country_event = {
 	immediate = {
 		fromfrom = { 
 			if = {
-				limit = {
+				limit = {	
 					NOT = { has_fleet_flag = has_Eternal_support }
 					has_enable_flag_ship_system = yes
 					has_enable_flag_ship_system_false = yes
 				}
 				if = {
 					limit = { has_global_flag = enable_modifer_check }
-					every_owned_ship = {
-						if = {
-							limit = { ag_is_flagship_system_proection_true = no }
-							set_timed_ship_flag = { flag = is_invisiable_trigger days = 1 }
-							increase_executor_power = { DAYS = 1 }
-							ship_event = { id = exe_invasion.119 }
-						}
-						else_if = {
-							limit = { ag_is_flagship_system_proection_true = yes }
-							set_ship_flag = is_invisiable_trigger
-							increase_executor_power = { DAYS = -1 }
-							ship_event = { id = exe_invasion.114 }
-						}
+					random_owned_ship = {
+						limit = { ag_is_flagship_system_proection_true = yes }
+						set_ship_flag = is_invisiable_trigger
+						increase_executor_power = { DAYS = -1 }
+						ship_event = { id = exe_invasion.114 }
 					}
 				}
-				set_fleet_modifier = { SUB = Eternal_support }
+				set_fleet_modifier = { SUB = Eternal_support DAYS = -1 }
 			}
 		}
 	}
@@ -1271,6 +1263,7 @@ ship_event = {
 		}
 		else = {
 			remove_executor_power = yes
+			fleet = { remove_modifier = Eternal_support remove_fleet_flag = has_Eternal_support }
 			remove_ship_flag = is_invisiable_trigger
 		}
 	}
@@ -1290,9 +1283,9 @@ country_event = {
 			if = {
 				limit = { NOT = { has_fleet_flag = fire_for_once } }
 				set_timed_fleet_flag = { flag = fire_for_once days = 1 }
-				set_fleet_modifier = { SUB = Eternal_support }
+				set_fleet_modifier = { SUB = Eternal_support DAYS = 5 }
 				increase_ship_hp_effect_change = { DAYS = 5 }
-				set_fromfromfrom_check_invsiable_time_flag = { DAYS = 5 }
+				ROOT.FROMFROMFROM = { set_fleet_modifier = { SUB = ship_firing_debuff_invisiable_protection DAYS = 5 } }
 			}
 		}
 	}
@@ -1439,9 +1432,9 @@ country_event = {
 				has_enable_flag_fleet_system = yes
 				root.fromfromfrom = { NOT = { has_fleet_flag = ship_firing_debuff_invisiable_protection } }
 			}
-			set_fleet_modifier = { SUB = Eternal_support }
+			set_fleet_modifier = { SUB = Eternal_support DAYS = 5 }
 			increase_ship_hp_effect_change = { DAYS = 5 }
-			set_fromfromfrom_check_invsiable_time_flag = { DAYS = 5 }
+			ROOT.FROMFROMFROM = { set_fleet_modifier = { SUB = ship_firing_debuff_invisiable_protection DAYS = 5 } }
 		} }
 	}
 }
