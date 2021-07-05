@@ -480,30 +480,37 @@ country_event = {
 				is_megastructure_type = exe_black_hole_facility
 			}
 		}
+		NOT = { has_country_flag = can_pass_by }
 	}
 	immediate = {
-		every_country = { begin_event_chain = { event_chain = ag_return_eternal_chain } }
-		reset_return_eternal_fleet = yes
+		every_country = { 
+			limit = { NOT = { has_event_chain = ag_return_eternal_chain } }
+			begin_event_chain = { event_chain = ag_return_eternal_chain }
+		}
 		set_country_flag = can_pass_by
 		set_country_flag = can_pass_inner_by
-		create_country = {
-			name = "Name_Kuat_Support"
-			type = kuat_support
-			flag = {
-				icon = {
-					category = "Kuat"
-					file = "flag_swep_1.dds"
+		if = {
+			limit = { NOT = { exists = event_target:kuat_support_country } }
+			create_country = {
+				name = "Name_Kuat_Support"
+				type = kuat_support
+				flag = {
+					icon = {
+						category = "Kuat"
+						file = "flag_swep_1.dds"
+					}
+					background = {
+						category = "backgrounds"
+						file = "circle.dds"
+					}
+					colors = { "red" "black" "null" "null" }
 				}
-				background = {
-					category = "backgrounds"
-					file = "circle.dds"
+				effect = {
+					save_global_event_target_as = kuat_support_country
+					establish_communications_no_message = root
 				}
-				colors = { "red" "black" "null" "null" }
 			}
-			effect = {
-				save_global_event_target_as = kuat_support_country
-				establish_communications_no_message = root
-			}
+			reset_return_eternal_fleet = yes
 		}
 	}
 	option = { name = kuat_origin.8.a }
