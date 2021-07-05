@@ -113,6 +113,13 @@ event = {
 	is_triggered_only = yes
 	immediate = {
 		if = {
+			limit = { any_country = { has_origin = origin_kuat_apocalyptic is_ai = no } }
+			every_playable_country = {
+				limit = { has_origin = origin_kuat_apocalyptic is_ai = no }
+				country_event = { id = kuat_origin.1 }
+			}
+		}
+		else_if = {
 			limit = { 
 				OR = {
 					NOT = { any_country = { has_origin = origin_kuat_apocalyptic } }
@@ -124,13 +131,6 @@ event = {
 				country_event = { id = executor_build.3 days = 30 }
 			}
 			set_global_flag = kuat_spawned
-		}
-		else_if = {
-			limit = { any_country = { has_origin = origin_kuat_apocalyptic is_ai = no } }
-			random_system = {
-				limit = { has_star_flag = kuat_initial_origin_system }
-				kuat_origin_system_initial_creating = yes
-			}
 		}
 	}
 }
