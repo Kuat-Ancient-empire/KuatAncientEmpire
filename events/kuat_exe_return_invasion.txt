@@ -761,7 +761,10 @@ country_event = {
 		name = exe_return_invasion.33.a
 		custom_tooltip = exe_return_invasion.33.tooltip
 		end_event_chain = ag_find_invasion_chain
-		hidden_effect = { set_global_flag = can_win_the_fleet }
+		hidden_effect = { 
+			set_global_flag = can_win_the_fleet 
+			event_target:ag_kuat_invasion_country = { country_event = { id = exe_return_invasion.37 days = 30 } }
+		}
 	}
 }
 
@@ -1467,6 +1470,28 @@ country_event = {
 				set_event_locked = no
 			}
 		}
+	}
+}
+
+country_event = {
+	id = exe_return_invasion.37
+	hide_window = yes
+	is_triggered_only = yes
+	trigger = {
+		has_global_flag = can_win_the_fleet
+		any_owned_fleet = { has_fleet_flag = ag_kuat_invasion_starbase }
+	}
+	immediate = {
+		if = {
+			limit = { NOT = {
+				any_owned_fleet = { has_fleet_flag = ag_kuat_invasion_fleet }
+			} }
+			every_owned_fleet = {
+				limit = { has_fleet_flag = ag_kuat_invasion_starbase }
+				set_event_locked = no
+			}
+		}
+		else = { country_event = { id = exe_return_invasion.37 days = 30 } }
 	}
 }
 
