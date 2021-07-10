@@ -169,6 +169,7 @@ eddy_01_X300 = {
 }
 
 X307_Balletor = {
+	entity = X308_Balletor_entity
 	formation_priority = 50
 	max_speed = 150
 	acceleration = 0.2
@@ -184,7 +185,7 @@ X307_Balletor = {
 	}
 	size_multiplier = 16
 	fleet_slot_size = 16
-	section_slots = { "bow" = { locator = "part1" } "mid" = { locator = "part2" } "mid2" = { locator = "part3" } "mid3" = { locator = "part4" } "stern" = { locator = "part5" } }
+	section_slots = { "bow" = { locator = "root" } "mid" = { locator = "root" } "mid2" = { locator = "root" } "mid3" = { locator = "root" } "stern" = { locator = "root" } }
 	num_target_locators = 8
 	is_space_station = no
 	icon_frame = 6
@@ -192,11 +193,8 @@ X307_Balletor = {
 	base_buildtime = 1200
 	can_have_federation_design = no
 	enable_default_design = no	#if yes, countries will have an auto-generated design at start
-
 	default_behavior = artillery
-
 	combat_disengage_chance = 1.25
-
 	class = shipclass_military
 	construction_type = starbase_shipyard
 	required_component_set = "power_core"
@@ -223,9 +221,64 @@ X307_Balletor = {
 }
 
 #flagship
+X308_Balletor = {
+	entity = X307_Balletor_entity
+	formation_priority = 50
+	max_speed = 100
+	acceleration = 0.2
+	rotation_speed = 0.15
+	collision_radius = 20
+	max_hitpoints = 100000
+	modifier = {
+		ship_armor_add = 250000
+		ship_shield_add = 250000
+		ship_shield_regen_add_perc = 1
+		ship_armor_regen_add_perc = 1
+		ship_hull_regen_add_perc = 1
+	}
+	ship_modifier = {
+		ship_shield_penetration_mult = 0.01
+		ship_armor_penetration_mult = 0.01
+		ship_starting_experience_add = 11100
+	}
+	size_multiplier = 16
+	fleet_slot_size = 16
+	section_slots = { "bow" = { locator = "part1" } "mid" = { locator = "part2" } "mid2" = { locator = "part3" } "mid3" = { locator = "part4" } "stern" = { locator = "part5" } }
+	num_target_locators = 8
+	is_space_station = no
+	icon_frame = 7
+	base_buildtime = 1000
+	can_have_federation_design = no
+	enable_default_design = yes	#if yes, countries will have an auto-generated design at start
+	prerequisites = { tech_exe_jump_drive }
+	default_behavior = artillery
+	combat_disengage_chance = 1.25
+	class = shipclass_military
+	construction_type = starbase_shipyard
+	required_component_set = "power_core"
+	required_component_set = "ftl_components"
+	required_component_set = "thruster_components"
+	required_component_set = "sensor_components"
+	required_component_set = "combat_computers"
+
+	resources = {
+		category = ships
+		cost = { alloys = 20000 }
+		upkeep = { energy = 500 }
+	}
+
+	empire_limit = {
+		base = 1
+		max = 5
+		naval_cap_div = 4000
+	}
+
+	min_upgrade_cost = { alloys = 10 }
+}
+
 nebula_dominance = {
 	formation_priority = 51
-	max_speed = 150
+	max_speed = 100
 	acceleration = 0.2
 	rotation_speed = 0.15
 	collision_radius = 100 #20

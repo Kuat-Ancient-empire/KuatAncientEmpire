@@ -671,17 +671,44 @@ ship_event = {
 		owner = { is_ai = no has_country_flag = fire_the_legacy_kuat_stage_5 }
 	}
 	immediate = {
-		owner = { set_country_flag = can_have_starbase_country }
+		owner = { 
+			if = {
+				limit = { is_multiplayer = yes }
+				every_playable_country = {
+					limit = { is_ai = no }
+					set_country_flag = can_have_starbase_country
+				}
+			}
+			else = { set_country_flag = can_have_starbase_country }
+		}
 	}
 	option = { 
 		trigger = { NOT = { has_origin = origin_parit } }
 		name = "kuat_lagacy.252.a" 
-		owner = { give_technology = { tech = tech_kuat_starbase message = no } }
+		owner = { 
+			if = {
+				limit = { is_multiplayer = yes }
+				every_playable_country = {
+					limit = { is_ai = no }
+					give_technology = { tech = tech_kuat_starbase message = no }
+				}
+			}
+			else = { give_technology = { tech = tech_kuat_starbase message = no } }
+		}
 	}
 	option = {
 		trigger = { has_origin = origin_parit }
 		name = "kuat_lagacy.252.b"
-		owner = { give_technology = { tech = tech_kuat_starbase message = no } }
+		owner = { 
+			if = {
+				limit = { is_multiplayer = yes }
+				every_playable_country = {
+					limit = { is_ai = no }
+					give_technology = { tech = tech_kuat_starbase message = no }
+				}
+			}
+			else = { give_technology = { tech = tech_kuat_starbase message = no } }
+		}
 	}
 }
 
