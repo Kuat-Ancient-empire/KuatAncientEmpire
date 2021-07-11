@@ -389,27 +389,22 @@ country_event = {
 	title = OK
 	desc = OK
 	hide_window = yes
-	fire_only_once = yes
+	is_triggered_only = yes
 	trigger = {
-		is_country_type = kuat_fallen_empire
+		is_kuat_fallen_empire = yes
 		is_at_war = no
 		NOT = { exists = event_target:fallen_empire_kuat_fleet }
 		ag_is_against_country = no
-		mid_game_years_passed >= 0
-	}
-	mean_time_to_happen = {
-		years = 50
-		modifier = { factor = 2 num_fallen_empires > 1 num_fallen_empires < 3 }
-		modifier = { factor = 4 num_fallen_empires > 2 num_fallen_empires < 4 }
-		modifier = { factor = 6 num_fallen_empires > 3 }
-		modifier = { factor = 0 NOT = { exists = event_target:fallen_empire_kuat_fleet } }
 	}
 	immediate = {
-		every_playable_country = {
-			limit = { is_ai = no }
-			country_event = { id = executor_build.21 }
+		if = {
+			limit = { is_country_type = kuat_fallen_empire }
+			every_playable_country = {
+				limit = { is_ai = no }
+				country_event = { id = executor_build.21 }
+			}
+			country_event = { id = executor_build.20 }
 		}
-		country_event = { id = executor_build.20 }
 		random_playable_country = {
 			limit = { is_same_value = event_target:target_for_kuat }
 			country_event = { id = executor_build.24 days = 5 }
@@ -1281,11 +1276,12 @@ country_event = {
 
 	trigger = {
 		exists = event_target:fallen_empire_kuat
-		is_country_type = kuat_fleet
+		fromfromfrom = { has_fleet_flag = kuat_fundation_main_fleet }
 	}
 
 	immediate = {
-		from = { country_event = { id = executor_build.378 } }
+		from = { destroy_country = yes }
+		country_event = { id = executor_build.378 }
 	}
 }
 
@@ -1301,9 +1297,13 @@ country_event = {
 	custom_gui = "kuat_event_diplomacy_window"
 	custom_gui_option = "kuat_event_diplomacy_option"
 	is_triggered_only = yes
+	immediate = { save_event_target_as = target_for_kuat }
 	option = {
 		name = executor_build.378.a
-		event_target:fallen_empire_kuat = { add_opinion_modifier = { who = prevprev modifier = opinion_mutual_threat_kuat_fleet } }
+		event_target:fallen_empire_kuat = { 
+			add_opinion_modifier = { who = prevprev modifier = opinion_mutual_threat_kuat_fleet } 
+			country_event = { id = executor_build.7 days = 3 }
+		}
 	}
 }
 
