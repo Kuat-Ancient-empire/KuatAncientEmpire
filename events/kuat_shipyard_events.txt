@@ -84,9 +84,21 @@ country_event = {
 	}
 	immediate = {
 		set_variable = { which = dominance_check value = dominance_class_queue }
+		set_variable = { which = fallen_empire_escort_check value = fallen_empire_escort_queue }
+		set_variable = { which = eclipse_class_check value = eclipse_class_queue }
 		every_owned_ship = {
-			limit = { is_ship_size = nebula_dominance }
-			prev = { change_variable = { which = dominance_check value = 1 } }
+			if = {
+				limit = { is_ship_size = nebula_dominance }
+				prev = { change_variable = { which = dominance_check value = 1 } }
+			}
+			if = {
+				limit = { is_ship_size = knigjt_hammer_executor }
+				prev = { change_variable = { which = fallen_empire_escort_check value = 1 } }
+			}
+			if = {
+				limit = { is_ship_size = eclipse }
+				prev = { change_variable = { which = eclipse_class_check value = 1 } }
+			}
 		}
 	}
 	#折磨者
@@ -158,10 +170,9 @@ country_event = {
 		allow = {
 			custom_tooltip = {
 				fail_text = kuat_shipyard.3.a.opinion.tooltip
-				NOR = {
-					any_owned_ship = { is_ship_size = knigjt_hammer_executor }
-					check_variable = { which = fallen_empire_escort_queue value > 0 }
-				}
+				count_owned_ship = { limit = { is_ship_size = knigjt_hammer_executor } count < 3 }
+				check_variable = { which = fallen_empire_escort_queue value < 3 }
+				check_variable = { which = fallen_empire_escort_check value < 3 }
 			}
 			custom_tooltip = {
 				fail_text = kuat_shipyard.2.a.opinion.tooltip
@@ -180,10 +191,9 @@ country_event = {
 		allow = {
 			custom_tooltip = {
 				fail_text = kuat_shipyard.3.a.opinion.tooltip
-				NOR = {
-					any_owned_ship = { is_ship_size = eclipse }
-					check_variable = { which = eclipse_class_queue value > 0 }
-				}
+				count_owned_ship = { limit = { is_ship_size = eclipse } count < 3 }
+				check_variable = { which = eclipse_class_queue value < 3 }
+				check_variable = { which = eclipse_class_check value < 3 }
 			}
 			custom_tooltip = {
 				fail_text = kuat_shipyard.2.a.opinion.tooltip
@@ -243,10 +253,9 @@ country_event = {
 		allow = {
 			custom_tooltip = {
 				fail_text = kuat_shipyard.3.a.opinion.tooltip
-				NOR = {
-					any_owned_ship = { is_ship_size = knigjt_hammer_executor }
-					check_variable = { which = fallen_empire_escort_queue value > 0 }
-				}
+				count_owned_ship = { limit = { is_ship_size = knigjt_hammer_executor } count < 3 }
+				check_variable = { which = fallen_empire_escort_check value < 3 }
+				check_variable = { which = fallen_empire_escort_queue value < 3 }
 			}
 			custom_tooltip = {
 				fail_text = kuat_shipyard.check
@@ -257,6 +266,7 @@ country_event = {
 		hidden_effect = { get_variable_alloys_bought = yes }
 		hidden_effect = {
 			change_variable = { which = fallen_empire_escort_queue value = 1 }
+			change_variable = { which = fallen_empire_escort_check value = 1 }
 			country_event = { id = kuat_shipyard.21 }
 			country_event = { id = kuat_shipyard.211 days = @kuat_escort_build_time }
 		}
@@ -273,6 +283,7 @@ country_event = {
 		hidden_effect = { get_variable_alloys = yes }
 		hidden_effect = {
 			subtract_variable = { which = fallen_empire_escort_queue value = 1 }
+			subtract_variable = { which = fallen_empire_escort_check value = 1 }
 			country_event = { id = kuat_shipyard.21 }
 		}
 	}
@@ -1190,14 +1201,14 @@ country_event = {
 				fail_text = kuat_shipyard.check
 				get_variable_alloys_check_allow = yes
 			}
-			NOR = {
-				any_owned_ship = { is_ship_size = eclipse }
-				check_variable = { which = eclipse_class_queue value > 0 }
-			}
+			count_owned_ship = { limit = { is_ship_size = eclipse } count < 3 }
+			check_variable = { which = eclipse_class_queue value < 3 }
+			check_variable = { which = eclipse_class_check value < 3 }
 		}
 		custom_tooltip = kuat_shipyard.26.a.tooltip
 		hidden_effect = { get_variable_alloys_bought = yes }
 		hidden_effect = {
+			change_variable = { which = eclipse_class_check value = 1 }
 			change_variable = { which = eclipse_class_queue value = 1 }
 			country_event = { id = kuat_shipyard.26 }
 			country_event = { id = kuat_shipyard.261 days = @kuat_eclipse_build_time }
@@ -1214,6 +1225,7 @@ country_event = {
 		custom_tooltip = kuat_shipyard.26.b.tooltip
 		hidden_effect = { get_variable_alloys = yes }
 		hidden_effect = {
+			subtract_variable = { which = eclipse_class_check value = 1 }
 			subtract_variable = { which = eclipse_class_queue value = 1 }
 			country_event = { id = kuat_shipyard.26 }
 		}
