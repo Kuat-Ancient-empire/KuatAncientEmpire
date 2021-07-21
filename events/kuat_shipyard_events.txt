@@ -1,9 +1,9 @@
 namespace = kuat_shipyard
 @kuat_escort_build_time = 2400
 @kuat_eclipse_build_time = 2400
+@kuat_dreadnought_build_time = 500
 @kuat_battlecruiser_build_time = 1000
 @kuat_titan_build_time = 1000
-@kuat_dreadnought_build_time = 1200
 @kuat_dominance_class_build_time = 1200
 #通讯主界面
 country_event = {
@@ -101,13 +101,28 @@ country_event = {
 			}
 		}
 	}
+	#防卫者级
+	option = {
+		name = kuat_shipyard.2.d
+		allow = {
+			custom_tooltip = {
+				fail_text = kuat_shipyard.2.d.opinion.tooltip
+				event_target:fallen_empire_kuat = { opinion = { who = root value >= 100 } }
+			}
+		}
+		hidden_effect = { 
+			country_event = { id = kuat_shipyard.24 } 
+			set_country_flag = building_the_raider 
+			get_variable_screen_alloys = yes
+		}
+	}
 	#折磨者
 	option = {
 		name = kuat_shipyard.2.b
 		allow = {
 			custom_tooltip = {
 				fail_text = kuat_shipyard.2.b.opinion.tooltip
-				event_target:fallen_empire_kuat = { opinion = { who = root value >= 100 } }
+				event_target:fallen_empire_kuat = { opinion = { who = root value >= 200 } }
 			}
 		}
 		hidden_effect = { 
@@ -122,27 +137,12 @@ country_event = {
 		allow = {
 			custom_tooltip = {
 				fail_text = kuat_shipyard.2.c.opinion.tooltip
-				event_target:fallen_empire_kuat = { opinion = { who = root value >= 200 } }
+				event_target:fallen_empire_kuat = { opinion = { who = root value >= 300 } }
 			}
 		}
 		hidden_effect = { 
 			country_event = { id = kuat_shipyard.23 } 
 			set_country_flag = building_the_empire 
-			get_variable_screen_alloys = yes
-		}
-	}
-	#战士级
-	option = {
-		name = kuat_shipyard.2.d
-		allow = {
-			custom_tooltip = {
-				fail_text = kuat_shipyard.2.d.opinion.tooltip
-				event_target:fallen_empire_kuat = { opinion = { who = root value >= 300 } }
-			}
-		}
-		hidden_effect = { 
-			country_event = { id = kuat_shipyard.24 } 
-			set_country_flag = building_the_balletor 
 			get_variable_screen_alloys = yes
 		}
 	}
@@ -813,22 +813,22 @@ country_event = {
 	title = kuat_shipyard.title
 	desc = {
 		trigger = {
-			check_variable = { which = balletor_class_queue value > 0 }
-			check_variable = { which = balletor_class_queue value <= 4 }
+			check_variable = { which = raider_class_queue value > 0 }
+			check_variable = { which = raider_class_queue value <= 4 }
 		}
 		text = kuat_shipyard.24.a.desc
 	}
 	desc = {
 		trigger = {
-			check_variable = { which = balletor_class_queue value > 4 }
+			check_variable = { which = raider_class_queue value > 4 }
 		}
 		text = kuat_shipyard.24.a5.desc
 	}
 	desc = {
 		trigger = {
 			OR = {
-				NOT = { is_variable_set = balletor_class_queue }
-				check_variable = { which = balletor_class_queue value = 0 }
+				NOT = { is_variable_set = raider_class_queue }
+				check_variable = { which = raider_class_queue value = 0 }
 			}
 		}
 		text = kuat_shipyard.24.b.desc
@@ -857,7 +857,7 @@ country_event = {
 		custom_tooltip = kuat_shipyard.24.a.tooltip
 		hidden_effect = { get_variable_alloys_bought = yes }
 		hidden_effect = {
-			change_variable = { which = balletor_class_queue value = 1 }
+			change_variable = { which = raider_class_queue value = 1 }
 			country_event = { id = kuat_shipyard.24 }
 			country_event = { id = kuat_shipyard.241 days = @kuat_dreadnought_build_time }
 		}
@@ -867,13 +867,13 @@ country_event = {
 		allow = {
 			custom_tooltip = {
 				fail_text = kuat_shipyard.24.b.need_queue.tooltip
-				check_variable = { which = balletor_class_queue value > 0 }
+				check_variable = { which = raider_class_queue value > 0 }
 			}
 		}
 		custom_tooltip = kuat_shipyard.24.b.tooltip
 		hidden_effect = { get_variable_alloys = yes }
 		hidden_effect = {
-			subtract_variable = { which = balletor_class_queue value = 1 }
+			subtract_variable = { which = raider_class_queue value = 1 }
 			country_event = { id = kuat_shipyard.24 }
 		}
 	}
@@ -883,14 +883,14 @@ country_event = {
 		allow = {
 			custom_tooltip = {
 				fail_text = kuat_shipyard.24.b.need_queue.tooltip
-				check_variable = { which = balletor_class_queue value > 4 }
+				check_variable = { which = raider_class_queue value > 4 }
 			}
 		}
 		custom_tooltip = kuat_shipyard.24.b.tooltip
 		hidden_effect = { get_variable_alloys = yes }
 		hidden_effect = {
 			remove_country_flag = fire_five_impirial
-			subtract_variable = { which = balletor_class_queue value = 5 }
+			subtract_variable = { which = raider_class_queue value = 5 }
 			country_event = { id = kuat_shipyard.24 }
 		}
 	}
@@ -902,11 +902,11 @@ country_event = {
 	}
 	option = {
 		name = kuat_shipyard.return
-		hidden_effect = { country_event = { id = kuat_shipyard.1 } remove_country_flag = building_the_balletor }
+		hidden_effect = { country_event = { id = kuat_shipyard.1 } remove_country_flag = building_the_raider }
 	}
 	option = {
 		name = kuat_shipyard.exit
-		hidden_effect = { remove_country_flag = building_the_balletor }
+		hidden_effect = { remove_country_flag = building_the_raider }
 		default_hide_option = yes
 	}
 }
@@ -916,22 +916,22 @@ country_event = {
 	title = kuat_shipyard.title
 	desc = {
 		trigger = {
-			check_variable = { which = balletor_class_queue value > 0 }
-			check_variable = { which = balletor_class_queue value <= 4 }
+			check_variable = { which = raider_class_queue value > 0 }
+			check_variable = { which = raider_class_queue value <= 4 }
 		}
 		text = kuat_shipyard.24.a.desc
 	}
 	desc = {
 		trigger = {
-			check_variable = { which = balletor_class_queue value > 4 }
+			check_variable = { which = raider_class_queue value > 4 }
 		}
 		text = kuat_shipyard.24.a5.desc
 	}
 	desc = {
 		trigger = {
 			OR = {
-				NOT = { is_variable_set = balletor_class_queue }
-				check_variable = { which = balletor_class_queue value = 0 }
+				NOT = { is_variable_set = raider_class_queue }
+				check_variable = { which = raider_class_queue value = 0 }
 			}
 		}
 		text = kuat_shipyard.24.b.desc
@@ -955,19 +955,19 @@ country_event = {
 		allow = { 
 			custom_tooltip = {
 				fail_text = kuat_shipyard_queue
-				check_variable = { which = balletor_queue value > 0 } 
+				check_variable = { which = raider_queue value > 0 } 
 			}
 		}
 		hidden_effect = { 
-			change_variable = { which = balletor_class_queue value = balletor_queue }
+			change_variable = { which = raider_class_queue value = raider_queue }
 			country_event = { id = kuat_shipyard.24 }
 			while = {
-				count = balletor_class_queue
+				count = raider_class_queue
 				country_event = { id = kuat_shipyard.241 days = @kuat_dreadnought_build_time } 
 			}
-			remove_country_flag = fired_balletor
+			remove_country_flag = fired_raider
 			remove_country_flag = fire_five_impirial 
-			clear_variable = balletor_queue
+			clear_variable = raider_queue
 		}
 	}
 	option = {
@@ -975,7 +975,7 @@ country_event = {
 		default_hide_option = yes
 		hidden_effect = { 
 			country_event = { id = kuat_shipyard.24 } 
-			remove_country_flag = fired_balletor
+			remove_country_flag = fired_raider
 			remove_country_flag = fire_five_impirial
 		}
 	}
@@ -988,15 +988,15 @@ country_event = {
 	is_triggered_only = yes
 	trigger = {
 		can_communicate_with_kuat = yes
-		check_variable = { which = balletor_class_queue value > 0 }
+		check_variable = { which = raider_class_queue value > 0 }
 	}
 	immediate = {
 		country_event = { id = kuat_shipyard.243 days = 1 }
-		change_variable = { which = balletor_fleet_queue value = 1 }
-		subtract_variable = { which = balletor_class_queue value = 1 }
+		change_variable = { which = raider_fleet_queue value = 1 }
+		subtract_variable = { which = raider_class_queue value = 1 }
 		if = {
-			limit = { check_variable = { which = balletor_class_queue value <= 0 } }
-			clear_variable = balletor_class_queue
+			limit = { check_variable = { which = raider_class_queue value <= 0 } }
+			clear_variable = raider_class_queue
 		}
 		event_target:fallen_empire_kuat = { add_opinion_modifier = { modifier = opinion_kuat_ship_built who = root } }
 	}
@@ -1008,7 +1008,7 @@ country_event = {
 	is_triggered_only = yes
 	trigger = {
 		can_communicate_with_kuat = yes
-		check_variable = { which = balletor_fleet_queue value > 0 }
+		check_variable = { which = raider_fleet_queue value > 0 }
 	}
 	immediate = {
 		capital_scope = {
@@ -1018,13 +1018,13 @@ country_event = {
 					set_owner = root
 					while = {
 						limit = {
-							root = { check_variable = { which = balletor_fleet_queue value > 0 } }
+							root = { check_variable = { which = raider_fleet_queue value > 0 } }
 						}
 						create_ship = {
-							name = "Balletor Class Stellar Dreadnought"
-							design = "Name_boss_BELLATOR"
+							name = "Raider Class Star Frigate"
+							design = "Name_boss_Raider"
 						}
-						root = { subtract_variable = { which = balletor_fleet_queue value = 1 } }
+						root = { subtract_variable = { which = raider_fleet_queue value = 1 } }
 					}
 					set_location = { target = prev distance = 20 angle = random }
 				}
@@ -1032,7 +1032,7 @@ country_event = {
 		}
 		create_message = {
 			type = "SPACEPORT_CONSTRUCTION_MESSAGE_TYPE"
-			localization = "kuat_balletor_class_arrived_desc"
+			localization = "kuat_raider_class_arrived_desc"
 			days = 30
 			target = from
 			variable = { type = name localization = "capital_planet" scope = root.capital_scope }
@@ -1314,7 +1314,7 @@ country_event = {
 			check_variable = { which = fallen_empire_escort_queue value > 0 }
 			check_variable = { which = fallen_empire_battlecruiser_queue value > 0 }
 			check_variable = { which = fallen_empire_titan_queue value > 0 }
-			check_variable = { which = balletor_class_queue value > 0 }
+			check_variable = { which = raider_class_queue value > 0 }
 			check_variable = { which = dominance_class_queue value > 0 }
 			check_variable = { which = eclipse_class_queue value > 0 }
 		}
@@ -1323,7 +1323,7 @@ country_event = {
 		clear_variable = fallen_empire_escort_queue
 		clear_variable = fallen_empire_battlecruiser_queue
 		clear_variable = fallen_empire_titan_queue
-		clear_variable = balletor_class_queue
+		clear_variable = raider_class_queue
 		clear_variable = dominance_class_queue
 		clear_variable = eclipse_class_queue
 	}
