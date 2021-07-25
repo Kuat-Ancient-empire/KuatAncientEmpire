@@ -5,6 +5,8 @@
 #tracking weapondamage value
 @fromfromfrom_scope_weapon_value = 0.25
 @mult_fromfromfrom_scope_weapon_value = -0.25
+#tracking addon
+@add_tracking_value = 100
 #eternal damage system value
 @fromfromfrom_scope_value = 0.75
 @mult_fromfromfrom_scope_value = -0.75
@@ -935,6 +937,40 @@ set_eternal_fleet_mult_modifier = {
 			}
 		}
 	}]
+	[[tracking_add_own] if = {
+		limit = { NOT = { is_variable_set = $tracking_add_own$_value } }
+		if = {
+			limit = { check_modifier_value = { modifier = $tracking_add_own$ value < @add_tracking_value } }
+			export_modifier_to_variable = { modifier = $tracking_add_own$ variable = $tracking_add_own$_value }
+			if = {
+				limit = { is_variable_set = $tracking_add_own$_value }
+				subtract_variable = { which = $tracking_add_own$_value value = @add_tracking_value }
+				set_ship_flag = has_$tracking_add_own$
+				if = {
+					limit = { is_variable_set = $tracking_add_own$_value has_ship_flag = has_$tracking_add_own$ }
+					set_invasion_fleet_basic_modifier = { SUB = basic_$tracking_add_own$ FACTOR = $tracking_add_own$_value }
+					remove_ship_flag = has_$tracking_add_own$
+				}
+			}
+		}
+	}
+	else = {
+		if = {
+			limit = { is_variable_set = change_$tracking_add_own$_value }
+			clear_variable = change_$tracking_add_own$_value
+		}
+		export_modifier_to_variable = { modifier = $tracking_add_own$ variable = change_$tracking_add_own$_value }
+		if = {
+			limit = { is_variable_set = change_$tracking_add_own$_value }
+			subtract_variable = { which = change_$tracking_add_own$_value value = @add_tracking_value }
+			set_ship_flag = has_$tracking_add_own$_changed
+			if = {
+				limit = { is_variable_set = change_$tracking_add_own$_value has_ship_flag = has_$tracking_add_own$_changed }
+				set_invasion_fleet_basic_modifier = { SUB = change_basic_$tracking_add_own$ FACTOR = change_$tracking_add_own$_value }
+				remove_ship_flag = has_$tracking_add_own$_changed
+			}
+		}
+	}]
 	####BASICAL
 	[[weapon_type_energy] if = {
 		limit = { NOT = { is_variable_set = $weapon_type_energy$_value } }
@@ -1063,6 +1099,7 @@ remove_eternal_fleet_mult_variable = {
 	[[weapon_type_kinetic] clear_variable = $weapon_type_kinetic$_value clear_variable = change_$weapon_type_kinetic$_value ]
 	[[fire_rate_mult] clear_variable = $fire_rate_mult$_value clear_variable = change_$fire_rate_mult$_value ]
 	[[tracking_own] clear_variable = $tracking_own$_value clear_variable = change_$tracking_own$_value ]
+	[[tracking_add_own] clear_variable = $tracking_add_own$_value clear_variable = change_$tracking_add_own$_value ]
 }
 
 set_fleet_modifier = {
@@ -1081,6 +1118,7 @@ clear_battleship_modifier_fixed_ship = {
 	remove_modifier = basic_ship_shield_damage_mult
 	remove_modifier = basic_ship_hull_damage_mult
 	remove_modifier = basic_ship_tracking_mult
+	remove_modifier = basic_ship_tracking_add
 	remove_modifier = basic_ship_weapon_damage
 	remove_modifier = basic_ship_hull_regen_add_perc
 	remove_modifier = basic_ship_armor_regen_add_perc
@@ -1099,6 +1137,7 @@ clear_battleship_modifier_fixed_ship = {
 	remove_modifier = change_basic_ship_shield_damage_mult
 	remove_modifier = change_basic_ship_hull_damage_mult
 	remove_modifier = change_basic_ship_tracking_mult
+	remove_modifier = change_basic_ship_tracking_add
 	remove_modifier = change_basic_ship_weapon_damage
 	remove_modifier = change_basic_ship_hull_regen_add_perc
 	remove_modifier = change_basic_ship_armor_regen_add_perc
@@ -1134,5 +1173,6 @@ clear_battleship_modifier_fixed_ship = {
 		weapon_type_explosive = weapon_type_explosive_weapon_damage_mult 
 		fire_rate_mult = ship_fire_rate_mult
 		tracking_own = ship_tracking_mult
+		tracking_add_own = ship_tracking_add
 	}
 }
