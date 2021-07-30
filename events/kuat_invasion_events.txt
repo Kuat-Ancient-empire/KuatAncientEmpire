@@ -202,10 +202,7 @@ event = {
 		}
 		last_created_country = {
 			save_global_event_target_as = ag_kuat_invasion_country
-			if = {
-				limit = { has_global_flag = special_exe_invasion }
-				set_country_flag = ag_kuat_invasion_special_country
-			} else = { set_country_flag = ag_kuat_invasion_country }
+			set_country_flag = ag_kuat_invasion_country
 			set_global_flag = has_ag_kuat_invasion_country
 			set_graphical_culture = fallen_empire_kuat_01
 			create_ship_design = { design = "NAME_EXE_Starbase" }
@@ -1200,13 +1197,26 @@ ship_event = {
 	title = "exe_invasion.1003.name"
 	desc = "exe_invasion.1003.desc"
 	diplomatic = yes
-	picture_event_data = {
-		room = fallen_empire_room
-	}
+	picture_event_data = { room = fallen_empire_room }
 	custom_gui = "kuat_event_window"
 	custom_gui_option = "kuat_event_option"
 	is_triggered_only = yes
 	immediate = {
+		if = {
+			limit = {
+				OR = {
+					has_global_flag = ban_exe_invasion
+					has_global_flag = easy_exe_invasion
+					has_global_flag = normal_exe_invasion
+					has_global_flag = special_exe_invasion
+				}
+			}
+			remove_global_flag = ban_exe_invasion
+			remove_global_flag = easy_exe_invasion
+			remove_global_flag = normal_exe_invasion
+			remove_global_flag = special_exe_invasion
+		}
+		set_global_flag = difficult_exe_invasion
 		set_global_flag = enbale_last_invasion
 		every_playable_country = {
 			limit = { is_ai = no }
@@ -1342,7 +1352,7 @@ country_event = {
 	trigger = {
 		is_ai = no
 		NOT = { is_country_type = ag_kuat_invasion_country }
-		from = { NOT = { has_country_flag = ag_kuat_invasion_country } }
+		from = { NOT = { is_country_type = ag_kuat_invasion_country } }
 	}
 	immediate = {
 		FROMFROM = { 
@@ -1353,12 +1363,20 @@ country_event = {
 				}
 				set_timed_fleet_flag = { flag = fire_for_once days = 1 }
 				if = {
+					limit = { any_owned_ship = { is_ship_size = exe_megastructure_starbase } }
+					increase_ship_hp_effect_change = { DAYS = 5 }
+				} 
+				else_if = {
+					limit = { any_owned_ship = { is_ship_size = ag_gamma_station_1 } }
+					increase_ship_hp_effect_change = { DAYS = 5 }
+				}
+				else_if = {
 					limit = { any_owned_ship = { is_ship_size = Annihilator } }
-					increase_ship_hp_effect_change = { DAYS = 4 }
+					increase_ship_hp_effect_change = { DAYS = 5 }
 				}
 				else_if = {
 					limit = { any_owned_ship = { is_ship_size = eclipse } }
-					increase_ship_hp_effect_change = { DAYS = 3 }
+					increase_ship_hp_effect_change = { DAYS = 4 }
 				}
 				else_if = {
 					limit = { any_owned_ship = { is_ship_size = knigjt_hammer_executor } }
@@ -1369,15 +1387,11 @@ country_event = {
 					increase_ship_hp_effect_change = { DAYS = 2 }
 				}
 				else_if = {
-					limit = { any_owned_ship = { is_ship_size = exe_megastructure_starbase } }
+					limit = { any_owned_ship = { is_ship_size = nebula_dominance } }
 					increase_ship_hp_effect_change = { DAYS = 2 }
 				}
 				else_if = {
 					limit = { any_owned_ship = { is_ship_size = X308_Balletor } }
-					increase_ship_hp_effect_change = { DAYS = 1 }
-				}
-				else_if = {
-					limit = { any_owned_ship = { is_ship_size = nebula_dominance } }
 					increase_ship_hp_effect_change = { DAYS = 1 }
 				}
 				else_if = {
@@ -1406,10 +1420,6 @@ country_event = {
 				} 
 				else_if = {
 					limit = { any_owned_ship = { is_ship_size = ag_zeta_titan } }
-					increase_ship_hp_effect_change = { DAYS = 1 }
-				} 
-				else_if = {
-					limit = { any_owned_ship = { is_ship_size = ag_gamma_station_1 } }
 					increase_ship_hp_effect_change = { DAYS = 1 }
 				} 
 				else_if = {
@@ -1893,13 +1903,18 @@ country_event = {
 	hide_window = yes
 	is_triggered_only = yes
 	trigger = {
-		has_global_flag = difficult_exe_invasion
-		has_global_flag = enable_modifer_check
-		event_target:global_event_country = {
-			check_variable = { which = eternal_fleet_return_index value >= 1 }
+		OR = {
+			AND = {
+				has_global_flag = difficult_exe_invasion
+				has_global_flag = exe_return_invasion_begin
+				event_target:global_event_country = { check_variable = { which = eternal_fleet_return_index value >= 1 } }
+			}
+			AND = {
+				has_global_flag = special_exe_invasion
+				has_global_flag = exe_invasion_begin
+			}
 		}
 		is_country_type = ag_kuat_invasion_country
-		has_global_flag = exe_return_invasion_begin
 		from = { NOT = { is_country_type = ag_kuat_invasion_country } }
 	}
 	immediate = {
@@ -1915,11 +1930,11 @@ country_event = {
 					}
 					set_timed_ship_flag = { flag = is_reducing_hp days = 10 }
 					random_list = {
-						20 = { reduce_hp = 1000 }
-						20 = { reduce_hp = 1200 }
-						20 = { reduce_hp = 1400 }
-						20 = { reduce_hp = 1600 }
-						20 = { reduce_hp = 1800 }
+						1 = { reduce_hp = 1000 }
+						1 = { reduce_hp = 1200 }
+						1 = { reduce_hp = 1400 }
+						1 = { reduce_hp = 1600 }
+						1 = { reduce_hp = 1800 }
 					}
 					ship_event = { id = exe_invasion.136 days = 1 }
 				}
@@ -1939,11 +1954,11 @@ ship_event = {
 	}
 	immediate = {
 		random_list = {
-			20 = { reduce_hp = 1000 }
-			20 = { reduce_hp = 1200 }
-			20 = { reduce_hp = 1400 }
-			20 = { reduce_hp = 1600 }
-			20 = { reduce_hp = 1800 }
+			1 = { reduce_hp = 1000 }
+			1 = { reduce_hp = 1200 }
+			1 = { reduce_hp = 1400 }
+			1 = { reduce_hp = 1600 }
+			1 = { reduce_hp = 1800 }
 		}
 		ship_event = { id = exe_invasion.136 days = 1 }
 	}
@@ -1954,10 +1969,11 @@ fleet_event = {
 	id = exe_invasion.1987
 	hide_window = yes
 	is_triggered_only = yes
-	trigger = { owner = { has_country_flag = ag_kuat_invasion_country } }
+	trigger = { owner = { is_country_type = ag_kuat_invasion_country } }
 	immediate = {
 		every_owned_ship = {
 			set_timed_ship_flag = { flag = inviciable_time_for_gate days = 5 }
+			increase_executor_power = { DAYS = 5 }
 			ship_event = { id = exe_invasion.1988 }
 		}
 	}
