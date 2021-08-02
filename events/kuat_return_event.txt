@@ -751,16 +751,23 @@ planet_event = {
 			remove_planet_flag = phaseshifting_active
 			remove_modifier = phaseshifted
 		}
+		if = {
+			limit = { num_pops > 0 }
+			every_owned_pop = { kill_pop = yes }
+		}
 		destroy_colony = yes
 		if = {
 			limit = { ag_is_ringworld = yes }
+			spawn_ringworld_cracker_effect = yes
 			change_pc = pc_ringworld_habitable_damaged
-			reset_planet = yes
+			set_planet_entity = { entity = ringworld_habitable_damaged_entity }
 		}
 		else_if = {
 			limit = { ag_is_habitat = yes }
+			spawn_habitat_cracker_effect = yes
 			remove_planet = yes
-		} else = { change_pc = pc_shattered }
+		}
+		else = { change_pc = pc_shattered }
 	}
 }
 

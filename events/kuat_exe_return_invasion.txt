@@ -1268,35 +1268,19 @@ planet_event = {
 		owner = { country_event = { id = exe_return_invasion.34 } }
 		add_threat = { who = from amount = 2 }
 		add_planet_devastation = -100
-		if = {
-			limit = { num_pops > 0 }
-			every_owned_pop = { kill_pop = yes }
-		}
+		every_owned_pop = { kill_pop = yes }
 		remove_all_buildings = yes
 		remove_all_districts = yes
 		clear_deposits = yes
+		destroy_colony = yes
 		if = {
-			limit = { is_colony = yes }
-			destroy_colony = yes
-		}
-		if = {
-			limit = {
-				NOR = {
-					ag_is_ringworld = yes
-					is_planet_class = pc_habitat
-					has_modifier = "holy_planet"
-				}
-			}
-			change_pc = pc_broken
-		}
-		else_if = {
 			limit = { ag_is_ringworld = yes }
 			spawn_ringworld_cracker_effect = yes
 			change_pc = pc_ringworld_habitable_damaged
 			set_planet_entity = { entity = ringworld_habitable_damaged_entity }
 		}
 		else_if = {
-			limit = { is_planet_class = pc_habitat }
+			limit = { ag_is_habitat = yes }
 			spawn_habitat_cracker_effect = yes
 			remove_planet = yes
 		}
@@ -1306,6 +1290,7 @@ planet_event = {
 			remove_modifier = "holy_planet"
 			add_modifier = { modifier = "ag_shattered_holy_planet" }
 		}
+		else = { change_pc = pc_broken }
 		every_country = {
 			limit = {
 				NOT = { is_same_value = event_target:ag_kuat_invasion_country }
@@ -1583,38 +1568,43 @@ fleet_event = {
 	immediate = {
 		if = {
 			limit = { exists = solar_system }
-			solar_system = { if = {
-				limit = {
-					NOR = {
-						any_ship_in_system = {
-							is_ship_class = shipclass_starbase
-							exists = owner
-							owner = { is_same_value = event_target:ag_kuat_invasion_country }
-						}
-						any_ship_in_system = {
-							exists = owner
-							owner = { is_hostile = event_target:ag_kuat_invasion_country }
-						}
-						any_system_planet = {
-							exists = owner
-							owner = { is_hostile = event_target:ag_kuat_invasion_country }
+			solar_system = { 
+				if = {
+					limit = {
+						NOR = {
+							any_ship_in_system = {
+								is_ship_class = shipclass_starbase
+								exists = owner
+								owner = { is_same_value = event_target:ag_kuat_invasion_country }
+							}
+							any_ship_in_system = {
+								exists = owner
+								owner = { is_hostile = event_target:ag_kuat_invasion_country }
+							}
+							any_system_planet = {
+								exists = owner
+								owner = { is_hostile = event_target:ag_kuat_invasion_country }
+							}
 						}
 					}
+					if = {
+						limit = { exists = starbase }
+						random_fleet_in_system = {
+							limit = { is_ship_class = shipclass_starbase }
+							destroy_fleet = { target = this destroy_template = yes kill_leader = yes }
+						}
+						create_starbase = {
+							size = exe_starbase
+							owner = event_target:ag_kuat_invasion_country
+						}
+					}
+					else = {
+						create_starbase = {
+							size = exe_starbase
+							owner = event_target:ag_kuat_invasion_country
+						}
+					} 
 				}
-				every_ship_in_system = {
-					limit = { is_ship_class = shipclass_starbase }
-					destroy_ship = this
-				}
-				create_starbase = {
-					size = exe_starbase
-					owner = event_target:ag_kuat_invasion_country
-					module = "gun_battery"
-					module = "gun_battery"
-					module = "gun_battery"
-					module = "gun_battery"
-					module = "gun_battery"
-					module = "gun_battery"
-				} }
 			}
 		}
 		fleet_event = { id = exe_return_invasion.36 days = 1 }
