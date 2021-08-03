@@ -32,7 +32,15 @@ country_event = {
 				orbit_angle = 225
 				orbit_distance = 200
 				planet = system_star
+				init_effect = { 
+					set_megastructure_flag = exe_outer_gate_disable 
+					save_global_event_target_as = exe_outer_gate_disable
+				}
 			}
+			while = { count = 15 create_ambient_object = { type = "large_debris_object" location = solar_system } }
+			while = { count = 10 create_ambient_object = { type = "medium_debris_01_object" location = solar_system } }
+			while = { count = 20 create_ambient_object = { type = "medium_debris_02_object" location = solar_system } }
+			while = { count = 30 create_ambient_object = { type = "small_debris_object" location = solar_system } }
 			save_global_event_target_as = ag_exe_invasion_gate_system
 			set_star_flag = ag_exe_invasion_gate_system
 		}
@@ -98,6 +106,448 @@ country_event = {
 	is_triggered_only = yes
 	trigger = { NOT = { has_origin = origin_parit } }
 	immediate = { event_target:fallen_empire_kuat = { add_opinion_modifier = { who = prev modifier = opinion_kuat_new } } }
+}
+
+country_event = {
+	id = executor_build.23
+	title = "executor_build.23.name"
+	desc = "executor_build.23.desc"
+	diplomatic = yes
+	fire_only_once = yes
+	picture_event_data = { room = frozen_planet_room }
+	custom_gui = "kuat_event_window"
+	custom_gui_option = "kuat_event_option"
+	trigger = {
+		is_ai = no
+		has_technology = tech_sensors_2
+		NOT = { any_country = { has_origin = origin_kuat_apocalyptic } }
+		NOT = { has_global_flag = kuat_outgate_enable }
+	}
+	mean_time_to_happen = { 
+		years = 4 
+		modifier = { factor = 0.75 years_passed = 20 }
+		modifier = { factor = 0.5 years_passed = 25 }
+		modifier = { factor = 0.25 years_passed = 30 }
+	}
+	immediate = {
+		if = {
+			limit = { any_system_within_border = {
+				is_capital_system = no
+				any_system_planet = { 
+					is_planet_class = pc_frozen 
+					NOT = { exists = archaeological_site }
+				}
+			} }
+			random_system_within_border = {
+				limit = {
+					is_capital_system = no
+					any_system_planet = { 
+						is_planet_class = pc_frozen 
+						NOT = { exists = archaeological_site }
+					}
+				}
+				random_system_planet = {
+					limit = { 
+						is_planet_class = pc_frozen 
+						NOT = { exists = archaeological_site }
+					}
+					save_event_target_as = has_kuat_lagacy_9
+					create_archaeological_site = kuat_lagacy_9
+				}
+			}
+		} else = {
+			random_planet_within_border = {
+				limit = {
+					is_ringworld = no
+					is_star = no
+					is_colony = no
+					is_colonizable = no
+					is_capital = no
+					is_asteroid = no
+					NOT = { exists = archaeological_site }
+				}
+				change_pc = pc_frozen
+				save_event_target_as = has_kuat_lagacy_9
+				create_archaeological_site = kuat_lagacy_9
+			}
+		}
+	}
+	option = { name = "executor_build.23.a" }
+}
+
+fleet_event = {
+	id = executor_build.30
+	hide_window = no
+	title = "executor_build.30.title"
+	desc = "executor_build.30.desc"
+	picture = GFX_evt_frozen
+	show_sound = event_wind_ruins
+	is_triggered_only = yes
+	archaeology = yes
+	immediate = { from = { set_site_progress_locked = yes } }
+
+	after = { from = { set_site_progress_locked = no } }
+	
+	option = { name = executor_build.30.a }
+}
+
+fleet_event = {
+	id = executor_build.31
+	hide_window = no
+	title = "executor_build.31.title"
+	desc = "executor_build.31.desc"
+	picture = GFX_evt_habitable_dig_site
+	show_sound = event_wind_ruins
+	is_triggered_only = yes
+	archaeology = yes
+	immediate = { from = { set_site_progress_locked = yes } }
+
+	after = { from = { set_site_progress_locked = no } }
+	
+	option = { name = executor_build.31.a }
+}
+
+fleet_event = {
+	id = executor_build.32
+	hide_window = no
+	title = "executor_build.32.title"
+	desc = "executor_build.32.desc"
+	picture = GFX_evt_hidden_door
+	show_sound = event_wind_ruins
+	is_triggered_only = yes
+	archaeology = yes
+	immediate = { from = { set_site_progress_locked = yes } }
+
+	after = { from = { set_site_progress_locked = no } }
+	
+	option = { name = executor_build.32.a }
+}
+
+fleet_event = {
+	id = executor_build.33
+	hide_window = no
+	title = "executor_build.33.title"
+	desc = "executor_build.33.desc"
+	picture = GFX_evt_relic_world_building
+	show_sound = event_wind_ruins
+	is_triggered_only = yes
+	archaeology = yes
+	immediate = { from = { set_site_progress_locked = yes } }
+
+	after = { from = { set_site_progress_locked = no } }
+	
+	option = { name = executor_build.33.a }
+}
+
+fleet_event = {
+	id = executor_build.34
+	hide_window = no
+	title = "executor_build.34.title"
+	desc = "executor_build.34.desc"
+	picture = GFX_evt_sapient_AI
+	show_sound = event_wind_ruins
+	is_triggered_only = yes
+	archaeology = yes
+	immediate = { from = { set_site_progress_locked = yes } }
+
+	after = { from = { set_site_progress_locked = no } }
+	
+	option = { name = executor_build.34.a }
+}
+
+fleet_event = {
+	id = executor_build.35
+	hide_window = no
+	title = "executor_build.35.title"
+	desc = "executor_build.35.desc"
+	picture = GFX_evt_ancient_databank
+	show_sound = event_wind_ruins
+	is_triggered_only = yes
+	archaeology = yes
+	immediate = { from = { set_site_progress_locked = yes } }
+
+	after = { from = { set_site_progress_locked = no } }
+	
+	option = { 
+		name = executor_build.35.a
+		large_artifact_reward = yes
+		event_target:has_kuat_lagacy_9 = {
+			change_pc = pc_gaia
+			add_modifier = { modifier = kyber_crystals days = -1 }
+		}
+		leader = { save_global_event_target_as = dig_archetectrue_leader }
+		hidden_effect = { owner = { set_country_flag = finished_kuat_gateway_stage_first } }
+	}
+}
+
+country_event = {
+	id = executor_build.36
+	title = "executor_build.36.name"
+	desc = "executor_build.36.desc"
+	diplomatic = yes
+	fire_only_once = yes
+	picture_event_data = { room = frozen_planet_room }
+	custom_gui = "kuat_event_window"
+	custom_gui_option = "kuat_event_option"
+	trigger = {
+		is_ai = no
+		has_technology = tech_sensors_2
+		has_country_flag = finished_kuat_gateway_stage_first
+		NOT = { any_country = { has_origin = origin_kuat_apocalyptic } }
+		NOT = { has_global_flag = kuat_outgate_enable }
+	}
+	mean_time_to_happen = { 
+		years = 4 
+		modifier = { factor = 0.75 years_passed = 20 }
+		modifier = { factor = 0.5 years_passed = 25 }
+		modifier = { factor = 0.25 years_passed = 30 }
+	}
+	immediate = {
+		if = {
+			limit = { any_system_within_border = {
+				is_capital_system = no
+				any_system_planet = { 
+					is_planet_class = pc_frozen 
+					NOT = { exists = archaeological_site }
+				}
+			} }
+			random_system_within_border = {
+				limit = {
+					is_capital_system = no
+					any_system_planet = { 
+						is_planet_class = pc_frozen 
+						NOT = { exists = archaeological_site }
+					}
+				}
+				random_system_planet = {
+					limit = { 
+						is_planet_class = pc_frozen 
+						NOT = { exists = archaeological_site }
+					}
+					save_event_target_as = has_kuat_lagacy_10
+					create_archaeological_site = kuat_lagacy_10
+				}
+				while = { count = 15 create_ambient_object = { type = "large_debris_object" location = solar_system } }
+				while = { count = 10 create_ambient_object = { type = "medium_debris_01_object" location = solar_system } }
+				while = { count = 20 create_ambient_object = { type = "medium_debris_02_object" location = solar_system } }
+				while = { count = 30 create_ambient_object = { type = "small_debris_object" location = solar_system } }
+			}
+		} else = {
+			random_planet_within_border = {
+				limit = {
+					is_ringworld = no
+					is_star = no
+					is_colony = no
+					is_colonizable = no
+					is_capital = no
+					is_asteroid = no
+					NOT = { exists = archaeological_site }
+				}
+				change_pc = pc_frozen
+				save_event_target_as = has_kuat_lagacy_10
+				create_archaeological_site = kuat_lagacy_10
+				solar_system = {
+					while = { count = 15 create_ambient_object = { type = "large_debris_object" location = solar_system } }
+					while = { count = 10 create_ambient_object = { type = "medium_debris_01_object" location = solar_system } }
+					while = { count = 20 create_ambient_object = { type = "medium_debris_02_object" location = solar_system } }
+					while = { count = 30 create_ambient_object = { type = "small_debris_object" location = solar_system } }
+				}
+			}
+		}
+	}
+	option = { name = "executor_build.36.a" }
+}
+
+fleet_event = {
+	id = executor_build.37
+	hide_window = no
+	title = "executor_build.37.title"
+	desc = "executor_build.37.desc"
+	picture = GFX_evt_frozen
+	show_sound = event_wind_ruins
+	is_triggered_only = yes
+	archaeology = yes
+	immediate = { from = { set_site_progress_locked = yes } }
+
+	after = { from = { set_site_progress_locked = no } }
+	
+	option = { name = executor_build.37.a }
+}
+
+fleet_event = {
+	id = executor_build.38
+	hide_window = no
+	title = "executor_build.38.title"
+	desc = "executor_build.38.desc"
+	picture = GFX_evt_habitable_dig_site
+	show_sound = event_wind_ruins
+	is_triggered_only = yes
+	archaeology = yes
+	immediate = { from = { set_site_progress_locked = yes } }
+
+	after = { from = { set_site_progress_locked = no } }
+	
+	option = { name = executor_build.38.a }
+}
+
+fleet_event = {
+	id = executor_build.39
+	hide_window = no
+	title = "executor_build.39.title"
+	desc = "executor_build.39.desc"
+	picture = GFX_evt_hidden_door
+	show_sound = event_wind_ruins
+	is_triggered_only = yes
+	archaeology = yes
+	immediate = { from = { set_site_progress_locked = yes } }
+
+	after = { from = { set_site_progress_locked = no } }
+	
+	option = { name = executor_build.39.a }
+}
+
+fleet_event = {
+	id = executor_build.40
+	hide_window = no
+	title = "executor_build.40.title"
+	desc = "executor_build.40.desc"
+	picture = GFX_evt_relic_world_building
+	show_sound = event_wind_ruins
+	is_triggered_only = yes
+	archaeology = yes
+	immediate = { from = { set_site_progress_locked = yes } }
+
+	after = { from = { set_site_progress_locked = no } }
+	
+	option = { name = executor_build.40.a }
+}
+
+fleet_event = {
+	id = executor_build.41
+	hide_window = no
+	title = "executor_build.41.title"
+	desc = "executor_build.41.desc"
+	picture = GFX_evt_sapient_AI
+	show_sound = event_wind_ruins
+	is_triggered_only = yes
+	archaeology = yes
+	immediate = { from = { set_site_progress_locked = yes } }
+
+	after = { from = { set_site_progress_locked = no } }
+	
+	option = { name = executor_build.41.a }
+}
+
+fleet_event = {
+	id = executor_build.42
+	hide_window = no
+	title = "executor_build.42.title"
+	desc = "executor_build.42.desc"
+	picture = GFX_evt_ancient_databank
+	show_sound = event_wind_ruins
+	is_triggered_only = yes
+	archaeology = yes
+	immediate = { from = { set_site_progress_locked = yes } }
+
+	after = { from = { set_site_progress_locked = no } }
+	
+	option = { 
+		name = executor_build.42.a
+		large_artifact_reward = yes
+	}
+}
+
+fleet_event = {
+	id = executor_build.43
+	hide_window = no
+	title = "executor_build.43.title"
+	desc = "executor_build.43.desc"
+	picture = GFX_evt_ancient_artifact
+	show_sound = event_wind_ruins
+	is_triggered_only = yes
+	archaeology = yes
+	immediate = { from = { set_site_progress_locked = yes } }
+
+	after = { from = { set_site_progress_locked = no } }
+	
+	option = { 
+		name = executor_build.43.a
+		large_artifact_reward = yes
+		event_target:has_kuat_lagacy_10 = {
+			change_pc = pc_gaia
+			add_modifier = { modifier = kyber_crystals days = -1 }
+		}
+		hidden_effect = { 
+			owner = { set_country_flag = can_enable_kuat_gate } 
+			clear_global_event_target = dig_archetectrue_leader
+		}
+	}
+}
+
+country_event = {
+	id = executor_build.44
+	title = "executor_build.44.name"
+	desc = "executor_build.44.desc"
+	diplomatic = yes
+	picture_event_data = { room = ancient_AI_room }
+	custom_gui = "kuat_event_window"
+	custom_gui_option = "kuat_event_option"
+	is_triggered_only = yes
+	trigger = {
+		is_ai = no
+		has_country_flag = can_enable_kuat_gate
+		NOT = { any_country = { has_origin = origin_kuat_apocalyptic } }
+		NOT = { has_global_flag = kuat_outgate_enable }
+		fromfrom = { NOT = { has_fleet_flag = have_entered } }
+	}
+	immediate = { fromfrom = { set_fleet_flag = have_entered } }
+	option = {
+		name = executor_build.44.a
+		enable_special_project = {
+			name = exe_enable_kuat_stargate
+			owner = root
+			location = event_target:exe_outer_gate_disable
+		}
+	}
+}
+
+ship_event = {
+	id = executor_build.45
+	title = executor_build.45.title
+	desc = executor_build.45.desc
+	diplomatic = yes
+	picture_event_data = { room = clocks_room }
+	custom_gui = "kuat_event_m_window"
+	custom_gui_option = "kuat_event_m_option"
+	is_triggered_only = yes
+	immediate = { set_global_flag = kuat_outgate_enable }
+	option = { 
+		name = executor_build.45.a 
+		hidden_effect = {
+			every_megastructure = {
+				limit = { is_megastructure_type = exe_outer_gate_disable }
+				upgrade_megastructure_to = exe_outer_gate
+			}
+			every_playable_country = {
+				limit = { is_ai = no }
+				set_country_flag = can_pass_by
+				set_country_flag = can_pass_inner_by
+				country_event = { id = executor_build.46 }
+			}
+		}
+	}
+}
+
+country_event = {
+	id = executor_build.46
+	title = executor_build.46.title
+	desc = executor_build.46.desc
+	diplomatic = yes
+	picture_event_data = { room = l-gateway_room }
+	custom_gui = "kuat_event_m_window"
+	custom_gui_option = "kuat_event_m_option"
+	is_triggered_only = yes
+	option = { name = executor_build.46.a }
 }
 
 ##########################
