@@ -43,6 +43,7 @@ country_event = {
 			while = { count = 30 create_ambient_object = { type = "small_debris_object" location = solar_system } }
 			save_global_event_target_as = ag_exe_invasion_gate_system
 			set_star_flag = ag_exe_invasion_gate_system
+			set_star_flag = exe_outer_gate_disable_system
 		}
 	}
 }
@@ -500,6 +501,7 @@ country_event = {
 		has_country_flag = can_enable_kuat_gate
 		NOT = { any_country = { has_origin = origin_kuat_apocalyptic } }
 		NOT = { has_global_flag = kuat_outgate_enable }
+		from = { has_star_flag = exe_outer_gate_disable_system }
 		fromfrom = { NOT = { has_fleet_flag = have_entered } }
 	}
 	immediate = { 
@@ -529,6 +531,7 @@ ship_event = {
 	option = { 
 		name = executor_build.45.a 
 		hidden_effect = {
+			solar_system = { remove_star_flag = exe_outer_gate_disable_system }
 			every_megastructure = {
 				limit = { is_megastructure_type = exe_outer_gate_disable }
 				upgrade_megastructure_to = exe_outer_gate
