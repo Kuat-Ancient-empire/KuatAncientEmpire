@@ -24,6 +24,12 @@ country_event = {
 		random_system = {
 			limit = {
 				has_owner = no
+				distance = {
+					source = root.capital_scope
+					type = hyperlane
+					min_jumps > 5
+					max_jumps < 15
+				}
 				ag_is_create_system = no
 			}
 			spawn_megastructure = {
@@ -79,12 +85,17 @@ event = {
 		every_megastructure = {
 			limit = { is_megastructure_type = exe_outer_gate_disable }
 			upgrade_megastructure_to = exe_outer_gate
+			finish_upgrade = yes
 		}
 		every_playable_country = {
 			limit = { is_ai = no }
 			set_country_flag = can_pass_by
 			set_country_flag = can_pass_inner_by
 			country_event = { id = executor_build.93 }
+		}
+		every_megastructure = {
+			limit = { is_megastructure_type = exe_outer_gate }
+			activate_gateway = this
 		}
 	}
 }
@@ -480,7 +491,27 @@ fleet_event = {
 			add_modifier = { modifier = kyber_crystals days = -1 }
 		}
 		hidden_effect = { 
-			owner = { set_country_flag = can_enable_kuat_gate } 
+			owner = { 
+				if = {
+					limit = { 
+						OR = {
+							any_system_within_border = { 
+								has_star_flag = exe_outer_gate_disable_system 
+							} 	
+							any_system = { 
+								OR = {
+									NOT = { space_owner = { is_same_value = prevprev } }
+									NOT = { exists = space_owner }
+								}
+								has_star_flag = exe_outer_gate_disable_system
+								is_surveyed = { who = prev status = yes }
+							}
+						}
+					}
+					set_country_flag = can_enable_kuat_gate_special
+				}
+				else = { set_country_flag = can_enable_kuat_gate }
+			} 
 			clear_global_event_target = dig_archetectrue_leader
 		}
 	}
@@ -497,15 +528,14 @@ country_event = {
 	is_triggered_only = yes
 	fire_only_once = yes
 	trigger = {
-		is_ai = no
 		has_country_flag = can_enable_kuat_gate
+		NOT = { has_country_flag = can_enable_kuat_gate_special_active }
 		NOT = { any_country = { has_origin = origin_kuat_apocalyptic } }
 		NOT = { has_global_flag = kuat_outgate_enable }
 		from = { has_star_flag = exe_outer_gate_disable_system }
-		fromfrom = { NOT = { has_fleet_flag = have_entered } }
 	}
 	immediate = { 
-		fromfrom = { set_fleet_flag = have_entered } 
+		set_country_flag = can_enable_kuat_gate_active
 		clear_global_event_target = has_kuat_lagacy_10
 	}
 	option = {
@@ -535,12 +565,17 @@ ship_event = {
 			every_megastructure = {
 				limit = { is_megastructure_type = exe_outer_gate_disable }
 				upgrade_megastructure_to = exe_outer_gate
+				finish_upgrade = yes
 			}
 			every_playable_country = {
 				limit = { is_ai = no }
 				set_country_flag = can_pass_by
 				set_country_flag = can_pass_inner_by
 				country_event = { id = executor_build.46 }
+			}
+			every_megastructure = {
+				limit = { is_megastructure_type = exe_outer_gate }
+				activate_gateway = this
 			}
 		}
 	}
@@ -556,6 +591,41 @@ country_event = {
 	custom_gui_option = "kuat_event_m_option"
 	is_triggered_only = yes
 	option = { name = executor_build.46.a }
+}
+
+country_event = {
+	id = executor_build.47
+	title = "executor_build.47.name"
+	desc = "executor_build.47.desc"
+	diplomatic = yes
+	picture_event_data = { room = ancient_AI_room }
+	custom_gui = "kuat_event_window"
+	custom_gui_option = "kuat_event_option"
+	mean_time_to_happen = { 
+		years = 4 
+		modifier = { factor = 0.75 years_passed = 20 }
+		modifier = { factor = 0.5 years_passed = 25 }
+		modifier = { factor = 0.25 years_passed = 30 }
+	}
+	fire_only_once = yes
+	trigger = {
+		has_country_flag = can_enable_kuat_gate_special
+		NOT = { any_country = { has_origin = origin_kuat_apocalyptic } }
+		NOT = { has_global_flag = kuat_outgate_enable }
+		NOT = { has_country_flag = can_enable_kuat_gate_active }
+	}
+	immediate = { 
+		set_country_flag = can_enable_kuat_gate_special_active
+		clear_global_event_target = has_kuat_lagacy_10 
+	}
+	option = {
+		name = executor_build.47.a
+		enable_special_project = {
+			name = exe_enable_kuat_stargate
+			owner = root
+			location = event_target:exe_outer_gate_disable
+		}
+	}
 }
 
 ##########################
