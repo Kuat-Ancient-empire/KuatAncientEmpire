@@ -492,6 +492,7 @@ fleet_event = {
 		}
 		hidden_effect = { 
 			owner = { 
+				set_country_flag = finished_kuat_gateway_stage_final
 				if = {
 					limit = { 
 						OR = {
@@ -528,6 +529,7 @@ country_event = {
 	is_triggered_only = yes
 	fire_only_once = yes
 	trigger = {
+		has_country_flag = finished_kuat_gateway_stage_final
 		has_country_flag = can_enable_kuat_gate
 		NOT = { has_country_flag = can_enable_kuat_gate_special_active }
 		NOT = { any_country = { has_origin = origin_kuat_apocalyptic } }
@@ -609,7 +611,11 @@ country_event = {
 	}
 	fire_only_once = yes
 	trigger = {
-		has_country_flag = can_enable_kuat_gate_special
+		has_country_flag = finished_kuat_gateway_stage_final
+		OR = {
+			has_country_flag = can_enable_kuat_gate_special
+			any_system_within_border = { has_star_flag = exe_outer_gate_disable_system } 
+		}
 		NOT = { any_country = { has_origin = origin_kuat_apocalyptic } }
 		NOT = { has_global_flag = kuat_outgate_enable }
 		NOT = { has_country_flag = can_enable_kuat_gate_active }
