@@ -41,18 +41,10 @@ increase_executor_power = {
 }
 
 increase_ship_hp_effect_change = {
-	if = {
-		limit = { root.from = { ag_is_ancient_country = no } }
-		every_owned_ship = {
-			set_timed_ship_flag = { flag = is_invisiable_trigger days = $DAYS$ }
-			increase_executor_power = { DAYS = $DAYS$ }
-			ship_event = { id = exe_invasion.119 }
-		}
-	} else = {
-		every_owned_ship = {
-			set_timed_ship_flag = { flag = is_invisiable_trigger days = $DAYS$ }
-			ship_event = { id = exe_invasion.119 }
-		}
+	every_owned_ship = {
+		set_timed_ship_flag = { flag = is_invisiable_trigger days = $DAYS$ }
+		increase_executor_power = { DAYS = $DAYS$ }
+		ship_event = { id = exe_invasion.119 }
 	}
 	set_fleet_modifier = { SUB = Eternal_submit DAYS = -1 }
 	remove_modifier = ship_firing_debuff_invisiable_protection
@@ -178,7 +170,7 @@ set_eternal_fleet_mult_modifier = {
 		if = {
 			limit = { 
 				check_modifier_value = { modifier = $armor_damage$ value > @mult_fromfromfrom_scope_value } 
-				fleet = { has_enable_flag_ship_system = yes }
+				fleet = { has_enable_flag_ship_system_true = yes }
 			}
 			export_modifier_to_variable = { modifier = $armor_damage$ variable = $armor_damage$_value }
 			if = {
@@ -195,7 +187,7 @@ set_eternal_fleet_mult_modifier = {
 		else_if = {
 			limit = { 
 				check_modifier_value = { modifier = $armor_damage$ value > @mult_origin_value } 
-				fleet = { has_enable_flag_ship_system = no }
+				fleet = { has_enable_flag_ship_system_true = no }
 			}
 			export_modifier_to_variable = { modifier = $armor_damage$ variable = $armor_damage$_value }
 			if = {
@@ -216,7 +208,7 @@ set_eternal_fleet_mult_modifier = {
 			clear_variable = change_$armor_damage$_value
 		}
 		if = {
-			limit = { fleet = { has_enable_flag_ship_system = yes } }
+			limit = { fleet = { has_enable_flag_ship_system_true = yes } }
 			export_modifier_to_variable = { modifier = $armor_damage$ variable = change_$armor_damage$_value }
 			if = {
 				limit = { is_variable_set = change_$armor_damage$_value }
@@ -230,7 +222,7 @@ set_eternal_fleet_mult_modifier = {
 			}
 		}
 		else_if = {
-			limit = { fleet = { has_enable_flag_ship_system = no } }
+			limit = { fleet = { has_enable_flag_ship_system_true = no } }
 			export_modifier_to_variable = { modifier = $armor_damage$ variable = change_$armor_damage$_value }
 			if = {
 				limit = { is_variable_set = change_$armor_damage$_value }
@@ -249,7 +241,7 @@ set_eternal_fleet_mult_modifier = {
 		if = {
 			limit = { 
 				check_modifier_value = { modifier = $shield_damage$ value > @mult_fromfromfrom_scope_value } 
-				fleet = { has_enable_flag_ship_system = yes }
+				fleet = { has_enable_flag_ship_system_true = yes }
 			}
 			export_modifier_to_variable = { modifier = $shield_damage$ variable = $shield_damage$_value }
 			if = {
@@ -266,7 +258,7 @@ set_eternal_fleet_mult_modifier = {
 		else_if = {
 			limit = { 
 				check_modifier_value = { modifier = $shield_damage$ value > @mult_origin_value } 
-				fleet = { has_enable_flag_ship_system = no }
+				fleet = { has_enable_flag_ship_system_true = no }
 			}
 			export_modifier_to_variable = { modifier = $shield_damage$ variable = $shield_damage$_value }
 			if = {
@@ -287,7 +279,7 @@ set_eternal_fleet_mult_modifier = {
 			clear_variable = change_$shield_damage$_value
 		}
 		if = {
-			limit = { fleet = { has_enable_flag_ship_system = yes } }
+			limit = { fleet = { has_enable_flag_ship_system_true = yes } }
 			export_modifier_to_variable = { modifier = $shield_damage$ variable = change_$shield_damage$_value }
 			if = {
 				limit = { is_variable_set = change_$shield_damage$_value }
@@ -301,7 +293,7 @@ set_eternal_fleet_mult_modifier = {
 			}
 		}
 		else_if = {
-			limit = { fleet = { has_enable_flag_ship_system = no } }
+			limit = { fleet = { has_enable_flag_ship_system_true = no } }
 			export_modifier_to_variable = { modifier = $shield_damage$ variable = change_$shield_damage$_value }
 			if = {
 				limit = { is_variable_set = change_$shield_damage$_value }
@@ -320,7 +312,7 @@ set_eternal_fleet_mult_modifier = {
 		if = {
 			limit = { 
 				check_modifier_value = { modifier = $hull_damage$ value > @mult_fromfromfrom_scope_value } 
-				fleet = { has_enable_flag_ship_system = yes }
+				fleet = { has_enable_flag_ship_system_true = yes }
 			}
 			export_modifier_to_variable = { modifier = $hull_damage$ variable = $hull_damage$_value }
 			if = {
@@ -337,7 +329,7 @@ set_eternal_fleet_mult_modifier = {
 		else_if = {
 			limit = { 
 				check_modifier_value = { modifier = $hull_damage$ value > @mult_origin_value } 
-				fleet = { has_enable_flag_ship_system = no }
+				fleet = { has_enable_flag_ship_system_true = no }
 			}
 			export_modifier_to_variable = { modifier = $hull_damage$ variable = $hull_damage$_value }
 			if = {
@@ -358,7 +350,7 @@ set_eternal_fleet_mult_modifier = {
 			clear_variable = change_$hull_damage$_value
 		}
 		if = {
-			limit = { fleet = { has_enable_flag_ship_system = yes } }
+			limit = { fleet = { has_enable_flag_ship_system_true = yes } }
 			export_modifier_to_variable = { modifier = $hull_damage$ variable = change_$hull_damage$_value }
 			if = {
 				limit = { is_variable_set = change_$hull_damage$_value }
@@ -372,7 +364,7 @@ set_eternal_fleet_mult_modifier = {
 			}
 		}
 		else_if = {
-			limit = { fleet = { has_enable_flag_ship_system = no } }
+			limit = { fleet = { has_enable_flag_ship_system_true = no } }
 			export_modifier_to_variable = { modifier = $hull_damage$ variable = change_$hull_damage$_value }
 			if = {
 				limit = { is_variable_set = change_$hull_damage$_value }
@@ -391,7 +383,7 @@ set_eternal_fleet_mult_modifier = {
 		if = {
 			limit = { 
 				check_modifier_value = { modifier = $weapon_damage$ value > @mult_fromfromfrom_scope_value } 
-				fleet = { has_enable_flag_ship_system = yes }
+				fleet = { has_enable_flag_ship_system_true = yes }
 			}
 			export_modifier_to_variable = { modifier = $weapon_damage$ variable = $weapon_damage$_value }
 			if = {
@@ -408,7 +400,7 @@ set_eternal_fleet_mult_modifier = {
 		else_if = {
 			limit = { 
 				check_modifier_value = { modifier = $weapon_damage$ value > @mult_origin_value } 
-				fleet = { has_enable_flag_ship_system = no }
+				fleet = { has_enable_flag_ship_system_true = no }
 			}
 			export_modifier_to_variable = { modifier = $weapon_damage$ variable = $weapon_damage$_value }
 			if = {
@@ -429,7 +421,7 @@ set_eternal_fleet_mult_modifier = {
 			clear_variable = change_$weapon_damage$_value
 		}
 		if = {
-			limit = { fleet = { has_enable_flag_ship_system = yes } }
+			limit = { fleet = { has_enable_flag_ship_system_true = yes } }
 			export_modifier_to_variable = { modifier = $weapon_damage$ variable = change_$weapon_damage$_value }
 			if = {
 				limit = { is_variable_set = change_$weapon_damage$_value }
@@ -443,7 +435,7 @@ set_eternal_fleet_mult_modifier = {
 			}
 		}
 		else_if = {
-			limit = { fleet = { has_enable_flag_ship_system = no } }
+			limit = { fleet = { has_enable_flag_ship_system_true = no } }
 			export_modifier_to_variable = { modifier = $weapon_damage$ variable = change_$weapon_damage$_value }
 			if = {
 				limit = { is_variable_set = change_$weapon_damage$_value }
@@ -462,7 +454,7 @@ set_eternal_fleet_mult_modifier = {
 		if = {
 			limit = { 
 				check_modifier_value = { modifier = $tracking$ value > @mult_fromfromfrom_scope_weapon_value } 
-				fleet = { has_enable_flag_ship_system = yes }
+				fleet = { has_enable_flag_ship_system_true = yes }
 			}
 			export_modifier_to_variable = { modifier = $tracking$ variable = $tracking$_value }
 			if = {
@@ -479,7 +471,7 @@ set_eternal_fleet_mult_modifier = {
 		else_if = {
 			limit = { 
 				check_modifier_value = { modifier = $tracking$ value > @mult_origin_value } 
-				fleet = { has_enable_flag_ship_system = no }
+				fleet = { has_enable_flag_ship_system_true = no }
 			}
 			export_modifier_to_variable = { modifier = $tracking$ variable = $tracking$_value }
 			if = {
@@ -500,7 +492,7 @@ set_eternal_fleet_mult_modifier = {
 			clear_variable = change_$tracking$_value
 		}
 		if = {
-			limit = { fleet = { has_enable_flag_ship_system = yes } }
+			limit = { fleet = { has_enable_flag_ship_system_true = yes } }
 			export_modifier_to_variable = { modifier = $tracking$ variable = change_$tracking$_value }
 			if = {
 				limit = { is_variable_set = change_$tracking$_value }
@@ -514,7 +506,7 @@ set_eternal_fleet_mult_modifier = {
 			}
 		}
 		else_if = {
-			limit = { fleet = { has_enable_flag_ship_system = no } }
+			limit = { fleet = { has_enable_flag_ship_system_true = no } }
 			export_modifier_to_variable = { modifier = $tracking$ variable = change_$tracking$_value }
 			if = {
 				limit = { is_variable_set = change_$tracking$_value }
