@@ -1377,7 +1377,10 @@ fleet_execute_order_1 = {
 		repeat = {
 			effect = {
 				id = executor.1.c
-				solar_system = { clear_variable = kuat_fleet_id }
+				if = {
+					limit = { NOT = { any_system = { check_variable = { which = kuat_fleet_id value < 1 } } } }
+					solar_system = { set_variable = { which = kuat_fleet_id value = 0 } }
+				}
 				if = {
 					limit = { has_fleet_flag = kuat_cannot_find_path }
 					random_system = {
@@ -1446,7 +1449,7 @@ fleet_execute_order_1 = {
 				found_system = {
 					effect = {
 						id = executor.2.r1
-						set_variable = { which = kuat_fleet_id value = root }
+						set_variable = { which = kuat_fleet_id value = { scope = root variable = fleet_id } }
 					}
 					move_to = this
 					repeat = {
@@ -1461,7 +1464,6 @@ fleet_execute_order_1 = {
 							trigger = {
 								id = executor.2
 								OR = { is_colony = yes is_colonizable = yes }
-								solar_system = { any_fleet_in_system = { is_same_value = ROOT } }
 								owner = { is_at_war_with = event_target:fallen_empire_kuat }
 							}
 							found_planet = {
@@ -1494,28 +1496,15 @@ fleet_execute_order_1 = {
 				failed = {
 					find_closest_system = {
 						trigger = {
-							id = executor.4.t5
+							id = executor.5.t9
 							ROOT = { can_access_system = prev }
-							OR = {
-								AND = {
-									exists = starbase
-									starbase = { owner = { is_at_war_with = event_target:fallen_empire_kuat } }
-								}
-								any_system_planet = {
-									owner = { is_at_war_with = event_target:fallen_empire_kuat }
-									OR = { is_colony = yes is_colonizable = yes }
-								}
-							}
+							check_variable = { which = kuat_fleet_id value < 1 }
 						}
 						found_system = {
-							effect = {
-								id = executor.4.e5
-								set_variable = { which = kuat_fleet_id value = root }
-							}
 							move_to = this
 							repeat = {
 								while = {
-									id = executor.4.t0
+									id = executor.5.t0
 									any_system_planet = {
 										owner = { is_at_war_with = event_target:fallen_empire_kuat }
 										OR = { is_colony = yes is_colonizable = yes }
@@ -1523,25 +1512,24 @@ fleet_execute_order_1 = {
 								}
 								find_closest_planet = {
 									trigger = {
-										id = executor.4.t5
+										id = executor.5.t5
 										OR = { is_colony = yes is_colonizable = yes }
-										solar_system = { any_fleet_in_system = { is_same_value = ROOT } }
 										owner = { is_at_war_with = event_target:fallen_empire_kuat }
 									}
 									found_planet = {
 										orbit_planet = this
 										effect = {
-											id = executor.4.t4
+											id = executor.5.t4
 											set_planet_flag = ruins_planet
 											ROOT = { set_fleet_flag = kuat_fallen_bombaring_fleet }
 										}
 										repeat = {
 											while = {
-												id = executor.4.t3
+												id = executor.5.t3
 												ROOT = { has_fleet_flag = kuat_fallen_bombaring_fleet }
 											}
 											effect = {
-												id = executor.4.t1
+												id = executor.5.t1
 												if = {
 													limit = { is_colony = no is_colonizable = no }
 													ROOT = { remove_fleet_flag = kuat_fallen_bombaring_fleet }
@@ -1556,63 +1544,11 @@ fleet_execute_order_1 = {
 							wait = 15
 						}
 						failed = {
-							find_closest_system = {
-								trigger = {
-									id = executor.5.t9
-									ROOT = { can_access_system = prev }
-								}
-								found_system = {
-									move_to = this
-									repeat = {
-										while = {
-											id = executor.5.t0
-											any_system_planet = {
-												owner = { is_at_war_with = event_target:fallen_empire_kuat }
-												OR = { is_colony = yes is_colonizable = yes }
-											}
-										}
-										find_closest_planet = {
-											trigger = {
-												id = executor.5.t5
-												OR = { is_colony = yes is_colonizable = yes }
-												solar_system = { any_fleet_in_system = { is_same_value = ROOT } }
-												owner = { is_at_war_with = event_target:fallen_empire_kuat }
-											}
-											found_planet = {
-												orbit_planet = this
-												effect = {
-													id = executor.5.t4
-													set_planet_flag = ruins_planet
-													ROOT = { set_fleet_flag = kuat_fallen_bombaring_fleet }
-												}
-												repeat = {
-													while = {
-														id = executor.5.t3
-														ROOT = { has_fleet_flag = kuat_fallen_bombaring_fleet }
-													}
-													effect = {
-														id = executor.5.t1
-														if = {
-															limit = { is_colony = no is_colonizable = no }
-															ROOT = { remove_fleet_flag = kuat_fallen_bombaring_fleet }
-														}
-													} wait = 5
-												}
-											}
-										}
-										move_to = this
-										wait = 5
-									} 
-									wait = 15
-								}
-								failed = {
-									effect = {
-										id = executor.1.b
-										ROOT = { set_fleet_flag = kuat_cannot_find_path }
-									} 
-									wait = 60
-								}
-							}
+							effect = {
+								id = executor.1.b
+								ROOT = { set_fleet_flag = kuat_cannot_find_path }
+							} 
+							wait = 60
 						}
 					}
 				}
@@ -2066,7 +2002,7 @@ create_exe_invasion_fleet = {
 			[[initial_invisable] fleet_event = { id = $initial_invisable$ }]
 			[[fleet_action] fleet_event = { id = $fleet_action$ }]
 			[[fleet_stance] set_fleet_stance = $fleet_stance$ ]
-			[[VAR_TARGET] $VAR_TARGET$ = { change_variable = { which = fleet_id value = 1 } } set_variable = { which = fleet_id value = $VAR_TARGET$ } set_variable = { which = kuat_fleet_id value = fleet_id }]
+			[[VAR_TARGET] $VAR_TARGET$ = { change_variable = { which = fleet_id value = 1 } } set_variable = { which = fleet_id value = $VAR_TARGET$ } solar_system = { set_variable = { which = kuat_fleet_id value = { scope = prev variable = fleet_id } } }]
 			[[SAVE_TARGET] save_event_target_as = $SAVE_TARGET$ ]
 			[[random_ship_flag] random_owned_ship = { limit = { is_ship_size = eclipse } set_ship_flag = $random_ship_flag$ }]
 			[[modifier] add_modifier = { modifier = $modifier$ }]
