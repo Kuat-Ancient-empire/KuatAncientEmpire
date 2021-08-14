@@ -1378,7 +1378,15 @@ fleet_execute_order_1 = {
 			effect = {
 				id = executor.1.c
 				if = {
-					limit = { NOT = { any_system = { check_variable = { which = kuat_fleet_id value < 1 } } } }
+					limit = { 
+						NOT = { 
+							any_system = { 
+								exists = space_owner
+								space_owner = { is_at_war_with = event_target:fallen_empire_kuat }
+								check_variable = { which = kuat_fleet_id value < 1 } 
+							} 
+						}
+					}
 					solar_system = { set_variable = { which = kuat_fleet_id value = 0 } }
 				}
 				if = {
@@ -1389,7 +1397,7 @@ fleet_execute_order_1 = {
 							closest_system = {
 								min_steps = 1
 								any_system_planet = {
-									OR = { is_colony = yes is_colonizable = yes }
+									is_colony = yes
 									owner = { is_at_war_with = event_target:fallen_empire_kuat }
 								}
 							}
@@ -1436,7 +1444,7 @@ fleet_execute_order_1 = {
 					OR = {
 						any_system_planet = {
 							owner = { is_at_war_with = event_target:fallen_empire_kuat }
-							OR = { is_colony = yes is_colonizable = yes }
+							is_colony = yes
 						}
 						AND = {
 							exists = starbase
@@ -1456,13 +1464,13 @@ fleet_execute_order_1 = {
 							id = executor.2.t0
 							any_system_planet = {
 								owner = { is_at_war_with = event_target:fallen_empire_kuat }
-								OR = { is_colony = yes is_colonizable = yes }
+								is_colony = yes
 							}
 						}
 						find_closest_planet = {
 							trigger = {
 								id = executor.2
-								OR = { is_colony = yes is_colonizable = yes }
+								is_colony = yes
 								owner = { is_at_war_with = event_target:fallen_empire_kuat }
 							}
 							found_planet = {
@@ -1480,7 +1488,7 @@ fleet_execute_order_1 = {
 									effect = {
 										id = executor.3.t1
 										if = {
-											limit = { is_colony = no is_colonizable = no }
+											limit = { is_colony = no }
 											ROOT = { remove_fleet_flag = kuat_fallen_bombaring_fleet }
 										}
 									} wait = 5
@@ -1500,19 +1508,23 @@ fleet_execute_order_1 = {
 							check_variable = { which = kuat_fleet_id value < 1 }
 						}
 						found_system = {
+							effect = {
+								id = executor.2.t91
+								set_variable = { which = kuat_fleet_id value = { scope = root variable = fleet_id } }
+							}
 							move_to = this
 							repeat = {
 								while = {
 									id = executor.5.t0
 									any_system_planet = {
 										owner = { is_at_war_with = event_target:fallen_empire_kuat }
-										OR = { is_colony = yes is_colonizable = yes }
+										is_colony = yes
 									}
 								}
 								find_closest_planet = {
 									trigger = {
 										id = executor.5.t5
-										OR = { is_colony = yes is_colonizable = yes }
+										is_colony = yes
 										owner = { is_at_war_with = event_target:fallen_empire_kuat }
 									}
 									found_planet = {
@@ -1530,7 +1542,7 @@ fleet_execute_order_1 = {
 											effect = {
 												id = executor.5.t1
 												if = {
-													limit = { is_colony = no is_colonizable = no }
+													is_colony = no
 													ROOT = { remove_fleet_flag = kuat_fallen_bombaring_fleet }
 												}
 											} wait = 5

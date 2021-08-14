@@ -1,5 +1,5 @@
 namespace = kuat_legacy
-#1号
+#GAIA ARCHITECT
 country_event = {
 	id = kuat_legacy.1
 	hide_window = yes
@@ -150,7 +150,7 @@ fleet_event = {
 	}
 }
 
-#2号
+#GAS ARCHITECT
 country_event = {
 	id = kuat_legacy.7
 	title = "kuat_legacy.7.title"
@@ -292,7 +292,7 @@ fleet_event = {
 	}
 }
 
-#3号
+#OCEAN ARCHITECT
 country_event = {
 	id = kuat_legacy.13
 	hide_window = no
@@ -416,8 +416,7 @@ fleet_event = {
 	}
 }
 
-#4号
-##破译研究
+#A AREA
 country_event = {
 	id = kuat_legacy.18
 	hide_window = no
@@ -822,7 +821,7 @@ country_event = {
 	option = { name = "kuat_legacy.48.a" }
 }
 
-#5号
+#B AREA
 country_event = {
 	id = kuat_legacy.49
 	title = "kuat_legacy.49.title"
@@ -1063,7 +1062,7 @@ ship_event = {
 	option = { name = "kuat_lagacy.75.a" }
 }
 
-#6号
+#C AREA
 country_event = {
 	id = kuat_legacy.57
 	title = "kuat_legacy.49.title"
@@ -1283,13 +1282,58 @@ fleet_event = {
 		hidden_effect = {
 			owner = { set_country_flag = fire_the_legacy_kuat_stage_7 }
 			owner = { give_technology = { tech = tech_kuat_shield message = no } }
-			owner = { country_event = { id = kuat_legacy.67 days = 540 random = 100 } }
+			owner = { country_event = { id = kuat_legacy.26 days = 360 } }
+			event_target:will_be_add_ringworld_shielded = { 
+				change_pc = pc_ringworld_habitable 
+				add_deposit = d_str_kuat_spring
+			}
 		}
-		small_artifact_reward = yes
+		large_artifact_reward = yes
 	}
 }
 
-#7号
+#D AREA
+country_event = {
+	id = kuat_legacy.90
+	title = "kuat_lagacy.251.name"
+	desc = "kuat_lagacy.90.desc"
+	diplomatic = yes
+	fire_only_once = yes
+	picture_event_data = { room = contingency_planet_room }
+	custom_gui = "kuat_event_window"
+	custom_gui_option = "kuat_event_option"
+	trigger = {
+		is_ai = no
+		has_country_flag = fire_the_legacy_kuat_stage_7
+		has_event_chain = ag_legacy_invasion_chain
+		event_target:will_be_add_ringworld_shielded = { planet_resource_compare = { resource = engineering_research value > 100 } }
+	}
+	mean_time_to_happen = { years = 5 }
+	immediate = {
+		enable_special_project = {
+			name = exe_return_kuat_C_facility
+			location = event_target:will_be_add_ringworld_shielded
+			owner = root
+		}
+	}
+	option = { name = "kuat_lagacy.252.a" }
+}
+
+ship_event = {
+	id = kuat_legacy.91
+	title = "kuat_legacy.91.title"
+	desc = "kuat_lagacy.91.desc"
+	diplomatic = yes
+	fire_only_once = yes
+	is_triggered_only = yes
+	picture_event_data = { room = black_hole_room }
+	custom_gui = "kuat_event_m_window"
+	custom_gui_option = "kuat_event_m_option"
+	trigger = { owner = { has_event_chain = ag_legacy_invasion_chain } }
+	immediate = { owner = { country_event = { id = kuat_legacy.67 days = 540 random = 100 } } }
+	option = { name = kuat_legacy.63.a }
+}
+
 country_event = {
 	id = kuat_legacy.67
 	title = "kuat_legacy.49.title"
@@ -1304,13 +1348,8 @@ country_event = {
 	immediate = {
 		save_event_target_as = interesting_country
 		random_system_within_border = {
-			limit = {
-				NOT = { has_star_flag = myst_system_3 }
-			}
-			spawn_system = { 
-				initializer = myst_system_4 
-				hyperlane = no
-			}
+			limit = { has_star_flag = myst_system_3 }
+			spawn_system = { initializer = myst_system_4 hyperlane = no }
 		}
 	}
 	option = { name = kuat_legacy.49.a }
@@ -1368,23 +1407,13 @@ country_event = {
 		name = kuat_legacy.25.a 
 		hidden_effect = {
 			set_country_flag = can_restore_the_black_hole
-			if = {
-				limit = { has_completed_event_chain_counter = {
-					event_chain = ag_legacy_invasion_chain
-					counter = ag_legacy_system_amount
-				} }
-				country_event = { id = kuat_legacy.26 days = 360 random = 100 }
-				if = {
-					limit = { is_multiplayer = no }
-					country_event = { id = kuat_legacy.76 days = 360 random = 180 }
-				}
-			}
+			country_event = { id = kuat_legacy.76 days = 720 }
 		}
 	}
 }
 
 
-#8号
+#KUAT ARCHITECT
 country_event = {
 	id = kuat_legacy.26
 	title = kuat_lagacy.26.title
