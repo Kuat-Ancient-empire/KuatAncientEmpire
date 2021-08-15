@@ -5,7 +5,6 @@ swfo_starkillerbase_0 = {
 	construction_blocks_others = yes
 	potential = { always = no }
 	ai_weight = { factor = 0 }
-	station_modifier = { starbase_shipyard_capacity_add = 2 }
 }
 
 swfo_starkillerbase_0_1 = {
@@ -27,7 +26,6 @@ swfo_starkillerbase_0_1 = {
 		upkeep = { energy = 15 }
 	}
 	ai_weight = { factor = 0 }
-	station_modifier = { starbase_shipyard_capacity_add = 8 }
 }
 
 swfo_starkillerbase_0_2 = {
@@ -48,10 +46,7 @@ swfo_starkillerbase_0_2 = {
 			energy = 25
 		}
 	}
-	ai_weight = {
-		factor = 0
-	}
-	station_modifier = { starbase_shipyard_capacity_add = 16 }
+	ai_weight = { factor = 0 }
 }
 
 swfo_starkillerbase_1 = {
@@ -70,10 +65,33 @@ swfo_starkillerbase_1 = {
 			energy = 150
 		}
 	}
-	station_modifier = { starbase_shipyard_capacity_add = 32 }
 	on_build_start = { }
 	on_build_cancel = { }
 	on_build_complete = { }
+}
+
+swfo_starkillerbase_15 = {
+	entity = "starkillerbase_megastructure_entity"
+	construction_entity = "starkillerbase_megastructure_entity"
+	portrait = "GFX_megastructure_starkiller_background4"
+	construction_blocks_others = no
+	upgrade_from = { swfo_starkillerbase_1 }
+	build_time = 1
+	resources = {
+		category = megastructures
+		cost = { sr_dark_matter = 5000 }
+	}
+	potential = { NOT = { has_global_flag = starkillerbase_not_passed } }
+	on_build_start = { }
+	on_build_cancel = { }
+	on_build_complete = {
+		set_star_flag = rebuild_soon
+		from = {
+			set_country_flag = kuat_enabled_epsilon_planet_killer_selector
+			country_event = { id = kuat_system_selector.1 }
+		}
+		fromfrom.planet = { set_planet_flag = buildingsoon }
+	}
 }
 
 swfo_starkillerbase_2 = {
@@ -82,27 +100,16 @@ swfo_starkillerbase_2 = {
 	portrait = "GFX_megastructure_construction_background"
 	construction_blocks_others = no
 	upgrade_desc = hide
-	upgrade_from = { swfo_starkillerbase_1 }
-	potential = { NOT = { has_global_flag = starkillerbase_not_passed } }
+	upgrade_from = { swfo_starkillerbase_15 }
 	build_time = 1
 	resources = {
 		category = megastructures
 		cost = { sr_dark_matter = 5000 }
 	}
-	potential = { }
-	possible = {
-		custom_tooltip = {
-			fail_text = "Requires Planetary target"
-			owner = { any_megastructure = { is_megastructure_type = starkiller_planet_target_marker_0 } }
-		}
-	}
+	potential = { always = no }
 	on_build_start = { }
 	on_build_cancel = { }
-	on_build_complete = {
-		set_star_flag = rebuild_soon
-		from = { country_event = { id = kuat_starkiller.1 } }
-		fromfrom.planet = { set_planet_flag = buildingsoon }
-	}
+	on_build_complete = { }
 }
 
 swfo_starkillerbase_a = {
@@ -133,45 +140,11 @@ starkiller_planet_target_marker_0 = {
 			influence = 200
 		}
 	}
-	potential = {
-		owner = { any_owned_megastructure = { is_megastructure_type = swfo_starkillerbase_1 } }
-	}
-	possible = {
-		custom_tooltip = {
-			fail_text = "contingency_six_target"
-			event_target:starkillerbase_location = { check_variable = { which = starkiller_target value < 5 } }
-		}
-	}
-	placement_rules = {
-		planet_possible = {
-			custom_tooltip = {
-				fail_text = "contingency_jams_target"
-				NOT = { is_planet_class = pc_ai }
-			}
-			custom_tooltip = {
-				fail_text = "contingency_artic_target"
-				NOT = {
-					is_planet_class = pc_arctic
-				}
-			}
-			custom_tooltip = {
-				fail_text = "Requires_habitable_Planet"
-				OR = {
-					ag_is_destroyed_planet = yes
-					ag_starkiller_ringworld = yes
-				}
-			}
-		}
-	}
+	potential = { always = no }
 	ai_weight = { factor = 0 }
 	on_build_start = { }
 	on_build_cancel = { }
-	on_build_complete = {
-		event_target:starkillerbase_location = {
-			change_variable = { which = starkiller_target value = 1 }
-		}
-		fromfrom.planet = { set_planet_flag = built_target }
-	}
+	on_build_complete = { }
 }
 
 #######################################Wormhole over planet
