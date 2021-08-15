@@ -1743,7 +1743,7 @@ create_capital_kuat_fleet = {
 		Fleet_owner = event_target:fallen_empire_kuat
 		bombardment = indiscriminate
 		Executor = 1  Eclipse = 1  Dominance = 1  Imperial = 15  Harrower = 25  Raider = 30  DIFF = 2
-		random_ship_flag = ship_ruins
+		flagship_flag = ship_ruins ship_class = eclipse
 		fleet_stance = aggressive
 		Location = event_target:fallen_empire_kuat.capital_scope
 	}
@@ -1779,33 +1779,17 @@ create_exe_invasion_fleet_detail = {
 			}
 		}
 		difficult_exe_invasion = { 
-			random_list = {
-				5 = {
-					create_exe_invasion_fleet = {
-						NAME = Name_Eternal
-						flag = ag_kuat_invasion_fleet
-						is_boss = yes  can_disband = no
-						Fleet_owner = event_target:ag_kuat_invasion_country
-						bombardment = exe_invasion_bombardment
-						Eternal_battleship = 49 Eternal_flagship = 1  DIFF = 0
-						spawn_starbase = exe_invasion.36
-						Location = prev
-						initial_invisable = exe_invasion.1987
-					}
-				}
-				5 = { 
-					create_exe_invasion_fleet = {
-						NAME = Name_Eternal
-						flag = ag_kuat_invasion_fleet
-						is_boss = yes  can_disband = no
-						Fleet_owner = event_target:ag_kuat_invasion_country
-						bombardment = exe_invasion_bombardment
-						Eternal_battleship = 48 Eternal_flagship = 2  DIFF = 0
-						spawn_starbase = exe_invasion.36
-						Location = prev
-						initial_invisable = exe_invasion.1987
-					}
-				}
+			create_exe_invasion_fleet = {
+				NAME = Name_Eternal
+				flag = ag_kuat_invasion_fleet
+				is_boss = yes  can_disband = no
+				Fleet_owner = event_target:ag_kuat_invasion_country
+				bombardment = exe_invasion_bombardment
+				Eternal_battleship = 49 Eternal_flagship = 1  DIFF = 0
+				spawn_starbase = exe_invasion.36
+				ship_disable_flag = check_disable_allowed
+				Location = prev
+				initial_invisable = exe_invasion.1987
 			}
 		}
 		normal_exe_invasion = {  
@@ -1961,33 +1945,17 @@ create_eternal_defensive_fleet = {
 }
 
 create_exe_retrun_invasion_fleet_detail = {
-	random_list = {
-		5 = {
-			create_exe_invasion_fleet = {
-				NAME = Name_Eternal
-				flag = ag_kuat_invasion_fleet
-				is_boss = yes  can_disband = no
-				Fleet_owner = event_target:ag_kuat_invasion_country
-				bombardment = exe_invasion_bombardment
-				Eternal_battleship = 48 Eternal_flagship = 2  DIFF = 0
-				spawn_starbase = exe_return_invasion.36
-				Location = prev
-				initial_invisable = exe_invasion.1987
-			}
-		}
-		5 = { 
-			create_exe_invasion_fleet = {
-				NAME = Name_Eternal
-				flag = ag_kuat_invasion_fleet
-				is_boss = yes  can_disband = no
-				Fleet_owner = event_target:ag_kuat_invasion_country
-				bombardment = exe_invasion_bombardment
-				Eternal_battleship = 48 Eternal_flagship = 2  DIFF = 0
-				spawn_starbase = exe_return_invasion.36
-				Location = prev
-				initial_invisable = exe_invasion.1987
-			}
-		}
+	create_exe_invasion_fleet = {
+		NAME = Name_Eternal
+		flag = ag_kuat_invasion_fleet
+		is_boss = yes  can_disband = no
+		Fleet_owner = event_target:ag_kuat_invasion_country
+		bombardment = exe_invasion_bombardment
+		Eternal_battleship = 48 Eternal_flagship = 2  DIFF = 0
+		spawn_starbase = exe_return_invasion.36
+		ship_disable_flag = check_disable_allowed
+		Location = prev
+		initial_invisable = exe_invasion.1987
 	}
 }
 
@@ -2015,7 +1983,8 @@ create_exe_invasion_fleet = {
 			[[fleet_stance] set_fleet_stance = $fleet_stance$ ]
 			[[VAR_TARGET] $VAR_TARGET$ = { change_variable = { which = fleet_id value = 1 } } set_variable = { which = fleet_id value = $VAR_TARGET$ } solar_system = { set_variable = { which = kuat_fleet_id value = { scope = prev variable = fleet_id } } }]
 			[[SAVE_TARGET] save_event_target_as = $SAVE_TARGET$ ]
-			[[random_ship_flag] random_owned_ship = { limit = { is_ship_size = eclipse } set_ship_flag = $random_ship_flag$ }]
+			[[flagship_flag] random_owned_ship = { limit = { is_ship_size = $ship_class$ } set_ship_flag = $flagship_flag$ }]
+			[[ship_disable_flag] every_owned_ship = { set_ship_flag = $ship_disable_flag$ }]
 			[[modifier] add_modifier = { modifier = $modifier$ }]
 		}
 	}

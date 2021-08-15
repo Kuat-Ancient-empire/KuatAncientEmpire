@@ -1548,8 +1548,10 @@ ship_event = {
 		owner = {
 			every_war = {
 				limit = {
-					attacker = { is_ai = no }
-					defender = { is_kuat_fallen_empire = yes }
+					OR = {
+						attacker = { is_kuat_fallen_empire = yes }
+						defender = { is_kuat_fallen_empire = yes }
+					}
 				}
 				end_war_effect = yes
 			}
@@ -1575,16 +1577,11 @@ country_event = {
 	custom_gui_option = "kuat_event_diplomacy_option"
 	is_triggered_only = yes
 	fire_only_once = yes
-	trigger = {
-		exists = event_target:fallen_empire_kuat
-		NOT = { is_at_war_with = event_target:fallen_empire_kuat }
-	}
+	trigger = { exists = event_target:fallen_empire_kuat }
 
 	immediate = {
 		save_event_target_as = player_for_system
-		event_target:target_tomb_kuat = {
-			create_archaeological_site = kuat_lagacy_5
-		}
+		event_target:target_tomb_kuat = { create_archaeological_site = kuat_lagacy_5 }
 		create_point_of_interest = {
 			id = kuat_legacy_kuat
 			desc = kuat_legacy_kuat.desc
@@ -1598,33 +1595,19 @@ country_event = {
 		name = kuat_legacy.29.a
 		hidden_effect = {
 			if = {
-				limit = {
-					event_target:fallen_empire_kuat = {
-						has_closed_borders = ROOT
-					}
-				}
-				event_target:fallen_empire_kuat = {
-					set_closed_borders = {
-						who = ROOT
-						status = no
-						forced = 10
-					}
-				}
+				limit = { event_target:fallen_empire_kuat = { has_closed_borders = ROOT } }
+				event_target:fallen_empire_kuat = { set_closed_borders = { who = ROOT status = no forced = 10 } }
 			}
 			event_target:Kuat_system_1 = {
 				every_fleet_in_system = {
 					if = {
-						limit = {
-							NOT = { is_ship_size = starbase_citadel }
-						}
+						limit = { NOT = { is_ship_size = starbase_citadel } }
 						destroy_fleet = { target = this destroy_template = yes kill_leader = yes }
 					} 
 					else = { set_owner = event_target:player_for_system }
 				}
 				every_system_planet = {
-					limit = {
-						is_colony = yes
-					}
+					limit = { is_colony = yes }
 					destroy_colony = yes
 					set_owner = event_target:player_for_system
 				}
@@ -1767,9 +1750,7 @@ fleet_event = {
 	
 	option = {
 		name = kuat_legacy.36.a
-		hidden_effect = {
-			owner = { country_event = { id = kuat_legacy.37 days = 30 } }
-		}
+		hidden_effect = { owner = { country_event = { id = kuat_legacy.37 days = 30 } } }
 		large_artifact_reward = yes
 	}
 }

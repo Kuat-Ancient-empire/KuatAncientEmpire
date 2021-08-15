@@ -1226,7 +1226,6 @@ country_event = {
 	hide_window = yes
 	is_triggered_only = yes
 	trigger = {
-		NOT = { is_country_type = afk_crisis_country }
 		from = {
 			is_country_type = ag_kuat_invasion_country
 			has_global_flag = difficult_exe_invasion
@@ -1242,11 +1241,19 @@ country_event = {
 				}
 				if = {
 					limit = { has_global_flag = enable_modifer_check }
-					random_owned_ship = {
-						limit = { ag_is_flagship_system_proection = yes }
-						set_ship_flag = is_invisiable_trigger
-						increase_executor_power = { DAYS = -1 }
-						ship_event = { id = exe_invasion.114 }
+					every_owned_ship = {
+						if = {
+							limit = { ag_is_flagship_system_proection = yes }
+							set_ship_flag = is_invisiable_trigger
+							increase_executor_power = { DAYS = -1 }
+							ship_event = { id = exe_invasion.114 }
+						}
+						if = {
+							limit = { ag_is_flagship_system_proection = no }
+							set_ship_flag = is_invisiable_trigger
+							increase_executor_power = { DAYS = 1 }
+							ship_event = { id = exe_invasion.114 }
+						}
 					}
 				}
 				set_fleet_modifier = { SUB = Eternal_support DAYS = -1 }
@@ -1358,67 +1365,67 @@ country_event = {
 				set_timed_fleet_flag = { flag = fire_for_once days = 1 }
 				if = {
 					limit = { any_owned_ship = { is_ship_size = Annihilator } }
-					increase_ship_hp_effect_change = { DAYS = 5 }
+					increase_ship_hp_effect_change = { DAYS = 6 }
 				}
 				else_if = {
 					limit = { any_owned_ship = { is_ship_size = eclipse } }
-					increase_ship_hp_effect_change = { DAYS = 4 }
+					increase_ship_hp_effect_change = { DAYS = 5 }
 				}
 				else_if = {
 					limit = { any_owned_ship = { is_ship_size = knigjt_hammer_executor } }
-					increase_ship_hp_effect_change = { DAYS = 3 }
+					increase_ship_hp_effect_change = { DAYS = 4 }
 				}
 				else_if = {
 					limit = { any_owned_ship = { is_ship_size = nebula_executor } }
-					increase_ship_hp_effect_change = { DAYS = 2 }
+					increase_ship_hp_effect_change = { DAYS = 3 }
 				}
 				else_if = {
 					limit = { any_owned_ship = { is_ship_size = nebula_dominance } }
-					increase_ship_hp_effect_change = { DAYS = 2 }
+					increase_ship_hp_effect_change = { DAYS = 3 }
 				}
 				else_if = {
 					limit = { any_owned_ship = { is_ship_size = X308_Balletor } }
-					increase_ship_hp_effect_change = { DAYS = 1 }
+					increase_ship_hp_effect_change = { DAYS = 2 }
 				}
 				else_if = {
 					limit = { any_owned_ship = { is_ship_size = SWGS_Nemesis } }
-					increase_ship_hp_effect_change = { DAYS = 1 }
+					increase_ship_hp_effect_change = { DAYS = 2 }
 				} 
 				else_if = {
 					limit = { any_owned_ship = { is_ship_size = SWGS_Lusankya } }
-					increase_ship_hp_effect_change = { DAYS = 1 }
+					increase_ship_hp_effect_change = { DAYS = 2 }
 				} 
 				else_if = {
 					limit = { any_owned_ship = { is_ship_size = SWGS_EclipseII } }
-					increase_ship_hp_effect_change = { DAYS = 1 }
+					increase_ship_hp_effect_change = { DAYS = 2 }
 				} 
 				else_if = {
 					limit = { any_owned_ship = { is_ship_size = ag_ancient_wandering_ship_1 } }
-					increase_ship_hp_effect_change = { DAYS = 1 }
+					increase_ship_hp_effect_change = { DAYS = 2 }
 				} 
 				else_if = {
 					limit = { any_owned_ship = { is_ship_size = ag_delta_titan_1 } }
-					increase_ship_hp_effect_change = { DAYS = 1 }
+					increase_ship_hp_effect_change = { DAYS = 2 }
 				} 
 				else_if = {
 					limit = { any_owned_ship = { is_ship_size = ag_gamma_titan_1 } }
-					increase_ship_hp_effect_change = { DAYS = 1 }
+					increase_ship_hp_effect_change = { DAYS = 2 }
 				} 
 				else_if = {
 					limit = { any_owned_ship = { is_ship_size = ag_zeta_titan } }
-					increase_ship_hp_effect_change = { DAYS = 1 }
+					increase_ship_hp_effect_change = { DAYS = 2 }
 				} 
 				else_if = {
 					limit = { any_owned_ship = { is_ship_size = ag_zeta_titan_psi } }
-					increase_ship_hp_effect_change = { DAYS = 1 }
+					increase_ship_hp_effect_change = { DAYS = 2 }
 				} 
 				else_if = {
 					limit = { any_owned_ship = { is_ship_size = ag_epsilon_titan_1 } }
-					increase_ship_hp_effect_change = { DAYS = 1 }
+					increase_ship_hp_effect_change = { DAYS = 2 }
 				} 
 				else_if = {
 					limit = { any_owned_ship = { is_ship_size = wg_fm_flagship } }
-					increase_ship_hp_effect_change = { DAYS = 1 }
+					increase_ship_hp_effect_change = { DAYS = 2 }
 				} 
 			}
 		}
@@ -1438,9 +1445,9 @@ country_event = {
 				has_enable_flag_ship_system_true = yes
 				root.fromfromfrom = { NOT = { has_fleet_flag = ship_firing_debuff_invisiable_protection } }
 			}
-			set_fleet_modifier = { SUB = Eternal_support DAYS = 5 }
-			increase_ship_hp_effect_change = { DAYS = 5 }
-			ROOT.FROMFROMFROM = { set_fleet_modifier = { SUB = ship_firing_debuff_invisiable_protection DAYS = 5 } }
+			set_fleet_modifier = { SUB = Eternal_support DAYS = 6 }
+			increase_ship_hp_effect_change = { DAYS = 6 }
+			ROOT.FROMFROMFROM = { set_fleet_modifier = { SUB = ship_firing_debuff_invisiable_protection DAYS = 6 } }
 		} }
 	}
 }
@@ -1450,18 +1457,64 @@ country_event = {
 	hide_window = yes
 	is_triggered_only = yes
 	trigger = {
-		is_country_type = ag_kuat_invasion_country
-		FROMFROM = { has_fleet_flag = has_Eternal_support }
+		OR = {
+			AND = {
+				is_country_type = ag_kuat_invasion_country
+				FROMFROM = { has_fleet_flag = has_Eternal_support }
+			}
+			FROMFROM = { has_fleet_flag = has_Eternal_submit }
+		}
 	}
-	immediate = { FROMFROM = { remove_modifier = Eternal_support remove_fleet_flag = has_Eternal_support } }
+	immediate = { 
+		FROMFROM = { remove_modifier = Eternal_support remove_fleet_flag = has_Eternal_support } 
+		FROMFROM = { remove_modifier = Eternal_submit  remove_fleet_flag = has_Eternal_submit }
+	}
 }
 
-country_event = {
+#debug for special component weapon destroyed
+ship_event = {
 	id = exe_invasion.124
 	hide_window = yes
 	is_triggered_only = yes
-	trigger = { FROMFROM = { has_fleet_flag = has_Eternal_submit } }
-	immediate = { FROMFROM = { remove_modifier = Eternal_submit  remove_fleet_flag = has_Eternal_submit } }
+	trigger = { 
+		has_ship_flag = check_disable_allowed 
+		has_global_flag = enable_modifer_check 
+		has_global_flag = difficult_exe_invasion
+	}
+	immediate = { 
+		repair_ship = yes set_disabled = no 
+		set_variable = { which = combat_days value = 0 }
+	}
+}
+
+ship_event = {
+	id = exe_invasion.138
+	hide_window = yes
+	is_triggered_only = yes
+	trigger = { 
+		has_ship_flag = check_disable_allowed 
+		has_global_flag = enable_modifer_check 
+		has_global_flag = difficult_exe_invasion
+	}
+	immediate = {
+		if = {
+			limit = { is_in_combat = yes }
+			change_variable = { which = combat_days value = 1 }
+			if = {
+				limit = { check_variable = { which = combat_days value < 3 } }
+				set_disable_at_health = 0.01
+			}
+			else_if = {
+				limit = { check_variable = { which = combat_days value >= 3 } }
+				set_disable_at_health = -1
+			}
+			ship_event = { id = exe_invasion.138 days = 1 }
+		}
+		else = {
+			clear_variable = combat_days
+			set_disable_at_health = -1
+		}
+	}
 }
 
 #debug check modifier in eternal fleet
@@ -1492,6 +1545,7 @@ country_event = {
 				every_owned_ship = {
 					set_ship_flag = is_modifiering
 					ship_event = { id = exe_invasion.137 }
+					ship_event = { id = exe_invasion.138 }
 				}
 			}	
 		}
