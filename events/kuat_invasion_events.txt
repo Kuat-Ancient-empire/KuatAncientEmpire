@@ -1242,10 +1242,18 @@ country_event = {
 				if = {
 					limit = { has_global_flag = enable_modifer_check }
 					random_owned_ship = {
-						limit = { ag_is_flagship_system_proection = yes }
-						set_ship_flag = is_invisiable_trigger
-						increase_executor_power = { DAYS = -1 }
-						ship_event = { id = exe_invasion.114 }
+						if = {
+							limit = { ag_is_flagship_system_proection = yes }
+							set_ship_flag = is_invisiable_trigger
+							increase_executor_power = { DAYS = -1 }
+							ship_event = { id = exe_invasion.114 }
+						}
+						if = {
+							limit = { ag_is_flagship_system_proection = no }
+							set_timed_ship_flag = { flag = is_invisiable_trigger days = 1 }
+							increase_executor_power = { DAYS = 1 }
+							ship_event = { id = exe_invasion.114 }
+						}
 					}
 				}
 				set_fleet_modifier = { SUB = Eternal_support DAYS = -1 }
@@ -1474,8 +1482,12 @@ ship_event = {
 		has_global_flag = difficult_exe_invasion
 	}
 	immediate = { 
-		repair_ship = yes set_disabled = no 
-		set_variable = { which = combat_days value = 0 }
+		if = {
+			limit = { fleet = { NOT = { any_owned_ship = { check_variable = { which = combat_days value >= 3 } } } } }
+			repair_ship = yes set_disabled = no 
+			set_variable = { which = combat_days value = 0 }
+		}
+		else = { repair_ship = yes set_disabled = no set_disable_at_health = -1 }
 	}
 }
 
@@ -1727,7 +1739,7 @@ ship_event = {
 					tracking = ship_tracking_mult
 				}
 				set_ship_flag = fire_ship_var
-				ship_event = { id = exe_invasion.131 days = 1 }
+				ship_event = { id = exe_invasion.131 days = 2 }
 			}
 			else_if = {
 				limit = { has_ship_flag = fire_ship_var }
