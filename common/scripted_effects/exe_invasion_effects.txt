@@ -1379,12 +1379,13 @@ fleet_execute_order_1 = {
 				id = executor.1.c
 				if = {
 					limit = { 
-						NOT = { 
-							any_system = { 
+						count_system = {
+							limit = {
 								exists = space_owner
 								space_owner = { is_at_war_with = event_target:fallen_empire_kuat }
-								check_variable = { which = kuat_fleet_id value < 1 } 
-							} 
+								check_variable = { which = kuat_fleet_id value < 1 }
+							}
+							count < 1
 						}
 					}
 					solar_system = { set_variable = { which = kuat_fleet_id value = 0 } }

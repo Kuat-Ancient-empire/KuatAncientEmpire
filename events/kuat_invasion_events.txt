@@ -947,6 +947,13 @@ country_event = {
 		NOT = { has_global_flag = exe_return_invasion_begin }
 		from = {
 			is_country_type = ag_kuat_invasion_country
+			count_owned_fleet = {
+				limit = {
+					has_fleet_flag = ag_kuat_invasion_fleet
+					NOT = { is_same_value = root.fromfromfrom }
+				}
+				count < 1
+			}
 			NOT = {
 				any_owned_fleet = {
 					has_fleet_flag = ag_kuat_invasion_fleet
@@ -1241,7 +1248,7 @@ country_event = {
 				}
 				if = {
 					limit = { has_global_flag = enable_modifer_check }
-					random_owned_ship = {
+					every_owned_ship = {
 						if = {
 							limit = { ag_is_flagship_system_proection = yes }
 							set_ship_flag = is_invisiable_trigger
@@ -1250,8 +1257,8 @@ country_event = {
 						}
 						if = {
 							limit = { ag_is_flagship_system_proection = no }
-							set_timed_ship_flag = { flag = is_invisiable_trigger days = 1 }
-							increase_executor_power = { DAYS = 1 }
+							set_timed_ship_flag = { flag = is_invisiable_trigger days = 2 }
+							increase_executor_power = { DAYS = 2 }
 							ship_event = { id = exe_invasion.114 }
 						}
 					}
@@ -1294,9 +1301,8 @@ country_event = {
 			if = {
 				limit = { NOT = { has_fleet_flag = fire_for_once } }
 				set_timed_fleet_flag = { flag = fire_for_once days = 1 }
-				set_fleet_modifier = { SUB = Eternal_support DAYS = 5 }
-				increase_ship_hp_effect_change = { DAYS = 5 }
-				ROOT.FROMFROMFROM = { set_fleet_modifier = { SUB = ship_firing_debuff_invisiable_protection DAYS = 5 } }
+				set_fleet_modifier = { SUB = Eternal_support DAYS = 6 }
+				increase_ship_hp_effect_change = { DAYS = 6 }
 			}
 		}
 	}
@@ -1443,11 +1449,9 @@ country_event = {
 			limit = {
 				NOT = { has_fleet_flag = has_Eternal_support }
 				has_enable_flag_ship_system_true = yes
-				root.fromfromfrom = { NOT = { has_fleet_flag = ship_firing_debuff_invisiable_protection } }
 			}
 			set_fleet_modifier = { SUB = Eternal_support DAYS = 6 }
 			increase_ship_hp_effect_change = { DAYS = 6 }
-			ROOT.FROMFROMFROM = { set_fleet_modifier = { SUB = ship_firing_debuff_invisiable_protection DAYS = 6 } }
 		} }
 	}
 }
@@ -1483,11 +1487,15 @@ ship_event = {
 	}
 	immediate = { 
 		if = {
-			limit = { fleet = { NOT = { any_owned_ship = { check_variable = { which = combat_days value >= 3 } } } } }
-			repair_ship = yes set_disabled = no 
-			set_variable = { which = combat_days value = 0 }
+			limit = { 
+				count_owned_ship = {
+					limit = { check_variable = { which = combat_days value < 3 } }
+					count = all
+				}
+			}
+			repair_ship = yes set_disabled = no set_variable = { which = combat_days value = 0 }
 		}
-		else = { repair_ship = yes set_disabled = no set_disable_at_health = -1 }
+		else = { repair_ship = yes set_disabled = no }
 	}
 }
 
@@ -1739,7 +1747,7 @@ ship_event = {
 					tracking = ship_tracking_mult
 				}
 				set_ship_flag = fire_ship_var
-				ship_event = { id = exe_invasion.131 days = 2 }
+				ship_event = { id = exe_invasion.131 days = 3 }
 			}
 			else_if = {
 				limit = { has_ship_flag = fire_ship_var }

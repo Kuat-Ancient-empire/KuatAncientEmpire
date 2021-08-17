@@ -47,24 +47,23 @@ increase_ship_hp_effect_change = {
 		ship_event = { id = exe_invasion.119 }
 	}
 	set_fleet_modifier = { SUB = Eternal_submit DAYS = -1 }
-	remove_modifier = ship_firing_debuff_invisiable_protection
 }
 
 clear_ship_modifier = {
 	if = {
-		limit = { NOT = { is_variable_set = $modifier$_value_iep } }
+		limit = { 
+			NOT = { is_variable_set = $modifier$_value_iep } 
+			check_modifier_value = { modifier = $modifier$ value > @initial_value }
+		}
+		export_modifier_to_variable = { modifier = $modifier$ variable = $modifier$_value_iep }
+		subtract_variable = { which = $modifier$_value_iep value = 1 }
 		if = {
-			limit = { check_modifier_value = { modifier = $modifier$ value > @initial_value } }
-			export_modifier_to_variable = { modifier = $modifier$ variable = $modifier$_value_iep }
-			subtract_variable = { which = $modifier$_value_iep value = 1 }
+			limit = { is_variable_set = $modifier$_value_iep }
+			set_ship_flag = has_$modifier$_iep
 			if = {
-				limit = { is_variable_set = $modifier$_value_iep }
-				set_ship_flag = has_$modifier$_iep
-				if = {
-					limit = { is_variable_set = $modifier$_value_iep has_ship_flag = has_$modifier$_iep }
-					set_invasion_fleet_basic_modifier = { SUB = iep_basic_$modifier$ FACTOR = $modifier$_value_iep DAYS = $DAYS$ }
-					remove_ship_flag = has_$modifier$_iep
-				}
+				limit = { is_variable_set = $modifier$_value_iep has_ship_flag = has_$modifier$_iep }
+				set_invasion_fleet_basic_modifier = { SUB = iep_basic_$modifier$ FACTOR = $modifier$_value_iep DAYS = $DAYS$ }
+				remove_ship_flag = has_$modifier$_iep
 			}
 		}
 	}
