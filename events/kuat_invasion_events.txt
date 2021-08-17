@@ -1488,14 +1488,11 @@ ship_event = {
 	immediate = { 
 		if = {
 			limit = { 
-				count_owned_ship = {
-					limit = { check_variable = { which = combat_days value < 3 } }
-					count = all
-				}
+				fleet = { count_owned_ship = { limit = { check_variable = { which = combat_days value > 3 } } count > 0 } }
 			}
-			repair_ship = yes set_disabled = no set_variable = { which = combat_days value = 0 }
+			repair_ship = yes set_disabled = no 
 		}
-		else = { repair_ship = yes set_disabled = no }
+		else = { repair_ship = yes set_disabled = no set_variable = { which = combat_days value = 0 } }
 	}
 }
 
@@ -1513,10 +1510,6 @@ ship_event = {
 			limit = { is_in_combat = yes }
 			change_variable = { which = combat_days value = 1 }
 			if = {
-				limit = { check_variable = { which = combat_days value < 3 } }
-				set_disable_at_health = 0.01
-			}
-			else_if = {
 				limit = { check_variable = { which = combat_days value >= 3 } }
 				set_disable_at_health = -1
 			}
@@ -1557,7 +1550,15 @@ country_event = {
 				every_owned_ship = {
 					set_ship_flag = is_modifiering
 					ship_event = { id = exe_invasion.137 }
-					ship_event = { id = exe_invasion.138 }
+					if = {
+						limit = { 
+							has_ship_flag = check_disable_allowed 
+							has_global_flag = difficult_exe_invasion
+						}
+						set_disable_at_health = 0.01
+						change_variable = { which = combat_days value = 1 }
+						ship_event = { id = exe_invasion.138 days = 1 }
+					}
 				}
 			}	
 		}
