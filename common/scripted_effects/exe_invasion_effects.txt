@@ -303,17 +303,25 @@ ag_exe_invasion_fleet_action = {
 			solar_system = { ag_is_kuat_system = yes }
 			any_system = {
 				has_star_flag = ag_exe_invasion_gate_system
-				any_system_megastructure = {
-					is_megastructure_type = exe_outer_gate
-				}
+				any_system_megastructure = { is_megastructure_type = exe_outer_gate }
 			}
 		}
 		if = {
 			limit = {
-				solar_system = { has_star_flag = Kuat_system }
+				solar_system = { 
+					OR = {
+						has_star_flag = Kuat_system 
+						has_star_flag = Kuat_system_int
+					}
+				}
 			}
 			random_system = {
-				limit = { has_star_flag = Kuat_system_3 }
+				limit = { 
+					OR = {
+						has_star_flag = Kuat_system_3 
+						has_star_flag = Kuat_system_int_3
+					}
+				}
 				random_system_planet = {
 					limit = { is_primary_star = yes }
 					prevprev = { auto_move_to_planet = { target = prev clear_auto_move_on_arrival = yes } }
@@ -322,10 +330,20 @@ ag_exe_invasion_fleet_action = {
 		}
 		else_if = {
 			limit = {
-				solar_system = { has_star_flag = Kuat_system_3 }
+				solar_system = { 
+					OR = {
+						has_star_flag = Kuat_system_3 
+						has_star_flag = Kuat_system_int_3
+					}
+				}
 			}
 			random_system = {
-				limit = { has_star_flag = Kuat_system_2 }
+				limit = { 
+					OR = {
+						has_star_flag = Kuat_system_2 
+						has_star_flag = Kuat_system_int_2
+					}
+				}
 				random_system_planet = {
 					limit = { is_primary_star = yes }
 					prevprev = { auto_move_to_planet = { target = prev clear_auto_move_on_arrival = yes } }
@@ -334,10 +352,20 @@ ag_exe_invasion_fleet_action = {
 		}
 		else_if = {
 			limit = {
-				solar_system = { has_star_flag = Kuat_system_2 }
+				solar_system = { 
+					OR = {
+						has_star_flag = Kuat_system_2 
+						has_star_flag = Kuat_system_int_2
+					}
+				}
 			}
 			random_system = {
-				limit = { has_star_flag = Kuat_system_1 }
+				limit = { 
+					OR = {
+						has_star_flag = Kuat_system_1 
+						has_star_flag = Kuat_system_int_1
+					} 
+				}
 				random_system_planet = {
 					limit = { is_primary_star = yes }
 					prevprev = { auto_move_to_planet = { target = prev clear_auto_move_on_arrival = yes } }
@@ -346,14 +374,18 @@ ag_exe_invasion_fleet_action = {
 		}
 		else_if = {
 			limit = {
-				solar_system = { has_star_flag = Kuat_system_1 }
+				solar_system = { 
+					OR = {
+						has_star_flag = Kuat_system_1 
+						has_star_flag = Kuat_system_int_1
+						has_star_flag = Kuat_system_int_4
+					} 
+				}
 			}
 			random_system = {
 				limit = {
 					has_star_flag = ag_exe_invasion_gate_system
-					any_system_megastructure = {
-						is_megastructure_type = exe_outer_gate
-					}
+					any_system_megastructure = { is_megastructure_type = exe_outer_gate }
 				}
 				random_system_planet = {
 					limit = { is_primary_star = yes }
@@ -1383,9 +1415,9 @@ fleet_execute_order_1 = {
 							limit = {
 								exists = space_owner
 								space_owner = { is_at_war_with = event_target:fallen_empire_kuat }
-								check_variable = { which = kuat_fleet_id value < 1 }
+								check_variable = { which = kuat_fleet_id value >= 1 }
 							}
-							count < 1
+							count = all
 						}
 					}
 					solar_system = { set_variable = { which = kuat_fleet_id value = 0 } }
@@ -2072,6 +2104,17 @@ create_kuat_fire_base_country_type_defend_army = {
 
 #starkiller check effect
 starkiller_destroyed_system_everything = {
+	star = {
+		create_ambient_object = { type = "star_explosion" play_animation_once = yes location = this }
+		last_created_ambient_object = { set_location = { target = prev distance = 0 angle = random } }
+		create_ambient_object = { type = "destroyed_system" location = this }
+        last_created_ambient_object = { set_ambient_object_flag = destroyed_system_effect set_location = { target = prev  distance = 0  angle = random  } }
+	}
+	every_system_planet = {
+		clear_deposits = yes
+		clear_planet_modifiers = yes
+		prevent_anomaly = yes
+	}
 	root = { 
 		random_owned_fleet = { 
 			save_event_target_as = foa_target_fleet 
@@ -2080,6 +2123,7 @@ starkiller_destroyed_system_everything = {
 	}
 	every_fleet_in_system = {
 		limit = { 
+			exists = owner
 			owner = { 
 				NOR = { 
 					is_same_value = root 
@@ -2094,6 +2138,189 @@ starkiller_destroyed_system_everything = {
 		foa_effect_the_crisis_fleet = yes
 		foa_effect_the_crisis_ship = yes
 		destroy_fleet = { target = this destroy_template = yes kill_leader = yes }
+	}
+	every_system_megastructure = {
+		if = {
+			limit = {
+				OR = {
+					is_megastructure_type = ring_world_restored 
+					is_megastructure_type = ring_world_ruined
+					is_megastructure_type = ring_world_2
+				}
+			}
+			solar_system = {
+				spawn_planet = {
+					class = "pc_ringworld_tech_damaged"
+					location = prev
+					orbit_angle_offset = 30
+				}
+				spawn_planet = {
+					class = "pc_ringworld_seam_damaged"
+					location = prev
+				}
+				spawn_planet = {
+					class = "pc_ringworld_habitable_damaged"
+					location = prev
+					orbit_angle_offset = -30
+				}
+			}
+			remove_megastructure = this
+		}
+		else_if = {
+			limit = {
+				OR = {
+					is_megastructure_type = spy_orb_1
+					is_megastructure_type = spy_orb_2
+					is_megastructure_type = spy_orb_3
+					is_megastructure_type = spy_orb_4
+					is_megastructure_type = spy_orb_ruined
+					is_megastructure_type = spy_orb_restored
+				}
+			}
+			solar_system = {
+				spawn_megastructure = { 
+					type = "spy_orb_permanently_ruined"
+					coords_from = prev
+				}
+			}
+			remove_megastructure = this
+		}
+		else_if = {
+			limit = {
+				OR = {
+					is_megastructure_type = think_tank_1
+					is_megastructure_type = think_tank_2
+					is_megastructure_type = think_tank_3
+					is_megastructure_type = think_tank_4
+					is_megastructure_type = think_tank_ruined
+					is_megastructure_type = think_tank_restored
+				}
+			}
+			solar_system = {
+				spawn_megastructure = { 
+					type = "think_tank_permanently_ruined"
+					coords_from = prev
+				}
+			}
+			remove_megastructure = this
+		}
+		else_if = {
+			limit = {
+				OR = {
+					is_megastructure_type = strategic_coordination_center_1
+					is_megastructure_type = strategic_coordination_center_2
+					is_megastructure_type = strategic_coordination_center_3
+					is_megastructure_type = strategic_coordination_center_ruined
+					is_megastructure_type = strategic_coordination_center_restored
+				}
+			}
+			solar_system = {
+				spawn_megastructure = { 
+					type = "strategic_coordination_center_permanently_ruined"
+					coords_from = prev
+				}
+			}
+			remove_megastructure = this
+		}
+		else_if = {
+			limit = {
+				OR = {
+					is_megastructure_type = mega_art_installation_1
+					is_megastructure_type = mega_art_installation_2
+					is_megastructure_type = mega_art_installation_3
+					is_megastructure_type = mega_art_installation_4
+					is_megastructure_type = strategic_coordination_center_ruined
+					is_megastructure_type = strategic_coordination_center_restored
+				}
+			}
+			solar_system = {
+				spawn_megastructure = { 
+					type = "mega_art_installation_permanently_ruined"
+					coords_from = prev
+				}
+			}
+			remove_megastructure = this
+		}
+		else_if = {
+			limit = {
+				OR = {
+					is_megastructure_type = interstellar_assembly_1
+					is_megastructure_type = interstellar_assembly_2
+					is_megastructure_type = interstellar_assembly_3
+					is_megastructure_type = interstellar_assembly_4
+					is_megastructure_type = interstellar_assembly_ruined
+					is_megastructure_type = interstellar_assembly_restored
+				}
+			}
+			solar_system = {
+				spawn_megastructure = { 
+					type = "interstellar_assembly_permanently_ruined"
+					coords_from = prev
+				}
+			}
+			remove_megastructure = this
+		}
+		else_if = {
+			limit = {
+				OR = {
+					is_megastructure_type = mega_shipyard_1
+					is_megastructure_type = mega_shipyard_2
+					is_megastructure_type = mega_shipyard_3
+					is_megastructure_type = mega_shipyard_ruined
+					is_megastructure_type = mega_shipyard_restored
+				}
+			}
+			solar_system = {
+				spawn_megastructure = { 
+					type = "mega_shipyard_permanently_ruined"
+					coords_from = prev
+				}
+			}
+			remove_megastructure = this
+		}
+		else_if = {
+			limit = {
+				OR = {
+					is_megastructure_type = matter_decompressor_1
+					is_megastructure_type = matter_decompressor_2
+					is_megastructure_type = matter_decompressor_3
+					is_megastructure_type = matter_decompressor_4
+					is_megastructure_type = matter_decompressor_ruined
+					is_megastructure_type = matter_decompressor_restored
+				}
+			}
+			solar_system = {
+				spawn_megastructure = { 
+					type = "matter_decompressor_permanently_ruined"
+					coords_from = prev
+				}
+			}
+			remove_megastructure = this
+		}
+		else_if = {
+			limit = { is_crisis_sphere = yes }
+			solar_system = {
+				spawn_megastructure = {
+					type = crisis_sphere_ruined
+					coords_from = prev
+					init_effect = {
+						random_country = {
+							limit = {
+								prevprev = { has_megastructure_flag = crisis_sphere_of@prev }
+							}
+							save_event_target_as = former_owner
+						}
+						set_megastructure_flag = crisis_sphere_of@event_target:former_owner
+					}
+				}
+			}
+			remove_megastructure = this
+		}
+		else_if = {
+			limit = { is_megastructure_type = kuat_starkiller_marker_2 }
+			set_megastructure_flag = kuat_starkiller_marker_2
+		}
+		else = { remove_megastructure = this }
 	}
 }
 

@@ -16,16 +16,16 @@ country_event = {
 		}
 		country_event = { id = kuat_starkiller.2 days = 30 }
 		every_megastructure = {
-			limit = { is_megastructure_type = swfo_starkillerbase_2 }
+			limit = { is_megastructure_type = kuat_starkillerbase_2 }
 			remove_megastructure = this
 		}
 		event_target:sun_target_system = {
 			spawn_megastructure = {
-				type = "swfo_sun_drain"
+				type = "kuat_sun_drain"
 				coords_from = event_target:sun_location
 			}
 			spawn_megastructure = {
-				type = "swfo_starkillerbase_a"
+				type = "kuat_starkillerbase_a"
 				coords_from = event_target:starkillerbase_location
 			}
 		}
@@ -49,7 +49,7 @@ country_event = {
 		country_event = { id = kuat_starkiller.3 days = 1 }
 		#Remove Sun drain
 		every_megastructure = {
-			limit = { is_megastructure_type = swfo_sun_drain }
+			limit = { is_megastructure_type = kuat_sun_drain }
 			remove_megastructure = this
 		}
 	}
@@ -64,8 +64,8 @@ country_event = {
 		country_event = { id = kuat_starkiller.4 days = 12 }
 		play_sound = swfo_starkillerbase_fire
 		every_megastructure = {
-			limit = { is_megastructure_type = starkiller_planet_target_marker_0 }
-			upgrade_megastructure_to = starkiller_planet_target_marker_1
+			limit = { is_megastructure_type = kuat_starkiller_marker_0 }
+			upgrade_megastructure_to = kuat_starkiller_marker_1
 			finish_upgrade = yes
 		}
 	}
@@ -79,12 +79,12 @@ country_event = {
 	immediate = {
 		country_event = { id = kuat_starkiller.5 days = 10 }
 		every_megastructure = {
-			limit = { is_megastructure_type = swfo_starkillerbase_a }
+			limit = { is_megastructure_type = kuat_starkillerbase_a }
 			remove_megastructure = this
 		}
 		event_target:sun_target_system = {
 			spawn_megastructure = {
-				type = "swfo_starkillerbase_2"
+				type = "kuat_starkillerbase_2"
 				coords_from = event_target:starkillerbase_location
 			}
 		}
@@ -99,12 +99,12 @@ country_event = {
 	immediate = {
 		country_event = { id = kuat_starkiller.6 days = 13 }
 		every_megastructure = {
-			limit = { is_megastructure_type = starkiller_planet_target_marker_1 }
-			upgrade_megastructure_to = starkiller_planet_target_marker_2
+			limit = { is_megastructure_type = kuat_starkiller_marker_1 }
+			upgrade_megastructure_to = kuat_starkiller_marker_2
 			finish_upgrade = yes
 		}
 		every_galaxy_planet = {
-			limit = { has_planet_flag = built_target }
+			limit = {  has_planet_flag = built_target }
 			owner = {
 				add_opinion_modifier = {
 					who = root
@@ -126,130 +126,48 @@ country_event = {
 				}
 			}
 			if = {
-				limit = { 
-					ag_is_destroyed_planet = yes 
-					owner = { 
-						NOR = { 
-							is_country_type = ag_kuat_invasion_country
-							is_kuat_fallen_empire = yes
-							is_country_type = kuat_fleet
-							is_country_type = kuat_fire_base
-							is_country_type = kuat_fire_base_hositle
-						} 
-					} 
-				}
-				solar_system = {
-					every_system_megastructure = {
-						limit = {
-							NOT = { is_megastructure_type = starkiller_planet_target_marker_2 }
-						}
-						remove_megastructure = this
-					}
-				}
-				owner = {
-					add_static_war_exhaustion = {
-						attacker = root
-						location = prev
-						value_for_planet_destruction = 1
-					}
-				} 
-				change_pc = pc_shattered
+				limit = { is_colony = yes }
+				add_planet_devastation = -100
+				every_owned_pop = { kill_pop = yes }
+				remove_all_buildings = yes
+				remove_all_districts = yes
+				clear_deposits = yes
+				destroy_colony = yes
 			}
-			else_if = {
-				limit = { 
-					ag_starkiller_ringworld = yes 
-					owner = { 
-						NOR = { 
-							is_country_type = ag_kuat_invasion_country
-							is_kuat_fallen_empire = yes
-							is_country_type = kuat_fleet
-							is_country_type = kuat_fire_base
-							is_country_type = kuat_fire_base_hositle
-						} 
-					} 
-				}
-				solar_system = {
-					every_system_megastructure = {
-						limit = {
-							NOT = { is_megastructure_type = starkiller_planet_target_marker_2 }
-						}
-						remove_megastructure = this
-					}
-				}
-				owner = {
-					add_static_war_exhaustion = {
-						attacker = root
-						location = prev
-						value_for_planet_destruction = 1
-					}
-				} 
-				change_pc = pc_ringworld_habitable_damaged
-			}
-			else_if = {
+			if = {
 				limit = { is_star = yes }
 				change_pc = pc_black_hole
-				create_ambient_object = {
-					type = kuat_elternal_explosion_object
-					location = this
-					duration = 30					
-					use_3d_location = yes
-					entity_offset = { min = 0 max = 0 }
-					entity_offset_angle = { min = 0 max = 0 }
-					entity_offset_height = { min = 0 max = 0 }				
-					entity_scale_to_size = yes
-					scale = 0.5
-				}
 				solar_system = { 
 					set_star_class = sc_black_hole 
 					starkiller_destroyed_system_everything = yes
 					every_neighbor_system = { remove_hyperlane = { from = prev to = THIS } }
 				}
-			}
-			solar_system = {
-				if = {
-					limit = { NOT = { has_star_flag = target_system_temp } }
-					set_timed_star_flag = { flag = target_system_temp days = 2 }
-					if = {
-						limit = {
-							exists = space_owner
-							space_owner = { is_country_type = ai_empire }
-						}
-						every_country = {
-							limit = {
-								NOT = { is_country_type = primitive }
-								NOT = { is_country = ROOT }
-							}
-							remove_opinion_modifier = { who = ROOT modifier = opinion_in_starkillerbase_fire_control }
-						}
-					} 
-					else = {
-						every_country = {
-							limit = {
-								NOT = { is_country_type = primitive }
-								NOT = { is_country = ROOT }
-							}
-							remove_opinion_modifier = { who = ROOT modifier = opinion_in_starkillerbase_fire_control }
-							add_opinion_modifier = { who = ROOT modifier = opinion_starkillerbase_broke_our_system_planet }
-						}
+				owner = {
+					add_static_war_exhaustion = {
+						attacker = root
+						location = prev
+						value_for_planet_destruction = 1
 					}
 				}
 			}
-			if = { 
-				limit = { 
-					is_colony = yes 
-					owner = { 
-						NOR = {  
-							is_country_type = ag_kuat_invasion_country
-							is_kuat_fallen_empire = yes
-							is_country_type = kuat_fleet
-							is_country_type = kuat_fire_base
-							is_country_type = kuat_fire_base_hositle
-						} 
-					} 
-				} 
-				every_owned_pop = { kill_pop = yes }
-				destroy_colony = yes 
+			else_if = {
+				limit = { ag_is_ringworld = yes }
+				spawn_ringworld_cracker_effect = yes
+				change_pc = pc_ringworld_habitable_damaged
+				set_planet_entity = { entity = ringworld_habitable_damaged_entity }
 			}
+			else_if = {
+				limit = { ag_is_habitat = yes }
+				spawn_habitat_cracker_effect = yes
+				remove_planet = yes
+			}
+			else_if = {
+				limit = { has_modifier = "holy_planet" }
+				change_pc = pc_shattered
+				remove_modifier = "holy_planet"
+				add_modifier = { modifier = "ag_shattered_holy_planet" }
+			}
+			else = { change_pc = pc_shattered }
 		}
 	}
 }
@@ -260,15 +178,16 @@ country_event = {
 	hide_window = yes
 	is_triggered_only = yes
 	immediate = {
+		remove_global_flag = kuat_system_selector_1_opened
 		#Delete Target Marker
 		every_megastructure = {
 			if = {
-				limit = { is_megastructure_type = starkiller_planet_target_marker_2 }
+				limit = { is_megastructure_type = kuat_starkiller_marker_2 }
 				remove_megastructure = this
 			}
 			#Removes Firing Effect
 			if = {
-				limit = { is_megastructure_type = swfo_starkillerbase_2 }
+				limit = { is_megastructure_type = kuat_starkillerbase_2 }
 				remove_megastructure = this
 			}
 		}
@@ -285,7 +204,7 @@ country_event = {
 		#rebuilts Starkiller Base
 		event_target:sun_target_system = {
 			spawn_megastructure = {
-				type = "swfo_starkillerbase_1"
+				type = "kuat_starkillerbase_1"
 				coords_from = event_target:starkillerbase_location
 				owner = space_owner
 			}
@@ -519,7 +438,7 @@ country_event = {
 	}
 	immediate = {
 		every_megastructure = {
-			limit = { is_megastructure_type = swfo_starkillerbase_1 }
+			limit = { is_megastructure_type = kuat_starkillerbase_1 }
 			remove_megastructure = this
 		}
 		every_galaxy_planet = {
@@ -542,13 +461,12 @@ country_event = {
 	immediate = {
 		event_target:sun_target_system = {
 			spawn_megastructure = {
-				type = swfo_starkillerbase_0_1
+				type = kuat_starkillerbase_0_1
 				coords_from = event_target:starkillerbase_location
 				owner = root
 			}
 		}
-		# create_ship_design = { design = Name_boss_Marker }
-		# add_ship_design = last_created_design
+		remove_global_flag = kuat_system_selector_1_opened
 	}
 	option = { name = kuat_starkiller.10.a }
 }
@@ -578,7 +496,7 @@ country_event = {
 # 	is_triggered_only = yes
 # 	trigger = { 
 # 		NOT = { has_country_flag = fire_once }
-# 		any_owned_megastructure = { is_megastructure_type = swfo_starkillerbase_15 }
+# 		any_owned_megastructure = { is_megastructure_type = kuat_starkillerbase_15 }
 # 		from = { is_hostile = root }
 # 		fromfrom = { is_ship_size = exe_starkiller_market } 
 # 	}
@@ -593,9 +511,9 @@ country_event = {
 # 				every_system_megastructure = {
 # 					limit = {
 # 						OR = { 
-# 							is_megastructure_type = starkiller_planet_target_marker_0 
-# 							is_megastructure_type = starkiller_planet_target_marker_1
-# 							is_megastructure_type = starkiller_planet_target_marker_2
+# 							is_megastructure_type = kuat_starkiller_marker_0 
+# 							is_megastructure_type = kuat_starkiller_marker_1
+# 							is_megastructure_type = kuat_starkiller_marker_2
 # 						}
 # 					}
 # 					remove_megastructure = this
@@ -612,7 +530,7 @@ country_event = {
 # 					prev = {
 # 						spawn_megastructure = {
 # 							owner = event_target:kuat_firebase_country
-# 							type = starkiller_planet_target_marker_0
+# 							type = kuat_starkiller_marker_0
 # 							coords_from = prev
 # 						}
 # 					}
@@ -620,8 +538,8 @@ country_event = {
 # 			}
 # 			root = {
 # 				every_owned_megastructure = {
-# 					limit = { is_megastructure_type = swfo_starkillerbase_15 }
-# 					upgrade_megastructure_to = swfo_starkillerbase_2
+# 					limit = { is_megastructure_type = kuat_starkillerbase_15 }
+# 					upgrade_megastructure_to = kuat_starkillerbase_2
 # 					finish_upgrade = yes
 # 				}
 # 				country_event = { id = kuat_starkiller.1 }
@@ -645,7 +563,7 @@ country_event = {
 # 	is_triggered_only = yes
 # 	trigger = { 
 # 		is_ship_size = exe_starkiller_market 
-# 		owner = { any_owned_megastructure = { is_megastructure_type = swfo_starkillerbase_15 } }
+# 		owner = { any_owned_megastructure = { is_megastructure_type = kuat_starkillerbase_15 } }
 # 	}
 # 	immediate = { fleet = { set_event_locked = yes } }
 # 	option = {
@@ -655,9 +573,9 @@ country_event = {
 # 				every_system_megastructure = {
 # 					limit = {
 # 						OR = { 
-# 							is_megastructure_type = starkiller_planet_target_marker_0 
-# 							is_megastructure_type = starkiller_planet_target_marker_1
-# 							is_megastructure_type = starkiller_planet_target_marker_2
+# 							is_megastructure_type = kuat_starkiller_marker_0 
+# 							is_megastructure_type = kuat_starkiller_marker_1
+# 							is_megastructure_type = kuat_starkiller_marker_2
 # 						}
 # 					}
 # 					remove_megastructure = this
@@ -674,7 +592,7 @@ country_event = {
 # 					prev = {
 # 						spawn_megastructure = {
 # 							owner = event_target:kuat_firebase_country
-# 							type = starkiller_planet_target_marker_0
+# 							type = kuat_starkiller_marker_0
 # 							coords_from = prev
 # 						}
 # 					}
@@ -682,8 +600,8 @@ country_event = {
 # 			}
 # 			owner = {
 # 				every_owned_megastructure = {
-# 					limit = { is_megastructure_type = swfo_starkillerbase_15 }
-# 					upgrade_megastructure_to = swfo_starkillerbase_2
+# 					limit = { is_megastructure_type = kuat_starkillerbase_15 }
+# 					upgrade_megastructure_to = kuat_starkillerbase_2
 # 					finish_upgrade = yes
 # 				}
 # 				country_event = { id = kuat_starkiller.1 }
@@ -705,7 +623,7 @@ country_event = {
 
 	trigger = { 
 		has_country_flag = kuat_enabled_epsilon_planet_killer_selector 
-		any_owned_megastructure = { is_megastructure_type = swfo_starkillerbase_15 }
+		any_owned_megastructure = { is_megastructure_type = kuat_starkillerbase_15 }
 	}
 	immediate = {
 		remove_country_flag = kuat_enabled_epsilon_planet_killer_selector
@@ -739,7 +657,7 @@ country_event = {
 	id = kuat_starkiller.15
 	hide_window = yes
 	is_triggered_only = yes
-	trigger = { any_owned_megastructure = { is_megastructure_type = swfo_starkillerbase_15 } }
+	trigger = { any_owned_megastructure = { is_megastructure_type = kuat_starkillerbase_15 } }
 	immediate = {
 		every_system = {
 			limit = { has_star_flag = kuat_epsilon_titan_star_killer_weapon_target@root }
@@ -747,9 +665,9 @@ country_event = {
 			every_system_megastructure = {
 				limit = {
 					OR = { 
-						is_megastructure_type = starkiller_planet_target_marker_0 
-						is_megastructure_type = starkiller_planet_target_marker_1
-						is_megastructure_type = starkiller_planet_target_marker_2
+						is_megastructure_type = kuat_starkiller_marker_0 
+						is_megastructure_type = kuat_starkiller_marker_1
+						is_megastructure_type = kuat_starkiller_marker_2
 					}
 				}
 				remove_megastructure = this
@@ -760,15 +678,15 @@ country_event = {
 				prev = {
 					spawn_megastructure = {
 						owner = event_target:kuat_firebase_country
-						type = starkiller_planet_target_marker_0
+						type = kuat_starkiller_marker_0
 						coords_from = prev
 					}
 				}
 			}
 		}
 		every_owned_megastructure = {
-			limit = { is_megastructure_type = swfo_starkillerbase_15 }
-			upgrade_megastructure_to = swfo_starkillerbase_2
+			limit = { is_megastructure_type = kuat_starkillerbase_15 }
+			upgrade_megastructure_to = kuat_starkillerbase_2
 			finish_upgrade = yes
 		}
 		country_event = { id = kuat_starkiller.1 }

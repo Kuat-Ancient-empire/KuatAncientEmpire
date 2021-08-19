@@ -558,7 +558,7 @@ exe_black_hole_facility = {
 		}
 	}	
 	country_modifier = { starbase_shipyard_build_speed_mult = 1 }
-	station_modifier = { starbase_shipyard_capacity_add = 300 }
+	station_modifier = { starbase_shipyard_capacity_add = 100 }
 	placement_rules = {}	
 	on_build_start = {}
 	on_build_cancel = {}
@@ -615,7 +615,7 @@ exe_black_hole_restore = {
 		}
 	}	
 	country_modifier = { starbase_shipyard_build_speed_mult = 1 }
-	station_modifier = { starbase_shipyard_capacity_add = 300 }
+	station_modifier = { starbase_shipyard_capacity_add = 100 }
 	placement_rules = {}	
 	on_build_start = {}
 	on_build_cancel = {}
@@ -624,6 +624,73 @@ exe_black_hole_restore = {
 		from = { country_event = { id = kuat_origin.6 } }
 		every_system_ambient_object = { destroy_ambient_object = this }
 	}
+	construction_blocked_by_others = no
+	construction_blocks_others = no	
+	ai_weight = { weight = 5000 }
+}
+
+StarForge_notrun = {
+	entity = "starforge_entity"
+	construction_entity = "starforge_entity"
+	portrait = "GFX_megastructure_construction_background"	
+	place_entity_on_planet_plane = no
+	show_galactic_map_icon = yes	
+	build_time = 3090	
+	upgrade_desc = hide	
+	potential = { always = no }
+	placement_rules = {}	
+	on_build_start = {}
+	on_build_cancel = {}
+	on_build_complete = { }
+	construction_blocked_by_others = no
+	construction_blocks_others = no	
+	ai_weight = { weight = 5000 }
+}
+
+StarForge = {
+	entity = "starforge_run_entity"
+	construction_entity = "starforge_entity"
+	portrait = "GFX_megastructure_construction_background"	
+	place_entity_on_planet_plane = no
+	show_galactic_map_icon = yes	
+	build_time = 3090	
+	upgrade_desc = hide	
+	upgrade_from = { StarForge_notrun }	
+	potential = { 
+		has_origin = origin_kuat_apocalyptic
+		NOT = { has_country_flag = fire_once } 
+	}
+	resources = {
+		category = megastructures
+		cost = { alloys = 500000 }
+		produces = {
+			minerals = 5000
+			energy = 5000
+			alloys = 5000
+			sr_dark_matter = 1000
+		}
+		upkeep = {
+			exotic_gases = 100
+			volatile_motes = 100
+			rare_crystals = 100
+		}
+	}	
+	country_modifier = { 
+		starbase_shipyard_build_speed_mult = 1 
+	}
+	station_modifier = { 
+		starbase_shipyard_capacity_add = 300 
+	}
+	ship_modifier = {
+		ship_fire_rate_mult = 1
+		ship_weapon_damage = 1
+		ship_tracking_mult = 1
+		ship_evasion_mult = 1
+	}
+	placement_rules = {}	
+	on_build_start = {}
+	on_build_cancel = {}
+	on_build_complete = { from = { country_event = { id = kuat_origin.8 } } }
 	construction_blocked_by_others = no
 	construction_blocks_others = no	
 	ai_weight = { weight = 5000 }
