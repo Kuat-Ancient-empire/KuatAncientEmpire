@@ -2372,7 +2372,7 @@ country_event = {
 						solar_system = {
 							spawn_megastructure = {
 								owner = event_target:kuat_firebase_country
-								type = kuat_starkiller_marker_0
+								type = kuat_starkiller_marker_0_1
 								coords_from = prev
 							}
 						}
@@ -2381,19 +2381,32 @@ country_event = {
 				if = {
 					limit = { is_capital_system = yes }
 					every_system_planet = {
-						limit = {
-							OR = {
-								is_colonizable = yes
-								is_colony = yes
-								is_capital = yes
+						if = {
+							limit = {
+								OR = {
+									is_colonizable = yes
+									is_colony = yes
+									is_capital = yes
+								}
+							}
+							set_planet_flag = built_target
+							solar_system = {
+								spawn_megastructure = {
+									owner = event_target:kuat_firebase_country
+									type = kuat_starkiller_marker_0
+									coords_from = prev
+								}
 							}
 						}
-						set_planet_flag = built_target
-						solar_system = {
-							spawn_megastructure = {
-								owner = event_target:kuat_firebase_country
-								type = kuat_starkiller_marker_0
-								coords_from = prev
+						if = {
+							limit = { is_star = yes }
+							set_planet_flag = built_target
+							solar_system = {
+								spawn_megastructure = {
+									owner = event_target:kuat_firebase_country
+									type = kuat_starkiller_marker_0_1
+									coords_from = prev
+								}
 							}
 						}
 					}

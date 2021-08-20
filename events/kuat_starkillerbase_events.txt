@@ -14,7 +14,7 @@ country_event = {
 			limit = { is_ai = no }
 			change_variable = { which = fire_var value = 1 }
 		}
-		country_event = { id = kuat_starkiller.2 days = 30 }
+		country_event = { id = kuat_starkiller.2 days = 23 }
 		every_megastructure = {
 			limit = { is_megastructure_type = kuat_starkillerbase_2 }
 			remove_megastructure = this
@@ -61,12 +61,19 @@ country_event = {
 	hide_window = yes
 	is_triggered_only = yes
 	immediate = {
-		country_event = { id = kuat_starkiller.4 days = 12 }
+		country_event = { id = kuat_starkiller.4 days = 9 }
 		play_sound = swfo_starkillerbase_fire
 		every_megastructure = {
-			limit = { is_megastructure_type = kuat_starkiller_marker_0 }
-			upgrade_megastructure_to = kuat_starkiller_marker_1
-			finish_upgrade = yes
+			if = {
+				limit = { is_megastructure_type = kuat_starkiller_marker_0 }
+				upgrade_megastructure_to = kuat_starkiller_marker_1
+				finish_upgrade = yes
+			}
+			if = {
+				limit = { is_megastructure_type = kuat_starkiller_marker_0_1 }
+				upgrade_megastructure_to = kuat_starkiller_marker_1_1
+				finish_upgrade = yes
+			}
 		}
 	}
 }
@@ -77,7 +84,7 @@ country_event = {
 	hide_window = yes
 	is_triggered_only = yes
 	immediate = {
-		country_event = { id = kuat_starkiller.5 days = 10 }
+		country_event = { id = kuat_starkiller.5 days = 3 }
 		every_megastructure = {
 			limit = { is_megastructure_type = kuat_starkillerbase_a }
 			remove_megastructure = this
@@ -97,12 +104,29 @@ country_event = {
 	hide_window = yes
 	is_triggered_only = yes
 	immediate = {
-		country_event = { id = kuat_starkiller.6 days = 13 }
+		country_event = { id = kuat_starkiller.6 days = 6 }
 		every_megastructure = {
-			limit = { is_megastructure_type = kuat_starkiller_marker_1 }
-			upgrade_megastructure_to = kuat_starkiller_marker_2
-			finish_upgrade = yes
+			if = {
+				limit = { is_megastructure_type = kuat_starkiller_marker_1 }
+				upgrade_megastructure_to = kuat_starkiller_marker_2
+				finish_upgrade = yes
+			}
+			if = {
+				limit = { is_megastructure_type = kuat_starkiller_marker_1_1 }
+				upgrade_megastructure_to = kuat_starkiller_marker_2_1
+				finish_upgrade = yes
+			}
 		}
+		country_event = { id = kuat_starkiller.11 days = 2 }
+	}
+}
+
+#effect
+country_event = {
+	id = kuat_starkiller.11
+	hide_window = yes
+	is_triggered_only = yes
+	immediate = {
 		every_galaxy_planet = {
 			limit = {  has_planet_flag = built_target }
 			owner = {
@@ -169,6 +193,16 @@ country_event = {
 			}
 			else = { change_pc = pc_shattered }
 		}
+		every_megastructure = {
+			if = {
+				limit = { is_megastructure_type = kuat_starkiller_marker_2 }
+				remove_megastructure = this
+			}
+			if = {
+				limit = { is_megastructure_type = kuat_starkiller_marker_2_1 }
+				remove_megastructure = this
+			}
+		}
 	}
 }
 
@@ -181,15 +215,8 @@ country_event = {
 		remove_global_flag = kuat_system_selector_1_opened
 		#Delete Target Marker
 		every_megastructure = {
-			if = {
-				limit = { is_megastructure_type = kuat_starkiller_marker_2 }
-				remove_megastructure = this
-			}
-			#Removes Firing Effect
-			if = {
-				limit = { is_megastructure_type = kuat_starkillerbase_2 }
-				remove_megastructure = this
-			}
+			limit = { is_megastructure_type = kuat_starkillerbase_2 }
+			remove_megastructure = this
 		}
 		every_galaxy_planet = {
 			if = {
@@ -666,20 +693,36 @@ country_event = {
 				limit = {
 					OR = { 
 						is_megastructure_type = kuat_starkiller_marker_0 
+						is_megastructure_type = kuat_starkiller_marker_0_1
 						is_megastructure_type = kuat_starkiller_marker_1
+						is_megastructure_type = kuat_starkiller_marker_1_1
 						is_megastructure_type = kuat_starkiller_marker_2
+						is_megastructure_type = kuat_starkiller_marker_2_1
 					}
 				}
 				remove_megastructure = this
 			}
 			every_system_planet = {
-				limit = { OR = { is_colony = yes is_capital = yes is_star = yes } }
-				set_planet_flag = built_target
-				prev = {
-					spawn_megastructure = {
-						owner = event_target:kuat_firebase_country
-						type = kuat_starkiller_marker_0
-						coords_from = prev
+				if = {
+					limit = { OR = { is_colony = yes is_capital = yes } }
+					set_planet_flag = built_target
+					prev = {
+						spawn_megastructure = {
+							owner = event_target:kuat_firebase_country
+							type = kuat_starkiller_marker_0
+							coords_from = prev
+						}
+					}
+				}
+				if = {
+					limit = { is_star = yes }
+					set_planet_flag = built_target
+					prev = {
+						spawn_megastructure = {
+							owner = event_target:kuat_firebase_country
+							type = kuat_starkiller_marker_0_1
+							coords_from = prev
+						}
 					}
 				}
 			}

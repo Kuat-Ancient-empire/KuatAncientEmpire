@@ -5,5 +5,5 @@ tags={
 	"Events"
 }
 name="SW:Kuat Ancient Empire"
-supported_version="3.0.3"
+supported_version="3.0.*"
 remote_file_id="2461014769"
