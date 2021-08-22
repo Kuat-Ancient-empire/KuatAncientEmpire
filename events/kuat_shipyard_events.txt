@@ -1,10 +1,16 @@
 namespace = kuat_shipyard
+#executor
 @kuat_escort_build_time = 2400
+#eclipse
 @kuat_eclipse_build_time = 2400
-@kuat_dreadnought_build_time = 500
-@kuat_battlecruiser_build_time = 1000
-@kuat_titan_build_time = 1000
+#dominance
 @kuat_dominance_class_build_time = 1200
+#raider
+@kuat_dreadnought_build_time = 500
+#Horriwer
+@kuat_battlecruiser_build_time = 1000
+#Imperial
+@kuat_titan_build_time = 1000
 #通讯主界面
 country_event = {
 	id = kuat_shipyard.1
@@ -546,9 +552,12 @@ country_event = {
 		check_variable = { which = fallen_empire_battlecruiser_queue value > 0 }
 	}
 	immediate = {
-		country_event = { id = kuat_shipyard.223 days = 1 }
-		change_variable = { which = horriwer_fleet_queue value = 1 }
-		subtract_variable = { which = fallen_empire_battlecruiser_queue value = 1 }
+		if = {
+			limit = { check_variable = { which = fallen_empire_battlecruiser_queue value > 0 } }
+			change_variable = { which = horriwer_fleet_queue value = 1 }
+			subtract_variable = { which = fallen_empire_battlecruiser_queue value = 1 }
+			country_event = { id = kuat_shipyard.223 days = 1 }
+		}
 		if = {
 			limit = { check_variable = { which = fallen_empire_battlecruiser_queue value <= 0 } }
 			clear_variable = fallen_empire_battlecruiser_queue
@@ -572,13 +581,8 @@ country_event = {
 				effect = {
 					set_owner = root
 					while = {
-						limit = {
-							root = { check_variable = { which = horriwer_fleet_queue value > 0 } }
-						}
-						create_ship = {
-							name = "Horriwer Class Destroyer"
-							design = "Name_boss_Horriwer"
-						}
+						limit = { root = { check_variable = { which = horriwer_fleet_queue value > 0 } } }
+						create_ship = { name = "Horriwer Class Destroyer" design = "Name_boss_Horriwer" }
 						root = { subtract_variable = { which = horriwer_fleet_queue value = 1 } }
 					}
 					set_location = { target = prev distance = 20 angle = random }
@@ -779,9 +783,12 @@ country_event = {
 		check_variable = { which = fallen_empire_titan_queue value > 0 }
 	}
 	immediate = {
-		country_event = { id = kuat_shipyard.232 days = 1 }
-		change_variable = { which = empire_fleet_queue value = 1 }
-		subtract_variable = { which = fallen_empire_titan_queue value = 1 }
+		if = {
+			limit = { check_variable = { which = fallen_empire_titan_queue value > 0 } }
+			change_variable = { which = empire_fleet_queue value = 1 }
+			subtract_variable = { which = fallen_empire_titan_queue value = 1 }
+			country_event = { id = kuat_shipyard.232 days = 1 }
+		}
 		if = {
 			limit = { check_variable = { which = fallen_empire_titan_queue value <= 0 } }
 			clear_variable = fallen_empire_titan_queue
@@ -805,13 +812,8 @@ country_event = {
 				effect = {
 					set_owner = root
 					while = {
-						limit = {
-							root = { check_variable = { which = empire_fleet_queue value > 0 } }
-						}
-						create_ship = {
-							name = "Empire-II Class Stardestroyer"
-							design = "Name_boss_EMPIRE"
-						}
+						limit = { root = { check_variable = { which = empire_fleet_queue value > 0 } } }
+						create_ship = { name = "Empire-II Class Stardestroyer" design = "Name_boss_EMPIRE" }
 						root = { subtract_variable = { which = empire_fleet_queue value = 1 } }
 					}
 					set_location = { target = prev distance = 20 angle = random }
@@ -1012,9 +1014,12 @@ country_event = {
 		check_variable = { which = raider_class_queue value > 0 }
 	}
 	immediate = {
-		country_event = { id = kuat_shipyard.243 days = 1 }
-		change_variable = { which = raider_fleet_queue value = 1 }
-		subtract_variable = { which = raider_class_queue value = 1 }
+		if = {
+			limit = { check_variable = { which = raider_class_queue value > 0 } }
+			change_variable = { which = raider_fleet_queue value = 1 }
+			subtract_variable = { which = raider_class_queue value = 1 }
+			country_event = { id = kuat_shipyard.243 days = 1 }
+		}
 		if = {
 			limit = { check_variable = { which = raider_class_queue value <= 0 } }
 			clear_variable = raider_class_queue
@@ -1038,13 +1043,8 @@ country_event = {
 				effect = {
 					set_owner = root
 					while = {
-						limit = {
-							root = { check_variable = { which = raider_fleet_queue value > 0 } }
-						}
-						create_ship = {
-							name = "Raider Class Star Frigate"
-							design = "Name_boss_Raider"
-						}
+						limit = { root = { check_variable = { which = raider_fleet_queue value > 0 } } }
+						create_ship = { name = "Raider Class Star Frigate" design = "Name_boss_Raider" }
 						root = { subtract_variable = { which = raider_fleet_queue value = 1 } }
 					}
 					set_location = { target = prev distance = 20 angle = random }
