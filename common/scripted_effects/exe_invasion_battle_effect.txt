@@ -1,20 +1,3 @@
-@initial_value = 0
-#orginal value
-@origin_value = 1
-@mult_origin_value = -1
-#quarter value
-@quarter_origin_value = 0.25
-@mult_quarter_origin_value = -0.25
-#two quarter value
-@two_quarter_origin_value = 0.50
-@mult_two_quarter_origin_value = -0.50
-#three quarter value
-@three_quarter_origin_value = 0.75
-@mult_three_quarter_origin_value = -0.75
-#hundred value
-@hundred_value = 100
-@two_million_value = 2000000
-
 # scope: ship
 increase_executor_power = {
 	if = {
@@ -315,10 +298,10 @@ set_eternal_fleet_mult_modifier = {
 	[[weapon_damage_own] if = {
 		limit = { 
 			NOT = { is_variable_set = $weapon_damage_own$_value } 
-			check_modifier_value = { modifier = $weapon_damage_own$ value < @initial_value }
+			check_modifier_value = { modifier = $weapon_damage_own$ value < @ten_value }
 		}
 		export_modifier_to_variable = { modifier = $weapon_damage_own$ variable = $weapon_damage_own$_value }
-		subtract_variable = { which = $weapon_damage_own$_value value = @origin_value }
+		subtract_variable = { which = $weapon_damage_own$_value value = @ten_value }
 		set_invasion_fleet_basic_modifier = { SUB = basic_$weapon_damage_own$ FACTOR = $weapon_damage_own$_value }
 	} else = {
 		if = {
@@ -326,13 +309,13 @@ set_eternal_fleet_mult_modifier = {
 			clear_variable = change_$weapon_damage_own$_value
 		}
 		export_modifier_to_variable = { modifier = $weapon_damage_own$ variable = change_$weapon_damage_own$_value }
-		subtract_variable = { which = change_$weapon_damage_own$_value value = @origin_value }
+		subtract_variable = { which = change_$weapon_damage_own$_value value = @ten_value }
 		set_invasion_fleet_basic_modifier = { SUB = change_basic_$weapon_damage_own$ FACTOR = change_$weapon_damage_own$_value }
 	}] #scope: fromfrom
 	[[hull_regen_add_perc] if = {
 		limit = { 
 			NOT = { is_variable_set = $hull_regen_add_perc$_value } 
-			check_modifier_value = { modifier = $hull_regen_add_perc$ value < @initial_value }
+			check_modifier_value = { modifier = $hull_regen_add_perc$ value < @origin_value }
 		}
 		export_modifier_to_variable = { modifier = $hull_regen_add_perc$ variable = $hull_regen_add_perc$_value }
 		subtract_variable = { which = $hull_regen_add_perc$_value value = @origin_value }
@@ -349,7 +332,7 @@ set_eternal_fleet_mult_modifier = {
 	[[armor_regen_add_perc] if = {
 		limit = { 
 			NOT = { is_variable_set = $armor_regen_add_perc$_value } 
-			check_modifier_value = { modifier = $armor_regen_add_perc$ value < @initial_value }
+			check_modifier_value = { modifier = $armor_regen_add_perc$ value < @origin_value }
 		}
 		export_modifier_to_variable = { modifier = $armor_regen_add_perc$ variable = $armor_regen_add_perc$_value }
 		subtract_variable = { which = $armor_regen_add_perc$_value value = @origin_value }
@@ -366,7 +349,7 @@ set_eternal_fleet_mult_modifier = {
 	[[shield_regen_add_perc] if = {
 		limit = { 
 			NOT = { is_variable_set = $shield_regen_add_perc$_value } 
-			check_modifier_value = { modifier = $shield_regen_add_perc$ value < @initial_value }
+			check_modifier_value = { modifier = $shield_regen_add_perc$ value < @origin_value }
 		}
 		export_modifier_to_variable = { modifier = $shield_regen_add_perc$ variable = $shield_regen_add_perc$_value }
 		subtract_variable = { which = $shield_regen_add_perc$_value value = @origin_value }
@@ -383,7 +366,7 @@ set_eternal_fleet_mult_modifier = {
 	[[hull_mult] if = {
 		limit = { 
 			NOT = { is_variable_set = $hull_mult$_value } 
-			check_modifier_value = { modifier = $hull_mult$ value < @initial_value }
+			check_modifier_value = { modifier = $hull_mult$ value < @origin_value }
 		}
 		export_modifier_to_variable = { modifier = $hull_mult$ variable = $hull_mult$_value }
 		subtract_variable = { which = $hull_mult$_value value = @origin_value }
@@ -400,7 +383,7 @@ set_eternal_fleet_mult_modifier = {
 	[[armor_mult] if = {
 		limit = { 
 			NOT = { is_variable_set = $armor_mult$_value } 
-			check_modifier_value = { modifier = $armor_mult$ value < @initial_value }
+			check_modifier_value = { modifier = $armor_mult$ value < @origin_value }
 		}
 		export_modifier_to_variable = { modifier = $armor_mult$ variable = $armor_mult$_value }
 		subtract_variable = { which = $armor_mult$_value value = @origin_value }
@@ -417,7 +400,7 @@ set_eternal_fleet_mult_modifier = {
 	[[shield_mult] if = {
 		limit = { 
 			NOT = { is_variable_set = $shield_mult$_value } 
-			check_modifier_value = { modifier = $shield_mult$ value < @initial_value }
+			check_modifier_value = { modifier = $shield_mult$ value < @origin_value }
 		}
 		export_modifier_to_variable = { modifier = $shield_mult$ variable = $shield_mult$_value }
 		subtract_variable = { which = $shield_mult$_value value = @origin_value }
@@ -434,7 +417,7 @@ set_eternal_fleet_mult_modifier = {
 	[[weapon_range_mult] if = {
 		limit = { 
 			NOT = { is_variable_set = $weapon_range_mult$_value } 
-			check_modifier_value = { modifier = $weapon_range_mult$ value < @initial_value }
+			check_modifier_value = { modifier = $weapon_range_mult$ value < @origin_value }
 		}
 		export_modifier_to_variable = { modifier = $weapon_range_mult$ variable = $weapon_range_mult$_value }
 		subtract_variable = { which = $weapon_range_mult$_value value = @origin_value }
@@ -502,7 +485,7 @@ set_eternal_fleet_mult_modifier = {
 	[[weapon_type_energy] if = {
 		limit = { 
 			NOT = { is_variable_set = $weapon_type_energy$_value } 
-			check_modifier_value = { modifier = $weapon_type_energy$ value < @initial_value }
+			check_modifier_value = { modifier = $weapon_type_energy$ value < @origin_value }
 		}
 		export_modifier_to_variable = { modifier = $weapon_type_energy$ variable = $weapon_type_energy$_value }
 		subtract_variable = { which = $weapon_type_energy$_value value = @origin_value }
@@ -519,7 +502,7 @@ set_eternal_fleet_mult_modifier = {
 	[[weapon_type_kinetic] if = {
 		limit = {
 			NOT = { is_variable_set = $weapon_type_kinetic$_value } 
-			check_modifier_value = { modifier = $weapon_type_kinetic$ value < @initial_value }
+			check_modifier_value = { modifier = $weapon_type_kinetic$ value < @origin_value }
 		}
 		export_modifier_to_variable = { modifier = $weapon_type_kinetic$ variable = $weapon_type_kinetic$_value }
 		subtract_variable = { which = $weapon_type_kinetic$_value value = @origin_value }
@@ -536,7 +519,7 @@ set_eternal_fleet_mult_modifier = {
 	[[weapon_type_explosive] if = {
 		limit = { 
 			NOT = { is_variable_set = $weapon_type_explosive$_value } 
-			check_modifier_value = { modifier = $weapon_type_explosive$ value < @initial_value }
+			check_modifier_value = { modifier = $weapon_type_explosive$ value < @origin_value }
 		}
 		export_modifier_to_variable = { modifier = $weapon_type_explosive$ variable = $weapon_type_explosive$_value }
 		subtract_variable = { which = $weapon_type_explosive$_value value = @origin_value }
@@ -549,6 +532,36 @@ set_eternal_fleet_mult_modifier = {
 		export_modifier_to_variable = { modifier = $weapon_type_explosive$ variable = change_$weapon_type_explosive$_value }
 		subtract_variable = { which = change_$weapon_type_explosive$_value value = @origin_value }
 		set_invasion_fleet_basic_modifier = { SUB = change_basical_$weapon_type_explosive$ FACTOR = change_$weapon_type_explosive$_value }
+	}] #scope: fromfrom
+	[[shield_reduction] if = {
+		limit = { 
+			NOT = { is_variable_set = $shield_reduction$_value } 
+			check_modifier_value = { modifier = $shield_reduction$ value > @initial_value }
+		}
+		export_modifier_to_variable = { modifier = $shield_reduction$ variable = $shield_reduction$_value }
+		set_invasion_fleet_basic_modifier = { SUB = basic_$shield_reduction$ FACTOR = $shield_reduction$_value }
+	} else = {
+		if = {
+			limit = { is_variable_set = change_$shield_reduction$_value }
+			clear_variable = change_$shield_reduction$_value
+		}
+		export_modifier_to_variable = { modifier = $shield_reduction$ variable = change_$shield_reduction$_value }
+		set_invasion_fleet_basic_modifier = { SUB = change_basic_$shield_reduction$ FACTOR = change_$shield_reduction$_value }
+	}] #scope: fromfrom
+	[[armor_reduction] if = {
+		limit = { 
+			NOT = { is_variable_set = $armor_reduction$_value } 
+			check_modifier_value = { modifier = $armor_reduction$ value > @initial_value }
+		}
+		export_modifier_to_variable = { modifier = $armor_reduction$ variable = $armor_reduction$_value }
+		set_invasion_fleet_basic_modifier = { SUB = basic_$armor_reduction$ FACTOR = $armor_reduction$_value }
+	} else = {
+		if = {
+			limit = { is_variable_set = change_$armor_reduction$_value }
+			clear_variable = change_$armor_reduction$_value
+		}
+		export_modifier_to_variable = { modifier = $armor_reduction$ variable = change_$armor_reduction$_value }
+		set_invasion_fleet_basic_modifier = { SUB = change_basic_$armor_reduction$ FACTOR = change_$armor_reduction$_value }
 	}] #scope: fromfrom
 	#######ADD VALUE#########
 	[[tracking_add_own] if = {
@@ -588,10 +601,10 @@ set_eternal_fleet_mult_modifier = {
 	[[shield_add] if = {
 		limit = { 
 			NOT = { is_variable_set = $shield_add$_value } 
-			check_modifier_value = { modifier = $shield_add$ value < @initial_value }
+			check_modifier_value = { modifier = $shield_add$ value < @orgin_million_value }
 		}
 		export_modifier_to_variable = { modifier = $shield_add$ variable = $shield_add$_value }
-		subtract_variable = { which = $shield_add$_value value = @two_million_value }
+		subtract_variable = { which = $shield_add$_value value = @orgin_million_value }
 		set_invasion_fleet_basic_modifier = { SUB = basic_$shield_add$ FACTOR = $shield_add$_value }
 	} else = {
 		if = {
@@ -599,16 +612,16 @@ set_eternal_fleet_mult_modifier = {
 			clear_variable = change_$shield_add$_value
 		}
 		export_modifier_to_variable = { modifier = $shield_add$ variable = change_$shield_add$_value }
-		subtract_variable = { which = change_$shield_add$_value value = @two_million_value }
+		subtract_variable = { which = change_$shield_add$_value value = @orgin_million_value }
 		set_invasion_fleet_basic_modifier = { SUB = change_basic_$shield_add$ FACTOR = change_$shield_add$_value }
 	}] #scope: fromfrom
 	[[armor_add] if = {
 		limit = { 
 			NOT = { is_variable_set = $armor_add$_value } 
-			check_modifier_value = { modifier = $armor_add$ value < @initial_value }
+			check_modifier_value = { modifier = $armor_add$ value < @orgin_million_value }
 		}
 		export_modifier_to_variable = { modifier = $armor_add$ variable = $armor_add$_value }
-		subtract_variable = { which = $armor_add$_value value = @two_million_value }
+		subtract_variable = { which = $armor_add$_value value = @orgin_million_value }
 		set_invasion_fleet_basic_modifier = { SUB = basic_$armor_add$ FACTOR = $armor_add$_value }
 	} else = {
 		if = {
@@ -616,7 +629,7 @@ set_eternal_fleet_mult_modifier = {
 			clear_variable = change_$armor_add$_value
 		}
 		export_modifier_to_variable = { modifier = $armor_add$ variable = change_$armor_add$_value }
-		subtract_variable = { which = change_$armor_add$_value value = @two_million_value }
+		subtract_variable = { which = change_$armor_add$_value value = @orgin_million_value }
 		set_invasion_fleet_basic_modifier = { SUB = change_basic_$armor_add$ FACTOR = change_$armor_add$_value }
 	}] #scope: fromfrom
 }
@@ -650,6 +663,8 @@ remove_eternal_fleet_mult_variable = {
 	[[accuracy_add_own] clear_variable = $accuracy_add_own$_value clear_variable = change_$accuracy_add_own$_value ]
 	[[shield_add] clear_variable = $shield_add$_value clear_variable = change_$shield_add$_value ]
 	[[armor_add] clear_variable = $armor_add$_value clear_variable = change_$armor_add$_value ]
+	[[shield_reduction] clear_variable = $shield_reduction$_value clear_variable = change_$shield_reduction$_value ]
+	[[armor_reduction] clear_variable = $armor_reduction$_value clear_variable = change_$armor_reduction$_value ]
 }
 
 set_fleet_modifier = {
@@ -675,6 +690,8 @@ clear_battleship_modifier_fixed_ship = {
 	remove_modifier = basic_ship_hull_mult								remove_modifier = change_basic_ship_hull_mult
 	remove_modifier = basic_ship_armor_mult								remove_modifier = change_basic_ship_armor_mult
 	remove_modifier = basic_ship_shield_mult							remove_modifier = change_basic_ship_shield_mult
+	remove_modifier = basic_ship_shield_reduction						remove_modifier = change_basic_ship_shield_reduction
+	remove_modifier = basic_ship_armor_reduction						remove_modifier = change_basic_ship_armor_reduction
 	remove_modifier = basic_ship_accuracy_mult							remove_modifier = change_basic_ship_accuracy_mult
 	remove_modifier = basic_ship_weapon_range_mult						remove_modifier = change_basic_ship_weapon_range_mult
 	remove_modifier = basic_ship_fire_rate_mult							remove_modifier = change_basic_ship_fire_rate_mult
@@ -693,6 +710,7 @@ clear_battleship_modifier_fixed_ship = {
 		armor_penetration_own = ship_armor_penetration_mult				armor_penetration = ship_armor_penetration_mult
 		weapon_damage_own = ship_weapon_damage							weapon_damage = ship_weapon_damage
 		tracking = ship_tracking_mult									accuracy = ship_accuracy_mult
+		shield_reduction = ship_shield_reduction						armor_reduction = ship_armor_reduction
 		armor_damage = ship_armor_damage_mult							hull_damage = ship_hull_damage_mult
 		shield_damage = ship_shield_damage_mult							weapon_type_explosive = weapon_type_explosive_weapon_damage_mult
 		weapon_type_energy = weapon_type_energy_weapon_damage_mult		weapon_type_kinetic = weapon_type_kinetic_weapon_damage_mult
