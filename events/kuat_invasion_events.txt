@@ -1558,7 +1558,7 @@ ship_event = {
 					accuracy_own = ship_accuracy_mult							accuracy_add_own = ship_accuracy_add
 				}
 				set_ship_flag = fire_ship_var
-				ship_event = { id = exe_invasion.137 days = 1 }
+				ship_event = { id = exe_invasion.139 days = 1 }
 			}
 			else_if = {
 				limit = { has_ship_flag = fire_ship_var }
@@ -1626,7 +1626,7 @@ ship_event = {
 					limit = { check_modifier_value = { modifier = ship_accuracy_add value < @hundred_value } }
 					set_eternal_fleet_mult_modifier = { accuracy_add_own = ship_accuracy_add }
 				}
-				ship_event = { id = exe_invasion.139 days = 5 }
+				ship_event = { id = exe_invasion.139 days = 1 }
 			}
 		}
 		else = {
@@ -1674,8 +1674,17 @@ ship_event = {
 					set_eternal_fleet_mult_modifier = { armor_penetration_own = ship_armor_penetration_mult }
 				}
 				if = {
-					limit = { check_modifier_value = { modifier = ship_weapon_damage value < @ten_value } }
+					limit = { 
+						is_ship_size = eternal_flagship
+						check_modifier_value = { modifier = ship_weapon_damage value < @ten_value } 
+					}
 					set_eternal_fleet_mult_modifier = { weapon_damage_own = ship_weapon_damage }
+				}
+				else = {
+					if = {
+						limit = { check_modifier_value = { modifier = ship_weapon_damage value < @double_value } }
+						set_eternal_fleet_mult_modifier = { weapon_damage_own = ship_weapon_damage }
+					}
 				}
 				if = {
 					limit = { check_modifier_value = { modifier = ship_hull_regen_add_perc value < @origin_value } }
@@ -1753,7 +1762,7 @@ ship_event = {
 					limit = { check_modifier_value = { modifier = ship_armor_add value < @orgin_million_value } }
 					set_eternal_fleet_mult_modifier = { armor_add = ship_armor_add }
 				}
-				ship_event = { id = exe_invasion.137 days = 5 }
+				ship_event = { id = exe_invasion.137 days = 1 }
 			}
 		}
 		else = {
@@ -2117,10 +2126,13 @@ ship_event = {
 	id = exe_invasion.1988
 	hide_window = yes
 	is_triggered_only = yes
-	trigger = { has_ship_flag = inviciable_time_for_gate }
 	immediate = {
-		repair_ship = yes
-		ship_event = { id = exe_invasion.1988 days = 1 }
+		if = {
+			limit = { has_ship_flag = inviciable_time_for_gate }
+			repair_ship = yes
+			ship_event = { id = exe_invasion.1988 days = 1 }
+		}
+		else = { remove_executor_power = yes }
 	}
 }
 
