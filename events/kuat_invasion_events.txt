@@ -498,12 +498,14 @@ country_event = {
 				set_planet_size = 18
 			}
 			set_star_class = sc_black_hole
-			every_fleet_in_system = {
-				limit = { 
-					NOT = { owner = { is_country_type = ag_kuat_invasion_country } } 
-					NOT = { has_fleet_flag = has_Eternal_power }
-				}
-				set_fleet_modifier = { SUB = Eternal_power DAYS = 360 }
+			every_ship_in_system = {
+				limit = { NOT = { owner = { is_country_type = ag_kuat_invasion_country } } }
+				clear_ship_modifier = { modifier = ship_weapon_damage DAYS = 360 }
+				clear_ship_modifier = { modifier = ship_fire_rate_mult DAYS = 360 }
+				clear_ship_modifier = { modifier = ship_weapon_range_mult DAYS = 360 }
+				clear_ship_modifier = { modifier = weapon_type_energy_weapon_damage_mult DAYS = 360 }
+				clear_ship_modifier = { modifier = weapon_type_kinetic_weapon_damage_mult DAYS = 360 }
+				clear_ship_modifier = { modifier = weapon_type_explosive_weapon_damage_mult DAYS = 360 }
 			}
 			random_ambient_object = {
 				limit = { has_ambient_object_flag = space_storm_object }
@@ -1302,8 +1304,7 @@ country_event = {
 	immediate = {
 		fromfrom = {
 			if = {
-				limit = { NOT = { has_fleet_flag = fire_for_once } }
-				set_timed_fleet_flag = { flag = fire_for_once days = 1 }
+				limit = { NOT = { has_fleet_flag = has_Eternal_support } }
 				set_fleet_modifier = { SUB = Eternal_support DAYS = 6 }
 				increase_ship_hp_effect_change = { DAYS = 6 }
 			}
@@ -1367,11 +1368,7 @@ country_event = {
 	immediate = {
 		FROMFROM = { 
 			if = {
-				limit = { 
-					has_enable_flag_ship_system_true = yes
-					NOT = { has_fleet_flag = fire_for_once }
-				}
-				set_timed_fleet_flag = { flag = fire_for_once days = 1 }
+				limit = { has_enable_flag_ship_system_true = yes }
 				if = { limit = { ag_is_flagship_size = { size = Annihilator } } increase_ship_hp_effect_change = { DAYS = 6 } }
 				else_if = { limit = { ag_is_flagship_size = { size = eclipse } } increase_ship_hp_effect_change = { DAYS = 5 } }
 				else_if = { limit = { ag_is_flagship_size = { size = knigjt_hammer_executor } } increase_ship_hp_effect_change = { DAYS = 4 } }
@@ -1442,12 +1439,16 @@ ship_event = {
 	}
 	immediate = { 
 		if = {
-			limit = { 
-				fleet = { count_owned_ship = { limit = { check_variable = { which = combat_days value > 3 } } count > 0 } }
-			}
+			limit = { fleet = { count_owned_ship = { limit = { check_variable = { which = combat_days value > 3 } } count > 0 } } }
 			repair_ship = yes set_disabled = no 
+		} else = { 
+			repair_ship = yes set_disabled = no set_variable = { which = combat_days value = 0 } 
+			change_variable = { which = disable_times value = 1 } 
+			if = {
+				limit = { fleet = { count_owned_ship = { limit = { check_variable = { which = disable_times value > 3 } } count = all } } }
+				from = { fleet = { destroy_fleet = { target = this kill_leader = no destroy_template = yes } } }
+			}
 		}
-		else = { repair_ship = yes set_disabled = no set_variable = { which = combat_days value = 0 } }
 	}
 }
 
@@ -1470,10 +1471,7 @@ ship_event = {
 			}
 			ship_event = { id = exe_invasion.138 days = 1 }
 		}
-		else = {
-			clear_variable = combat_days
-			set_disable_at_health = -1
-		}
+		else = { clear_variable = combat_days clear_variable = disable_times set_disable_at_health = -1 }
 	}
 }
 
@@ -1666,17 +1664,8 @@ ship_event = {
 					set_eternal_fleet_mult_modifier = { armor_penetration_own = ship_armor_penetration_mult }
 				}
 				if = {
-					limit = { 
-						is_ship_size = eternal_flagship
-						check_modifier_value = { modifier = ship_weapon_damage value < @ten_value } 
-					}
+					limit = { check_modifier_value = { modifier = ship_weapon_damage value < @five_value }  }
 					set_eternal_fleet_mult_modifier = { weapon_damage_own = ship_weapon_damage }
-				}
-				else = {
-					if = {
-						limit = { check_modifier_value = { modifier = ship_weapon_damage value < @double_value } }
-						set_eternal_fleet_mult_modifier = { weapon_damage_own = ship_weapon_damage }
-					}
 				}
 				if = {
 					limit = { check_modifier_value = { modifier = ship_hull_regen_add_perc value < @origin_value } }

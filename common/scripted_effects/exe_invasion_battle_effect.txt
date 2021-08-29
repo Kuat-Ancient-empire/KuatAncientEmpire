@@ -3,26 +3,31 @@ increase_executor_power = {
 	if = {
 		limit = { has_hp <= 20000000 }
 		clear_ship_modifier = { modifier = ship_hull_mult DAYS = $DAYS$ }
+		clear_ship_modifier = { modifier = ship_hull_regen_add_perc DAYS = $DAYS$ subtract = 1 }
 		add_modifier = { modifier = increase_hp_5000000_times days = $DAYS$ }
 	}
 	else_if = {
 		limit = { has_hp <= 40000000 }
 		clear_ship_modifier = { modifier = ship_hull_mult DAYS = $DAYS$ }
+		clear_ship_modifier = { modifier = ship_hull_regen_add_perc DAYS = $DAYS$ subtract = 1 }
 		add_modifier = { modifier = increase_hp_4000000_times days = $DAYS$ }
 	}
 	else_if = {
 		limit = { has_hp <= 60000000 }
 		clear_ship_modifier = { modifier = ship_hull_mult DAYS = $DAYS$ }
+		clear_ship_modifier = { modifier = ship_hull_regen_add_perc DAYS = $DAYS$ subtract = 1 }
 		add_modifier = { modifier = increase_hp_3000000_times days = $DAYS$ }
 	}
 	else_if = {
 		limit = { has_hp <= 80000000 }
 		clear_ship_modifier = { modifier = ship_hull_mult DAYS = $DAYS$ }
+		clear_ship_modifier = { modifier = ship_hull_regen_add_perc DAYS = $DAYS$ subtract = 1 }
 		add_modifier = { modifier = increase_hp_2000000_times days = $DAYS$ }
 	}
 	else_if = {
 		limit = { has_hp <= 100000000 }
 		clear_ship_modifier = { modifier = ship_hull_mult DAYS = $DAYS$ }
+		clear_ship_modifier = { modifier = ship_hull_regen_add_perc DAYS = $DAYS$ subtract = 1 }
 		add_modifier = { modifier = increase_hp_1000000_times days = $DAYS$ }
 	}
 }
@@ -37,25 +42,41 @@ increase_ship_hp_effect_change = {
 }
 
 clear_ship_modifier = {
-	if = {
-		limit = { NOT = { is_variable_set = $modifier$_value_iep } }
-		export_modifier_to_variable = { modifier = $modifier$ variable = $modifier$_value_iep }
-		subtract_variable = { which = $modifier$_value_iep value = 1 }
-		set_invasion_fleet_basic_modifier = { SUB = iep_basic_$modifier$ FACTOR = $modifier$_value_iep DAYS = $DAYS$ }
-	} else = {
-		if = { limit = { is_variable_set = change_$modifier$_value_iep } clear_variable = change_$modifier$_value_iep }
-		export_modifier_to_variable = { modifier = $modifier$ variable = change_$modifier$_value_iep }
-		subtract_variable = { which = change_$modifier$_value_iep value = 1 }
-		set_invasion_fleet_basic_modifier = { SUB = iep_change_basic_$modifier$ FACTOR = change_$modifier$_value_iep DAYS = $DAYS$ }
-	}
+	export_modifier_to_variable = { modifier = $modifier$ variable = $modifier$_value_iep }
+	subtract_variable = { which = $modifier$_value_iep value = $subtract|0$ }
+	change_variable = { which = $modifier$_value_iep value = $change|0$ }
+	divide_variable = { which = $modifier$_value_iep value = $divide|1$ }
+	multiply_variable = { which = $modifier$_value_iep value = $multiply|1$ }
+	set_invasion_fleet_basic_modifier = { SUB = iep_basic_$modifier$ FACTOR = $modifier$_value_iep DAYS = $DAYS|-1$ }
+	clear_variable = $modifier$_value_iep
 }
 
 remove_executor_power = {
-	clear_variable = ship_hull_mult_value_iep
-	clear_variable = change_ship_hull_mult_value_iep
-	remove_ship_flag = clear_ship_var
-	remove_modifier = iep_basic_ship_hull_mult
-	remove_modifier = iep_change_basic_ship_hull_mult
+	remove_modifier = iep_basic_ship_shield_penetration_mult
+	remove_modifier = iep_basic_ship_armor_penetration_mult			
+	remove_modifier = iep_basic_ship_armor_damage_mult				
+	remove_modifier = iep_basic_ship_shield_damage_mult				
+	remove_modifier = iep_basic_ship_hull_damage_mult				
+	remove_modifier = iep_basic_ship_tracking_mult					
+	remove_modifier = iep_basic_ship_weapon_damage						
+	remove_modifier = iep_basic_ship_hull_regen_add_perc			
+	remove_modifier = iep_basic_ship_armor_regen_add_perc			
+	remove_modifier = iep_basic_ship_shield_regen_add_perc				
+	remove_modifier = iep_basic_ship_hull_mult						
+	remove_modifier = iep_basic_ship_armor_mult						
+	remove_modifier = iep_basic_ship_shield_mult							
+	remove_modifier = iep_basic_ship_shield_reduction					
+	remove_modifier = iep_basic_ship_armor_reduction						
+	remove_modifier = iep_basic_ship_accuracy_mult							
+	remove_modifier = iep_basic_ship_weapon_range_mult						
+	remove_modifier = iep_basic_ship_fire_rate_mult							
+	remove_modifier = iep_basical_weapon_type_energy_weapon_damage_mult		
+	remove_modifier = iep_basical_weapon_type_explosive_weapon_damage_mult	
+	remove_modifier = iep_basical_weapon_type_kinetic_weapon_damage_mult	
+	remove_modifier = iep_basic_ship_tracking_add							
+	remove_modifier = iep_basic_ship_accuracy_add							
+	remove_modifier = iep_basic_ship_armor_add								
+	remove_modifier = iep_basic_ship_shield_add
 	remove_modifier = increase_hp_5000000_times
 	remove_modifier = increase_hp_4000000_times
 	remove_modifier = increase_hp_3000000_times
@@ -270,38 +291,19 @@ set_eternal_fleet_mult_modifier = {
 		set_invasion_fleet_basic_modifier = { SUB = change_basic_$armor_penetration_own$ FACTOR = change_$armor_penetration_own$_value }
 	}] #scope: fromfrom
 	[[weapon_damage_own] if = {
-		limit = { is_ship_size = eternal_flagship }
-		if = {
-			limit = { 
-				NOT = { is_variable_set = $weapon_damage_own$_value } 
-				check_modifier_value = { modifier = $weapon_damage_own$ value < @ten_value }
-			}
-			export_modifier_to_variable = { modifier = $weapon_damage_own$ variable = $weapon_damage_own$_value }
-			subtract_variable = { which = $weapon_damage_own$_value value = @ten_value }
-			set_invasion_fleet_basic_modifier = { SUB = basic_$weapon_damage_own$ FACTOR = $weapon_damage_own$_value }
-		} else_if = { 
-			limit = { has_ship_flag = fire_ship_var }
-			if = { limit = { is_variable_set = change_$weapon_damage_own$_value } clear_variable = change_$weapon_damage_own$_value }
-			export_modifier_to_variable = { modifier = $weapon_damage_own$ variable = change_$weapon_damage_own$_value }
-			subtract_variable = { which = change_$weapon_damage_own$_value value = @ten_value }
-			set_invasion_fleet_basic_modifier = { SUB = change_basic_$weapon_damage_own$ FACTOR = change_$weapon_damage_own$_value }
+		limit = { 
+			NOT = { is_variable_set = $weapon_damage_own$_value } 
+			check_modifier_value = { modifier = $weapon_damage_own$ value < @five_value }
 		}
-	} else = {
-		if = {
-			limit = { 
-				NOT = { is_variable_set = $weapon_damage_own$_value } 
-				check_modifier_value = { modifier = $weapon_damage_own$ value < @double_value }
-			}
-			export_modifier_to_variable = { modifier = $weapon_damage_own$ variable = $weapon_damage_own$_value }
-			subtract_variable = { which = $weapon_damage_own$_value value = @double_value }
-			set_invasion_fleet_basic_modifier = { SUB = basic_$weapon_damage_own$ FACTOR = $weapon_damage_own$_value }
-		} else_if = { 
-			limit = { has_ship_flag = fire_ship_var }
-			if = { limit = { is_variable_set = change_$weapon_damage_own$_value } clear_variable = change_$weapon_damage_own$_value }
-			export_modifier_to_variable = { modifier = $weapon_damage_own$ variable = change_$weapon_damage_own$_value }
-			subtract_variable = { which = change_$weapon_damage_own$_value value = @double_value }
-			set_invasion_fleet_basic_modifier = { SUB = change_basic_$weapon_damage_own$ FACTOR = change_$weapon_damage_own$_value }
-		}
+		export_modifier_to_variable = { modifier = $weapon_damage_own$ variable = $weapon_damage_own$_value }
+		subtract_variable = { which = $weapon_damage_own$_value value = @five_value }
+		set_invasion_fleet_basic_modifier = { SUB = basic_$weapon_damage_own$ FACTOR = $weapon_damage_own$_value }
+	} else_if = { 
+		limit = { has_ship_flag = fire_ship_var }
+		if = { limit = { is_variable_set = change_$weapon_damage_own$_value } clear_variable = change_$weapon_damage_own$_value }
+		export_modifier_to_variable = { modifier = $weapon_damage_own$ variable = change_$weapon_damage_own$_value }
+		subtract_variable = { which = change_$weapon_damage_own$_value value = @five_value }
+		set_invasion_fleet_basic_modifier = { SUB = change_basic_$weapon_damage_own$ FACTOR = change_$weapon_damage_own$_value }
 	}] #scope: fromfrom
 	[[hull_regen_add_perc] if = {
 		limit = { 
@@ -620,15 +622,6 @@ remove_eternal_fleet_mult_variable = {
 	[[armor_reduction] clear_variable = $armor_reduction$_value clear_variable = change_$armor_reduction$_value ]
 }
 
-set_fleet_modifier = {
-	add_modifier = { modifier = $SUB$ days = $DAYS|-1$ }
-	set_timed_fleet_flag = { flag = has_$SUB$ days = $DAYS|-1$ }
-}
-
-set_invasion_fleet_basic_modifier = { 
-	add_modifier = { modifier = $SUB$ multiplier = $FACTOR$ days = $DAYS|-1$ } 
-}
-
 clear_battleship_modifier_fixed_ship = {
 	remove_modifier = basic_ship_shield_penetration_mult				remove_modifier = change_basic_ship_shield_penetration_mult 
 	remove_modifier = basic_ship_armor_penetration_mult					remove_modifier = change_basic_ship_armor_penetration_mult
@@ -672,4 +665,13 @@ clear_battleship_modifier_fixed_ship = {
 		tracking_add_own = ship_tracking_add							accuracy_add_own = ship_accuracy_add
 		shield_add = ship_shield_add									armor_add = ship_armor_add
 	}
+}
+
+set_fleet_modifier = {
+	add_modifier = { modifier = $SUB$ days = $DAYS|-1$ }
+	set_timed_fleet_flag = { flag = has_$SUB$ days = $DAYS|-1$ }
+}
+
+set_invasion_fleet_basic_modifier = { 
+	add_modifier = { modifier = $SUB$ multiplier = $FACTOR$ days = $DAYS|-1$ } 
 }
