@@ -32,11 +32,62 @@ increase_executor_power = {
 	}
 }
 
+eternal_increase_executor_power = {
+	if = {
+		limit = { has_hp <= 20000000 }
+		clear_ship_modifier = { modifier = ship_hull_mult DAYS = $DAYS$ }
+		clear_ship_modifier = { modifier = ship_hull_regen_add_perc DAYS = $DAYS$ subtract = 1 }
+		add_modifier = { modifier = eternal_increase_hp_5000000_times days = $DAYS$ }
+	}
+	else_if = {
+		limit = { has_hp <= 40000000 }
+		clear_ship_modifier = { modifier = ship_hull_mult DAYS = $DAYS$ }
+		clear_ship_modifier = { modifier = ship_hull_regen_add_perc DAYS = $DAYS$ subtract = 1 }
+		add_modifier = { modifier = eternal_increase_hp_4000000_times days = $DAYS$ }
+	}
+	else_if = {
+		limit = { has_hp <= 60000000 }
+		clear_ship_modifier = { modifier = ship_hull_mult DAYS = $DAYS$ }
+		clear_ship_modifier = { modifier = ship_hull_regen_add_perc DAYS = $DAYS$ subtract = 1 }
+		add_modifier = { modifier = eternal_increase_hp_3000000_times days = $DAYS$ }
+	}
+	else_if = {
+		limit = { has_hp <= 80000000 }
+		clear_ship_modifier = { modifier = ship_hull_mult DAYS = $DAYS$ }
+		clear_ship_modifier = { modifier = ship_hull_regen_add_perc DAYS = $DAYS$ subtract = 1 }
+		add_modifier = { modifier = eternal_increase_hp_2000000_times days = $DAYS$ }
+	}
+	else_if = {
+		limit = { has_hp <= 100000000 }
+		clear_ship_modifier = { modifier = ship_hull_mult DAYS = $DAYS$ }
+		clear_ship_modifier = { modifier = ship_hull_regen_add_perc DAYS = $DAYS$ subtract = 1 }
+		add_modifier = { modifier = eternal_increase_hp_1000000_times days = $DAYS$ }
+	}
+}
+
 increase_ship_hp_effect_change = {
-	every_owned_ship = {
-		set_timed_ship_flag = { flag = is_invisiable_trigger days = $DAYS$ }
-		increase_executor_power = { DAYS = $DAYS$ }
-		ship_event = { id = exe_invasion.119 }
+	if = {
+		limit = { owner = { is_country_type = ag_kuat_invasion_country } }
+		every_owned_ship = {
+			set_timed_ship_flag = { flag = is_invisiable_trigger days = $DAYS$ }
+			eternal_increase_executor_power = { DAYS = $DAYS$ }
+			ship_event = { id = exe_invasion.119 }
+		}
+	}
+	else_if = {
+		limit = { owner = { is_kuat_fallen_empire = yes } }
+		every_owned_ship = {
+			set_timed_ship_flag = { flag = is_invisiable_trigger days = $DAYS$ }
+			eternal_increase_executor_power = { DAYS = $DAYS$ }
+			ship_event = { id = exe_invasion.119 }
+		}
+	}
+	else = {
+		every_owned_ship = {
+			set_timed_ship_flag = { flag = is_invisiable_trigger days = $DAYS$ }
+			increase_executor_power = { DAYS = $DAYS$ }
+			ship_event = { id = exe_invasion.119 }
+		}
 	}
 	set_fleet_modifier = { SUB = Eternal_submit DAYS = -1 }
 }
@@ -82,6 +133,11 @@ remove_executor_power = {
 	remove_modifier = increase_hp_3000000_times
 	remove_modifier = increase_hp_2000000_times
 	remove_modifier = increase_hp_1000000_times
+	remove_modifier = eternal_increase_hp_5000000_times
+	remove_modifier = eternal_increase_hp_4000000_times
+	remove_modifier = eternal_increase_hp_3000000_times
+	remove_modifier = eternal_increase_hp_2000000_times
+	remove_modifier = eternal_increase_hp_1000000_times
 }
 
 set_eternal_fleet_mult_modifier = {
