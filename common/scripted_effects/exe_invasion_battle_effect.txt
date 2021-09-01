@@ -731,3 +731,26 @@ set_fleet_modifier = {
 set_invasion_fleet_basic_modifier = { 
 	add_modifier = { modifier = $SUB$ multiplier = $FACTOR$ days = $DAYS|-1$ } 
 }
+
+kuat_reduce_hp_percent = {
+	if = {
+		limit = { has_hp > 9223372 }
+		if = { limit = { has_hp > 80000000 }
+			if = { limit = { has_hp > 200000000 }
+				if = { limit = { has_hp > 400000000 }
+					if = { limit = { has_hp > 800000000 } while = { count = $value$ reduce_hp = 8000000 } }
+					else = { while = { count = $value$ reduce_hp = 4000000 } }
+				}
+				else = { while = { count = $value$ reduce_hp = 2000000 } }
+			}
+			else = { while = { count = $value$ reduce_hp = 1000000 } }
+		}
+		else_if = { limit = { has_hp > 20000000 }
+			if = { limit = { has_hp > 40000000 } while = { count = $value$ reduce_hp = 400000 } }
+			else = { while = { count = $value$ reduce_hp = 200000 } }
+		}
+		else_if = { limit = { has_hp > 10000000 } while = { count = $value$ reduce_hp = 100000 } }
+		else_if = { limit = { always = yes } while = { count = $value$ reduce_hp = 92233 } }
+	}
+	else = { reduce_hp_percent = $value$ }
+}
