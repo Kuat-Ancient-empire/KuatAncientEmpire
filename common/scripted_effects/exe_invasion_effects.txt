@@ -1420,7 +1420,14 @@ fleet_execute_order_1 = {
 							count = all
 						}
 					}
-					solar_system = { set_variable = { which = kuat_fleet_id value = 0 } }
+					every_system = {
+						limit = {
+							exists = space_owner
+							space_owner = { is_at_war_with = event_target:fallen_empire_kuat }
+							check_variable = { which = kuat_fleet_id value >= 1 }
+						}
+						set_variable = { which = kuat_fleet_id value = 0 }
+					}
 				}
 				if = {
 					limit = { has_fleet_flag = kuat_cannot_find_path }
