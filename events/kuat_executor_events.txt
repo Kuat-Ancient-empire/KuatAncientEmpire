@@ -817,23 +817,18 @@ country_event = {
 	trigger = {
 		is_country_type = kuat_fallen_empire
 		is_at_war = no
-		ag_is_against_country = yes
+		any_country = { is_country_type = wg_crisis_country }
 	}
 	mean_time_to_happen = {
 		years = 200000
 		modifier = {
 			factor = 0
-			ag_is_against_country = yes
+			any_country = { is_country_type = wg_crisis_country }
 		}
 	}
 	immediate = {
 		if = {
-			limit = {
-				OR = {
-					has_global_flag = wg_crisis_insane
-					has_global_flag = afk_crisis_real
-				}
-			}
+			limit = { has_global_flag = wg_crisis_insane }
 			every_playable_country = {
 				limit = { is_ai = no }
 				country_event = { id = ai_action.10 days = 5 }
@@ -947,7 +942,7 @@ country_event = {
 		is_kuat_fallen_empire = yes
 		is_at_war = no
 		NOT = { exists = event_target:fallen_empire_kuat_fleet }
-		ag_is_against_country = no
+		NOT = { any_country = { is_country_type = wg_crisis_country } }
 	}
 	immediate = {
 		if = {
