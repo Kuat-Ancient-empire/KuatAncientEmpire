@@ -57,36 +57,20 @@ starkiller_base = {
 			add_modifier = { modifier = "fostarkiller_base" }
 			add_modifier = { modifier = "thermal_oscillator" }
 			add_modifier = { modifier = "kyber_crystals" }
-			if = {
-				limit = { has_global_flag = has_wg_country }
-				create_species = {
-					name = "Kuat"
-					class = "Star_wars_girls"
-					portrait = "Starwars"
-					traits = random
-					immortal = yes
-					extra_trait_points = 3
-					pop_ethics = ethic_militarist
-					allow_negative_traits = no
-					effect = { save_event_target_as = event_species }
-				}
-			} else = {
-				create_species = {
-					name = "Kuat"
-					class = HUM
-					portrait = human
-					traits = random
-					immortal = yes
-					extra_trait_points = 3
-					pop_ethics = ethic_militarist
-					allow_negative_traits = no
-					effect = { save_event_target_as = event_species }
-				}
+			create_species = {
+				name = "Kuat"
+				class = event_target:kuat_player_target_species
+				portrait = event_target:kuat_player_target_species
+				traits = random
+				immortal = yes
+				extra_trait_points = 3
+				pop_ethics = ethic_militarist
+				allow_negative_traits = no
 			}
 			create_country = {
 				name = "Name_Kuat_Fire_base"
 				type = kuat_fire_base
-				species = event_target:event_species
+				species = last_created_species
 				flag = {
 					icon = {
 						category = "Kuat"
@@ -114,14 +98,14 @@ starkiller_base = {
 			add_building = building_kuat_shield
 			add_building = building_kuat_foundry
 			add_building = building_kuat_resource_center
-			while = { count = 11 create_pop = { species = event_target:event_species } }
+			while = { count = 11 create_pop = { species = owner_main_species } }
 			while = { count = 20 add_district = district_city }
 			while = {
 				count = 120
 				create_army = {
 					owner = event_target:kuat_firebase_country
 					type = defense_army
-					species = event_target:event_species
+					species = owner_main_species
 				}
 			}
 			create_kuat_fire_base_country_type_defend_army = yes

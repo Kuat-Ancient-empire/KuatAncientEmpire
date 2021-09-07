@@ -31,36 +31,20 @@ Kuat_system = {
 				location = this
 			}
 			#创建国家前必须先创建物种。
-			if = {
-				limit = { has_global_flag = has_wg_country }
-				create_species = {
-					name = "Kuat"
-					class = "Star_wars_girls"
-					portrait = "Starwars"
-					traits = random
-					immortal = yes
-					extra_trait_points = 3
-					pop_ethics = ethic_militarist
-					allow_negative_traits = no
-					effect = { save_global_event_target_as = Kuat_people }
-				}
-			} else = {
-				create_species = {
-					name = "Kuat"
-					class = HUM
-					portrait = human
-					traits = random
-					immortal = yes
-					extra_trait_points = 3
-					pop_ethics = ethic_militarist
-					allow_negative_traits = no
-					effect = { save_global_event_target_as = Kuat_people }
-				}
+			create_species = {
+				name = "Kuat"
+				class = event_target:kuat_player_target_species
+				portrait = event_target:kuat_player_target_species
+				traits = random
+				immortal = yes
+				extra_trait_points = 3
+				pop_ethics = ethic_militarist
+				allow_negative_traits = no
 			}
 			#设置星球拥有者或者创建舰队前必须创建国家。
 			create_country = {
 				name = "Name_kuat"
-				species = event_target:Kuat_people
+				species = last_created_species
 				name_list = "MAM3"
 				type = kuat_fallen_empire
 				flag = {
