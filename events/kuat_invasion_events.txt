@@ -1435,14 +1435,7 @@ ship_event = {
 		if = {
 			limit = { fleet = { count_owned_ship = { limit = { check_variable = { which = combat_days value > 3 } } count > 0 } } }
 			repair_ship = yes set_disabled = no 
-		} else = { 
-			repair_ship = yes set_disabled = no set_variable = { which = combat_days value = 0 } 
-			change_variable = { which = disable_times value = 1 } 
-			if = {
-				limit = { fleet = { count_owned_ship = { limit = { check_variable = { which = disable_times value > 3 } } count = all } } }
-				from = { fleet = { destroy_fleet = { target = this kill_leader = no destroy_template = yes } } }
-			}
-		}
+		} else = { repair_ship = yes set_disabled = no set_variable = { which = combat_days value = 0 } }
 	}
 }
 
@@ -1460,12 +1453,12 @@ ship_event = {
 			limit = { is_in_combat = yes }
 			change_variable = { which = combat_days value = 1 }
 			if = {
-				limit = { check_variable = { which = combat_days value >= 3 } }
+				limit = { check_variable = { which = combat_days value > 3 } }
 				set_disable_at_health = -1
 			}
 			ship_event = { id = exe_invasion.138 days = 1 }
 		}
-		else = { clear_variable = combat_days clear_variable = disable_times set_disable_at_health = -1 }
+		else = { clear_variable = combat_days set_disable_at_health = -1 }
 	}
 }
 
