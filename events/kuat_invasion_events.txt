@@ -1128,17 +1128,7 @@ fleet_event = {
 						}
 					}
 					if = {
-						limit = { exists = starbase }
-						random_fleet_in_system = {
-							limit = { is_ship_class = shipclass_starbase }
-							destroy_fleet = { target = this destroy_template = yes kill_leader = yes }
-						}
-						create_starbase = {
-							size = exe_starbase
-							owner = event_target:ag_kuat_invasion_country
-						}
-					}
-					else = {
+						limit = { NOT = { exists = starbase } }
 						create_starbase = {
 							size = exe_starbase
 							owner = event_target:ag_kuat_invasion_country
@@ -1431,12 +1421,7 @@ ship_event = {
 		has_global_flag = enable_modifer_check 
 		has_global_flag = difficult_exe_invasion
 	}
-	immediate = { 
-		if = {
-			limit = { fleet = { any_owned_ship = { check_variable = { which = combat_days value > 3 } } } }
-			repair_ship = yes set_disabled = no 
-		} else = { repair_ship = yes set_disabled = no set_variable = { which = combat_days value = 0 } }
-	}
+	immediate = { repair_ship = yes set_disabled = no }
 }
 
 ship_event = {
