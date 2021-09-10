@@ -1433,7 +1433,7 @@ ship_event = {
 	}
 	immediate = { 
 		if = {
-			limit = { fleet = { count_owned_ship = { limit = { check_variable = { which = combat_days value > 3 } } count > 0 } } }
+			limit = { fleet = { any_owned_ship = { check_variable = { which = combat_days value > 3 } } } }
 			repair_ship = yes set_disabled = no 
 		} else = { repair_ship = yes set_disabled = no set_variable = { which = combat_days value = 0 } }
 	}
@@ -2035,10 +2035,7 @@ country_event = {
 	immediate = {
 		fromfromfrom = {
 			every_owned_ship = {
-				limit = {
-					is_disabled = no
-					is_in_combat = yes
-				}
+				limit = { is_disabled = no is_in_combat = yes }
 				random_list = {
 					340 = {
 						modifier = {
@@ -2197,7 +2194,7 @@ event = {
 	hide_window = yes
 	is_triggered_only = yes
 	trigger = {
-		any_country = { has_origin = origin_kuat_apocalyptic }
+		NOT = { any_country = { has_origin = origin_kuat_apocalyptic } }
 	}
 	immediate = {
 		if = {
