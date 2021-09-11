@@ -1207,7 +1207,7 @@ fleet_execute_order_1 = {
 				found_system = {
 					effect = {
 						id = executor.2.r1
-						set_variable = { which = kuat_fleet_id value = { scope = root variable = fleet_id } }
+						set_variable = { which = kuat_fleet_id value = root.fleet_id }
 					}
 					move_to = this
 					repeat = {
@@ -1255,7 +1255,7 @@ fleet_execute_order_1 = {
 						found_system = {
 							effect = {
 								id = executor.2.t91
-								set_variable = { which = kuat_fleet_id value = { scope = root variable = fleet_id } }
+								set_variable = { which = kuat_fleet_id value = root.fleet_id }
 							}
 							move_to = this
 							repeat = {
@@ -1341,7 +1341,7 @@ fleet_execute_order_3 = {
 				found_system = {
 					effect = {
 						id = executor.20.a1
-						set_variable = { which = kuat_fleet_id value = { scope = prev variable = fleet_id } }
+						set_variable = { which = kuat_fleet_id value = prev.fleet_id }
 					}
 					move_to = this
 					repeat = {
@@ -1364,7 +1364,7 @@ fleet_execute_order_3 = {
 						found_system = { 
 							effect = {
 								id = executor.21.a1
-								set_variable = { which = kuat_fleet_id value = { scope = prev variable = fleet_id } }
+								set_variable = { which = kuat_fleet_id value = prev.fleet_id }
 							}
 							move_to = this
 							repeat = {
@@ -1509,8 +1509,8 @@ create_defender_and_attacker_crisis = {
 			set_fleet_bombardment_stance = indiscriminate
 			fleet_execute_order_3 = yes
 			event_target:fallen_empire_kuat = { change_variable = { which = fleet_id value = 1 } } 
-			set_variable = { which = fleet_id value = event_target:fallen_empire_kuat } 
-			solar_system = { set_variable = { which = kuat_fleet_id value = { scope = prev variable = fleet_id } } }
+			set_variable = { which = fleet_id value = event_target:fallen_empire_kuat.fleet_id } 
+			solar_system = { set_variable = { which = kuat_fleet_id value = prev.fleet_id } }
 		}
 		settings = { spawn_debris = no can_disband = no is_boss = yes }
 	}
@@ -1776,7 +1776,9 @@ create_exe_invasion_fleet = {
 			[[initial_invisable] fleet_event = { id = $initial_invisable$ }]
 			[[fleet_action] fleet_event = { id = $fleet_action$ }]
 			[[fleet_stance] set_fleet_stance = $fleet_stance$ ]
-			[[VAR_TARGET] $VAR_TARGET$ = { change_variable = { which = fleet_id value = 1 } } set_variable = { which = fleet_id value = $VAR_TARGET$ } solar_system = { set_variable = { which = kuat_fleet_id value = { scope = prev variable = fleet_id } } }]
+			[[VAR_TARGET] $VAR_TARGET$ = { change_variable = { which = fleet_id value = 1 } } 
+			set_variable = { which = fleet_id value = $VAR_TARGET$.fleet_id } 
+			solar_system = { set_variable = { which = kuat_fleet_id value = prev.fleet_id } }]
 			[[SAVE_TARGET] save_event_target_as = $SAVE_TARGET$ ]
 			[[flagship_flag] random_owned_ship = { limit = { is_ship_size = $ship_class$ } set_ship_flag = $flagship_flag$ }]
 			[[ship_disable_flag] every_owned_ship = { set_ship_flag = $ship_disable_flag$ }]
