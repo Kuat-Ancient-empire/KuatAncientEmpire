@@ -1,8 +1,40 @@
 
 tr_kuat_scum_adopt = {
 	modifier = {
-		country_alloys_produces_mult = 0.25
 		starbase_shipyard_build_speed_mult = 0.25
+	}
+	on_enabled = {
+		hidden_effect = {
+			if = {
+				limit = { NOR = {
+					has_global_flag = difficult_exe_invasion
+					has_global_flag = special_exe_invasion
+				} }
+				remove_global_flag = normal_exe_invasion
+				remove_global_flag = easy_exe_invasion
+				remove_global_flag = ban_exe_invasion
+				remove_global_flag = difficult_exe_invasion
+				set_global_flag = difficult_exe_invasion
+			}
+			if = {
+				limit = { NOT = { has_global_flag = enable_modifer_check } }
+				remove_global_flag = disable_modifer_check
+				remove_global_flag = enable_modifer_check
+				set_global_flag = enable_modifer_check
+			}
+			if = {
+				limit = { NOT = { has_global_flag = begin_kuat_return } }
+				remove_global_flag = ban_kuat_return
+				remove_global_flag = begin_kuat_return
+				set_global_flag = begin_kuat_return
+			}
+			if = {
+				limit = { NOT = { has_global_flag = begin_eternal_return } }
+				remove_global_flag = ban_eternal_return
+				remove_global_flag = begin_eternal_return
+				set_global_flag = begin_eternal_return
+			}
+		}
 	}
 }
 
@@ -68,7 +100,7 @@ tr_kuat_scum_5 = {
 	}
 
 	modifier = {
-		ship_weapon_range_mult = 0.25
+		ship_weapon_range_mult = 1
 	}
 
 	ai_weight = {
