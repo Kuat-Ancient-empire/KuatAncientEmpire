@@ -648,6 +648,35 @@ StarForge_notrun = {
 	ai_weight = { weight = 5000 }
 }
 
+StarForge_notrun_1 = {
+	entity = "starforge_entity"
+	construction_entity = "starforge_entity"
+	portrait = "GFX_megastructure_construction_background"	
+	place_entity_on_planet_plane = no
+	show_galactic_map_icon = yes	
+	build_time = 1	
+	upgrade_desc = hide	
+	upgrade_from = { StarForge_notrun }	
+	potential = { 
+		has_origin = origin_kuat_apocalyptic
+		NOT = { has_country_flag = fire_once } 
+		NOT = { has_global_flag = kuat_epsilon_obelisk_working }
+		exists = owner
+		owner = { OR = {
+			has_country_flag = kuat_epsilon_ringworld_1_site_completed
+			has_country_flag = kuat_epsilon_ringworld_2_site_completed
+			has_country_flag = kuat_epsilon_ringworld_3_site_completed
+		} }
+	}
+	placement_rules = {}	
+	on_build_start = {}
+	on_build_cancel = {}
+	on_build_complete = { from = { country_event = { id = kuat_epsilon.33 } } }
+	construction_blocked_by_others = no
+	construction_blocks_others = no	
+	ai_weight = { weight = 5000 }
+}
+
 StarForge = {
 	entity = "starforge_run_entity"
 	construction_entity = "starforge_entity"
@@ -656,11 +685,8 @@ StarForge = {
 	show_galactic_map_icon = yes	
 	build_time = 3090	
 	upgrade_desc = hide	
-	upgrade_from = { StarForge_notrun }	
-	potential = { 
-		has_origin = origin_kuat_apocalyptic
-		NOT = { has_country_flag = fire_once } 
-	}
+	upgrade_from = { StarForge_notrun_1 }	
+	potential = { has_global_flag = can_upgrade_starforge }
 	resources = {
 		category = megastructures
 		cost = { alloys = 500000 }

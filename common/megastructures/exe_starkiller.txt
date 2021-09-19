@@ -239,3 +239,159 @@ kuat_sun_drain = {
 	on_build_cancel = { }
 	on_build_complete = { fromfrom.planet = { set_planet_flag = sunflaglocation } }
 }
+
+@entity_x = 0
+@entity_y = 0
+#############################################################
+kuat_epsilon_obelisk_0 = {
+	entity = "ag_epsilon_obelisk_base_closed_hull_entity"
+	construction_entity = "starforge_avoid_entity"
+	portrait = "GFX_megastructure_construction_background"
+	
+	place_entity_on_planet_plane = yes
+	show_galactic_map_icon = no
+	
+	build_time = 0
+	upgrade_desc = hide
+	entity_offset = { x = @entity_x y = @entity_y }
+	
+	potential = { always = no }
+	construction_blocked_by_others = no
+	construction_blocks_others = no
+	ai_weight = { weight = 0 }
+}
+kuat_epsilon_obelisk_1 = {
+	entity = "ag_epsilon_obelisk_base_0_hull_entity"
+	construction_entity = "starforge_avoid_entity"
+	portrait = "GFX_megastructure_construction_background"
+	
+	place_entity_on_planet_plane = yes
+	show_galactic_map_icon = no
+	
+	build_time = 0
+	upgrade_desc = hide
+	entity_offset = { x = @entity_x y = @entity_y }
+	upgrade_from = { kuat_epsilon_obelisk_0 }
+	
+	potential = { always = no }
+	construction_blocked_by_others = no
+	construction_blocks_others = no
+	ai_weight = { weight = 0 }
+}
+kuat_epsilon_obelisk_2 = {
+	entity = "starforge_avoid_entity"
+	construction_entity = "starforge_avoid_entity"
+	portrait = "GFX_megastructure_construction_background"
+	
+	place_entity_on_planet_plane = yes
+	show_galactic_map_icon = no
+	
+	build_time = 20
+	upgrade_desc = hide
+	entity_offset = { x = @entity_x y = @entity_y }
+	upgrade_from = { kuat_epsilon_obelisk_1 }
+
+	resources = {
+		category = megastructures
+		cost = { energy = 500 sr_dark_matter = 100 }
+	}
+	
+	potential = {
+		exists = owner
+		owner = { NOT = { has_country_flag = kuat_epsilon_31_actived } }
+	}
+
+	construction_blocked_by_others = no
+	construction_blocks_others = no
+
+	on_build_complete = {
+		fromfrom = {
+			switch = {
+				trigger = has_megastructure_flag
+				ag_epsilon_obelisk_1 = { root.from = { set_country_flag = kuat_epsilon_obelisk_1_flag } }
+				ag_epsilon_obelisk_2 = { root.from = { set_country_flag = kuat_epsilon_obelisk_2_flag } }
+				ag_epsilon_obelisk_3 = { root.from = { set_country_flag = kuat_epsilon_obelisk_3_flag } }
+			}
+		}
+		from = { set_country_flag = kuat_epsilon_31_actived country_event = { id = kuat_epsilon.31 } }
+		spawn_megastructure = {
+			type = kuat_epsilon_obelisk_1
+			coords_from = fromfrom
+			owner = from
+			init_effect = {
+				if = {
+					limit = { root.fromfrom = { has_megastructure_flag = kuat_epsilon_obelisk_1 } }
+					set_megastructure_flag = kuat_epsilon_obelisk_1
+				}
+				else_if = {
+					limit = { root.fromfrom = { has_megastructure_flag = kuat_epsilon_obelisk_2 } }
+					set_megastructure_flag = kuat_epsilon_obelisk_2
+				}
+				else_if = {
+					limit = { root.fromfrom = { has_megastructure_flag = kuat_epsilon_obelisk_3 } }
+					set_megastructure_flag = kuat_epsilon_obelisk_3
+				}
+			}
+		}
+		remove_megastructure = fromfrom
+	}
+
+	ai_weight = { weight = 0 }
+}
+kuat_epsilon_obelisk_3 = {
+	# Obelisk turn red.
+	entity = "ag_epsilon_obelisk_base_1_hull_entity"
+	construction_entity = "starforge_avoid_entity"
+	portrait = "GFX_megastructure_construction_background"
+	
+	place_entity_on_planet_plane = yes
+	show_galactic_map_icon = no
+	
+	build_time = 0
+	upgrade_desc = hide
+	entity_offset = { x = @entity_x y = @entity_y }
+	upgrade_from = { kuat_epsilon_obelisk_2 }
+	
+	potential = { always = no }
+	construction_blocked_by_others = no
+	construction_blocks_others = no
+	ai_weight = { weight = 0 }
+}
+kuat_epsilon_obelisk_4 = {
+	# Obelisk opening.
+	entity = "ag_epsilon_obelisk_base_activated_opening_entity"
+	construction_entity = "starforge_avoid_entity"
+	portrait = "GFX_megastructure_construction_background"
+	
+	place_entity_on_planet_plane = yes
+	show_galactic_map_icon = no
+	
+	build_time = 0
+	upgrade_desc = hide
+	entity_offset = { x = @entity_x y = @entity_y }
+	upgrade_from = { kuat_epsilon_obelisk_3 }
+	
+	potential = { always = no }
+	construction_blocked_by_others = no
+	construction_blocks_others = no
+	ai_weight = { weight = 0 }
+}
+kuat_epsilon_obelisk_5 = {
+	# Obelisk closing.
+	entity = "ag_epsilon_obelisk_base_activated_closing_entity"
+	construction_entity = "starforge_avoid_entity"
+	portrait = "GFX_megastructure_construction_background"
+	
+	place_entity_on_planet_plane = yes
+	show_galactic_map_icon = no
+	
+	build_time = 0
+	upgrade_desc = hide
+	entity_offset = { x = @entity_x y = @entity_y }
+	upgrade_from = { kuat_epsilon_obelisk_4 }
+	
+	potential = { always = no }
+	construction_blocked_by_others = no
+	construction_blocks_others = no
+	ai_weight = { weight = 0 }
+}
