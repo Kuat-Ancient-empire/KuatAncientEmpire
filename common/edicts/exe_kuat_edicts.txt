@@ -1,9 +1,7 @@
 build_eclipse = {
 	length = 0
 	icon = "GFX_edict_type_policy"
-	resources = {
-		category = edicts
-	}
+	resources = { category = edicts }
 	potential = {
 		is_ai = no
 		NOT = { has_technology = tech_eternal_fleet }
@@ -43,6 +41,52 @@ Menus = {
 	effect = {
 		custom_tooltip = "TOPBAR_MENU_STAR_WAR"
 		country_event = { id = exe_invasion.1000 }
+	}
+	ai_weight = { weight = 0 }
+}
+
+Remove_ship = {
+	length = 0
+	icon = "GFX_Eternal_fleet_setting_edict"
+	resources = { category = edicts }
+	potential = { has_global_flag = install_kuat_mod }
+	allow = {
+		custom_tooltip = "remove_ship_need_exists"
+		hidden_trigger = {
+			is_ai = no
+			any_owned_fleet = {
+				num_ships = 1
+				is_ship_class = shipclass_military
+				has_enable_flag_ship_system_false = yes
+				is_fleet_idle = yes
+			}
+		}
+	}
+	effect = {
+		custom_tooltip = "remove_ship_need_exists_tooltip"
+		hidden_effect = {
+			every_owned_fleet = {
+				limit = {
+					num_ships = 1
+					is_ship_class = shipclass_military
+					has_enable_flag_ship_system_false = yes
+					is_fleet_idle = yes
+				}
+				delete_fleet = { target = this destroy_template = yes kill_leader = no }
+				root = { change_variable = { which = destroyed_fleet value = 1 } }
+			}
+			if = {
+				limit = { is_variable_set = destroyed_fleet }
+				random_list = {
+					10 = { add_resource = { alloys = 3000 mult = destroyed_fleet } }
+					10 = { add_resource = { alloys = 2000 mult = destroyed_fleet } }
+					10 = { add_resource = { alloys = 1000 mult = destroyed_fleet } }
+					10 = { add_resource = { alloys = 500 mult = destroyed_fleet } }
+					10 = { add_resource = { alloys = 250 mult = destroyed_fleet } }
+				}
+				clear_variable = destroyed_fleet
+			}
+		}
 	}
 	ai_weight = { weight = 0 }
 }
