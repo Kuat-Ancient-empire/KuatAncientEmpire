@@ -1065,18 +1065,45 @@ country_event = {
 	is_triggered_only = yes
 	hide_window = no
 	title = exe_kuat_return.30.title
-	desc = exe_kuat_return.30.desc
+	desc = {
+		trigger = { has_global_flag = will_be_upgrade_starforge }
+		text = exe_kuat_return.30.response
+	}
+	desc = {
+		trigger = { NOT = { has_global_flag = will_be_upgrade_starforge } }
+		text = exe_kuat_return.30.desc
+	}
 	diplomatic = yes
 	diplomatic_title = exe_kuat_return.30.title
 	picture_event_data = { room = no_video_feed_room }
 	custom_gui = "kuat_event_diplomacy_window"
 	custom_gui_option = "kuat_event_diplomacy_option"
 	option = {
-		name = exe_kuat_return.30.a
+		name = exe_kuat_return.30.c
+		trigger = { NOT = { has_global_flag = will_be_upgrade_starforge } }
+		hidden_effect = { 
+			remove_global_flag = special_exe_invasion
+			set_global_flag = difficult_exe_invasion
+			set_global_flag = will_be_upgrade_starforge 
+			country_event = { id = exe_kuat_return.30 }
+		}
+	}
+	option = {
+		name = {
+			trigger = { NOT = { has_global_flag = will_be_upgrade_starforge } }
+			text = exe_kuat_return.30.a
+		}
+		name = {
+			trigger = { has_global_flag = will_be_upgrade_starforge }
+			text = exe_kuat_return.30.b
+		}
 		hidden_effect = {
-			remove_global_flag = exe_invasion_ended
-			remove_global_flag = exe_invasion_begin
-			remove_global_flag = can_win_the_fleet
+			if = {
+				limit = { NOT = { has_global_flag = will_be_upgrade_starforge } }
+				remove_global_flag = exe_invasion_ended
+				remove_global_flag = exe_invasion_begin
+				remove_global_flag = can_win_the_fleet
+			}
 		}
 	}
 }

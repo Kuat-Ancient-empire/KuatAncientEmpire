@@ -498,56 +498,79 @@ country_event = {
 country_event = {
 	id = kuat_origin.8
 	title = kuat_origin.8.name
-	desc = kuat_origin.8.desc
+	desc = {
+		trigger = { has_origin = origin_kuat_apocalyptic }
+		text = kuat_origin.8.desc
+	}
+	desc = {
+		trigger = { has_global_flag = will_be_upgrade_starforge }
+		text = kuat_origin.8.flag.desc
+	}
 	diplomatic = yes
 	picture_event_data = { room = matter_decompressor_room }
-	custom_gui = "kuat_event_m_window"
-	custom_gui_option = "kuat_event_m_option"
+	custom_gui = "kuat_event_window"
+	custom_gui_option = "kuat_event_option"
 	show_sound = event_sensor_ping
 	location = root.capital_scope
 	is_triggered_only = yes
-	trigger = { 
-		has_origin = origin_kuat_apocalyptic 
-		NOT = { has_country_flag = fire_once }
-	}
+	trigger = { NOT = { has_country_flag = fire_once } }
 	immediate = {
-		every_country = { 
-			limit = { NOT = { has_event_chain = ag_return_eternal_chain } }
-			begin_event_chain = { event_chain = ag_return_eternal_chain }
-		}
-		every_megastructure = {
-			limit = { is_megastructure_type = exe_outer_gate_disable }
-			upgrade_megastructure_to = exe_outer_gate
-			finish_upgrade = yes
-		}
-		set_country_flag = can_pass_by
-		set_country_flag = can_pass_inner_by
-		every_megastructure = {
-			limit = { is_megastructure_type = exe_outer_gate }
-			activate_gateway = this
-		}
 		if = {
-			limit = { NOT = { exists = event_target:kuat_support_country } }
-			create_country = {
-				name = "Name_Kuat_Support"
-				type = kuat_support
-				flag = {
-					icon = {
-						category = "Kuat"
-						file = "flag_swep_1.dds"
-					}
-					background = {
-						category = "backgrounds"
-						file = "circle.dds"
-					}
-					colors = { "red" "black" "null" "null" }
-				}
-				effect = {
-					save_global_event_target_as = kuat_support_country
-					establish_communications_no_message = root
-				}
+			limit = { has_origin = origin_kuat_apocalyptic }
+			every_country = { 
+				limit = { NOT = { has_event_chain = ag_return_eternal_chain } }
+				begin_event_chain = { event_chain = ag_return_eternal_chain }
 			}
-			add_modifier = { modifier = country_production_for_vanilla days = -1 }
+			every_megastructure = {
+				limit = { is_megastructure_type = exe_outer_gate_disable }
+				upgrade_megastructure_to = exe_outer_gate
+				finish_upgrade = yes
+			}
+			set_country_flag = can_pass_by
+			set_country_flag = can_pass_inner_by
+			every_megastructure = {
+				limit = { is_megastructure_type = exe_outer_gate }
+				activate_gateway = this
+			}
+			if = {
+				limit = { NOT = { exists = event_target:kuat_support_country } }
+				create_country = {
+					name = "Name_Kuat_Support"
+					type = kuat_support
+					flag = {
+						icon = {
+							category = "Kuat"
+							file = "flag_swep_1.dds"
+						}
+						background = {
+							category = "backgrounds"
+							file = "circle.dds"
+						}
+						colors = { "red" "black" "null" "null" }
+					}
+					effect = {
+						save_global_event_target_as = kuat_support_country
+						establish_communications_no_message = root
+					}
+				}
+				add_modifier = { modifier = country_production_for_vanilla days = -1 }
+				set_country_flag = fire_once
+				reset_return_eternal_fleet = yes
+			}
+		}
+		else_if = {
+			limit = { has_global_flag = will_be_upgrade_starforge }
+			every_megastructure = {
+				limit = { is_megastructure_type = exe_outer_gate_disable }
+				upgrade_megastructure_to = exe_outer_gate
+				finish_upgrade = yes
+			}
+			set_country_flag = can_pass_by
+			set_country_flag = can_pass_inner_by
+			every_megastructure = {
+				limit = { is_megastructure_type = exe_outer_gate }
+				activate_gateway = this
+			}
 			set_country_flag = fire_once
 			reset_return_eternal_fleet = yes
 		}
