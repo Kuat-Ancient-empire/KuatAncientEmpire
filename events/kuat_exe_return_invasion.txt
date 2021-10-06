@@ -342,9 +342,7 @@ event = {
 						planet_event = { id = exe_return_invasion.11 days = 50 }
 					}
 				}
-				event_target:ag_kuat_invasion_country = {
-					country_event = { id = exe_return_invasion.19 days = 75 }
-				}
+				event_target:ag_kuat_invasion_country = { country_event = { id = exe_return_invasion.19 days = 75 } }
 			}
 		}
 		every_country = {
@@ -802,7 +800,7 @@ country_event = {
 				}
 				every_fleet_in_system = {
 					limit = { NOT = { owner = { is_country_type = ag_kuat_invasion_country } } }
-					every_owned_ship = { kuat_reduce_hp_percent = { value = 25 } }
+					every_owned_ship = { kuat_reduce_hp_percent = { value = 75 } }
 				}
 				random_ambient_object = {
 					limit = { has_ambient_object_flag = space_storm_object }
@@ -1084,7 +1082,7 @@ country_event = {
 				}
 			}
 		}
-		country_event = { id = exe_return_invasion.19 days = 60 }
+		country_event = { id = exe_return_invasion.19 days = 30 }
 	}
 }
 
@@ -1518,7 +1516,14 @@ country_event = {
 country_event = {
 	id = exe_return_invasion.35
 	title = "exe_return_invasion.35.name"
-	desc = "exe_return_invasion.35.desc"
+	desc = {
+		trigger = { NOT = { has_origin = origin_kuat_apocalyptic } }
+		text = "exe_return_invasion.35.desc"
+	}
+	desc = {
+		trigger = { has_origin = origin_kuat_apocalyptic }
+		text = "exe_return_invasion.36.desc"
+	}
 	diplomatic = yes
 	picture_event_data = { room = Eternal_Empire_room }
 	custom_gui = "kuat_event_window"
@@ -1532,6 +1537,10 @@ country_event = {
 				limit = { is_ai = no }
 				set_country_flag = can_be_kuat_building
 				set_global_flag = give_all_tech_flag
+				add_research_option = tech_kuat_ground_yards
+				add_research_option = tech_kuat_megastructrue
+				add_research_option = tech_kuat_resource_center
+				add_research_option = tech_kuat_command_center
 				country_event = { id = exe_return_invasion.38 days = 30 random = 2 }
 			}
 			if = {
@@ -1548,13 +1557,6 @@ country_event = {
 			}
 		}
 		end_event_chain = ag_exe_invasion_chain
-		if = {
-			limit = { is_ai = no }
-			add_research_option = tech_kuat_ground_yards
-			add_research_option = tech_kuat_megastructrue
-			add_research_option = tech_kuat_resource_center
-			add_research_option = tech_kuat_command_center
-		}
 	}
 }
 

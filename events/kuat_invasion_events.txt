@@ -574,7 +574,6 @@ country_event = {
 	trigger = {
 		exists = event_target:ag_kuat_invasion_country
 		is_country_type = ag_kuat_invasion_country
-		has_global_flag = can_win_the_fleet
 	}
 	immediate = {
 		if = {
@@ -597,7 +596,7 @@ country_event = {
 				}
 			}
 		}
-		country_event = { id = exe_invasion.111 days = 30 }
+		country_event = { id = exe_invasion.111 days = 5 }
 	}
 }
 
@@ -952,6 +951,7 @@ country_event = {
 				amount = -1
 			}
 		}
+		event_target:global_event_country = { change_variable = { which = var_eternal_fleet_defeated value = 1 } }
 	}
 }
 
@@ -974,6 +974,7 @@ country_event = {
 		}
 		fromfromfrom = { has_fleet_flag = ag_kuat_invasion_fleet }
 		has_global_flag = can_win_the_fleet
+		event_target:global_event_country = { check_variable = { which = var_eternal_fleet_defeated value >= 16 } }
 	}
 	immediate = {
 		every_country = {
@@ -1504,7 +1505,7 @@ country_event = {
 				if = {
 					limit = { 
 						has_hp > 99999999 
-						fleet = { has_enable_flag_ship_system_false = yes }
+						kuat_is_flagship_system_protection = no
 					}
 					set_disable_at_health = -1
 				}
@@ -1775,7 +1776,7 @@ ship_event = {
 					limit = { NOT = { check_modifier_value = { modifier = ship_armor_penetration_mult value = @mult_origin_value } } }
 					set_eternal_fleet_mult_modifier = { armor_penetration = ship_armor_penetration_mult }
 				}
-				ship_event = { id = exe_invasion.129 days = 5 }
+				ship_event = { id = exe_invasion.129 days = 1 }
 			}
 		}
 		else = {
@@ -1899,7 +1900,7 @@ ship_event = {
 					}
 					set_eternal_fleet_mult_modifier = { accuracy = ship_accuracy_mult }
 				}
-				ship_event = { id = exe_invasion.131 days = 5 }
+				ship_event = { id = exe_invasion.131 days = 1 }
 			}
 		}
 		else = {
@@ -1910,6 +1911,7 @@ ship_event = {
 	}
 }
 
+#protector class star crusier system
 country_event = {
 	id = exe_invasion.133
 	hide_window = yes
@@ -1970,7 +1972,7 @@ ship_event = {
 					limit = { NOT = { check_modifier_value = { modifier = ship_armor_penetration_mult value = @mult_origin_value } } }
 					set_eternal_fleet_mult_modifier = { armor_penetration = ship_armor_penetration_mult }
 				}
-				ship_event = { id = exe_invasion.132 days = 5 }
+				ship_event = { id = exe_invasion.132 days = 1 }
 			}
 		}
 		else = {
@@ -2008,7 +2010,7 @@ ship_event = {
 					limit = { check_modifier_value = { modifier = ship_armor_penetration_mult value < @origin_value } }
 					set_eternal_fleet_mult_modifier = { armor_penetration_own = ship_armor_penetration_mult }
 				}
-				ship_event = { id = exe_invasion.134 days = 5 }
+				ship_event = { id = exe_invasion.134 days = 1 }
 			}
 		}
 		else = {
@@ -2029,7 +2031,7 @@ country_event = {
 			AND = {
 				has_global_flag = difficult_exe_invasion
 				has_global_flag = exe_return_invasion_begin
-				event_target:global_event_country = { check_variable = { which = eternal_fleet_return_index value >= 1 } }
+				event_target:global_event_country = { check_variable = { which = eternal_fleet_return_index value >= 6 } }
 			}
 			AND = {
 				has_global_flag = special_exe_invasion
@@ -2040,125 +2042,193 @@ country_event = {
 		from = { NOT = { is_country_type = ag_kuat_invasion_country } }
 	}
 	immediate = {
-		fromfromfrom = {
+		fromfrom = {
 			every_owned_ship = {
-				limit = { is_disabled = no is_in_combat = yes }
-				random_list = {
-					340 = {
-						modifier = {
-							factor = 0.9
-							event_target:global_event_country = { check_variable = { which = eternal_fleet_return_index value = 1 } }
-						}
-						modifier = {
-							factor = 0.8
-							event_target:global_event_country = { check_variable = { which = eternal_fleet_return_index value = 2 } }
-						}
-						modifier = {
-							factor = 0.7
-							event_target:global_event_country = { check_variable = { which = eternal_fleet_return_index value = 3 } }
-						}
-						modifier = {
-							factor = 0.6
-							event_target:global_event_country = { check_variable = { which = eternal_fleet_return_index value = 4 } }
-						}
-						modifier = {
-							factor = 0.5
-							event_target:global_event_country = { check_variable = { which = eternal_fleet_return_index value = 5 } }
-						}
-						modifier = {
-							factor = 0.4
-							event_target:global_event_country = { check_variable = { which = eternal_fleet_return_index value = 6 } }
-						}
-						modifier = {
-							factor = 0.3
-							event_target:global_event_country = { check_variable = { which = eternal_fleet_return_index value = 7 } }
-						}
-						modifier = {
-							factor = 0.2
-							event_target:global_event_country = { check_variable = { which = eternal_fleet_return_index value = 8 } }
-						}
-						modifier = {
-							factor = 0.1
-							event_target:global_event_country = { check_variable = { which = eternal_fleet_return_index value = 9 } }
-						}
-						modifier = {
-							factor = 0
-							event_target:global_event_country = { check_variable = { which = eternal_fleet_return_index value > 9 } }
-						}
-						modifier = { factor = 10 has_ship_flag = kuat_ancient_21_target }
-					}
-					# 400 Totally, 340 Available
-					10 = {
-						modifier = {
-							factor = 0
-							OR = {
-								NOT = { has_global_flag = enable_modifer_check }
-								owner = { is_country_type = ag_kuat_invasion_country }
-								owner = { is_kuat_fallen_empire = yes }
+				Root.fromfromfrom = {
+					every_owned_ship = {
+						limit = { is_disabled = no is_in_combat = yes }
+						random_list = {
+							300 = {
+								modifier = {
+									factor = 0.9
+									event_target:global_event_country = { check_variable = { which = eternal_fleet_return_index value = 1 } }
+								}
+								modifier = {
+									factor = 0.8
+									event_target:global_event_country = { check_variable = { which = eternal_fleet_return_index value = 2 } }
+								}
+								modifier = {
+									factor = 0.7
+									event_target:global_event_country = { check_variable = { which = eternal_fleet_return_index value = 3 } }
+								}
+								modifier = {
+									factor = 0.6
+									event_target:global_event_country = { check_variable = { which = eternal_fleet_return_index value = 4 } }
+								}
+								modifier = {
+									factor = 0.5
+									event_target:global_event_country = { check_variable = { which = eternal_fleet_return_index value = 5 } }
+								}
+								modifier = {
+									factor = 0.4
+									event_target:global_event_country = { check_variable = { which = eternal_fleet_return_index value = 6 } }
+								}
+								modifier = {
+									factor = 0.3
+									event_target:global_event_country = { check_variable = { which = eternal_fleet_return_index value = 7 } }
+								}
+								modifier = {
+									factor = 0.2
+									event_target:global_event_country = { check_variable = { which = eternal_fleet_return_index value = 8 } }
+								}
+								modifier = {
+									factor = 0.1
+									event_target:global_event_country = { check_variable = { which = eternal_fleet_return_index value = 9 } }
+								}
+								modifier = {
+									factor = 0
+									event_target:global_event_country = { check_variable = { which = eternal_fleet_return_index value > 9 } }
+								}
+								modifier = { factor = 10 has_ship_flag = kuat_ancient_21_target }
+							}
+							# 400 Totally, 300 Available
+							10 = {
+								modifier = {
+									factor = 0
+									OR = {
+										NOT = { has_global_flag = enable_modifer_check }
+										owner = { is_country_type = ag_kuat_invasion_country }
+										owner = { is_kuat_fallen_empire = yes }
+									}
+								}
+								kuat_reduce_hp_percent = { value = 10 }
+								set_timed_ship_flag = { flag = kuat_ancient_21_target days = 2 }
+							}
+							10 = {
+								modifier = {
+									factor = 0
+									OR = {
+										NOT = { has_global_flag = enable_modifer_check }
+										owner = { is_country_type = ag_kuat_invasion_country }
+										owner = { is_kuat_fallen_empire = yes }
+									}
+								}
+								kuat_reduce_hp_percent = { value = 8 }
+								set_timed_ship_flag = { flag = kuat_ancient_21_target days = 2 }
+							}
+							10 = {
+								modifier = {
+									factor = 0
+									OR = {
+										NOT = { has_global_flag = enable_modifer_check }
+										owner = { is_country_type = ag_kuat_invasion_country }
+										owner = { is_kuat_fallen_empire = yes }
+									}
+								}
+								kuat_reduce_hp_percent = { value = 6 }
+								set_timed_ship_flag = { flag = kuat_ancient_21_target days = 2 }
+							}
+							10 = {
+								modifier = {
+									factor = 0
+									OR = {
+										NOT = { has_global_flag = enable_modifer_check }
+										owner = { is_country_type = ag_kuat_invasion_country }
+										owner = { is_kuat_fallen_empire = yes }
+									}
+								}
+								kuat_reduce_hp_percent = { value = 4 }
+								set_timed_ship_flag = { flag = kuat_ancient_21_target days = 2 }
+							}
+							10 = {
+								modifier = {
+									factor = 0
+									OR = {
+										NOT = { has_global_flag = enable_modifer_check }
+										owner = { is_country_type = ag_kuat_invasion_country }
+										owner = { is_kuat_fallen_empire = yes }
+									}
+								}
+								kuat_reduce_hp_percent = { value = 2 }
+								set_timed_ship_flag = { flag = kuat_ancient_21_target days = 2 }
+							}
+							10 = {
+								modifier = {
+									factor = 0
+									OR = {
+										NOT = { has_global_flag = enable_modifer_check }
+										owner = { is_country_type = ag_kuat_invasion_country }
+										owner = { is_kuat_fallen_empire = yes }
+									}
+								}
+								kuat_reduce_hp_percent = { value = 1 }
+								set_timed_ship_flag = { flag = kuat_ancient_21_target days = 2 }
+							}
+							10 = {
+								modifier = {
+									factor = 0
+									OR = {
+										has_ship_flag = kuat_clear_ship_modifier_target
+										NOT = { has_global_flag = enable_modifer_check }
+										owner = { is_country_type = ag_kuat_invasion_country }
+										owner = { is_kuat_fallen_empire = yes }
+									}
+								}
+								clear_ship_modifier = { modifier = weapon_type_energy_weapon_damage_mult multiply = 0.25 DAYS = 6 }
+								clear_ship_modifier = { modifier = weapon_type_explosive_weapon_damage_mult multiply = 0.25 DAYS = 6 }
+								clear_ship_modifier = { modifier = weapon_type_kinetic_weapon_damage_mult multiply = 0.25 DAYS = 6 }
+								set_timed_ship_flag = { flag = kuat_clear_ship_modifier_target days = 6 }
+								set_timed_ship_flag = { flag = kuat_ancient_21_target days = 2 }
+							}
+							10 = {
+								modifier = {
+									factor = 0
+									OR = {
+										has_ship_flag = kuat_clear_ship_modifier_target
+										NOT = { has_global_flag = enable_modifer_check }
+										owner = { is_country_type = ag_kuat_invasion_country }
+										owner = { is_kuat_fallen_empire = yes }
+									}
+								}
+								clear_ship_modifier = { modifier = weapon_type_energy_weapon_damage_mult multiply = 0.50 DAYS = 6 }
+								clear_ship_modifier = { modifier = weapon_type_explosive_weapon_damage_mult multiply = 0.50 DAYS = 6 }
+								clear_ship_modifier = { modifier = weapon_type_kinetic_weapon_damage_mult multiply = 0.50 DAYS = 6 }
+								set_timed_ship_flag = { flag = kuat_clear_ship_modifier_target days = 6 }
+								set_timed_ship_flag = { flag = kuat_ancient_21_target days = 2 }
+							}
+							10 = {
+								modifier = {
+									factor = 0
+									OR = {
+										has_ship_flag = kuat_clear_ship_modifier_target
+										NOT = { has_global_flag = enable_modifer_check }
+										owner = { is_country_type = ag_kuat_invasion_country }
+										owner = { is_kuat_fallen_empire = yes }
+									}
+								}
+								clear_ship_modifier = { modifier = weapon_type_energy_weapon_damage_mult multiply = 0.75 DAYS = 6 }
+								clear_ship_modifier = { modifier = weapon_type_explosive_weapon_damage_mult multiply = 0.75 DAYS = 6 }
+								clear_ship_modifier = { modifier = weapon_type_kinetic_weapon_damage_mult multiply = 0.75 DAYS = 6 }
+								set_timed_ship_flag = { flag = kuat_clear_ship_modifier_target days = 6 }
+								set_timed_ship_flag = { flag = kuat_ancient_21_target days = 2 }
+							}
+							10 = {
+								modifier = {
+									factor = 0
+									OR = {
+										has_ship_flag = kuat_clear_ship_modifier_target
+										NOT = { has_global_flag = enable_modifer_check }
+										owner = { is_country_type = ag_kuat_invasion_country }
+										owner = { is_kuat_fallen_empire = yes }
+									}
+								}
+								clear_ship_modifier = { modifier = weapon_type_energy_weapon_damage_mult multiply = 1 DAYS = 6 }
+								clear_ship_modifier = { modifier = weapon_type_explosive_weapon_damage_mult multiply = 1 DAYS = 6 }
+								clear_ship_modifier = { modifier = weapon_type_kinetic_weapon_damage_mult multiply = 1 DAYS = 6 }
+								set_timed_ship_flag = { flag = kuat_clear_ship_modifier_target days = 6 }
+								set_timed_ship_flag = { flag = kuat_ancient_21_target days = 2 }
 							}
 						}
-						kuat_reduce_hp_percent = { value = 12 }
-						set_timed_ship_flag = { flag = kuat_ancient_21_target days = 2 }
-					}
-					10 = {
-						modifier = {
-							factor = 0
-							OR = {
-								NOT = { has_global_flag = enable_modifer_check }
-								owner = { is_country_type = ag_kuat_invasion_country }
-								owner = { is_kuat_fallen_empire = yes }
-							}
-						}
-						kuat_reduce_hp_percent = { value = 10 }
-						set_timed_ship_flag = { flag = kuat_ancient_21_target days = 2 }
-					}
-					10 = {
-						modifier = {
-							factor = 0
-							OR = {
-								NOT = { has_global_flag = enable_modifer_check }
-								owner = { is_country_type = ag_kuat_invasion_country }
-								owner = { is_kuat_fallen_empire = yes }
-							}
-						}
-						kuat_reduce_hp_percent = { value = 8 }
-						set_timed_ship_flag = { flag = kuat_ancient_21_target days = 2 }
-					}
-					10 = {
-						modifier = {
-							factor = 0
-							OR = {
-								NOT = { has_global_flag = enable_modifer_check }
-								owner = { is_country_type = ag_kuat_invasion_country }
-								owner = { is_kuat_fallen_empire = yes }
-							}
-						}
-						kuat_reduce_hp_percent = { value = 6 }
-						set_timed_ship_flag = { flag = kuat_ancient_21_target days = 2 }
-					}
-					10 = {
-						modifier = {
-							factor = 0
-							OR = {
-								NOT = { has_global_flag = enable_modifer_check }
-								owner = { is_country_type = ag_kuat_invasion_country }
-								owner = { is_kuat_fallen_empire = yes }
-							}
-						}
-						kuat_reduce_hp_percent = { value = 4 }
-						set_timed_ship_flag = { flag = kuat_ancient_21_target days = 2 }
-					}
-					10 = {
-						modifier = {
-							factor = 0
-							OR = {
-								NOT = { has_global_flag = enable_modifer_check }
-								owner = { is_country_type = ag_kuat_invasion_country }
-								owner = { is_kuat_fallen_empire = yes }
-							}
-						}
-						kuat_reduce_hp_percent = { value = 2 }
-						set_timed_ship_flag = { flag = kuat_ancient_21_target days = 2 }
 					}
 				}
 			}
