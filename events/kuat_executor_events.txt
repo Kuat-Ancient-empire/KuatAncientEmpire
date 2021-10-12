@@ -17,7 +17,7 @@ country_event = {
 	fire_only_once = yes
 	trigger = {
 		is_ai = no
-		NOT = { has_origin = origin_kuat_apocalyptic }
+		NOR = { has_origin = origin_kuat_apocalyptic has_origin = origin_eternalthrone }
 	}
 	immediate = {
 		set_country_flag = executorbuilding
@@ -61,14 +61,14 @@ event = {
 	trigger = {
 		any_country = {
 			is_ai = yes
-			has_origin = origin_kuat_apocalyptic
+			OR = { has_origin = origin_kuat_apocalyptic has_origin = origin_eternalthrone }
 		}
 	}
 	immediate = { 
 		every_country = {
 			limit = {
 				is_ai = yes
-				has_origin = origin_kuat_apocalyptic
+				OR = { has_origin = origin_kuat_apocalyptic has_origin = origin_eternalthrone }
 			}
 			set_origin = origin_default
 		}
@@ -80,7 +80,7 @@ event = {
 	hide_window = yes
 	is_triggered_only = yes
 	fire_only_once = yes
-	trigger = { any_country = { has_origin = origin_kuat_apocalyptic } }
+	trigger = { any_country = { OR = { has_origin = origin_kuat_apocalyptic has_origin = origin_eternalthrone } } }
 	immediate = {
 		every_megastructure = {
 			limit = { is_megastructure_type = exe_outer_gate_disable }
@@ -132,7 +132,7 @@ country_event = {
 	trigger = {
 		is_ai = no
 		has_technology = tech_sensors_2
-		NOT = { any_country = { has_origin = origin_kuat_apocalyptic } }
+		NOT = { any_country = { OR = { has_origin = origin_kuat_apocalyptic has_origin = origin_eternalthrone } } }
 		NOT = { has_global_flag = kuat_outgate_enable }
 	}
 	mean_time_to_happen = { 
@@ -329,7 +329,7 @@ country_event = {
 		is_ai = no
 		has_technology = tech_sensors_2
 		has_country_flag = finished_kuat_gateway_stage_first
-		NOT = { any_country = { has_origin = origin_kuat_apocalyptic } }
+		NOT = { any_country = { OR = { has_origin = origin_kuat_apocalyptic has_origin = origin_eternalthrone } } }
 		NOT = { has_global_flag = kuat_outgate_enable }
 	}
 	mean_time_to_happen = { 
@@ -580,7 +580,7 @@ country_event = {
 		has_country_flag = finished_kuat_gateway_stage_final
 		has_country_flag = can_enable_kuat_gate
 		NOT = { has_country_flag = can_enable_kuat_gate_special_active }
-		NOT = { any_country = { has_origin = origin_kuat_apocalyptic } }
+		NOT = { any_country = { OR = { has_origin = origin_kuat_apocalyptic has_origin = origin_eternalthrone } } }
 		NOT = { has_global_flag = kuat_outgate_enable }
 		from = { has_star_flag = exe_outer_gate_disable_system }
 	}
@@ -664,7 +664,7 @@ country_event = {
 			has_country_flag = can_enable_kuat_gate_special
 			any_system_within_border = { has_star_flag = exe_outer_gate_disable_system } 
 		}
-		NOT = { any_country = { has_origin = origin_kuat_apocalyptic } }
+		NOT = { any_country = { OR = { has_origin = origin_kuat_apocalyptic has_origin = origin_eternalthrone } } }
 		NOT = { has_global_flag = kuat_outgate_enable }
 		NOT = { has_country_flag = can_enable_kuat_gate_active }
 	}
@@ -691,9 +691,9 @@ event = {
 	is_triggered_only = yes
 	immediate = {
 		if = {
-			limit = { any_country = { has_origin = origin_kuat_apocalyptic is_ai = no } }
+			limit = { any_country = { OR = { has_origin = origin_kuat_apocalyptic has_origin = origin_eternalthrone } is_ai = no } }
 			every_playable_country = {
-				limit = { has_origin = origin_kuat_apocalyptic is_ai = no }
+				limit = { OR = { has_origin = origin_kuat_apocalyptic has_origin = origin_eternalthrone } is_ai = no }
 				remove_country_flag = human_1
 				remove_country_flag = human_2
 				set_country_flag = custom_start_screen
@@ -703,8 +703,8 @@ event = {
 		else_if = {
 			limit = { 
 				OR = {
-					NOT = { any_country = { has_origin = origin_kuat_apocalyptic } }
-					any_country = { has_origin = origin_kuat_apocalyptic is_ai = yes }
+					NOT = { any_country = { OR = { has_origin = origin_kuat_apocalyptic has_origin = origin_eternalthrone } } }
+					any_country = { OR = { has_origin = origin_kuat_apocalyptic has_origin = origin_eternalthrone } is_ai = yes }
 				}
 			}
 			random_country = {
@@ -1149,7 +1149,7 @@ ship_event = {
 	hide_window = yes
 	is_triggered_only = yes
 	trigger = {
-		owner = { NOT = { has_origin = origin_kuat_apocalyptic } }
+		owner = { NOR = { has_origin = origin_kuat_apocalyptic has_origin = origin_eternalthrone } }
 		is_ship_size = nebula_executor
 	}
 	immediate = {
@@ -1254,7 +1254,7 @@ event = {
 	hide_window = yes
 	is_triggered_only = yes
 	trigger = {
-		NOT = { any_country = { has_origin = origin_kuat_apocalyptic } }
+		NOT = { any_country = { OR = { has_origin = origin_kuat_apocalyptic has_origin = origin_eternalthrone } } }
 	}
 	immediate = {
 		if = {
