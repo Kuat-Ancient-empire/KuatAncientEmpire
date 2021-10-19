@@ -128,22 +128,22 @@ country_event = {
 	is_triggered_only = yes
 	immediate = {
 		every_galaxy_planet = {
-			limit = {  has_planet_flag = built_target }
+			limit = { has_planet_flag = built_target }
 			owner = {
-				add_opinion_modifier = {
-					who = root
-					modifier = opinion_starkillerbase_broke_our_system_planet_target
-				}
 				if = {
 					limit = { 
+						NOT = { is_same_value = root }
 						OR = {
-							NOT = { is_same_value = root }
 							is_country_type = default
 							is_country_type = fallen_empire
 							is_country_type = awakened_fallen_empire
 						}
 						NOT = { is_at_war_with = root }
 						NOT = { has_country_flag = fire_once_war }
+					}
+					add_opinion_modifier = {
+						who = root
+						modifier = opinion_starkillerbase_broke_our_system_planet_target
 					}
 					set_timed_country_flag = { flag = fire_once_war days = 1 }
 					declare_war = { target = root attacker_war_goal = wg_colossus }
@@ -261,7 +261,7 @@ country_event = {
 	custom_gui_option = "kuat_event_option"
 	is_triggered_only = yes
 	fire_only_once = yes
-	trigger = { check_variable = { which = fire_var value = 35 } }
+	trigger = { check_variable = { which = fire_var value = 10 } }
 	immediate = { rebellion_remove_from_wars = yes }
 	option = {
 		name = kuat_starkiller.7.a

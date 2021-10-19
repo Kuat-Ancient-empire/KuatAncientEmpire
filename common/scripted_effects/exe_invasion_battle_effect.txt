@@ -69,6 +69,7 @@ increase_ship_hp_effect_change = {
 	if = {
 		limit = { owner = { is_country_type = ag_kuat_invasion_country } }
 		every_owned_ship = {
+			limit = { NOT = { is_ship_size = scout_UAV } }
 			set_timed_ship_flag = { flag = is_invisiable_trigger days = $DAYS$ }
 			eternal_increase_executor_power = { DAYS = $DAYS$ }
 			ship_event = { id = exe_invasion.119 }
@@ -77,6 +78,7 @@ increase_ship_hp_effect_change = {
 	else_if = {
 		limit = { owner = { is_kuat_fallen_empire = yes } }
 		every_owned_ship = {
+			limit = { NOT = { is_ship_size = scout_UAV } }
 			set_timed_ship_flag = { flag = is_invisiable_trigger days = $DAYS$ }
 			eternal_increase_executor_power = { DAYS = $DAYS$ }
 			ship_event = { id = exe_invasion.119 }
@@ -84,6 +86,7 @@ increase_ship_hp_effect_change = {
 	}
 	else = {
 		every_owned_ship = {
+			limit = { NOT = { is_ship_size = scout_UAV } }
 			set_timed_ship_flag = { flag = is_invisiable_trigger days = $DAYS$ }
 			increase_executor_power = { DAYS = $DAYS$ }
 			ship_event = { id = exe_invasion.119 }
@@ -733,26 +736,11 @@ set_invasion_fleet_basic_modifier = {
 }
 
 kuat_reduce_hp_percent = {
-	if = {
-		limit = { has_hp > 9223372 }
-		if = { limit = { has_hp > 80000000 }
-			if = { limit = { has_hp > 200000000 }
-				if = { limit = { has_hp > 400000000 }
-					if = { limit = { has_hp > 800000000 } while = { count = $value$ reduce_hp = 8000000 } }
-					else = { while = { count = $value$ reduce_hp = 4000000 } }
-				}
-				else = { while = { count = $value$ reduce_hp = 2000000 } }
-			}
-			else = { while = { count = $value$ reduce_hp = 1000000 } }
-		}
-		else_if = { limit = { has_hp > 20000000 }
-			if = { limit = { has_hp > 40000000 } while = { count = $value$ reduce_hp = 400000 } }
-			else = { while = { count = $value$ reduce_hp = 200000 } }
-		}
-		else_if = { limit = { has_hp > 10000000 } while = { count = $value$ reduce_hp = 100000 } }
-		else_if = { limit = { always = yes } while = { count = $value$ reduce_hp = 92233 } }
-	}
-	else = { reduce_hp_percent = $value$ }
+	export_trigger_value_to_variable = { trigger = has_hp variable = exist_hp_value }
+	multiply_variable = { which = exist_hp_value value = 0.01 }
+	multiply_variable = { which = exist_hp_value value = $value$ }
+	reduce_hp = exist_hp_value
+	clear_variable = exist_hp_value
 }
 
 kuat_set_epsilon_obelisk_code = {
