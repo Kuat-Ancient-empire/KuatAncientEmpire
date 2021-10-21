@@ -9,6 +9,97 @@ entity = {
 	}
 }
 
+entity = {
+	name = "Imperial_star_destroyer_entity"
+	pdxmesh = "arthropoid_01_titan_frame_mesh"
+	scale = 0.25
+	locator = { name = root position = { 0 0 0 } rotation = { 0 0 0 } }
+	default_state = "idle"
+	state = { name = "idle" animation = "idle" 
+	
+		start_event = { trigger_once = yes sound = { soundeffect = "amb_titan_ship_hum_01" } }
+		start_event = { trigger_once = yes sound = { soundeffect = "amb_titan_ship_hum_02" } }
+		start_event = { trigger_once = yes sound = { soundeffect = "amb_titan_ship_hum_03" } }
+	
+	}
+	state = { name = "moving" animation = "idle"
+		event =  { trigger_once = yes sound = { soundeffect = "moving_out_titan" } }
+	}
+	state = { name = "death" animation = "death" looping = no 
+		event = { time = 2.5 node = "explosion_locator_01" particle = "ship_explosion_particle" keep_particle = yes trigger_once = yes sound = { soundeffect = "ship_explosion" } }
+		event = { time = 3.5 node = "explosion_locator_02" particle = "ship_explosion_particle" keep_particle = yes trigger_once = yes sound = { soundeffect = "ship_explosion" } }
+		event = { time = 5.5 node = "explosion_locator_03" particle = "ship_explosion_particle" keep_particle = yes trigger_once = yes sound = { soundeffect = "ship_explosion" } }
+		event = { time = 7.5 node = "explosion_locator_04" particle = "ship_explosion_particle" keep_particle = yes trigger_once = yes sound = { soundeffect = "ship_explosion" } }
+		event = { time = 9.5 node = "explosion_locator_05" particle = "ship_explosion_particle" keep_particle = yes trigger_once = yes sound = { soundeffect = "ship_explosion" } }
+		event = { time = 12.5 node = "ship_main" particle = "dreadnought_explosion_particle" keep_particle = yes trigger_once = yes sound = { soundeffect = "amb_titan_ship_death" } }
+	}
+}
+
+entity = {
+	name = "Imperial_star_destroyer_section_entity"
+	pdxmesh = "Imperial_star_destroyer_mesh"
+
+	default_state = "idle"
+	state = { name = "idle" state_time = 5
+		event = { time = 0 node = "light_locator_01" particle = "ship_light_blue_effect" keep_particle = yes trigger_once = yes }
+		event = { time = 0 node = "light_locator_02" particle = "ship_light_blue_effect" keep_particle = yes trigger_once = yes }
+		event = { time = 0 node = "light_locator_03" particle = "ship_light_blue_effect" keep_particle = yes trigger_once = yes }
+		start_event = { trigger_once = yes sound = { soundeffect = "amb_titan_ship_hum_01" } }
+		start_event = { trigger_once = yes sound = { soundeffect = "amb_titan_ship_hum_02" } }
+		start_event = { trigger_once = yes sound = { soundeffect = "amb_titan_ship_hum_03" } }
+	}
+	state = { name = "moving" state_time = 5
+		event =  { trigger_once = yes sound = { soundeffect = "moving_out_titan" } }
+		event = { time = 0 node = "light_locator_01" particle = "ship_light_blue_effect" keep_particle = yes trigger_once = yes }
+		event = { time = 0 node = "light_locator_02" particle = "ship_light_blue_effect" keep_particle = yes trigger_once = yes }
+		event = { time = 0 node = "light_locator_03" particle = "ship_light_blue_effect" keep_particle = yes trigger_once = yes }
+		start_event = { node = "EDDY01" particle = "SG_01_8_0_ship_exhaust_moving_particle" keep_particle = yes trigger_once = yes }
+		start_event = { node = "EDDY02" particle = "SG_01_8_0_ship_exhaust_moving_particle" keep_particle = yes trigger_once = yes }
+		start_event = { node = "EDDY04" particle = "SG_01_8_0_ship_exhaust_moving_particle" keep_particle = yes trigger_once = yes }
+	}
+	state = { name = "death" looping = no state_time = 5
+		event = { time = 14 node = "target_locator_1" particle = "ship_explosion_particle" sound = { soundeffect = ship_destroyed } }
+		event = { time = 8 node = "target_locator_2" particle = "ship_explosion_particle" sound = { soundeffect = ship_destroyed } }
+		event = { time = 6 node = "target_locator_3" particle = "ship_explosion_particle" sound = { soundeffect = ship_destroyed } }
+		event = { time = 16.5 node = "target_locator_3" particle = "ship_explosion_particle" sound = { soundeffect = ship_destroyed } }
+		event = { time = 4 node = "target_locator_4" particle = "ship_explosion_particle" sound = { soundeffect = ship_destroyed } }
+		event = { time = 2 node = "target_locator_5" particle = "ship_explosion_particle" sound = { soundeffect = ship_destroyed } }
+		event = { time = 16 node = "target_locator_6" particle = "ship_explosion_particle" sound = { soundeffect = ship_destroyed } }
+		event = { time = 12 node = "target_locator_7" particle = "ship_explosion_particle" sound = { soundeffect = ship_destroyed } }
+		event = { time = 10 node = "target_locator_8" particle = "ship_explosion_particle" sound = { soundeffect = ship_destroyed } }
+	}
+		
+	game_data = { size = 35 }
+}
+
+entity = {
+	name = "Imperial_star_destroyer_main_entity"
+	pdxmesh = "Imperial_star_destroyer_locator_mesh"
+	scale = 1.0
+
+	default_state = "idle"
+	state = { name = "idle" animation = "idle" state_time = 5
+		event = { time = 0 node = "light_locator_01" particle = "ship_light_blue_effect" keep_particle = yes trigger_once = yes }
+		event = { time = 0 node = "light_locator_02" particle = "ship_light_blue_effect" keep_particle = yes trigger_once = yes }
+		event = { time = 0 node = "light_locator_03" particle = "ship_light_blue_effect" keep_particle = yes trigger_once = yes }
+		start_event = { trigger_once = yes sound = { soundeffect = "amb_titan_ship_hum_01" } }
+		start_event = { trigger_once = yes sound = { soundeffect = "amb_titan_ship_hum_02" } }
+		start_event = { trigger_once = yes sound = { soundeffect = "amb_titan_ship_hum_03" } }
+	}
+	state = { name = "moving" animation = "idle" state_time = 5
+		event =  { trigger_once = yes sound = { soundeffect = "moving_out_titan" } }
+		event = { time = 0 node = "light_locator_01" particle = "ship_light_blue_effect" keep_particle = yes trigger_once = yes }
+		event = { time = 0 node = "light_locator_02" particle = "ship_light_blue_effect" keep_particle = yes trigger_once = yes }
+		event = { time = 0 node = "light_locator_03" particle = "ship_light_blue_effect" keep_particle = yes trigger_once = yes }
+		start_event = { node = "EDDY01" particle = "SG_01_8_0_ship_exhaust_moving_particle" keep_particle = yes trigger_once = yes }
+		start_event = { node = "EDDY02" particle = "SG_01_8_0_ship_exhaust_moving_particle" keep_particle = yes trigger_once = yes }
+		start_event = { node = "EDDY04" particle = "SG_01_8_0_ship_exhaust_moving_particle" keep_particle = yes trigger_once = yes }
+	}
+	state = { name = "death" animation = "clossing" looping = no state_time = 5 }
+
+	game_data = { size = 35 }
+}
+
 animation = {
 	name = "kuat_01_sheild_Gate_idle_animation"
 	file = "kuat_01_sheild_Gate_idle.anim"
