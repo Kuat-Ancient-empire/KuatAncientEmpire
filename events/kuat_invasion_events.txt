@@ -605,7 +605,11 @@ fleet_event = {
 	id = exe_invasion.12
 	hide_window = yes
 	is_triggered_only = yes
-	trigger = { exists = this }
+	trigger = { 
+		exists = this 
+		has_global_flag = exe_invasion_begin
+		NOT = { has_global_flag = exe_invasion_ended }
+	}
 	immediate = { ag_exe_invasion_fleet_action = yes }
 }
 
@@ -615,6 +619,8 @@ country_event = {
 	hide_window = yes
 	is_triggered_only = yes
 	trigger = {
+		has_global_flag = exe_invasion_begin
+		NOT = { has_global_flag = exe_invasion_ended }
 		is_country_type = ag_kuat_invasion_country
 		fromfrom = { fleet = { has_fleet_flag = ag_kuat_invasion_fleet } }
 		fromfromfrom = {
@@ -648,6 +654,8 @@ country_event = {
 	hide_window = yes
 	is_triggered_only = yes
 	trigger = {
+		has_global_flag = exe_invasion_begin
+		NOT = { has_global_flag = exe_invasion_ended }
 		is_country_type = ag_kuat_invasion_country
 		from = { has_fleet_flag = ag_kuat_invasion_fleet }
 		fromfrom = {
@@ -672,6 +680,8 @@ fleet_event = {
 	hide_window = yes
 	is_triggered_only = yes
 	trigger = {
+		has_global_flag = exe_invasion_begin
+		NOT = { has_global_flag = exe_invasion_ended }
 		has_fleet_flag = ag_kuat_invasion_fleet
 		from = {
 			NOR = {
@@ -1128,32 +1138,29 @@ fleet_event = {
 				if = {
 					limit = {
 						NOR = {
+							#永恒的空间站
 							any_ship_in_system = {
 								is_ship_class = shipclass_starbase
 								exists = owner
 								owner = { is_same_value = event_target:ag_kuat_invasion_country }
 							}
+							#敌对舰船
 							any_ship_in_system = {
 								exists = owner
 								owner = { is_hostile = event_target:ag_kuat_invasion_country }
 							}
+							#敌对星球
 							any_system_planet = {
 								exists = owner
 								owner = { is_hostile = event_target:ag_kuat_invasion_country }
 							}
 						}
 					}
-					if = {
-						limit = { NOT = { exists = starbase } }
-						create_starbase = {
-							size = exe_starbase
-							owner = event_target:ag_kuat_invasion_country
-						}
-					} 
+					create_starbase = { size = exe_starbase owner = event_target:ag_kuat_invasion_country }
 				}
 			}
 		}
-		fleet_event = { id = exe_invasion.36 days = 1 }
+		fleet_event = { id = exe_invasion.36 days = 15 }
 	}
 }
 
@@ -1375,8 +1382,9 @@ country_event = {
 				limit = { has_enable_flag_ship_system_true = yes }
 				if = { limit = { kuat_is_flagship_size = { size = Annihilator } } increase_ship_hp_effect_change = { DAYS = 6 } }
 				else_if = { limit = { kuat_is_flagship_size = { size = eclipse } } increase_ship_hp_effect_change = { DAYS = 5 } }
-				else_if = { limit = { kuat_is_flagship_size = { size = knigjt_hammer_executor } } increase_ship_hp_effect_change = { DAYS = 4 } }
+				else_if = { limit = { kuat_is_flagship_size = { size = Venguard } } increase_ship_hp_effect_change = { DAYS = 4 } }
 				else_if = { limit = { kuat_is_flagship_size = { size = nebula_executor } } increase_ship_hp_effect_change = { DAYS = 3 } }
+				else_if = { limit = { kuat_is_flagship_size = { size = knigjt_hammer_executor } } increase_ship_hp_effect_change = { DAYS = 3 } }
 				else_if = { limit = { kuat_is_flagship_size = { size = nebula_dominance } } increase_ship_hp_effect_change = { DAYS = 3 } }
 				else_if = { limit = { kuat_is_flagship_size = { size = X308_Balletor } } increase_ship_hp_effect_change = { DAYS = 2 } }
 				else_if = { limit = { kuat_is_flagship_size = { size = SWGS_Nemesis } } increase_ship_hp_effect_change = { DAYS = 2 } } 

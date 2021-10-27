@@ -370,7 +370,10 @@ country_event = {
 	option = {
 		name = "exe_return_invasion.10.a"
 		begin_event_chain = { event_chain = ag_exe_invasion_chain }
-		add_event_chain_counter = { event_chain = ag_return_eternal_chain counter = ag_return_eternal_amount amount = 1 }
+		if = {
+			limit = { has_event_chain = ag_return_eternal_chain }
+			add_event_chain_counter = { event_chain = ag_return_eternal_chain counter = ag_return_eternal_amount amount = 1 }
+		}
 	}
 }
 
@@ -1261,7 +1264,10 @@ planet_event = {
 				has_event_chain = ag_exe_invasion_chain
 			}
 			add_event_chain_counter = { event_chain = ag_exe_invasion_chain counter = ag_exe_invasion_planet_destroyed amount = 1 }
-			add_event_chain_counter = { event_chain = ag_return_eternal_chain counter = ag_exe_invasion_planet_destroyed amount = 1 }
+			if = {
+				limit = { has_event_chain = ag_return_eternal_chain }
+				add_event_chain_counter = { event_chain = ag_return_eternal_chain counter = ag_exe_invasion_planet_destroyed amount = 1 }
+			}
 		}
 		solar_system = {
 			every_fleet_in_system = {
@@ -1335,7 +1341,10 @@ country_event = {
 	immediate = {
 		from = {
 			add_event_chain_counter = { event_chain = ag_exe_invasion_chain counter = ag_exe_invasion_ship_kill_by_us amount = 1 }
-			add_event_chain_counter = { event_chain = ag_return_eternal_chain counter = ag_exe_invasion_ship_kill_by_us amount = 1 }
+			if = {
+				limit = { has_event_chain = ag_return_eternal_chain }
+				add_event_chain_counter = { event_chain = ag_return_eternal_chain counter = ag_exe_invasion_ship_kill_by_us amount = 1 }
+			}
 		}
 		every_country = {
 			limit = {
@@ -1343,7 +1352,10 @@ country_event = {
 				NOT = { is_same_value = from }
 			}
 			add_event_chain_counter = { event_chain = ag_exe_invasion_chain counter = ag_exe_invasion_ship_kill_by_other amount = 1 }
-			add_event_chain_counter = { event_chain = ag_return_eternal_chain counter = ag_exe_invasion_ship_kill_by_other amount = 1 }
+			if = {
+				limit = { has_event_chain = ag_return_eternal_chain }
+				add_event_chain_counter = { event_chain = ag_return_eternal_chain counter = ag_exe_invasion_ship_kill_by_other amount = 1 }
+			}
 		}
 	}
 }
@@ -1365,7 +1377,10 @@ country_event = {
 				has_event_chain = ag_exe_invasion_chain
 			}
 			add_event_chain_counter = { event_chain = ag_exe_invasion_chain counter = ag_exe_invasion_victim amount = 1 }
-			add_event_chain_counter = { event_chain = ag_return_eternal_chain counter = ag_exe_invasion_victim amount = 1 }
+			if = {
+				limit = { has_event_chain = ag_return_eternal_chain }
+				add_event_chain_counter = { event_chain = ag_return_eternal_chain counter = ag_exe_invasion_victim amount = 1 }
+			}
 		}
 		from = { change_variable = { which = eternal_bornus_var value = 1 } }
 	}
@@ -1561,17 +1576,11 @@ fleet_event = {
 							}
 						}
 					}
-					if = {
-						limit = { NOT = { exists = starbase } }
-						create_starbase = {
-							size = exe_starbase
-							owner = event_target:ag_kuat_invasion_country
-						}
-					} 
+					create_starbase = { size = exe_starbase owner = event_target:ag_kuat_invasion_country }
 				}
 			}
 		}
-		fleet_event = { id = exe_return_invasion.36 days = 1 }
+		fleet_event = { id = exe_invasion.36 days = 15 }
 	}
 }
 
