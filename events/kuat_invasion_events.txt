@@ -394,6 +394,10 @@ country_event = {
 				else = { destroy_fleet = { target = this destroy_template = yes kill_leader = yes } }
 			}
 		}
+		every_owned_ship = {
+			limit = { check_modifier_value = { modifier = ship_hull_mult value > 4 } }
+			clear_ship_modifier = { modifier = ship_hull_mult subtract = 4 }
+		}
 		country_event = { id = exe_invasion.128 }
 	}
 	option = {
@@ -987,6 +991,7 @@ country_event = {
 				limit = { NOT = { has_global_flag = special_exe_invasion } }
 				country_event = { id = exe_invasion.33 }
 			} else = { country_event = { id = exe_invasion.35 } }
+			every_owned_ship = { remove_executor_power = yes }
 		}
 		add_threat = { who = root amount = 50 }
 		set_global_flag = exe_invasion_ended
