@@ -1428,7 +1428,6 @@ ship_event = {
 	is_triggered_only = yes
 	trigger = { 
 		has_ship_flag = check_disable_allowed 
-		has_global_flag = enable_modifer_check 
 		has_global_flag = difficult_exe_invasion
 	}
 	immediate = { repair_ship = yes set_disabled = no }
@@ -1440,7 +1439,6 @@ ship_event = {
 	is_triggered_only = yes
 	trigger = { 
 		has_ship_flag = check_disable_allowed 
-		has_global_flag = enable_modifer_check 
 		has_global_flag = difficult_exe_invasion
 	}
 	immediate = {
@@ -1463,7 +1461,6 @@ country_event = {
 	hide_window = yes
 	is_triggered_only = yes
 	trigger = {
-		has_global_flag = enable_modifer_check
 		OR = {
 			is_country_type = ag_kuat_invasion_country
 			is_kuat_fallen_empire = yes
@@ -1493,29 +1490,32 @@ country_event = {
 				}
 			}	
 		}
-		fromfromfrom = { 
-			every_owned_ship = {
-				set_ship_flag = is_modifiering
-				if = {
-					limit = { 
-						has_hp > 99999999 
-						kuat_is_flagship_system_protection = no
+		if = {
+			limit = { has_global_flag = enable_modifer_check }
+			fromfromfrom = { 
+				every_owned_ship = {
+					set_ship_flag = is_modifiering
+					if = {
+						limit = { 
+							has_hp > 99999999 
+							kuat_is_flagship_system_protection = no
+						}
+						set_disable_at_health = -1
 					}
-					set_disable_at_health = -1
-				}
-				if = {
-					limit = { 
-						ROOT = { is_country_type = ag_kuat_invasion_country } 
-						has_global_flag = difficult_exe_invasion 
+					if = {
+						limit = { 
+							ROOT = { is_country_type = ag_kuat_invasion_country } 
+							has_global_flag = difficult_exe_invasion 
+						}
+						ship_event = { id = exe_invasion.131 }
+					} 
+					else = { ship_event = { id = exe_invasion.129 } }
+					if = { 
+						limit = { check_modifier_value = { modifier = ship_hull_mult value > 4 } } 
+						clear_ship_modifier = { modifier = ship_hull_mult subtract = 4 } 
 					}
-					ship_event = { id = exe_invasion.131 }
 				} 
-				else = { ship_event = { id = exe_invasion.129 } }
-				if = { 
-					limit = { check_modifier_value = { modifier = ship_hull_mult value > 4 } } 
-					clear_ship_modifier = { modifier = ship_hull_mult subtract = 4 } 
-				}
-			} 
+			}
 		}
 	}
 }
