@@ -1470,56 +1470,55 @@ country_event = {
 		}
 	}
 	immediate = { 
-		fromfrom = {
-			every_owned_ship = {
-				set_ship_flag = is_modifiering
-				if = {
-					limit = { 
-						ROOT = { is_country_type = ag_kuat_invasion_country } 
-						has_global_flag = difficult_exe_invasion 
-					}
-					ship_event = { id = exe_invasion.137 }
-				} 
-				else = { ship_event = { id = exe_invasion.139 } }
-				if = {
-					limit = { 
-						NOT = { is_variable_set = combat_days }
-						has_ship_flag = check_disable_allowed 
-						has_global_flag = difficult_exe_invasion
-						has_global_flag = enable_modifer_check
-					}
-					set_disable_at_health = 0.01
-					change_variable = { which = combat_days value = 1 }
-					ship_event = { id = exe_invasion.138 days = 1 }
-				}
-			}	
-		}
 		if = {
 			limit = { has_global_flag = enable_modifer_check }
-			fromfromfrom = { 
+			fromfrom = {
 				every_owned_ship = {
 					set_ship_flag = is_modifiering
-					if = {
-						limit = { 
-							has_hp > 99999999 
-							kuat_is_flagship_system_protection = no
-						}
-						set_disable_at_health = -1
-					}
 					if = {
 						limit = { 
 							ROOT = { is_country_type = ag_kuat_invasion_country } 
 							has_global_flag = difficult_exe_invasion 
 						}
-						ship_event = { id = exe_invasion.131 }
+						ship_event = { id = exe_invasion.137 }
 					} 
-					else = { ship_event = { id = exe_invasion.129 } }
-					if = { 
-						limit = { check_modifier_value = { modifier = ship_hull_mult value > 4 } } 
-						clear_ship_modifier = { modifier = ship_hull_mult subtract = 4 } 
+					else = { ship_event = { id = exe_invasion.139 } }
+					if = {
+						limit = { 
+							NOT = { is_variable_set = combat_days }
+							has_ship_flag = check_disable_allowed 
+							has_global_flag = difficult_exe_invasion
+						}
+						set_disable_at_health = 0.01
+						change_variable = { which = combat_days value = 1 }
+						ship_event = { id = exe_invasion.138 days = 1 }
 					}
-				} 
+				}	
 			}
+		}
+		fromfromfrom = { 
+			every_owned_ship = {
+				set_ship_flag = is_modifiering
+				if = {
+					limit = { 
+						has_hp > 99999999 
+						kuat_is_flagship_system_protection = no
+					}
+					set_disable_at_health = -1
+				}
+				if = {
+					limit = { 
+						ROOT = { is_country_type = ag_kuat_invasion_country } 
+						has_global_flag = difficult_exe_invasion 
+					}
+					ship_event = { id = exe_invasion.131 }
+				} 
+				else = { ship_event = { id = exe_invasion.129 } }
+				if = { 
+					limit = { check_modifier_value = { modifier = ship_hull_mult value > 4 } } 
+					clear_ship_modifier = { modifier = ship_hull_mult subtract = 4 } 
+				}
+			} 
 		}
 	}
 }
