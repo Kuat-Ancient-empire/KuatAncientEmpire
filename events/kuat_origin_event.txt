@@ -40,40 +40,8 @@ country_event = {
 				save_event_target_as = new_home_planet
 			}
 		}
-		set_country_flag = can_restore_the_black_hole
-		set_country_flag = can_have_starbase_country
-		set_country_flag = can_be_kuat_building
-		set_global_flag = give_all_tech_flag
 		set_global_flag = final_stage
-		set_global_flag = can_have_tecn
-		give_technology = { tech = tech_kuat_ground_yards message = no }
-		give_technology = { tech = tech_kuat_megastructrue message = no }
-		give_technology = { tech = tech_kuat_resource_center message = no }
-		give_technology = { tech = tech_kuat_command_center message = no }
-		give_technology = { tech = tech_kuat_founfry message = no }
-		give_technology = { tech = tech_kuat_databank message = no }
-		give_technology = { tech = tech_kuat_shield message = no }
-		give_technology = { tech = tech_kuat_reactor message = no }
-		give_technology = { tech = tech_kuat_THRUSTER message = no }
-		give_technology = { tech = tech_exe_jump_drive message = no }
-		give_technology = { tech = tech_kuat_noway message = no }
-		give_technology = { tech = tech_eternal_fleet message = no }
-		give_technology = { tech = tech_kuat_starbase message = no }
-		give_technology = { tech = tech_kuat_megastructrue message = no }
-		create_ship_design = { design = "Name_boss_Venator" }
-		add_ship_design = last_created_design
-		create_ship_design = { design = "Name_boss_Raider" }
-		add_ship_design = last_created_design
-		create_ship_design = { design = "Name_boss_Horriwer" }
-		add_ship_design = last_created_design
-		create_ship_design = { design = "Name_boss_EMPIRE" }
-		add_ship_design = last_created_design
-		create_ship_design = { design = "Name_boss_EXECUTOR" }
-		add_ship_design = last_created_design
-		create_ship_design = { design = "Name_boss_Dominance" }
-		add_ship_design = last_created_design
-		create_ship_design = { design = "Name_boss_eclipse" }
-		add_ship_design = last_created_design
+		kuat_origin_give_all_ship_and_tech = yes
 		random_country = {
 			limit = { is_country_type = fallen_empire }
 			root = { copy_techs_from = { target = prev } }
@@ -89,89 +57,6 @@ country_event = {
 				remove_star_flag = ring_world_built
 				set_star_flag = empire_cluster
 			}
-		}
-		add_modifier = { modifier = being_kuat days = -1 }
-		event_target:Kuat_system_int = {
-			create_starbase = {
-				size = "starbase_citadel"
-				module = "shipyard"
-				module = "shipyard"
-				module = "shipyard"
-				module = "shipyard"
-				module = "shipyard"
-				module = "shipyard"
-				building = "target_uplink_computer"
-				building = "colossus_yards"
-				building = "titan_yards"
-				building = "crew_quarters"
-				owner = root
-			}
-		}
-		event_target:Kuat_system_int_1 = {
-			create_starbase = {
-				size = "starbase_citadel"
-				module = "shipyard"
-				module = "shipyard"
-				module = "shipyard"
-				module = "shipyard"
-				module = "shipyard"
-				module = "shipyard"
-				building = "target_uplink_computer"
-				building = "colossus_yards"
-				building = "titan_yards"
-				building = "crew_quarters"
-				owner = root
-			}
-		}
-		event_target:Kuat_system_int_2 = {
-			create_starbase = {
-				size = "starbase_citadel"
-				module = "shipyard"
-				module = "shipyard"
-				module = "shipyard"
-				module = "shipyard"
-				module = "shipyard"
-				module = "shipyard"
-				building = "target_uplink_computer"
-				building = "colossus_yards"
-				building = "titan_yards"
-				building = "crew_quarters"
-				owner = root
-			}
-		}
-		event_target:Kuat_system_int_3 = {
-			create_starbase = {
-				size = "starbase_citadel"
-				module = "shipyard"
-				module = "shipyard"
-				module = "shipyard"
-				module = "shipyard"
-				module = "shipyard"
-				module = "shipyard"
-				building = "target_uplink_computer"
-				building = "colossus_yards"
-				building = "titan_yards"
-				building = "crew_quarters"
-				owner = root
-			}
-		}
-		event_target:Kuat_system_int_4 = {
-			create_starbase = {
-				size = "starbase_citadel"
-				module = "shipyard"
-				module = "shipyard"
-				module = "shipyard"
-				module = "shipyard"
-				module = "shipyard"
-				module = "shipyard"
-				building = "target_uplink_computer"
-				building = "colossus_yards"
-				building = "titan_yards"
-				building = "crew_quarters"
-				owner = root
-			}
-		}
-		event_target:previous_home_planet = {
 			every_owned_pop = {
 				resettle_pop = {
 					pop = this
@@ -180,17 +65,15 @@ country_event = {
 				unemploy_pop = yes
 			}
 		}
+		add_modifier = { modifier = being_kuat days = -1 }
+		kuat_orgin_initial_starbase_kuat_system = yes
 		event_target:Kuat_system_int = {
 			random_system_planet = {
-				limit = {
-					is_star = yes
-				}
+				limit = { is_star = yes }
 				save_event_target_as = new_home_system_loc
 			}
 			random_system_planet = {
-				limit = {
-					has_planet_flag = center_world
-				}
+				limit = { has_planet_flag = center_world }
 				set_planet_flag = ring_center_kuat_world
 				set_owner = root
 				set_controller = root
@@ -201,9 +84,7 @@ country_event = {
 				root = {
 					species = { save_event_target_as = governor_target_species }
 					random_owned_leader = {
-						limit = {
-							leader_class = governor
-						}
+						limit = { leader_class = governor }
 						unassign_leader = yes
 						save_event_target_as = target_governor
 					}
@@ -248,33 +129,44 @@ country_event = {
 			remove_planet = yes
 		}
 		every_owned_pop_species = { set_species_homeworld = event_target:new_home_planet }
-		create_fleet = {
-			effect = {
-				set_owner = root
-				create_ship = {
-					name = random
-					random_existing_design = science
-				}
-				set_fleet_stance = evasive
-				set_location = root.capital_scope.star
-				owner = {
-					random_owned_leader = {
-						limit = {
-							leader_class = scientist
-							NOR = {
-								is_researching_area = physics
-								is_researching_area = society
-								is_researching_area = engineering
+		event_target:new_home_system_loc = {
+			create_fleet = {
+				effect = {
+					set_owner = root
+					create_ship = {
+						name = random
+						random_existing_design = science
+					}
+					set_fleet_stance = evasive
+					set_location = root.capital_scope.star
+					owner = {
+						random_owned_leader = {
+							limit = {
+								leader_class = scientist
+								NOR = {
+									is_researching_area = physics
+									is_researching_area = society
+									is_researching_area = engineering
+								}
 							}
+							save_event_target_as = ag_science_ship_leader
 						}
-						save_event_target_as = ag_science_ship_leader
+					}
+					if = {
+						limit = { exists = event_target:ag_science_ship_leader }
+						set_leader = event_target:ag_science_ship_leader
 					}
 				}
-				if = {
-					limit = {
-						exists = event_target:ag_science_ship_leader
+			}
+			create_fleet = {
+				effect = {
+					set_owner = root
+					create_ship = {
+						name = random
+						random_existing_design = constructor
 					}
-					set_leader = event_target:ag_science_ship_leader
+					set_fleet_stance = evasive
+					set_location = root.capital_star
 				}
 			}
 		}
@@ -290,24 +182,13 @@ country_event = {
 			}
 			colors = { "blue" "blue" "null" "null" }
 		}
-		create_fleet = {
-			effect = {
-				set_owner = root
-				create_ship = {
-					name = random
-					random_existing_design = constructor
-				}
-				set_fleet_stance = evasive
-				set_location = root.capital_star
-			}
-		}
 		every_system_within_border = {
 			limit = { has_star_flag = kuat_initial_system }
 			create_exe_invasion_fleet = {
 				is_boss = no  can_disband = yes
 				Fleet_owner = root
 				bombardment = indiscriminate
-				Dominance = 1  Imperial = 96  DIFF = 2
+				Dominance = 1  high_Imperial = 96  DIFF = 2
 				Location = prev.star
 				fleet_stance = aggressive
 				modifier = being_kuat_fleet	
@@ -353,9 +234,7 @@ country_event = {
 		if = {
 			limit = {
 				exists = event_target:previous_home_planet
-				event_target:previous_home_planet = {
-					num_pops > 0
-				}
+				event_target:previous_home_planet = { num_pops > 0 }
 			}
 			random_galaxy_planet = {
 				limit = { has_planet_flag = ring_center_kuat_world }
@@ -399,9 +278,7 @@ country_event = {
 			if = {
 				limit = {
 					exists = space_owner
-					space_owner = {
-						NOT = { has_country_flag = kuat_starting_country }
-					}
+					space_owner = { NOT = { has_country_flag = kuat_starting_country } }
 				}
 				every_fleet_in_system = { delete_fleet = this }
 				every_system_planet = {
@@ -643,11 +520,16 @@ country_event = {
 		name = kuat_origin.10.a
 		allow = {
 			custom_tooltip = {
+				fail_text = we_can_not_get_support_now
+				NOT = { has_country_flag = temple_fleet_support_time }
+			}
+			custom_tooltip = {
 				fail_text = kuat_origin.10.a.fail
 				check_variable = { which = eternal_bornus_var value > 250 }
 			}
 		}
 		hidden_effect = { 
+			set_timed_country_flag = { flag = temple_fleet_support_time days = 5 }
 			subtract_variable = { which = eternal_bornus_var value = 250 }
 			capital_scope = {
 				create_exe_invasion_fleet = {
@@ -656,7 +538,7 @@ country_event = {
 					Fleet_owner = root
 					fleet_stance = aggressive
 					bombardment = indiscriminate
-					Dominance = 1  Imperial = 96  DIFF = 2
+					Dominance = 1  high_Imperial = 96  DIFF = 2
 					modifier = being_kuat_fleet
 					Location = prev
 				}
@@ -676,11 +558,16 @@ country_event = {
 		name = kuat_origin.10.b
 		allow = {
 			custom_tooltip = {
+				fail_text = we_can_not_get_support_now
+				NOT = { has_country_flag = temple_fleet_support_time }
+			}
+			custom_tooltip = {
 				fail_text = kuat_origin.10.b.fail
 				check_variable = { which = eternal_bornus_var value > 500 }
 			}
 		}
 		hidden_effect = { 
+			set_timed_country_flag = { flag = temple_fleet_support_time days = 5 }
 			subtract_variable = { which = eternal_bornus_var value = 500 }
 			capital_scope = {
 				create_exe_invasion_fleet = {
@@ -689,7 +576,7 @@ country_event = {
 					flag = kuat_origin_fleet
 					fleet_stance = aggressive
 					bombardment = indiscriminate
-					Executor = 1  Imperial = 96  DIFF = 2
+					Executor = 1  high_Imperial = 96  DIFF = 2
 					modifier = being_kuat_fleet
 					Location = prev
 				}
@@ -709,11 +596,16 @@ country_event = {
 		name = kuat_origin.10.c
 		allow = {
 			custom_tooltip = {
+				fail_text = we_can_not_get_support_now
+				NOT = { has_country_flag = temple_fleet_support_time }
+			}
+			custom_tooltip = {
 				fail_text = kuat_origin.10.c.fail
 				check_variable = { which = eternal_bornus_var value > 1000 }
 			}
 		}
 		hidden_effect = { 
+			set_timed_country_flag = { flag = temple_fleet_support_time days = 5 }
 			subtract_variable = { which = eternal_bornus_var value = 1000 }
 			capital_scope = {
 				create_exe_invasion_fleet = {
@@ -722,7 +614,7 @@ country_event = {
 					flag = kuat_origin_fleet
 					fleet_stance = aggressive
 					bombardment = indiscriminate
-					Eclipse = 1  Imperial = 96  DIFF = 2
+					Eclipse = 1  high_Imperial = 96  DIFF = 2
 					modifier = being_kuat_fleet
 					Location = prev
 				}

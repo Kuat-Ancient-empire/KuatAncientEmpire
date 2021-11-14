@@ -370,7 +370,10 @@ country_event = {
 	option = {
 		name = "exe_return_invasion.10.a"
 		begin_event_chain = { event_chain = ag_exe_invasion_chain }
-		add_event_chain_counter = { event_chain = ag_return_eternal_chain counter = ag_return_eternal_amount amount = 1 }
+		if = {
+			limit = { has_event_chain = ag_return_eternal_chain }
+			add_event_chain_counter = { event_chain = ag_return_eternal_chain counter = ag_return_eternal_amount amount = 1 }
+		}
 	}
 }
 
@@ -1261,7 +1264,10 @@ planet_event = {
 				has_event_chain = ag_exe_invasion_chain
 			}
 			add_event_chain_counter = { event_chain = ag_exe_invasion_chain counter = ag_exe_invasion_planet_destroyed amount = 1 }
-			add_event_chain_counter = { event_chain = ag_return_eternal_chain counter = ag_exe_invasion_planet_destroyed amount = 1 }
+			if = {
+				limit = { has_event_chain = ag_return_eternal_chain }
+				add_event_chain_counter = { event_chain = ag_return_eternal_chain counter = ag_exe_invasion_planet_destroyed amount = 1 }
+			}
 		}
 		solar_system = {
 			every_fleet_in_system = {
@@ -1335,7 +1341,10 @@ country_event = {
 	immediate = {
 		from = {
 			add_event_chain_counter = { event_chain = ag_exe_invasion_chain counter = ag_exe_invasion_ship_kill_by_us amount = 1 }
-			add_event_chain_counter = { event_chain = ag_return_eternal_chain counter = ag_exe_invasion_ship_kill_by_us amount = 1 }
+			if = {
+				limit = { has_event_chain = ag_return_eternal_chain }
+				add_event_chain_counter = { event_chain = ag_return_eternal_chain counter = ag_exe_invasion_ship_kill_by_us amount = 1 }
+			}
 		}
 		every_country = {
 			limit = {
@@ -1343,7 +1352,10 @@ country_event = {
 				NOT = { is_same_value = from }
 			}
 			add_event_chain_counter = { event_chain = ag_exe_invasion_chain counter = ag_exe_invasion_ship_kill_by_other amount = 1 }
-			add_event_chain_counter = { event_chain = ag_return_eternal_chain counter = ag_exe_invasion_ship_kill_by_other amount = 1 }
+			if = {
+				limit = { has_event_chain = ag_return_eternal_chain }
+				add_event_chain_counter = { event_chain = ag_return_eternal_chain counter = ag_exe_invasion_ship_kill_by_other amount = 1 }
+			}
 		}
 	}
 }
@@ -1365,7 +1377,10 @@ country_event = {
 				has_event_chain = ag_exe_invasion_chain
 			}
 			add_event_chain_counter = { event_chain = ag_exe_invasion_chain counter = ag_exe_invasion_victim amount = 1 }
-			add_event_chain_counter = { event_chain = ag_return_eternal_chain counter = ag_exe_invasion_victim amount = 1 }
+			if = {
+				limit = { has_event_chain = ag_return_eternal_chain }
+				add_event_chain_counter = { event_chain = ag_return_eternal_chain counter = ag_exe_invasion_victim amount = 1 }
+			}
 		}
 		from = { change_variable = { which = eternal_bornus_var value = 1 } }
 	}
@@ -1546,11 +1561,7 @@ fleet_event = {
 				if = {
 					limit = {
 						NOR = {
-							any_ship_in_system = {
-								is_ship_class = shipclass_starbase
-								exists = owner
-								owner = { is_same_value = event_target:ag_kuat_invasion_country }
-							}
+							any_ship_in_system = { is_ship_class = shipclass_starbase }
 							any_ship_in_system = {
 								exists = owner
 								owner = { is_hostile = event_target:ag_kuat_invasion_country }
@@ -1561,13 +1572,7 @@ fleet_event = {
 							}
 						}
 					}
-					if = {
-						limit = { NOT = { exists = starbase } }
-						create_starbase = {
-							size = exe_starbase
-							owner = event_target:ag_kuat_invasion_country
-						}
-					} 
+					create_starbase = { size = exe_starbase owner = event_target:ag_kuat_invasion_country }
 				}
 			}
 		}
@@ -1578,14 +1583,54 @@ fleet_event = {
 #after crisis
 country_event = {
 	id = exe_return_invasion.38
-	title = "exe_return_invasion.35.name"
-	desc = "exe_return_invasion.38.desc"
+	title = "exe_return_invasion.38.title"
+	desc = {
+		trigger = { has_country_flag = fire_once_contact }
+		text = "exe_return_invasion.38.fdesc"
+	}
+	desc = {
+		trigger = { NOT = { has_country_flag = fire_once_contact } }
+		text = "exe_return_invasion.38.desc"
+	}
 	diplomatic = yes
-	picture_event_data = { room = Eternal_Empire_room }
-	custom_gui = "kuat_event_window"
-	custom_gui_option = "kuat_event_option"
+	picture_event_data = {
+		portrait = event_target:kuat_player_target_species
+		room = kuat_mega_shipyard_room
+	}
+	custom_gui = "kuat_event_diplomacy_window"
+	custom_gui_option = "kuat_event_diplomacy_option"
 	show_sound = event_wind_ruins
 	is_triggered_only = yes
 	trigger = { NOT = { has_event_chain = ag_exe_invasion_chain } }
-	option = { name = exe_return_invasion.38.a }
+	option = { 
+		name = exe_return_invasion.38.a 
+		is_dialog_only = yes
+		hidden_effect = { set_country_flag = fire_once_contact }
+		response_text = exe_return_invasion.38.a.resp 
+	}
+	option = { 
+		name = exe_return_invasion.38.b 
+		is_dialog_only = yes
+		hidden_effect = { set_country_flag = fire_once_contact }
+		response_text = exe_return_invasion.38.b.resp 
+	}
+	#你们面对永恒舰队有多久了
+	option = { 
+		name = exe_return_invasion.38.c 
+		is_dialog_only = yes
+		hidden_effect = { set_country_flag = fire_once_contact }
+		response_text = exe_return_invasion.38.c.resp 
+	}
+	#你们究竟要做什么
+	option = { 
+		name = exe_return_invasion.38.d 
+		is_dialog_only = yes
+		hidden_effect = { set_country_flag = fire_once_contact }
+		response_text = exe_return_invasion.38.d.resp 
+	}
+	#我们会记住这一切的
+	option = { 
+		name = exe_return_invasion.38.e
+		response_text = exe_return_invasion.38.e.resp 
+	}
 }

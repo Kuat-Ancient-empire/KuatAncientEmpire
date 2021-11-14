@@ -1,0 +1,955 @@
+@cost0 = 1250
+@cost1 = 2500
+@cost2 = 5000
+@cost3 = 10000
+@power0 = -5
+@power1 = -10
+@power2 = -15
+@power3 = -25
+@exe_cost_1 = 400
+####################
+# DEFAULT COMPUTER #
+####################
+utility_component_template = {
+	key = "EXECUTOR_COMBAT_COMPUTER_5"
+	size = small
+	icon = "GFX_executor_ship_part_computer"
+	icon_frame = 1
+	power = @power3
+	resources = {
+		category = ship_components
+		cost = { alloys = @cost1 }
+	}
+	size_restriction = { X308_Balletor nebula_executor knigjt_hammer_executor }
+	component_set = "combat_computers"
+	ship_behavior = "EXE_Battleship"
+	prerequisites = { tech_kuat_THRUSTER }
+	friendly_aura = {
+		name = SSD
+		system_wide = yes
+		apply_on = ships
+		stack_info = {
+			id = aura_ag_weapon_damage_buff
+			priority = 100
+		}
+		modifier = {
+			ship_weapon_damage = 1
+			ship_fire_rate_mult = 1
+		}
+		graphics = {
+			area_effect = {
+				entity = "circle_area_entity"
+				dynamic_scale = yes
+			}
+			ship_effect = {
+				entity = "ship_aura_positive_entity"
+				dynamic_scale = no
+			}
+		}
+	}
+	ai_weight = { weight = 5000 }
+}
+utility_component_template = {
+	key = "EXECUTOR_COMBAT_COMPUTER_8"
+	size = small
+	icon = "GFX_executor_ship_part_computer"
+	icon_frame = 1
+	power = @power3
+	resources = {
+		category = ship_components
+		cost = { alloys = @cost1 }
+	}
+	size_restriction = { X308_Balletor nebula_executor knigjt_hammer_executor }
+	prerequisites = { tech_kuat_THRUSTER }
+	ai_weight = { weight = 5000 }
+	modifier = { ship_weapon_damage = 1 }
+	component_set = "combat_computers"
+	ship_behavior = "EXE_Battleship"
+}
+
+####################
+### KUAT COMPUTER ##
+####################
+utility_component_template = {
+	key = "EXECUTOR_COMBAT_COMPUTER_6"
+	size = small
+	icon = "GFX_executor_ship_part_computer"
+	icon_frame = 1
+	power = @power3
+	resources = {
+		category = ship_components
+		cost = { alloys = @cost2 }
+	}
+	size_restriction = { X308_Balletor nebula_executor knigjt_hammer_executor }
+	prerequisites = { tech_kuat_noway }
+	component_set = "combat_computers"
+	ship_behavior = "EXE_flagship"
+	hostile_aura = {
+		name = SSE
+		system_wide = yes
+		apply_on = ships
+		stack_info = {
+			id = aura_ag_weapon_shield_damage_debuff
+			priority = 150
+		}
+		modifier = { ship_shield_damage_mult = -0.5 }
+		graphics = {
+			area_effect = {
+				entity = "circle_area_entity"
+				dynamic_scale = yes
+			}
+			ship_effect = {
+				entity = "ship_aura_negative_entity"   
+				dynamic_scale = no
+			}
+		}
+	}
+	hostile_aura = {
+		name = SSE
+		system_wide = yes
+		apply_on = ships
+		stack_info = {
+			id = aura_ag_weapon_armor_damage_debuff
+			priority = 150
+		}
+		modifier = { ship_armor_damage_mult = -0.5 }
+		graphics = {
+			area_effect = {
+				entity = "circle_area_entity"
+				dynamic_scale = yes
+			}
+			ship_effect = {
+				entity = "ship_aura_negative_entity"   
+				dynamic_scale = no
+			}
+		}
+	}
+	hostile_aura = {
+		name = SSE
+		system_wide = yes
+		apply_on = ships
+		stack_info = {
+			id = aura_ag_weapon_hull_damage_debuff
+			priority = 150
+		}
+		modifier = { ship_hull_damage_mult = -0.5 }
+		graphics = {
+			area_effect = {
+				entity = "circle_area_entity"
+				dynamic_scale = yes
+			}
+			ship_effect = {
+				entity = "ship_aura_negative_entity"   
+				dynamic_scale = no
+			}
+		}
+	}
+	ai_weight = { weight = 5000 }
+}
+utility_component_template = {
+	key = "EXECUTOR_COMBAT_COMPUTER_7"
+	size = small
+	icon = "GFX_executor_ship_part_computer"
+	icon_frame = 1
+	power = @power3
+	resources = {
+		category = ship_components
+		cost = { alloys = @cost2 }
+	}
+	size_restriction = { X308_Balletor nebula_executor knigjt_hammer_executor }
+	prerequisites = { tech_kuat_noway }
+	component_set = "combat_computers"
+	ship_behavior = "EXE_flagship"
+	friendly_aura = {
+		name = SSD
+		system_wide = yes
+		apply_on = ships
+		stack_info = {
+			id = aura_ag_hull_buff
+			priority = 150
+		}
+		modifier = {
+			ship_hull_mult = 1
+			ship_armor_mult = 1
+			ship_shield_mult = 1
+			ship_weapon_range_mult = 1
+		}
+		graphics = {
+			area_effect = {
+				entity = "circle_area_entity"
+				dynamic_scale = yes
+			}
+			ship_effect = {
+				entity = "ship_aura_positive_entity"
+				dynamic_scale = no
+			}
+		}
+	}
+	ai_weight = { weight = 5000 }
+}
+
+####################
+## CRISIS COMPUTER##
+####################
+#difficult
+utility_component_template = {
+	key = "EXECUTOR_COMBAT_COMPUTER_10"
+	size = small
+	icon = "GFX_executor_ship_part_computer"
+	icon_frame = 1
+	power = @power3
+	hidden = yes
+	component_set = "combat_computers"
+	ship_behavior = "EXE_flagship"
+	hostile_aura = {
+		name = SSDE
+		system_wide = yes
+		apply_on = ships
+		stack_info = {
+			id = Firmus_Piett_Super
+			priority = 1000
+		}
+		modifier = {
+			ship_shield_penetration_mult = -1
+			ship_armor_penetration_mult = -1
+			ship_weapon_damage = -2
+			ship_armor_damage_mult = -2
+			ship_shield_damage_mult = -2
+			ship_hull_damage_mult = -2
+			ship_tracking_mult = -2
+		}
+		graphics = {
+			area_effect = {
+				entity = "circle_area_entity"
+				dynamic_scale = yes
+			}
+			ship_effect = {
+				entity = "ship_aura_negative_entity"   
+				dynamic_scale = no
+			}
+		}
+		damage_per_day = {
+			damage = {
+				min = 10000
+				max = 10000
+			}
+			accuracy = 1
+			shield_penetration = 1
+			armor_penetration = 1
+			shield_damage = 1
+		}
+	}
+	ai_weight = { weight = 0 }
+}
+utility_component_template = {
+	key = "EXECUTOR_COMBAT_COMPUTER_8_2"
+	size = small
+	icon = "GFX_executor_ship_part_computer"
+	icon_frame = 1
+	power = @power3
+	hidden = yes
+	ship_modifier = { ship_weapon_damage = 10 }
+	friendly_aura = {
+		name = SSD
+		system_wide = yes
+		apply_on = ships
+		stack_info = {
+			id = Firmus_Piett_FRENDSS
+			priority = 200
+		}
+		modifier = {
+			ship_shield_penetration_mult = 1
+			ship_armor_penetration_mult = 1
+			ship_weapon_range_mult = 1
+			ship_tracking_add = 100
+			ship_accuracy_add = 100
+			ship_tracking_mult = 1
+			ship_accuracy_mult = 1
+			ship_hull_mult = 1
+			ship_armor_mult = 1
+			ship_shield_mult = 1
+			ship_hull_damage_mult = 1
+			ship_armor_damage_mult = 1
+			ship_shield_damage_mult = 1
+		}
+		graphics = {
+			area_effect = {
+				entity = "circle_area_entity"
+				dynamic_scale = yes
+			}
+			ship_effect = {
+				entity = "ship_aura_positive_entity"
+				dynamic_scale = no
+			}
+		}
+	}
+	component_set = "combat_computers"
+	ship_behavior = "EXE_Battleship"
+	ai_weight = { weight = 0 }
+}
+utility_component_template = {
+	key = "EXECUTOR_COMBAT_COMPUTER_9_2"
+	size = small
+	icon = "GFX_executor_ship_part_computer"
+	icon_frame = 1
+	power = @power3
+	hidden = yes
+	ship_modifier = { ship_weapon_damage = 10 }
+	friendly_aura = {
+		name = SSD
+		system_wide = yes
+		apply_on = ships
+		stack_info = {
+			id = Firmus_Piett_FRENDSS
+			priority = 200
+		}
+		modifier = {
+			ship_shield_penetration_mult = 1
+			ship_armor_penetration_mult = 1
+			ship_weapon_range_mult = 1
+			ship_tracking_add = 100
+			ship_accuracy_add = 100
+			ship_tracking_mult = 1
+			ship_accuracy_mult = 1
+			ship_hull_mult = 1
+			ship_armor_mult = 1
+			ship_shield_mult = 1
+			ship_hull_damage_mult = 1
+			ship_armor_damage_mult = 1
+			ship_shield_damage_mult = 1
+		}
+		graphics = {
+			area_effect = {
+				entity = "circle_area_entity"
+				dynamic_scale = yes
+			}
+			ship_effect = {
+				entity = "ship_aura_positive_entity"
+				dynamic_scale = no
+			}
+		}
+	}
+	component_set = "combat_computers"
+	ship_behavior = "EXE_flagship"
+	ai_weight = { weight = 0 }
+}
+
+#normal
+utility_component_template = {
+	key = "EXECUTOR_COMBAT_COMPUTER_12"
+	size = small
+	icon = "GFX_executor_ship_part_computer"
+	icon_frame = 1
+	power = @power3
+	hidden = yes
+	component_set = "combat_computers"
+	ship_behavior = "EXE_flagship"
+	hostile_aura = {
+		name = SSDE
+		system_wide = yes
+		apply_on = ships
+		stack_info = {
+			id = Firmus_Piett_Super
+			priority = 500
+		}
+		damage_per_day = {
+			damage = {
+				min = 5000
+				max = 5000
+			}
+			accuracy = 1
+			shield_penetration = 1
+			armor_penetration = 1
+			shield_damage = 1
+		}
+		graphics = {
+			area_effect = {
+				entity = "circle_area_entity"
+				dynamic_scale = yes
+			}
+			ship_effect = {
+				entity = "ship_aura_negative_entity"   
+				dynamic_scale = no
+			}
+		}
+		modifier = {
+			ship_shield_penetration_mult = -1
+			ship_armor_penetration_mult = -1
+			ship_armor_damage_mult = -0.5
+			ship_shield_damage_mult = -0.5
+			ship_hull_damage_mult = -0.5
+		}
+	}
+	ai_weight = { weight = 0 }
+}
+utility_component_template = {
+	key = "EXECUTOR_COMBAT_COMPUTER_8_3"
+	size = small
+	icon = "GFX_executor_ship_part_computer"
+	icon_frame = 1
+	power = @power3
+	hidden = yes
+	ship_modifier = { ship_weapon_damage = 5 }
+	friendly_aura = {
+		name = SSD
+		system_wide = yes
+		apply_on = ships
+		stack_info = {
+			id = Firmus_Piett_FRENDSS
+			priority = 160
+		}
+		modifier = {
+			ship_shield_penetration_mult = 0.75
+			ship_armor_penetration_mult = 0.75
+			ship_tracking_add = 75
+			ship_tracking_mult = 0.75
+			ship_accuracy_add = 75
+			ship_accuracy_mult = 0.75
+			ship_weapon_range_mult = 0.75
+			ship_hull_damage_mult = 0.75
+			ship_armor_damage_mult = 0.75
+			ship_shield_damage_mult = 0.75
+			ship_hull_mult = 0.75
+			ship_armor_mult = 0.75
+			ship_shield_mult = 0.75
+		}
+		graphics = {
+			area_effect = {
+				entity = "circle_area_entity"
+				dynamic_scale = yes
+			}
+			ship_effect = {
+				entity = "ship_aura_positive_entity"
+				dynamic_scale = no
+			}
+		}
+	}
+	component_set = "combat_computers"
+	ship_behavior = "EXE_Battleship"
+	ai_weight = { weight = 0 }
+}
+utility_component_template = {
+	key = "EXECUTOR_COMBAT_COMPUTER_9_3"
+	size = small
+	icon = "GFX_executor_ship_part_computer"
+	icon_frame = 1
+	power = @power3
+	hidden = yes
+	ship_modifier = { ship_weapon_damage = 5 }
+	friendly_aura = {
+		name = SSD
+		system_wide = yes
+		apply_on = ships
+		stack_info = {
+			id = Firmus_Piett_FRENDSS
+			priority = 160
+		}
+		modifier = {
+			ship_shield_penetration_mult = 0.75
+			ship_armor_penetration_mult = 0.75
+			ship_tracking_add = 75
+			ship_tracking_mult = 0.75
+			ship_accuracy_add = 75
+			ship_accuracy_mult = 0.75
+			ship_weapon_range_mult = 0.75
+			ship_hull_damage_mult = 0.75
+			ship_armor_damage_mult = 0.75
+			ship_shield_damage_mult = 0.75
+			ship_hull_mult = 0.75
+			ship_armor_mult = 0.75
+			ship_shield_mult = 0.75
+		}
+		graphics = {
+			area_effect = {
+				entity = "circle_area_entity"
+				dynamic_scale = yes
+			}
+			ship_effect = {
+				entity = "ship_aura_positive_entity"
+				dynamic_scale = no
+			}
+		}
+	}
+	component_set = "combat_computers"
+	ship_behavior = "EXE_flagship"
+	ai_weight = { weight = 0 }
+}
+
+#easy
+utility_component_template = {
+	key = "EXECUTOR_COMBAT_COMPUTER_11"
+	size = small
+	icon = "GFX_executor_ship_part_computer"
+	icon_frame = 1
+	power = @power3
+	hidden = yes
+	component_set = "combat_computers"
+	ship_behavior = "EXE_flagship"
+	hostile_aura = {
+		name = SSDE
+		system_wide = yes
+		apply_on = ships
+		stack_info = {
+			id = Firmus_Piett_Super
+			priority = 250
+		}
+		damage_per_day = {
+			damage = {
+				min = 500
+				max = 500
+			}
+			accuracy = 1
+			shield_penetration = 1
+			armor_penetration = 1
+			shield_damage = 1
+		}
+		modifier = {
+			ship_shield_penetration_mult = -1
+			ship_armor_penetration_mult = -1
+			ship_armor_damage_mult = -0.25
+			ship_shield_damage_mult = -0.25
+			ship_hull_damage_mult = -0.25
+		}
+		graphics = {
+			area_effect = {
+				entity = "circle_area_entity"
+				dynamic_scale = yes
+			}
+			ship_effect = {
+				entity = "ship_aura_negative_entity"   
+				dynamic_scale = no
+			}
+		}
+	}
+	ai_weight = { weight = 0 }
+}
+utility_component_template = {
+	key = "EXECUTOR_COMBAT_COMPUTER_8_4"
+	size = small
+	icon = "GFX_executor_ship_part_computer"
+	icon_frame = 1
+	power = @power3
+	hidden = yes
+	ship_modifier = { ship_weapon_damage = 2 }
+	friendly_aura = {
+		name = SSD
+		system_wide = yes
+		apply_on = ships
+		stack_info = {
+			id = Firmus_Piett_FRENDSS
+			priority = 160
+		}
+		modifier = {
+			ship_shield_penetration_mult = 0.5
+			ship_armor_penetration_mult = 0.5
+			ship_tracking_add = 50
+			ship_tracking_mult = 0.5
+			ship_accuracy_add = 50
+			ship_accuracy_mult = 0.5
+			ship_weapon_range_mult = 0.5
+			ship_hull_damage_mult = 0.5
+			ship_armor_damage_mult = 0.5
+			ship_shield_damage_mult = 0.5
+			ship_hull_mult = 0.5
+			ship_armor_mult = 0.5
+			ship_shield_mult = 0.5
+		}
+		graphics = {
+			area_effect = {
+				entity = "circle_area_entity"
+				dynamic_scale = yes
+			}
+			ship_effect = {
+				entity = "ship_aura_positive_entity"
+				dynamic_scale = no
+			}
+		}
+	}
+	ai_weight = { weight = 0 }
+	component_set = "combat_computers"
+	ship_behavior = "EXE_Battleship"
+}
+utility_component_template = {
+	key = "EXECUTOR_COMBAT_COMPUTER_9_4"
+	size = small
+	icon = "GFX_executor_ship_part_computer"
+	icon_frame = 1
+	power = @power3
+	hidden = yes
+	ship_modifier = { ship_weapon_damage = 2 }
+	friendly_aura = {
+		name = SSD
+		system_wide = yes
+		apply_on = ships
+		stack_info = {
+			id = Firmus_Piett_FRENDSS
+			priority = 160
+		}
+		modifier = {
+			ship_shield_penetration_mult = 0.5
+			ship_armor_penetration_mult = 0.5
+			ship_tracking_add = 50
+			ship_tracking_mult = 0.5
+			ship_accuracy_add = 50
+			ship_accuracy_mult = 0.5
+			ship_weapon_range_mult = 0.5
+			ship_hull_damage_mult = 0.5
+			ship_armor_damage_mult = 0.5
+			ship_shield_damage_mult = 0.5
+			ship_hull_mult = 0.5
+			ship_armor_mult = 0.5
+			ship_shield_mult = 0.5
+		}
+		graphics = {
+			area_effect = {
+				entity = "circle_area_entity"
+				dynamic_scale = yes
+			}
+			ship_effect = {
+				entity = "ship_aura_positive_entity"
+				dynamic_scale = no
+			}
+		}
+	}
+	ai_weight = { weight = 0 }
+	component_set = "combat_computers"
+	ship_behavior = "EXE_flagship"
+}
+
+#####################
+###STATIONARY########
+#####################
+utility_component_template = {
+	key = "ETERNALSTARBASE_COMBAT_COMPUTER_11"
+	size = small
+	icon = "GFX_executor_ship_part_computer"
+	icon_frame = 1
+	power = @power3
+	hidden = yes
+	component_set = "combat_computers"
+	ship_behavior = "EXE_STATIONARY"
+	ai_weight = { weight = 0 }
+}
+
+#####################
+###  FTL DRIVE ######
+#####################
+utility_component_template = {
+	key = "EXE_JUMP_DRIVE_1"
+	size = small
+	icon = "GFX_ship_part_exe_jump_drive_1"
+	icon_frame = 1
+	power = -15
+	ftl = yes
+	jumpdrive = yes
+	ship_modifier = {
+		ship_windup_mult = -1
+		ship_winddown_mult = -1
+		ship_ftl_jumpdrive_range_mult = 3
+		ship_jumpdrive_cooldown_mult = -1
+	}
+	ai_weight = { weight = 5000 }
+	size_restriction = { X308_Balletor nebula_executor knigjt_hammer_executor }
+	prerequisites = { tech_exe_jump_drive }
+	component_set = "ftl_components"
+}
+
+utility_component_template = {
+	key = "EXE_STARBASE_JUMP_DRIVE_1"
+	size = small
+	icon = "GFX_ship_part_exe_jump_drive_1"
+	icon_frame = 1
+	power = -15
+	hidden = yes
+	ftl = no
+	jumpdrive = yes
+	ship_modifier = {
+		ship_windup_mult = -1
+		ship_ftl_jumpdrive_range_mult = 3
+		ship_winddown_mult = -1
+	}
+	ai_weight = { weight = 0 }
+	component_set = "ftl_components"
+}
+
+########################
+# Supremacy Reactors  ##
+########################
+utility_component_template = {
+	key = "EXECUTOR_MCSD_REACTOR"
+	size = small
+	icon = "GFX_executor_ship_part_reactor_1"
+	icon_frame = 1
+	power = 500000
+	prerequisites = { tech_kuat_reactor }
+	component_set = "power_core"
+	ai_weight = { weight = 5000 }
+	size_restriction = { X308_Balletor nebula_executor knigjt_hammer_executor }
+}
+
+########################
+# Sensor and Aux slot  #
+########################
+utility_component_template = {
+	key = "EXECUTOR_SENSOR_VIOLET"
+	size = medium
+	icon = "GFX_executor_ship_part_sensor"
+	icon_frame = 1
+	power = -15
+	sensor_range = 8
+	hyperlane_range = 10
+	ship_modifier = {
+		ship_tracking_add = 40
+		ship_accuracy_add = 10
+	}
+	size_restriction = { X308_Balletor nebula_executor knigjt_hammer_executor }
+	prerequisites = { tech_exe_jump_drive }
+	component_set = "sensor_components"
+	ai_weight = { weight = 5000 }
+}
+
+utility_component_template = {
+	key = "EXE_STARBASE_MEAGASTRUCTRUE_AUX"
+	size = medium
+	icon = "GFX_executor_ship_part_aux_system"
+	icon_frame = 1
+	power = @exe_cost_1
+	component_set = "ship_aura_components"
+	hidden = yes
+	ftl_inhibitor = yes
+	hostile_aura = {
+		name = SSDE
+		radius = 500
+		apply_on = ships
+		stack_info = {
+			id = Firmus_Piett_Super
+			priority = 500
+		}
+		damage_per_day = {
+			damage = {
+				min = 500
+				max = 500
+			}
+			accuracy = 1
+			shield_penetration = 1
+			armor_penetration = 1
+			shield_damage = 1
+		}
+		modifier = {
+			ship_shield_penetration_mult = -1
+			ship_armor_penetration_mult = -1
+		}
+		graphics = {
+			area_effect = {
+				entity = "circle_area_entity"
+				dynamic_scale = yes
+			}
+			ship_effect = {
+				entity = "ship_aura_negative_entity"   
+				dynamic_scale = no
+			}
+		}
+	}
+	hostile_aura = {
+		name = SSE
+		system_wide = yes
+		apply_on = ships
+		stack_info = {
+			id = aura_ag_weapon_shield_damage_debuff
+			priority = 125
+		}
+		modifier = { ship_shield_damage_mult = -0.25 }
+		graphics = {
+			area_effect = {
+				entity = "circle_area_entity"
+				dynamic_scale = yes
+			}
+			ship_effect = {
+				entity = "ship_aura_negative_entity"   
+				dynamic_scale = no
+			}
+		}
+	}
+	hostile_aura = {
+		name = SSE
+		system_wide = yes
+		apply_on = ships
+		stack_info = {
+			id = aura_ag_weapon_armor_damage_debuff
+			priority = 125
+		}
+		modifier = { ship_armor_damage_mult = -0.25 }
+		graphics = {
+			area_effect = {
+				entity = "circle_area_entity"
+				dynamic_scale = yes
+			}
+			ship_effect = {
+				entity = "ship_aura_negative_entity"   
+				dynamic_scale = no
+			}
+		}
+	}
+	hostile_aura = {
+		name = SSE
+		system_wide = yes
+		apply_on = ships
+		stack_info = {
+			id = aura_ag_weapon_hull_damage_debuff
+			priority = 125
+		}
+		modifier = { ship_hull_damage_mult = -0.25 }
+		graphics = {
+			area_effect = {
+				entity = "circle_area_entity"
+				dynamic_scale = yes
+			}
+			ship_effect = {
+				entity = "ship_aura_negative_entity"   
+				dynamic_scale = no
+			}
+		}
+	}
+	friendly_aura = {
+		name = SSD
+		system_wide = yes
+		apply_on = ships
+		stack_info = {
+			id = Firmus_Piett_FRENDSS
+			priority = 160
+		}
+		modifier = {
+			ship_shield_penetration_mult = 0.5
+			ship_armor_penetration_mult = 0.5
+			ship_tracking_add = 50
+			ship_tracking_mult = 0.5
+			ship_accuracy_add = 50
+			ship_accuracy_mult = 0.5
+			ship_weapon_range_mult = 0.5
+			ship_hull_damage_mult = 0.5
+			ship_armor_damage_mult = 0.5
+			ship_shield_damage_mult = 0.5
+			ship_hull_mult = 0.5
+			ship_armor_mult = 0.5
+			ship_shield_mult = 0.5
+		}
+		graphics = {
+			area_effect = {
+				entity = "circle_area_entity"
+				dynamic_scale = yes
+			}
+			ship_effect = {
+				entity = "ship_aura_positive_entity"
+				dynamic_scale = no
+			}
+		}
+	}
+}
+
+utility_component_template = {
+	key = "EXE_STARBASE_MEAGASTRUCTRUE_AUX_1"
+	size = medium
+	icon = "GFX_executor_ship_part_aux_system"
+	icon_frame = 1
+	power = @exe_cost_1
+	component_set = "ship_aura_components"
+	hidden = yes
+	ftl_inhibitor = yes
+	hostile_aura = {
+		name = SSDE
+		system_wide = yes
+		apply_on = ships
+		stack_info = {
+			id = Firmus_Piett_Super
+			priority = 1000
+		}
+		modifier = {
+			ship_shield_penetration_mult = -1
+			ship_armor_penetration_mult = -1
+			ship_weapon_damage = -2
+			ship_armor_damage_mult = -2
+			ship_shield_damage_mult = -2
+			ship_hull_damage_mult = -2
+			ship_tracking_mult = -2
+		}
+		graphics = {
+			area_effect = {
+				entity = "circle_area_entity"
+				dynamic_scale = yes
+			}
+			ship_effect = {
+				entity = "ship_aura_negative_entity"   
+				dynamic_scale = no
+			}
+		}
+		damage_per_day = {
+			damage = {
+				min = 10000
+				max = 10000
+			}
+			accuracy = 1
+			shield_penetration = 1
+			armor_penetration = 1
+			shield_damage = 1
+		}
+	}
+	friendly_aura = {
+		name = SSD
+		system_wide = yes
+		apply_on = ships
+		stack_info = {
+			id = Firmus_Piett_FRENDSS
+			priority = 250
+		}
+		modifier = {
+			ship_shield_penetration_mult = 1
+			ship_armor_penetration_mult = 1
+			ship_weapon_range_mult = 1
+			ship_tracking_add = 100
+			ship_accuracy_add = 100
+			ship_tracking_mult = 1
+			ship_accuracy_mult = 1
+			ship_hull_mult = 1
+			ship_armor_mult = 1
+			ship_shield_mult = 1
+			ship_hull_damage_mult = 1
+			ship_armor_damage_mult = 1
+			ship_shield_damage_mult = 1
+		}
+		graphics = {
+			area_effect = {
+				entity = "circle_area_entity"
+				dynamic_scale = yes
+			}
+			ship_effect = {
+				entity = "ship_aura_positive_entity"
+				dynamic_scale = no
+			}
+		}
+	}
+}
+
+utility_component_template = {
+	key = "EXE_STARBASE_MEAGASTRUCTRUE_AUX_2"
+	size = medium
+	icon = "GFX_executor_ship_part_aux_system"
+	icon_frame = 1
+	power = @exe_cost_1
+	component_set = "ship_aura_components"
+	hidden = yes
+}
+
+#######################
+# Supremacy THRUSTERS #
+#######################
+utility_component_template = {
+	key = "EXECUTOR_THRUSTER"
+	size = small
+	icon = "GFX_executor_ship_part_thruster_1"
+	icon_frame = 1
+	power = -15
+	prerequisites = { tech_kuat_THRUSTER }
+	component_set = "thruster_components"
+	size_restriction = { X308_Balletor nebula_executor knigjt_hammer_executor }
+	ai_weight = { weight = 5000 }
+}
