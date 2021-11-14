@@ -1,0 +1,74 @@
+@shield_hit_duration = 0.35
+@shield_hit_delay = 0.12
+@hit_duration = 1.5
+@miss_duration = 1.5
+@width_size_test = 0.3
+@normalprojectilespeed = 25
+@titling_test = 12
+@autocannon_shield_duration = 1.0
+@autocannon_shield_delay_duration = 0.1
+#Blue 
+#color = { 0.1 	0.45	1.0 	1.0 }
+
+#Green
+#color = { 0.4 	 1.0 	0.4 	1.0 }
+
+#Red
+#color = { 1.0 	 0.58 	0.58 	0.4 }
+projectile_gfx_beam = {
+	#common for all types of projectiles
+	name = "ee_heavy_turbo_l_b"
+	color = { 0.1 	0.45	1.0 	25.0 }
+	hit_entity = "ge_turbolaser_medium_hit_entity"
+	shield_hit_entity = "ge_turbolaser_medium_shield_hit_entity"
+	muzzle_flash_entity = "ge_i_turbolaser_large_muzzle_entity"
+	
+	#beam specific data
+	width = @width_size_test
+	texture_scroll_speed = @normalprojectilespeed
+	texture_tiling = @titling_test
+	hit = {
+		alpha_curve = { 
+			0.0 	0.0
+			0.2		1.0
+			0.9		1.0
+			1.0 	0.0
+		}
+		duration = @hit_duration
+	}
+	miss = {
+		alpha_curve = { 
+			0.0 	0.0
+			0.2		1.0
+			0.9		1.0
+			1.0 	0.0
+		}
+		duration = @miss_duration
+	}
+	texture = "gfx/models/combat_items/ETEM_cannon_diffuse.dds"
+	
+	shield_impact = {
+		size = small
+		loop_duration = @autocannon_shield_duration
+		delay = @autocannon_shield_delay_duration
+	}
+}
+
+projectile_gfx_ballistic = {
+	#common for all types of projectiles
+	name = "etim_heavy_battle_turbo_b" 
+	color = { 0.4 	0.4 	1.0		0.5 }
+	hit_entity = "ge_turbolaser_large_hit_entity"
+	shield_hit_entity = "ge_turbolaser_large_shield_hit_entity"
+	muzzle_flash_entity = "ge_i_turbolaser_large_muzzle_entity"
+	
+	#ballistic specific
+	entity = "HeavyTurboLaser_b_entity"
+	speed = 400.0		#preferred speed of the projectile
+	max_duration = 1.0		#Speed of projectile might be scaled up in order to guarantee reaching the target within <max_duration> seconds
+	
+	shield_impact = {
+		size = large
+		delay = 1.0
+	}
+}

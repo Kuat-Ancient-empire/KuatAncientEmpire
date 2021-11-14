@@ -1,0 +1,463 @@
+building_eternal_alloys_Forge = {
+	base_buildtime = 480
+	
+	base_cap_amount = 1
+	category = manufacturing
+	
+	potential = {
+		exists = owner
+		OR = {
+			owner = { is_ai = no }
+			free_building_slots > 0
+		}
+		owner = { 
+			is_regular_empire = yes
+			has_origin = origin_eternalthrone
+		}
+	}
+	
+	allow = {
+		has_upgraded_capital = yes
+		exists = owner
+		NOT = {
+			has_building = building_eternal_business_complex
+			has_building_construction = building_eternal_business_complex
+		}
+	}
+	
+	destroy_trigger = {
+		free_building_slots = 0
+		exists = owner
+		owner = {
+			is_ai = yes
+			has_monthly_income = {
+				resource = minerals
+				value > 500
+			}
+		}
+	}
+	triggered_planet_modifier = {
+		potential = {
+			exists = owner				
+		}
+		modifier = {
+			job_Kuat_foundry_add = 3
+		}
+	}
+	
+	resources = {
+		category = planet_buildings
+		cost = {
+			minerals = 800
+		}	
+		upkeep = {
+			energy = @b2_upkeep
+		}
+	}	
+	
+	prerequisites = {
+		"tr_eternal_building_alloys_Forge"
+	}
+	
+	triggered_desc = {
+		text = job_foundry_effect_desc
+	}
+
+}
+
+building_eternal_business_complex = {
+	base_buildtime = 480
+
+	base_cap_amount = 1
+	category = manufacturing
+
+	potential = {
+		exists = owner
+		owner = {
+			OR = {
+				is_gestalt = no
+				has_valid_civic = civic_machine_servitor
+			}
+			has_origin = origin_eternalthrone
+		}
+		NOT = { has_modifier = resort_colony }
+		building_relaxed_basic_income_check = yes
+	}
+
+	allow = {
+		exists = owner
+		NOT = { 
+			has_building = building_eternal_alloys_Forge 
+			has_building_construction = building_eternal_alloys_Forge
+		}
+	}
+
+	destroy_trigger = {
+		OR = {
+			has_modifier = resort_colony
+
+			AND = {
+				exists = owner
+				owner = {
+					is_ai = yes
+					is_gestalt = yes
+					NOT = { has_valid_civic = civic_machine_servitor }
+				}
+			}
+		}
+	}
+
+	triggered_planet_modifier = {
+		potential = {
+			exists = owner
+		}
+		modifier = {
+			job_Kuat_artisan_add = 3
+			planet_Kuat_artisan_produces_mult = 0.5
+		}
+	}
+    planet_modifier = {
+		planet_jobs_consumer_goods_produces_mult = 0.01
+	}
+	resources = {
+		category = planet_buildings
+		cost = {
+			minerals = 750
+		}
+		upkeep = {
+			energy = @b2_upkeep
+		} 
+	}
+
+	prerequisites = {
+		"tr_eternal_building_business_complex"
+	}
+
+	triggered_desc = {
+		trigger = {
+			exists = owner
+			owner = { is_regular_empire = yes }
+		}
+		text = job_artisan_effect_desc
+	}
+
+	triggered_desc = {
+		trigger = {
+			exists = owner
+			owner = { is_gestalt = yes }
+		}
+		text = job_artisan_effect_desc
+	}
+
+	ai_resource_production = {
+		consumer_goods = 1
+		trigger = {
+			always = yes
+		}
+	}
+}
+
+building_eternal_research_center = {
+	base_buildtime = 360
+
+	category = research
+	
+	potential = {
+		exists = owner
+		OR = {
+			owner = { is_ai = no }
+			free_building_slots > 0
+		}
+		owner = { 
+			is_regular_empire = yes
+			has_origin = origin_eternalthrone
+		}
+	}
+		
+	destroy_trigger = {
+		free_building_slots = 0
+		exists = owner
+		owner = {
+			is_ai = yes
+		}
+	}
+
+	planet_modifier = {
+		planet_jobs_physics_research_produces_mult = 0.01
+		planet_jobs_society_research_produces_mult = 0.01
+		planet_jobs_engineering_research_produces_mult = 0.01
+		job_Kuat_chief_researcher_add = 2
+	}
+
+	triggered_planet_modifier = {
+		potential = {
+			exists = owner
+			owner = { is_gestalt = no }					
+		}
+		modifier = {
+			job_researcher_add = 4
+		}
+	}
+	
+	triggered_planet_modifier = {
+		potential = {
+			exists = owner
+			owner = { is_gestalt = yes }					
+		}
+		modifier = {
+			job_researcher_add = 4
+		}
+	}
+	
+	resources = {
+		category = planet_buildings
+		cost = {
+			minerals = 1800
+		}	
+		upkeep = {
+			energy = @b1_upkeep
+		}
+	}	
+	prerequisites = {
+		"tr_eternal_building_research_center"
+	}	
+	
+	upgrades = { building_eternal_research_center_2 }	
+	
+	triggered_desc = {
+		text = job_researcher_effect_desc
+	}
+}
+
+building_eternal_research_center_2 = {
+	base_buildtime = 720
+	can_build = no
+	category = research
+	
+	potential = {
+		exists = owner
+		OR = {
+			owner = { is_ai = no }
+			free_building_slots > 0
+		}
+		owner = { 
+			is_regular_empire = yes
+			has_origin = origin_eternalthrone
+		}
+	}
+	allow = {
+		has_upgraded_capital = yes
+	}		
+	destroy_trigger = {
+		free_building_slots = 0
+		exists = owner
+		owner = {
+			is_ai = yes
+			has_monthly_income = {
+				resource = consumer_goods
+				value > 100
+			}
+		}
+	}
+	planet_modifier = {
+		planet_jobs_physics_research_produces_mult = 0.01
+		planet_jobs_society_research_produces_mult = 0.01
+		planet_jobs_engineering_research_produces_mult = 0.01
+		job_Kuat_chief_researcher_add = 2
+	}	
+	triggered_planet_modifier = {
+		potential = {
+			exists = owner
+			owner = { is_gestalt = no }	
+		}
+		modifier = {
+			job_researcher_add = 5
+		}
+	}
+	
+	triggered_planet_modifier = {
+		potential = {
+			exists = owner
+			owner = { is_gestalt = yes }					
+		}
+		modifier = {
+			job_researcher_add = 5
+		}
+	}
+	triggered_desc = {
+		text = job_head_researcher_effect_desc
+	}
+	resources = {
+		category = planet_buildings
+		cost = {
+			minerals = 2000
+		}	
+		upkeep = {
+			energy = @b3_upkeep
+		}
+	}
+
+	prerequisites = {
+		"tr_eternal_building_research_center_2"
+	}	
+
+	triggered_desc = {
+		text = job_researcher_effect_desc
+	}
+}
+
+building_eternal_volatile_focer = {
+	base_buildtime = 520
+
+	category = manufacturing
+	
+	potential = {
+		exists = owner
+		OR = {
+			owner = { is_ai = no }
+			free_building_slots > 0
+		}
+		owner = { 
+			is_regular_empire = yes
+			has_origin = origin_eternalthrone
+		}		
+	}
+	
+	allow = {
+		has_upgraded_capital = yes
+	}
+
+	destroy_trigger = {
+		free_building_slots = 0
+		exists = owner
+		owner = {
+			is_ai = yes
+			has_monthly_income = {
+				resource = minerals
+				value > 300
+			}
+		}
+	}
+	
+	resources = {
+		category = planet_buildings
+		produces = {
+			volatile_motes = 12
+		}
+		cost = {
+			minerals = 420
+		}	
+		upkeep = {
+			energy = 0.01
+			minerals = 10
+		}
+	}	
+	
+	prerequisites = {
+		"tr_eternal_building_volatile"
+	}	
+}
+
+building_eternal_exotic_focer = {
+	base_buildtime = 520
+
+	category = manufacturing
+	
+	potential = {
+		exists = owner
+		OR = {
+			owner = { is_ai = no }
+			free_building_slots > 0
+		}
+		owner = { 
+			is_regular_empire = yes
+			has_origin = origin_eternalthrone
+		}		
+	}
+	
+	allow = {
+		has_upgraded_capital = yes
+	}
+
+	destroy_trigger = {
+		free_building_slots = 0
+		exists = owner
+		owner = {
+			is_ai = yes
+			has_monthly_income = {
+				resource = minerals
+				value > 300
+			}
+		}
+	}
+	
+	resources = {
+		category = planet_buildings
+		produces = {
+			exotic_gases = 12
+		}
+		cost = {
+			minerals = 420
+		}	
+		upkeep = {
+			energy = 0.01
+			food = 10
+		}
+	}	
+	
+	prerequisites = {
+		"tr_eternal_building_exotic"
+	}	
+}
+
+building_eternal_crystals_focer = {
+	base_buildtime = 520
+
+	category = manufacturing
+	
+	potential = {
+		exists = owner
+		OR = {
+			owner = { is_ai = no }
+			free_building_slots > 0
+		}
+		owner = { 
+			is_regular_empire = yes
+			has_origin = origin_eternalthrone
+		}		
+	}
+	
+	allow = {
+		has_upgraded_capital = yes
+	}
+
+	destroy_trigger = {
+		free_building_slots = 0
+		exists = owner
+		owner = {
+			is_ai = yes
+			has_monthly_income = {
+				resource = minerals
+				value > 300
+			}
+		}
+	}
+	
+	resources = {
+		category = planet_buildings
+		produces = {
+			rare_crystals = 12
+		}
+		cost = {
+			minerals = 420
+		}	
+		upkeep = {
+			energy = 0.01
+			minerals = 10
+		}
+	}	
+	
+	prerequisites = {
+		"tr_eternal_building_crystals"
+	}	
+}

@@ -104,3 +104,61 @@ Destroy_The_Kuat_Shield = {
 	}
 	ai_weight = { weight = 0 }
 }
+
+decision_Eternal_city_project = {
+	owned_planets_only = yes
+	icon = decision_arcology_project
+
+	enactment_time = 1080
+	resources = {
+		category = decisions
+		cost = {
+			influence = 100
+			minerals = 20000
+			alloys = 8000
+		}
+	}
+	
+	potential = {
+		NOR = {
+			is_planet_class = pc_city
+			is_planet_class = pc_wsg_port
+			is_planet_class = pc_ringworld_habitable_sh
+			is_planet_class = pc_ringworld_habitable_wsg
+			is_planet_class = pc_Eternal_city
+			is_planet_class = pc_swgs_engineer
+			is_planet_class = pc_swgs_engineer_ringworld_habitable
+			is_planet_class = pc_ringworld_habitable			
+			is_planet_class = pc_relic
+			has_modifier = resort_colony
+			has_modifier = penal_colony
+			has_modifier = slave_colony
+		}
+		habitable_structure = no
+		exists = owner
+		owner = { has_technology = swgs_tech_engineer_planet_project }
+	}
+	
+	allow = {
+		custom_tooltip = {
+			fail_text = decision_arcology_project_requirements
+			free_district_slots < 1
+			num_districts = { type = district_farming value < 1 }
+			num_districts = { type = district_mining value < 1 }
+			num_districts = { type = district_generator value < 1 }
+		}
+		num_uncleared_blockers < 1
+	}
+	
+	effect = {
+		# Make city-planet
+		custom_tooltip = decision_Eternal_city_project_effects
+		hidden_effect = {		
+			clear_deposits = yes
+			change_pc = pc_Eternal_city
+			set_planet_entity = { entity = "city_planet" }
+			owner = { country_event = { id = distar.201 } }
+			planet_event = { id = Eternal_city_kuat.5 }
+		}
+	}
+}
