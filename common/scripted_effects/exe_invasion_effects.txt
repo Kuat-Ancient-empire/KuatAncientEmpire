@@ -2316,3 +2316,115 @@ kuat_origin_give_all_ship_and_tech = {
 	create_ship_design = { design = "Name_boss_eclipse" }
 	add_ship_design = last_created_design
 }
+
+#######################
+#eternal empire origin#
+#######################
+create_elternal_origin_system_warbase = {
+	set_star_flag = eternal_origin_starbase_megastructure_in_system
+	system_star = {
+		set_planet_size = -1
+		set_planet_entity = { entity = starforge_avoid_entity }
+		create_fleet = {
+			name = "Name_Eternal_station_fleet"
+			settings = { spawn_debris = no can_disband = no }
+			effect = {
+				save_event_target_as = eternal_origin_station_elternal
+				set_owner = event_target:eternal_support_country
+				create_ship = { design = "NAME_EXE_STARBASE_MEGASTRUCTURE" }
+				set_location = { target = prev distance = -1 angle = 0 }
+				set_fleet_flag = eternal_support_country_starbase
+				[[lock] set_event_locked = $lock$ ]
+				add_modifier = { modifier = ship_firing_starbase_debuff_own days = $DAYS$ }
+			}
+		}
+		create_ambient_object = { type = "space_storm_1" location = this }
+		last_created_ambient_object = {
+			set_ambient_object_flag = space_storm_object
+			set_location = { target = prev distance = 0 angle = random }
+		}
+	}
+	every_system_planet = {
+		limit = {
+			exists = owner
+			is_colony = yes
+		}
+		add_modifier = { modifier = "exe_megastructure_starbase_in_system" }
+	}
+}
+
+# scope: planet
+create_eternal_origin_eternal_fleet = {
+	create_exe_invasion_fleet = {
+		NAME = Name_Eternal
+		flag = eternal_kuat_invasion_fleet
+		is_boss = yes  can_disband = no
+		Fleet_owner = event_target:eternal_support_country
+		bombardment = exe_invasion_bombardment
+		Eternal_battleship = 44 Eternal_flagship = 1  DIFF = 1
+		Location = prev
+	}
+}
+
+# scope: fleet
+# prev: country
+# prevprev: system
+eternal_player_fleet_order_1 = {
+	queue_actions = {
+		repeat = {
+			find_closest_planet = {
+				trigger = {
+					id = executing_eternal_fleet.1
+					exists = owner
+					is_colony = yes
+					owner = { is_hostile = event_target:eternal_support_country }
+					solar_system = { is_same_value = event_target:targeting_enemy_system }
+				}
+				found_planet = {
+					orbit_planet = this
+					effect = {
+						id = executing_eternal_fleet.2
+						set_planet_flag = ruins_planet
+						prev = { set_fleet_flag = eternal_fallen_bombaring_fleet }
+					}
+					repeat = {
+						while = { 
+							id = executing_eternal_fleet.3 
+							prev = { has_fleet_flag = eternal_fallen_bombaring_fleet } 
+						}
+						effect = {
+							id = executing_eternal_fleet.4
+							if = { 
+								limit = { is_colony = no } 
+								prev = { remove_fleet_flag = eternal_fallen_bombaring_fleet } 
+							}
+						} 
+						wait = 5
+					}
+				}
+				failed = {
+					effect = {
+						id = executing_eternal_fleet.5
+						remove_fleet_flag = choosen_eternal_fleet
+						remove_fleet_flag = executing_eternal_fleet
+						if = {
+							limit = { exists = event_target:targeting_enemy_country }
+							event_target:eternal_support_country = {
+								set_faction_hostility = { 
+									target = event_target:targeting_enemy_country 
+									set_hostile = no set_friendly = no set_neutral = yes
+								}
+							}
+						}
+						root = { 
+							set_timed_country_flag = { flag = have_been_ordered_eternal_fleet days = 1800 } 
+							country_event = { id = achievement.1 }
+						}
+						set_location = event_target:zakuul_system.system_star
+						clear_global_event_target = targeting_enemy_system
+					}
+				}
+			}
+		}
+	}
+}

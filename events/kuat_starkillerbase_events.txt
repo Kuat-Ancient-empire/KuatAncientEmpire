@@ -7,11 +7,14 @@ country_event = {
 	is_triggered_only = yes
 	immediate = {
 		if = {
-			limit = { check_variable = { which = fire_var value > 35 } }
+			limit = { check_variable = { which = fire_var value > 10 } }
 			clear_variable = fire_var
 		}
 		if = {
-			limit = { is_ai = no }
+			limit = { 
+				NOT = { exists = event_target:ag_kuat_invasion_country }
+				is_ai = no 
+			}
 			change_variable = { which = fire_var value = 1 }
 		}
 		country_event = { id = kuat_starkiller.2 days = 23 }
@@ -244,6 +247,7 @@ country_event = {
 					is_country_type = kuat_fire_base_hositle
 					is_country_type = kuat_fire_base
 				}
+				NOT = { exists = event_target:ag_kuat_invasion_country }
 				check_variable = { which = fire_var value = 10 }	
 			}
 			country_event = { id = kuat_starkiller.7 days = 35 random = 12 }
@@ -645,6 +649,7 @@ country_event = {
 	is_triggered_only = yes
 
 	trigger = { 
+		NOT = { has_origin = origin_eternalthrone }
 		has_country_flag = kuat_enabled_epsilon_planet_killer_selector 
 		any_owned_megastructure = { is_megastructure_type = kuat_starkillerbase_15 }
 	}
@@ -730,4 +735,95 @@ country_event = {
 		}
 		country_event = { id = kuat_starkiller.1 }
 	}
+}
+
+country_event = {
+	id = kuat_starkiller.16
+	hide_window = yes
+	is_triggered_only = yes
+
+	trigger = { 
+		has_origin = origin_eternalthrone
+		has_country_flag = kuat_enabled_epsilon_planet_killer_selector 
+		has_country_flag = eternal_fleet_attack_enenmy
+	}
+	immediate = {
+		remove_country_flag = kuat_enabled_epsilon_planet_killer_selector
+		set_variable = { which = kuat_temp_counter value = 0 }
+		every_system = {
+			limit = { has_star_flag = kuat_system_selector_selected_system }
+			remove_star_flag = kuat_system_selector_selected_system
+			set_star_flag = kuat_epsilon_titan_star_killer_weapon_target@root
+			root = { change_variable = { which = kuat_temp_counter value = 1 } }
+		}
+		if = { limit = { check_variable = { which = kuat_temp_counter value = 1 } } add_resource = { energy = 10000 sr_dark_matter = 1000 } }
+		else_if = { limit = { check_variable = { which = kuat_temp_counter value = 2 } } add_resource = { energy = 20000 sr_dark_matter = 2000 } }
+		else_if = { limit = { check_variable = { which = kuat_temp_counter value = 3 } } add_resource = { energy = 40000 sr_dark_matter = 4000 } }
+		else_if = { limit = { check_variable = { which = kuat_temp_counter value = 4 } } add_resource = { energy = 80000 sr_dark_matter = 8000 } }
+		else_if = { limit = { check_variable = { which = kuat_temp_counter value = 5 } } add_resource = { energy = 160000 sr_dark_matter = 16000 } }
+		country_event = { id = kuat_starkiller.17 days = 10 }
+		set_variable = { which = kuat_temp_counter value = 0 }
+		clear_variable = kuat_temp_counter
+	}
+	after = {
+		kuat_system_selector_after_effect = yes
+		kuat_clear_system_selection = yes
+	}
+}
+
+country_event = {
+	id = kuat_starkiller.17
+	hide_window = yes
+	is_triggered_only = yes
+	trigger = { 
+		has_origin = origin_eternalthrone
+		has_country_flag = eternal_fleet_attack_enenmy
+		event_target:eternal_support_country = { any_owned_fleet = { has_fleet_flag = executing_eternal_fleet } }
+	}
+	immediate = {
+		random_system = {
+			limit = { has_star_flag = kuat_epsilon_titan_star_killer_weapon_target@root }
+			save_global_event_target_as = targeting_enemy_system
+			remove_star_flag = kuat_epsilon_titan_star_killer_weapon_target@root
+			if = {
+				limit = { exists = space_owner }
+				space_owner = { save_event_target_as = targeting_enemy_country }
+			}
+			event_target:eternal_support_country = {
+				set_faction_hostility = { 
+					target = event_target:targeting_enemy_country 
+					set_hostile = yes set_friendly = no 
+				}
+				random_owned_fleet = {
+					limit = { has_fleet_flag = executing_eternal_fleet }
+					set_location = event_target:targeting_enemy_system.system_star
+					eternal_player_fleet_order_1 = yes
+				}
+			}
+		}
+	}
+}
+
+country_event = {
+	id = kuat_starkiller.18
+	title = "kuat_starkiller.18.title"
+	desc = {
+		trigger = { has_country_flag = fire_once_contact_free }
+		text = kuat_starkiller.18.desc.free
+	}
+	desc = {
+		trigger = { has_country_flag = fire_once_contact_control }
+		text = kuat_starkiller.18.desc.control
+	}
+	diplomatic = yes
+	picture_event_data = {
+		portrait = event_target:player_for_eternal_speceis
+		room = Eternal_Empire_room
+	}
+	custom_gui = "kuat_event_diplomacy_window"
+	custom_gui_option = "kuat_event_diplomacy_option"
+	show_sound = event_sensor_ping
+	is_triggered_only = yes
+	immediate = { remove_country_flag = eternal_fleet_attack_enenmy }
+	option = { name = kuat_starkiller.18.a }
 }

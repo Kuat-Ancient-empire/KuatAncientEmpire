@@ -4,13 +4,21 @@ country_event = {
 	id = kuat_system_selector.1
 	title = "kuat_system_selector.1.title"
 	desc = {
-		trigger = { NOT = {
+		trigger = { NOR = {
+			has_origin = origin_eternalthrone
 			has_country_flag = kuat_enabled_epsilon_planet_killer_selector
 		} }
 		text = "kuat_system_selector.1.desc"
 	}
 	desc = {
-		trigger = { has_country_flag = kuat_enabled_epsilon_planet_killer_selector }
+		trigger = { has_origin = origin_eternalthrone }
+		text = "kuat_system_selector.1.eternal_star_killer_weapon.desc"
+	}
+	desc = {
+		trigger = { 
+			NOT = { has_origin = origin_eternalthrone }
+			has_country_flag = kuat_enabled_epsilon_planet_killer_selector 
+		}
 		text = "kuat_system_selector.1.epsilon_star_killer_weapon.desc"
 	}
 	show_sound = event_alien_signal
@@ -284,16 +292,24 @@ country_event = {
 		hidden_effect = {
 			remove_global_flag = kuat_system_selector_1_opened
 			kuat_system_selector_after_effect = yes
-			every_megastructure = {
-				limit = { is_megastructure_type = kuat_starkillerbase_15 }
-				remove_megastructure = this
-			}
-			event_target:sun_target_system = {
-				spawn_megastructure = {
-					type = "kuat_starkillerbase_1"
-					coords_from = event_target:starkillerbase_location
-					owner = space_owner
+			if = {
+				limit = { NOT = { has_origin = origin_eternalthrone } }
+				every_megastructure = {
+					limit = { is_megastructure_type = kuat_starkillerbase_15 }
+					remove_megastructure = this
 				}
+				event_target:sun_target_system = {
+					spawn_megastructure = {
+						type = "kuat_starkillerbase_1"
+						coords_from = event_target:starkillerbase_location
+						owner = space_owner
+					}
+				}
+			}
+			else = { 
+				remove_country_flag = eternal_fleet_is_running 
+				event_target:choosen_eternal_fleet_1 = { remove_fleet_flag = executing_eternal_fleet }
+				country_event = { id = kuat_EEstart.8 }
 			}
 		}
 	}
@@ -303,13 +319,21 @@ country_event = {
 	id = kuat_system_selector.2
 	title = "kuat_system_selector.1.title"
 	desc = {
-		trigger = { NOT = {
+		trigger = { NOR = {
+			has_origin = origin_eternalthrone
 			has_country_flag = kuat_enabled_epsilon_planet_killer_selector
 		} }
 		text = "kuat_system_selector.2.desc"
 	}
 	desc = {
-		trigger = { has_country_flag = kuat_enabled_epsilon_planet_killer_selector }
+		trigger = { has_origin = origin_eternalthrone }
+		text = "kuat_system_selector.2.eternal_star_killer_weapon.desc"
+	}
+	desc = {
+		trigger = { 
+			NOT = { has_origin = origin_eternalthrone }
+			has_country_flag = kuat_enabled_epsilon_planet_killer_selector 
+		}
 		text = "kuat_system_selector.2.epsilon_star_killer_weapon.desc"
 	}
 	show_sound = event_mystic_reveal
@@ -1119,16 +1143,24 @@ country_event = {
 			remove_global_flag = kuat_system_selector_2_opened
 			kuat_system_selector_after_effect = yes
 			kuat_clear_system_selection = yes
-			every_megastructure = {
-				limit = { is_megastructure_type = kuat_starkillerbase_15 }
-				remove_megastructure = this
-			}
-			event_target:sun_target_system = {
-				spawn_megastructure = {
-					type = "kuat_starkillerbase_1"
-					coords_from = event_target:starkillerbase_location
-					owner = space_owner
+			if = {
+				limit = { NOT = { has_origin = origin_eternalthrone } }
+				every_megastructure = {
+					limit = { is_megastructure_type = kuat_starkillerbase_15 }
+					remove_megastructure = this
 				}
+				event_target:sun_target_system = {
+					spawn_megastructure = {
+						type = "kuat_starkillerbase_1"
+						coords_from = event_target:starkillerbase_location
+						owner = space_owner
+					}
+				}
+			}
+			else = { 
+				remove_country_flag = eternal_fleet_is_running 
+				event_target:choosen_eternal_fleet_1 = { remove_fleet_flag = executing_eternal_fleet }
+				country_event = { id = kuat_EEstart.8 }
 			}
 		}
 	}
