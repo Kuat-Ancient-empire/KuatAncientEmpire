@@ -6,9 +6,18 @@ country_event = {
 	mean_time_to_happen = { years = 5 }
 	fire_only_once = yes
 	trigger = { 
-		has_technology = tech_sensors_4
-		is_ai = no 
-		exists = event_target:fallen_empire_kuat
+		OR = {
+			AND = {
+				has_technology = tech_sensors_4
+				is_ai = no 
+				exists = event_target:fallen_empire_kuat
+			}
+			AND = {
+				has_origin = origin_eternalthrone
+				has_technology = tech_sensors_4
+				exists = event_target:eternal_support_country
+			}
+		}
 	}
 	immediate = {
 		random_planet_within_border = {
@@ -1268,7 +1277,12 @@ fleet_event = {
 		hidden_effect = {
 			owner = { set_country_flag = fire_the_legacy_kuat_stage_7 }
 			owner = { give_technology = { tech = tech_kuat_shield message = no } }
-			owner = { country_event = { id = kuat_legacy.26 days = 360 random = 180 } }
+			owner = { 
+				if = {
+					limit = { NOT = { has_origin = origin_eternalthrone } }
+					country_event = { id = kuat_legacy.26 days = 360 random = 180 }
+				}
+			}
 			event_target:will_be_add_ringworld_shielded = { 
 				change_pc = pc_ringworld_habitable 
 				add_deposit = d_str_kuat_spring
@@ -1393,7 +1407,11 @@ country_event = {
 		name = kuat_legacy.25.a 
 		hidden_effect = {
 			set_country_flag = can_restore_the_black_hole
-			country_event = { id = kuat_legacy.76 days = 360 random = 180 }
+			if = {
+				limit = { NOT = { has_origin = origin_eternalthrone } }
+				country_event = { id = kuat_legacy.76 days = 360 random = 180 }
+			}
+			else = { country_event = { id = kuat_eternal_legacy.49 days = 30 random = 15 } }
 		}
 	}
 }

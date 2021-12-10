@@ -48,7 +48,7 @@ planet_event = {
 	is_triggered_only = yes
 	trigger = {
 		has_planet_flag = ruins_planet
-		planet_devastation = 100
+		planet_devastation >= 100
 	}
 	immediate = {
 		if = {
@@ -76,6 +76,26 @@ planet_event = {
 		}
 		else = { change_pc = pc_shattered }
 		remove_planet_flag = ruins_planet
+		if = {
+			limit = { 
+				exists = event_target:Eternalempire
+				exists = event_target:eternal_support_country
+			}
+			add_static_war_exhaustion = {
+				attacker = event_target:Eternalempire
+				location = root
+				value_for_planet_destruction = 1.0
+			}
+		}
+		else = {
+			owner = { 
+				add_static_war_exhaustion = {
+					attacker = from
+					location = root
+					value_for_planet_destruction = 1.0
+				}
+			}
+		}
 		#recall fleet
 		if = {
 			limit = {

@@ -785,10 +785,7 @@ country_event = {
 			limit = { has_star_flag = kuat_epsilon_titan_star_killer_weapon_target@root }
 			save_global_event_target_as = targeting_enemy_system
 			remove_star_flag = kuat_epsilon_titan_star_killer_weapon_target@root
-			if = {
-				limit = { exists = space_owner }
-				space_owner = { save_event_target_as = targeting_enemy_country }
-			}
+			space_owner = { save_global_event_target_as = targeting_enemy_country }
 			event_target:eternal_support_country = {
 				set_faction_hostility = { 
 					target = event_target:targeting_enemy_country 
@@ -826,4 +823,62 @@ country_event = {
 	is_triggered_only = yes
 	immediate = { remove_country_flag = eternal_fleet_attack_enenmy }
 	option = { name = kuat_starkiller.18.a }
+}
+
+country_event = {
+	id = kuat_starkiller.19
+	hide_window = yes
+	is_triggered_only = yes
+	trigger = {
+		any_country = { has_origin = origin_eternalthrone }
+		any_country = { has_country_flag = eternal_fleet_attack_enenmy }
+		fromfrom = { has_fleet_flag = executing_eternal_fleet }
+		is_same_value = event_target:eternal_support_country
+	}
+	immediate = {
+		random_country = {
+			limit = { has_country_flag = eternal_fleet_attack_enenmy }
+			subtract_variable = { which = eternal_kuat_invasion_fleet_num value = 1 }
+			remove_country_flag = eternal_fleet_attack_enenmy
+			set_timed_country_flag = { flag = have_been_ordered_eternal_fleet days = 1800 } 
+			country_event = { id = kuat_starkiller.20 }
+		}
+		set_faction_hostility = { 
+			target = event_target:targeting_enemy_country 
+			set_hostile = no set_friendly = no set_neutral = yes
+		}
+		clear_global_event_target = targeting_enemy_system
+		clear_global_event_target = targeting_enemy_country
+	}
+}
+
+country_event = {
+	id = kuat_starkiller.20
+	title = "kuat_starkiller.18.title"
+	desc = {
+		trigger = { has_country_flag = fire_once_contact_free }
+		text = kuat_starkiller.20.desc.free
+	}
+	desc = {
+		trigger = { has_country_flag = fire_once_contact_control }
+		text = kuat_starkiller.20.desc.control
+	}
+	diplomatic = yes
+	picture_event_data = {
+		portrait = event_target:player_for_eternal_speceis
+		room = Eternal_Empire_room
+	}
+	custom_gui = "kuat_event_diplomacy_window"
+	custom_gui_option = "kuat_event_diplomacy_option"
+	show_sound = event_sensor_ping
+	is_triggered_only = yes
+	immediate = { remove_country_flag = eternal_fleet_attack_enenmy }
+	option = { 
+		name = kuat_starkiller.20.a 
+		trigger = { has_country_flag = fire_once_contact_free }
+	}
+	option = { 
+		name = kuat_starkiller.20.b 
+		trigger = { has_country_flag = fire_once_contact_control }
+	}
 }

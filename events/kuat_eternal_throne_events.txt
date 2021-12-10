@@ -4,13 +4,10 @@ country_event = {
 	id = kuat_EEstart.1
 	hide_window = yes
 	is_triggered_only = yes
-	trigger = {
-		has_origin = origin_eternalthrone
-		NOT = { has_country_flag = new_coruscant_deposit }
-	}
+	trigger = { has_origin = origin_eternalthrone }
 	immediate = {
 		set_country_flag = Eternalempire
-		set_country_flag = new_coruscant_deposit
+		save_global_event_target_as = Eternalempire
 		random_owned_planet = {
 			limit = { has_planet_flag = EE_Home_World }
 			remove_all_districts = yes
@@ -2053,10 +2050,7 @@ fleet_event = {
 			add_monthly_resource_mult = { resource = physics_research value = 12 min = 1000 }
 			add_monthly_resource_mult = { resource = society_research value = 12 min = 1000 }
 			add_monthly_resource_mult = { resource = engineering_research value = 12 min = 1000 }
-			hidden_effect = { 
-				country_event = { id = kuat_eternal_legacy.6000 days = 360 random = 120 } 
-				set_country_flag = eternal_compevent 
-			} 
+			hidden_effect = { country_event = { id = kuat_eternal_legacy.6000 days = 360 random = 120 } } 
 			create_country = {
 				name = "Name_Eternal_Support"
 				type = eternal_support
@@ -2089,16 +2083,10 @@ country_event = {
 	show_sound = event_power_down
 	diplomatic = yes
 	is_triggered_only = yes
-	
-	trigger = {
-		is_ai = no
-		has_country_flag = eternal_compevent
-	}
+	trigger = { has_origin = origin_eternalthrone }
 	immediate = {
-		species = { save_global_event_target_as = player_for_eternal_speceis }
-		save_global_event_target_as = player_for_eternal_country
+		owner_main_species = { save_global_event_target_as = player_for_eternal_speceis }
 	}
-
 	option = {
 		name = "kuat_eternal_legacy.6000.a"
 		hidden_effect = { 
@@ -2109,5 +2097,87 @@ country_event = {
 				owner = space_owner
 			}
 		} 
+	}
+}
+
+country_event = {
+	id = kuat_eternal_legacy.49
+	title = "kuat_eternal_legacy.49.name"
+	desc = "kuat_eternal_legacy.49.desc"
+	picture_event_data = { room = ancient_knowledge_room }
+	custom_gui = "kuat_event_m_window"
+	custom_gui_option = "kuat_event_m_option"
+	show_sound = event_power_down
+	diplomatic = yes
+	is_triggered_only = yes
+	option = {
+		name = "kuat_eternal_legacy.49.a"
+		hidden_effect = { 
+			end_event_chain = ag_find_invasion_chain
+			country_event = { id = kuat_eternal_legacy.50 days = 5 }
+		} 
+	}
+}
+
+country_event = {
+	id = kuat_eternal_legacy.50
+	title = "kuat_EEstart.4.title"
+	desc = "kuat_EEstart.5.desc"
+	diplomatic = yes
+	picture_event_data = {
+		portrait = event_target:player_for_eternal_speceis
+		room = Eternal_Empire_room
+	}
+	custom_gui = "kuat_event_diplomacy_window"
+	custom_gui_option = "kuat_event_diplomacy_option"
+	show_sound = event_wind_ruins
+	is_triggered_only = yes
+	trigger = { 
+		NOT = { has_event_chain = ag_find_invasion_chain }
+		exists = event_target:eternal_support_country
+		has_origin = origin_eternalthrone
+	}
+	#恩多迪亚
+	option = { 
+		name = kuat_eternal_legacy.50.a 
+		trigger = { has_country_flag = fire_once_contact_free }
+		add_monthly_resource_mult = { resource = alloys value = 12 max = -2500 }
+		is_dialog_only = yes
+		response_text = kuat_eternal_legacy.50.a.resp 
+	}
+	option = { 
+		name = kuat_eternal_legacy.50.a
+		trigger = { has_country_flag = fire_once_contact_control }
+		add_monthly_resource_mult = { resource = alloys value = 12 max = -5000 }
+		is_dialog_only = yes
+		response_text = kuat_eternal_legacy.50.b.resp 
+	}
+	#夸特是什么
+	option = { 
+		name = kuat_eternal_legacy.50.c 
+		is_dialog_only = yes
+		trigger = { has_country_flag = fire_once_contact_free }
+		response_text = kuat_eternal_legacy.50.c.resp 
+	}
+	option = { 
+		name = kuat_eternal_legacy.50.c 
+		is_dialog_only = yes
+		trigger = { has_country_flag = fire_once_contact_control }
+		response_text = kuat_eternal_legacy.50.d.resp 
+	}
+	#这些阻挡不了我们
+	option = { 
+		name = kuat_eternal_legacy.50.e
+		trigger = { has_country_flag = fire_once_contact_free }
+		hidden_effect = { set_country_flag = eternal_origin_legacy_event_over }
+		add_monthly_resource_mult = { resource = unity value = 12 min = 100000 }
+		response_text = kuat_eternal_legacy.50.e.resp 
+	}
+	option = { 
+		name = kuat_eternal_legacy.50.e
+		trigger = { has_country_flag = fire_once_contact_control }
+		hidden_effect = { set_country_flag = eternal_origin_legacy_event_over }
+		add_monthly_resource_mult = { resource = unity value = 12 min = 100000 }
+		response_text = kuat_eternal_legacy.50.f.resp 
 	}
 }
