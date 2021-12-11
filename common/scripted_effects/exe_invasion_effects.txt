@@ -2375,7 +2375,6 @@ eternal_player_fleet_order_1 = {
 			find_closest_planet = {
 				trigger = {
 					id = executing_eternal_fleet.1
-					exists = owner
 					is_colony = yes
 					owner = { is_hostile = event_target:eternal_support_country }
 					solar_system = { is_same_value = event_target:targeting_enemy_system }
@@ -2385,18 +2384,18 @@ eternal_player_fleet_order_1 = {
 					effect = {
 						id = executing_eternal_fleet.2
 						set_planet_flag = ruins_planet
-						prev = { set_fleet_flag = eternal_fallen_bombaring_fleet }
+						root = { set_fleet_flag = eternal_fallen_bombaring_fleet }
 					}
 					repeat = {
 						while = { 
 							id = executing_eternal_fleet.3 
-							prev = { has_fleet_flag = eternal_fallen_bombaring_fleet } 
+							root = { has_fleet_flag = eternal_fallen_bombaring_fleet } 
 						}
 						effect = {
 							id = executing_eternal_fleet.4
 							if = { 
 								limit = { is_colony = no } 
-								prev = { remove_fleet_flag = eternal_fallen_bombaring_fleet } 
+								root = { remove_fleet_flag = eternal_fallen_bombaring_fleet } 
 							}
 						} 
 						wait = 5

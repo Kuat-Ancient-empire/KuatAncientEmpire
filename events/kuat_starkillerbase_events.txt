@@ -787,12 +787,16 @@ country_event = {
 			remove_star_flag = kuat_epsilon_titan_star_killer_weapon_target@root
 			space_owner = { save_global_event_target_as = targeting_enemy_country }
 			event_target:eternal_support_country = {
+				establish_communications_no_message = event_target:targeting_enemy_country
 				set_faction_hostility = { 
 					target = event_target:targeting_enemy_country 
 					set_hostile = yes set_friendly = no 
 				}
 				random_owned_fleet = {
 					limit = { has_fleet_flag = executing_eternal_fleet }
+					every_owned_ship = { create_jump_particle_effect = yes }
+					set_location = event_target:targeting_enemy_system.system_star
+					every_owned_ship = { create_jump_particle_effect = yes }
 					fleet_event = { id = kuat_starkiller.21 days = 1 }
 				}
 			}
@@ -887,10 +891,5 @@ fleet_event = {
 	hide_window = yes
 	is_triggered_only = yes
 	trigger = { has_fleet_flag = executing_eternal_fleet }
-	immediate = { 
-		every_owned_ship = { create_jump_particle_effect = yes }
-		set_location = event_target:targeting_enemy_system.system_star
-		every_owned_ship = { create_jump_particle_effect = yes }
-		eternal_player_fleet_order_1 = yes 
-	}
+	immediate = { eternal_player_fleet_order_1 = yes }
 }
