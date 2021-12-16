@@ -52,31 +52,6 @@ planet_event = {
 	}
 	immediate = {
 		if = {
-			limit = {
-				has_planet_flag = phaseshifting_active
-			}
-			remove_planet_flag = phaseshifting_active
-			remove_modifier = phaseshifted
-		}
-		if = {
-			limit = { num_pops > 0 }
-			every_owned_pop = { kill_pop = yes }
-		}
-		destroy_colony = yes
-		if = {
-			limit = { kuat_is_ringworld = yes }
-			spawn_ringworld_cracker_effect = yes
-			change_pc = pc_ringworld_habitable_damaged
-			set_planet_entity = { entity = ringworld_habitable_damaged_entity }
-		}
-		else_if = {
-			limit = { kuat_is_habitat = yes }
-			spawn_habitat_cracker_effect = yes
-			remove_planet = yes
-		}
-		else = { change_pc = pc_shattered }
-		remove_planet_flag = ruins_planet
-		if = {
 			limit = { 
 				exists = event_target:Eternalempire
 				exists = event_target:eternal_support_country
@@ -98,6 +73,35 @@ planet_event = {
 				}
 			}
 		}
+		if = {
+			limit = {
+				has_planet_flag = phaseshifting_active
+			}
+			remove_planet_flag = phaseshifting_active
+			remove_modifier = phaseshifted
+		}
+		if = {
+			limit = { kuat_is_ringworld = yes }
+			spawn_ringworld_cracker_effect = yes
+			change_pc = pc_ringworld_habitable_damaged
+			set_planet_entity = { entity = ringworld_habitable_damaged_entity }
+		}
+		else_if = {
+			limit = { kuat_is_habitat = yes }
+			spawn_habitat_cracker_effect = yes
+			remove_planet = yes
+		}
+		else = { change_pc = pc_shattered }
+		remove_planet_flag = ruins_planet
+		add_threat = { who = from amount = 10 }
+		remove_all_buildings = yes
+		every_owned_pop = { kill_pop = yes }
+		reroll_deposits = yes
+		remove_modifier = "natural_beauty"
+		remove_modifier = "atmospheric_aphrodisiac"
+		remove_modifier = "atmospheric_hallucinogen"
+		remove_modifier = "lush_planet"		
+		remove_modifier = "dangerous_wildlife"
 		#recall fleet
 		if = {
 			limit = {

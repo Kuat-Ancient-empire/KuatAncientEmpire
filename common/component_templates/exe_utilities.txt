@@ -7,6 +7,7 @@
 @power2 = -15
 @power3 = -25
 @exe_cost_1 = 400
+@shipAuraRange = 80
 ####################
 # DEFAULT COMPUTER #
 ####################
@@ -20,33 +21,11 @@ utility_component_template = {
 		category = ship_components
 		cost = { alloys = @cost1 }
 	}
-	size_restriction = { X308_Balletor nebula_executor knigjt_hammer_executor }
+	size_restriction = { X308_Balletor nebula_executor knigjt_hammer_executor  }
 	component_set = "combat_computers"
 	ship_behavior = "EXE_Battleship"
 	prerequisites = { tech_kuat_THRUSTER }
-	friendly_aura = {
-		name = SSD
-		system_wide = yes
-		apply_on = ships
-		stack_info = {
-			id = aura_ag_weapon_damage_buff
-			priority = 100
-		}
-		modifier = {
-			ship_weapon_damage = 1
-			ship_fire_rate_mult = 1
-		}
-		graphics = {
-			area_effect = {
-				entity = "circle_area_entity"
-				dynamic_scale = yes
-			}
-			ship_effect = {
-				entity = "ship_aura_positive_entity"
-				dynamic_scale = no
-			}
-		}
-	}
+	modifier = { ship_weapon_damage = 3 }
 	ai_weight = { weight = 5000 }
 }
 utility_component_template = {
@@ -62,7 +41,7 @@ utility_component_template = {
 	size_restriction = { X308_Balletor nebula_executor knigjt_hammer_executor }
 	prerequisites = { tech_kuat_THRUSTER }
 	ai_weight = { weight = 5000 }
-	modifier = { ship_weapon_damage = 1 }
+	modifier = { ship_fire_rate_mult = 3 }
 	component_set = "combat_computers"
 	ship_behavior = "EXE_Battleship"
 }
@@ -85,63 +64,42 @@ utility_component_template = {
 	component_set = "combat_computers"
 	ship_behavior = "EXE_flagship"
 	hostile_aura = {
-		name = SSE
+		name = "aura_quantum_destabilizer"
 		system_wide = yes
-		apply_on = ships
 		stack_info = {
 			id = aura_ag_weapon_shield_damage_debuff
 			priority = 150
 		}
 		modifier = { ship_shield_damage_mult = -0.5 }
 		graphics = {
-			area_effect = {
-				entity = "circle_area_entity"
-				dynamic_scale = yes
-			}
-			ship_effect = {
-				entity = "ship_aura_negative_entity"   
-				dynamic_scale = no
-			}
+			area_effect = { entity = "circle_area_entity" dynamic_scale = yes }
+			ship_effect = { entity = "ship_aura_negative_entity" dynamic_scale = no }
 		}
 	}
 	hostile_aura = {
-		name = SSE
+		name = "aura_quantum_destabilizer"
 		system_wide = yes
-		apply_on = ships
 		stack_info = {
 			id = aura_ag_weapon_armor_damage_debuff
 			priority = 150
 		}
 		modifier = { ship_armor_damage_mult = -0.5 }
 		graphics = {
-			area_effect = {
-				entity = "circle_area_entity"
-				dynamic_scale = yes
-			}
-			ship_effect = {
-				entity = "ship_aura_negative_entity"   
-				dynamic_scale = no
-			}
+			area_effect = { entity = "circle_area_entity" dynamic_scale = yes }
+			ship_effect = { entity = "ship_aura_negative_entity" dynamic_scale = no }
 		}
 	}
 	hostile_aura = {
-		name = SSE
+		name = "aura_quantum_destabilizer"
 		system_wide = yes
-		apply_on = ships
 		stack_info = {
 			id = aura_ag_weapon_hull_damage_debuff
 			priority = 150
 		}
 		modifier = { ship_hull_damage_mult = -0.5 }
 		graphics = {
-			area_effect = {
-				entity = "circle_area_entity"
-				dynamic_scale = yes
-			}
-			ship_effect = {
-				entity = "ship_aura_negative_entity"   
-				dynamic_scale = no
-			}
+			area_effect = { entity = "circle_area_entity" dynamic_scale = yes }
+			ship_effect = { entity = "ship_aura_negative_entity" dynamic_scale = no }
 		}
 	}
 	ai_weight = { weight = 5000 }
@@ -161,12 +119,12 @@ utility_component_template = {
 	component_set = "combat_computers"
 	ship_behavior = "EXE_flagship"
 	friendly_aura = {
-		name = SSD
-		system_wide = yes
+		name = "aura_inspiring_presence"
+		radius = @shipAuraRange
 		apply_on = ships
 		stack_info = {
 			id = aura_ag_hull_buff
-			priority = 150
+			priority = 2
 		}
 		modifier = {
 			ship_hull_mult = 1
@@ -175,14 +133,8 @@ utility_component_template = {
 			ship_weapon_range_mult = 1
 		}
 		graphics = {
-			area_effect = {
-				entity = "circle_area_entity"
-				dynamic_scale = yes
-			}
-			ship_effect = {
-				entity = "ship_aura_positive_entity"
-				dynamic_scale = no
-			}
+			area_effect = { entity = "circle_area_entity" dynamic_scale = yes }
+			ship_effect = { entity = "ship_aura_positive_entity" dynamic_scale = no }
 		}
 	}
 	ai_weight = { weight = 5000 }
@@ -204,7 +156,6 @@ utility_component_template = {
 	hostile_aura = {
 		name = SSDE
 		system_wide = yes
-		apply_on = ships
 		stack_info = {
 			id = Firmus_Piett_Super
 			priority = 1000
@@ -219,24 +170,14 @@ utility_component_template = {
 			ship_tracking_mult = -2
 		}
 		graphics = {
-			area_effect = {
-				entity = "circle_area_entity"
-				dynamic_scale = yes
-			}
-			ship_effect = {
-				entity = "ship_aura_negative_entity"   
-				dynamic_scale = no
-			}
+			area_effect = { entity = "circle_area_entity" dynamic_scale = yes }
+			ship_effect = { entity = "ship_aura_negative_entity" dynamic_scale = no }
 		}
 		damage_per_day = {
-			damage = {
-				min = 10000
-				max = 10000
-			}
+			damage = { min = 10000 max = 10000 }
 			accuracy = 1
 			shield_penetration = 1
 			armor_penetration = 1
-			shield_damage = 1
 		}
 	}
 	ai_weight = { weight = 0 }
@@ -251,7 +192,7 @@ utility_component_template = {
 	ship_modifier = { ship_weapon_damage = 10 }
 	friendly_aura = {
 		name = SSD
-		system_wide = yes
+		radius = @shipAuraRange
 		apply_on = ships
 		stack_info = {
 			id = Firmus_Piett_FRENDSS
@@ -273,14 +214,8 @@ utility_component_template = {
 			ship_shield_damage_mult = 1
 		}
 		graphics = {
-			area_effect = {
-				entity = "circle_area_entity"
-				dynamic_scale = yes
-			}
-			ship_effect = {
-				entity = "ship_aura_positive_entity"
-				dynamic_scale = no
-			}
+			area_effect = { entity = "circle_area_entity" dynamic_scale = yes }
+			ship_effect = { entity = "ship_aura_positive_entity" dynamic_scale = no }
 		}
 	}
 	component_set = "combat_computers"
@@ -297,7 +232,7 @@ utility_component_template = {
 	ship_modifier = { ship_weapon_damage = 10 }
 	friendly_aura = {
 		name = SSD
-		system_wide = yes
+		radius = @shipAuraRange
 		apply_on = ships
 		stack_info = {
 			id = Firmus_Piett_FRENDSS
@@ -319,14 +254,8 @@ utility_component_template = {
 			ship_shield_damage_mult = 1
 		}
 		graphics = {
-			area_effect = {
-				entity = "circle_area_entity"
-				dynamic_scale = yes
-			}
-			ship_effect = {
-				entity = "ship_aura_positive_entity"
-				dynamic_scale = no
-			}
+			area_effect = { entity = "circle_area_entity" dynamic_scale = yes }
+			ship_effect = { entity = "ship_aura_positive_entity" dynamic_scale = no }
 		}
 	}
 	component_set = "combat_computers"
@@ -347,30 +276,19 @@ utility_component_template = {
 	hostile_aura = {
 		name = SSDE
 		system_wide = yes
-		apply_on = ships
 		stack_info = {
 			id = Firmus_Piett_Super
 			priority = 500
 		}
 		damage_per_day = {
-			damage = {
-				min = 5000
-				max = 5000
-			}
+			damage = { min = 5000 max = 5000 }
 			accuracy = 1
 			shield_penetration = 1
 			armor_penetration = 1
-			shield_damage = 1
 		}
 		graphics = {
-			area_effect = {
-				entity = "circle_area_entity"
-				dynamic_scale = yes
-			}
-			ship_effect = {
-				entity = "ship_aura_negative_entity"   
-				dynamic_scale = no
-			}
+			area_effect = { entity = "circle_area_entity" dynamic_scale = yes }
+			ship_effect = { entity = "ship_aura_negative_entity" dynamic_scale = no }
 		}
 		modifier = {
 			ship_shield_penetration_mult = -1
@@ -392,7 +310,7 @@ utility_component_template = {
 	ship_modifier = { ship_weapon_damage = 5 }
 	friendly_aura = {
 		name = SSD
-		system_wide = yes
+		radius = @shipAuraRange
 		apply_on = ships
 		stack_info = {
 			id = Firmus_Piett_FRENDSS
@@ -414,14 +332,8 @@ utility_component_template = {
 			ship_shield_mult = 0.75
 		}
 		graphics = {
-			area_effect = {
-				entity = "circle_area_entity"
-				dynamic_scale = yes
-			}
-			ship_effect = {
-				entity = "ship_aura_positive_entity"
-				dynamic_scale = no
-			}
+			area_effect = { entity = "circle_area_entity" dynamic_scale = yes }
+			ship_effect = { entity = "ship_aura_positive_entity" dynamic_scale = no }
 		}
 	}
 	component_set = "combat_computers"
@@ -438,7 +350,7 @@ utility_component_template = {
 	ship_modifier = { ship_weapon_damage = 5 }
 	friendly_aura = {
 		name = SSD
-		system_wide = yes
+		radius = @shipAuraRange
 		apply_on = ships
 		stack_info = {
 			id = Firmus_Piett_FRENDSS
@@ -460,14 +372,8 @@ utility_component_template = {
 			ship_shield_mult = 0.75
 		}
 		graphics = {
-			area_effect = {
-				entity = "circle_area_entity"
-				dynamic_scale = yes
-			}
-			ship_effect = {
-				entity = "ship_aura_positive_entity"
-				dynamic_scale = no
-			}
+			area_effect = { entity = "circle_area_entity" dynamic_scale = yes }
+			ship_effect = { entity = "ship_aura_positive_entity" dynamic_scale = no }
 		}
 	}
 	component_set = "combat_computers"
@@ -488,20 +394,15 @@ utility_component_template = {
 	hostile_aura = {
 		name = SSDE
 		system_wide = yes
-		apply_on = ships
 		stack_info = {
 			id = Firmus_Piett_Super
 			priority = 250
 		}
 		damage_per_day = {
-			damage = {
-				min = 500
-				max = 500
-			}
+			damage = { min = 500 max = 500 }
 			accuracy = 1
 			shield_penetration = 1
 			armor_penetration = 1
-			shield_damage = 1
 		}
 		modifier = {
 			ship_shield_penetration_mult = -1
@@ -511,14 +412,8 @@ utility_component_template = {
 			ship_hull_damage_mult = -0.25
 		}
 		graphics = {
-			area_effect = {
-				entity = "circle_area_entity"
-				dynamic_scale = yes
-			}
-			ship_effect = {
-				entity = "ship_aura_negative_entity"   
-				dynamic_scale = no
-			}
+			area_effect = { entity = "circle_area_entity" dynamic_scale = yes }
+			ship_effect = { entity = "ship_aura_negative_entity" dynamic_scale = no }
 		}
 	}
 	ai_weight = { weight = 0 }
@@ -533,7 +428,7 @@ utility_component_template = {
 	ship_modifier = { ship_weapon_damage = 2 }
 	friendly_aura = {
 		name = SSD
-		system_wide = yes
+		radius = @shipAuraRange
 		apply_on = ships
 		stack_info = {
 			id = Firmus_Piett_FRENDSS
@@ -555,14 +450,8 @@ utility_component_template = {
 			ship_shield_mult = 0.5
 		}
 		graphics = {
-			area_effect = {
-				entity = "circle_area_entity"
-				dynamic_scale = yes
-			}
-			ship_effect = {
-				entity = "ship_aura_positive_entity"
-				dynamic_scale = no
-			}
+			area_effect = { entity = "circle_area_entity" dynamic_scale = yes }
+			ship_effect = { entity = "ship_aura_positive_entity" dynamic_scale = no }
 		}
 	}
 	ai_weight = { weight = 0 }
@@ -579,7 +468,7 @@ utility_component_template = {
 	ship_modifier = { ship_weapon_damage = 2 }
 	friendly_aura = {
 		name = SSD
-		system_wide = yes
+		radius = @shipAuraRange
 		apply_on = ships
 		stack_info = {
 			id = Firmus_Piett_FRENDSS
@@ -601,14 +490,8 @@ utility_component_template = {
 			ship_shield_mult = 0.5
 		}
 		graphics = {
-			area_effect = {
-				entity = "circle_area_entity"
-				dynamic_scale = yes
-			}
-			ship_effect = {
-				entity = "ship_aura_positive_entity"
-				dynamic_scale = no
-			}
+			area_effect = { entity = "circle_area_entity" dynamic_scale = yes }
+			ship_effect = { entity = "ship_aura_positive_entity" dynamic_scale = no }
 		}
 	}
 	ai_weight = { weight = 0 }
@@ -718,102 +601,30 @@ utility_component_template = {
 	hidden = yes
 	ftl_inhibitor = yes
 	hostile_aura = {
-		name = SSDE
-		radius = 500
-		apply_on = ships
+		name = "aura_quantum_destabilizer"
+		system_wide = yes
 		stack_info = {
 			id = Firmus_Piett_Super
 			priority = 500
 		}
 		damage_per_day = {
-			damage = {
-				min = 500
-				max = 500
-			}
+			damage = { min = 500 max = 500 }
 			accuracy = 1
 			shield_penetration = 1
 			armor_penetration = 1
-			shield_damage = 1
 		}
 		modifier = {
 			ship_shield_penetration_mult = -1
 			ship_armor_penetration_mult = -1
 		}
 		graphics = {
-			area_effect = {
-				entity = "circle_area_entity"
-				dynamic_scale = yes
-			}
-			ship_effect = {
-				entity = "ship_aura_negative_entity"   
-				dynamic_scale = no
-			}
-		}
-	}
-	hostile_aura = {
-		name = SSE
-		system_wide = yes
-		apply_on = ships
-		stack_info = {
-			id = aura_ag_weapon_shield_damage_debuff
-			priority = 125
-		}
-		modifier = { ship_shield_damage_mult = -0.25 }
-		graphics = {
-			area_effect = {
-				entity = "circle_area_entity"
-				dynamic_scale = yes
-			}
-			ship_effect = {
-				entity = "ship_aura_negative_entity"   
-				dynamic_scale = no
-			}
-		}
-	}
-	hostile_aura = {
-		name = SSE
-		system_wide = yes
-		apply_on = ships
-		stack_info = {
-			id = aura_ag_weapon_armor_damage_debuff
-			priority = 125
-		}
-		modifier = { ship_armor_damage_mult = -0.25 }
-		graphics = {
-			area_effect = {
-				entity = "circle_area_entity"
-				dynamic_scale = yes
-			}
-			ship_effect = {
-				entity = "ship_aura_negative_entity"   
-				dynamic_scale = no
-			}
-		}
-	}
-	hostile_aura = {
-		name = SSE
-		system_wide = yes
-		apply_on = ships
-		stack_info = {
-			id = aura_ag_weapon_hull_damage_debuff
-			priority = 125
-		}
-		modifier = { ship_hull_damage_mult = -0.25 }
-		graphics = {
-			area_effect = {
-				entity = "circle_area_entity"
-				dynamic_scale = yes
-			}
-			ship_effect = {
-				entity = "ship_aura_negative_entity"   
-				dynamic_scale = no
-			}
+			area_effect = { entity = "circle_area_entity" dynamic_scale = yes }
+			ship_effect = { entity = "ship_aura_negative_entity" dynamic_scale = no }
 		}
 	}
 	friendly_aura = {
-		name = SSD
+		name = "aura_inspiring_presence"
 		system_wide = yes
-		apply_on = ships
 		stack_info = {
 			id = Firmus_Piett_FRENDSS
 			priority = 160
@@ -834,14 +645,8 @@ utility_component_template = {
 			ship_shield_mult = 0.5
 		}
 		graphics = {
-			area_effect = {
-				entity = "circle_area_entity"
-				dynamic_scale = yes
-			}
-			ship_effect = {
-				entity = "ship_aura_positive_entity"
-				dynamic_scale = no
-			}
+			area_effect = { entity = "circle_area_entity" dynamic_scale = yes }
+			ship_effect = { entity = "ship_aura_positive_entity" dynamic_scale = no }
 		}
 	}
 }
@@ -858,7 +663,6 @@ utility_component_template = {
 	hostile_aura = {
 		name = SSDE
 		system_wide = yes
-		apply_on = ships
 		stack_info = {
 			id = Firmus_Piett_Super
 			priority = 1000
@@ -873,30 +677,19 @@ utility_component_template = {
 			ship_tracking_mult = -2
 		}
 		graphics = {
-			area_effect = {
-				entity = "circle_area_entity"
-				dynamic_scale = yes
-			}
-			ship_effect = {
-				entity = "ship_aura_negative_entity"   
-				dynamic_scale = no
-			}
+			area_effect = { entity = "circle_area_entity" dynamic_scale = yes }
+			ship_effect = { entity = "ship_aura_negative_entity" dynamic_scale = no }
 		}
 		damage_per_day = {
-			damage = {
-				min = 10000
-				max = 10000
-			}
+			damage = { min = 10000 max = 10000 }
 			accuracy = 1
 			shield_penetration = 1
 			armor_penetration = 1
-			shield_damage = 1
 		}
 	}
 	friendly_aura = {
 		name = SSD
 		system_wide = yes
-		apply_on = ships
 		stack_info = {
 			id = Firmus_Piett_FRENDSS
 			priority = 250
@@ -917,14 +710,8 @@ utility_component_template = {
 			ship_shield_damage_mult = 1
 		}
 		graphics = {
-			area_effect = {
-				entity = "circle_area_entity"
-				dynamic_scale = yes
-			}
-			ship_effect = {
-				entity = "ship_aura_positive_entity"
-				dynamic_scale = no
-			}
+			area_effect = { entity = "circle_area_entity" dynamic_scale = yes }
+			ship_effect = { entity = "ship_aura_positive_entity" dynamic_scale = no }
 		}
 	}
 }
