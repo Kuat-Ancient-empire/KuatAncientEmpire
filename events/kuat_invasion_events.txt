@@ -1236,7 +1236,7 @@ country_event = {
 		fromfrom = { 
 			if = {
 				limit = {	
-					NOT = { has_fleet_flag = has_Eternal_support }
+					check_variable = { which = Eternal_support_var value < 1 }
 					has_enable_flag_ship_system_true = yes
 					has_enable_flag_ship_system_false = yes
 				}
@@ -1285,7 +1285,7 @@ ship_event = {
 		}
 		else = {
 			remove_executor_power = yes
-			fleet = { remove_modifier = Eternal_support remove_fleet_flag = has_Eternal_support }
+			fleet = { while = { count = Eternal_support_var remove_modifier = Eternal_support } clear_variable = Eternal_support_var }
 			remove_ship_flag = is_invisiable_trigger
 		}
 	}
@@ -1328,13 +1328,15 @@ country_event = {
 	is_triggered_only = yes
 	trigger = {
 		from = { is_country_type = ag_kuat_invasion_country }
-		fromfrom = { has_fleet_flag = has_Eternal_support }
-		OR = {
-			has_global_flag = difficult_exe_invasion
-			has_global_flag = special_exe_invasion
-		}
+		fromfrom = { check_variable = { which = Eternal_support_var value > 0 } }
+		OR = { has_global_flag = difficult_exe_invasion has_global_flag = special_exe_invasion }
 	}
-	immediate = { FROMFROM = { remove_fleet_flag = has_Eternal_support remove_modifier = Eternal_support } }
+	immediate = { 
+		FROMFROM = { 
+			while = { count = Eternal_support_var remove_modifier = Eternal_support } 
+			clear_variable = Eternal_support_var
+		} 
+	}
 }
 
 #FLEET INVISIABLE WITHOUT SPECIAL
@@ -1411,14 +1413,14 @@ country_event = {
 		OR = {
 			AND = {
 				is_country_type = ag_kuat_invasion_country
-				FROMFROM = { has_fleet_flag = has_Eternal_support }
+				FROMFROM = { check_variable = { which = Eternal_support_var value > 0 } }
 			}
-			FROMFROM = { has_fleet_flag = has_Eternal_submit }
+			FROMFROM = { check_variable = { which = Eternal_submit_var value > 0 } }
 		}
 	}
 	immediate = { 
-		FROMFROM = { remove_modifier = Eternal_support remove_fleet_flag = has_Eternal_support } 
-		FROMFROM = { remove_modifier = Eternal_submit  remove_fleet_flag = has_Eternal_submit }
+		FROMFROM = { while = { count = Eternal_support_var remove_modifier = Eternal_support }  clear_variable = Eternal_support_var } 
+		FROMFROM = { while = { count = Eternal_submit_var remove_modifier = Eternal_submit }   clear_variable = Eternal_submit_var }
 	}
 }
 
