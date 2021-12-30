@@ -2274,37 +2274,20 @@ event = {
 	hide_window = yes
 	is_triggered_only = yes
 	trigger = {
-		NOR = { 
-			any_country = { OR = { has_origin = origin_kuat_apocalyptic has_origin = origin_eternalthrone } } 
-			has_global_flag = will_be_upgrade_starforge
+		exists = event_target:starkillerbase_location
+		any_megastructure = {
+			OR = {
+				is_megastructure_type = kuat_starkillerbase_0
+				is_megastructure_type = kuat_starkillerbase_0_1
+				is_megastructure_type = kuat_starkillerbase_0_2
+				is_megastructure_type = kuat_starkillerbase_1
+				is_megastructure_type = kuat_starkillerbase_a
+				is_megastructure_type = kuat_starkillerbase_15
+				is_megastructure_type = kuat_starkillerbase_2
+			}
 		}
 	}
 	immediate = {
-		if = {
-			limit = { 
-				any_country = {
-					OR = {
-						has_country_flag = can_enable_kuat_gate_special
-						has_country_flag = can_enable_kuat_gate
-					}
-					NOT = { has_country_flag = can_enable_kuat_gate_special_active }
-				}
-				NOR = { 
-					any_country = { OR = { has_origin = origin_kuat_apocalyptic has_origin = origin_eternalthrone } } 
-					has_global_flag = will_be_upgrade_starforge
-				}
-				NOT = { has_global_flag = kuat_outgate_enable }
-			}
-			every_playable_country = {
-				limit = {
-					OR = {
-						has_country_flag = can_enable_kuat_gate_special
-						has_country_flag = can_enable_kuat_gate
-					}
-					NOT = { has_country_flag = can_enable_kuat_gate_special_active }
-				}
-				set_country_flag = finished_kuat_gateway_stage_final
-			}
-		}
+		event_target:starkillerbase_location = { set_planet_entity = { entity = "starkillerbase_megastructure_entity" picture = pc_starkiller } }
 	}
 }
