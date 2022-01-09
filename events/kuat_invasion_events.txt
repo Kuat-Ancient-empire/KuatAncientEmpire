@@ -2381,20 +2381,15 @@ event = {
 	hide_window = yes
 	is_triggered_only = yes
 	trigger = {
-		exists = event_target:starkillerbase_location
-		any_megastructure = {
-			OR = {
-				is_megastructure_type = kuat_starkillerbase_0
-				is_megastructure_type = kuat_starkillerbase_0_1
-				is_megastructure_type = kuat_starkillerbase_0_2
-				is_megastructure_type = kuat_starkillerbase_1
-				is_megastructure_type = kuat_starkillerbase_a
-				is_megastructure_type = kuat_starkillerbase_15
-				is_megastructure_type = kuat_starkillerbase_2
-			}
+		any_country = { 
+			NOT = { has_country_flag = kuat_war_goal }
+			has_country_flag = finish_starkillerbase_event
 		}
 	}
 	immediate = {
-		event_target:starkillerbase_location = { set_planet_entity = { entity = "starkillerbase_megastructure_entity" picture = pc_starkiller } }
+		random_country = {
+			limit = { has_country_flag = finish_starkillerbase_event }
+			set_country_flag = kuat_war_goal
+		}
 	}
 }
