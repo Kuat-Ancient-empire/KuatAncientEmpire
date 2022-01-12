@@ -552,6 +552,51 @@ set_eternal_fleet_mult_modifier = {
 		subtract_variable = { which = change_$weapon_type_explosive$_value value = @origin_value }
 		set_invasion_fleet_basic_modifier = { SUB = change_basical_$weapon_type_explosive$ FACTOR = change_$weapon_type_explosive$_value }
 	}] #scope: fromfrom
+	[[armor_damage_own] if = {
+		limit = { 
+			NOT = { is_variable_set = $armor_damage_own$_value } 
+			check_modifier_value = { modifier = $armor_damage_own$ value < @origin_value }
+		}
+		export_modifier_to_variable = { modifier = $armor_damage_own$ variable = $armor_damage_own$_value }
+		subtract_variable = { which = $armor_damage_own$_value value = @origin_value }
+		set_invasion_fleet_basic_modifier = { SUB = basical_$armor_damage_own$ FACTOR = $armor_damage_own$_value }
+	} else_if = { 
+		limit = { has_ship_flag = fire_ship_var }
+		if = { limit = { is_variable_set = change_$armor_damage_own$_value } clear_variable = change_$armor_damage_own$_value }
+		export_modifier_to_variable = { modifier = $armor_damage_own$ variable = change_$armor_damage_own$_value }
+		subtract_variable = { which = change_$armor_damage_own$_value value = @origin_value }
+		set_invasion_fleet_basic_modifier = { SUB = change_basical_$armor_damage_own$ FACTOR = change_$armor_damage_own$_value }
+	}] #scope: fromfrom
+	[[shield_damage_own] if = {
+		limit = { 
+			NOT = { is_variable_set = $shield_damage_own$_value } 
+			check_modifier_value = { modifier = $shield_damage_own$ value < @origin_value }
+		}
+		export_modifier_to_variable = { modifier = $shield_damage_own$ variable = $shield_damage_own$_value }
+		subtract_variable = { which = $shield_damage_own$_value value = @origin_value }
+		set_invasion_fleet_basic_modifier = { SUB = basical_$shield_damage_own$ FACTOR = $shield_damage_own$_value }
+	} else_if = { 
+		limit = { has_ship_flag = fire_ship_var }
+		if = { limit = { is_variable_set = change_$shield_damage_own$_value } clear_variable = change_$shield_damage_own$_value }
+		export_modifier_to_variable = { modifier = $shield_damage_own$ variable = change_$shield_damage_own$_value }
+		subtract_variable = { which = change_$shield_damage_own$_value value = @origin_value }
+		set_invasion_fleet_basic_modifier = { SUB = change_basical_$shield_damage_own$ FACTOR = change_$shield_damage_own$_value }
+	}] #scope: fromfrom
+	[[hull_damage_own] if = {
+		limit = { 
+			NOT = { is_variable_set = $hull_damage_own$_value } 
+			check_modifier_value = { modifier = $hull_damage_own$ value < @origin_value }
+		}
+		export_modifier_to_variable = { modifier = $hull_damage_own$ variable = $hull_damage_own$_value }
+		subtract_variable = { which = $hull_damage_own$_value value = @origin_value }
+		set_invasion_fleet_basic_modifier = { SUB = basical_$hull_damage_own$ FACTOR = $hull_damage_own$_value }
+	} else_if = { 
+		limit = { has_ship_flag = fire_ship_var }
+		if = { limit = { is_variable_set = change_$hull_damage_own$_value } clear_variable = change_$hull_damage_own$_value }
+		export_modifier_to_variable = { modifier = $hull_damage_own$ variable = change_$hull_damage_own$_value }
+		subtract_variable = { which = change_$hull_damage_own$_value value = @origin_value }
+		set_invasion_fleet_basic_modifier = { SUB = change_basical_$hull_damage_own$ FACTOR = change_$hull_damage_own$_value }
+	}] #scope: fromfrom
 	[[shield_reduction] if = {
 		limit = { 
 			NOT = { is_variable_set = $shield_reduction$_value } 
@@ -655,6 +700,9 @@ remove_eternal_fleet_mult_variable = {
 	[[armor_damage] clear_variable = $armor_damage$_value clear_variable = change_$armor_damage$_value ]
 	[[shield_damage] clear_variable = $shield_damage$_value clear_variable = change_$shield_damage$_value ]
 	[[hull_damage] clear_variable = $hull_damage$_value clear_variable = change_$hull_damage$_value ]
+	[[armor_damage_own] clear_variable = $armor_damage_own$_value clear_variable = change_$armor_damage_own$_value ]
+	[[shield_damage_own] clear_variable = $shield_damage_own$_value clear_variable = change_$shield_damage_own$_value ]
+	[[hull_damage_own] clear_variable = $hull_damage_own$_value clear_variable = change_$hull_damage_own$_value ]
 	[[weapon_type_energy] clear_variable = $weapon_type_energy$_value clear_variable = change_$weapon_type_energy$_value ]
 	[[weapon_type_explosive] clear_variable = $weapon_type_explosive$_value clear_variable = change_$weapon_type_explosive$_value ]
 	[[weapon_type_kinetic] clear_variable = $weapon_type_kinetic$_value clear_variable = change_$weapon_type_kinetic$_value ]
@@ -716,6 +764,8 @@ clear_battleship_modifier_fixed_ship = {
 		weapon_range_mult = ship_weapon_range_mult						fire_rate_mult = ship_fire_rate_mult
 		tracking_add_own = ship_tracking_add							accuracy_add_own = ship_accuracy_add
 		shield_add = ship_shield_add									armor_add = ship_armor_add
+		armor_damage_own = ship_armor_damage_mult						shield_damage_own = ship_shield_damage_mult
+		hull_damage_own = ship_hull_damage_mult
 	}
 }
 
