@@ -1167,24 +1167,15 @@ country_event = {
 	}
 }
 
-country_event = {
-	id = exe_invasion.1002
-	hide_window = yes
-	is_triggered_only = yes
-	immediate = {
-		create_fleet = {
-			name = "Eternal Flagship"
-			effect = {
-				set_owner = prev
-				create_ship = {	design = "Name_boss_crisis_EFS_1" }
-				set_location = prev.capital_scope
-				set_fleet_stance = aggressive
-				set_fleet_bombardment_stance = indiscriminate
-			}
-			settings = { is_boss = yes }
-		}
-	}
-}
+# country_event = {
+# 	id = exe_invasion.1002
+# 	hide_window = yes
+# 	is_triggered_only = yes
+# 	immediate = {
+# 		create_ship_design = { design = Name_boss_crisis_EFS_3 }
+# 		add_ship_design = last_created_design
+# 	}
+# }
 
 ship_event = {
 	id = exe_invasion.1003
@@ -1215,7 +1206,8 @@ ship_event = {
 		set_global_flag = enbale_last_invasion
 		every_playable_country = {
 			limit = { is_ai = no }
-			country_event = { id = exe_invasion.1002 }
+			create_ship_design = { design = Name_boss_crisis_EFS_3 }
+			add_ship_design = last_created_design
 		}
 	}
 	option = { name = exe_invasion.1003.a }
@@ -1369,6 +1361,7 @@ country_event = {
 			if = {
 				limit = { has_enable_flag_ship_system_true = yes }
 				if = { limit = { kuat_is_flagship_size = { size = Annihilator } } increase_ship_hp_effect_change = { DAYS = 6 } }
+				else_if = { limit = { kuat_is_flagship_size = { size = eternal_flagship } } increase_ship_hp_effect_change = { DAYS = 5 } }
 				else_if = { limit = { kuat_is_flagship_size = { size = eclipse } } increase_ship_hp_effect_change = { DAYS = 5 } }
 				else_if = { limit = { kuat_is_flagship_size = { size = Venguard } } increase_ship_hp_effect_change = { DAYS = 4 } }
 				else_if = { limit = { kuat_is_flagship_size = { size = nebula_executor } } increase_ship_hp_effect_change = { DAYS = 3 } }
@@ -2010,6 +2003,18 @@ country_event = {
 									owner = { is_kuat_fallen_empire = yes }
 								}
 							}
+							kuat_reduce_hp_percent = { value = 20 }
+							set_timed_ship_flag = { flag = kuat_ancient_21_target days = 2 }
+						}
+						10 = {
+							modifier = {
+								factor = 0
+								OR = {
+									NOT = { has_global_flag = enable_modifer_check }
+									owner = { is_country_type = ag_kuat_invasion_country }
+									owner = { is_kuat_fallen_empire = yes }
+								}
+							}
 							kuat_reduce_hp_percent = { value = 10 }
 							set_timed_ship_flag = { flag = kuat_ancient_21_target days = 2 }
 						}
@@ -2059,18 +2064,6 @@ country_event = {
 								}
 							}
 							kuat_reduce_hp_percent = { value = 2 }
-							set_timed_ship_flag = { flag = kuat_ancient_21_target days = 2 }
-						}
-						10 = {
-							modifier = {
-								factor = 0
-								OR = {
-									NOT = { has_global_flag = enable_modifer_check }
-									owner = { is_country_type = ag_kuat_invasion_country }
-									owner = { is_kuat_fallen_empire = yes }
-								}
-							}
-							kuat_reduce_hp_percent = { value = 1 }
 							set_timed_ship_flag = { flag = kuat_ancient_21_target days = 2 }
 						}
 						10 = {
@@ -2228,6 +2221,18 @@ country_event = {
 							owner = { is_kuat_fallen_empire = yes }
 						}
 					}
+					kuat_reduce_hp_percent = { value = 20 }
+					set_timed_ship_flag = { flag = kuat_ancient_21_target days = 2 }
+				}
+				10 = {
+					modifier = {
+						factor = 0
+						OR = {
+							NOT = { has_global_flag = enable_modifer_check }
+							owner = { is_country_type = ag_kuat_invasion_country }
+							owner = { is_kuat_fallen_empire = yes }
+						}
+					}
 					kuat_reduce_hp_percent = { value = 10 }
 					set_timed_ship_flag = { flag = kuat_ancient_21_target days = 2 }
 				}
@@ -2277,18 +2282,6 @@ country_event = {
 						}
 					}
 					kuat_reduce_hp_percent = { value = 2 }
-					set_timed_ship_flag = { flag = kuat_ancient_21_target days = 2 }
-				}
-				10 = {
-					modifier = {
-						factor = 0
-						OR = {
-							NOT = { has_global_flag = enable_modifer_check }
-							owner = { is_country_type = ag_kuat_invasion_country }
-							owner = { is_kuat_fallen_empire = yes }
-						}
-					}
-					kuat_reduce_hp_percent = { value = 1 }
 					set_timed_ship_flag = { flag = kuat_ancient_21_target days = 2 }
 				}
 				10 = {
