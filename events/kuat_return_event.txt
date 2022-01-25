@@ -194,7 +194,10 @@ country_event = {
 				else_if = {
 					limit = {
 						is_star = no
+						is_asteroid = no
+						is_ringworld = no
 						NOR = {
+							has_planet_flag = has_megastructure
 							is_planet_class = pc_gaia
 							is_planet_class = pc_ringworld_habitable
 							is_planet_class = pc_ringworld_seam
@@ -284,7 +287,7 @@ country_event = {
 	immediate = {
 		event_target:return_kuat_awakening_country = {
 			create_kuat_return_starbase = yes
-			create_kuat_return_fleet_1 = yes
+			create_kuat_return_fleet_defender = yes
 		}
 		remove_country_flag = can_pass_by
 		remove_country_flag = can_pass_inner_by
@@ -463,13 +466,15 @@ country_event = {
 	option = {
 		name = "exe_kuat_return.13.a"
 		hidden_effect = {
+			save_global_event_target_as = kuat_Annihilate_country
+			set_country_flag = kuat_Annihilate_country
 			declare_war = {
 				target = event_target:return_kuat_awakening_country
 				name = "Galactic Civil War"
 				attacker_war_goal = Kuat_total_war
 			}
 			event_target:return_kuat_awakening_country = {
-				country_event = { id = exe_kuat_return.14 days = 120 }
+				country_event = { id = exe_kuat_return.14 days = 180 }
 				country_event = { id = exe_kuat_return.14 days = 360 }
 				country_event = { id = exe_kuat_return.18 days = 720 }
 			}
@@ -557,13 +562,15 @@ country_event = {
 		name = "exe_kuat_return.13.a"
 		custom_tooltip = "exe_kuat_return.13.a.tooltip"
 		hidden_effect = {
+			save_global_event_target_as = kuat_Annihilate_country
+			set_country_flag = kuat_Annihilate_country
 			declare_war = {
 				target = event_target:return_kuat_awakening_country
 				name = "Galactic Civil War"
 				attacker_war_goal = Kuat_total_war
 			}
 			event_target:return_kuat_awakening_country = {
-				country_event = { id = exe_kuat_return.14 days = 120 }
+				country_event = { id = exe_kuat_return.14 days = 180 }
 				country_event = { id = exe_kuat_return.14 days = 360 }
 				country_event = { id = exe_kuat_return.18 days = 720 }
 			}
@@ -587,13 +594,15 @@ country_event = {
 		name = "exe_kuat_return.13.a"
 		custom_tooltip = "exe_kuat_return.13.a.tooltip"
 		hidden_effect = {
+			save_global_event_target_as = kuat_Annihilate_country
+			set_country_flag = kuat_Annihilate_country
 			declare_war = {
 				target = event_target:return_kuat_awakening_country
 				name = "Galactic Civil War"
 				attacker_war_goal = Kuat_total_war
 			}
 			event_target:return_kuat_awakening_country = {
-				country_event = { id = exe_kuat_return.14 days = 120 }
+				country_event = { id = exe_kuat_return.14 days = 180 }
 				country_event = { id = exe_kuat_return.14 days = 360 }
 				country_event = { id = exe_kuat_return.18 days = 720 }
 			}
@@ -610,7 +619,7 @@ country_event = {
 		is_at_war = yes
 		is_country_type = awakened_return_kuat_empire
 	}
-	immediate = { create_kuat_return_fleet_1 = yes }
+	immediate = { create_kuat_return_fleet_attacker = yes }
 }
 
 country_event = {
@@ -627,7 +636,7 @@ country_event = {
 			limit = { num_ships > 360 }
 			country_event = { id = exe_kuat_return.18 days = 180 random = 20 }
 		} else = {
-			create_kuat_return_fleet_1 = yes
+			create_kuat_return_fleet_attacker = yes
 			country_event = { id = exe_kuat_return.18 days = 360 random = 40 }
 		}
 	}
@@ -648,6 +657,8 @@ country_event = {
 			limit = { has_federation = yes }
 			federation = { every_member = { leave_alliance = { override_requirements = yes } } }
 		}
+		clear_global_event_target = kuat_Annihilate_country
+		remove_country_flag = kuat_Annihilate_country
 	}
 }
 
@@ -669,6 +680,7 @@ country_event = {
 			if = {
 				limit = { has_federation = yes }
 				federation = { every_member = { leave_alliance = { override_requirements = yes } } }
+				every_war = { end_war_effect = yes }
 			}
 		}
 	}
@@ -679,6 +691,7 @@ country_event = {
 			if = {
 				limit = { has_federation = yes }
 				federation = { every_member = { leave_alliance = { override_requirements = yes } } }
+				every_war = { end_war_effect = yes }
 			}
 			every_system = {
 				limit = { kuat_is_kuat_system = yes }
@@ -709,39 +722,39 @@ country_event = {
 }
 
 #轰炸
-planet_event = {
-	id = exe_kuat_return.1001
-	hide_window = yes
-	is_triggered_only = yes
-	trigger = {
-		planet_devastation = 100
-		from = { is_country_type = awakened_return_kuat_empire }
-	}
-	immediate = {
-		if = {
-			limit = { has_planet_flag = phaseshifting_active }
-			remove_planet_flag = phaseshifting_active
-			remove_modifier = phaseshifted
-		}
-		if = {
-			limit = { num_pops > 0 }
-			every_owned_pop = { kill_pop = yes }
-		}
-		destroy_colony = yes
-		if = {
-			limit = { kuat_is_ringworld = yes }
-			spawn_ringworld_cracker_effect = yes
-			change_pc = pc_ringworld_habitable_damaged
-			set_planet_entity = { entity = ringworld_habitable_damaged_entity }
-		}
-		else_if = {
-			limit = { kuat_is_habitat = yes }
-			spawn_habitat_cracker_effect = yes
-			remove_planet = yes
-		}
-		else = { change_pc = pc_shattered }
-	}
-}
+# planet_event = {
+# 	id = exe_kuat_return.1001
+# 	hide_window = yes
+# 	is_triggered_only = yes
+# 	trigger = {
+# 		planet_devastation = 100
+# 		from = { is_country_type = awakened_return_kuat_empire }
+# 	}
+# 	immediate = {
+# 		if = {
+# 			limit = { has_planet_flag = phaseshifting_active }
+# 			remove_planet_flag = phaseshifting_active
+# 			remove_modifier = phaseshifted
+# 		}
+# 		if = {
+# 			limit = { num_pops > 0 }
+# 			every_owned_pop = { kill_pop = yes }
+# 		}
+# 		destroy_colony = yes
+# 		if = {
+# 			limit = { kuat_is_ringworld = yes }
+# 			spawn_ringworld_cracker_effect = yes
+# 			change_pc = pc_ringworld_habitable_damaged
+# 			set_planet_entity = { entity = ringworld_habitable_damaged_entity }
+# 		}
+# 		else_if = {
+# 			limit = { kuat_is_habitat = yes }
+# 			spawn_habitat_cracker_effect = yes
+# 			remove_planet = yes
+# 		}
+# 		else = { change_pc = pc_shattered }
+# 	}
+# }
 
 country_event = {
 	id = exe_kuat_return.19

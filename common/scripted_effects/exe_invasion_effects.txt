@@ -1164,13 +1164,13 @@ fleet_execute_order_1 = {
 				if = {
 					limit = { has_fleet_flag = kuat_cannot_find_path }
 					if = {
-						limit = { exists = event_target:kuat_warning_country }
+						limit = { exists = $TARGET$ }
 						random_system = {
 							limit = {
 								any_system_planet = { is_colony = no }
 								closest_system = {
 									min_steps = 1
-									any_system_planet = { is_colony = yes owner = { is_at_war_with = event_target:fallen_empire_kuat } }
+									any_system_planet = { is_colony = yes owner = { is_at_war_with = $OWNER_TARGET$ } }
 								}
 							}
 							random_system_planet = { 
@@ -1198,12 +1198,12 @@ fleet_execute_order_1 = {
 					ROOT = { can_access_system = prev }
 					OR = {
 						any_system_planet = {
-							owner = { is_at_war_with = event_target:fallen_empire_kuat }
+							owner = { is_at_war_with = $OWNER_TARGET$ }
 							is_colony = yes
 						}
 						AND = {
 							exists = starbase
-							starbase = { owner = { is_at_war_with = event_target:fallen_empire_kuat } }
+							starbase = { owner = { is_at_war_with = $OWNER_TARGET$ } }
 						}
 					}
 					check_variable = { which = kuat_fleet_id value < 1 }
@@ -1218,7 +1218,7 @@ fleet_execute_order_1 = {
 						while = {
 							id = executor.2.t0
 							any_system_planet = {
-								owner = { is_at_war_with = event_target:fallen_empire_kuat }
+								owner = { is_at_war_with = $OWNER_TARGET$ }
 								is_colony = yes
 							}
 						}
@@ -1226,7 +1226,7 @@ fleet_execute_order_1 = {
 							trigger = {
 								id = executor.2
 								is_colony = yes
-								owner = { is_at_war_with = event_target:fallen_empire_kuat }
+								owner = { is_at_war_with = $OWNER_TARGET$ }
 							}
 							found_planet = {
 								orbit_planet = this
@@ -1254,6 +1254,16 @@ fleet_execute_order_1 = {
 						trigger = {
 							id = executor.5.t9
 							ROOT = { can_access_system = prev }
+							OR = {
+								any_system_planet = {
+									owner = { is_at_war_with = $OWNER_TARGET$ }
+									is_colony = yes
+								}
+								AND = {
+									exists = starbase
+									starbase = { owner = { is_at_war_with = $OWNER_TARGET$ } }
+								}
+							}
 							check_variable = { which = kuat_fleet_id value < 1 }
 						}
 						found_system = {
@@ -1266,7 +1276,7 @@ fleet_execute_order_1 = {
 								while = {
 									id = executor.5.t0
 									any_system_planet = {
-										owner = { is_at_war_with = event_target:fallen_empire_kuat }
+										owner = { is_at_war_with = $OWNER_TARGET$ }
 										is_colony = yes
 									}
 								}
@@ -1274,7 +1284,7 @@ fleet_execute_order_1 = {
 									trigger = {
 										id = executor.5.t5
 										is_colony = yes
-										owner = { is_at_war_with = event_target:fallen_empire_kuat }
+										owner = { is_at_war_with = $OWNER_TARGET$ }
 									}
 									found_planet = {
 										orbit_planet = this
@@ -1419,7 +1429,7 @@ create_kuat_awakening_fleet = {
 }
 
 #RETURN FLEET
-create_kuat_return_fleet_1 = {
+create_kuat_return_fleet_defender = {
 	every_system_within_border = {
 		limit = { kuat_is_kuat_system = yes }
 		create_exe_invasion_fleet = {
@@ -1427,8 +1437,87 @@ create_kuat_return_fleet_1 = {
 			is_boss = yes  can_disband = no
 			Fleet_owner = event_target:return_kuat_awakening_country
 			bombardment = indiscriminate
-			Eclipse = 1  Dominance = 1  high_Imperial = 15  Harrower = 25  Raider = 30  DIFF = 2
+			Eclipse = 1  high_Imperial = 25  Harrower = 50  Raider = 75  DIFF = 2
 			Location = prev.star
+		}
+	}
+}
+
+create_kuat_return_fleet_attacker = {
+	every_system_within_border = {
+		limit = { kuat_is_kuat_system = yes }
+		random_list = {
+			30 = {
+				create_exe_invasion_fleet = {
+					NAME = Name_DFLEET_II
+					flag = third_attack_fleet
+					is_boss = yes  can_disband = no
+					Fleet_owner = event_target:return_kuat_awakening_country
+					bombardment = indiscriminate
+					Eclipse = 1  high_Imperial = 15  Harrower = 25  Raider = 30  DIFF = 3
+					Location = prev.star fleet_action = ai_action.12
+					VAR_TARGET = event_target:return_kuat_awakening_country
+				}
+			}
+			30 = {
+				create_exe_invasion_fleet = {
+					NAME = Name_DFLEET_II
+					is_boss = yes  can_disband = no
+					flag = third_attack_fleet
+					Fleet_owner = event_target:return_kuat_awakening_country
+					bombardment = indiscriminate
+					Executor = 1  high_Imperial = 15  Harrower = 25  Raider = 30  DIFF = 3
+					Location = prev.star fleet_action = ai_action.12
+					VAR_TARGET = event_target:return_kuat_awakening_country
+				}
+			}
+			30 = {
+				create_exe_invasion_fleet = {
+					NAME = Name_DFLEET_II
+					is_boss = yes  can_disband = no
+					flag = third_attack_fleet
+					Fleet_owner = event_target:return_kuat_awakening_country
+					bombardment = indiscriminate
+					Dominance = 1  high_Imperial = 15  Harrower = 25  Raider = 30  DIFF = 3
+					Location = prev.star fleet_action = ai_action.12
+					VAR_TARGET = event_target:return_kuat_awakening_country
+				}
+			}
+			1 = {
+				create_exe_invasion_fleet = {
+					NAME = Name_DFLEET_II
+					is_boss = yes  can_disband = no
+					Fleet_owner = event_target:return_kuat_awakening_country
+					bombardment = indiscriminate
+					Eclipse = 1  high_Imperial = 25  Harrower = 50  Raider = 75  DIFF = 3
+					Location = prev.star fleet_action = ai_action.12
+					VAR_TARGET = event_target:return_kuat_awakening_country
+				}
+			}
+			1 = {
+				create_exe_invasion_fleet = {
+					NAME = Name_DFLEET_II
+					is_boss = yes  can_disband = no
+					flag = third_attack_fleet
+					Fleet_owner = event_target:return_kuat_awakening_country
+					bombardment = indiscriminate
+					Executor = 1  high_Imperial = 25  Harrower = 50  Raider = 75  DIFF = 3
+					Location = prev.star fleet_action = ai_action.12
+					VAR_TARGET = event_target:return_kuat_awakening_country
+				}
+			}
+			1 = {
+				create_exe_invasion_fleet = {
+					NAME = Name_DFLEET_II
+					is_boss = yes  can_disband = no
+					flag = third_attack_fleet
+					Fleet_owner = event_target:return_kuat_awakening_country
+					bombardment = indiscriminate
+					Dominance = 1  high_Imperial = 25  Harrower = 50  Raider = 75  DIFF = 3
+					Location = prev.star fleet_action = ai_action.12
+					VAR_TARGET = event_target:return_kuat_awakening_country
+				}
+			}
 		}
 	}
 }
@@ -1847,7 +1936,7 @@ create_kuat_fire_base_country_type_defend_army = {
 		is_boss = yes  can_disband = no
 		Fleet_owner = event_target:kuat_firebase_country
 		bombardment = indiscriminate
-		Executor = 1  high_Imperial = 12  Harrower = 24  Raider = 30  DIFF = 2
+		Executor = 1  high_Imperial = 25  Harrower = 50  Raider = 75  DIFF = 3
 		fleet_stance = aggressive
 		Location = prev
 	}
