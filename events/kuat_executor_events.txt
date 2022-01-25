@@ -1000,16 +1000,50 @@ country_event = {
 	}
 	immediate = {
 		if = {
-			limit = { is_country_type = kuat_fallen_empire }
-			every_playable_country = {
-				limit = { is_ai = no }
-				country_event = { id = executor_build.21 }
+			limit = { event_target:target_for_kuat = { has_country_flag = kuat_war_goal } }
+			if = {
+				limit = { is_country_type = kuat_fallen_empire }
+				every_playable_country = {
+					limit = { is_ai = no }
+					country_event = { id = executor_build.21 }
+				}
+				country_event = { id = executor_build.20 }
 			}
-			country_event = { id = executor_build.20 }
+			random_playable_country = {
+				limit = { is_same_value = event_target:target_for_kuat }
+				country_event = { id = executor_build.24 days = 5 }
+			}
 		}
-		random_playable_country = {
-			limit = { is_same_value = event_target:target_for_kuat }
-			country_event = { id = executor_build.24 days = 5 }
+		else = {
+			save_event_target_as = fallen_empire_humiliator
+			random_system = {
+				limit = { has_star_flag = kuat_military_base_system_home }
+				every_fleet_in_system = { 
+					limit = { is_kuat_fallen_empire = no }
+					set_location =  owner.capital_scope 
+				}
+				create_kuat_fleet_country_type = yes
+				create_starbase = {
+					owner = event_target:fallen_empire_kuat_fleet
+					size = exe_starbase
+					module = "gun_battery"
+					module = "gun_battery"
+					module = "gun_battery"
+					module = "gun_battery"
+					module = "gun_battery"
+					module = "gun_battery"
+					building = "target_uplink_computer"
+					building = "defense_grid"
+					building = "colossus_yards"
+					building = "titan_yards"
+				}
+				random_system_planet = {
+					limit = { is_primary_star = yes }
+					create_kuat_fleet_country_type_defend_army = yes
+				}
+			}
+			event_target:target_for_kuat = { establish_communications_no_message = event_target:fallen_empire_kuat_fleet }
+			event_target:target_for_kuat = { fallen_empire_humiliate_effect = yes country_event = { id = ai_action.5 days = 1 } }
 		}
 	}
 }
