@@ -134,6 +134,7 @@ remove_executor_power = {
 	remove_modifier = increase_hp_3000000_times
 	remove_modifier = increase_hp_2000000_times
 	remove_modifier = increase_hp_1000000_times
+	fleet = { remove_fleet_flag = eternal_learned_leader }
 }
 
 set_eternal_fleet_mult_modifier = {
@@ -859,4 +860,59 @@ kuat_upgrade_epsilon_obelisk = {
 		}
 	}
 	remove_megastructure = this
+}
+
+#fromfromfrom: enemy fleet
+#fromfrom: eternal fleet
+kuat_copy_leader_learning_system = {
+	if = {
+		limit = { fromfromfrom = { NOT = { has_fleet_flag = eternal_learned_leader } } }
+		fromfromfrom = {
+			random_list = {
+				1 = { 
+					if = {
+						limit = { 
+							exists = leader 
+							leader = { NOT = { has_leader_flag = eternal_learned_leader } }
+						}
+						set_fleet_flag = eternal_learned_leader
+						leader = { set_timed_leader_flag = { flag = eternal_learned_leader days = 180 } }
+						root = {
+							clone_leader = {
+								class = admiral
+								target = prev.leader
+								effect = { save_event_target_as = eternal_learned_leader_copy }
+							}
+							fromfrom = {
+								if = {
+									limit = { NOT = { has_fleet_flag = have_learned_leader } }
+									if = {
+										limit = { exists = leader }
+										leader = { kill_leader = { show_notification = no } }
+									}
+									assign_leader = event_target:eternal_learned_leader_copy
+									set_timed_fleet_flag = { flag = have_learned_leader days = 180 }
+								}
+								else = {
+									owner = { 
+										random_owned_fleet = {
+											limit = { NOT = { has_fleet_flag = have_learned_leader } }
+											if = {
+												limit = { exists = leader }
+												leader = { kill_leader = { show_notification = no } }
+											}
+											assign_leader = event_target:eternal_learned_leader_copy
+											set_timed_fleet_flag = { flag = have_learned_leader days = 180 }
+										}
+									}
+								}
+							}
+						}
+					}
+					else = { every_owned_ship = { kuat_reduce_hp_percent = { value = 1 } } }
+				}
+				99 = {  }
+			}
+		}
+	}
 }
