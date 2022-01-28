@@ -1006,15 +1006,7 @@ country_event = {
 	option = {
 		name = "exe_invasion.33.a"
 		hidden_effect = {
-			if = {
-				limit = {
-					OR = {
-						has_global_flag = difficult_exe_invasion
-						has_global_flag = normal_exe_invasion
-					}
-				}
-				set_global_flag = fire_the_kuat_return
-			}
+			set_global_flag = fire_the_kuat_return
 			end_event_chain = ag_exe_invasion_chain
 		}
 	}
@@ -1185,22 +1177,7 @@ ship_event = {
 	custom_gui_option = "kuat_event_option"
 	is_triggered_only = yes
 	immediate = {
-		if = {
-			limit = {
-				OR = {
-					has_global_flag = ban_exe_invasion
-					has_global_flag = easy_exe_invasion
-					has_global_flag = normal_exe_invasion
-					has_global_flag = special_exe_invasion
-				}
-			}
-			remove_global_flag = ban_exe_invasion
-			remove_global_flag = easy_exe_invasion
-			remove_global_flag = normal_exe_invasion
-			remove_global_flag = special_exe_invasion
-		}
-		set_global_flag = difficult_exe_invasion
-		set_global_flag = enbale_last_invasion
+		owner = { reset_return_eternal_fleet = yes }
 		every_playable_country = {
 			limit = { is_ai = no }
 			create_ship_design = { design = Name_boss_crisis_EFS_3 }
@@ -1287,7 +1264,6 @@ country_event = {
 	trigger = { 
 		is_country_type = ag_kuat_invasion_country
 		fromfrom = { has_fleet_flag = ag_kuat_invasion_starbase }
-		NOT = { has_global_flag = easy_exe_invasion }
 	}
 	immediate = {
 		fromfrom = {
@@ -1319,7 +1295,7 @@ country_event = {
 	trigger = {
 		from = { is_country_type = ag_kuat_invasion_country }
 		fromfrom = { check_variable = { which = Eternal_support_var value > 0 } }
-		OR = { has_global_flag = difficult_exe_invasion has_global_flag = special_exe_invasion }
+		has_global_flag = difficult_exe_invasion
 	}
 	immediate = { 
 		FROMFROM = { 
@@ -1440,9 +1416,8 @@ ship_event = {
 	hide_window = yes
 	is_triggered_only = yes
 	trigger = { 
-		has_ship_flag = check_disable_allowed 
+		owner = { is_country_type = ag_kuat_invasion_country }
 		has_global_flag = enable_modifer_check
-		has_global_flag = difficult_exe_invasion
 	}
 	immediate = { repair_ship = yes set_disabled = no }
 }
@@ -1452,19 +1427,22 @@ ship_event = {
 	hide_window = yes
 	is_triggered_only = yes
 	trigger = { 
-		has_ship_flag = check_disable_allowed 
+		owner = { is_country_type = ag_kuat_invasion_country }
 		has_global_flag = enable_modifer_check
-		has_global_flag = difficult_exe_invasion
 	}
 	immediate = {
 		if = {
-			limit = { is_in_combat = yes }
-			change_variable = { which = combat_days value = 1 }
+			limit = { has_global_flag = difficult_exe_invasion }
 			if = {
-				limit = { check_variable = { which = combat_days value > 3 } }
-				set_disable_at_health = -1
+				limit = { is_in_combat = yes }
+				change_variable = { which = combat_days value = 1 }
+				if = {
+					limit = { check_variable = { which = combat_days value > 3 } }
+					set_disable_at_health = -1
+				}
+				ship_event = { id = exe_invasion.138 days = 1 }
 			}
-			ship_event = { id = exe_invasion.138 days = 1 }
+			else = { clear_variable = combat_days set_disable_at_health = 0.01 }
 		}
 		else = { clear_variable = combat_days set_disable_at_health = -1 }
 	}
@@ -1489,12 +1467,7 @@ country_event = {
 					set_ship_flag = is_modifiering
 					ship_event = { id = exe_invasion.137 }
 					if = {
-						limit = { 
-							NOT = { is_variable_set = combat_days }
-							has_ship_flag = check_disable_allowed 
-							has_global_flag = difficult_exe_invasion
-						}
-						set_disable_at_health = 0.01
+						limit = { NOT = { is_variable_set = combat_days } }
 						change_variable = { which = combat_days value = 1 }
 						ship_event = { id = exe_invasion.138 days = 1 }
 					}
