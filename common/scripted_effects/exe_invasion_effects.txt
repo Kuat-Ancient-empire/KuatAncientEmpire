@@ -1675,32 +1675,29 @@ create_kuat_defender_and_attack_fleet = {
 create_kuat_defender_and_attack_crisis_fleet = {
 	random_system_within_border = {
 		limit = { kuat_is_kuat_system = yes }
-		create_defender_and_attacker_crisis = yes
-	}
-}
-
-create_defender_and_attacker_crisis = {
-	create_fleet = {
-		name = "Name_DFLEET"
-		effect = {
-			set_owner = event_target:fallen_empire_kuat
-			while = {
-				count = 100
-				create_ship = {
-					name = "Impiral-II Class Stardestroyer"
-					design = "Name_boss_HIGH_EMPIRE"
+		create_fleet = {
+			name = "Name_DFLEET"
+			effect = {
+				set_owner = event_target:fallen_empire_kuat
+				while = {
+					count = 1
+					create_ship = { design = "Name_boss_EXECUTOR" }
 				}
+				while = {
+					count = 48
+					create_ship = { design = "Name_boss_HIGH_EMPIRE" }
+				}
+				set_location = prev.star
+				set_fleet_stance = aggressive
+				set_fleet_flag = defensive_galaxy_fleet
+				set_fleet_bombardment_stance = indiscriminate
+				fleet_execute_order_3 = yes
+				event_target:fallen_empire_kuat = { change_variable = { which = fleet_id value = 1 } } 
+				set_variable = { which = fleet_id value = event_target:fallen_empire_kuat.fleet_id } 
+				solar_system = { set_variable = { which = kuat_fleet_id value = prev.fleet_id } }
 			}
-			set_location = prev.star
-			set_fleet_stance = aggressive
-			set_fleet_flag = defensive_galaxy_fleet
-			set_fleet_bombardment_stance = indiscriminate
-			fleet_execute_order_3 = yes
-			event_target:fallen_empire_kuat = { change_variable = { which = fleet_id value = 1 } } 
-			set_variable = { which = fleet_id value = event_target:fallen_empire_kuat.fleet_id } 
-			solar_system = { set_variable = { which = kuat_fleet_id value = prev.fleet_id } }
+			settings = { spawn_debris = no can_disband = no is_boss = yes }
 		}
-		settings = { spawn_debris = no can_disband = no is_boss = yes }
 	}
 }
 
