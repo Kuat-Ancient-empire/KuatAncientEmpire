@@ -120,9 +120,18 @@ fleet_event = {
 	
 	option = {
 		name = kuat_legacy.5.a
-		owner = {
-			set_country_flag = can_be_kuat_building
-			give_technology = { tech = tech_kuat_founfry message = no }
+		if = {
+			limit = { is_multiplayer = no }
+			owner = {
+				set_country_flag = can_be_kuat_building
+				give_technology = { tech = tech_kuat_founfry message = no }
+			}
+		} else = {
+			every_playable_country = {
+				limit = { is_ai = no }
+				set_country_flag = can_be_kuat_building
+				give_technology = { tech = tech_kuat_founfry message = no }
+			}
 		}
 	}
 }
@@ -1006,7 +1015,14 @@ fleet_event = {
 		name = kuat_legacy.56.a
 		hidden_effect = {
 			owner = { set_country_flag = fire_the_legacy_kuat_stage_6 }
-			owner = { give_technology = { tech = tech_kuat_databank message = no } }
+			if = {
+				limit = { is_multiplayer = yes }
+				every_playable_country = {
+					limit = { is_ai = no }
+					give_technology = { tech = tech_kuat_databank message = no }
+				}
+			}
+			else = { owner = { give_technology = { tech = tech_kuat_databank message = no } } }
 			owner = { country_event = { id = kuat_legacy.57 days = 720 random = 180 } }
 			event_target:will_be_add_habitable_damaged = { 
 				change_pc = pc_ringworld_habitable 
@@ -1075,11 +1091,25 @@ ship_event = {
 	immediate = {
 		owner = {
 			if = {
-				limit = { NOT = { has_origin = origin_eternalthrone } }
-				add_research_option = tech_kuat_reactor
+				limit = { is_multiplayer = no }
+				if = {
+					limit = { NOT = { has_origin = origin_eternalthrone } }
+					add_research_option = tech_kuat_reactor
+				}
+				create_ship_design = { design = "Name_boss_Venator" }
+				add_ship_design = last_created_design
 			}
-			create_ship_design = { design = "Name_boss_Venator" }
-			add_ship_design = last_created_design
+			else = {
+				every_playable_country = {
+					limit = { is_ai = no }
+					if = {
+						limit = { NOT = { has_origin = origin_eternalthrone } }
+						add_research_option = tech_kuat_reactor
+					}
+					create_ship_design = { design = "Name_boss_Venator" }
+					add_ship_design = last_created_design
+				}
+			}
 		}
 	}
 	option = { name = "kuat_lagacy.75.a" }
@@ -1309,7 +1339,14 @@ fleet_event = {
 		name = kuat_legacy.66.a
 		hidden_effect = {
 			owner = { set_country_flag = fire_the_legacy_kuat_stage_7 }
-			owner = { give_technology = { tech = tech_kuat_shield message = no } }
+			if = {
+				limit = { is_multiplayer = yes }
+				every_playable_country = {
+					limit = { is_ai = no }
+					give_technology = { tech = tech_kuat_shield message = no }
+				}
+			}
+			else = { owner = { give_technology = { tech = tech_kuat_shield message = no } } }
 			owner = { 
 				if = {
 					limit = { NOT = { has_origin = origin_eternalthrone } }
@@ -1876,7 +1913,14 @@ country_event = {
 			if = {
 				limit = { has_country_flag = finish_starkillerbase_event }
 				end_event_chain = ag_legacy_invasion_chain
-				set_country_flag = kuat_war_goal
+				if = {
+					limit = { is_multiplayer = yes }
+					every_playable_country = {
+						limit = { is_ai = no }
+						set_country_flag = kuat_war_goal
+					}
+				}
+				else = { set_country_flag = kuat_war_goal }
 			}
 			enable_special_project = {
 				name = exe_legacy_unlock_the_millitary_eclipse
@@ -1946,7 +1990,14 @@ country_event = {
 			if = {
 				limit = { has_country_flag = finish_starkillerbase_event }
 				end_event_chain = ag_legacy_invasion_chain
-				set_country_flag = kuat_war_goal
+				if = {
+					limit = { is_multiplayer = yes }
+					every_playable_country = {
+						limit = { is_ai = no }
+						set_country_flag = kuat_war_goal
+					}
+				}
+				else = { set_country_flag = kuat_war_goal }
 			}
 			enable_special_project = {
 				name = exe_legacy_unlock_the_millitary_eclipse
@@ -1981,11 +2032,29 @@ country_event = {
 			if = {
 				limit = { has_country_flag = finish_starkillerbase_event }
 				end_event_chain = ag_legacy_invasion_chain
-				set_country_flag = kuat_war_goal
+				if = {
+					limit = { is_multiplayer = yes }
+					every_playable_country = {
+						limit = { is_ai = no }
+						set_country_flag = kuat_war_goal
+					}
+				}
+				else = { set_country_flag = kuat_war_goal }
 			}
-			enable_special_project = {
-				name = exe_legacy_unlock_the_millitary_eclipse
-				location = THIS.capital_scope
+			if = {
+				limit = { is_multiplayer = yes }
+				every_playable_country = {
+					limit = { is_ai = no }
+					enable_special_project = {
+						name = exe_legacy_unlock_the_millitary_eclipse
+						location = THIS.capital_scope
+					}
+				}
+			} else = {
+				enable_special_project = {
+					name = exe_legacy_unlock_the_millitary_eclipse
+					location = THIS.capital_scope
+				}
 			}
 		}
 	}
@@ -2004,20 +2073,7 @@ ship_event = {
 
 	option = {
 		name = kuat_legacy.27.a
-		hidden_effect = { 
-			owner = {
-				create_fleet = {
-					effect = {
-						set_owner = prev
-						create_ship = { design = Name_boss_eclipse }
-						set_location = prev.capital_scope
-						set_fleet_stance = aggressive
-						set_fleet_bombardment_stance = indiscriminate
-					}
-					settings = { spawn_debris = no }
-				}
-			}
-		}
+		hidden_effect = { owner = { create_ship_design = { design = Name_boss_eclipse } add_ship_design = last_created_design } }
 	}
 }
 
