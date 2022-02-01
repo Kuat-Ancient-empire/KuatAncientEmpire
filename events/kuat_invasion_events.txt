@@ -1477,11 +1477,19 @@ country_event = {
 					if = {
 						limit = { NOT = { is_variable_set = combat_days } }
 						change_variable = { which = combat_days value = 1 }
-						if = {
-							limit = { has_global_flag = enable_modifer_check }
-							ship_event = { id = exe_invasion.138 days = 1 }
-						}
-						else = { set_disable_at_health = -1 clear_variable = combat_days }
+						ship_event = { id = exe_invasion.138 days = 1 }
+					}
+				}	
+			}
+		} else = {
+			fromfrom = {
+				every_owned_ship = {
+					set_ship_flag = is_modifiering
+					ship_event = { id = exe_invasion.137 }
+					if = {
+						limit = { NOT = { is_variable_set = combat_days } }
+						change_variable = { which = combat_days value = 1 }
+						clear_variable = combat_days set_disable_at_health = -1
 					}
 				}	
 			}
