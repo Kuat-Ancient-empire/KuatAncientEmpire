@@ -677,6 +677,18 @@ country_event = {
 	immediate = { 
 		set_country_flag = can_enable_kuat_gate_special_active
 		clear_global_event_target = has_kuat_lagacy_10 
+		if = {
+			limit = { 
+				NOT = { exists = event_target:exe_outer_gate_disable }
+				NOT = { exists = event_target:fallen_empire_kuat_fleet }
+				is_at_war_with = event_target:fallen_empire_kuat
+				any_system = { has_star_flag = ag_exe_invasion_gate_system } 
+			}
+			every_megastructure = {
+				limit = { has_megastructure_flag = can_active_gateway }
+				save_event_target_as = exe_outer_gate_disable
+			}
+		}
 	}
 	option = {
 		name = executor_build.47.a
