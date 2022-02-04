@@ -31,6 +31,16 @@ Kuat_system = {
 				location = this
 			}
 			#设置星球拥有者或者创建舰队前必须创建国家。
+			if = {
+				limit = { event_target:kuat_player_target_country = { has_ethic = ethic_gestalt_consciousness } }
+				clear_global_event_target = kuat_player_target_country
+				clear_global_event_target = kuat_player_target_species
+				random_country = {
+					limit = { NOT = { has_ethic = ethic_gestalt_consciousness } is_country_type = default }
+					save_global_event_target_as = kuat_player_target_country
+					owner_main_species = { save_global_event_target_as = kuat_player_target_species }
+				}
+			}
 			create_country = {
 				name = "Name_kuat"
 				species = event_target:kuat_player_target_species
