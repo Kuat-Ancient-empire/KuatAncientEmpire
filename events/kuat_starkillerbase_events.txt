@@ -132,9 +132,10 @@ country_event = {
 	immediate = {
 		every_galaxy_planet = {
 			limit = { has_planet_flag = built_target }
-			owner = {
-				if = {
-					limit = { 
+			if = {
+				limit = { 
+					exists = owner 
+					owner = {
 						NOT = { is_same_value = root }
 						OR = {
 							is_country_type = default_ev
@@ -145,6 +146,8 @@ country_event = {
 						NOT = { is_at_war_with = root }
 						NOT = { has_country_flag = fire_once_war }
 					}
+				}
+				owner = {
 					add_opinion_modifier = {
 						who = root
 						modifier = opinion_starkillerbase_broke_our_system_planet_target
