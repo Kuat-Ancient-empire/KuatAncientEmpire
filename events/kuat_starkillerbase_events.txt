@@ -508,149 +508,342 @@ country_event = {
 	option = { name = kuat_starkiller.10.a }
 }
 
-# ship_event = {
-# 	id = kuat_starkiller.11
-# 	title = "kuat_starkiller.13.title"
-# 	desc = "kuat_starkiller.11.desc"
-# 	diplomatic = yes
-# 	picture_event_data = { room = satellite_in_orbit_room }
-# 	custom_gui = "kuat_event_m_window"
-# 	custom_gui_option = "kuat_event_m_option"
-# 	is_triggered_only = yes
-# 	trigger = { is_ship_size = exe_starkiller_market }
-# 	immediate = { event_target:starkillerbase_location = { change_variable = { which = starkiller_target value = 5 } } }
-# 	option = { name = kuat_starkiller.11.a }
-# }
-
-# country_event = {
-# 	id = kuat_starkiller.12
-# 	title = "kuat_starkiller.13.title"
-# 	desc = "kuat_starkiller.13.desc"
-# 	diplomatic = yes
-# 	picture_event_data = { room = satellite_in_orbit_room }
-# 	custom_gui = "kuat_event_m_window"
-# 	custom_gui_option = "kuat_event_m_option"
-# 	is_triggered_only = yes
-# 	trigger = { 
-# 		NOT = { has_country_flag = fire_once }
-# 		any_owned_megastructure = { is_megastructure_type = kuat_starkillerbase_15 }
-# 		from = { is_hostile = root }
-# 		fromfrom = { is_ship_size = exe_starkiller_market } 
-# 	}
-# 	immediate = { 
-# 		set_timed_country_flag = { flag = fire_once days = 1 }
-# 		fromfrom = { solar_system = { save_event_target_as = target_system } } 
-# 	}
-# 	option = {
-# 		name = kuat_starkiller.13.a
-# 		hidden_effect = {
-# 			event_target:target_system = {
-# 				every_system_megastructure = {
-# 					limit = {
-# 						OR = { 
-# 							is_megastructure_type = kuat_starkiller_marker_0 
-# 							is_megastructure_type = kuat_starkiller_marker_1
-# 							is_megastructure_type = kuat_starkiller_marker_2
-# 						}
-# 					}
-# 					remove_megastructure = this
-# 				}
-# 				every_system_planet = {
-# 					limit = {
-# 						OR = {
-# 							is_colony = yes
-# 							is_capital = yes
-# 							is_star = yes
-# 						}
-# 					}
-# 					set_planet_flag = built_target
-# 					prev = {
-# 						spawn_megastructure = {
-# 							owner = event_target:kuat_firebase_country
-# 							type = kuat_starkiller_marker_0
-# 							coords_from = prev
-# 						}
-# 					}
-# 				}
-# 			}
-# 			root = {
-# 				every_owned_megastructure = {
-# 					limit = { is_megastructure_type = kuat_starkillerbase_15 }
-# 					upgrade_megastructure_to = kuat_starkillerbase_2
-# 					finish_upgrade = yes
-# 				}
-# 				country_event = { id = kuat_starkiller.1 }
-# 			}
-# 		}
-# 	}
-# 	option = { 
-# 		name = kuat_starkiller.13.b 
-# 		event_target:starkillerbase_location = { clear_variable = starkiller_target }
-# 	}
-# }
-
-# ship_event = {
-# 	id = kuat_starkiller.13
-# 	title = "kuat_starkiller.13.title"
-# 	desc = "kuat_starkiller.13.desc"
-# 	diplomatic = yes
-# 	picture_event_data = { room = satellite_in_orbit_room }
-# 	custom_gui = "kuat_event_m_window"
-# 	custom_gui_option = "kuat_event_m_option"
-# 	is_triggered_only = yes
-# 	trigger = { 
-# 		is_ship_size = exe_starkiller_market 
-# 		owner = { any_owned_megastructure = { is_megastructure_type = kuat_starkillerbase_15 } }
-# 	}
-# 	immediate = { fleet = { set_event_locked = yes } }
-# 	option = {
-# 		name = kuat_starkiller.13.a
-# 		hidden_effect = {
-# 			solar_system = {
-# 				every_system_megastructure = {
-# 					limit = {
-# 						OR = { 
-# 							is_megastructure_type = kuat_starkiller_marker_0 
-# 							is_megastructure_type = kuat_starkiller_marker_1
-# 							is_megastructure_type = kuat_starkiller_marker_2
-# 						}
-# 					}
-# 					remove_megastructure = this
-# 				}
-# 				every_system_planet = {
-# 					limit = {
-# 						OR = {
-# 							is_colony = yes
-# 							is_capital = yes
-# 							is_star = yes
-# 						}
-# 					}
-# 					set_planet_flag = built_target
-# 					prev = {
-# 						spawn_megastructure = {
-# 							owner = event_target:kuat_firebase_country
-# 							type = kuat_starkiller_marker_0
-# 							coords_from = prev
-# 						}
-# 					}
-# 				}
-# 			}
-# 			owner = {
-# 				every_owned_megastructure = {
-# 					limit = { is_megastructure_type = kuat_starkillerbase_15 }
-# 					upgrade_megastructure_to = kuat_starkillerbase_2
-# 					finish_upgrade = yes
-# 				}
-# 				country_event = { id = kuat_starkiller.1 }
-# 			}
-# 			fleet = { destroy_fleet = { target = this kill_leader = yes destroy_template = yes } }
-# 		}
-# 	}
-# 	option = {
-# 		name = kuat_starkiller.13.b
-# 		hidden_effect = { fleet = { set_event_locked = no } }
-# 	}
-# }
+ship_event = {
+	id = kuat_starkiller.12
+	hide_window = yes
+	is_triggered_only = yes
+	trigger = { kuat_is_flagship_system_protection = yes }
+	immediate = { 
+		switch = {
+			trigger = is_ship_size
+			X308_Balletor = { 
+				owner = {
+					if = {
+						limit = { any_owned_ship = { NOT = { is_same_value = prevprev } is_ship_size = X308_Balletor } }
+						export_trigger_value_to_variable = {
+							trigger = count_owned_ship
+							parameters = { limit = { NOT = { is_same_value = prevprev } is_ship_size = X308_Balletor } }
+							variable = system_active_check_X308_Balletor
+						}
+					}
+					else_if = {
+						limit = { 
+							is_variable_set = system_active_X308_Balletor
+							count_owned_ship = { limit = { NOT = { is_same_value = prevprev } is_ship_size = X308_Balletor } count = 0 } 
+						}
+						set_variable = { which = system_active_check_X308_Balletor value = 0 }
+					}
+					set_variable = { which = system_active_X308_Balletor value = system_active_check_X308_Balletor }
+					change_variable = { which = system_active_X308_Balletor value = 1 }
+				}
+				if = { 
+					limit = { owner = { check_variable = { which = system_active_X308_Balletor value > 3 } } } 
+					owner = { subtract_variable = { which = system_active_X308_Balletor value = 1 } } destroy_ship = this 
+				}
+			}
+			nebula_executor = { 
+				owner = { 
+					if = {
+						limit = { any_owned_ship = { NOT = { is_same_value = prevprev } is_ship_size = nebula_executor } }
+						export_trigger_value_to_variable = {
+							trigger = count_owned_ship
+							parameters = { limit = { NOT = { is_same_value = prevprev } is_ship_size = nebula_executor } }
+							variable = system_active_check_nebula_executor
+						}
+					}
+					else_if = {
+						limit = { 
+							is_variable_set = system_active_nebula_executor
+							count_owned_ship = { limit = { NOT = { is_same_value = prevprev } is_ship_size = nebula_executor } count = 0 } 
+						}
+						set_variable = { which = system_active_check_nebula_executor value = 0 }
+					}
+					set_variable = { which = system_active_nebula_executor value = system_active_check_nebula_executor }
+					change_variable = { which = system_active_nebula_executor value = 1 } 
+				}
+				if = { 
+					limit = { owner = { check_variable = { which = system_active_nebula_executor value > 1 } } } 
+					owner = { subtract_variable = { which = system_active_nebula_executor value = 1 } } destroy_ship = this 
+				}
+			}
+			knigjt_hammer_executor = { 
+				owner = { 
+					if = {
+						limit = { any_owned_ship = { NOT = { is_same_value = prevprev } is_ship_size = knigjt_hammer_executor } }
+						export_trigger_value_to_variable = {
+							trigger = count_owned_ship
+							parameters = { limit = { NOT = { is_same_value = prevprev } is_ship_size = knigjt_hammer_executor } }
+							variable = system_active_check_knigjt_hammer_executor
+						}
+					}
+					else_if = {
+						limit = { 
+							is_variable_set = system_active_knigjt_hammer_executor
+							count_owned_ship = { limit = { NOT = { is_same_value = prevprev } is_ship_size = knigjt_hammer_executor } count = 0 } 
+						}
+						set_variable = { which = system_active_check_knigjt_hammer_executor value = 0 }
+					}
+					set_variable = { which = system_active_knigjt_hammer_executor value = system_active_check_knigjt_hammer_executor }
+					change_variable = { which = system_active_knigjt_hammer_executor value = 1 } 
+				}
+				if = { 
+					limit = { owner = { check_variable = { which = system_active_knigjt_hammer_executor value > 1 } } } 
+					owner = { subtract_variable = { which = system_active_knigjt_hammer_executor value = 1 } } destroy_ship = this 
+				}
+			}
+			eclipse = { 
+				owner = { 
+					if = {
+						limit = { any_owned_ship = { NOT = { is_same_value = prevprev } is_ship_size = eclipse } }
+						export_trigger_value_to_variable = {
+							trigger = count_owned_ship
+							parameters = { limit = { NOT = { is_same_value = prevprev } is_ship_size = eclipse } }
+							variable = system_active_check_eclipse
+						}
+					}
+					else_if = {
+						limit = { 
+							is_variable_set = system_active_eclipse
+							count_owned_ship = { limit = { NOT = { is_same_value = prevprev } is_ship_size = eclipse } count = 0 } 
+						}
+						set_variable = { which = system_active_check_eclipse value = 0 }
+					}
+					set_variable = { which = system_active_eclipse value = system_active_check_eclipse }
+					change_variable = { which = system_active_eclipse value = 1 } 
+				}
+				if = { 
+					limit = { owner = { check_variable = { which = system_active_eclipse value > 3 } } } 
+					owner = { subtract_variable = { which = system_active_eclipse value = 1 } } destroy_ship = this 
+				}
+			}
+			Venguard = { 
+				owner = { 
+					if = {
+						limit = { any_owned_ship = { NOT = { is_same_value = prevprev } is_ship_size = Venguard } }
+						export_trigger_value_to_variable = {
+							trigger = count_owned_ship
+							parameters = { limit = { NOT = { is_same_value = prevprev } is_ship_size = Venguard } }
+							variable = system_active_check_Venguard
+						}
+					}
+					else_if = {
+						limit = { 
+							is_variable_set = system_active_Venguard
+							count_owned_ship = { limit = { NOT = { is_same_value = prevprev } is_ship_size = Venguard } count = 0 } 
+						}
+						set_variable = { which = system_active_check_Venguard value = 0 }
+					}
+					set_variable = { which = system_active_Venguard value = system_active_check_Venguard }
+					change_variable = { which = system_active_Venguard value = 1 } 
+				}
+				if = { 
+					limit = { owner = { check_variable = { which = system_active_Venguard value > 3 } } } 
+					owner = { subtract_variable = { which = system_active_Venguard value = 1 } } destroy_ship = this 
+				}
+			}
+			nebula_dominance = { 
+				owner = { 
+					if = {
+						limit = { any_owned_ship = { NOT = { is_same_value = prevprev } is_ship_size = nebula_dominance } }
+						export_trigger_value_to_variable = {
+							trigger = count_owned_ship
+							parameters = { limit = { NOT = { is_same_value = prevprev } is_ship_size = nebula_dominance } }
+							variable = system_active_check_nebula_dominance
+						}
+					}
+					else_if = {
+						limit = { 
+							is_variable_set = system_active_nebula_dominance
+							count_owned_ship = { limit = { NOT = { is_same_value = prevprev } is_ship_size = nebula_dominance } count = 0 } 
+						}
+						set_variable = { which = system_active_check_nebula_dominance value = 0 }
+					}
+					set_variable = { which = system_active_nebula_dominance value = system_active_check_nebula_dominance }
+					change_variable = { which = system_active_nebula_dominance value = 1 } 
+				}
+				if = { 
+					limit = { owner = { check_variable = { which = system_active_nebula_dominance value > 3 } } } 
+					owner = { subtract_variable = { which = system_active_nebula_dominance value = 1 } } destroy_ship = this 
+				}
+			}
+			Annihilator = { 
+				owner = { 
+					if = {
+						limit = { any_owned_ship = { NOT = { is_same_value = prevprev } is_ship_size = Annihilator } }
+						export_trigger_value_to_variable = {
+							trigger = count_owned_ship
+							parameters = { limit = { NOT = { is_same_value = prevprev } is_ship_size = Annihilator } }
+							variable = system_active_check_Annihilator
+						}
+					}
+					else_if = {
+						limit = { 
+							is_variable_set = system_active_Annihilator
+							count_owned_ship = { limit = { NOT = { is_same_value = prevprev } is_ship_size = Annihilator } count = 0 } 
+						}
+						set_variable = { which = system_active_check_Annihilator value = 0 }
+					}
+					set_variable = { which = system_active_Annihilator value = system_active_check_Annihilator }
+					change_variable = { which = system_active_Annihilator value = 1 } 
+				}
+				if = { 
+					limit = { owner = { check_variable = { which = system_active_Annihilator value > 1 } } } 
+					owner = { subtract_variable = { which = system_active_Annihilator value = 1 } } destroy_ship = this 
+				}
+			}
+			eternal_flagship = { 
+				owner = { 
+					if = {
+						limit = { any_owned_ship = { NOT = { is_same_value = prevprev } is_ship_size = eternal_flagship } }
+						export_trigger_value_to_variable = {
+							trigger = count_owned_ship
+							parameters = { limit = { NOT = { is_same_value = prevprev } is_ship_size = eternal_flagship } }
+							variable = system_active_check_eternal_flagship
+						}
+					}
+					else_if = {
+						limit = { 
+							is_variable_set = system_active_eternal_flagship
+							count_owned_ship = { limit = { NOT = { is_same_value = prevprev } is_ship_size = eternal_flagship } count = 0 } 
+						}
+						set_variable = { which = system_active_check_eternal_flagship value = 0 }
+					}
+					set_variable = { which = system_active_eternal_flagship value = system_active_check_eternal_flagship }
+					change_variable = { which = system_active_eternal_flagship value = 1 } 
+				}
+				if = { 
+					limit = { owner = { check_variable = { which = system_active_eternal_flagship value > 1 } } } 
+					owner = { subtract_variable = { which = system_active_eternal_flagship value = 1 } } destroy_ship = this 
+				}
+			}
+			uf_flagship_o = { 
+				owner = { 
+					if = {
+						limit = { any_owned_ship = { NOT = { is_same_value = prevprev } is_ship_size = uf_flagship_o } }
+						export_trigger_value_to_variable = {
+							trigger = count_owned_ship
+							parameters = { limit = { NOT = { is_same_value = prevprev } is_ship_size = uf_flagship_o } }
+							variable = system_active_check_uf_flagship_o
+						}
+					}
+					else_if = {
+						limit = { 
+							is_variable_set = system_active_uf_flagship_o
+							count_owned_ship = { limit = { NOT = { is_same_value = prevprev } is_ship_size = uf_flagship_o } count = 0 } 
+						}
+						set_variable = { which = system_active_check_uf_flagship_o value = 0 }
+					}
+					set_variable = { which = system_active_uf_flagship_o value = system_active_check_uf_flagship_o }
+					change_variable = { which = system_active_uf_flagship_o value = 1 } 
+				}
+				if = { 
+					limit = { owner = { check_variable = { which = system_active_uf_flagship_o value > 10 } } } 
+					owner = { subtract_variable = { which = system_active_uf_flagship_o value = 1 } } destroy_ship = this 
+				}
+			}
+			wg_fm_flagship = { 
+				owner = { 
+					if = {
+						limit = { any_owned_ship = { NOT = { is_same_value = prevprev } is_ship_size = wg_fm_flagship } }
+						export_trigger_value_to_variable = {
+							trigger = count_owned_ship
+							parameters = { limit = { NOT = { is_same_value = prevprev } is_ship_size = wg_fm_flagship } }
+							variable = system_active_check_wg_fm_flagship
+						}
+					}
+					else_if = {
+						limit = { 
+							is_variable_set = system_active_wg_fm_flagship
+							count_owned_ship = { limit = { NOT = { is_same_value = prevprev } is_ship_size = wg_fm_flagship } count = 0 } 
+						}
+						set_variable = { which = system_active_check_wg_fm_flagship value = 0 }
+					}
+					set_variable = { which = system_active_wg_fm_flagship value = system_active_check_wg_fm_flagship }
+					change_variable = { which = system_active_wg_fm_flagship value = 1 } 
+				}
+				if = { 
+					limit = { owner = { check_variable = { which = system_active_wg_fm_flagship value > 5 } } } 
+					owner = { subtract_variable = { which = system_active_wg_fm_flagship value = 1 } } destroy_ship = this 
+				}
+			}
+			SWGS_EclipseII = { 
+				owner = { 
+					if = {
+						limit = { any_owned_ship = { NOT = { is_same_value = prevprev } is_ship_size = SWGS_EclipseII } }
+						export_trigger_value_to_variable = {
+							trigger = count_owned_ship
+							parameters = { limit = { NOT = { is_same_value = prevprev } is_ship_size = SWGS_EclipseII } }
+							variable = system_active_check_SWGS_EclipseII
+						}
+					}
+					else_if = {
+						limit = { 
+							is_variable_set = system_active_SWGS_EclipseII
+							count_owned_ship = { limit = { NOT = { is_same_value = prevprev } is_ship_size = SWGS_EclipseII } count = 0 } 
+						}
+						set_variable = { which = system_active_check_SWGS_EclipseII value = 0 }
+					}
+					set_variable = { which = system_active_SWGS_EclipseII value = system_active_check_SWGS_EclipseII }
+					change_variable = { which = system_active_SWGS_EclipseII value = 1 } 
+				}
+				if = { 
+					limit = { owner = { check_variable = { which = system_active_SWGS_EclipseII value > 5 } } } 
+					owner = { subtract_variable = { which = system_active_SWGS_EclipseII value = 1 } } destroy_ship = this 
+				}
+			}
+			SWGS_Lusankya = { 
+				owner = { 
+					if = {
+						limit = { any_owned_ship = { NOT = { is_same_value = prevprev } is_ship_size = SWGS_Lusankya } }
+						export_trigger_value_to_variable = {
+							trigger = count_owned_ship
+							parameters = { limit = { NOT = { is_same_value = prevprev } is_ship_size = SWGS_Lusankya } }
+							variable = system_active_check_SWGS_Lusankya
+						}
+					}
+					else_if = {
+						limit = { 
+							is_variable_set = system_active_SWGS_Lusankya
+							count_owned_ship = { limit = { NOT = { is_same_value = prevprev } is_ship_size = SWGS_Lusankya } count = 0 } 
+						}
+						set_variable = { which = system_active_check_SWGS_Lusankya value = 0 }
+					}
+					set_variable = { which = system_active_SWGS_Lusankya value = system_active_check_SWGS_Lusankya }
+					change_variable = { which = system_active_SWGS_Lusankya value = 1 } 
+				}
+				if = { 
+					limit = { owner = { check_variable = { which = system_active_SWGS_Lusankya value > 5 } } } 
+					owner = { subtract_variable = { which = system_active_SWGS_Lusankya value = 1 } } destroy_ship = this 
+				}
+			}
+			SWGS_Nemesis = { 
+				owner = { 
+					if = {
+						limit = { any_owned_ship = { NOT = { is_same_value = prevprev } is_ship_size = SWGS_Nemesis } }
+						export_trigger_value_to_variable = {
+							trigger = count_owned_ship
+							parameters = { limit = { NOT = { is_same_value = prevprev } is_ship_size = SWGS_Nemesis } }
+							variable = system_active_check_SWGS_Nemesis
+						}
+					}
+					else_if = {
+						limit = { 
+							is_variable_set = system_active_SWGS_Nemesis
+							count_owned_ship = { limit = { NOT = { is_same_value = prevprev } is_ship_size = SWGS_Nemesis } count = 0 } 
+						}
+						set_variable = { which = system_active_check_SWGS_Nemesis value = 0 }
+					}
+					set_variable = { which = system_active_SWGS_Nemesis value = system_active_check_SWGS_Nemesis }
+					change_variable = { which = system_active_SWGS_Nemesis value = 1 } 
+				}
+				if = { 
+					limit = { owner = { check_variable = { which = system_active_SWGS_Nemesis value > 5 } } } 
+					owner = { subtract_variable = { which = system_active_SWGS_Nemesis value = 1 } } destroy_ship = this 
+				}
+			}
+		} 
+	}
+}
 
 # kuat_on_system_selector_confirm, Starkiller destroy stars.
 country_event = {
