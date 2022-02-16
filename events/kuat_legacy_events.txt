@@ -2449,60 +2449,31 @@ country_event = {
 		custom_tooltip = "kuat_legacy.87.warning"
 		hidden_effect = { 
 			every_system_within_border = {
-				if = {
-					limit = { 
-						any_system_megastructure = {
+				limit = { is_capital_system = yes }
+				every_system_planet = {
+					if = {
+						limit = {
 							OR = {
-								is_nicoll_beam = yes
-								is_quasi_stellar_obliterator = yes
-								is_ehof_megastructure = yes
-								is_penrose_sphere = yes
+								is_colonizable = yes
+								is_colony = yes
+								is_capital = yes
 							}
 						}
+						set_planet_flag = built_target
+						solar_system = { spawn_megastructure = {
+							owner = event_target:kuat_firebase_country
+							type = kuat_starkiller_marker_0
+							coords_from = prev
+						} }
 					}
-					random_system_planet = {
+					if = {
 						limit = { is_star = yes }
 						set_planet_flag = built_target
-						solar_system = {
-							spawn_megastructure = {
-								owner = event_target:kuat_firebase_country
-								type = kuat_starkiller_marker_0_1
-								coords_from = prev
-							}
-						}
-					}
-				}
-				if = {
-					limit = { is_capital_system = yes }
-					every_system_planet = {
-						if = {
-							limit = {
-								OR = {
-									is_colonizable = yes
-									is_colony = yes
-									is_capital = yes
-								}
-							}
-							set_planet_flag = built_target
-							solar_system = {
-								spawn_megastructure = {
-									owner = event_target:kuat_firebase_country
-									type = kuat_starkiller_marker_0
-									coords_from = prev
-								}
-							}
-						}
-						if = {
-							limit = { is_star = yes }
-							set_planet_flag = built_target
-							solar_system = {
-								spawn_megastructure = {
-									owner = event_target:kuat_firebase_country
-									type = kuat_starkiller_marker_0_1
-									coords_from = prev
-								}
-							}
-						}
+						solar_system = { spawn_megastructure = {
+							owner = event_target:kuat_firebase_country
+							type = kuat_starkiller_marker_0_1
+							coords_from = prev
+						} }
 					}
 				}
 			}
