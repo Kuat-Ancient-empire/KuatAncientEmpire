@@ -30,6 +30,7 @@ event = {
 			country_event = { id = exe_return_invasion.2 days = 1 random = 2 }
 		}
 		set_global_flag = exe_return_invasion_seed
+		set_global_flag = eternal_return_fleet_debug_check
 	}
 }
 
@@ -167,7 +168,6 @@ event = {
 		NOT = { has_global_flag = exe_return_invasion_begin }
 	}
 	immediate = {
-		remove_global_flag = eternal_spawnd
 		set_global_flag = eternal_spawnd
 		set_global_flag = exe_return_invasion_begin
 		create_country = {
@@ -186,6 +186,7 @@ event = {
 			}
 			ignore_initial_colony_error = yes
 		}
+		set_global_flag = eternal_return_fleet_debug_check
 		last_created_country = {
 			save_global_event_target_as = ag_kuat_invasion_country
 			set_country_flag = ag_kuat_invasion_country
@@ -1468,6 +1469,7 @@ country_event = {
 		}
 		add_threat = { who = root amount = 50 }
 		set_global_flag = exe_return_invasion_ended
+		remove_global_flag = eternal_return_fleet_debug_check
 		from = { destroy_country = yes }
 	}
 }
@@ -1490,6 +1492,7 @@ country_event = {
 	custom_gui_option = "kuat_event_option"
 	show_sound = event_wind_ruins
 	is_triggered_only = yes
+	immediate = { remove_global_flag = eternal_return_fleet_debug_check }
 	option = { 
 		name = "exe_return_invasion.35.b" 
 		hidden_effect = {
@@ -1608,5 +1611,44 @@ country_event = {
 	option = { 
 		name = exe_return_invasion.38.e
 		response_text = exe_return_invasion.38.e.resp 
+	}
+}
+
+event = {
+	id = exe_return_invasion.39
+	hide_window = yes
+	is_triggered_only = yes
+	trigger = {
+		has_global_flag = eternal_return_fleet_debug_check
+		NOT = { exists = event_target:ag_kuat_invasion_country }
+		has_global_flag = exe_return_invasion_begin
+		NOT = { has_global_flag = exe_return_invasion_ended }
+	}
+	immediate = {
+		every_country = {
+			remove_country_flag = fire_first_find
+			remove_country_flag = second_first_find
+			remove_country_flag = third_first_find
+			clear_variable = num_vaild_system
+			clear_variable = num_finish
+		}
+		every_system = {
+			limit = {
+				OR = {
+					has_star_flag = final_1_system
+					has_star_flag = final_2_system
+					has_star_flag = final_3_system
+				}
+			}
+			remove_star_flag = final_1_system
+			remove_star_flag = final_2_system
+			remove_star_flag = final_3_system
+		}
+		remove_global_flag = can_win_the_fleet_stage_1
+		remove_global_flag = can_win_the_fleet
+		remove_global_flag = exe_return_invasion_begin
+		remove_global_flag = eternal_return_fleet_debug_check
+		remove_global_flag = exe_invasion_signs_cooldown
+		set_global_flag = exe_return_invasion_7_fired
 	}
 }

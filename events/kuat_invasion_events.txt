@@ -224,6 +224,7 @@ event = {
 			add_ship_design = last_created_design
 			add_modifier = { modifier = Elternal_creating }
 		}
+		set_global_flag = eternal_fleet_debug_check
 		random_system = {
 			limit = { has_star_flag = Kuat_system }
 			random_system_planet = {
@@ -990,6 +991,7 @@ country_event = {
 		}
 		add_threat = { who = root amount = 50 }
 		set_global_flag = exe_invasion_ended
+		remove_global_flag = eternal_fleet_debug_check
 		from = { destroy_country = yes }
 	}
 }
@@ -1006,6 +1008,7 @@ country_event = {
 	fire_only_once = yes
 	show_sound = event_space_battle
 	is_triggered_only = yes
+	immediate = { remove_global_flag = eternal_fleet_debug_check }
 	option = {
 		name = "exe_invasion.33.a"
 		hidden_effect = {
@@ -1037,6 +1040,25 @@ country_event = {
 				location = this.capital_scope
 			}
 		}
+	}
+}
+
+event = {
+	id = exe_invasion.37
+	hide_window = yes
+	is_triggered_only = yes
+	trigger = {
+		has_global_flag = eternal_fleet_debug_check
+		NOT = { exists = event_target:ag_kuat_invasion_country }
+		has_global_flag = exe_invasion_begin
+		NOT = { has_global_flag = exe_invasion_ended }
+	}
+	immediate = {
+		remove_global_flag = exe_invasion_begin
+		remove_global_flag = can_win_the_fleet
+		remove_global_flag = eternal_fleet_debug_check
+		remove_global_flag = exe_invasion_signs_cooldown
+		set_global_flag = exe_invasion_7_fired
 	}
 }
 
