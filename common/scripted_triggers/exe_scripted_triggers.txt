@@ -248,6 +248,7 @@ kuat_is_flagship_system_protection = {
 		is_ship_size = ag_zeta_titan_psi
 		is_ship_size = ag_gamma_titan_1
 		is_ship_size = ag_epsilon_titan_1
+		is_ship_size = ag_eta_titan_1
 		is_ship_size = wg_fm_flagship
 		is_ship_size = uf_flagship_o
 		is_ship_size = SRA_Spear_Of_Galaxy_Zenith
@@ -775,4 +776,27 @@ eternal_archaeological_limit = {
 		is_planet_class = pc_toxic
 	}
 	NOT = { exists = archaeological_site }
+}
+
+#ship building trigger
+has_trigger_shipyard = {
+	OR = {
+		AND = { is_scope_type = starbase OR = {
+			has_starbase_size = ag_gamma_station_hostile
+			has_starbase_size = ag_gamma_station_0
+			has_starbase_size = ag_gamma_station_1
+	
+			has_starbase_size = exe_megastructure_starbase
+		} }
+		AND = { is_scope_type = megastructure OR = {
+			is_megastructure_type = ag_ancient_construction_section
+			has_megastructure_flag = ag_ancient_construction_section_megashipyard
+			
+			# is_megastructure_type = Shield_Gate
+			is_megastructure_type = StarForge
+			is_megastructure_type = exe_black_hole_restore
+			is_megastructure_type = exe_black_hole_facility
+		} }
+		AND = { exists = owner owner = { has_modifier = "ag_debug_modifier_buff_common" } }
+	}
 }
