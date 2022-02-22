@@ -346,16 +346,16 @@ set_eternal_fleet_mult_modifier = {
 	[[weapon_damage_own] if = {
 		limit = { 
 			NOT = { is_variable_set = $weapon_damage_own$_value } 
-			check_modifier_value = { modifier = $weapon_damage_own$ value < @double_value }
+			check_modifier_value = { modifier = $weapon_damage_own$ value < @origin_value }
 		}
 		export_modifier_to_variable = { modifier = $weapon_damage_own$ variable = $weapon_damage_own$_value }
-		subtract_variable = { which = $weapon_damage_own$_value value = @double_value }
+		subtract_variable = { which = $weapon_damage_own$_value value = @origin_value }
 		set_invasion_fleet_basic_modifier = { SUB = basic_$weapon_damage_own$ FACTOR = $weapon_damage_own$_value }
 	} else_if = { 
 		limit = { has_ship_flag = fire_ship_var }
 		if = { limit = { is_variable_set = change_$weapon_damage_own$_value } clear_variable = change_$weapon_damage_own$_value }
 		export_modifier_to_variable = { modifier = $weapon_damage_own$ variable = change_$weapon_damage_own$_value }
-		subtract_variable = { which = change_$weapon_damage_own$_value value = @double_value }
+		subtract_variable = { which = change_$weapon_damage_own$_value value = @origin_value }
 		set_invasion_fleet_basic_modifier = { SUB = change_basic_$weapon_damage_own$ FACTOR = change_$weapon_damage_own$_value }
 	}] #scope: fromfrom
 	[[hull_regen_add_perc] if = {
@@ -687,6 +687,130 @@ set_eternal_fleet_mult_modifier = {
 	}] #scope: fromfrom
 }
 
+set_ban_eternal_fleet_mult_modifier = {
+	########MULT VALUE########
+	[[shield_penetration] if = { 
+		limit = { 
+			NOT = { is_variable_set = $shield_penetration$_value } 
+			NOT = { check_modifier_value = { modifier = $shield_penetration$ value = @mult_origin_value } }
+		}
+		export_modifier_to_variable = { modifier = $shield_penetration$ variable = $shield_penetration$_value }
+		change_variable = { which = $shield_penetration$_value value = @origin_value }
+		set_invasion_fleet_basic_modifier = { SUB = basic_$shield_penetration$ FACTOR = $shield_penetration$_value }
+	} else_if = { 
+		limit = { has_ship_flag = fire_ship_var }
+		if = { limit = { is_variable_set = change_$shield_penetration$_value } clear_variable = change_$shield_penetration$_value }
+		export_modifier_to_variable = { modifier = $shield_penetration$ variable = change_$shield_penetration$_value }
+		change_variable = { which = change_$shield_penetration$_value value = @origin_value }
+		set_invasion_fleet_basic_modifier = { SUB = change_basic_$shield_penetration$ FACTOR = change_$shield_penetration$_value }
+	}] #scope: fromfromfrom
+	[[armor_penetration] if = { 
+		limit = { 
+			NOT = { is_variable_set = $armor_penetration$_value } 
+			NOT = { check_modifier_value = { modifier = $armor_penetration$ value = @mult_origin_value } }
+		}
+		export_modifier_to_variable = { modifier = $armor_penetration$ variable = $armor_penetration$_value }
+		change_variable = { which = $armor_penetration$_value value = @origin_value }
+		set_invasion_fleet_basic_modifier = { SUB = basic_$armor_penetration$ FACTOR = $armor_penetration$_value }
+	} else_if = { 
+		limit = { has_ship_flag = fire_ship_var }
+		if = { limit = { is_variable_set = change_$armor_penetration$_value } clear_variable = change_$armor_penetration$_value }
+		export_modifier_to_variable = { modifier = $armor_penetration$ variable = change_$armor_penetration$_value }
+		change_variable = { which = change_$armor_penetration$_value value = @origin_value }
+		set_invasion_fleet_basic_modifier = { SUB = change_basic_$armor_penetration$ FACTOR = change_$armor_penetration$_value }
+	}] #scope: fromfromfrom
+	[[armor_damage] if = {
+		limit = { 
+			NOT = { is_variable_set = $armor_damage$_value } 
+			check_modifier_value = { modifier = $armor_damage$ value > @mult_origin_value } 
+		}
+		export_modifier_to_variable = { modifier = $armor_damage$ variable = $armor_damage$_value }
+		change_variable = { which = $armor_damage$_value value = @origin_value }
+		set_invasion_fleet_basic_modifier = { SUB = basic_$armor_damage$ FACTOR = $armor_damage$_value }
+	} else_if = { 
+		limit = { has_ship_flag = fire_ship_var }
+		if = { limit = { is_variable_set = change_$armor_damage$_value } clear_variable = change_$armor_damage$_value }
+		export_modifier_to_variable = { modifier = $armor_damage$ variable = change_$armor_damage$_value }
+		change_variable = { which = change_$armor_damage$_value value = @three_quarter_origin_value }
+		set_invasion_fleet_basic_modifier = { SUB = change_basic_$armor_damage$ FACTOR = change_$armor_damage$_value }
+	}] #scope: fromfromfrom
+	[[shield_damage] if = {
+		limit = { 
+			NOT = { is_variable_set = $shield_damage$_value } 
+			check_modifier_value = { modifier = $shield_damage$ value > @mult_origin_value } 
+		}
+		export_modifier_to_variable = { modifier = $shield_damage$ variable = $shield_damage$_value }
+		change_variable = { which = $shield_damage$_value value = @origin_value }
+		set_invasion_fleet_basic_modifier = { SUB = basic_$shield_damage$ FACTOR = $shield_damage$_value }
+	} else_if = { 
+		limit = { has_ship_flag = fire_ship_var } 
+		if = { limit = { is_variable_set = change_$shield_damage$_value } clear_variable = change_$shield_damage$_value }
+		export_modifier_to_variable = { modifier = $shield_damage$ variable = change_$shield_damage$_value }
+		change_variable = { which = change_$shield_damage$_value value = @three_quarter_origin_value }
+		set_invasion_fleet_basic_modifier = { SUB = change_basic_$shield_damage$ FACTOR = change_$shield_damage$_value }
+	}] #scope: fromfromfrom
+	[[hull_damage] if = {
+		limit = { 
+			NOT = { is_variable_set = $hull_damage$_value } 
+			check_modifier_value = { modifier = $hull_damage$ value > @mult_origin_value } 
+		}
+		export_modifier_to_variable = { modifier = $hull_damage$ variable = $hull_damage$_value }
+		change_variable = { which = $hull_damage$_value value = @origin_value }
+		set_invasion_fleet_basic_modifier = { SUB = basic_$hull_damage$ FACTOR = $hull_damage$_value }
+	} else_if = { 
+		limit = { has_ship_flag = fire_ship_var }
+		if = { limit = { is_variable_set = change_$hull_damage$_value } clear_variable = change_$hull_damage$_value }
+		export_modifier_to_variable = { modifier = $hull_damage$ variable = change_$hull_damage$_value }
+		change_variable = { which = change_$hull_damage$_value value = @three_quarter_origin_value }
+		set_invasion_fleet_basic_modifier = { SUB = change_basic_$hull_damage$ FACTOR = change_$hull_damage$_value }
+	}] #scope: fromfromfrom
+	[[weapon_damage] if = {
+		limit = { 
+			NOT = { is_variable_set = $weapon_damage$_value } 
+			check_modifier_value = { modifier = $weapon_damage$ value > @mult_origin_value } 
+		}
+		export_modifier_to_variable = { modifier = $weapon_damage$ variable = $weapon_damage$_value }
+		change_variable = { which = $weapon_damage$_value value = @origin_value }
+		set_invasion_fleet_basic_modifier = { SUB = basic_$weapon_damage$ FACTOR = $weapon_damage$_value }
+	} else_if = { 
+		limit = { has_ship_flag = fire_ship_var }
+		if = { limit = { is_variable_set = change_$weapon_damage$_value } clear_variable = change_$weapon_damage$_value }
+		export_modifier_to_variable = { modifier = $weapon_damage$ variable = change_$weapon_damage$_value }
+		change_variable = { which = change_$weapon_damage$_value value = @three_quarter_origin_value }
+		set_invasion_fleet_basic_modifier = { SUB = change_basic_$weapon_damage$ FACTOR = change_$weapon_damage$_value }
+	}] #scope: fromfromfrom
+	[[tracking] if = {
+		limit = { 
+			NOT = { is_variable_set = $tracking$_value } 
+			check_modifier_value = { modifier = $tracking$ value > @mult_origin_value } 
+		}
+		export_modifier_to_variable = { modifier = $tracking$ variable = $tracking$_value }
+		change_variable = { which = $tracking$_value value = @origin_value }
+		set_invasion_fleet_basic_modifier = { SUB = basic_$tracking$ FACTOR = $tracking$_value }
+	} else_if = { 
+		limit = { has_ship_flag = fire_ship_var }
+		if = { limit = { is_variable_set = change_$tracking$_value } clear_variable = change_$tracking$_value }
+		export_modifier_to_variable = { modifier = $tracking$ variable = change_$tracking$_value }
+		change_variable = { which = change_$tracking$_value value = @quarter_origin_value }
+		set_invasion_fleet_basic_modifier = { SUB = change_basic_$tracking$ FACTOR = change_$tracking$_value }
+	}] #scope: fromfromfrom
+	[[accuracy] if = {
+		limit = { 
+			NOT = { is_variable_set = $accuracy$_value } 
+			check_modifier_value = { modifier = $accuracy$ value > @mult_origin_value } 
+		}
+		export_modifier_to_variable = { modifier = $accuracy$ variable = $accuracy$_value }
+		change_variable = { which = $accuracy$_value value = @origin_value }
+		set_invasion_fleet_basic_modifier = { SUB = basic_$accuracy$ FACTOR = $accuracy$_value }
+	} else_if = { 
+		limit = { has_ship_flag = fire_ship_var }
+		if = { limit = { is_variable_set = change_$accuracy$_value } clear_variable = change_$accuracy$_value }
+		export_modifier_to_variable = { modifier = $accuracy$ variable = change_$accuracy$_value }
+		change_variable = { which = change_$accuracy$_value value = @quarter_origin_value }
+		set_invasion_fleet_basic_modifier = { SUB = change_basic_$accuracy$ FACTOR = change_$accuracy$_value }
+	}] #scope: fromfromfrom
+}
+
 remove_eternal_fleet_mult_variable = {
 	[[hull_regen_add_perc] clear_variable = $hull_regen_add_perc$_value clear_variable = change_$hull_regen_add_perc$_value ]
 	[[armor_regen_add_perc] clear_variable = $armor_regen_add_perc$_value clear_variable = change_$armor_regen_add_perc$_value ]
@@ -893,19 +1017,17 @@ kuat_copy_leader_learning_system = {
 									assign_leader = event_target:eternal_learned_leader_copy
 									set_timed_fleet_flag = { flag = have_learned_leader days = 180 }
 								}
-								else = {
-									owner = { 
-										random_owned_fleet = {
-											limit = { NOT = { has_fleet_flag = have_learned_leader } }
-											if = {
-												limit = { exists = leader }
-												leader = { kill_leader = { show_notification = no } }
-											}
-											assign_leader = event_target:eternal_learned_leader_copy
-											set_timed_fleet_flag = { flag = have_learned_leader days = 180 }
+								else = { owner = { 
+									random_owned_fleet = {
+										limit = { NOT = { has_fleet_flag = have_learned_leader } }
+										if = {
+											limit = { exists = leader }
+											leader = { kill_leader = { show_notification = no } }
 										}
+										assign_leader = event_target:eternal_learned_leader_copy
+										set_timed_fleet_flag = { flag = have_learned_leader days = 180 }
 									}
-								}
+								} }
 							}
 						}
 					}
@@ -913,6 +1035,7 @@ kuat_copy_leader_learning_system = {
 				}
 				99 = {  }
 			}
+			reroll_random = yes
 		}
 	}
 }

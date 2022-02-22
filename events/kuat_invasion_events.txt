@@ -11,7 +11,6 @@ event = {
 		}
 		has_global_flag = kuat_spawned
 		NOR = {
-			has_global_flag = ban_exe_invasion
 			has_global_flag = exe_invasion_seed
 			exists = event_target:fallen_empire_kuat
 		}
@@ -1495,49 +1494,45 @@ country_event = {
 		}
 	}
 	immediate = { 
-		if = {
-			limit = { has_global_flag = enable_modifer_check }
-			fromfrom = {
-				every_owned_ship = {
-					set_ship_flag = is_modifiering
-					ship_event = { id = exe_invasion.137 }
-					if = {
-						limit = { NOT = { is_variable_set = combat_days } }
-						change_variable = { which = combat_days value = 1 }
-						ship_event = { id = exe_invasion.138 days = 1 }
-					}
-				}	
-			}
-		} else = {
-			fromfrom = {
-				every_owned_ship = {
-					set_ship_flag = is_modifiering
-					ship_event = { id = exe_invasion.137 }
-					if = {
-						limit = { NOT = { is_variable_set = combat_days } }
-						change_variable = { which = combat_days value = 1 }
-						clear_variable = combat_days set_disable_at_health = -1
-					}
-				}	
-			}
-		}
-		fromfromfrom = { 
-			every_owned_ship = {
-				set_ship_flag = is_modifiering
-				if = {
-					limit = { 
-						ROOT = { is_country_type = ag_kuat_invasion_country } 
-						has_global_flag = difficult_exe_invasion 
-					}
-					ship_event = { id = exe_invasion.131 }
-				} 
-				else = { ship_event = { id = exe_invasion.129 } }
-				if = { 
-					limit = { check_modifier_value = { modifier = ship_hull_mult value > 4 } } 
-					clear_ship_modifier = { modifier = ship_hull_mult subtract = 4 DAYS = -1 } 
+		fromfrom = { every_owned_ship = {
+			set_ship_flag = is_modifiering
+			ship_event = { id = exe_invasion.137 }
+			if = {
+				limit = { 
+					has_global_flag = enable_modifer_check 
+					NOT = { is_variable_set = combat_days }
 				}
-			} 
+				change_variable = { which = combat_days value = 1 }
+				ship_event = { id = exe_invasion.138 days = 1 }
+			}
+			else_if = {
+				limit = { NOT = { is_variable_set = combat_days } }
+				change_variable = { which = combat_days value = 1 }
+				clear_variable = combat_days set_disable_at_health = -1
+			} }	
 		}
+		fromfromfrom = { every_owned_ship = {
+			set_ship_flag = is_modifiering
+			if = {
+				limit = { 
+					ROOT = { is_country_type = ag_kuat_invasion_country } 
+					has_global_flag = difficult_exe_invasion 
+				}
+				ship_event = { id = exe_invasion.131 }
+			} 
+			else_if = {
+				limit = { 
+					ROOT = { is_country_type = ag_kuat_invasion_country } 
+					has_global_flag = ban_exe_invasion 
+				}
+				ship_event = { id = exe_invasion.136 }
+			}
+			else = { ship_event = { id = exe_invasion.129 } }
+			if = { 
+				limit = { check_modifier_value = { modifier = ship_hull_mult value > 4 } } 
+				clear_ship_modifier = { modifier = ship_hull_mult subtract = 4 DAYS = -1 } 
+			}
+		} }
 	}
 }
 
@@ -1580,7 +1575,7 @@ ship_event = {
 					set_eternal_fleet_mult_modifier = { armor_penetration_own = ship_armor_penetration_mult }
 				}
 				if = {
-					limit = { check_modifier_value = { modifier = ship_weapon_damage value < @double_value }  }
+					limit = { check_modifier_value = { modifier = ship_weapon_damage value < @origin_value }  }
 					set_eternal_fleet_mult_modifier = { weapon_damage_own = ship_weapon_damage }
 				}
 				if = {
@@ -1835,6 +1830,71 @@ ship_event = {
 					set_eternal_fleet_mult_modifier = { accuracy = ship_accuracy_mult }
 				}
 				ship_event = { id = exe_invasion.131 days = 1 }
+			}
+		}
+		else = {
+			clear_battleship_modifier_fixed_ship = yes
+			remove_executor_power = yes
+			remove_ship_flag = fire_ship_var
+			remove_ship_flag = is_modifiering
+		}
+	}
+}
+
+ship_event = {
+	id = exe_invasion.136
+	hide_window = yes
+	is_triggered_only = yes
+	trigger = { has_ship_flag = is_modifiering }
+	immediate = { 
+		if = {
+			limit = { is_in_combat = yes }
+			if = {
+				limit = { NOT = { has_ship_flag = fire_ship_var } }
+				set_ban_eternal_fleet_mult_modifier = { 
+					shield_penetration = ship_shield_penetration_mult	armor_penetration = ship_armor_penetration_mult
+					armor_damage = ship_armor_damage_mult				shield_damage = ship_shield_damage_mult
+					hull_damage = ship_hull_damage_mult					weapon_damage = ship_weapon_damage
+					tracking = ship_tracking_mult						accuracy = ship_accuracy_mult
+				}
+				set_ship_flag = fire_ship_var
+				ship_event = { id = exe_invasion.136 days = 1 }
+			}
+			else_if = {
+				limit = { has_ship_flag = fire_ship_var }
+				if = {
+					limit = { NOT = { check_modifier_value = { modifier = ship_shield_penetration_mult value = @mult_origin_value } } }
+					set_ban_eternal_fleet_mult_modifier = { shield_penetration = ship_shield_penetration_mult }
+				}
+				if = {
+					limit = { NOT = { check_modifier_value = { modifier = ship_armor_penetration_mult value = @mult_origin_value } } }
+					set_ban_eternal_fleet_mult_modifier = { armor_penetration = ship_armor_penetration_mult }
+				}
+				if = {
+					limit = { NOT = { check_modifier_value = { modifier = ship_armor_damage_mult value = @mult_tiny_origin_value } } }
+					set_ban_eternal_fleet_mult_modifier = { armor_damage = ship_armor_damage_mult }
+				}
+				if = {
+					limit = { NOT = { check_modifier_value = { modifier = ship_shield_damage_mult value = @mult_tiny_origin_value } } }
+					set_ban_eternal_fleet_mult_modifier = { shield_damage = ship_shield_damage_mult }
+				}
+				if = {
+					limit = { NOT = { check_modifier_value = { modifier = ship_hull_damage_mult value = @mult_tiny_origin_value } } }
+					set_ban_eternal_fleet_mult_modifier = { hull_damage = ship_hull_damage_mult }
+				}
+				if = {
+					limit = { NOT = { check_modifier_value = { modifier = ship_weapon_damage value = @mult_tiny_origin_value } } }
+					set_ban_eternal_fleet_mult_modifier = { weapon_damage = ship_weapon_damage }
+				}
+				if = {
+					limit = { NOT = { check_modifier_value = { modifier = ship_tracking_mult value = @mult_quarter_origin_value } } }
+					set_ban_eternal_fleet_mult_modifier = { tracking = ship_tracking_mult }
+				}
+				if = {
+					limit = { NOT = { check_modifier_value = { modifier = ship_accuracy_mult value = @mult_quarter_origin_value } } }
+					set_ban_eternal_fleet_mult_modifier = { accuracy = ship_accuracy_mult }
+				}
+				ship_event = { id = exe_invasion.136 days = 1 }
 			}
 		}
 		else = {

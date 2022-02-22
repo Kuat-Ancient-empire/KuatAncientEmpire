@@ -189,7 +189,7 @@ kuat_set_difficulty_ban_alt = {
 	}
 	effect = {
 		custom_tooltip = "exe_invasion.1001.a"
-		custom_tooltip = "exe_invasion.1009.ban"
+		custom_tooltip = "exe_invasion.1009.desc"
 	}
 }
 
@@ -378,6 +378,12 @@ kuat_set_shipyard_add = {
 				fail_text = kuat_shipyard.check
 				get_variable_alloys_check_allow = yes
 			}
+			custom_tooltip = {
+				fail_text = kuat_shipyard_can_not_support
+				if = { limit = { has_country_flag = fired_horriwer } check_variable = { which = horriwer_queue value <= 100 } }
+				else_if = { limit = { has_country_flag = fired_empire } check_variable = { which = empire_queue value <= 50 } }
+				else_if = { limit = { has_country_flag = building_the_raider } check_variable = { which = raider_queue value <= 200 } }
+			}
 		} 
 	}
 	effect = {
@@ -387,30 +393,21 @@ kuat_set_shipyard_add = {
 				limit = { from = { has_country_flag = building_the_horriwer } }
 				from = {
 					set_country_flag = fired_horriwer
-					hidden_effect = { 
-						change_variable = { which = horriwer_queue value = 5 } 
-						get_variable_alloys_bought = yes
-					}
+					hidden_effect = { change_variable = { which = horriwer_queue value = 5 } get_variable_alloys_bought = yes }
 				}
 			}
 			else_if = {
 				limit = { from = { has_country_flag = building_the_empire } }
 				from = {
 					set_country_flag = fired_empire
-					hidden_effect = { 
-						change_variable = { which = empire_queue value = 5 } 
-						get_variable_alloys_bought = yes
-					}
+					hidden_effect = { change_variable = { which = empire_queue value = 5 } get_variable_alloys_bought = yes }
 				}
 			}
 			else_if = {
 				limit = { from = { has_country_flag = building_the_raider } }
 				from = {
 					set_country_flag = fired_raider
-					hidden_effect = { 
-						change_variable = { which = raider_queue value = 5 } 
-						get_variable_alloys_bought = yes
-					}
+					hidden_effect = { change_variable = { which = raider_queue value = 5 } get_variable_alloys_bought = yes }
 				}
 			}
 		}
@@ -436,30 +433,21 @@ kuat_set_shipyard_dicrease = {
 				limit = { from = { has_country_flag = building_the_horriwer } }
 				from = {
 					set_country_flag = fired_horriwer
-					hidden_effect = { 
-						subtract_variable = { which = horriwer_queue value = 5 } 
-						get_variable_alloys = yes
-					}
+					hidden_effect = { subtract_variable = { which = horriwer_queue value = 5 } get_variable_alloys = yes }
 				}
 			}
 			else_if = {
 				limit = { from = { has_country_flag = building_the_empire } }
 				from = {
 					set_country_flag = fired_empire
-					hidden_effect = { 
-						subtract_variable = { which = empire_queue value = 5 } 
-						get_variable_alloys = yes
-					}
+					hidden_effect = { subtract_variable = { which = empire_queue value = 5 } get_variable_alloys = yes }
 				}
 			}
 			else_if = {
 				limit = { from = { has_country_flag = building_the_raider } }
 				from = {
 					set_country_flag = fired_raider
-					hidden_effect = { 
-						subtract_variable = { which = raider_queue value = 5 } 
-						get_variable_alloys = yes
-					}
+					hidden_effect = { subtract_variable = { which = raider_queue value = 5 } get_variable_alloys = yes }
 				}
 			}
 		}
