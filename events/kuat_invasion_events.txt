@@ -214,7 +214,16 @@ event = {
 			}
 			ignore_initial_colony_error = yes
 		}
-		last_created_country = {
+		last_created_country = { if = {
+			limit = {
+				has_global_flag = is_allied_ag_kuat
+				has_global_flag = has_wsg_mod
+				exists = event_target:wg_crisis_country
+			}
+			set_faction_hostility = {
+				target = event_target:wg_crisis_country
+				set_hostile = no set_friendly = yes
+			} }
 			save_global_event_target_as = ag_kuat_invasion_country
 			set_country_flag = ag_kuat_invasion_country
 			set_global_flag = has_ag_kuat_invasion_country
