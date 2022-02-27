@@ -729,19 +729,11 @@ country_event = {
 			solar_system = {
 				remove_star_flag = eternal_starbase_megastructure_in_system
 				set_star_class = sc_black_hole
-				random_system_planet = {
-					limit = { is_primary_star = yes }
-					create_ambient_object = {
-						type = kuat_elternal_explosion_object
-						location = this
-						duration = 30					
-						use_3d_location = yes
-						entity_offset = { min = 0 max = 0 }
-						entity_offset_angle = { min = 0 max = 0 }
-						entity_offset_height = { min = 0 max = 0 }				
-						entity_scale_to_size = yes
-						scale = 0.5
-					}
+				star = {
+					create_ambient_object = { type = "star_explosion" play_animation_once = yes location = this }
+					last_created_ambient_object = { set_location = { target = prev distance = 0 angle = random } }
+					create_ambient_object = { type = "destroyed_system" location = this }
+					last_created_ambient_object = { set_ambient_object_flag = destroyed_system_effect set_location = { target = prev  distance = 0  angle = random  } }
 					change_pc = pc_black_hole
 					set_planet_size = 18
 				}
@@ -1023,7 +1015,7 @@ country_event = {
 					has_star_flag = eternal_starbase_megastructure_in_system 
 					NOT = { has_star_flag = eternal_starbase_megastructure_fleet_temple }
 				}
-				set_timed_star_flag = { flag = eternal_starbase_megastructure_fleet_temple days = 31 }
+				set_timed_star_flag = { flag = eternal_starbase_megastructure_fleet_temple days = 121 }
 				system_star = {
 					create_exe_retrun_invasion_fleet_detail = yes
 					every_country = {
@@ -1033,7 +1025,7 @@ country_event = {
 				}
 			}
 		}
-		country_event = { id = exe_return_invasion.19 days = 30 }
+		country_event = { id = exe_return_invasion.19 days = 120 }
 	}
 }
 

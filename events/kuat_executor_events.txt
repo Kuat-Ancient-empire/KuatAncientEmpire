@@ -1137,19 +1137,11 @@ country_event = {
 	hide_window = yes
 	immediate = {
 		event_target:explode_kuat_system = {
-			random_system_planet = {
-				limit = { is_primary_star = yes }
-				create_ambient_object = {
-					type = kuat_elternal_explosion_object
-					location = this
-					duration = 30					
-					use_3d_location = yes
-					entity_offset = { min = 0 max = 0 }
-					entity_offset_angle = { min = 0 max = 0 }
-					entity_offset_height = { min = 0 max = 0 }				
-					entity_scale_to_size = yes
-					scale = 0.5
-				}
+			star = {
+				create_ambient_object = { type = "star_explosion" play_animation_once = yes location = this }
+				last_created_ambient_object = { set_location = { target = prev distance = 0 angle = random } }
+				create_ambient_object = { type = "destroyed_system" location = this }
+				last_created_ambient_object = { set_ambient_object_flag = destroyed_system_effect set_location = { target = prev  distance = 0  angle = random  } }
 			}
 			every_fleet_in_system = { 
 				limit = { owner = { is_kuat_fallen_empire = no } }
