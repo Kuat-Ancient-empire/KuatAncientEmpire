@@ -2874,3 +2874,78 @@ eternal_player_fleet_order_1 = {
 		}
 	}
 }
+
+
+# swapper planet districts
+# DISTRICT1 = district_city
+# DISTRICT2 = district_industrial
+# DISTRICT3 = district_arcology_swgs_science
+# PLANET = pc_swgs_engineer
+kuat_swapping_planet_artificial_planet_district = {
+	if = {
+		limit = { OR = {
+			has_district = $DISTRICT1$
+			has_district = $DISTRICT2$
+		} }
+		export_trigger_value_to_variable = {
+			trigger = num_districts
+			parameters = { type = $DISTRICT1$ }
+			variable = swap_$DISTRICT1$_variable
+		}
+		export_trigger_value_to_variable = {
+			trigger = num_districts
+			parameters = { type = $DISTRICT2$ }
+			variable = swap_$DISTRICT2$_variable
+		}
+		clear_deposits = yes
+		change_pc = $PLANET$
+		while = {
+			count = swap_$DISTRICT1$_variable
+			remove_district = $DISTRICT1$
+			add_district = $DISTRICT3$
+		}
+		while = {
+			count = swap_$DISTRICT2$_variable
+			remove_district = $DISTRICT2$
+			add_district = $DISTRICT3$
+		}
+		clear_variable = swap_$DISTRICT2$_variable
+		clear_variable = swap_$DISTRICT1$_variable
+	}
+	else_if = {
+		limit = { has_district = $DISTRICT1$ NOT = {
+			has_district = $DISTRICT2$
+		} }
+		export_trigger_value_to_variable = {
+			trigger = num_districts
+			parameters = { type = $DISTRICT1$ }
+			variable = swap_$DISTRICT1$_variable
+		}
+		clear_deposits = yes
+		change_pc = $PLANET$
+		while = {
+			count = swap_$DISTRICT1$_variable
+			remove_district = $DISTRICT1$
+			add_district = $DISTRICT3$
+		}
+		clear_variable = swap_$DISTRICT1$_variable
+	}
+	else_if = {
+		limit = { has_district = $DISTRICT2$ NOT = {
+			has_district = $DISTRICT1$
+		} }
+		export_trigger_value_to_variable = {
+			trigger = num_districts
+			parameters = { type = $DISTRICT2$ }
+			variable = swap_$DISTRICT2$_variable
+		}
+		clear_deposits = yes
+		change_pc = $PLANET$
+		while = {
+			count = swap_$DISTRICT2$_variable
+			remove_district = $DISTRICT2$
+			add_district = $DISTRICT3$
+		}
+		clear_variable = swap_$DISTRICT2$_variable
+	}	
+}
