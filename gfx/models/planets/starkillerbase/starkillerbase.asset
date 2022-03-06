@@ -6,17 +6,29 @@ entity = {
 	game_data = { emissive_recolor_crunch = 0 }
 }
 
+entity = {
+	name = "starkillerbase_megastructure_firing_entity"
+	locator = { name = "starkillerbase_rotation" position = { 0 0 0 } rotation = { -42 142 0 } }
+	attach = { "starkillerbase_rotation" = "starkillerbase_firing_planet_entity" }
+	game_data = { emissive_recolor_crunch = 0 }
+}
+
 ###################################################
 entity = {
 	name = "starkillerbase_planet_entity"
 	pdxmesh = "starkillerbase_planet_mesh"
-	scale = 0.1
 	default_state = "idle"
-	state = { name = "idle"
+	state = { name = "idle" state_time = 5.0
 		start_event = { trigger_once = yes sound = { soundeffect = "amb_planet_class" } }
 		start_event = { trigger_once = yes sound = { soundeffect = "amb_planet_class_02" } }
 	}
 	game_data = { emissive_recolor_crunch = 0 }
+}
+
+entity = {
+	name = "starkillerbase_firing_planet_entity"
+	pdxmesh = "starkillerbase_planet_mesh"
+	attach = { "lazer_2" = "starkillerbase_beamlaser_entity" }
 }
 
 ###############################################megastructure fire entity######################################################################
@@ -29,12 +41,7 @@ entity = {
 		name = "idle" state_time = 1
 		event = { time = 0.0 node = "polar_effect_1" particle = "starbasekiller_SW_effect"  keep_particle = no trigger_once = yes  sound = { soundeffect = "pulsar_star_idle_hum" } }
 	}
-	scale = 5
-	game_data = {
-		uv_animation_speed   = -0.1
-		uv_animation_direction  = { 0.4 0.4 }
-		bloom_factor = 0.5
-	}	
+	game_data = { uv_animation_speed   = -0.1 uv_animation_direction  = { 0.4 0.4 } bloom_factor = 0.5 }	
 }
 
 entity = { 
@@ -50,19 +57,6 @@ entity = {
 		uv_animation_direction  = { 0.4 0.4 }
 		bloom_factor = 0.5
 	}	
-}
-#Starkiller fires beamlaser with wormhole
-entity = { 
-	name = "starkillerbase_firing_entity" #laser beam from starkillerbase to wormhole effect
-
-	#locator = { name = "megastructure_locator_1" position = { 0 0 0 } rotation = { 8 0 0 }}
-	#locator = { name = "root_wormhole" position = { -317 0 347 } rotation = { 0 -90 -34 }}
-	#locator = { name = "root_ring" position = { -322 0 352 } rotation = { 0 -90 -34 }}
-	locator = { name = "lazer_1" position = { 0 0 0 } rotation = { 138 0 0 } }
-	#attach = { "megastructure_locator_1" = "starkillerbase_megastructure_entity"}	#Starkiller Base
-	#attach = { "root_ring" = "starkiller_ring_world_second_back_ration_entity"}	#Wormhole
-	#attach = { "root_wormhole" = "starbasekiller_portal_entity"}	#Wormhole
-	attach = { "lazer_1" = "starkillerbase_beamlaser_entity" }	#laser
 }
 
 

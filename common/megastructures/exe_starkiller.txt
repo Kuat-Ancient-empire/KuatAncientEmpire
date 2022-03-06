@@ -67,6 +67,11 @@ kuat_starkillerbase_15 = {
 	construction_entity = "starforge_avoid_entity"
 	portrait = "GFX_megastructure_starkiller_background4"
 	construction_blocks_others = no
+	possible = { custom_tooltip = {
+		fail_text = "kuat_requires_no_fire_cooldown"
+		exists = space_owner
+		space_owner = { NOT = { has_country_flag = starkiller_base_cooldown } }
+	} }
 	upgrade_from = { kuat_starkillerbase_1 }
 	build_time = 1
 	resources = {
@@ -76,32 +81,10 @@ kuat_starkillerbase_15 = {
 	potential = { NOT = { has_global_flag = starkillerbase_not_passed } }
 	on_build_start = { }
 	on_build_cancel = { }
-	on_build_complete = {
-		set_star_flag = rebuild_soon
-		from = {
-			set_country_flag = kuat_enabled_epsilon_planet_killer_selector
-			country_event = { id = kuat_system_selector.1 }
-		}
-		fromfrom.planet = { set_planet_flag = buildingsoon }
-	}
-}
-
-kuat_starkillerbase_2 = {
-	entity = "starkillerbase_firing_entity"
-	construction_entity = "starforge_avoid_entity"
-	portrait = "GFX_megastructure_construction_background"
-	construction_blocks_others = no
-	upgrade_desc = hide
-	upgrade_from = { kuat_starkillerbase_15 }
-	build_time = 1
-	resources = {
-		category = megastructures
-		cost = { sr_dark_matter = 5000 }
-	}
-	potential = { always = no }
-	on_build_start = { }
-	on_build_cancel = { }
-	on_build_complete = { }
+	on_build_complete = { from = {
+		set_country_flag = kuat_enabled_epsilon_planet_killer_selector
+		country_event = { id = kuat_system_selector.1 }
+	} }
 }
 
 kuat_starkillerbase_a = {
@@ -109,9 +92,28 @@ kuat_starkillerbase_a = {
 	construction_entity = "starforge_avoid_entity"
 	portrait = "GFX_megastructure_construction_background"
 	construction_blocks_others = no
+	upgrade_from = { kuat_starkillerbase_15 }
 	build_time = 0
 	potential = { always = no }
 	possible = { }
+	on_build_start = { }
+	on_build_cancel = { }
+	on_build_complete = { }
+}
+
+kuat_starkillerbase_2 = {
+	entity = "starforge_avoid_entity"
+	construction_entity = "starforge_avoid_entity"
+	portrait = "GFX_megastructure_construction_background"
+	construction_blocks_others = no
+	upgrade_desc = hide
+	upgrade_from = { kuat_starkillerbase_a }
+	build_time = 1
+	resources = {
+		category = megastructures
+		cost = { sr_dark_matter = 5000 }
+	}
+	potential = { always = no }
 	on_build_start = { }
 	on_build_cancel = { }
 	on_build_complete = { }
@@ -237,7 +239,7 @@ kuat_sun_drain = {
 	ai_weight = { weight = 0 }
 	on_build_start = { }
 	on_build_cancel = { }
-	on_build_complete = { fromfrom.planet = { set_planet_flag = sunflaglocation } }
+	on_build_complete = { }
 }
 
 @entity_x = 0

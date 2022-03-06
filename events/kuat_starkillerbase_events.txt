@@ -8,27 +8,23 @@ country_event = {
 	immediate = {
 		change_variable = { which = fire_var value = 1 }
 		country_event = { id = kuat_starkiller.2 days = 20 }
-		every_megastructure = {
-			limit = { is_megastructure_type = kuat_starkillerbase_2 }
-			remove_megastructure = this
-		}
 		event_target:sun_target_system = {
 			spawn_megastructure = {
 				type = "kuat_sun_drain"
 				coords_from = event_target:sun_location
 			}
-			spawn_megastructure = {
-				type = "kuat_starkillerbase_a"
-				coords_from = event_target:starkillerbase_location
-			}
 		}
 		play_sound = swfo_starkillerbase_charge
 		every_country = {
-			limit = {
-				NOT = { is_country_type = primitive }
-				NOT = { is_country = ROOT }
-			}
+			limit = { NOR = {
+				is_country_type = primitive
+				is_country = ROOT
+			} }
 			add_opinion_modifier = { who = ROOT modifier = opinion_in_starkillerbase_fire_control }
+		}
+		if = {
+			limit = { exists = event_target:ag_kuat_invasion_country is_ai = no }
+			set_timed_country_flag = { flag = starkiller_base_cooldown days = 720 }
 		}
 	}
 }
@@ -41,10 +37,7 @@ country_event = {
 	immediate = {
 		country_event = { id = kuat_starkiller.3 days = 1 }
 		#Remove Sun drain
-		every_megastructure = {
-			limit = { is_megastructure_type = kuat_sun_drain }
-			remove_megastructure = this
-		}
+		every_megastructure = { limit = { is_megastructure_type = kuat_sun_drain } remove_megastructure = this }
 	}
 }
 
@@ -54,7 +47,6 @@ country_event = {
 	hide_window = yes
 	is_triggered_only = yes
 	immediate = {
-		country_event = { id = kuat_starkiller.4 days = 9 }
 		play_sound = swfo_starkillerbase_fire
 		every_megastructure = {
 			if = {
@@ -68,6 +60,7 @@ country_event = {
 				finish_upgrade = yes
 			}
 		}
+		country_event = { id = kuat_starkiller.4 days = 9 }
 	}
 }
 
@@ -77,17 +70,16 @@ country_event = {
 	hide_window = yes
 	is_triggered_only = yes
 	immediate = {
-		country_event = { id = kuat_starkiller.5 days = 10 }
 		every_megastructure = {
 			limit = { is_megastructure_type = kuat_starkillerbase_a }
-			remove_megastructure = this
+			upgrade_megastructure_to = kuat_starkillerbase_2
+			finish_upgrade = yes
 		}
-		event_target:sun_target_system = {
-			spawn_megastructure = {
-				type = "kuat_starkillerbase_2"
-				coords_from = event_target:starkillerbase_location
-			}
+		event_target:starkillerbase_location = {
+			set_planet_entity = { entity = "starkillerbase_megastructure_firing_entity" picture = pc_starkiller }
+			set_planet_flag = buildingsoon
 		}
+		country_event = { id = kuat_starkiller.5 days = 10 }
 	}
 }
 
@@ -123,20 +115,19 @@ country_event = {
 		every_galaxy_planet = {
 			limit = { has_planet_flag = built_target }
 			if = {
-				limit = { 
-					exists = owner 
-					owner = {
-						NOT = { is_same_value = root }
-						OR = {
-							is_country_type = default_ev
-							is_country_type = default
-							is_country_type = fallen_empire
-							is_country_type = awakened_fallen_empire
-						}
-						NOT = { is_at_war_with = root }
-						NOT = { has_country_flag = fire_once_war }
+				limit = {  exists = owner owner = {
+					OR = {
+						is_country_type = default_ev
+						is_country_type = default
+						is_country_type = fallen_empire
+						is_country_type = awakened_fallen_empire
+					}			
+					NOR = {
+						is_same_value = root
+						is_at_war_with = root
+						has_country_flag = fire_once_war
 					}
-				}
+				} }
 				owner = {
 					add_opinion_modifier = {
 						who = root
@@ -193,14 +184,8 @@ country_event = {
 			else = { change_pc = pc_shattered }
 		}
 		every_megastructure = {
-			if = {
-				limit = { is_megastructure_type = kuat_starkiller_marker_2 }
-				remove_megastructure = this
-			}
-			if = {
-				limit = { is_megastructure_type = kuat_starkiller_marker_2_1 }
-				remove_megastructure = this
-			}
+			if = { limit = { is_megastructure_type = kuat_starkiller_marker_2 } remove_megastructure = this }
+			if = { limit = { is_megastructure_type = kuat_starkiller_marker_2_1 } remove_megastructure = this }
 		}
 	}
 }
@@ -220,12 +205,9 @@ country_event = {
 		every_galaxy_planet = {
 			if = {
 				limit = { has_planet_flag = buildingsoon }
-				save_event_target_as = buildtargetsoon
+				set_planet_entity = { entity = "starkillerbase_megastructure_entity" picture = pc_starkiller }
 			}
-			if = {
-				limit = { has_planet_flag = built_target }
-				remove_planet_flag = built_target
-			}
+			if = { limit = { has_planet_flag = built_target } remove_planet_flag = built_target }
 		}
 		#rebuilts Starkiller Base
 		event_target:sun_target_system = {
@@ -806,6 +788,11 @@ country_event = {
 		else_if = { limit = { check_variable = { which = kuat_temp_counter value = 3 } } add_resource = { energy = 40000 sr_dark_matter = 4000 } }
 		else_if = { limit = { check_variable = { which = kuat_temp_counter value = 4 } } add_resource = { energy = 80000 sr_dark_matter = 8000 } }
 		else_if = { limit = { check_variable = { which = kuat_temp_counter value = 5 } } add_resource = { energy = 160000 sr_dark_matter = 16000 } }
+		else_if = { limit = { check_variable = { which = kuat_temp_counter value = 6 } } add_resource = { energy = 320000 sr_dark_matter = 32000 } }
+		else_if = { limit = { check_variable = { which = kuat_temp_counter value = 7 } } add_resource = { energy = 640000 sr_dark_matter = 64000 } }
+		else_if = { limit = { check_variable = { which = kuat_temp_counter value = 8 } } add_resource = { energy = 1280000 sr_dark_matter = 128000 } }
+		else_if = { limit = { check_variable = { which = kuat_temp_counter value = 9 } } add_resource = { energy = 2560000 sr_dark_matter = 256000 } }
+		else_if = { limit = { check_variable = { which = kuat_temp_counter value = 10 } } add_resource = { energy = 5120000 sr_dark_matter = 512000 } }
 		country_event = { id = kuat_starkiller.15 days = 10 }
 		set_variable = { which = kuat_temp_counter value = 0 }
 		event_target:starkillerbase_location = { set_variable = { which = starkiller_target value = 0 } }
@@ -867,7 +854,7 @@ country_event = {
 		}
 		every_owned_megastructure = {
 			limit = { is_megastructure_type = kuat_starkillerbase_15 }
-			upgrade_megastructure_to = kuat_starkillerbase_2
+			upgrade_megastructure_to = kuat_starkillerbase_a
 			finish_upgrade = yes
 		}
 		country_event = { id = kuat_starkiller.1 }
@@ -898,6 +885,11 @@ country_event = {
 		else_if = { limit = { check_variable = { which = kuat_temp_counter value = 3 } } add_resource = { energy = 40000 sr_dark_matter = 4000 } }
 		else_if = { limit = { check_variable = { which = kuat_temp_counter value = 4 } } add_resource = { energy = 80000 sr_dark_matter = 8000 } }
 		else_if = { limit = { check_variable = { which = kuat_temp_counter value = 5 } } add_resource = { energy = 160000 sr_dark_matter = 16000 } }
+		else_if = { limit = { check_variable = { which = kuat_temp_counter value = 6 } } add_resource = { energy = 320000 sr_dark_matter = 32000 } }
+		else_if = { limit = { check_variable = { which = kuat_temp_counter value = 7 } } add_resource = { energy = 640000 sr_dark_matter = 64000 } }
+		else_if = { limit = { check_variable = { which = kuat_temp_counter value = 8 } } add_resource = { energy = 1280000 sr_dark_matter = 128000 } }
+		else_if = { limit = { check_variable = { which = kuat_temp_counter value = 9 } } add_resource = { energy = 2560000 sr_dark_matter = 256000 } }
+		else_if = { limit = { check_variable = { which = kuat_temp_counter value = 10 } } add_resource = { energy = 5120000 sr_dark_matter = 512000 } }
 		country_event = { id = kuat_starkiller.17 days = 10 }
 		set_variable = { which = kuat_temp_counter value = 0 }
 		clear_variable = kuat_temp_counter
