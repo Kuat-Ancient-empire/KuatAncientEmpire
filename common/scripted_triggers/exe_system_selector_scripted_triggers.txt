@@ -845,12 +845,14 @@ kuat_epsilon_planet_killer_weapon_selector_trigger = {
 						is_inside_border = root any_system_planet = { OR = { is_colony = yes is_under_colonization = yes } }
 					} }
 				}
-				custom_tooltip = {
-					fail_text = "kuat_requires_declares_war_star_killer"
-					event_target:kuat_system_selector_marked_system_[[kuat_system_seq]$kuat_system_seq$] = { OR = {
-						is_inside_border = root NOT = { exists = space_owner } exists = space_owner
-					} }
-				}
+				# custom_tooltip = {
+				# 	fail_text = "kuat_requires_declares_war_star_killer"
+				# 	event_target:kuat_system_selector_marked_system_[[kuat_system_seq]$kuat_system_seq$] = { OR = {
+				# 		is_inside_border = root
+				# 		NOT = { exists = space_owner }
+				# 		AND = { exists = space_owner space_owner = { is_hostile = root } }
+				# 	} }
+				# }
 				custom_tooltip = {
 					fail_text = "kuat_requires_no_kuat_system" 
 					event_target:kuat_system_selector_marked_system_[[kuat_system_seq]$kuat_system_seq$] = { 
@@ -943,56 +945,9 @@ kuat_epsilon_planet_killer_weapon_selector_trigger = {
 kuat_epsilon_star_killer_weapon_confirm = {
 	OR = {
 		hidden_trigger = { root = { NOT = { has_country_flag = kuat_enabled_epsilon_planet_killer_selector } } }
-		hidden_trigger = { root = { check_variable = { which = kuat_num_system_selector_selected_systems value > 0 } } }
 		AND = {
-			custom_tooltip = { fail_text = "kuat_star_killer_selected_1_targets" root = { check_variable = { which = kuat_num_system_selector_selected_systems value = 1 } } }
-			resource_stockpile_compare = { resource = energy value >= 10000 }
-			resource_stockpile_compare = { resource = sr_dark_matter value >= 1000 }
-		}
-		AND = {
-			custom_tooltip = { fail_text = "kuat_star_killer_selected_2_targets" root = { check_variable = { which = kuat_num_system_selector_selected_systems value = 2 } } }
-			resource_stockpile_compare = { resource = energy value >= 20000 }
-			resource_stockpile_compare = { resource = sr_dark_matter value >= 2000 }
-		}
-		AND = {
-			custom_tooltip = { fail_text = "kuat_star_killer_selected_3_targets" root = { check_variable = { which = kuat_num_system_selector_selected_systems value = 3 } } }
-			resource_stockpile_compare = { resource = energy value >= 40000 }
-			resource_stockpile_compare = { resource = sr_dark_matter value >= 4000 }
-		}
-		AND = {
-			custom_tooltip = { fail_text = "kuat_star_killer_selected_4_targets" root = { check_variable = { which = kuat_num_system_selector_selected_systems value = 4 } } }
-			resource_stockpile_compare = { resource = energy value >= 80000 }
-			resource_stockpile_compare = { resource = sr_dark_matter value >= 8000 }
-		}
-		AND = {
-			custom_tooltip = { fail_text = "kuat_star_killer_selected_5_targets" root = { check_variable = { which = kuat_num_system_selector_selected_systems value = 5 } } }
-			resource_stockpile_compare = { resource = energy value >= 160000 }
-			resource_stockpile_compare = { resource = sr_dark_matter value >= 16000 }
-		}
-		AND = {
-			custom_tooltip = { fail_text = "kuat_star_killer_selected_5_targets" root = { check_variable = { which = kuat_num_system_selector_selected_systems value = 6 } } }
-			resource_stockpile_compare = { resource = energy value >= 320000 }
-			resource_stockpile_compare = { resource = sr_dark_matter value >= 32000 }
-		}
-		AND = {
-			custom_tooltip = { fail_text = "kuat_star_killer_selected_5_targets" root = { check_variable = { which = kuat_num_system_selector_selected_systems value = 7 } } }
-			resource_stockpile_compare = { resource = energy value >= 640000 }
-			resource_stockpile_compare = { resource = sr_dark_matter value >= 64000 }
-		}
-		AND = {
-			custom_tooltip = { fail_text = "kuat_star_killer_selected_5_targets" root = { check_variable = { which = kuat_num_system_selector_selected_systems value = 8 } } }
-			resource_stockpile_compare = { resource = energy value >= 1280000 }
-			resource_stockpile_compare = { resource = sr_dark_matter value >= 128000 }
-		}
-		AND = {
-			custom_tooltip = { fail_text = "kuat_star_killer_selected_5_targets" root = { check_variable = { which = kuat_num_system_selector_selected_systems value = 9 } } }
-			resource_stockpile_compare = { resource = energy value >= 2560000 }
-			resource_stockpile_compare = { resource = sr_dark_matter value >= 256000 }
-		}
-		AND = {
-			custom_tooltip = { fail_text = "kuat_star_killer_selected_5_targets" root = { check_variable = { which = kuat_num_system_selector_selected_systems value = 10 } } }
-			resource_stockpile_compare = { resource = energy value >= 5120000 }
-			resource_stockpile_compare = { resource = sr_dark_matter value >= 512000 }
+			resource_stockpile_compare = { resource = energy value >= 10000 mult = kuat_num_system_selector_selected_systems }
+			resource_stockpile_compare = { resource = sr_dark_matter value >= 1000 mult = kuat_num_system_selector_selected_systems }
 		}
 	}
 }

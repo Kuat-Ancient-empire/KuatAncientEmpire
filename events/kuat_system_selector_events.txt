@@ -1070,7 +1070,13 @@ country_event = {
 	option = {
 		name = "kuat_confirm"
 		custom_gui = "kuat_system_selector_confirm_option"
-		allow = { kuat_epsilon_star_killer_weapon_confirm = yes }
+		allow = { OR = {
+			custom_tooltip = { 
+				fail_text = "kuat_no_selected_target" 
+				check_variable = { which = kuat_num_system_selector_selected_systems value = 0 } 
+			}
+			kuat_epsilon_star_killer_weapon_confirm = yes
+		} }
 		hidden_effect = {
 			remove_global_flag = kuat_system_selector_2_opened
 			fire_on_action = { on_action = kuat_on_system_selector_confirm }
