@@ -1480,13 +1480,27 @@ country_event = {
 	id = exe_invasion.130
 	hide_window = yes
 	is_triggered_only = yes
-	trigger = {
-		OR = {
-			is_country_type = ag_kuat_invasion_country
-			is_kuat_fallen_empire = yes
-		}
-	}
+	trigger = { OR = {
+		is_country_type = ag_kuat_invasion_country
+		is_kuat_fallen_empire = yes
+	} }
 	immediate = { 
+		random_list = {
+			5 = { fromfromfrom = {
+				every_owned_ship = { if = { 
+					limit = { check_modifier_value = { modifier = ship_hull_mult value > 4 } } 
+					clear_ship_modifier = { modifier = ship_hull_mult subtract = 4 DAYS = -1 } 
+				} }
+			} }
+			1 = { 
+				modifier = { factor = 2 has_global_flag = ban_exe_invasion }
+				modifier = { factor = 3 has_global_flag = easy_exe_invasion }
+				modifier = { factor = 4 has_global_flag = normal_exe_invasion }
+				modifier = { factor = 5 has_global_flag = difficult_exe_invasion }
+				modifier = { factor = 0 is_kuat_fallen_empire = yes }
+				kuat_copy_leader_learning_system = yes
+			}
+		}
 		fromfrom = { every_owned_ship = {
 			set_ship_flag = is_modifiering
 			if = {
@@ -1525,10 +1539,6 @@ country_event = {
 				ship_event = { id = exe_invasion.136 }
 			}
 			else = { ship_event = { id = exe_invasion.129 } }
-			if = { 
-				limit = { check_modifier_value = { modifier = ship_hull_mult value > 4 } } 
-				clear_ship_modifier = { modifier = ship_hull_mult subtract = 4 DAYS = -1 } 
-			}
 		} }
 	}
 }
@@ -2592,7 +2602,7 @@ country_event = {
 	}
 }
 
-# #entering gateway WITHOUT SPECIAL
+# entering gateway WITHOUT SPECIAL
 fleet_event = {
 	id = exe_invasion.1987
 	hide_window = yes
@@ -2619,6 +2629,20 @@ ship_event = {
 		}
 		else = { remove_executor_power = yes }
 	}
+}
+
+# message about leader clone
+country_event = {
+	id = exe_invasion.141
+	title = "exe_invasion.141.name"
+	desc = "exe_invasion.141.desc"
+	diplomatic = yes
+	picture_event_data = { room = ancient_AI_room }
+	custom_gui = "kuat_event_m_window"
+	custom_gui_option = "kuat_event_m_option"
+	show_sound = event_red_alert
+	is_triggered_only = yes
+	option = { name = exe_invasion.141.a }
 }
 
 # Saving debug
