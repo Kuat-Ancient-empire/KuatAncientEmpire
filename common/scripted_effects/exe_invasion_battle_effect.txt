@@ -1,34 +1,34 @@
 # scope: ship
 increase_executor_power = {
 	if = {
-		limit = { has_hp <= 20000000 }
+		limit = { has_hp <= 2000000 }
 		clear_ship_modifier = { modifier = ship_hull_mult DAYS = $DAYS$ subtract = 1 }
 		clear_ship_modifier = { modifier = ship_hull_regen_add_perc DAYS = $DAYS$ subtract = 1 }
-		add_modifier = { modifier = increase_hp_5000000_times days = $DAYS$ }
+		add_modifier = { modifier = increase_hp_500000_times days = $DAYS$ }
 	}
 	else_if = {
-		limit = { has_hp <= 40000000 }
+		limit = { has_hp <= 4000000 }
 		clear_ship_modifier = { modifier = ship_hull_mult DAYS = $DAYS$ subtract = 1 }
 		clear_ship_modifier = { modifier = ship_hull_regen_add_perc DAYS = $DAYS$ subtract = 1 }
-		add_modifier = { modifier = increase_hp_4000000_times days = $DAYS$ }
+		add_modifier = { modifier = increase_hp_400000_times days = $DAYS$ }
 	}
 	else_if = {
-		limit = { has_hp <= 60000000 }
+		limit = { has_hp <= 6000000 }
 		clear_ship_modifier = { modifier = ship_hull_mult DAYS = $DAYS$ subtract = 1 }
 		clear_ship_modifier = { modifier = ship_hull_regen_add_perc DAYS = $DAYS$ subtract = 1 }
-		add_modifier = { modifier = increase_hp_3000000_times days = $DAYS$ }
+		add_modifier = { modifier = increase_hp_300000_times days = $DAYS$ }
 	}
 	else_if = {
-		limit = { has_hp <= 80000000 }
+		limit = { has_hp <= 8000000 }
 		clear_ship_modifier = { modifier = ship_hull_mult DAYS = $DAYS$ subtract = 1 }
 		clear_ship_modifier = { modifier = ship_hull_regen_add_perc DAYS = $DAYS$ subtract = 1 }
-		add_modifier = { modifier = increase_hp_2000000_times days = $DAYS$ }
+		add_modifier = { modifier = increase_hp_200000_times days = $DAYS$ }
 	}
 	else_if = {
 		limit = { has_hp <= 100000000 }
 		clear_ship_modifier = { modifier = ship_hull_mult DAYS = $DAYS$ subtract = 1 }
 		clear_ship_modifier = { modifier = ship_hull_regen_add_perc DAYS = $DAYS$ subtract = 1 }
-		add_modifier = { modifier = increase_hp_1000000_times days = $DAYS$ }
+		add_modifier = { modifier = increase_hp_100000_times days = $DAYS$ }
 	}
 }
 
@@ -78,7 +78,7 @@ increase_ship_hp_effect_change = {
 		limit = { owner = { is_kuat_fallen_empire = yes } }
 		every_owned_ship = {
 			set_timed_ship_flag = { flag = is_invisiable_trigger days = $DAYS$ }
-			eternal_increase_executor_power = { DAYS = $DAYS$ }
+			increase_executor_power = { DAYS = $DAYS$ }
 			ship_event = { id = exe_invasion.119 }
 		}
 	}
@@ -812,31 +812,31 @@ set_ban_eternal_fleet_mult_modifier = {
 	[[shield_penetration_own] if = {
 		limit = { 
 			NOT = { is_variable_set = $shield_penetration_own$_value } 
-			NOT = { check_modifier_value = { modifier = $shield_penetration_own$ value = @mult_origin_value } }
+			check_modifier_value = { modifier = $shield_penetration_own$ value < @origin_value }
 		}
 		export_modifier_to_variable = { modifier = $shield_penetration_own$ variable = $shield_penetration_own$_value }
-		change_variable = { which = $shield_penetration_own$_value value = @origin_value }
+		subtract_variable = { which = $shield_penetration_own$_value value = @origin_value }
 		set_invasion_fleet_basic_modifier = { SUB = basic_$shield_penetration_own$ FACTOR = $shield_penetration_own$_value }
 	} else_if = { 
 		limit = { has_ship_flag = fire_ship_var }
 		if = { limit = { is_variable_set = change_$shield_penetration_own$_value } clear_variable = change_$shield_penetration_own$_value }
 		export_modifier_to_variable = { modifier = $shield_penetration_own$ variable = change_$shield_penetration_own$_value }
-		change_variable = { which = change_$shield_penetration_own$_value value = @origin_value }
+		subtract_variable = { which = change_$shield_penetration_own$_value value = @origin_value }
 		set_invasion_fleet_basic_modifier = { SUB = change_basic_$shield_penetration_own$ FACTOR = change_$shield_penetration_own$_value }
 	}] #scope: fromfrom
 	[[armor_penetration_own] if = {
 		limit = { 
 			NOT = { is_variable_set = $armor_penetration_own$_value } 
-			NOT = { check_modifier_value = { modifier = $armor_penetration_own$ value = @mult_origin_value } }
+			check_modifier_value = { modifier = $armor_penetration_own$ value < @origin_value }
 		}
 		export_modifier_to_variable = { modifier = $armor_penetration_own$ variable = $armor_penetration_own$_value }
-		change_variable = { which = $armor_penetration_own$_value value = @origin_value }
+		subtract_variable = { which = $armor_penetration_own$_value value = @origin_value }
 		set_invasion_fleet_basic_modifier = { SUB = basic_$armor_penetration_own$ FACTOR = $armor_penetration_own$_value }
 	} else_if = { 
 		limit = { has_ship_flag = fire_ship_var }
 		if = { limit = { is_variable_set = change_$armor_penetration_own$_value } clear_variable = change_$armor_penetration_own$_value }
 		export_modifier_to_variable = { modifier = $armor_penetration_own$ variable = change_$armor_penetration_own$_value }
-		change_variable = { which = change_$armor_penetration_own$_value value = @origin_value }
+		subtract_variable = { which = change_$armor_penetration_own$_value value = @origin_value }
 		set_invasion_fleet_basic_modifier = { SUB = change_basic_$armor_penetration_own$ FACTOR = change_$armor_penetration_own$_value }
 	}] #scope: fromfrom
 	[[weapon_damage_own] if = {

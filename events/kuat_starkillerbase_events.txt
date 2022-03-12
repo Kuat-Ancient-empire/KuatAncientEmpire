@@ -813,40 +813,34 @@ country_event = {
 			limit = { has_star_flag = kuat_epsilon_titan_star_killer_weapon_target@root }
 			remove_star_flag = kuat_epsilon_titan_star_killer_weapon_target@root
 			every_system_megastructure = {
-				limit = {
-					OR = { 
-						is_megastructure_type = kuat_starkiller_marker_0 
-						is_megastructure_type = kuat_starkiller_marker_0_1
-						is_megastructure_type = kuat_starkiller_marker_1
-						is_megastructure_type = kuat_starkiller_marker_1_1
-						is_megastructure_type = kuat_starkiller_marker_2
-						is_megastructure_type = kuat_starkiller_marker_2_1
-					}
-				}
+				limit = { OR = { 
+					is_megastructure_type = kuat_starkiller_marker_0 
+					is_megastructure_type = kuat_starkiller_marker_0_1
+					is_megastructure_type = kuat_starkiller_marker_1
+					is_megastructure_type = kuat_starkiller_marker_1_1
+					is_megastructure_type = kuat_starkiller_marker_2
+					is_megastructure_type = kuat_starkiller_marker_2_1
+				} }
 				remove_megastructure = this
 			}
 			every_system_planet = {
 				if = {
 					limit = { OR = { is_colony = yes is_capital = yes } }
 					set_planet_flag = built_target
-					prev = {
-						spawn_megastructure = {
-							owner = event_target:kuat_firebase_country
-							type = kuat_starkiller_marker_0
-							coords_from = prev
-						}
-					}
+					prev = { spawn_megastructure = {
+						owner = event_target:kuat_firebase_country
+						type = kuat_starkiller_marker_0
+						coords_from = prev
+					} }
 				}
 				if = {
 					limit = { is_star = yes }
 					set_planet_flag = built_target
-					prev = {
-						spawn_megastructure = {
-							owner = event_target:kuat_firebase_country
-							type = kuat_starkiller_marker_0_1
-							coords_from = prev
-						}
-					}
+					prev = { spawn_megastructure = {
+						owner = event_target:kuat_firebase_country
+						type = kuat_starkiller_marker_0_1
+						coords_from = prev
+					} }
 				}
 			}
 		}
@@ -912,7 +906,6 @@ country_event = {
 				}
 				random_owned_fleet = {
 					limit = { has_fleet_flag = executing_eternal_fleet }
-					every_owned_ship = { create_jump_particle_effect = yes }
 					set_location = event_target:targeting_enemy_system.system_star
 					every_owned_ship = { create_jump_particle_effect = yes }
 					fleet_event = { id = kuat_starkiller.21 days = 1 }
