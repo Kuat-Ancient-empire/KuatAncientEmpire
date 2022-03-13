@@ -1,8 +1,13 @@
 entity = {
 	name = "exe_superlaser_eclipse_windup_entity"
+	scale = 1
 	default_state = "attack"
 	get_state_from_parent = no
-	state = { name = "attack" state_time = 5 looping = no event = { trigger_once = yes sound = { soundeffect = "sw_Superlaser_windup" } } }
+	state = {
+		name = "attack" looping = yes state_time = 5
+		event = { trigger_once = yes sound = { soundeffect = "sw_Superlaser_windup" } }
+		event = { time = 0 use_parent_nodes = yes node = "part2" entity = "eclipse_wind_up_effect_entity" erosion_in = 1  life = 2.2 erosion_out = 2.2 }
+	}
 }
 
 entity = {
@@ -69,7 +74,6 @@ entity = {
 	state = { name = "idle" state_time = 5 looping = no
 		event = { trigger_once = yes sound = { soundeffect = "sw_Superlaser_windup" } }
 		event = { time = 0 particle = "tachyon_lance_muzzle_particle" keep_particle = yes sound = { soundeffect = sw_Superlaser_muzzle } }
-		event = { time = 0 use_parent_nodes = yes node = "part1" entity = "eclipse_wind_up_effect_entity" erosion_in = 0.1  life = 1.0	erosion_out = 1.0 }
 	}
 }
 

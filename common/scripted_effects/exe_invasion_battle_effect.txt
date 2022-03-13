@@ -4,31 +4,31 @@ increase_executor_power = {
 		limit = { has_hp <= 2000000 }
 		clear_ship_modifier = { modifier = ship_hull_mult DAYS = $DAYS$ subtract = 1 }
 		clear_ship_modifier = { modifier = ship_hull_regen_add_perc DAYS = $DAYS$ subtract = 1 }
-		add_modifier = { modifier = increase_hp_500000_times days = $DAYS$ }
+		add_modifier = { modifier = increase_hp_t5_times days = $DAYS$ }
 	}
 	else_if = {
 		limit = { has_hp <= 4000000 }
 		clear_ship_modifier = { modifier = ship_hull_mult DAYS = $DAYS$ subtract = 1 }
 		clear_ship_modifier = { modifier = ship_hull_regen_add_perc DAYS = $DAYS$ subtract = 1 }
-		add_modifier = { modifier = increase_hp_400000_times days = $DAYS$ }
+		add_modifier = { modifier = increase_hp_t4_times days = $DAYS$ }
 	}
 	else_if = {
 		limit = { has_hp <= 6000000 }
 		clear_ship_modifier = { modifier = ship_hull_mult DAYS = $DAYS$ subtract = 1 }
 		clear_ship_modifier = { modifier = ship_hull_regen_add_perc DAYS = $DAYS$ subtract = 1 }
-		add_modifier = { modifier = increase_hp_300000_times days = $DAYS$ }
+		add_modifier = { modifier = increase_hp_t3_times days = $DAYS$ }
 	}
 	else_if = {
 		limit = { has_hp <= 8000000 }
 		clear_ship_modifier = { modifier = ship_hull_mult DAYS = $DAYS$ subtract = 1 }
 		clear_ship_modifier = { modifier = ship_hull_regen_add_perc DAYS = $DAYS$ subtract = 1 }
-		add_modifier = { modifier = increase_hp_200000_times days = $DAYS$ }
+		add_modifier = { modifier = increase_hp_t2_times days = $DAYS$ }
 	}
 	else_if = {
 		limit = { has_hp <= 100000000 }
 		clear_ship_modifier = { modifier = ship_hull_mult DAYS = $DAYS$ subtract = 1 }
 		clear_ship_modifier = { modifier = ship_hull_regen_add_perc DAYS = $DAYS$ subtract = 1 }
-		add_modifier = { modifier = increase_hp_100000_times days = $DAYS$ }
+		add_modifier = { modifier = increase_hp_t1_times days = $DAYS$ }
 	}
 }
 
@@ -129,12 +129,20 @@ remove_executor_power = {
 	remove_modifier = iep_basic_ship_accuracy_add							
 	remove_modifier = iep_basic_ship_armor_add								
 	remove_modifier = iep_basic_ship_shield_add
+	fleet = { remove_fleet_flag = eternal_learned_leader }
+}
+
+remove_hp_modifier = {
+	remove_modifier = increase_hp_t5_times
+	remove_modifier = increase_hp_t4_times
+	remove_modifier = increase_hp_t3_times
+	remove_modifier = increase_hp_t2_times
+	remove_modifier = increase_hp_t1_times
 	remove_modifier = increase_hp_5000000_times
 	remove_modifier = increase_hp_4000000_times
 	remove_modifier = increase_hp_3000000_times
 	remove_modifier = increase_hp_2000000_times
 	remove_modifier = increase_hp_1000000_times
-	fleet = { remove_fleet_flag = eternal_learned_leader }
 }
 
 set_eternal_fleet_mult_modifier = {
@@ -1410,7 +1418,7 @@ kuat_copy_leader_learning_system = {
 						clear_ship_modifier = { modifier = ship_hull_mult subtract = 4 DAYS = -1 } 
 					} } }
 				}
-				99 = { every_owned_ship = { if = { 
+				1 = { every_owned_ship = { if = { 
 					limit = { check_modifier_value = { modifier = ship_hull_mult value > 4 } } 
 					clear_ship_modifier = { modifier = ship_hull_mult subtract = 4 DAYS = -1 } 
 				} } }
