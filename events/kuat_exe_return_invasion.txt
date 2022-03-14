@@ -372,11 +372,13 @@ country_event = {
 	show_sound = event_red_alert
 	location = root.capital_scope
 	fire_only_once = yes
-	trigger = {
-		has_global_flag = exe_return_invasion_begin
-		retrun_first_station_check = yes
+	trigger = { has_global_flag = exe_return_invasion_begin }
+	mean_time_to_happen = { 
+		years = 1
+		modifier = { factor = 0.20 retrun_first_station_check = yes }
+		modifier = { factor = 0.15 retrun_second_station_check = yes }
+		modifier = { factor = 0.10 retrun_third_station_check = yes }
 	}
-	mean_time_to_happen = { months = 3 }
 	option = {
 		name = "exe_return_invasion.20.a"
 		hidden_effect = { add_modifier = { modifier = final_eternal_fleet days = -1 } }
@@ -1461,6 +1463,7 @@ country_event = {
 		add_threat = { who = root amount = 50 }
 		set_global_flag = exe_return_invasion_ended
 		remove_global_flag = eternal_return_fleet_debug_check
+		remove_global_flag = ai_fighting_with_player_against_eternal
 		from = { destroy_country = yes }
 	}
 }
@@ -1483,7 +1486,10 @@ country_event = {
 	custom_gui_option = "kuat_event_option"
 	show_sound = event_wind_ruins
 	is_triggered_only = yes
-	immediate = { remove_global_flag = eternal_return_fleet_debug_check }
+	immediate = { 
+		remove_global_flag = eternal_return_fleet_debug_check 
+		remove_global_flag = ai_fighting_with_player_against_eternal
+	}
 	option = { 
 		name = "exe_return_invasion.35.b" 
 		hidden_effect = {
@@ -1639,6 +1645,7 @@ event = {
 		remove_global_flag = can_win_the_fleet
 		remove_global_flag = exe_return_invasion_begin
 		remove_global_flag = eternal_return_fleet_debug_check
+		remove_global_flag = ai_fighting_with_player_against_eternal
 		remove_global_flag = exe_invasion_signs_cooldown
 		set_global_flag = exe_return_invasion_7_fired
 	}
