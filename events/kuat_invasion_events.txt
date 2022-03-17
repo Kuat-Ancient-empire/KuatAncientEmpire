@@ -235,24 +235,23 @@ event = {
 		set_global_flag = eternal_fleet_debug_check
 		random_system = {
 			limit = { has_star_flag = Kuat_system }
-			random_system_planet = {
-				limit = { is_primary_star = yes }
-				planet_event = { id = exe_invasion.11 days = 1 }
-				planet_event = { id = exe_invasion.11 days = 5 }
-				planet_event = { id = exe_invasion.11 days = 25 }
+			system_star = {
+				planet_event = { id = exe_invasion.11 days = 10 }
+				planet_event = { id = exe_invasion.11 days = 20 }
+				planet_event = { id = exe_invasion.11 days = 30 }
+				planet_event = { id = exe_invasion.11 days = 40 }
 				planet_event = { id = exe_invasion.11 days = 50 }
+				planet_event = { id = exe_invasion.11 days = 60 }
+				planet_event = { id = exe_invasion.11 days = 70 }
+				planet_event = { id = exe_invasion.11 days = 80 }
+				planet_event = { id = exe_invasion.11 days = 90 }
 				planet_event = { id = exe_invasion.11 days = 100 }
 				planet_event = { id = exe_invasion.11 days = 120 }
 				planet_event = { id = exe_invasion.11 days = 140 }
 				planet_event = { id = exe_invasion.11 days = 160 }
 				planet_event = { id = exe_invasion.11 days = 180 }
-				planet_event = { id = exe_invasion.11 days = 200 }
 				planet_event = { id = exe_invasion.11 days = 220 }
 				planet_event = { id = exe_invasion.11 days = 240 }
-				planet_event = { id = exe_invasion.11 days = 260 }
-				planet_event = { id = exe_invasion.11 days = 280 }
-				planet_event = { id = exe_invasion.11 days = 320 }
-				planet_event = { id = exe_invasion.11 days = 360 }
 			}
 		}
 		every_country = {
@@ -266,17 +265,15 @@ event = {
 		}
 		if = {
 			limit = {
-				NOT = {
-					any_system = {
-						NOR = {
-							has_star_flag = Kuat_system
-							has_star_flag = Kuat_system_1
-							has_star_flag = Kuat_system_2
-							has_star_flag = Kuat_system_3
-						}
-						any_system_megastructure = { is_megastructure_type = exe_outer_gate }
+				NOT = { any_system = {
+					NOR = {
+						has_star_flag = Kuat_system
+						has_star_flag = Kuat_system_1
+						has_star_flag = Kuat_system_2
+						has_star_flag = Kuat_system_3
 					}
-				}
+					any_system_megastructure = { is_megastructure_type = exe_outer_gate }
+				} }
 			}
 			random_system = {
 				limit = {
@@ -293,21 +290,17 @@ event = {
 								is_ai = no
 							}
 						}
-						any_neighbor_system = {
-							OR = {
-								AND = {
-									exists = space_owner
-									space_owner = {
-										OR = {
-											is_country_type = fallen_empire
-											is_country_type = awakened_fallen_empire
-											is_ai = no
-										}
-									}
-								}
-								has_star_flag = guardian
+						any_neighbor_system = { OR = {
+							AND = {
+								exists = space_owner
+								space_owner = { OR = {
+									is_country_type = fallen_empire
+									is_country_type = awakened_fallen_empire
+									is_ai = no
+								} }
 							}
-						}
+							has_star_flag = guardian
+						} }
 					}
 				}
 				save_event_target_as = exe_invasion_outer_gate_spawn_system
@@ -315,67 +308,61 @@ event = {
 			if = {
 				limit = { exists = event_target:exe_invasion_outer_gate_spawn_system }
 				ag_exe_spawn_outer_gate_fallback = yes
-			} else = {
-				random_system = {
-					limit = {
-						NOR = {
-							has_star_flag = guardian
-							has_star_flag = lcluster
-							has_star_flag = isolated_home_system
-							has_star_flag = isolated_home_system_gate
-							AND = {
-								exists = space_owner
-								space_owner = {
-									is_country_type = fallen_empire
-									is_country_type = awakened_fallen_empire
-									is_ai = no
-								}
-							}
+			} 
+			else = { random_system = {
+				limit = { NOR = {
+					has_star_flag = guardian
+					has_star_flag = lcluster
+					has_star_flag = isolated_home_system
+					has_star_flag = isolated_home_system_gate
+					AND = {
+						exists = space_owner
+						space_owner = {
+							is_country_type = fallen_empire
+							is_country_type = awakened_fallen_empire
+							is_ai = no
 						}
 					}
+				} }
+				save_event_target_as = exe_invasion_outer_gate_spawn_system
+			}
+			if = {
+				limit = { exists = event_target:exe_invasion_outer_gate_spawn_system }
+				ag_exe_spawn_outer_gate_fallback = yes
+			} 
+			else = { random_system = {
+				limit = { NOR = {
+					has_star_flag = guardian
+					has_star_flag = lcluster
+					has_star_flag = isolated_home_system
+					has_star_flag = isolated_home_system_gate
+					AND = {
+						exists = space_owner
+						space_owner = { is_ai = no }
+					}
+				} }
+				save_event_target_as = exe_invasion_outer_gate_spawn_system
+			}
+			if = {
+				limit = { exists = event_target:exe_invasion_outer_gate_spawn_system }
+				ag_exe_spawn_outer_gate_fallback = yes
+			} 
+			else = {
+				random_system = {
+					limit = { 	NOR = {
+						has_star_flag = guardian
+						has_star_flag = lcluster
+						has_star_flag = isolated_home_system
+						has_star_flag = isolated_home_system_gate
+					} }
 					save_event_target_as = exe_invasion_outer_gate_spawn_system
 				}
 				if = {
 					limit = { exists = event_target:exe_invasion_outer_gate_spawn_system }
 					ag_exe_spawn_outer_gate_fallback = yes
-				} else = {
-					random_system = {
-						limit = {
-							NOR = {
-								has_star_flag = guardian
-								has_star_flag = lcluster
-								has_star_flag = isolated_home_system
-								has_star_flag = isolated_home_system_gate
-								AND = {
-									exists = space_owner
-									space_owner = { is_ai = no }
-								}
-							}
-						}
-						save_event_target_as = exe_invasion_outer_gate_spawn_system
-					}
-					if = {
-						limit = { exists = event_target:exe_invasion_outer_gate_spawn_system }
-						ag_exe_spawn_outer_gate_fallback = yes
-					} else = {
-						random_system = {
-							limit = {
-								NOR = {
-									has_star_flag = guardian
-									has_star_flag = lcluster
-									has_star_flag = isolated_home_system
-									has_star_flag = isolated_home_system_gate
-								}
-							}
-							save_event_target_as = exe_invasion_outer_gate_spawn_system
-						}
-						if = {
-							limit = { exists = event_target:exe_invasion_outer_gate_spawn_system }
-							ag_exe_spawn_outer_gate_fallback = yes
-						} else = { random_system = { ag_exe_spawn_outer_gate_fallback = yes } }
-					}
-				}
-			}
+				} 
+				else = { random_system = { ag_exe_spawn_outer_gate_fallback = yes } }
+			} } }
 		}
 		random_country = { country_event = { id = exe_invasion.128 } }
 	}
@@ -533,25 +520,17 @@ planet_event = {
 		create_exe_invasion_fleet_detail = yes
 		every_country = {
 			limit = { has_event_chain = ag_exe_invasion_chain }
-			add_event_chain_counter = {
-				event_chain = ag_exe_invasion_chain
-				counter = ag_exe_invasion_fleet
-				amount = 1
+			add_event_chain_counter = { event_chain = ag_exe_invasion_chain counter = ag_exe_invasion_fleet amount = 1 }
+		}
+		event_target:ag_kuat_invasion_country = { if = {
+			limit = { check_variable = { which = ag_kuat_invasion_fleet_arrived value = 16 } }
+			every_owned_fleet = {
+				limit = { has_fleet_flag = ag_kuat_invasion_fleet }
+				fleet_event = { id = exe_invasion.12 days = 1 random = 2 }
 			}
-		}
-		event_target:ag_kuat_invasion_country = {
-			if = {
-				limit = { 
-					check_variable = { which = ag_kuat_invasion_fleet_arrived value = 16 }
-				}
-				every_owned_fleet = {
-					limit = { has_fleet_flag = ag_kuat_invasion_fleet }
-					fleet_event = { id = exe_invasion.12 days = 1 random = 2 }
-				}
-				country_event = { id = exe_invasion.111 days = 30 }
-				set_global_flag = can_win_the_fleet
-			} 
-		}
+			country_event = { id = exe_invasion.111 days = 30 }
+			set_global_flag = can_win_the_fleet
+		} }
 	}
 }
 
@@ -565,23 +544,16 @@ country_event = {
 	}
 	immediate = {
 		if = {
-			limit = { 
+			limit = {
 				NOT = { any_owned_fleet = { has_fleet_flag = ag_kuat_invasion_fleet } } 
 			}
 			random_system = {
 				limit = { has_star_flag = Kuat_system }
-				random_system_planet = {
-					limit = { is_primary_star = yes }
-					create_exe_invasion_fleet_detail = yes
-					every_country = {
-						limit = { has_event_chain = ag_exe_invasion_chain }
-						add_event_chain_counter = {
-							event_chain = ag_exe_invasion_chain
-							counter = ag_exe_invasion_fleet
-							amount = 1
-						}
-					}
-				}
+				system_star = { create_exe_invasion_fleet_detail = yes }
+			}
+			every_country = {
+				limit = { has_event_chain = ag_exe_invasion_chain }
+				add_event_chain_counter = {	event_chain = ag_exe_invasion_chain counter = ag_exe_invasion_fleet amount = 1 }
 			}
 		}
 		country_event = { id = exe_invasion.111 days = 5 }
@@ -646,12 +618,7 @@ country_event = {
 		NOT = { has_global_flag = exe_invasion_ended }
 		is_country_type = ag_kuat_invasion_country
 		from = { has_fleet_flag = ag_kuat_invasion_fleet }
-		fromfrom = {
-			OR = {
-				is_star = yes
-				NOT = { exists = owner }
-			}
-		}
+		fromfrom = { OR = { is_star = yes NOT = { exists = owner } } }
 	}
 	immediate = {
 		from = {
@@ -688,19 +655,15 @@ fleet_event = {
 	immediate = {
 		clear_orders = yes
 		clear_fleet_actions = this
-		from = {
-			random_neighbor_system = {
-				random_system_planet = {
-					limit = { is_primary_star = yes }
-					prevprev = {
-						auto_move_to_planet = {
-							target = prev
-							clear_auto_move_on_arrival = yes
-						}
-					}
-				}
+		from = { random_neighbor_system = {
+			random_system_planet = {
+				limit = { is_primary_star = yes }
+				prevprev = { auto_move_to_planet = {
+					target = prev
+					clear_auto_move_on_arrival = yes
+				} }
 			}
-		}
+		} }
 	}
 }
 
@@ -937,14 +900,8 @@ country_event = {
 	}
 	immediate = {
 		every_country = {
-			limit = {
-				has_event_chain = ag_exe_invasion_chain
-			}
-			add_event_chain_counter = {
-				event_chain = ag_exe_invasion_chain
-				counter = ag_exe_invasion_fleet
-				amount = -1
-			}
+			limit = { has_event_chain = ag_exe_invasion_chain }
+			add_event_chain_counter = { event_chain = ag_exe_invasion_chain counter = ag_exe_invasion_fleet amount = -1 }
 		}
 		event_target:global_event_country = { change_variable = { which = var_eternal_fleet_defeated value = 1 } }
 	}
