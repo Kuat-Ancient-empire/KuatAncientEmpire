@@ -470,12 +470,16 @@ country_event = {
 	trigger = {
 		fromfromfrom = {
 			is_ship_size = exe_megastructure_starbase
-			solar_system = { has_star_flag = eternal_starbase_megastructure_in_system }
+			solar_system = { OR = {
+				has_star_flag = eternal_starbase_megastructure_in_system
+				has_star_flag = kuat_starbase_megastructure_in_system
+			} }
 		}
 	}
 	immediate = {
 		fromfromfrom.solar_system = {
 			remove_star_flag = eternal_starbase_megastructure_in_system
+			remove_star_flag = kuat_starbase_megastructure_in_system
 			star = {
 				create_ambient_object = { type = "star_explosion" play_animation_once = yes location = this }
 				last_created_ambient_object = { set_location = { target = prev distance = 0 angle = random } }
@@ -486,7 +490,10 @@ country_event = {
 			}
 			set_star_class = sc_black_hole
 			every_ship_in_system = {
-				limit = { NOT = { owner = { is_country_type = ag_kuat_invasion_country } } }
+				limit = { owner = { NOR = {
+					is_same_value = root.from
+					is_country_type = ag_kuat_invasion_country
+				} } }
 				clear_ship_modifier = { modifier = ship_weapon_damage DAYS = 360 }
 				clear_ship_modifier = { modifier = ship_fire_rate_mult DAYS = 360 }
 				clear_ship_modifier = { modifier = ship_weapon_range_mult DAYS = 360 }
@@ -1255,7 +1262,7 @@ ship_event = {
 	id = exe_invasion.115
 	hide_window = yes
 	is_triggered_only = yes
-	trigger = { has_ship_flag = enable_disable_ship }
+	trigger = { has_ship_flag = enable_disable_starbase }
 	immediate = {
 		if = {
 			limit = { has_ship_flag = is_invisiable_trigger }
@@ -2571,8 +2578,8 @@ fleet_event = {
 	trigger = { owner = { is_country_type = ag_kuat_invasion_country } }
 	immediate = {
 		every_owned_ship = {
-			set_timed_ship_flag = { flag = inviciable_time_for_gate days = 2 }
-			eternal_increase_executor_power = { DAYS = 2 }
+			set_timed_ship_flag = { flag = inviciable_time_for_gate days = 1 }
+			eternal_increase_executor_power = { DAYS = 1 }
 			ship_event = { id = exe_invasion.1988 }
 		}
 	}
@@ -2584,7 +2591,13 @@ ship_event = {
 	is_triggered_only = yes
 	immediate = {
 		if = {
-			limit = { has_ship_flag = inviciable_time_for_gate }
+			limit = { OR = {
+				AND = {
+					exists = solar_system
+					solar_system = { kuat_is_repair_system = yes }
+				}
+				has_ship_flag = inviciable_time_for_gate
+			} }
 			repair_ship = yes
 			ship_event = { id = exe_invasion.1988 days = 1 }
 		}
