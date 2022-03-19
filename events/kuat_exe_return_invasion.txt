@@ -1397,12 +1397,10 @@ country_event = {
 	}
 	immediate = {
 		set_global_flag = enable_the_eternal_starbase
-		from = {
-			every_owned_fleet = {
-				limit = { has_fleet_flag = ag_kuat_invasion_starbase }
-				set_event_locked = no
-			}
-		}
+		from = { every_owned_fleet = {
+			limit = { has_fleet_flag = ag_kuat_invasion_starbase }
+			set_event_locked = no
+		} }
 	}
 }
 
@@ -1528,24 +1526,22 @@ fleet_event = {
 	immediate = {
 		if = {
 			limit = { exists = solar_system }
-			solar_system = { 
-				if = {
-					limit = {
-						NOR = {
-							any_ship_in_system = { is_ship_class = shipclass_starbase }
-							any_ship_in_system = {
-								exists = owner
-								owner = { is_hostile = event_target:ag_kuat_invasion_country }
-							}
-							any_system_planet = {
-								exists = owner
-								owner = { is_hostile = event_target:ag_kuat_invasion_country }
-							}
+			solar_system = { if = {
+				limit = {
+					NOR = {
+						any_ship_in_system = { is_ship_class = shipclass_starbase }
+						any_ship_in_system = {
+							exists = owner
+							owner = { is_hostile = event_target:ag_kuat_invasion_country }
+						}
+						any_system_planet = {
+							exists = owner
+							owner = { is_hostile = event_target:ag_kuat_invasion_country }
 						}
 					}
-					create_starbase = { size = exe_starbase owner = event_target:ag_kuat_invasion_country }
 				}
-			}
+				create_starbase = { size = exe_starbase owner = event_target:ag_kuat_invasion_country }
+			} }
 		}
 		fleet_event = { id = exe_return_invasion.36 days = 1 }
 	}

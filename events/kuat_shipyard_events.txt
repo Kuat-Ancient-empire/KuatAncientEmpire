@@ -501,22 +501,22 @@ country_event = {
 	option = {
 		name = kuat_shipyard.confirm
 		custom_tooltip = kuat_shipyard.confirm.a.tooltip
-		allow = { 
-			custom_tooltip = {
-				fail_text = kuat_shipyard_queue
-				check_variable = { which = horriwer_queue value > 0 } 
-			}
-		}
+		allow = { custom_tooltip = {
+			fail_text = kuat_shipyard_queue
+			check_variable = { which = horriwer_queue value > 0 } 
+		} }
 		hidden_effect = { 
+			set_variable = { which = horriwer_true_numbers value = horriwer_queue }
 			change_variable = { which = fallen_empire_battlecruiser_queue value = horriwer_queue }
 			country_event = { id = kuat_shipyard.22 }
 			while = {
-				count = fallen_empire_battlecruiser_queue
+				count = horriwer_true_numbers
 				country_event = { id = kuat_shipyard.222 days = @kuat_battlecruiser_build_time } 
 			}
 			remove_country_flag = fired_horriwer
 			remove_country_flag = fire_five_impirial 
 			clear_variable = horriwer_queue
+			clear_variable = horriwer_true_numbers
 		}
 	}
 	option = {
@@ -577,14 +577,23 @@ country_event = {
 				}
 			}
 		}
-		create_message = {
-			type = "SPACEPORT_CONSTRUCTION_MESSAGE_TYPE"
-			localization = "kuat_battlecruiser_arrived_desc"
-			days = 30
-			target = from
-			variable = { type = name localization = "capital_planet" scope = root.capital_scope }
-		}
+		set_timed_country_flag = { flag = horriwer_fleet_queue_notification_temple days = 1 }
+		country_event = { id = kuat_shipyard.2223 }
 	}
+}
+
+country_event = {
+	id = kuat_shipyard.2223
+	hide_window = yes
+	is_triggered_only = yes
+	trigger = { NOT = { has_country_flag = horriwer_fleet_queue_notification_temple } }
+	immediate = { create_message = {
+		type = "SPACEPORT_CONSTRUCTION_MESSAGE_TYPE"
+		localization = "kuat_battlecruiser_arrived_desc"
+		days = 30
+		target = from
+		variable = { type = name localization = "capital_planet" scope = root.capital_scope }
+	} }
 }
 
 #建造帝国II
@@ -732,22 +741,22 @@ country_event = {
 	option = {
 		name = kuat_shipyard.confirm
 		custom_tooltip = kuat_shipyard.confirm.b.tooltip
-		allow = { 
-			custom_tooltip = {
-				fail_text = kuat_shipyard_queue
-				check_variable = { which = empire_queue value > 0 } 
-			}
-		}
+		allow = { custom_tooltip = {
+			fail_text = kuat_shipyard_queue
+			check_variable = { which = empire_queue value > 0 } 
+		} }
 		hidden_effect = { 
+			set_variable = { which = empire_true_numbers value = empire_queue }
 			change_variable = { which = fallen_empire_titan_queue value = empire_queue }
 			country_event = { id = kuat_shipyard.23 }
 			while = {
-				count = fallen_empire_titan_queue
+				count = empire_true_numbers
 				country_event = { id = kuat_shipyard.231 days = @kuat_titan_build_time } 
 			}
 			remove_country_flag = fired_empire
 			remove_country_flag = fire_five_impirial 
 			clear_variable = empire_queue
+			clear_variable = empire_true_numbers
 		}
 	}
 	option = {
@@ -808,17 +817,26 @@ country_event = {
 				}
 			}
 		}
-		create_message = {
-			type = "SPACEPORT_CONSTRUCTION_MESSAGE_TYPE"
-			localization = "kuat_titan_arrived_desc"
-			days = 30
-			target = from
-			variable = { type = name localization = "capital_planet" scope = root.capital_scope }
-		}
+		set_timed_country_flag = { flag = empire_fleet_queue_notification_temple days = 1 }
+		country_event = { id = kuat_shipyard.2322 }
 	}
 }
 
-#建造战士级
+country_event = {
+	id = kuat_shipyard.2322
+	hide_window = yes
+	is_triggered_only = yes
+	trigger = { NOT = { has_country_flag = empire_fleet_queue_notification_temple } }
+	immediate = { create_message = {
+		type = "SPACEPORT_CONSTRUCTION_MESSAGE_TYPE"
+		localization = "kuat_titan_arrived_desc"
+		days = 30
+		target = from
+		variable = { type = name localization = "capital_planet" scope = root.capital_scope }
+	} }
+}
+
+#建造袭击者
 country_event = {
 	id = kuat_shipyard.24
 	title = kuat_shipyard.title
@@ -963,22 +981,22 @@ country_event = {
 	option = {
 		name = kuat_shipyard.confirm
 		custom_tooltip = kuat_shipyard.confirm.c.tooltip
-		allow = { 
-			custom_tooltip = {
-				fail_text = kuat_shipyard_queue
-				check_variable = { which = raider_queue value > 0 } 
-			}
-		}
+		allow = { custom_tooltip = {
+			fail_text = kuat_shipyard_queue
+			check_variable = { which = raider_queue value > 0 } 
+		} }
 		hidden_effect = { 
+			set_variable = { which = raider_true_numbers value = raider_queue }
 			change_variable = { which = raider_class_queue value = raider_queue }
 			country_event = { id = kuat_shipyard.24 }
 			while = {
-				count = raider_class_queue
+				count = raider_true_numbers
 				country_event = { id = kuat_shipyard.241 days = @kuat_dreadnought_build_time } 
 			}
 			remove_country_flag = fired_raider
 			remove_country_flag = fire_five_impirial 
 			clear_variable = raider_queue
+			clear_variable = raider_true_numbers
 		}
 	}
 	option = {
@@ -992,7 +1010,7 @@ country_event = {
 	}
 }
 
-#战士级到达
+#袭击者到达
 country_event = {
 	id = kuat_shipyard.241
 	hide_window = yes
@@ -1039,14 +1057,23 @@ country_event = {
 				}
 			}
 		}
-		create_message = {
-			type = "SPACEPORT_CONSTRUCTION_MESSAGE_TYPE"
-			localization = "kuat_raider_class_arrived_desc"
-			days = 30
-			target = from
-			variable = { type = name localization = "capital_planet" scope = root.capital_scope }
-		}
+		set_timed_country_flag = { flag = raider_fleet_queue_notification_temple days = 1 }
+		country_event = { id = kuat_shipyard.2432 }
 	}
+}
+
+country_event = {
+	id = kuat_shipyard.2432
+	hide_window = yes
+	is_triggered_only = yes
+	trigger = { NOT = { has_country_flag = raider_fleet_queue_notification_temple } }
+	immediate = { create_message = {
+		type = "SPACEPORT_CONSTRUCTION_MESSAGE_TYPE"
+		localization = "kuat_raider_class_arrived_desc"
+		days = 30
+		target = from
+		variable = { type = name localization = "capital_planet" scope = root.capital_scope }
+	} }
 }
 
 #建造君权级
