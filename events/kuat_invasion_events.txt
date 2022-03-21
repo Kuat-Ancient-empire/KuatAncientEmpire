@@ -1846,7 +1846,6 @@ ship_event = {
 					shield_penetration = ship_shield_penetration_mult	armor_penetration = ship_armor_penetration_mult
 					armor_damage = ship_armor_damage_mult				shield_damage = ship_shield_damage_mult
 					hull_damage = ship_hull_damage_mult					weapon_damage = ship_weapon_damage
-					tracking = ship_tracking_mult						accuracy = ship_accuracy_mult
 				}
 				set_ship_flag = fire_ship_var
 				ship_event = { id = exe_invasion.131 days = 3 }
@@ -1917,34 +1916,6 @@ ship_event = {
 					}
 					set_eternal_fleet_mult_modifier = { weapon_damage = ship_weapon_damage }
 				}
-				if = {
-					limit = { 
-						fleet = { has_enable_flag_ship_system_true = yes }
-						NOT = { check_modifier_value = { modifier = ship_tracking_mult value = @mult_quarter_origin_value } }
-					}
-					set_eternal_fleet_mult_modifier = { tracking = ship_tracking_mult }
-				}
-				if = {
-					limit = {
-						fleet = { has_enable_flag_ship_system_true = no }
-						NOT = { check_modifier_value = { modifier = ship_tracking_mult value = @mult_origin_value } }
-					}
-					set_eternal_fleet_mult_modifier = { tracking = ship_tracking_mult }
-				}
-				if = {
-					limit = { 
-						fleet = { has_enable_flag_ship_system_true = yes }
-						NOT = { check_modifier_value = { modifier = ship_accuracy_mult value = @mult_quarter_origin_value } }
-					}
-					set_eternal_fleet_mult_modifier = { accuracy = ship_accuracy_mult }
-				}
-				if = {
-					limit = {
-						fleet = { has_enable_flag_ship_system_true = no }
-						NOT = { check_modifier_value = { modifier = ship_accuracy_mult value = @mult_origin_value } }
-					}
-					set_eternal_fleet_mult_modifier = { accuracy = ship_accuracy_mult }
-				}
 				ship_event = { id = exe_invasion.131 days = 1 }
 			}
 		}
@@ -1971,7 +1942,6 @@ ship_event = {
 					shield_penetration = ship_shield_penetration_mult	armor_penetration = ship_armor_penetration_mult
 					armor_damage = ship_armor_damage_mult				shield_damage = ship_shield_damage_mult
 					hull_damage = ship_hull_damage_mult					weapon_damage = ship_weapon_damage
-					tracking = ship_tracking_mult						accuracy = ship_accuracy_mult
 				}
 				set_ship_flag = fire_ship_var
 				ship_event = { id = exe_invasion.136 days = 1 }
@@ -2001,14 +1971,6 @@ ship_event = {
 				if = {
 					limit = { NOT = { check_modifier_value = { modifier = ship_weapon_damage value = @mult_tiny_origin_value } } }
 					set_ban_eternal_fleet_mult_modifier = { weapon_damage = ship_weapon_damage }
-				}
-				if = {
-					limit = { NOT = { check_modifier_value = { modifier = ship_tracking_mult value = @mult_quarter_origin_value } } }
-					set_ban_eternal_fleet_mult_modifier = { tracking = ship_tracking_mult }
-				}
-				if = {
-					limit = { NOT = { check_modifier_value = { modifier = ship_accuracy_mult value = @mult_quarter_origin_value } } }
-					set_ban_eternal_fleet_mult_modifier = { accuracy = ship_accuracy_mult }
 				}
 				ship_event = { id = exe_invasion.136 days = 1 }
 			}
@@ -2127,7 +2089,7 @@ country_event = {
 			AND = {
 				has_global_flag = difficult_exe_invasion
 				has_global_flag = exe_return_invasion_begin
-				event_target:global_event_country = { check_variable = { which = eternal_fleet_return_index value >= 6 } }
+				event_target:global_event_country = { check_variable = { which = eternal_fleet_return_index value >= 1 } }
 			}
 			AND = {
 				has_global_flag = special_exe_invasion
@@ -2351,7 +2313,7 @@ country_event = {
 			AND = {
 				has_global_flag = difficult_exe_invasion
 				has_global_flag = exe_return_invasion_begin
-				event_target:global_event_country = { check_variable = { which = eternal_fleet_return_index value >= 6 } }
+				event_target:global_event_country = { check_variable = { which = eternal_fleet_return_index value >= 1 } }
 			}
 			AND = {
 				has_global_flag = special_exe_invasion
