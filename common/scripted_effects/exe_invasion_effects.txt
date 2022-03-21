@@ -1461,7 +1461,7 @@ create_kuat_return_fleet_defender = {
 					is_boss = yes  can_disband = no
 					Fleet_owner = event_target:return_kuat_awakening_country
 					bombardment = indiscriminate
-					Eclipse = 1  high_Imperial = 25  Harrower = 50  Raider = 75  DIFF = 1
+					Eclipse_I = 1  high_Imperial = 25  Harrower = 50  Raider = 75  DIFF = 1
 					Location = prev.star
 				}
 			}
@@ -1471,7 +1471,7 @@ create_kuat_return_fleet_defender = {
 					is_boss = yes  can_disband = no
 					Fleet_owner = event_target:return_kuat_awakening_country
 					bombardment = indiscriminate
-					Eclipse = 1  high_Imperial = 25  Harrower = 50  Raider = 75  DIFF = 2
+					Eclipse_I = 1  high_Imperial = 25  Harrower = 50  Raider = 75  DIFF = 2
 					Location = prev.star
 				}
 			}
@@ -1481,7 +1481,7 @@ create_kuat_return_fleet_defender = {
 					is_boss = yes  can_disband = no
 					Fleet_owner = event_target:return_kuat_awakening_country
 					bombardment = indiscriminate
-					Eclipse = 1  high_Imperial = 25  Harrower = 50  Raider = 75  DIFF = 3
+					Eclipse_I = 1  high_Imperial = 25  Harrower = 50  Raider = 75  DIFF = 3
 					Location = prev.star
 				}
 			}
@@ -1491,7 +1491,7 @@ create_kuat_return_fleet_defender = {
 					is_boss = yes  can_disband = no
 					Fleet_owner = event_target:return_kuat_awakening_country
 					bombardment = indiscriminate
-					Eclipse = 1  high_Imperial = 25  Harrower = 50  Raider = 75  DIFF = 3
+					Eclipse_I = 1  high_Imperial = 25  Harrower = 50  Raider = 75  DIFF = 3
 					Location = prev.star
 				}
 			}
@@ -1748,7 +1748,7 @@ create_capital_reinforcements_fleet = {
 				is_boss = yes  can_disband = no
 				Fleet_owner = event_target:fallen_empire_kuat
 				bombardment = indiscriminate
-				Executor = 1  high_Imperial = 10  Harrower = 20  Raider = 30  DIFF = 1
+				Eclipse_I = 1  high_Imperial = 10  Harrower = 20  Raider = 30  DIFF = 1
 				Location = event_target:fallen_empire_kuat.capital_scope
 			}
 		}
@@ -1758,7 +1758,7 @@ create_capital_reinforcements_fleet = {
 				is_boss = yes  can_disband = no
 				Fleet_owner = event_target:fallen_empire_kuat
 				bombardment = indiscriminate
-				Executor = 1  high_Imperial = 10  Harrower = 20  Raider = 30  DIFF = 2
+				Eclipse_I = 1  high_Imperial = 10  Harrower = 20  Raider = 30  DIFF = 2
 				Location = event_target:fallen_empire_kuat.capital_scope
 			}
 		}
@@ -1768,7 +1768,7 @@ create_capital_reinforcements_fleet = {
 				is_boss = yes  can_disband = no
 				Fleet_owner = event_target:fallen_empire_kuat
 				bombardment = indiscriminate
-				Executor = 1  high_Imperial = 10  Harrower = 20  Raider = 30  DIFF = 3
+				Eclipse_I = 1  high_Imperial = 10  Harrower = 20  Raider = 30  DIFF = 3
 				Location = event_target:fallen_empire_kuat.capital_scope
 			}
 		}
@@ -1778,7 +1778,7 @@ create_capital_reinforcements_fleet = {
 				is_boss = yes  can_disband = no
 				Fleet_owner = event_target:fallen_empire_kuat
 				bombardment = indiscriminate
-				Executor = 1  high_Imperial = 10  Harrower = 20  Raider = 30  DIFF = 3
+				Eclipse_I = 1  high_Imperial = 10  Harrower = 20  Raider = 30  DIFF = 3
 				Location = event_target:fallen_empire_kuat.capital_scope
 			}
 		}
@@ -2118,6 +2118,7 @@ create_exe_invasion_fleet = {
 			[[Fleet_owner] set_owner = $Fleet_owner$ ]
 			[[bombardment] set_fleet_bombardment_stance = $bombardment$ ] 
 			[[Eclipse] while = { count = $Eclipse$ create_ship = { design = Name_boss_eclipse } }]
+			[[Eclipse_I] while = { count = $Eclipse_I$ create_ship = { design = Name_boss_eclipse_1 } }]
 			[[Executor] while = { count = $Executor$ create_ship = { design = Name_boss_crisis_EXECUTOR_$DIFF$ } }]
 			[[Dominance] while = { count = $Dominance$ create_ship = { design = Name_boss_CRISIS_Dominance_$DIFF$ } }]
 			[[Raider] while = { count = $Raider$ create_ship = { design = Name_boss_crisis_Raider_$DIFF$ } }]
@@ -2472,6 +2473,15 @@ starkiller_destroyed_system_everything = {
 				is_megastructure_type = kuat_starkiller_marker_2_1
 			} }
 			set_megastructure_flag = kuat_starkiller_marker_2
+		}
+		else_if = {
+			limit = { OR = {
+				is_megastructure_type = exe_outer_gate
+				is_megastructure_type = exe_outer_gate_locked
+				is_megastructure_type = exe_outer_gate_disable
+				is_megastructure_type = Shield_Gate
+			} }
+			set_timed_megastructure_flag = { flag = kuat_gate_being_attack days = 1 }
 		}
 		else = { remove_megastructure = this }
 	}
