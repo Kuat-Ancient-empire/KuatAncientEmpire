@@ -683,45 +683,15 @@ ship_event = {
 	trigger = {
 		owner = { is_ai = no has_country_flag = fire_the_legacy_kuat_stage_5 }
 	}
-	immediate = {
-		owner = { 
-			if = {
-				limit = { is_multiplayer = yes }
-				every_playable_country = {
-					limit = { is_ai = no }
-					set_country_flag = can_have_starbase_country
-				}
-			}
-			else = { set_country_flag = can_have_starbase_country }
-		}
-	}
 	option = { 
 		trigger = { NOT = { owner = { has_origin = origin_parit } } }
 		name = "kuat_lagacy.252.a" 
-		owner = { 
-			if = {
-				limit = { is_multiplayer = yes }
-				every_playable_country = {
-					limit = { is_ai = no }
-					give_technology = { tech = tech_kuat_starbase message = no }
-				}
-			}
-			else = { give_technology = { tech = tech_kuat_starbase message = no } }
-		}
+		owner = { event_target:ancient_shadow_place = { planet_event = { id = kuat_legacy.180 days = 1 random = 3 } } }
 	}
 	option = {
 		trigger = { owner = { has_origin = origin_parit } }
 		name = "kuat_lagacy.252.b"
-		owner = { 
-			if = {
-				limit = { is_multiplayer = yes }
-				every_playable_country = {
-					limit = { is_ai = no }
-					give_technology = { tech = tech_kuat_starbase message = no }
-				}
-			}
-			else = { give_technology = { tech = tech_kuat_starbase message = no } }
-		}
+		owner = { event_target:ancient_shadow_place = { planet_event = { id = kuat_legacy.180 days = 1 random = 3 } } }
 	}
 }
 
@@ -828,6 +798,336 @@ country_event = {
 	is_triggered_only = yes
 	trigger = { exists = event_target:fallen_empire_kuat }
 	option = { name = "kuat_legacy.48.a" }
+}
+
+planet_event = {
+	id = kuat_legacy.180
+	hide_window = no
+	is_triggered_only = yes
+	title = kuat_legacy.180.title
+	desc = kuat_legacy.180.desc
+	diplomatic = yes
+	picture_event_data = { room = ancient_AI_room }
+	custom_gui = "kuat_event_window"
+	custom_gui_option = "kuat_event_option"
+	trigger = {
+		solar_system = {
+			exists = space_owner
+			space_owner = {
+				NOT = { has_country_flag = ancient_shadow_place }
+				has_country_flag = fire_the_legacy_kuat_stage_5
+			}
+		}
+		is_same_value = event_target:ancient_shadow_place
+	}
+	immediate = {
+		solar_system = { space_owner = { set_country_flag = ancient_shadow_place } }
+	}
+	option = {
+		name = kuat_legacy.180.a
+		event_target:ancient_shadow_place = { create_archaeological_site = kuat_lagacy_41 }
+	}
+}
+
+#A B设施额外拓展坟 远古之影
+fleet_event = {
+	id = kuat_legacy.181
+	title = kuat_legacy.181.name
+	desc = kuat_legacy.181.desc
+	picture = GFX_evt_ringworld
+	is_triggered_only = yes
+	show_sound = event_wind_ruins
+	archaeology = yes
+	immediate = {
+		from = { set_site_progress_locked = yes }
+	}
+
+	after = {
+		from = { set_site_progress_locked = no }
+	}
+
+	option = {
+		name = kuat_legacy.181.a
+		large_artifact_reward = yes
+	}
+}
+
+fleet_event = {
+	id = kuat_legacy.182
+	title = kuat_legacy.182.name
+	desc = kuat_legacy.182.desc
+	picture = GFX_evt_burning_settlement
+	is_triggered_only = yes
+	archaeology = yes
+	show_sound = event_wind_ruins
+	immediate = {
+		from = { set_site_progress_locked = yes }
+	}
+
+	after = {
+		from = { set_site_progress_locked = no }
+	}
+
+	option = {
+		name = kuat_legacy.182.a
+		large_artifact_reward = yes
+	}
+}
+
+fleet_event = {
+	id = kuat_legacy.183
+	title = kuat_legacy.183.name
+	desc = kuat_legacy.183.desc
+	picture = GFX_evt_dead_city
+	is_triggered_only = yes
+	archaeology = yes
+	show_sound = event_wind_ruins
+	immediate = {
+		from = { set_site_progress_locked = yes }
+	}
+
+	after = {
+		from = { set_site_progress_locked = no }
+	}
+
+	option = {
+		name = kuat_legacy.183.a
+		large_artifact_reward = yes
+	}
+}
+
+fleet_event = {
+	id = kuat_legacy.184
+	title = kuat_legacy.184.name
+	desc = kuat_legacy.184.desc
+	picture = GFX_evt_relic_world_building
+	is_triggered_only = yes
+	archaeology = yes
+	show_sound = event_wind_ruins
+	immediate = {
+		from = { set_site_progress_locked = yes }
+	}
+
+	after = {
+		from = { set_site_progress_locked = no }
+	}
+
+	option = {
+		name = kuat_legacy.184.a
+		large_artifact_reward = yes
+	}
+}
+
+fleet_event = {
+	id = kuat_legacy.185
+	title = kuat_legacy.185.name
+	desc = kuat_legacy.185.desc
+	picture = GFX_evt_sapient_AI
+	is_triggered_only = yes
+	archaeology = yes
+	show_sound = event_wind_ruins
+	immediate = {
+		from = { set_site_progress_locked = yes }
+	}
+
+	after = {
+		from = { set_site_progress_locked = no }
+	}
+
+	option = {
+		name = kuat_legacy.185.a
+		large_artifact_reward = yes
+	}
+}
+
+fleet_event = {
+	id = kuat_legacy.186
+	title = kuat_legacy.186.name
+	desc = kuat_legacy.186.desc
+	picture = GFX_evt_engineering_research
+	is_triggered_only = yes
+	archaeology = yes
+	show_sound = event_wind_ruins
+	immediate = {
+		from = { set_site_progress_locked = yes }
+	}
+
+	after = {
+		from = { set_site_progress_locked = no }
+	}
+
+	option = {
+		name = kuat_legacy.186.a
+		large_artifact_reward = yes
+	}
+}
+
+fleet_event = {
+	id = kuat_legacy.187
+	title = kuat_legacy.187.name
+	desc = kuat_legacy.187.desc
+	picture = GFX_evt_physics_research
+	is_triggered_only = yes
+	archaeology = yes
+	show_sound = event_wind_ruins
+	immediate = {
+		from = { set_site_progress_locked = yes }
+	}
+
+	after = {
+		from = { set_site_progress_locked = no }
+	}
+
+	option = {
+		name = kuat_legacy.187.a
+		large_artifact_reward = yes
+	}
+}
+
+fleet_event = {
+	id = kuat_legacy.188
+	title = kuat_legacy.188.name
+	desc = kuat_legacy.188.desc
+	picture = GFX_evt_society_research
+	is_triggered_only = yes
+	archaeology = yes
+	show_sound = event_wind_ruins
+	immediate = {
+		from = { set_site_progress_locked = yes }
+	}
+
+	after = {
+		from = { set_site_progress_locked = no }
+	}
+
+	option = {
+		name = kuat_legacy.188.a
+		large_artifact_reward = yes
+	}
+}
+
+fleet_event = {
+	id = kuat_legacy.189
+	title = kuat_legacy.189.name
+	desc = kuat_legacy.189.desc
+	picture = GFX_evt_engineering_research
+	is_triggered_only = yes
+	archaeology = yes
+	show_sound = event_wind_ruins
+	immediate = {
+		from = { set_site_progress_locked = yes }
+	}
+
+	after = {
+		from = { set_site_progress_locked = no }
+	}
+
+	option = {
+		name = kuat_legacy.189.a
+		large_artifact_reward = yes
+	}
+}
+
+fleet_event = {
+	id = kuat_legacy.190
+	title = kuat_legacy.190.name
+	desc = kuat_legacy.190.desc
+	picture = GFX_evt_physics_research
+	is_triggered_only = yes
+	archaeology = yes
+	show_sound = event_wind_ruins
+	immediate = {
+		from = { set_site_progress_locked = yes }
+	}
+
+	after = {
+		from = { set_site_progress_locked = no }
+	}
+
+	option = {
+		name = kuat_legacy.190.a
+		large_artifact_reward = yes
+	}
+}
+
+fleet_event = {
+	id = kuat_legacy.191
+	title = kuat_legacy.191.name
+	desc = kuat_legacy.191.desc
+	picture = GFX_evt_society_research
+	is_triggered_only = yes
+	archaeology = yes
+	show_sound = event_wind_ruins
+	immediate = {
+		from = { set_site_progress_locked = yes }
+	}
+
+	after = {
+		from = { set_site_progress_locked = no }
+	}
+
+	option = {
+		name = kuat_legacy.191.a
+		large_artifact_reward = yes
+	}
+}
+
+fleet_event = {
+	id = kuat_legacy.192
+	title = kuat_legacy.192.name
+	desc = kuat_legacy.192.desc
+	picture = GFX_evt_ancient_databank
+	is_triggered_only = yes
+	archaeology = yes
+	show_sound = event_wind_ruins
+	immediate = {
+		from = { set_site_progress_locked = yes }
+	}
+
+	after = {
+		from = { set_site_progress_locked = no }
+	}
+
+	option = {
+		name = kuat_legacy.192.a
+		owner = { if = {
+			limit = { 
+				has_country_flag = ancient_shadow_place_B 
+				prev.from.planet = { is_same_value = event_target:ancient_shadow_place_B }
+			} if = {
+				limit = { is_multiplayer = no }
+				if = {
+					limit = { NOT = { has_origin = origin_eternalthrone } }
+					add_research_option = tech_kuat_reactor
+				}
+				create_ship_design = { design = "Name_boss_Venator" }
+				add_ship_design = last_created_design
+			} else = { every_playable_country = {
+				limit = { is_ai = no }
+				if = {
+					limit = { NOT = { has_origin = origin_eternalthrone } }
+					add_research_option = tech_kuat_reactor
+				}
+				create_ship_design = { design = "Name_boss_Venator" }
+				add_ship_design = last_created_design
+			} }
+		} if = {
+			limit = { 
+				has_country_flag = ancient_shadow_place 
+				prev.from.planet = { is_same_value = event_target:ancient_shadow_place }
+			} if = {
+				limit = { is_multiplayer = yes }
+				every_playable_country = {
+					limit = { is_ai = no }
+					set_country_flag = can_have_starbase_country
+					add_research_option = tech_kuat_starbase
+				}
+			} else = { 
+				set_country_flag = can_have_starbase_country
+				add_research_option = tech_kuat_starbase 
+			}
+		} }
+	}
 }
 
 #B AREA
@@ -1083,36 +1383,41 @@ ship_event = {
 	custom_gui = "kuat_event_window"
 	custom_gui_option = "kuat_event_option"
 	trigger = {
-		owner = {
-			is_ai = no
-			has_country_flag = fire_the_legacy_kuat_stage_6
+		owner = { is_ai = no has_country_flag = fire_the_legacy_kuat_stage_6 }
+	}
+	option = { 
+		name = "kuat_lagacy.75.a" 
+		owner = { event_target:ancient_shadow_place_B = { planet_event = { id = kuat_legacy.490 days = 1 random = 3 } } }
+	}
+}
+
+planet_event = {
+	id = kuat_legacy.490
+	hide_window = no
+	is_triggered_only = yes
+	title = kuat_legacy.490.title
+	desc = kuat_legacy.490.desc
+	diplomatic = yes
+	picture_event_data = { room = ancient_AI_room }
+	custom_gui = "kuat_event_window"
+	custom_gui_option = "kuat_event_option"
+	trigger = {
+		solar_system = {
+			exists = space_owner
+			space_owner = {
+				NOT = { has_country_flag = ancient_shadow_place_B }
+				has_country_flag = fire_the_legacy_kuat_stage_6
+			}
 		}
+		is_same_value = event_target:ancient_shadow_place_B
 	}
 	immediate = {
-		owner = {
-			if = {
-				limit = { is_multiplayer = no }
-				if = {
-					limit = { NOT = { has_origin = origin_eternalthrone } }
-					add_research_option = tech_kuat_reactor
-				}
-				create_ship_design = { design = "Name_boss_Venator" }
-				add_ship_design = last_created_design
-			}
-			else = {
-				every_playable_country = {
-					limit = { is_ai = no }
-					if = {
-						limit = { NOT = { has_origin = origin_eternalthrone } }
-						add_research_option = tech_kuat_reactor
-					}
-					create_ship_design = { design = "Name_boss_Venator" }
-					add_ship_design = last_created_design
-				}
-			}
-		}
+		solar_system = { space_owner = { set_country_flag = ancient_shadow_place_B } }
 	}
-	option = { name = "kuat_lagacy.75.a" }
+	option = {
+		name = kuat_legacy.490.a
+		event_target:ancient_shadow_place_B = { create_archaeological_site = kuat_lagacy_51 }
+	}
 }
 
 #C AREA
