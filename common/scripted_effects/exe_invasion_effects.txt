@@ -1945,30 +1945,34 @@ create_elternal_system_warbase = {
 				effect = {
 					save_event_target_as = kuat_station_elternal
 					set_owner = event_target:ag_kuat_invasion_country
-					create_ship = { design = "NAME_EXE_STARBASE_MEGASTRUCTURE_1" effect = { set_disable_at_health = 0.01 set_ship_flag = enable_disable_starbase } }
+					create_ship = { design = "NAME_EXE_STARBASE_MEGASTRUCTURE_1" effect = { 
+						set_disable_at_health = 0.01 
+						set_ship_flag = enable_disable_starbase 
+					} }
 					set_location = { target = prev distance = -1 angle = 0 }
 					[[DAYS] fleet_event = { id = exe_invasion.125 days = $DAYS$ }]
 					set_fleet_flag = ag_kuat_invasion_starbase
 					[[lock] set_event_locked = $lock$ ]
-					add_modifier = { modifier = ship_firing_starbase_debuff_own days = $DAYS$ }
+					add_modifier = { modifier = ship_firing_starbase_debuff_own days = $DAYS|-1$ }
 				}
 			}
-		} else = {
-			create_fleet = {
-				name = "Name_Eternal_station_fleet"
-				settings = { spawn_debris = no can_disband = no }
-				effect = {
-					save_event_target_as = kuat_station_elternal
-					set_owner = event_target:ag_kuat_invasion_country
-					create_ship = { design = "NAME_EXE_STARBASE_MEGASTRUCTURE" effect = { set_disable_at_health = 0.01 set_ship_flag = enable_disable_starbase } }
-					set_location = { target = prev distance = -1 angle = 0 }
-					[[DAYS] fleet_event = { id = exe_invasion.125 days = $DAYS$ }]
-					set_fleet_flag = ag_kuat_invasion_starbase
-					[[lock] set_event_locked = $lock$ ]
-					add_modifier = { modifier = ship_firing_starbase_debuff_own days = $DAYS$ }
-				}
+		} else = { create_fleet = {
+			name = "Name_Eternal_station_fleet"
+			settings = { spawn_debris = no can_disband = no }
+			effect = {
+				save_event_target_as = kuat_station_elternal
+				set_owner = event_target:ag_kuat_invasion_country
+				create_ship = { design = "NAME_EXE_STARBASE_MEGASTRUCTURE" effect = { 
+					set_disable_at_health = 0.01 
+					set_ship_flag = enable_disable_starbase 
+				} }
+				set_location = { target = prev distance = -1 angle = 0 }
+				[[DAYS] fleet_event = { id = exe_invasion.125 days = $DAYS$ }]
+				set_fleet_flag = ag_kuat_invasion_starbase
+				[[lock] set_event_locked = $lock$ ]
+				add_modifier = { modifier = ship_firing_starbase_debuff_own days = $DAYS|-1$ }
 			}
-		}
+		} }
 		create_ambient_object = {
 			type = "space_storm_1"
 			location = this
@@ -2940,4 +2944,28 @@ kuat_repeal_all_crisis_resolutions = {
 	cancel_resolution = resolution_galactic_focus_crisis_eternal_fleet
 	remove_global_flag = galactic_focus_crisis_return_eternal_fleet
 	cancel_resolution = resolution_galactic_focus_crisis_return_eternal_fleet
+}
+
+#scope:ship
+flagship_building_check = {
+	owner = {
+		if = {
+			limit = { any_owned_ship = { NOT = { is_same_value = prevprev } is_ship_size = $SHIPSIZE$ } }
+			export_trigger_value_to_variable = {
+				trigger = count_owned_ship
+				parameters = { limit = { NOT = { is_same_value = prevprev } is_ship_size = $SHIPSIZE$ } }
+				variable = system_active_check_$SHIPSIZE$
+			}
+		}
+		else_if = {
+			limit = { count_owned_ship = { limit = { NOT = { is_same_value = prevprev } is_ship_size = $SHIPSIZE$ } count = 0 } }
+			set_variable = { which = system_active_check_$SHIPSIZE$ value = 0 }
+		}
+		set_variable = { which = system_active_$SHIPSIZE$ value = system_active_check_$SHIPSIZE$ }
+		change_variable = { which = system_active_$SHIPSIZE$ value = 1 }
+	}
+	if = { 
+		limit = { owner = { check_variable = { which = system_active_$SHIPSIZE$ value > $SHIP_LIMIT$ } } } 
+		owner = { subtract_variable = { which = system_active_$SHIPSIZE$ value = 1 } } destroy_ship = this 
+	}
 }

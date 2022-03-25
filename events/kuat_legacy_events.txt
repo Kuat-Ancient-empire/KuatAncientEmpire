@@ -790,7 +790,7 @@ country_event = {
 		portrait = event_target:kuat_player_target_species
 		planet_background = pc_ringworld_habitable
 		graphical_culture = fallen_empire_01
-		city_level = event_target:empire_founding
+		city_level = event_target:fallen_empire_kuat
 		room = personality_fallen_empire_cyan_room
 	}
 	custom_gui = "kuat_event_diplomacy_window"
@@ -1890,7 +1890,7 @@ country_event = {
 		portrait = event_target:kuat_player_target_species
 		planet_background = pc_ringworld_habitable
 		graphical_culture = fallen_empire_01
-		city_level = event_target:empire_founding
+		city_level = event_target:fallen_empire_kuat
 		room = personality_fallen_empire_cyan_room
 	}
 	custom_gui = "kuat_event_diplomacy_window"
@@ -1911,9 +1911,85 @@ country_event = {
 					set_owner = event_target:player_for_system
 				}
 			}
-			add_modifier = { modifier = stop_the_war_for_relic days = 3600 }
+			add_modifier = { modifier = stop_the_war_for_relic days = 7200 }
+			country_event = { id = kuat_legacy.411 days = 3600 }
 		}
 	}
+}
+
+country_event = {
+	id = kuat_legacy.411
+	hide_window = no
+	title = kuat_lagacy.411.title
+	desc = kuat_lagacy.411.desc
+	diplomatic = yes
+	picture_event_data = {
+		portrait = event_target:kuat_player_target_species
+		planet_background = pc_ringworld_habitable
+		graphical_culture = fallen_empire_01
+		city_level = event_target:fallen_empire_kuat
+		room = personality_fallen_empire_cyan_room
+	}
+	custom_gui = "kuat_event_diplomacy_window"
+	custom_gui_option = "kuat_event_diplomacy_option"
+	is_triggered_only = yes
+	trigger = { exists = event_target:fallen_empire_kuat }
+	immediate = {
+		if = {
+			limit = { 
+				exists = event_target:fallen_empire_kuat 
+				event_target:fallen_empire_kuat = { NOT = { is_at_war_with = root } }
+			}
+			event_target:Kuat_system_1 = {
+				if = {
+					limit = { 
+						exists = space_owner 
+						space_owner = { NOT = { is_same_value = event_target:fallen_empire_kuat } }
+					}
+					every_system_planet = {
+						limit = { is_colony = yes }
+						set_owner = event_target:fallen_empire_kuat
+					}
+					every_fleet_in_system = { set_owner = event_target:fallen_empire_kuat }
+					root = { remove_modifier = stop_the_war_for_relic }
+				}
+				else_if = {
+					limit = { 
+						exists = space_owner 
+						space_owner = { is_same_value = event_target:fallen_empire_kuat }
+					}
+					root = { remove_modifier = stop_the_war_for_relic }
+				}
+				else_if = {
+					limit = { NOT = { exists = space_owner } }
+					create_starbase = {
+						size = "starbase_citadel"
+						owner = event_target:fallen_empire_kuat
+						module = "shipyard"
+						module = "gun_battery"
+						module = "gun_battery"
+						module = "gun_battery"
+						module = "gun_battery"
+						module = "gun_battery"
+						building = "target_uplink_computer"
+						building = "defense_grid"
+						building = "colossus_yards"
+						building = "titan_yards"
+					}
+					system_star = { create_kuat_system_fleet = yes }
+				}
+			}
+		}
+		else_if = {
+			limit = { 
+				exists = event_target:fallen_empire_kuat 
+				event_target:fallen_empire_kuat = { is_at_war_with = root }
+			}
+			event_target:Kuat_system_1 = { system_star = { create_kuat_system_fleet = yes } }
+			remove_modifier = stop_the_war_for_relic
+		}
+	}
+	option = { name = kuat_legacy.411.a }
 }
 
 ship_event = {
@@ -1952,7 +2028,7 @@ country_event = {
 		portrait = event_target:kuat_player_target_species
 		planet_background = pc_ringworld_habitable
 		graphical_culture = fallen_empire_01
-		city_level = event_target:empire_founding
+		city_level = event_target:fallen_empire_kuat
 		room = personality_fallen_empire_cyan_room
 	}
 	custom_gui = "kuat_event_diplomacy_window"
@@ -1976,23 +2052,22 @@ country_event = {
 	option = {
 		name = kuat_legacy.29.a
 		hidden_effect = {
-			if = {
-				limit = { event_target:fallen_empire_kuat = { has_closed_borders = ROOT } }
-				event_target:fallen_empire_kuat = { set_closed_borders = { who = ROOT status = no forced = 10 } }
-			}
 			event_target:Kuat_system_1 = {
-				every_fleet_in_system = {
-					if = {
-						limit = { NOT = { is_ship_size = starbase_citadel } }
-						destroy_fleet = { target = this destroy_template = yes kill_leader = yes }
-					} 
-					else = { set_owner = event_target:player_for_system }
-				}
 				every_system_planet = {
 					limit = { is_colony = yes }
 					destroy_colony = yes
-					set_owner = event_target:player_for_system
 				}
+				every_fleet_in_system = {
+					if = {
+						limit = { is_ship_class = shipclass_starbase }
+						set_owner = event_target:player_for_system
+					}
+					else = { destroy_fleet = { target = this destroy_template = yes kill_leader = yes } }
+				}
+			}
+			if = {
+				limit = { event_target:fallen_empire_kuat = { has_closed_borders = ROOT } }
+				event_target:fallen_empire_kuat = { set_closed_borders = { who = ROOT status = no forced = 10 } }
 			}
 		}
 	}

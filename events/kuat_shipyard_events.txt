@@ -326,33 +326,44 @@ country_event = {
 		check_variable = { which = fallen_empire_escort_queue value > 0 }
 	}
 	immediate = {
-		capital_scope = {
-			create_fleet = {
-				settings = { spawn_debris = no }
-				effect = {
-					set_owner = root
-					create_ship = { design = "Name_boss_EXECUTOR" }
-					set_location = { target = prev distance = 20 angle = random }
+		if = {
+			limit = { count_owned_ship = { limit = { is_ship_size = Venguard } count < 3 } }
+			capital_scope = {
+				create_fleet = {
+					settings = { spawn_debris = no }
+					effect = {
+						set_owner = root
+						create_ship = { design = "Name_boss_EXECUTOR" }
+						set_location = { target = prev distance = 20 angle = random }
+					}
 				}
 			}
-		}
-		create_message = {
-			type = "SPACEPORT_CONSTRUCTION_MESSAGE_TYPE"
-			localization = "kuat_escort_arrived_desc"
-			days = 30
-			target = from
-			variable = {
-				type = name
-				localization = "capital_planet"
-				scope = root.capital_scope
+			create_message = {
+				type = "SPACEPORT_CONSTRUCTION_MESSAGE_TYPE"
+				localization = "kuat_escort_arrived_desc"
+				days = 30
+				target = from
+				variable = {
+					type = name
+					localization = "capital_planet"
+					scope = root.capital_scope
+				}
 			}
+			subtract_variable = { which = fallen_empire_escort_queue value = 1 }
+			if = {
+				limit = { check_variable = { which = fallen_empire_escort_queue value <= 0 } }
+				clear_variable = fallen_empire_escort_queue
+			}
+			event_target:fallen_empire_kuat = { add_opinion_modifier = { modifier = opinion_kuat_ship_built who = root } }
 		}
-		subtract_variable = { which = fallen_empire_escort_queue value = 1 }
-		if = {
-			limit = { check_variable = { which = fallen_empire_escort_queue value <= 0 } }
-			clear_variable = fallen_empire_escort_queue
+		else = {
+			subtract_variable = { which = fallen_empire_escort_queue value = 1 }
+			if = {
+				limit = { check_variable = { which = fallen_empire_escort_queue value <= 0 } }
+				clear_variable = fallen_empire_escort_queue
+			}
+			event_target:fallen_empire_kuat = { add_opinion_modifier = { modifier = opinion_kuat_ship_built who = root } }
 		}
-		event_target:fallen_empire_kuat = { add_opinion_modifier = { modifier = opinion_kuat_ship_built who = root } }
 	}
 }
 
@@ -1165,33 +1176,44 @@ country_event = {
 		check_variable = { which = dominance_class_queue value > 0 }
 	}
 	immediate = {
-		capital_scope = {
-			create_fleet = {
-				settings = { spawn_debris = no }
-				effect = {
-					set_owner = root
-					create_ship = { design = "Name_boss_Dominance" }
-					set_location = { target = prev distance = 20 angle = random }
+		if = {
+			limit = { count_owned_ship = { limit = { is_ship_size = nebula_dominance } count < 3 } }
+			capital_scope = {
+				create_fleet = {
+					settings = { spawn_debris = no }
+					effect = {
+						set_owner = root
+						create_ship = { design = "Name_boss_Dominance" }
+						set_location = { target = prev distance = 20 angle = random }
+					}
 				}
 			}
-		}
-		create_message = {
-			type = "SPACEPORT_CONSTRUCTION_MESSAGE_TYPE"
-			localization = "kuat_dominance_class_arrived_desc"
-			days = 30
-			target = from
-			variable = {
-				type = name
-				localization = "capital_planet"
-				scope = root.capital_scope
+			create_message = {
+				type = "SPACEPORT_CONSTRUCTION_MESSAGE_TYPE"
+				localization = "kuat_dominance_class_arrived_desc"
+				days = 30
+				target = from
+				variable = {
+					type = name
+					localization = "capital_planet"
+					scope = root.capital_scope
+				}
 			}
+			subtract_variable = { which = dominance_class_queue value = 1 }
+			if = {
+				limit = { check_variable = { which = dominance_class_queue value <= 0 } }
+				clear_variable = dominance_class_queue
+			}
+			event_target:fallen_empire_kuat = { add_opinion_modifier = { modifier = opinion_kuat_ship_built who = root } }
 		}
-		subtract_variable = { which = dominance_class_queue value = 1 }
-		if = {
-			limit = { check_variable = { which = dominance_class_queue value <= 0 } }
-			clear_variable = dominance_class_queue
+		else = {
+			subtract_variable = { which = dominance_class_queue value = 1 }
+			if = {
+				limit = { check_variable = { which = dominance_class_queue value <= 0 } }
+				clear_variable = dominance_class_queue
+			}
+			event_target:fallen_empire_kuat = { add_opinion_modifier = { modifier = opinion_kuat_ship_built who = root } }
 		}
-		event_target:fallen_empire_kuat = { add_opinion_modifier = { modifier = opinion_kuat_ship_built who = root } }
 	}
 }
 
@@ -1284,33 +1306,44 @@ country_event = {
 		check_variable = { which = eclipse_class_queue value > 0 }
 	}
 	immediate = {
-		capital_scope = {
-			create_fleet = {
-				settings = { spawn_debris = no }
-				effect = {
-					set_owner = root
-					create_ship = { design = "Name_boss_eclipse" }
-					set_location = { target = prev distance = 20 angle = random }
+		if = {
+			limit = { count_owned_ship = { limit = { is_ship_size = eclipse } count < 3 } }
+			capital_scope = {
+				create_fleet = {
+					settings = { spawn_debris = no }
+					effect = {
+						set_owner = root
+						create_ship = { design = "Name_boss_eclipse" }
+						set_location = { target = prev distance = 20 angle = random }
+					}
 				}
 			}
-		}
-		create_message = {
-			type = "SPACEPORT_CONSTRUCTION_MESSAGE_TYPE"
-			localization = "kuat_eclipse_arrived_desc"
-			days = 30
-			target = from
-			variable = {
-				type = name
-				localization = "capital_planet"
-				scope = root.capital_scope
+			create_message = {
+				type = "SPACEPORT_CONSTRUCTION_MESSAGE_TYPE"
+				localization = "kuat_eclipse_arrived_desc"
+				days = 30
+				target = from
+				variable = {
+					type = name
+					localization = "capital_planet"
+					scope = root.capital_scope
+				}
 			}
+			subtract_variable = { which = eclipse_class_queue value = 1 }
+			if = {
+				limit = { check_variable = { which = eclipse_class_queue value <= 0 } }
+				clear_variable = eclipse_class_queue
+			}
+			event_target:fallen_empire_kuat = { add_opinion_modifier = { modifier = opinion_kuat_ship_built who = root } }
 		}
-		subtract_variable = { which = eclipse_class_queue value = 1 }
-		if = {
-			limit = { check_variable = { which = eclipse_class_queue value <= 0 } }
-			clear_variable = eclipse_class_queue
+		else = {
+			subtract_variable = { which = eclipse_class_queue value = 1 }
+			if = {
+				limit = { check_variable = { which = eclipse_class_queue value <= 0 } }
+				clear_variable = eclipse_class_queue
+			}
+			event_target:fallen_empire_kuat = { add_opinion_modifier = { modifier = opinion_kuat_ship_built who = root } }
 		}
-		event_target:fallen_empire_kuat = { add_opinion_modifier = { modifier = opinion_kuat_ship_built who = root } }
 	}
 }
 
@@ -1323,7 +1356,7 @@ country_event = {
 		portrait = event_target:kuat_player_target_species
 		planet_background = pc_ringworld_habitable
 		graphical_culture = fallen_empire_01
-		city_level = event_target:empire_founding
+		city_level = event_target:fallen_empire_kuat
 		room = personality_fallen_empire_cyan_room
 	}
 	custom_gui = "kuat_event_diplomacy_window"
