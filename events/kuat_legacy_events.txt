@@ -1903,12 +1903,16 @@ country_event = {
 		hidden_effect = {
 			event_target:Kuat_system_1 = {
 				every_fleet_in_system = {
-					set_owner = event_target:player_for_system
+					if = {
+						limit = { is_ship_class = shipclass_starbase }
+						set_owner = event_target:player_for_system
+					}
+					else = { destroy_fleet = { target = this destroy_template = yes kill_leader = no } }
 				}
 				every_system_planet = {
 					limit = { is_colony = yes }
 					destroy_colony = yes
-					set_owner = event_target:player_for_system
+					every_owned_pop = { kill_pop = yes }
 				}
 			}
 			add_modifier = { modifier = stop_the_war_for_relic days = 7200 }
