@@ -24,10 +24,12 @@ event = {
 			set_variable = { which = count_destroy_eternal_fleet value = 0 }
 		}
 		remove_global_flag = can_win_the_fleet
-		set_timed_global_flag = { flag = exe_invasion_signs_cooldown days = 720 }
-		every_playable_country = {
-			country_event = { id = exe_return_invasion.2 days = 1 random = 2 }
+		if = {
+			limit = { event_target:global_event_country = { check_variable = { which = eternal_fleet_return_index value >= 1 } } }
+			set_timed_global_flag = { flag = exe_invasion_signs_cooldown days = 180 }
 		}
+		else = { set_timed_global_flag = { flag = exe_invasion_signs_cooldown days = 720 } }
+		every_playable_country = { country_event = { id = exe_return_invasion.2 days = 1 random = 2 } }
 		set_global_flag = exe_return_invasion_seed
 		set_global_flag = eternal_return_fleet_debug_check
 	}
@@ -61,7 +63,11 @@ event = {
 	}
 	immediate = {
 		set_global_flag = exe_return_invasion_3_fired
-		set_timed_global_flag = { flag = exe_invasion_signs_cooldown days = 720 }
+		if = {
+			limit = { event_target:global_event_country = { check_variable = { which = eternal_fleet_return_index value >= 1 } } }
+			set_timed_global_flag = { flag = exe_invasion_signs_cooldown days = 180 }
+		}
+		else = { set_timed_global_flag = { flag = exe_invasion_signs_cooldown days = 720 } }
 		every_playable_country = { country_event = { id = exe_return_invasion.4 days = 1 random = 2 } }
 	}
 }
@@ -102,10 +108,12 @@ event = {
 	}
 	immediate = {
 		set_global_flag = exe_return_invasion_5_fired
-		set_timed_global_flag = { flag = exe_invasion_signs_cooldown days = 720 }
-		every_playable_country = {
-			country_event = { id = exe_return_invasion.6 days = 1 random = 2 }
+		if = {
+			limit = { event_target:global_event_country = { check_variable = { which = eternal_fleet_return_index value >= 1 } } }
+			set_timed_global_flag = { flag = exe_invasion_signs_cooldown days = 180 }
 		}
+		else = { set_timed_global_flag = { flag = exe_invasion_signs_cooldown days = 720 } }
+		every_playable_country = { country_event = { id = exe_return_invasion.6 days = 1 random = 2 } }
 	}
 }
 
@@ -136,7 +144,11 @@ event = {
 	}
 	immediate = {
 		set_global_flag = exe_return_invasion_7_fired
-		set_timed_global_flag = { flag = exe_invasion_signs_cooldown days = 720 }
+		if = {
+			limit = { event_target:global_event_country = { check_variable = { which = eternal_fleet_return_index value >= 1 } } }
+			set_timed_global_flag = { flag = exe_invasion_signs_cooldown days = 180 }
+		}
+		else = { set_timed_global_flag = { flag = exe_invasion_signs_cooldown days = 720 } }
 		every_playable_country = { country_event = { id = exe_return_invasion.8 days = 1 random = 2 } }
 	}
 }
@@ -1448,9 +1460,7 @@ country_event = {
 	}
 	immediate = {
 		every_country = {
-			limit = {
-				NOT = { is_same_value = event_target:ag_kuat_invasion_country }
-			}
+			limit = { NOT = { is_same_value = event_target:ag_kuat_invasion_country } }
 			country_event = { id = exe_return_invasion.35 }
 		}
 		add_threat = { who = root amount = 50 }
@@ -1487,10 +1497,7 @@ country_event = {
 		name = "exe_return_invasion.35.b" 
 		hidden_effect = {
 			if = {
-				limit = { 
-					is_ai = no 
-					NOT = { has_origin = origin_kuat_apocalyptic }
-				}
+				limit = { is_ai = no NOT = { has_origin = origin_kuat_apocalyptic } }
 				set_country_flag = can_be_kuat_building
 				set_global_flag = give_all_tech_flag
 				add_research_option = tech_kuat_ground_yards
@@ -1500,10 +1507,7 @@ country_event = {
 				country_event = { id = exe_return_invasion.38 days = 30 random = 2 }
 			}
 			if = {
-				limit = { 
-					is_ai = no
-					has_origin = origin_kuat_apocalyptic 
-				}
+				limit = { is_ai = no has_origin = origin_kuat_apocalyptic  }
 				event_target:global_event_country = { change_variable = { which = eternal_fleet_return_index value = 1 } }
 				change_variable = { which = eternal_bornus_var value = 4000 }
 				reset_return_eternal_fleet = yes
@@ -1527,19 +1531,17 @@ fleet_event = {
 		if = {
 			limit = { exists = solar_system }
 			solar_system = { if = {
-				limit = {
-					NOR = {
-						any_ship_in_system = { is_ship_class = shipclass_starbase }
-						any_ship_in_system = {
-							exists = owner
-							owner = { is_hostile = event_target:ag_kuat_invasion_country }
-						}
-						any_system_planet = {
-							exists = owner
-							owner = { is_hostile = event_target:ag_kuat_invasion_country }
-						}
+				limit = { NOR = {
+					any_ship_in_system = { is_ship_class = shipclass_starbase }
+					any_ship_in_system = {
+						exists = owner
+						owner = { is_hostile = event_target:ag_kuat_invasion_country }
 					}
-				}
+					any_system_planet = {
+						exists = owner
+						owner = { is_hostile = event_target:ag_kuat_invasion_country }
+					}
+				} }
 				create_starbase = { size = exe_starbase owner = event_target:ag_kuat_invasion_country }
 			} }
 		}
@@ -1621,13 +1623,11 @@ event = {
 			clear_variable = num_finish
 		}
 		every_system = {
-			limit = {
-				OR = {
-					has_star_flag = final_1_system
-					has_star_flag = final_2_system
-					has_star_flag = final_3_system
-				}
-			}
+			limit = { OR = {
+				has_star_flag = final_1_system
+				has_star_flag = final_2_system
+				has_star_flag = final_3_system
+			} }
 			remove_star_flag = final_1_system
 			remove_star_flag = final_2_system
 			remove_star_flag = final_3_system
