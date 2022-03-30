@@ -1,3 +1,30 @@
+Firing_The_StarKiller = {
+	owned_planets_only = yes
+	sound = event_air_raid_siren
+	icon = decision_planet_beam
+	resources = { category = decisions cost = { minerals = 2500 } }
+	potential = {
+		solar_system = { has_star_flag = starkiller_system }
+		has_planet_flag = protection_megastructure_planet
+		from = { 
+			any_owned_megastructure = { is_megastructure_type = kuat_starkillerbase_1 } 
+			NOT = { has_country_flag = starkiller_base_cooldown }
+			NOT = { has_country_flag = starkiller_base_place_temple }
+		}
+	}
+	effect = {
+		custom_tooltip = "Firing_The_StarKiller_tooltip"
+		hidden_effect = { from = {
+			random_owned_megastructure = {
+				limit = { is_megastructure_type = kuat_starkillerbase_1 }
+				upgrade_megastructure_to = kuat_starkillerbase_15
+			}
+			set_timed_country_flag = { flag = starkiller_base_place_temple days = 3 }
+		} }
+	}
+	ai_weight = { weight = 0 }
+}
+
 Building_The_Kuat_Command_Line = {
 	owned_planets_only = yes
 	sound = event_air_raid_siren
@@ -37,6 +64,7 @@ Building_The_Kuat_Shield = {
 	}
 	potential = {
 		has_building = building_kuat_shield
+		is_ringworld = no
 		kuat_is_ringworld = no
 		kuat_is_habitat = no
 		NOT = { has_planet_flag = enable_kuat_shield }
@@ -54,9 +82,7 @@ Building_The_Kuat_Shield = {
 				entity_offset_height = { min = 0 max = 0 }
 				scale = 0.125
 				location = this
-				effect = { 
-					set_ambient_object_flag = kuat_planet_shield_effect_object_@root 
-				}
+				effect = { set_ambient_object_flag = kuat_planet_shield_effect_object_@root }
 			}
 			set_planet_flag = enable_kuat_shield
 		}
