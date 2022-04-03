@@ -1377,7 +1377,7 @@ event = {
 			is_ai = no
 			has_origin = origin_parit
 		}
-		years_passed >= 35
+		mid_game_years_passed > 0
 	}
 	immediate = {
 		every_playable_country = {
@@ -1393,7 +1393,7 @@ event = {
 						check_variable = { which = years_not_trigger_parit_evt value >= 8 }
 					}
 					clear_variable = years_not_trigger_parit_evt
-					country_event = { id = executor_build.279 days = 1 random = 179 }
+					country_event = { id = executor_build.279 days = 1 random = 359 }
 				}
 				14 = {
 					modifier = {
@@ -1416,10 +1416,7 @@ event = {
 						factor = 0
 						check_variable = { which = years_not_trigger_parit_evt value >= 10 }
 					}
-					if = {
-						limit = { always = yes }
-						change_variable = { which = years_not_trigger_parit_evt value = 1 }
-					}
+					change_variable = { which = years_not_trigger_parit_evt value = 1 }
 				}
 			}
 		}
@@ -1446,18 +1443,21 @@ country_event = {
 				country_event = { id = executor_build.259 }
 				change_variable = { which = num_resource_event value = 1 }
 			}
-			2 = {
+			1 = {
 				modifier = {
 					add = 2
 					is_at_war = yes
 				}
 				modifier = {
 					factor = 3
-					check_variable = { which = num_resource_event value >= 10 }
+					check_variable = { which = num_resource_event value > 10 }
 				}
 				modifier = {
 					factor = 0
-					check_variable = { which = num_battleship_event value >= 10 }
+					OR = {
+						mid_game_years_passed < 10
+						check_variable = { which = num_battleship_event value > 10 }
+					}
 				}
 				country_event = { id = executor_build.260 }
 				change_variable = { which = num_battleship_event value = 1 }
@@ -1469,15 +1469,18 @@ country_event = {
 				}
 				modifier = {
 					factor = 3
-					check_variable = { which = num_resource_event value >= 25 }
+					check_variable = { which = num_resource_event value > 25 }
 				}
 				modifier = {
 					factor = 4
-					check_variable = { which = num_battleship_event value >= 10 }
+					check_variable = { which = num_battleship_event value > 10 }
 				}
 				modifier = {
 					factor = 0
-					check_variable = { which = num_flagship_event value > 2 }
+					OR = {
+						check_variable = { which = num_flagship_event value >= 1 }
+						end_game_years_passed < 10
+					}
 				}
 				country_event = { id = executor_build.261 }
 				change_variable = { which = num_flagship_event value = 1 }
@@ -1518,23 +1521,15 @@ country_event = {
 				}
 				set_country_flag = only_communicate_once
 			}
-			if = {
-				limit = {
-					is_at_war = yes
-				}
-				random_list = {
-					6 = { add_resource = { alloys = 5000 } }
-					5 = { add_resource = { alloys = 6000 } }
-					4 = { add_resource = { alloys = 6000 } }
-					3 = { add_resource = { alloys = 10000 } }
-					2 = { add_resource = { alloys = 25000 } }
-					1 = { add_resource = { alloys = 30000 } }
-				}
-			} else = {
-				random_list = {
-					5 = { add_modifier = { modifier = country_production_for_parit days = 1800 } }
-					5 = { add_modifier = { modifier = country_production_for_parit_default days = 1800 } }
-				}
+			random_list = {
+				7 = { add_resource = { alloys = 5000 } }
+				6 = { add_resource = { alloys = 6000 } }
+				5 = { add_resource = { alloys = 6000 } }
+				4 = { add_resource = { alloys = 10000 } }
+				3 = { add_resource = { alloys = 25000 } }
+				2 = { add_resource = { alloys = 30000 } }
+				1 = { add_modifier = { modifier = country_production_for_parit days = 1800 } }
+				1 = { add_modifier = { modifier = country_production_for_parit_default days = 1800 } }
 			}
 		}
 	}
@@ -1563,35 +1558,16 @@ country_event = {
 	}
 	option = {
 		name = "executor_build.260.a"
-		hidden_effect = {
-			if = {
-				limit = { is_at_war = yes }
-				create_fleet = {
-					effect = {
-						set_owner = prev
-						create_ship = { design = "Name_boss_Raider" }
-						add_modifier = { modifier = kuat_fleet_power }
-						set_location = prev.capital_scope
-						set_fleet_stance = aggressive
-						set_fleet_bombardment_stance = indiscriminate
-					}
-				}
-			} else = {
-				create_fleet = {
-					effect = {
-						set_owner = prev
-						while = {
-							count = 3
-							create_ship = { design = "Name_boss_EMPIRE" }
-						}
-						add_modifier = { modifier = kuat_fleet_power }
-						set_fleet_stance = aggressive
-						set_fleet_bombardment_stance = indiscriminate
-						set_location = prev.capital_scope
-					}
-				}
+		hidden_effect = { create_fleet = {
+			effect = {
+				set_owner = prev
+				while = { count = 3 create_ship = { design = "Name_boss_EMPIRE" } }
+				add_modifier = { modifier = kuat_fleet_power }
+				set_fleet_stance = aggressive
+				set_fleet_bombardment_stance = indiscriminate
+				set_location = prev.capital_scope
 			}
-		}
+		} }
 	}
 }
 
@@ -1616,31 +1592,17 @@ country_event = {
 		NOT = { is_at_war_with = event_target:fallen_empire_kuat }
 	}
 	immediate = {
-		if = {
-			limit = { is_at_war = yes }
-			create_fleet = {
-				effect = {
-					set_owner = prev
-					create_ship = { design = "Name_boss_Dominance" }
-					add_modifier = { modifier = kuat_fleet_power }
-					set_location = prev.capital_scope
-					set_fleet_stance = aggressive
-					set_fleet_bombardment_stance = indiscriminate
-				}
-			}
-			add_modifier = { modifier = ship_firing_default_for_parit days = 3600 }
-		} else = {
-			create_fleet = {
-				effect = {
-					set_owner = prev
-					create_ship = { design = "Name_boss_EXECUTOR" }
-					add_modifier = { modifier = kuat_fleet_power }
-					set_location = prev.capital_scope
-					set_fleet_stance = aggressive
-					set_fleet_bombardment_stance = indiscriminate
-				}
+		create_fleet = {
+			effect = {
+				set_owner = prev
+				create_ship = { design = "NAME_KUAT_Annihilator" }
+				add_modifier = { modifier = kuat_fleet_power }
+				set_location = prev.capital_scope
+				set_fleet_stance = aggressive
+				set_fleet_bombardment_stance = indiscriminate
 			}
 		}
+		add_modifier = { modifier = ship_firing_default_for_parit days = 3600 }
 	}
 	option = { name = "executor_build.261.a" }
 }
