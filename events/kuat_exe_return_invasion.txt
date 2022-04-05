@@ -926,18 +926,16 @@ planet_event = {
 					set_global_flag = can_win_the_fleet_stage_1
 				}
 			}
-			else = {
-				if = {
-					limit = { 
-						check_variable = { which = ag_kuat_invasion_fleet_arrived value = 20 }
-					}
-					every_owned_fleet = {
-						limit = { has_fleet_flag = ag_kuat_invasion_fleet }
-						fleet_event = { id = exe_return_invasion.12 days = 1 random = 2 }
-					}
-					set_global_flag = can_win_the_fleet_stage_1
+			else = { if = {
+				limit = { 
+					check_variable = { which = ag_kuat_invasion_fleet_arrived value = 20 }
 				}
-			} 
+				every_owned_fleet = {
+					limit = { has_fleet_flag = ag_kuat_invasion_fleet }
+					fleet_event = { id = exe_return_invasion.12 days = 1 random = 2 }
+				}
+				set_global_flag = can_win_the_fleet_stage_1
+			} } 
 		}
 	}
 }
@@ -1021,20 +1019,16 @@ country_event = {
 				}
 				else = { count_owned_fleet = { limit = { has_fleet_flag = ag_kuat_invasion_fleet } count < 20 } }
 			}
-			random_rim_system = {
-				limit = { 
-					has_star_flag = eternal_starbase_megastructure_in_system 
-					NOT = { has_star_flag = eternal_starbase_megastructure_fleet_temple }
-				}
-				set_timed_star_flag = { flag = eternal_starbase_megastructure_fleet_temple days = 121 }
+			every_rim_system = {
+				limit = { has_star_flag = eternal_starbase_megastructure_in_system }
 				system_star = { create_exe_retrun_invasion_fleet_detail = yes }
 			}
 			every_country = {
 				limit = { has_event_chain = ag_exe_invasion_chain }
-				add_event_chain_counter = { event_chain = ag_exe_invasion_chain counter = ag_exe_invasion_fleet amount = 1 }
+				add_event_chain_counter = { event_chain = ag_exe_invasion_chain counter = ag_exe_invasion_fleet amount = 4 }
 			}
 		}
-		country_event = { id = exe_return_invasion.19 days = 120 }
+		country_event = { id = exe_return_invasion.19 days = 180 }
 	}
 }
 
