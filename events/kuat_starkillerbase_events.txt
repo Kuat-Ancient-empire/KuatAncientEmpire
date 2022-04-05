@@ -594,7 +594,10 @@ country_event = {
 	trigger = { 
 		has_origin = origin_eternalthrone
 		has_country_flag = kuat_enabled_epsilon_planet_killer_selector 
-		has_country_flag = eternal_fleet_attack_enenmy
+		OR = {
+			has_country_flag = eternal_fleet_attack_enenmy
+			has_country_flag = eternal_fleet_destroy_enenmy
+		}
 	}
 	immediate = {
 		remove_country_flag = kuat_enabled_epsilon_planet_killer_selector
@@ -622,28 +625,29 @@ country_event = {
 	is_triggered_only = yes
 	trigger = { 
 		has_origin = origin_eternalthrone
-		has_country_flag = eternal_fleet_attack_enenmy
+		OR = {
+			has_country_flag = eternal_fleet_attack_enenmy
+			has_country_flag = eternal_fleet_destroy_enenmy
+		}
 		event_target:eternal_support_country = { any_owned_fleet = { has_fleet_flag = executing_eternal_fleet } }
 	}
 	immediate = {
-		random_system = {
+		every_system = {
 			limit = { has_star_flag = kuat_epsilon_titan_star_killer_weapon_target@root }
-			save_global_event_target_as = targeting_enemy_system
-			remove_star_flag = kuat_epsilon_titan_star_killer_weapon_target@root
-			space_owner = { save_global_event_target_as = targeting_enemy_country }
 			event_target:eternal_support_country = {
-				establish_communications_no_message = event_target:targeting_enemy_country
+				establish_communications_no_message = prev.space_owner
 				set_faction_hostility = { 
-					target = event_target:targeting_enemy_country 
+					target = prev.space_owner
 					set_hostile = yes set_friendly = no 
 				}
 				random_owned_fleet = {
 					limit = { has_fleet_flag = executing_eternal_fleet }
-					set_location = event_target:targeting_enemy_system.system_star
+					set_location = prevprev.system_star
 					every_owned_ship = { create_jump_particle_effect = yes }
-					fleet_event = { id = kuat_starkiller.21 days = 1 }
+					eternal_player_fleet_order_1 = yes
 				}
 			}
+			remove_star_flag = kuat_epsilon_titan_star_killer_weapon_target@root
 		}
 	}
 }
@@ -668,37 +672,79 @@ country_event = {
 	custom_gui_option = "kuat_event_diplomacy_option"
 	show_sound = event_sensor_ping
 	is_triggered_only = yes
-	immediate = { remove_country_flag = eternal_fleet_attack_enenmy }
+	immediate = { 
+		remove_country_flag = eternal_fleet_attack_enenmy 
+		remove_country_flag = eternal_fleet_destroy_enenmy
+		every_country = {
+			limit = { is_hostile = event_target:eternal_support_country }
+			set_faction_hostility = { target = event_target:eternal_support_country set_hostile = no set_friendly = no set_neutral = yes }
+		}
+	}
 	option = { name = kuat_starkiller.18.a }
 }
 
+# Eternal Fail
 country_event = {
 	id = kuat_starkiller.19
 	hide_window = yes
 	is_triggered_only = yes
 	trigger = {
 		any_country = { has_origin = origin_eternalthrone }
-		any_country = { has_country_flag = eternal_fleet_attack_enenmy }
+		OR = {
+			any_country = { has_country_flag = eternal_fleet_attack_enenmy }
+			any_country = { has_country_flag = eternal_fleet_destroy_enenmy }
+		}
 		fromfrom = { has_fleet_flag = executing_eternal_fleet }
 		is_same_value = event_target:eternal_support_country
 	}
 	immediate = {
-		random_country = {
-			limit = { has_country_flag = eternal_fleet_attack_enenmy }
-			subtract_variable = { which = eternal_kuat_invasion_fleet_num value = 1 }
-			remove_country_flag = eternal_fleet_attack_enenmy
-			set_timed_country_flag = { flag = have_been_ordered_eternal_fleet days = 1800 } 
-			country_event = { id = kuat_starkiller.20 }
+		if = {
+			limit = { any_country = { has_country_flag = eternal_fleet_attack_enenmy } }
+			random_country = {
+				limit = { has_country_flag = eternal_fleet_attack_enenmy }
+				subtract_variable = { which = eternal_kuat_invasion_fleet_num value = 1 }
+				remove_country_flag = eternal_fleet_attack_enenmy
+				set_timed_country_flag = { flag = have_been_ordered_eternal_fleet days = 360 } 
+				country_event = { id = kuat_starkiller.20 }
+			}
+			every_country = {
+				limit = { is_hostile = event_target:eternal_support_country }
+				set_faction_hostility = { target = event_target:eternal_support_country set_hostile = no set_friendly = no set_neutral = yes }
+			}
 		}
-		set_faction_hostility = { 
-			target = event_target:targeting_enemy_country 
-			set_hostile = no set_friendly = no set_neutral = yes
+		if = {
+			limit = { any_country = { has_country_flag = eternal_fleet_destroy_enenmy } }
+			change_variable = { which = mission_finished_eternal_fleet value = 1 }
+			subtract_variable = { which = list_owned_eternal_fleet value = 1 }
+			random_country = {
+				limit = { has_country_flag = eternal_fleet_destroy_enenmy }
+				subtract_variable = { which = eternal_kuat_invasion_fleet_num value = 1 }
+			}
+			if = {
+				limit = { check_variable = { which = list_owned_eternal_fleet value <= 0 } }
+				random_country = {
+					limit = { has_country_flag = eternal_fleet_destroy_enenmy }
+					remove_country_flag = eternal_fleet_destroy_enenmy
+					set_timed_country_flag = { flag = have_been_ordered_eternal_fleet days = 1800 } 
+					country_event = { id = kuat_starkiller.20 }
+				}
+				every_country = {
+					limit = { is_hostile = event_target:eternal_support_country }
+					set_faction_hostility = { target = event_target:eternal_support_country set_hostile = no set_friendly = no set_neutral = yes }
+				}
+				event_target:eternal_support_country = {
+					clear_variable = list_owned_eternal_fleet
+					clear_variable = page_owned_eternal_fleet
+					clear_variable = mission_pending_eternal_fleet
+					clear_variable = mission_finished_eternal_fleet
+					every_owned_fleet = { remove_fleet_flag = choosen_eternal_fleet }
+				}
+			}
 		}
-		clear_global_event_target = targeting_enemy_system
-		clear_global_event_target = targeting_enemy_country
 	}
 }
 
+# Eternal Fail Message
 country_event = {
 	id = kuat_starkiller.20
 	title = "kuat_starkiller.18.title"
@@ -719,7 +765,10 @@ country_event = {
 	custom_gui_option = "kuat_event_diplomacy_option"
 	show_sound = event_sensor_ping
 	is_triggered_only = yes
-	immediate = { remove_country_flag = eternal_fleet_attack_enenmy }
+	immediate = { 
+		remove_country_flag = eternal_fleet_attack_enenmy 
+		remove_country_flag = eternal_fleet_destroy_enenmy
+	}
 	option = { 
 		name = kuat_starkiller.20.a 
 		trigger = { has_country_flag = fire_once_contact_free }
@@ -730,10 +779,10 @@ country_event = {
 	}
 }
 
-fleet_event = {
-	id = kuat_starkiller.21
-	hide_window = yes
-	is_triggered_only = yes
-	trigger = { has_fleet_flag = executing_eternal_fleet }
-	immediate = { eternal_player_fleet_order_1 = yes }
-}
+# fleet_event = {
+# 	id = kuat_starkiller.21
+# 	hide_window = yes
+# 	is_triggered_only = yes
+# 	trigger = { has_fleet_flag = executing_eternal_fleet }
+# 	immediate = { eternal_player_fleet_order_1 = yes }
+# }

@@ -197,7 +197,7 @@ country_event = {
 		name = kuat_EEstart.5.c
 		trigger = { 
 			has_country_flag = fire_once_contact_free 
-			check_variable = { which = eternal_kuat_invasion_fleet_num value <= 16 }
+			check_variable = { which = eternal_kuat_invasion_fleet_num value < 16 }
 		}
 		allow = { has_country_resource = { type = alloys amount >= country_alloys_tax_amount } }
 		add_resource = { alloys = -1 mult = country_alloys_tax_amount }
@@ -212,7 +212,7 @@ country_event = {
 		name = kuat_EEstart.5.c
 		trigger = { 
 			has_country_flag = fire_once_contact_control 
-			check_variable = { which = eternal_kuat_invasion_fleet_num value <= 16 }
+			check_variable = { which = eternal_kuat_invasion_fleet_num value < 16 }
 		}
 		allow = { has_country_resource = { type = alloys amount >= country_alloys_tax_amount } }
 		add_resource = { alloys = -1 mult = country_alloys_tax_amount }
@@ -320,18 +320,21 @@ country_event = {
 		}
 		hidden_effect = { set_country_flag = eternal_fleet_attack_enenmy country_event = { id = kuat_EEstart.8 } }
 	}
-	#自主防御
+	#全部派遣
 	option = {
 		name = kuat_EEstart.7.b
-		trigger = { 
-			always = no
-			check_variable = { which = eternal_kuat_invasion_fleet_num value >= 1 } 
+		trigger = { check_variable = { which = eternal_kuat_invasion_fleet_num value >= 1 } }
+		allow = {
+			custom_tooltip = {
+				fail_text = kuat_EEstart.7.fail_reason.a
+				NOT = { has_country_flag = have_been_ordered_eternal_fleet } 
+			}
+			custom_tooltip = {
+				fail_text = kuat_EEstart.7.fail_reason.b
+				NOT = { has_country_flag = eternal_fleet_destroy_enenmy }
+			}
 		}
-		hidden_effect = { 
-			set_country_flag = eternal_fleet_destroy_enenmy 
-			#银河帝国入侵开始时启用，改变国家关系，进入自主防御模式
-			#country_event = { id = kuat_EEstart.9 } 
-		}
+		hidden_effect = { set_country_flag = eternal_fleet_destroy_enenmy country_event = { id = kuat_EEstart.9 } }
 	}
 	#退出
 	option = {
@@ -401,7 +404,7 @@ country_event = {
 		}
 		custom_tooltip = "executor_mission_fleet_choosen_eternal_fleet_1"
 		hidden_effect = {
-			set_timed_country_flag = { flag = eternal_fleet_is_running days = 1800 }
+			set_timed_country_flag = { flag = eternal_fleet_is_running days = 360 }
 			event_target:eternal_support_country = {
 				every_owned_fleet = {
 					limit = { NOT = { is_same_value = event_target:choosen_eternal_fleet_1 } }
@@ -426,7 +429,7 @@ country_event = {
 		}
 		custom_tooltip = "executor_mission_fleet_choosen_eternal_fleet_2"
 		hidden_effect = {
-			set_timed_country_flag = { flag = eternal_fleet_is_running days = 1800 }
+			set_timed_country_flag = { flag = eternal_fleet_is_running days = 360 }
 			event_target:eternal_support_country = {
 				every_owned_fleet = {
 					limit = { NOT = { is_same_value = event_target:choosen_eternal_fleet_2 } }
@@ -451,7 +454,7 @@ country_event = {
 		}
 		custom_tooltip = "executor_mission_fleet_choosen_eternal_fleet_3"
 		hidden_effect = {
-			set_timed_country_flag = { flag = eternal_fleet_is_running days = 1800 }
+			set_timed_country_flag = { flag = eternal_fleet_is_running days = 360 }
 			event_target:eternal_support_country = {
 				every_owned_fleet = {
 					limit = { NOT = { is_same_value = event_target:choosen_eternal_fleet_3 } }
@@ -476,7 +479,7 @@ country_event = {
 		}
 		custom_tooltip = "executor_mission_fleet_choosen_eternal_fleet_4"
 		hidden_effect = {
-			set_timed_country_flag = { flag = eternal_fleet_is_running days = 1800 }
+			set_timed_country_flag = { flag = eternal_fleet_is_running days = 360 }
 			event_target:eternal_support_country = {
 				every_owned_fleet = {
 					limit = { NOT = { is_same_value = event_target:choosen_eternal_fleet_4 } }
@@ -540,6 +543,71 @@ country_event = {
 				every_owned_fleet = { remove_fleet_flag = choosen_eternal_fleet }
 			}
 			remove_country_flag = eternal_fleet_attack_enenmy
+		}
+		default_hide_option = yes
+	}
+}
+
+country_event = {
+	id = kuat_EEstart.9
+	title = "kuat_EEstart.4.title"
+	desc = "kuat_EEstart.9.desc"
+	diplomatic = yes
+	picture_event_data = {
+		portrait = root.ruler
+		room = Eternal_Empire_room
+	}
+	custom_gui = "kuat_event_diplomacy_window"
+	custom_gui_option = "kuat_event_diplomacy_option"
+	show_sound = event_wind_ruins
+	is_triggered_only = yes
+	trigger = { 
+		has_origin = origin_eternalthrone 
+		has_country_flag = eternal_fleet_destroy_enenmy
+		check_variable = { which = eternal_kuat_invasion_fleet_num value >= 1 }
+	}
+	immediate = {
+		event_target:eternal_support_country = {
+			change_variable = { which = page_owned_eternal_fleet value = 1 }
+			every_owned_fleet = {
+				limit = { 
+					has_fleet_flag = eternal_kuat_invasion_fleet 
+					NOT = { has_fleet_flag = choosen_eternal_fleet }
+				}
+				prev = { change_variable = { which = list_owned_eternal_fleet value = 1 } }
+				prev = { change_variable = { which = mission_pending_eternal_fleet value = 1 } }
+				set_fleet_flag = choosen_eternal_fleet
+				save_event_target_as = choosen_eternal_fleet_1
+			}
+		}
+	}
+	option = {
+		name = kuat_EEstart.9.a
+		allow = {
+			custom_tooltip = {
+				fail_text = "kuat_EEstart.9.b.fail_tooltip"
+				NOT = { has_country_flag = eternal_fleet_is_running }
+			}
+		}
+		custom_tooltip = "executor_mission_fleet_choosen_eternal_fleet_all"
+		hidden_effect = {
+			set_timed_country_flag = { flag = eternal_fleet_is_running days = 1800 }
+			set_country_flag = kuat_enabled_epsilon_planet_killer_selector
+			event_target:eternal_support_country = { every_owned_fleet = { limit = { has_fleet_flag = choosen_eternal_fleet } set_fleet_flag = executing_eternal_fleet } }
+			country_event = { id = kuat_system_selector.1 }
+		}
+	}
+	option = {
+		name = kuat_EEstart.9.f
+		hidden_effect = {
+			event_target:eternal_support_country = {
+				clear_variable = list_owned_eternal_fleet
+				clear_variable = page_owned_eternal_fleet
+				clear_variable = mission_pending_eternal_fleet
+				clear_variable = mission_finished_eternal_fleet
+				every_owned_fleet = { remove_fleet_flag = choosen_eternal_fleet }
+			}
+			remove_country_flag = eternal_fleet_destroy_enenmy
 		}
 		default_hide_option = yes
 	}
