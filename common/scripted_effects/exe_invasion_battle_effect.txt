@@ -571,3 +571,34 @@ kuat_copy_leader_learning_system = {
 		}
 	}
 }
+
+#root:country
+kuat_set_country_command_limit = {
+	if = {
+		limit = { 
+			NOT = { command_limit = 4000 }
+			has_global_flag = exe_return_invasion_begin 
+			has_global_flag = ban_exe_invasion
+			has_tradition = tr_kuat_scum_finish
+		}
+		remove_modifier = iep_basic_country_command_limit_mult
+		clear_ship_modifier = { modifier = country_command_limit_mult }
+		export_modifier_to_variable = { modifier = country_command_limit_add variable = change_command_limit_value }
+		subtract_variable = { which = change_command_limit_value value = 3980 }
+		set_invasion_fleet_basic_modifier = { SUB = change_basic_country_command_limit_add FACTOR = change_command_limit_value }
+		if = { limit = { is_variable_set = change_command_limit_value } clear_variable = change_command_limit_value }
+	}
+	else_if = {
+		limit = { command_limit > 800 NAND = {
+			has_global_flag = exe_return_invasion_begin 
+			has_global_flag = ban_exe_invasion
+			has_tradition = tr_kuat_scum_finish
+		} }
+		remove_modifier = iep_basic_country_command_limit_mult
+		clear_ship_modifier = { modifier = country_command_limit_mult }
+		export_modifier_to_variable = { modifier = country_command_limit_add variable = change_command_limit_value }
+		subtract_variable = { which = change_command_limit_value value = 780 }
+		set_invasion_fleet_basic_modifier = { SUB = change_basic_country_command_limit_add FACTOR = change_command_limit_value }
+		if = { limit = { is_variable_set = change_command_limit_value } clear_variable = change_command_limit_value }
+	}
+}
