@@ -21,12 +21,7 @@ country_event = {
 	immediate = {
 		random_planet_within_border = {
 			limit = {
-				is_ringworld = no
-				is_star = no
-				is_colony = no
-				is_colonizable = no
-				is_capital = no
-				is_asteroid = no
+				is_planet_class = pc_frozen
 				NOT = { exists = archaeological_site }
 			}
 			planet_event = { id = kuat_legacy.2 days = 90 random = 45 }
@@ -317,12 +312,7 @@ country_event = {
 		name = kuat_legacy.13.a
 		random_planet_within_border = {
 			limit = {
-				is_star = no
-				is_colony = no
-				is_ringworld = no
-				is_capital = no
-				is_colonizable = no
-				is_asteroid = no
+				is_planet_class = pc_frozen
 				NOT = { exists = archaeological_site }
 			}
 			change_pc = pc_ocean
@@ -467,7 +457,7 @@ ship_event = {
 					event_chain = ag_legacy_invasion_chain
 				}
 				set_country_flag = fire_the_legacy_kuat_stage_4
-				country_event = { id = kuat_legacy.20 days = 30 }
+				country_event = { id = kuat_legacy.20 days = 1 }
 			}
 		}
 	}
@@ -1096,18 +1086,12 @@ fleet_event = {
 				prev.from.planet = { is_same_value = event_target:ancient_shadow_place_B }
 			} if = {
 				limit = { is_multiplayer = no }
-				if = {
-					limit = { NOT = { has_origin = origin_eternalthrone } }
-					add_research_option = tech_kuat_reactor
-				}
+				add_research_option = tech_kuat_reactor
 				create_ship_design = { design = "Name_boss_Venator" }
 				add_ship_design = last_created_design
 			} else = { every_playable_country = {
 				limit = { is_ai = no }
-				if = {
-					limit = { NOT = { has_origin = origin_eternalthrone } }
-					add_research_option = tech_kuat_reactor
-				}
+				add_research_option = tech_kuat_reactor
 				create_ship_design = { design = "Name_boss_Venator" }
 				add_ship_design = last_created_design
 			} }
@@ -1358,16 +1342,13 @@ country_event = {
 			owner = root
 		}
 		if = {
-			limit = { NOT = { has_origin = origin_eternalthrone } }
-			if = {
-				limit = { is_multiplayer = yes }
-				every_playable_country = {
-					limit = { is_ai = no }
-					set_country_flag = unlock_the_flagship_designable
-				}
+			limit = { is_multiplayer = yes }
+			every_playable_country = {
+				limit = { is_ai = no }
+				set_country_flag = unlock_the_flagship_designable
 			}
-			else = { set_country_flag = unlock_the_flagship_designable }
 		}
+		else = { set_country_flag = unlock_the_flagship_designable }
 	}
 	option = { name = "kuat_lagacy.252.a" }
 }
