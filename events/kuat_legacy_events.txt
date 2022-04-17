@@ -20,10 +20,7 @@ country_event = {
 	}
 	immediate = {
 		random_planet_within_border = {
-			limit = {
-				is_planet_class = pc_frozen
-				NOT = { exists = archaeological_site }
-			}
+			limit = { kuat_is_legacy_arc_planet = yes }
 			planet_event = { id = kuat_legacy.2 days = 90 random = 45 }
 		}
 	}
@@ -187,15 +184,13 @@ country_event = {
 	is_triggered_only = yes
 	option = {
 		name = kuat_legacy.8.a
-		hidden_effect = {
-			random_planet_within_border = {
-				limit = {
-					is_planet_class = pc_gas_giant
-					NOT = { exists = archaeological_site }
-				}
-				create_archaeological_site = kuat_lagacy_2
+		hidden_effect = { random_planet_within_border = {
+			limit = {
+				is_planet_class = pc_gas_giant
+				NOT = { exists = archaeological_site }
 			}
-		}
+			create_archaeological_site = kuat_lagacy_2
+		} }
 	}
 }
 
@@ -311,10 +306,7 @@ country_event = {
 	option = {
 		name = kuat_legacy.13.a
 		random_planet_within_border = {
-			limit = {
-				is_planet_class = pc_frozen
-				NOT = { exists = archaeological_site }
-			}
+			limit = { kuat_is_legacy_arc_planet = yes }
 			change_pc = pc_ocean
 			create_archaeological_site = kuat_lagacy_3
 		}
@@ -429,13 +421,11 @@ country_event = {
 	trigger = { is_ai = no }
 	option = {
 		name = kuat_legacy.18.a
-		hidden_effect = {
-			enable_special_project = {
-				name = exe_legacy_lock_the_message
-				location = root.capital_scope
-				owner = root
-			}
-		}
+		hidden_effect = { enable_special_project = {
+			name = exe_legacy_lock_the_message
+			location = root.capital_scope
+			owner = root
+		} }
 	}
 }
 
@@ -474,9 +464,7 @@ country_event = {
 		save_event_target_as = interesting_country
 		set_spawn_system_batch = begin
 		random_system_within_border = {
-			limit = {
-				kuat_is_kuat_system = no
-			}
+			limit = { kuat_is_kuat_system = no }
 			spawn_system = { initializer = myst_system_1 }
 		}
 		set_spawn_system_batch = end
@@ -509,14 +497,10 @@ ship_event = {
 	}
 	option = {
 		name = kuat_legacy.21.a
-		from = {
-			random_system_planet = {
-				limit = {
-					has_planet_flag = will_be_add
-				}
-				create_archaeological_site = kuat_lagacy_4
-			}
-		}
+		from = { random_system_planet = {
+			limit = { has_planet_flag = will_be_add }
+			create_archaeological_site = kuat_lagacy_4
+		} }
 	}
 }
 
@@ -621,12 +605,10 @@ fleet_event = {
 	option = {
 		name = kuat_legacy.25.a
 		small_artifact_reward = yes
-		hidden_effect = {
-			owner = {
-				country_event = { id = kuat_legacy.49 days = 240 random = 120 }
-				set_country_flag = fire_the_legacy_kuat_stage_5
-			}
-		}
+		hidden_effect = { owner = {
+			country_event = { id = kuat_legacy.49 days = 240 random = 120 }
+			set_country_flag = fire_the_legacy_kuat_stage_5
+		} }
 		from.planet = { change_pc = pc_ringworld_habitable }
 	}
 }
@@ -1080,37 +1062,44 @@ fleet_event = {
 
 	option = {
 		name = kuat_legacy.192.a
-		owner = { if = {
-			limit = { 
-				has_country_flag = ancient_shadow_place_B 
-				prev.from.planet = { is_same_value = event_target:ancient_shadow_place_B }
-			} if = {
-				limit = { is_multiplayer = no }
-				add_research_option = tech_kuat_reactor
-				create_ship_design = { design = "Name_boss_Venator" }
-				add_ship_design = last_created_design
-			} else = { every_playable_country = {
-				limit = { is_ai = no }
-				add_research_option = tech_kuat_reactor
-				create_ship_design = { design = "Name_boss_Venator" }
-				add_ship_design = last_created_design
-			} }
-		} if = {
-			limit = { 
-				has_country_flag = ancient_shadow_place 
-				prev.from.planet = { is_same_value = event_target:ancient_shadow_place }
-			} if = {
-				limit = { is_multiplayer = yes }
-				every_playable_country = {
+		owner = { 
+			if = {
+				limit = { 
+					has_country_flag = ancient_shadow_place_B 
+					prev.from.planet = { is_same_value = event_target:ancient_shadow_place_B }
+				} 
+				hidden_effect = { if = {
+					limit = { is_multiplayer = no }
+					add_research_option = tech_kuat_reactor
+					create_ship_design = { design = "Name_boss_Venator" }
+					add_ship_design = last_created_design
+				} 
+				else = { every_playable_country = {
 					limit = { is_ai = no }
+					add_research_option = tech_kuat_reactor
+					create_ship_design = { design = "Name_boss_Venator" }
+					add_ship_design = last_created_design
+				} } }
+			} 
+			if = {
+				limit = { 
+					has_country_flag = ancient_shadow_place 
+					prev.from.planet = { is_same_value = event_target:ancient_shadow_place }
+				} 
+				if = {
+					limit = { is_multiplayer = yes }
+					every_playable_country = {
+						limit = { is_ai = no }
+						set_country_flag = can_have_starbase_country
+						add_research_option = tech_kuat_starbase
+					}
+				} 
+				else = { 
 					set_country_flag = can_have_starbase_country
-					add_research_option = tech_kuat_starbase
+					add_research_option = tech_kuat_starbase 
 				}
-			} else = { 
-				set_country_flag = can_have_starbase_country
-				add_research_option = tech_kuat_starbase 
-			}
-		} }
+			} 
+		}
 	}
 }
 
@@ -1129,9 +1118,7 @@ country_event = {
 	immediate = {
 		save_event_target_as = interesting_country
 		random_system_within_border = {
-			limit = {
-				NOT = { has_star_flag = myst_system_1 }
-			}
+			limit = { NOT = { has_star_flag = myst_system_1 } }
 			spawn_system = { initializer = myst_system_2 }
 		}
 	}
@@ -1154,24 +1141,18 @@ ship_event = {
 		from = { has_star_flag = myst_system_2 }
 	}
 	immediate = {
-		fromfrom = {
-			add_event_chain_counter = {
-				event_chain = ag_legacy_invasion_chain
-				counter = ag_legacy_system_amount
-				amount = 1
-			}
-		}
+		fromfrom = { add_event_chain_counter = {
+			event_chain = ag_legacy_invasion_chain
+			counter = ag_legacy_system_amount
+			amount = 1
+		} }
 	}
 	option = {
 		name = kuat_legacy.25.a
-		from = {
-			random_system_planet = {
-				limit = {
-					has_planet_flag = will_be_add_2
-				}
-				create_archaeological_site = kuat_lagacy_7
-			}
-		}
+		from = { random_system_planet = {
+			limit = { has_planet_flag = will_be_add_2 }
+			create_archaeological_site = kuat_lagacy_7
+		} }
 	}
 }
 
@@ -1416,13 +1397,8 @@ country_event = {
 	immediate = {
 		save_event_target_as = interesting_country
 		random_system_within_border = {
-			limit = {
-				NOT = { has_star_flag = myst_system_2 }
-			}
-			spawn_system = { 
-				initializer = myst_system_3 
-				hyperlane = no
-			}
+			limit = { NOT = { has_star_flag = myst_system_2 } }
+			spawn_system = { initializer = myst_system_3 hyperlane = no }
 		}
 	}
 	option = { name = kuat_legacy.49.a }
@@ -1444,13 +1420,11 @@ ship_event = {
 		from = { has_star_flag = myst_system_3 }
 	}
 	immediate = {
-		fromfrom = {
-			add_event_chain_counter = {
-				event_chain = ag_legacy_invasion_chain
-				counter = ag_legacy_system_amount
-				amount = 1
-			}
-		}
+		fromfrom = { add_event_chain_counter = {
+			event_chain = ag_legacy_invasion_chain
+			counter = ag_legacy_system_amount
+			amount = 1
+		} }
 	}
 	option = { name = kuat_legacy.25.a }
 }
@@ -1508,16 +1482,10 @@ ship_event = {
 	}
 	option = { 
 		name = kuat_legacy.61.a 
-		hidden_effect = {
-			solar_system = {
-				random_system_planet = {
-					limit = {
-						has_planet_flag = will_be_add_3
-					}
-					create_archaeological_site = kuat_lagacy_8
-				}
-			}
-		}
+		hidden_effect = { solar_system = { random_system_planet = {
+			limit = { has_planet_flag = will_be_add_3 }
+			create_archaeological_site = kuat_lagacy_8
+		} } }
 	}
 }
 
@@ -1633,12 +1601,10 @@ fleet_event = {
 				}
 			}
 			else = { owner = { give_technology = { tech = tech_kuat_shield message = no } } }
-			owner = { 
-				if = {
-					limit = { NOT = { has_origin = origin_eternalthrone } }
-					country_event = { id = kuat_legacy.26 days = 360 random = 180 }
-				}
-			}
+			owner = { if = {
+				limit = { NOT = { has_origin = origin_eternalthrone } }
+				country_event = { id = kuat_legacy.26 days = 360 random = 180 }
+			} }
 			event_target:will_be_add_ringworld_shielded = { 
 				change_pc = pc_ringworld_habitable 
 				add_deposit = d_str_kuat_spring
@@ -1730,13 +1696,11 @@ ship_event = {
 		from = { has_star_flag = myst_system_4 }
 	}
 	immediate = {
-		fromfrom = {
-			add_event_chain_counter = {
-				event_chain = ag_legacy_invasion_chain
-				counter = ag_legacy_system_amount
-				amount = 1
-			}
-		}
+		fromfrom = { add_event_chain_counter = {
+			event_chain = ag_legacy_invasion_chain
+			counter = ag_legacy_system_amount
+			amount = 1
+		} }
 	}
 	option = { name = kuat_legacy.25.a }
 }
@@ -1811,7 +1775,8 @@ country_event = {
 					set_country_flag = impact_kuat_exist
 				}
 				country_event = { id = kuat_legacy.27 days = 720 random = 180 }
-			} else = { end_event_chain = ag_legacy_invasion_chain set_country_flag = kuat_war_goal } 
+			} 
+			else = { end_event_chain = ag_legacy_invasion_chain set_country_flag = kuat_war_goal } 
 		}
 	}
 }
