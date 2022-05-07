@@ -1,0 +1,256 @@
+namespace = kuat_situation
+
+planet_event = {
+	id = kuat_situation.9999
+	title = kuat_situation.9999.name
+	desc = kuat_situation.9999.desc
+	picture = GFX_evt_city_planet
+	is_triggered_only = yes
+	show_sound = event_default
+
+	location = root
+
+	pre_triggers = {
+		has_owner = yes
+		is_capital = yes
+	}
+
+	trigger = {
+		NOT = { has_planet_flag = fire_only_once_situation }
+		owner = { has_country_flag = chossen_the_eternal_path }
+	}
+
+	immediate = { set_planet_flag = fire_only_once_situation }
+
+	option = {
+		name = INTERESTING
+		owner = { start_situation = { type = situation_unlocked_the_eternal_fleet target = root } }
+	}
+}
+
+# Hostile path random event
+situation_event = {
+	id = kuat_situation.1
+	title = kuat_situation.1.name
+	desc = kuat_situation.1.desc
+	picture = GFX_evt_ship_in_orbit
+	show_sound = event_alien_nature
+	is_triggered_only = yes
+	location = target
+
+	trigger = {
+		current_situation_approach = situation_hositile_altitude
+		NOR = {
+			has_situation_flag = kuat_random_event_hositle
+			current_severity_level = severity_3
+		}
+	}
+
+	immediate = { set_situation_flag = kuat_random_event_hositle }
+
+	option = {
+		name = kuat_situation.1.A
+		custom_tooltip = kuat_situation.1.A.tooltip
+		hidden_effect = { set_situation_flag = kuat_very_hostile }
+	}
+	option = {
+		name = kuat_situation.1.B
+		custom_tooltip = kuat_situation.1.B.tooltip
+		hidden_effect = { set_situation_flag = kuat_hostile }
+		small_artifact_reward = yes
+	}
+}
+
+situation_event = {
+	id = kuat_situation.2
+	title = kuat_situation.2.name
+	desc = kuat_situation.2.desc
+	picture = GFX_evt_ancient_databank
+	show_sound = event_activating_unknown_technology
+	is_triggered_only = yes
+	location = target
+
+	trigger = {
+		current_situation_approach = situation_netural_altitude
+		NOR = {
+			has_situation_flag = kuat_random_event_netural
+			current_severity_level = severity_3
+		}
+	}
+
+	immediate = { set_situation_flag = kuat_random_event_netural }
+
+	option = {
+		name = kuat_situation.2.A
+		custom_tooltip = kuat_situation.2.A.tooltip
+		hidden_effect = { set_situation_flag = kuat_counrsey }
+	}
+	option = {
+		name = kuat_situation.2.B
+		custom_tooltip = kuat_situation.2.B.tooltip
+		small_artifact_reward = yes
+	}
+}
+
+situation_event = {
+	id = kuat_situation.3
+	title = kuat_situation.3.name
+	desc = kuat_situation.3.desc
+	picture = GFX_evt_sapient_AI
+	show_sound = event_ai_started
+	is_triggered_only = yes
+	location = target
+
+	trigger = {
+		current_situation_approach = situation_friendly_altitude
+		NOR = {
+			has_situation_flag = kuat_random_event_friendly
+			current_severity_level = severity_3
+		}
+	}
+
+	immediate = { set_situation_flag = kuat_random_event_friendly }
+
+	option = {
+		name = kuat_situation.3.A
+		custom_tooltip = kuat_situation.3.A.tooltip
+		hidden_effect = { set_situation_flag = kuat_acception_ai }
+	}
+	option = {
+		name = kuat_situation.3.B
+		custom_tooltip = kuat_situation.3.B.tooltip
+		hidden_effect = { set_situation_flag = kuat_refuse_ai }
+		large_artifact_reward = yes
+	}
+}
+
+#50% event
+situation_event = {
+	id = kuat_situation.4
+	title = kuat_situation.4.name
+	desc = kuat_situation.4.desc
+	picture = GFX_evt_sapient_AI
+	show_sound = event_ai_started
+	is_triggered_only = yes
+	location = target
+
+	option = {
+		name = kuat_situation.4.A
+		custom_tooltip = kuat_situation.4.A.tooltip
+		set_situation_approach = situation_friendly_altitude
+	}
+	option = {
+		name = kuat_situation.4.B
+		custom_tooltip = kuat_situation.4.B.tooltip
+		set_situation_approach = situation_netural_altitude
+	}
+	option = {
+		name = kuat_situation.4.C
+		custom_tooltip = kuat_situation.4.C.tooltip
+		set_situation_approach = situation_hositile_altitude
+	}
+}
+
+#150% event
+situation_event = {
+	id = kuat_situation.5
+	title = kuat_situation.5.name
+	desc = kuat_situation.5.desc
+	picture = GFX_evt_sapient_AI
+	show_sound = event_ai_started
+	is_triggered_only = yes
+	location = target
+
+	option = {
+		name = kuat_situation.5.A
+		custom_tooltip = kuat_situation.5.A.tooltip
+		set_situation_approach = situation_friendly_altitude
+	}
+	option = {
+		name = kuat_situation.5.B
+		custom_tooltip = kuat_situation.5.B.tooltip
+		set_situation_approach = situation_netural_altitude
+	}
+	option = {
+		name = kuat_situation.5.C
+		custom_tooltip = kuat_situation.5.C.tooltip
+		set_situation_approach = situation_hositile_altitude
+	}
+}
+
+#end events #hositile
+situation_event = {
+	id = kuat_situation.6
+	title = kuat_situation.6.name
+	desc = kuat_situation.6.desc
+	picture = GFX_evt_em_war_4
+	show_sound = event_ai_started
+	is_triggered_only = yes
+	location = target
+
+	option = {
+		name = kuat_situation.6.A
+		custom_tooltip = kuat_situation.6.A.tooltip
+		hidden_effect = { 
+			target = { add_planet_devastation = 75 }
+			large_artifact_reward = yes 
+		}
+	}
+	after = { destroy_situation = this }
+}
+
+#end events #neutral
+situation_event = {
+	id = kuat_situation.7
+	title = kuat_situation.7.name
+	desc = kuat_situation.7.desc
+	picture = GFX_evt_em_war_2
+	show_sound = event_ai_started
+	is_triggered_only = yes
+	location = target
+
+	option = {
+		name = kuat_situation.7.A
+		custom_tooltip = kuat_situation.7.A.tooltip
+		hidden_effect = { 
+			target = { add_planet_devastation = 75 }
+			large_artifact_reward = yes 
+		}
+	}
+	option = {
+		name = kuat_situation.7.B
+		custom_tooltip = kuat_situation.7.B.tooltip
+		hidden_effect = {
+			every_playable_country = {
+				limit = { is_ai = no }
+				create_ship_design = { design = Name_boss_crisis_EFS_3 }
+				add_ship_design = last_created_design
+			}
+		}
+	}
+	after = { destroy_situation = this }
+}
+
+#end events #friendly
+situation_event = {
+	id = kuat_situation.8
+	title = kuat_situation.8.name
+	desc = kuat_situation.8.desc
+	picture = GFX_evt_em_war_1
+	show_sound = event_ai_started
+	is_triggered_only = yes
+	location = target
+
+	option = {
+		name = kuat_situation.8.A
+		custom_tooltip = kuat_situation.8.A.tooltip
+		hidden_effect = {
+			every_playable_country = {
+				limit = { is_ai = no }
+				create_ship_design = { design = Name_boss_crisis_EFS_3 }
+				add_ship_design = last_created_design
+			}
+		}
+	}
+	after = { destroy_situation = this }
+}

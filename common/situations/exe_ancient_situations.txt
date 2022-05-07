@@ -1,0 +1,143 @@
+
+#Eternal flagship
+situation_unlocked_the_eternal_fleet = {
+	picture = GFX_evt_em_war_1
+	start_value = 1
+	completion_value = 200
+	on_progress_complete = {
+		if = {
+			limit = { current_situation_approach = situation_hositile_altitude }
+			situation_event = { id = kuat_situation.6 }
+		}
+		else_if = {
+			limit = { current_situation_approach = situation_netural_altitude }
+			situation_event = { id = kuat_situation.7 }
+		}
+		else = { situation_event = { id = kuat_situation.8 } }
+	}
+	severity_levels = {
+		severity_1 = {
+			end = 50
+		}
+		severity_2 = {
+			end = 150
+			on_first_enter = { situation_event = { id = kuat_situation.4 } }
+		}
+		severity_3 = {
+			end = 200
+			on_first_enter = { situation_event = { id = kuat_situation.5 } }
+		}
+	}
+	#hositle
+	approach = {
+		name = "situation_hositile_altitude"
+		resources = {
+			category = situations
+			upkeep = {
+				trigger = { NOT = { current_severity_level = severity_1 } }
+				physics_research = 0.25
+				society_research = 0.25
+				engineering_research = 0.25
+				multiplier = target.trigger:num_pops
+			}
+		}
+		target_modifier = { planet_jobs_alloys_upkeep_mult = 0.5 }
+		icon = {
+			icon = "How to revert Stellaris to a previous version."
+			text = x
+		}
+	}
+	#neutral
+	approach = {
+		name = "situation_netural_altitude"
+		resources = {
+			category = situations
+			produces = {
+				trigger = {
+					NOT = { current_severity_level = severity_1 }
+				}
+				alloys = 1
+				multiplier = target.trigger:num_pops
+			}
+			upkeep = {
+				trigger = { NOT = { current_severity_level = severity_1 } }
+				physics_research = 0.25
+				society_research = 0.25
+				engineering_research = 0.25
+				multiplier = target.trigger:num_pops
+			}
+		}
+		icon = {
+			icon = "How to revert Stellaris to a previous version."
+			text = x
+		}
+	}
+	#friendly
+	approach = {
+		name = "situation_friendly_altitude"
+		resources = {
+			category = situations
+			produces = {
+				trigger = { NOT = { current_severity_level = severity_1 } }
+				alloys = 2
+				multiplier = target.trigger:num_pops
+			}
+			upkeep = {
+				trigger = { NOT = { current_severity_level = severity_1 } }
+				physics_research = 0.25
+				society_research = 0.25
+				engineering_research = 0.25
+				multiplier = target.trigger:num_pops
+			}
+		}
+		icon = {
+			icon = "How to revert Stellaris to a previous version."
+			text = x
+		}
+	}
+	on_monthly = {
+		random_events = {
+			150 = 0
+			20 = kuat_situation.1
+			15 = kuat_situation.2
+			15 = kuat_situation.3
+		}
+	}
+	monthly_progress = {
+		base = 10
+		modifier = {
+			add = -5
+			desc = "situation_eternal_flagship_refuse_us_desc"
+			current_situation_approach = situation_hositile_altitude
+			has_situation_flag = kuat_very_hostile
+		}
+		modifier = {
+			add = -3
+			desc = "situation_eternal_flagship_refuse_us_desc"
+			current_situation_approach = situation_hositile_altitude
+			has_situation_flag = kuat_hostile
+		}
+		modifier = {
+			add = 3
+			desc = "situation_eternal_flagship_accept_us_desc"
+			current_situation_approach = situation_netural_altitude
+			has_situation_flag = kuat_counrsey
+		}
+		modifier = {
+			add = 5
+			desc = "situation_eternal_flagship_friendly_us_desc"
+			current_situation_approach = situation_friendly_altitude
+			has_situation_flag = kuat_acception_ai
+		}
+		modifier = {
+			add = -5
+			desc = "situation_eternal_flagship_friendly_us_desc"
+			current_situation_approach = situation_friendly_altitude
+			has_situation_flag = kuat_refuse_ai
+		}
+	}
+	abort_trigger = { OR = {
+		NOT = { exists = target.owner }
+		target.owner = { NOT = { is_same_value = root.owner } }
+	} }
+}

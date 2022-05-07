@@ -364,7 +364,7 @@ event = {
 				else = { random_system = { ag_exe_spawn_outer_gate_fallback = yes } }
 			} } }
 		}
-		random_country = { country_event = { id = exe_invasion.128 } }
+		event_target:kuat_system_fleet = { create_elternal_system_warbase = { DAYS = 400 } }
 	}
 }
 
@@ -396,20 +396,6 @@ country_event = {
 		name = "exe_invasion.10.a"
 		begin_event_chain = { event_chain = ag_exe_invasion_chain }
 	}
-}
-
-country_event = {
-	id = exe_invasion.128
-	hide_window = yes
-	is_triggered_only = yes
-	fire_only_once = yes
-	trigger = {
-		OR = {
-			has_global_flag = difficult_exe_invasion
-			has_global_flag = normal_exe_invasion
-		}
-	}
-	immediate = { create_elternal_warbase = yes }
 }
 
 fleet_event = {
@@ -494,15 +480,15 @@ country_event = {
 					is_same_value = root.from
 					is_country_type = ag_kuat_invasion_country
 				} } }
-				clear_ship_modifier = { modifier = ship_weapon_damage DAYS = 360 }
-				clear_ship_modifier = { modifier = ship_fire_rate_mult DAYS = 360 }
-				clear_ship_modifier = { modifier = ship_weapon_range_mult DAYS = 360 }
-				clear_ship_modifier = { modifier = weapon_type_energy_weapon_damage_mult DAYS = 360 }
-				clear_ship_modifier = { modifier = weapon_type_kinetic_weapon_damage_mult DAYS = 360 }
-				clear_ship_modifier = { modifier = weapon_type_explosive_weapon_damage_mult DAYS = 360 }
-				clear_ship_modifier = { modifier = weapon_type_energy_weapon_fire_rate_mult DAYS = 360 }
-				clear_ship_modifier = { modifier = weapon_type_explosive_weapon_fire_rate_mult DAYS = 360 }
-				clear_ship_modifier = { modifier = weapon_type_kinetic_weapon_fire_rate_mult DAYS = 360 }
+				clear_ship_modifier = { modifier = ship_weapon_damage multiply = 0.25 DAYS = 360 }
+				clear_ship_modifier = { modifier = ship_fire_rate_mult multiply = 0.25 DAYS = 360 }
+				clear_ship_modifier = { modifier = ship_weapon_range_mult multiply = 0.25 DAYS = 360 }
+				clear_ship_modifier = { modifier = weapon_type_energy_weapon_damage_mult multiply = 0.25 DAYS = 360 }
+				clear_ship_modifier = { modifier = weapon_type_kinetic_weapon_damage_mult multiply = 0.25 DAYS = 360 }
+				clear_ship_modifier = { modifier = weapon_type_explosive_weapon_damage_mult multiply = 0.25 DAYS = 360 }
+				clear_ship_modifier = { modifier = weapon_type_energy_weapon_fire_rate_mult multiply = 0.25 DAYS = 360 }
+				clear_ship_modifier = { modifier = weapon_type_explosive_weapon_fire_rate_mult multiply = 0.25 DAYS = 360 }
+				clear_ship_modifier = { modifier = weapon_type_kinetic_weapon_fire_rate_mult multiply = 0.25 DAYS = 360 }
 			}
 			random_ambient_object = {
 				limit = { has_ambient_object_flag = space_storm_object }
@@ -1160,15 +1146,14 @@ ship_event = {
 	custom_gui = "kuat_event_window"
 	custom_gui_option = "kuat_event_option"
 	is_triggered_only = yes
-	immediate = {
+	immediate = { 
+		owner = { set_country_flag = chossen_the_eternal_path } 
 		owner = { reset_return_eternal_fleet = yes }
-		every_playable_country = {
-			limit = { is_ai = no }
-			create_ship_design = { design = Name_boss_crisis_EFS_3 }
-			add_ship_design = last_created_design
-		}
 	}
-	option = { name = exe_invasion.1003.a }
+	option = { 
+		name = exe_invasion.1003.a 
+		hidden_effect = { owner.capital_scope = { planet_event = { id = kuat_situation.9999 } } }
+	}
 }
 
 #flagship protection difficult
@@ -1193,7 +1178,6 @@ country_event = {
 				if = {
 					limit = { has_global_flag = enable_modifer_check }
 					every_owned_ship = {
-						limit = { NOT = { is_ship_size = scout_UAV } }
 						if = {
 							limit = { kuat_is_flagship_system_protection = yes }
 							set_ship_flag = is_invisiable_trigger
@@ -1234,9 +1218,8 @@ ship_event = {
 			repair_ship = yes ship_event = { id = exe_invasion.114 days = 1 }
 		}
 		else = {
-			remove_executor_power = yes
+			remove_executor_power = yes remove_ship_flag = is_invisiable_trigger
 			fleet = { while = { count = Eternal_support_var remove_modifier = Eternal_support } clear_variable = Eternal_support_var }
-			remove_ship_flag = is_invisiable_trigger
 		}
 	}
 }
@@ -1525,19 +1508,31 @@ ship_event = {
 	immediate = {
 		if = {
 			limit = { is_in_combat = yes }
-			set_eternal_fleet_mult_modifier = { 
-				hull_regen_add_perc = ship_hull_regen_add_perc 				hull_mult = ship_hull_mult
-				shield_regen_add_perc = ship_shield_regen_add_perc 			shield_mult = ship_shield_mult
-				armor_regen_add_perc = ship_armor_regen_add_perc 			armor_mult = ship_armor_mult
-				shield_reduction = ship_shield_reduction					armor_reduction = ship_armor_reduction
-				weapon_range_mult = ship_weapon_range_mult					fire_rate_mult = ship_fire_rate_mult
-				shield_penetration = ship_shield_penetration_mult			armor_penetration = ship_armor_penetration_mult
-				weapon_damage_own = ship_weapon_damage						weapon_type_explosive = weapon_type_explosive_weapon_damage_mult 
-				weapon_type_energy = weapon_type_energy_weapon_damage_mult	weapon_type_kinetic = weapon_type_kinetic_weapon_damage_mult
-				tracking_own = ship_tracking_mult							tracking_add_own = ship_tracking_add
-				accuracy_own = ship_accuracy_mult							accuracy_add_own = ship_accuracy_add
-				shield_add = ship_shield_add								armor_add = ship_armor_add
-				hull_damage_own = ship_hull_damage_mult						shield_damage_own = ship_shield_damage_mult
+			set_eternal_fleet_mult_modifier = {
+				hull_regen_add_perc = ship_hull_regen_add_perc
+				hull_mult = ship_hull_mult
+				shield_regen_add_perc = ship_shield_regen_add_perc
+				shield_mult = ship_shield_mult
+				armor_regen_add_perc = ship_armor_regen_add_perc
+				armor_mult = ship_armor_mult
+				shield_reduction = ship_shield_reduction
+				armor_reduction = ship_armor_reduction
+				weapon_range_mult = ship_weapon_range_mult
+				fire_rate_mult = ship_fire_rate_mult
+				shield_penetration = ship_shield_penetration_mult
+				armor_penetration = ship_armor_penetration_mult
+				weapon_damage_own = ship_weapon_damage
+				weapon_type_explosive = weapon_type_explosive_weapon_damage_mult
+				weapon_type_energy = weapon_type_energy_weapon_damage_mult
+				weapon_type_kinetic = weapon_type_kinetic_weapon_damage_mult
+				tracking_own = ship_tracking_mult
+				tracking_add_own = ship_tracking_add
+				accuracy_own = ship_accuracy_mult
+				accuracy_add_own = ship_accuracy_add
+				shield_add = ship_shield_add
+				armor_add = ship_armor_add
+				hull_damage_own = ship_hull_damage_mult
+				shield_damage_own = ship_shield_damage_mult
 				armor_damage_own = ship_armor_damage_mult
 			}
 			set_ship_flag = fire_ship_var
@@ -1559,19 +1554,31 @@ ship_event = {
 	immediate = {
 		if = {
 			limit = { is_in_combat = yes }
-			set_ban_eternal_fleet_mult_modifier = { 
-				hull_regen_add_perc = ship_hull_regen_add_perc 				hull_mult = ship_hull_mult
-				shield_regen_add_perc = ship_shield_regen_add_perc 			shield_mult = ship_shield_mult
-				armor_regen_add_perc = ship_armor_regen_add_perc 			armor_mult = ship_armor_mult
-				shield_reduction = ship_shield_reduction					armor_reduction = ship_armor_reduction
-				weapon_range_mult = ship_weapon_range_mult					fire_rate_mult = ship_fire_rate_mult
-				shield_penetration = ship_shield_penetration_mult			armor_penetration = ship_armor_penetration_mult
-				weapon_damage_own = ship_weapon_damage						weapon_type_explosive = weapon_type_explosive_weapon_damage_mult 
-				weapon_type_energy = weapon_type_energy_weapon_damage_mult	weapon_type_kinetic = weapon_type_kinetic_weapon_damage_mult
-				tracking_own = ship_tracking_mult							tracking_add_own = ship_tracking_add
-				accuracy_own = ship_accuracy_mult							accuracy_add_own = ship_accuracy_add
-				shield_add = ship_shield_add								armor_add = ship_armor_add
-				hull_damage_own = ship_hull_damage_mult						shield_damage_own = ship_shield_damage_mult
+			set_ban_eternal_fleet_mult_modifier = {
+				hull_regen_add_perc = ship_hull_regen_add_perc
+				hull_mult = ship_hull_mult
+				shield_regen_add_perc = ship_shield_regen_add_perc
+				shield_mult = ship_shield_mult
+				armor_regen_add_perc = ship_armor_regen_add_perc
+				armor_mult = ship_armor_mult
+				shield_reduction = ship_shield_reduction
+				armor_reduction = ship_armor_reduction
+				weapon_range_mult = ship_weapon_range_mult
+				fire_rate_mult = ship_fire_rate_mult
+				shield_penetration = ship_shield_penetration_mult
+				armor_penetration = ship_armor_penetration_mult
+				weapon_damage_own = ship_weapon_damage
+				weapon_type_explosive = weapon_type_explosive_weapon_damage_mult
+				weapon_type_energy = weapon_type_energy_weapon_damage_mult
+				weapon_type_kinetic = weapon_type_kinetic_weapon_damage_mult
+				tracking_own = ship_tracking_mult
+				tracking_add_own = ship_tracking_add
+				accuracy_own = ship_accuracy_mult
+				accuracy_add_own = ship_accuracy_add
+				shield_add = ship_shield_add
+				armor_add = ship_armor_add
+				hull_damage_own = ship_hull_damage_mult
+				shield_damage_own = ship_shield_damage_mult
 				armor_damage_own = ship_armor_damage_mult
 			}
 			set_ship_flag = fire_ship_var
@@ -1602,7 +1609,7 @@ ship_event = {
 		}
 		else = {
 			clear_battleship_modifier_fixed_ship = yes
-			remove_executor_power = yes
+			fleet = { remove_fleet_flag = eternal_learned_leader }
 			remove_ship_flag = fire_ship_var
 			remove_ship_flag = is_modifiering
 		}
@@ -1619,27 +1626,33 @@ ship_event = {
 			limit = { is_in_combat = yes }
 			if = {
 				limit = { NOT = { has_ship_flag = fire_ship_var } }
-				set_eternal_fleet_mult_modifier = { 
-					shield_penetration = ship_shield_penetration_mult	armor_penetration = ship_armor_penetration_mult
-					armor_damage = ship_armor_damage_mult				shield_damage = ship_shield_damage_mult
-					hull_damage = ship_hull_damage_mult					weapon_damage = ship_weapon_damage
+				set_eternal_fleet_mult_modifier = {
+					shield_penetration = ship_shield_penetration_mult
+					armor_penetration = ship_armor_penetration_mult
+					armor_damage = ship_armor_damage_mult
+					shield_damage = ship_shield_damage_mult
+					hull_damage = ship_hull_damage_mult
+					weapon_damage = ship_weapon_damage
 				}
 				set_ship_flag = fire_ship_var
 				ship_event = { id = exe_invasion.131 days = 3 }
 			}
 			else_if = {
 				limit = { has_ship_flag = fire_ship_var }
-				set_eternal_fleet_mult_modifier = { 
-					shield_penetration = ship_shield_penetration_mult	armor_penetration = ship_armor_penetration_mult
-					armor_damage = ship_armor_damage_mult				shield_damage = ship_shield_damage_mult
-					hull_damage = ship_hull_damage_mult					weapon_damage = ship_weapon_damage
+				set_eternal_fleet_mult_modifier = {
+					shield_penetration = ship_shield_penetration_mult
+					armor_penetration = ship_armor_penetration_mult
+					armor_damage = ship_armor_damage_mult
+					shield_damage = ship_shield_damage_mult
+					hull_damage = ship_hull_damage_mult
+					weapon_damage = ship_weapon_damage
 				}
 				ship_event = { id = exe_invasion.131 days = 1 }
 			}
 		}
 		else = {
 			clear_battleship_modifier_fixed_ship = yes
-			remove_executor_power = yes
+			fleet = { remove_fleet_flag = eternal_learned_leader }
 			remove_ship_flag = fire_ship_var
 			remove_ship_flag = is_modifiering
 		}
@@ -1655,16 +1668,19 @@ ship_event = {
 		if = {
 			limit = { is_in_combat = yes }
 			set_ban_eternal_fleet_mult_modifier = { 
-				shield_penetration = ship_shield_penetration_mult	armor_penetration = ship_armor_penetration_mult
-				armor_damage = ship_armor_damage_mult				shield_damage = ship_shield_damage_mult
-				hull_damage = ship_hull_damage_mult					weapon_damage = ship_weapon_damage
+				shield_penetration = ship_shield_penetration_mult
+				armor_penetration = ship_armor_penetration_mult
+				armor_damage = ship_armor_damage_mult
+				shield_damage = ship_shield_damage_mult
+				hull_damage = ship_hull_damage_mult
+				weapon_damage = ship_weapon_damage
 			}
 			set_ship_flag = fire_ship_var
 			ship_event = { id = exe_invasion.136 days = 1 }
 		}
 		else = {
 			clear_battleship_modifier_fixed_ship = yes
-			remove_executor_power = yes
+			fleet = { remove_fleet_flag = eternal_learned_leader }
 			remove_ship_flag = fire_ship_var
 			remove_ship_flag = is_modifiering
 		}
@@ -2195,13 +2211,12 @@ fleet_event = {
 	hide_window = yes
 	is_triggered_only = yes
 	trigger = { owner = { is_country_type = ag_kuat_invasion_country } }
-	immediate = {
-		every_owned_ship = {
-			set_timed_ship_flag = { flag = inviciable_time_for_gate days = 1 }
-			eternal_increase_executor_power = { DAYS = 1 }
-			ship_event = { id = exe_invasion.1988 }
-		}
-	}
+	immediate = { every_owned_ship = {
+		set_timed_ship_flag = { flag = inviciable_time_for_gate days = 1 }
+		eternal_increase_executor_power = { DAYS = -1 }
+		add_modifier = { modifier = Eternal_support multiplier = 100 days = -1 }
+		ship_event = { id = exe_invasion.1988 }
+	} }
 }
 
 ship_event = {
@@ -2220,7 +2235,7 @@ ship_event = {
 			repair_ship = yes
 			ship_event = { id = exe_invasion.1988 days = 1 }
 		}
-		else = { remove_executor_power = yes }
+		else = { remove_executor_power = yes remove_modifier = Eternal_support }
 	}
 }
 
