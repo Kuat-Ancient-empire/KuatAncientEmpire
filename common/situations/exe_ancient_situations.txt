@@ -2,9 +2,12 @@
 #Eternal flagship
 situation_unlocked_the_eternal_fleet = {
 	picture = GFX_evt_em_war_1
+	complete_icon_frame = GFX_situation_outcome_frame_blue
+	complete_icon = GFX_situation_outcome_unknown
 	start_value = 1
 	completion_value = 200
 	on_progress_complete = {
+		custom_tooltip = situation_unknown_outcome_approach
 		if = {
 			limit = { current_situation_approach = situation_hositile_altitude }
 			situation_event = { id = kuat_situation.6 }
@@ -17,20 +20,31 @@ situation_unlocked_the_eternal_fleet = {
 	}
 	severity_levels = {
 		severity_1 = {
+			icon = GFX_situation_stage_1
+			icon_background = GFX_situation_stage_frame_blue
 			end = 50
+			custom_tooltip = stage_unknown_effects
 		}
 		severity_2 = {
+			icon = GFX_situation_stage_2
+			icon_background = GFX_situation_stage_frame_blue
 			end = 150
 			on_first_enter = { situation_event = { id = kuat_situation.4 } }
+			custom_tooltip = stage_unknown_effects
 		}
 		severity_3 = {
+			icon = GFX_situation_stage_3
+			icon_background = GFX_situation_stage_frame_blue
 			end = 200
 			on_first_enter = { situation_event = { id = kuat_situation.5 } }
+			custom_tooltip = stage_unknown_effects
 		}
 	}
 	#hositle
 	approach = {
 		name = "situation_hositile_altitude"
+		icon = GFX_situation_approach_research
+		icon_background = GFX_situation_approach_bg_red
 		resources = {
 			category = situations
 			upkeep = {
@@ -41,15 +55,16 @@ situation_unlocked_the_eternal_fleet = {
 				multiplier = target.trigger:num_pops
 			}
 		}
-		target_modifier = { planet_jobs_alloys_upkeep_mult = 0.5 }
-		icon = {
-			icon = "How to revert Stellaris to a previous version."
-			text = x
+		on_select = {
+			custom_tooltip = approach_outcome_tooltip
 		}
+		target_modifier = { planet_jobs_alloys_upkeep_mult = 0.5 }
 	}
 	#neutral
 	approach = {
 		name = "situation_netural_altitude"
+		icon = GFX_situation_approach_research
+		icon_background = GFX_situation_approach_bg_yellow
 		resources = {
 			category = situations
 			produces = {
@@ -67,14 +82,13 @@ situation_unlocked_the_eternal_fleet = {
 				multiplier = target.trigger:num_pops
 			}
 		}
-		icon = {
-			icon = "How to revert Stellaris to a previous version."
-			text = x
-		}
+		on_select = { custom_tooltip = approach_outcome_tooltip }
 	}
 	#friendly
 	approach = {
 		name = "situation_friendly_altitude"
+		icon = GFX_situation_approach_research
+		icon_background = GFX_situation_approach_bg_green
 		resources = {
 			category = situations
 			produces = {
@@ -90,10 +104,7 @@ situation_unlocked_the_eternal_fleet = {
 				multiplier = target.trigger:num_pops
 			}
 		}
-		icon = {
-			icon = "How to revert Stellaris to a previous version."
-			text = x
-		}
+		on_select = { custom_tooltip = approach_outcome_tooltip }
 	}
 	on_monthly = {
 		random_events = {
