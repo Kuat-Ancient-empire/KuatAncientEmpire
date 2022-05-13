@@ -1,5 +1,6 @@
 
 kuat_system_selector_initialization = {
+	optimize_memory
 	set_variable = { which = kuat_system_selector_countries_page value = 1 }
 	set_variable = { which = kuat_system_selector_star_classes_page value = 1 }
 	if = {
@@ -38,6 +39,7 @@ kuat_system_selector_initialization = {
 	}
 }
 kuat_system_selector_load_page_country = {
+	optimize_memory
 	kuat_system_selector_clear_targets_country = yes
 	if = { limit = { check_variable = { which = kuat_system_selector_countries_page value = 1 } }
 		every_country = { limit = { has_country_flag = kuat_system_selector_country_1 } kuat_system_selector_load_page_country_get_targets = { kuat_page_seq = 1 } }
@@ -116,6 +118,7 @@ kuat_system_selector_load_page_country = {
 	}
 }
 kuat_system_selector_load_page_country_get_targets = {
+	optimize_memory
 	if = { limit = { has_country_flag = kuat_system_selector_country_$kuat_page_seq$_1 } save_global_event_target_as = kuat_system_selector_country_1 }
 	else_if = { limit = { has_country_flag = kuat_system_selector_country_$kuat_page_seq$_2 } save_global_event_target_as = kuat_system_selector_country_2 }
 	else_if = { limit = { has_country_flag = kuat_system_selector_country_$kuat_page_seq$_3 } save_global_event_target_as = kuat_system_selector_country_3 }
@@ -127,6 +130,7 @@ kuat_system_selector_load_page_country_get_targets = {
 	else_if = { limit = { has_country_flag = kuat_system_selector_country_$kuat_page_seq$_9 } save_global_event_target_as = kuat_system_selector_country_9 }
 }
 kuat_system_selector_clear_targets_country = {
+	optimize_memory
 	if = { limit = { exists = event_target:kuat_system_selector_country_1 } clear_global_event_target = kuat_system_selector_country_1 }
 	if = { limit = { exists = event_target:kuat_system_selector_country_2 } clear_global_event_target = kuat_system_selector_country_2 }
 	if = { limit = { exists = event_target:kuat_system_selector_country_3 } clear_global_event_target = kuat_system_selector_country_3 }
@@ -138,6 +142,7 @@ kuat_system_selector_clear_targets_country = {
 	if = { limit = { exists = event_target:kuat_system_selector_country_9 } clear_global_event_target = kuat_system_selector_country_9 }
 }
 kuat_system_selector_after_effect = {
+	optimize_memory
 	every_country = {
 		limit = { has_country_flag = kuat_system_selector_country }
 		remove_country_flag = kuat_system_selector_country
@@ -161,6 +166,7 @@ kuat_system_selector_after_effect = {
 # Scope: global_event_country
 # Prev: Target Country
 kuat_system_selector_set_target_country_flag = {
+	optimize_memory
 	if = { limit = { check_variable = { which = kuat_system_selector_countries_page_total value = 1 } } prev = { set_country_flag = kuat_system_selector_country_1 set_country_flag = kuat_system_selector_country_1_$kuat_country_seq$ } }
 	else_if = { limit = { check_variable = { which = kuat_system_selector_countries_page_total value = 2 } } prev = { set_country_flag = kuat_system_selector_country_2 set_country_flag = kuat_system_selector_country_2_$kuat_country_seq$ } }
 	else_if = { limit = { check_variable = { which = kuat_system_selector_countries_page_total value = 3 } } prev = { set_country_flag = kuat_system_selector_country_3 set_country_flag = kuat_system_selector_country_3_$kuat_country_seq$ } }
@@ -188,6 +194,7 @@ kuat_system_selector_set_target_country_flag = {
 	else_if = { limit = { check_variable = { which = kuat_system_selector_countries_page_total value = 25 } } prev = { set_country_flag = kuat_system_selector_country_25 set_country_flag = kuat_system_selector_country_25_$kuat_country_seq$ } }
 }
 kuat_system_selector_clear_target_country_flag = {
+	optimize_memory
 	switch = {
 		trigger = has_country_flag
 		kuat_system_selector_country_1 = { kuat_system_selector_clear_target_country_flag_1 = { kuat_page_seq = 1 } }
@@ -218,6 +225,7 @@ kuat_system_selector_clear_target_country_flag = {
 	}
 }
 kuat_system_selector_clear_target_country_flag_1 = {
+	optimize_memory
 	remove_country_flag = kuat_system_selector_country_$kuat_page_seq$
 	remove_country_flag = kuat_system_selector_country_$kuat_page_seq$_1
 	remove_country_flag = kuat_system_selector_country_$kuat_page_seq$_2
@@ -230,6 +238,7 @@ kuat_system_selector_clear_target_country_flag_1 = {
 	remove_country_flag = kuat_system_selector_country_$kuat_page_seq$_9
 }
 kuat_system_selector_select_unknown_country = {
+	optimize_memory
 	if = {
 		limit = { NOT = { has_country_flag = kuat_countries_list_selected_1_2 } }
 		set_country_flag = kuat_countries_list_selected_1
@@ -249,6 +258,7 @@ kuat_system_selector_select_unknown_country = {
 	}
 }
 kuat_system_selector_select_country = {
+	optimize_memory
 	if = { limit = { check_variable = { which = kuat_system_selector_countries_page value = 1 } }
 		kuat_system_selector_select_country_1 = { kuat_page_seq = 1 kuat_country_seq = $kuat_country_seq$ }
 	}
@@ -326,6 +336,7 @@ kuat_system_selector_select_country = {
 	}
 }
 kuat_system_selector_select_country_1 = {
+	optimize_memory
 	if = {
 		limit = { NOT = { has_country_flag = kuat_countries_list_selected_$kuat_page_seq$_$kuat_country_seq$ } }
 		if = {
@@ -345,6 +356,7 @@ kuat_system_selector_select_country_1 = {
 	}
 }
 kuat_system_selector_select_star_class = {
+	optimize_memory
 	if = {
 		limit = { NOT = { has_country_flag = kuat_star_classes_list_selected_$kuat_page_seq$_$kuat_sc_seq$ } }
 		set_country_flag = kuat_star_classes_list_selected_$kuat_page_seq$
@@ -356,6 +368,7 @@ kuat_system_selector_select_star_class = {
 	}
 }
 kuat_system_selector_clear_selected_country_flag = {
+	optimize_memory
 	if = { limit = { has_country_flag = kuat_countries_list_selected_1 } kuat_system_selector_clear_selected_country_flag_1 = { kuat_page_seq = 1 } }
 	if = { limit = { has_country_flag = kuat_countries_list_selected_2 } kuat_system_selector_clear_selected_country_flag_1 = { kuat_page_seq = 2 } }
 	if = { limit = { has_country_flag = kuat_countries_list_selected_3 } kuat_system_selector_clear_selected_country_flag_1 = { kuat_page_seq = 3 } }
@@ -383,6 +396,7 @@ kuat_system_selector_clear_selected_country_flag = {
 	if = { limit = { has_country_flag = kuat_countries_list_selected_25 } kuat_system_selector_clear_selected_country_flag_1 = { kuat_page_seq = 25 } }
 }
 kuat_system_selector_clear_selected_country_flag_1 = {
+	optimize_memory
 	remove_country_flag = kuat_countries_list_selected_$kuat_page_seq$
 	remove_country_flag = kuat_countries_list_selected_$kuat_page_seq$_1
 	remove_country_flag = kuat_countries_list_selected_$kuat_page_seq$_2
@@ -395,12 +409,14 @@ kuat_system_selector_clear_selected_country_flag_1 = {
 	remove_country_flag = kuat_countries_list_selected_$kuat_page_seq$_9
 }
 kuat_system_selector_clear_selected_star_class_flag = {
+	optimize_memory
 	if = { limit = { has_country_flag = kuat_star_classes_list_selected_1 } kuat_system_selector_clear_selected_star_class_flag_1 = { kuat_page_seq = 1 } }
 	if = { limit = { has_country_flag = kuat_star_classes_list_selected_2 } kuat_system_selector_clear_selected_star_class_flag_1 = { kuat_page_seq = 2 } }
 	if = { limit = { has_country_flag = kuat_star_classes_list_selected_3 } kuat_system_selector_clear_selected_star_class_flag_1 = { kuat_page_seq = 3 } }
 	if = { limit = { has_country_flag = kuat_star_classes_list_selected_4 } kuat_system_selector_clear_selected_star_class_flag_1 = { kuat_page_seq = 4 } }
 }
 kuat_system_selector_clear_selected_star_class_flag_1 = {
+	optimize_memory
 	remove_country_flag = kuat_star_classes_list_selected_$kuat_page_seq$
 	remove_country_flag = kuat_star_classes_list_selected_$kuat_page_seq$_1
 	remove_country_flag = kuat_star_classes_list_selected_$kuat_page_seq$_2
@@ -413,6 +429,7 @@ kuat_system_selector_clear_selected_star_class_flag_1 = {
 	remove_country_flag = kuat_star_classes_list_selected_$kuat_page_seq$_9
 }
 kuat_system_selector_clear_selected_star_country_flag = {
+	optimize_memory
 	if = { limit = { has_country_flag = kuat_system_selected_1 } kuat_system_selector_clear_selected_star_country_flag_1 = { kuat_page_seq = 1 } }
 	else_if = { limit = { has_country_flag = kuat_system_selected_2 } kuat_system_selector_clear_selected_star_country_flag_1 = { kuat_page_seq = 2 } }
 	else_if = { limit = { has_country_flag = kuat_system_selected_3 } kuat_system_selector_clear_selected_star_country_flag_1 = { kuat_page_seq = 3 } }
@@ -615,6 +632,7 @@ kuat_system_selector_clear_selected_star_country_flag = {
 	else_if = { limit = { has_country_flag = kuat_system_selected_200 } kuat_system_selector_clear_selected_star_country_flag_1 = { kuat_page_seq = 200 } }
 }
 kuat_system_selector_clear_selected_star_country_flag_1 = {
+	optimize_memory
 	remove_country_flag = kuat_system_selected_$kuat_page_seq$
 	remove_country_flag = kuat_system_selected_$kuat_page_seq$_1
 	remove_country_flag = kuat_system_selected_$kuat_page_seq$_2
@@ -631,6 +649,7 @@ kuat_system_selector_clear_selected_star_country_flag_1 = {
 }
 
 kuat_select_system_effect = {
+	optimize_memory
 	set_variable = { which = kuat_num_system_selector_marks value = 0 }
 	set_variable = { which = kuat_system_selector_marked_page value = 1 }
 	set_variable = { which = kuat_system_selector_marked_pages_total value = 1 }
@@ -673,6 +692,7 @@ kuat_select_system_effect = {
 	}
 }
 kuat_select_system_set_star_flags = {
+	optimize_memory
 	if = { limit = { check_variable = { which = kuat_system_selector_marked_pages_total value = 1 } } prev = { set_star_flag = kuat_system_selector_marked_1 set_star_flag = kuat_system_selector_marked_1_$kuat_system_seq$ } }
 	else_if = { limit = { check_variable = { which = kuat_system_selector_marked_pages_total value = 2 } } prev = { set_star_flag = kuat_system_selector_marked_2 set_star_flag = kuat_system_selector_marked_2_$kuat_system_seq$ } }
 	else_if = { limit = { check_variable = { which = kuat_system_selector_marked_pages_total value = 3 } } prev = { set_star_flag = kuat_system_selector_marked_3 set_star_flag = kuat_system_selector_marked_3_$kuat_system_seq$ } }
@@ -875,6 +895,7 @@ kuat_select_system_set_star_flags = {
 	else_if = { limit = { check_variable = { which = kuat_system_selector_marked_pages_total value = 200 } } prev = { set_star_flag = kuat_system_selector_marked_200 set_star_flag = kuat_system_selector_marked_200_$kuat_system_seq$ } }
 }
 kuat_clear_system_selection = {
+	optimize_memory
 	kuat_system_selector_clear_selected_system_country_flag = yes
 	kuat_clear_system_event_targets = yes
 	every_system = {
@@ -1086,6 +1107,7 @@ kuat_clear_system_selection = {
 	}
 }
 kuat_clear_system_selection_1 = {
+	optimize_memory
 	remove_star_flag = kuat_system_selector_marked_$kuat_page_seq$
 	remove_star_flag = kuat_system_selector_marked_$kuat_page_seq$_1
 	remove_star_flag = kuat_system_selector_marked_$kuat_page_seq$_2
@@ -1101,6 +1123,7 @@ kuat_clear_system_selection_1 = {
 	remove_star_flag = kuat_system_selector_marked_$kuat_page_seq$_12
 }
 kuat_set_system_event_targets = {
+	optimize_memory
 	kuat_clear_system_event_targets = yes
 	if = { limit = { check_variable = { which = kuat_system_selector_marked_page value = 1 } } kuat_set_system_event_targets_1 = { kuat_page_seq = 1 } }
 	else_if = { limit = { check_variable = { which = kuat_system_selector_marked_page value = 2 } } kuat_set_system_event_targets_1 = { kuat_page_seq = 2 } }
@@ -1304,6 +1327,7 @@ kuat_set_system_event_targets = {
 	else_if = { limit = { check_variable = { which = kuat_system_selector_marked_page value = 200 } } kuat_set_system_event_targets_1 = { kuat_page_seq = 200 } }
 }
 kuat_set_system_event_targets_1 = {
+	optimize_memory
 	every_system = {
 		limit = { has_star_flag = kuat_system_selector_marked_$kuat_page_seq$ }
 		switch = {
@@ -1324,6 +1348,7 @@ kuat_set_system_event_targets_1 = {
 	}
 }
 kuat_clear_system_event_targets = {
+	optimize_memory
 	if = { limit = { exists = event_target:kuat_system_selector_marked_system_1 } clear_global_event_target = kuat_system_selector_marked_system_1 }
 	if = { limit = { exists = event_target:kuat_system_selector_marked_system_2 } clear_global_event_target = kuat_system_selector_marked_system_2 }
 	if = { limit = { exists = event_target:kuat_system_selector_marked_system_3 } clear_global_event_target = kuat_system_selector_marked_system_3 }
@@ -1338,6 +1363,7 @@ kuat_clear_system_event_targets = {
 	if = { limit = { exists = event_target:kuat_system_selector_marked_system_12 } clear_global_event_target = kuat_system_selector_marked_system_12 }
 }
 kuat_selected_system_effect = {
+	optimize_memory
 	event_target:kuat_system_selector_marked_system_$kuat_system_seq$ = {
 		if = {
 			limit = { NOT = { has_star_flag = kuat_system_selector_selected_system } }
@@ -1353,6 +1379,7 @@ kuat_selected_system_effect = {
 	}
 }
 kuat_selected_system_effect_1 = {
+	optimize_memory
 	if = { limit = { check_variable = { which = kuat_system_selector_marked_page value = 1 } } set_country_flag = kuat_system_selected_1 set_country_flag = kuat_system_selected_1_$kuat_system_seq$ }
 	else_if = { limit = { check_variable = { which = kuat_system_selector_marked_page value = 2 } } set_country_flag = kuat_system_selected_2 set_country_flag = kuat_system_selected_2_$kuat_system_seq$ }
 	else_if = { limit = { check_variable = { which = kuat_system_selector_marked_page value = 3 } } set_country_flag = kuat_system_selected_3 set_country_flag = kuat_system_selected_3_$kuat_system_seq$ }
@@ -1555,6 +1582,7 @@ kuat_selected_system_effect_1 = {
 	else_if = { limit = { check_variable = { which = kuat_system_selector_marked_page value = 200 } } set_country_flag = kuat_system_selected_200 set_country_flag = kuat_system_selected_200_$kuat_system_seq$ }
 }
 kuat_selected_system_effect_1_alt = {
+	optimize_memory
 	if = { limit = { check_variable = { which = kuat_system_selector_marked_page value = 1 } } remove_country_flag = kuat_system_selected_1 remove_country_flag = kuat_system_selected_1_$kuat_system_seq$ }
 	else_if = { limit = { check_variable = { which = kuat_system_selector_marked_page value = 2 } } remove_country_flag = kuat_system_selected_2 remove_country_flag = kuat_system_selected_2_$kuat_system_seq$ }
 	else_if = { limit = { check_variable = { which = kuat_system_selector_marked_page value = 3 } } remove_country_flag = kuat_system_selected_3 remove_country_flag = kuat_system_selected_3_$kuat_system_seq$ }
@@ -1758,6 +1786,7 @@ kuat_selected_system_effect_1_alt = {
 }
 
 kuat_system_selector_clear_selected_system_country_flag = {
+	optimize_memory
 	if = { limit = { has_country_flag = kuat_system_selected_1 } kuat_system_selector_clear_selected_system_country_flag_1 = { kuat_page_seq = 1 } }
 	if = { limit = { has_country_flag = kuat_system_selected_2 } kuat_system_selector_clear_selected_system_country_flag_1 = { kuat_page_seq = 2 } }
 	if = { limit = { has_country_flag = kuat_system_selected_3 } kuat_system_selector_clear_selected_system_country_flag_1 = { kuat_page_seq = 3 } }
@@ -1960,6 +1989,7 @@ kuat_system_selector_clear_selected_system_country_flag = {
 	if = { limit = { has_country_flag = kuat_system_selected_200 } kuat_system_selector_clear_selected_system_country_flag_1 = { kuat_page_seq = 200 } }
 }
 kuat_system_selector_clear_selected_system_country_flag_1 = {
+	optimize_memory
 	remove_country_flag = kuat_system_selected_$kuat_page_seq$
 	remove_country_flag = kuat_system_selected_$kuat_page_seq$_1
 	remove_country_flag = kuat_system_selected_$kuat_page_seq$_2

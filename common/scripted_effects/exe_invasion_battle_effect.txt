@@ -1,5 +1,6 @@
 # scope: ship
 increase_executor_power = {
+	optimize_memory
 	if = {
 		limit = { has_hp <= 2000000 }
 		clear_ship_modifier = { modifier = ship_hull_mult DAYS = $DAYS$ subtract = 1 }
@@ -33,6 +34,7 @@ increase_executor_power = {
 }
 
 eternal_increase_executor_power = {
+	optimize_memory
 	if = {
 		limit = { has_hp <= 20000000 }
 		clear_ship_modifier = { modifier = ship_hull_mult DAYS = $DAYS$ }
@@ -66,6 +68,7 @@ eternal_increase_executor_power = {
 }
 
 increase_ship_hp_effect_change = {
+	optimize_memory
 	if = {
 		limit = { owner = { is_country_type = ag_kuat_invasion_country } }
 		every_owned_ship = {
@@ -93,6 +96,7 @@ increase_ship_hp_effect_change = {
 }
 
 clear_ship_modifier = {
+	optimize_memory
 	export_modifier_to_variable = { modifier = $modifier$ variable = $modifier$_value_iep }
 	subtract_variable = { which = $modifier$_value_iep value = $subtract|0$ }
 	change_variable = { which = $modifier$_value_iep value = $change|0$ }
@@ -103,6 +107,7 @@ clear_ship_modifier = {
 }
 
 remove_executor_power = {
+	optimize_memory
 	remove_modifier = iep_basic_ship_shield_penetration_mult
 	remove_modifier = iep_basic_ship_armor_penetration_mult			
 	remove_modifier = iep_basic_ship_armor_damage_mult				
@@ -143,6 +148,7 @@ remove_executor_power = {
 # initial = 0  min = 0.25  small = 0.5  medium = 0.75  max = 0.99  origin = 1
 # double = 2  fifth = 5  Tenth = 10  hundred = 100  million = 1000000  dmillion = 2000000
 set_eternal_fleet_mult_modifier = {
+	optimize_memory
 	########MULT VALUE########
 	#scope: fromfromfrom
 	[[shield_penetration] set_eternal_fleet_standard_modifier = { paramater = $shield_penetration$ UNIT = origin }]  
@@ -188,6 +194,7 @@ set_eternal_fleet_mult_modifier = {
 # initial = 0  min = 0.25  small = 0.5  medium = 0.75  max = 0.99  origin = 1
 # double = 2  fifth = 5  Tenth = 10  hundred = 100  million = 1000000  dmillion = 2000000
 set_ban_eternal_fleet_mult_modifier = {
+	optimize_memory
 	########MULT VALUE########
 	#scope: fromfromfrom
 	[[shield_penetration] set_eternal_fleet_standard_modifier = { paramater = $shield_penetration$ UNIT = origin }]  
@@ -233,6 +240,7 @@ set_ban_eternal_fleet_mult_modifier = {
 # parameter： modifier  
 # UNIT：Non flagship value  
 set_eternal_fleet_standard_modifier = {
+	optimize_memory
 	if = { 
 		limit = { 
 			NOT = { has_ship_flag = fire_ship_var } 
@@ -260,6 +268,7 @@ set_eternal_fleet_standard_modifier = {
 # UNIT：Non flagship value  
 # UNIT1：flagship value
 set_eternal_fleet_damage_modifier = {
+	optimize_memory
 	if = {
 		limit = { 
 			NOT = { has_ship_flag = fire_ship_var } 
@@ -300,6 +309,7 @@ set_eternal_fleet_damage_modifier = {
 # UNIT1：flagship value
 # relation： < > or = 
 set_eternal_fleet_insane_damage_modifier = {
+	optimize_memory
 	if = {
 		limit = { 
 			NOT = { has_ship_flag = fire_ship_var } 
@@ -327,6 +337,7 @@ set_eternal_fleet_insane_damage_modifier = {
 # UNIT：Non flagship value  
 # relation： < > or = 
 set_eternal_fleet_protection_modifier = {
+	optimize_memory
 	if = {
 		limit = { 
 			NOT = { has_ship_flag = fire_ship_var } 
@@ -351,6 +362,7 @@ set_eternal_fleet_protection_modifier = {
 
 # base modifier script
 set_invasion_fleet_basic_modifier = { 
+	optimize_memory
 	add_modifier = { modifier = $SUB$ multiplier = $FACTOR$ days = $DAYS|-1$ } 
 }
 
@@ -393,6 +405,7 @@ set_invasion_fleet_basic_modifier = {
 
 # reset all modifier
 clear_battleship_modifier_fixed_ship = {
+	optimize_memory
 	remove_modifier = basic_ship_shield_penetration_mult				remove_modifier = change_basic_ship_shield_penetration_mult 
 	remove_modifier = basic_ship_armor_penetration_mult					remove_modifier = change_basic_ship_armor_penetration_mult
 	remove_modifier = basic_ship_armor_damage_mult						remove_modifier = change_basic_ship_armor_damage_mult
@@ -421,11 +434,13 @@ clear_battleship_modifier_fixed_ship = {
 }
 
 set_fleet_modifier = {
+	optimize_memory
 	add_modifier = { modifier = $SUB$ days = $DAYS|-1$ }
 	change_variable = { which = $SUB$_var value = 1 }
 }
 
 kuat_reduce_hp_percent = {
+	optimize_memory
 	export_trigger_value_to_variable = { trigger = has_hp variable = exist_hp_value }
 	multiply_variable = { which = exist_hp_value value = 0.01 }
 	multiply_variable = { which = exist_hp_value value = $value$ }
@@ -433,6 +448,7 @@ kuat_reduce_hp_percent = {
 }
 
 kuat_set_epsilon_obelisk_code = {
+	optimize_memory
 	random_list = {
 		10 = { set_planet_flag = kuat_epsilon_obelisk_$ag_obelisk_seq$_$ag_position$_0 event_target:global_event_country = { set_variable = { which = kuat_epsilon_obelisk_$ag_obelisk_seq$_$ag_position$ value = 0 } } }
 		10 = { set_planet_flag = kuat_epsilon_obelisk_$ag_obelisk_seq$_$ag_position$_1 event_target:global_event_country = { set_variable = { which = kuat_epsilon_obelisk_$ag_obelisk_seq$_$ag_position$ value = 1 } } }
@@ -448,6 +464,7 @@ kuat_set_epsilon_obelisk_code = {
 }
 
 kuat_upgrade_epsilon_obelisk = {
+	optimize_memory
 	if = {
 		limit = { exists = owner }
 		owner = { save_event_target_as = kuat_target_megastructure_owner }
@@ -511,6 +528,7 @@ kuat_upgrade_epsilon_obelisk = {
 #fromfromfrom: enemy fleet
 #fromfrom: eternal fleet
 kuat_copy_leader_learning_system = {
+	optimize_memory
 	if = {
 		limit = { 
 			fromfromfrom = { NOT = { has_fleet_flag = eternal_learned_leader } } 
