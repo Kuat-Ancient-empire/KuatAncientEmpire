@@ -71,7 +71,7 @@ increase_ship_hp_effect_change = {
 	optimize_memory
 	if = {
 		limit = { owner = { is_country_type = ag_kuat_invasion_country } }
-		every_owned_ship = {
+		every_controlled_ship = {
 			set_timed_ship_flag = { flag = is_invisiable_trigger days = $DAYS$ }
 			eternal_increase_executor_power = { DAYS = $DAYS$ }
 			ship_event = { id = exe_invasion.119 }
@@ -79,14 +79,14 @@ increase_ship_hp_effect_change = {
 	}
 	else_if = {
 		limit = { owner = { is_kuat_fallen_empire = yes } }
-		every_owned_ship = {
+		every_controlled_ship = {
 			set_timed_ship_flag = { flag = is_invisiable_trigger days = $DAYS$ }
 			increase_executor_power = { DAYS = $DAYS$ }
 			ship_event = { id = exe_invasion.119 }
 		}
 	}
 	else = {
-		every_owned_ship = {
+		every_controlled_ship = {
 			set_timed_ship_flag = { flag = is_invisiable_trigger days = $DAYS$ }
 			increase_executor_power = { DAYS = $DAYS$ }
 			ship_event = { id = exe_invasion.119 }
@@ -560,7 +560,7 @@ kuat_copy_leader_learning_system = {
 								set_timed_fleet_flag = { flag = have_learned_leader days = 180 }
 							}
 							else = { owner = { 
-								random_owned_fleet = {
+								random_controlled_fleet = {
 									limit = { NOT = { has_fleet_flag = have_learned_leader } }
 									if = {
 										limit = { exists = leader }
@@ -573,12 +573,12 @@ kuat_copy_leader_learning_system = {
 						}
 						from = { country_event = { id = exe_invasion.141 } }
 					} }
-					else = { every_owned_ship = { if = { 
+					else = { every_controlled_ship = { if = { 
 						limit = { check_modifier_value = { modifier = ship_hull_mult value > 4 } } 
 						clear_ship_modifier = { modifier = ship_hull_mult subtract = 4 DAYS = -1 } 
 					} } }
 				}
-				1 = { every_owned_ship = { if = { 
+				1 = { every_controlled_ship = { if = { 
 					limit = { check_modifier_value = { modifier = ship_hull_mult value > 4 } } 
 					clear_ship_modifier = { modifier = ship_hull_mult subtract = 4 DAYS = -1 } 
 				} } }

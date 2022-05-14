@@ -517,7 +517,7 @@ planet_event = {
 		}
 		event_target:ag_kuat_invasion_country = { if = {
 			limit = { check_variable = { which = ag_kuat_invasion_fleet_arrived value = 16 } }
-			every_owned_fleet = {
+			every_controlled_fleet = {
 				limit = { has_fleet_flag = ag_kuat_invasion_fleet }
 				fleet_event = { id = exe_invasion.12 days = 1 random = 2 }
 			}
@@ -538,7 +538,7 @@ country_event = {
 	immediate = {
 		if = {
 			limit = {
-				NOT = { any_owned_fleet = { has_fleet_flag = ag_kuat_invasion_fleet } } 
+				NOT = { any_controlled_fleet = { has_fleet_flag = ag_kuat_invasion_fleet } } 
 			}
 			random_system = {
 				limit = { has_star_flag = Kuat_system }
@@ -670,7 +670,7 @@ event = {
 		NOT = { has_global_flag = exe_invasion_ended }
 		exists = event_target:ag_kuat_invasion_country
 		event_target:ag_kuat_invasion_country = {
-			any_owned_fleet = {
+			any_controlled_fleet = {
 				exists = this
 				is_fleet_idle = yes
 				has_fleet_flag = ag_kuat_invasion_fleet
@@ -689,7 +689,7 @@ event = {
 	}
 	immediate = {
 		event_target:ag_kuat_invasion_country = {
-			every_owned_fleet = {
+			every_controlled_fleet = {
 				limit = {
 					exists = this
 					is_fleet_idle = yes
@@ -909,7 +909,7 @@ country_event = {
 		NOT = { has_global_flag = exe_return_invasion_begin }
 		from = {
 			is_country_type = ag_kuat_invasion_country
-			count_owned_fleet = {
+			count_controlled_fleet = {
 				limit = {
 					has_fleet_flag = ag_kuat_invasion_fleet
 					NOT = { is_same_value = root.fromfromfrom }
@@ -1177,7 +1177,7 @@ country_event = {
 				}
 				if = {
 					limit = { has_global_flag = enable_modifer_check }
-					every_owned_ship = {
+					every_controlled_ship = {
 						if = {
 							limit = { kuat_is_flagship_system_protection = yes }
 							set_ship_flag = is_invisiable_trigger
@@ -1435,7 +1435,7 @@ country_event = {
 	immediate = { 
 		random_list = {
 			5 = { fromfromfrom = {
-				every_owned_ship = { if = { 
+				every_controlled_ship = { if = { 
 					limit = { check_modifier_value = { modifier = ship_hull_mult value > 4 } } 
 					clear_ship_modifier = { modifier = ship_hull_mult subtract = 4 DAYS = -1 } 
 				} }
@@ -1450,7 +1450,7 @@ country_event = {
 			}
 		}
 		reroll_random = yes
-		fromfrom = { every_owned_ship = {
+		fromfrom = { every_controlled_ship = {
 			set_ship_flag = is_modifiering
 			if = {
 				limit = { has_global_flag = ban_exe_invasion }
@@ -1471,7 +1471,7 @@ country_event = {
 				clear_variable = combat_days set_disable_at_health = -1
 			} }	
 		}
-		fromfromfrom = { every_owned_ship = {
+		fromfromfrom = { every_controlled_ship = {
 			set_ship_flag = is_modifiering
 			if = {
 				limit = { 
@@ -1688,13 +1688,13 @@ country_event = {
 		is_kuat_fallen_empire = no
 		from = { NOR = { is_country_type = ag_kuat_invasion_country is_kuat_fallen_empire = yes } }
 		OR = {
-			fromfrom = { any_owned_ship = { has_component = EXE_STARBASE_MEAGASTRUCTRUE_AUX_2 } }
+			fromfrom = { any_controlled_ship = { has_component = EXE_STARBASE_MEAGASTRUCTRUE_AUX_2 } }
 			is_country_type = eternal_support
 		}
 	}
 	immediate = {
-		fromfromfrom = { every_owned_ship = { set_ship_flag = is_modifiering ship_event = { id = exe_invasion.132 } } }
-		fromfrom = { every_owned_ship = { set_ship_flag = is_modifiering ship_event = { id = exe_invasion.134 } } }
+		fromfromfrom = { every_controlled_ship = { set_ship_flag = is_modifiering ship_event = { id = exe_invasion.132 } } }
+		fromfrom = { every_controlled_ship = { set_ship_flag = is_modifiering ship_event = { id = exe_invasion.134 } } }
 	}
 }
 
@@ -1765,9 +1765,9 @@ country_event = {
 		from = { NOT = { is_country_type = ag_kuat_invasion_country } }
 	}
 	immediate = {
-		fromfrom = { every_owned_ship = {
+		fromfrom = { every_controlled_ship = {
 			Root.fromfromfrom = {
-				every_owned_ship = {
+				every_controlled_ship = {
 					limit = { is_disabled = no is_in_combat = yes has_hp > 0 }
 					random_list = {
 						300 = {
@@ -1989,7 +1989,7 @@ country_event = {
 		from = { NOT = { is_country_type = ag_kuat_invasion_country } }
 	}
 	immediate = { fromfromfrom.fleet = {
-		every_owned_ship = {
+		every_controlled_ship = {
 			limit = {
 				NOT = { is_same_value = root.fromfromfrom }
 				is_disabled = no is_in_combat = yes has_hp > 0
@@ -2203,7 +2203,7 @@ fleet_event = {
 	hide_window = yes
 	is_triggered_only = yes
 	trigger = { owner = { is_country_type = ag_kuat_invasion_country } }
-	immediate = { every_owned_ship = {
+	immediate = { every_controlled_ship = {
 		set_timed_ship_flag = { flag = inviciable_time_for_gate days = 1 }
 		eternal_increase_executor_power = { DAYS = -1 }
 		add_modifier = { modifier = Eternal_support multiplier = 100 days = -1 }
