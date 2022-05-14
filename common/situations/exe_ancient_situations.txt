@@ -4,8 +4,8 @@ situation_unlocked_the_eternal_fleet = {
 	picture = GFX_evt_em_war_1
 	complete_icon_frame = GFX_situation_outcome_frame_blue
 	complete_icon = GFX_situation_outcome_unknown
-	start_value = 1
-	completion_value = 200
+	fail_icon_frame = GFX_situation_outcome_frame_red
+	fail_icon = GFX_situation_outcome_meh
 	on_progress_complete = {
 		custom_tooltip = situation_unknown_outcome_approach
 		if = {
@@ -18,24 +18,24 @@ situation_unlocked_the_eternal_fleet = {
 		}
 		else = { situation_event = { id = kuat_situation.8 } }
 	}
-	severity_levels = {
-		severity_1 = {
+	stages = {
+		stage_1 = {
 			icon = GFX_situation_stage_1
 			icon_background = GFX_situation_stage_frame_blue
-			end = 50
+			end = 25
 			custom_tooltip = stage_unknown_effects
 		}
-		severity_2 = {
+		stage_2 = {
 			icon = GFX_situation_stage_2
 			icon_background = GFX_situation_stage_frame_blue
-			end = 150
+			end = 75
 			on_first_enter = { situation_event = { id = kuat_situation.4 } }
 			custom_tooltip = stage_unknown_effects
 		}
-		severity_3 = {
+		stage_3 = {
 			icon = GFX_situation_stage_3
 			icon_background = GFX_situation_stage_frame_blue
-			end = 200
+			end = 100
 			on_first_enter = { situation_event = { id = kuat_situation.5 } }
 			custom_tooltip = stage_unknown_effects
 		}
@@ -48,7 +48,7 @@ situation_unlocked_the_eternal_fleet = {
 		resources = {
 			category = situations
 			upkeep = {
-				trigger = { NOT = { current_severity_level = severity_1 } }
+				trigger = { NOT = { current_stage = stage_1 } }
 				physics_research = 0.25
 				society_research = 0.25
 				engineering_research = 0.25
@@ -69,13 +69,13 @@ situation_unlocked_the_eternal_fleet = {
 			category = situations
 			produces = {
 				trigger = {
-					NOT = { current_severity_level = severity_1 }
+					NOT = { current_stage = stage_1 }
 				}
 				alloys = 1
 				multiplier = target.trigger:num_pops
 			}
 			upkeep = {
-				trigger = { NOT = { current_severity_level = severity_1 } }
+				trigger = { NOT = { current_stage = stage_1 } }
 				physics_research = 0.25
 				society_research = 0.25
 				engineering_research = 0.25
@@ -92,12 +92,12 @@ situation_unlocked_the_eternal_fleet = {
 		resources = {
 			category = situations
 			produces = {
-				trigger = { NOT = { current_severity_level = severity_1 } }
+				trigger = { NOT = { current_stage = stage_1 } }
 				alloys = 2
 				multiplier = target.trigger:num_pops
 			}
 			upkeep = {
-				trigger = { NOT = { current_severity_level = severity_1 } }
+				trigger = { NOT = { current_stage = stage_1 } }
 				physics_research = 0.25
 				society_research = 0.25
 				engineering_research = 0.25
@@ -108,10 +108,10 @@ situation_unlocked_the_eternal_fleet = {
 	}
 	on_monthly = {
 		random_events = {
-			150 = 0
+			40 = 0
 			20 = kuat_situation.1
-			15 = kuat_situation.2
-			15 = kuat_situation.3
+			20 = kuat_situation.2
+			20 = kuat_situation.3
 		}
 	}
 	monthly_progress = {
