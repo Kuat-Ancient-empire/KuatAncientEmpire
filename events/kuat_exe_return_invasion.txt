@@ -198,7 +198,18 @@ event = {
 			ignore_initial_colony_error = yes
 		}
 		set_global_flag = eternal_return_fleet_debug_check
-		last_created_country = {
+		last_created_country = { if = {
+			limit = { OR = {
+				exists = event_target:wg_crisis_country
+				exists = event_target:monolith_crisis_country
+			} }
+			set_faction_hostility = {
+				target = event_target:monolith_crisis_country
+				set_hostile = no set_friendly = yes
+			} set_faction_hostility = {
+				target = event_target:wg_crisis_country
+				set_hostile = no set_friendly = yes
+			} }
 			save_global_event_target_as = ag_kuat_invasion_country
 			set_country_flag = ag_kuat_invasion_country
 			remove_global_flag = has_ag_kuat_invasion_country

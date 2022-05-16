@@ -215,12 +215,14 @@ event = {
 			ignore_initial_colony_error = yes
 		}
 		last_created_country = { if = {
-			limit = {
-				has_global_flag = is_allied_ag_kuat
-				has_global_flag = has_wsg_mod
+			limit = { OR = {
 				exists = event_target:wg_crisis_country
-			}
+				exists = event_target:monolith_crisis_country
+			} }
 			set_faction_hostility = {
+				target = event_target:monolith_crisis_country
+				set_hostile = no set_friendly = yes
+			} set_faction_hostility = {
 				target = event_target:wg_crisis_country
 				set_hostile = no set_friendly = yes
 			} }

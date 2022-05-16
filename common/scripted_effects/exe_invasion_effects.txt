@@ -2230,7 +2230,17 @@ create_kuat_fire_base_country_type_defend_army = {
 #starkiller check effect
 starkiller_destroyed_system_everything = {
 	optimize_memory
-	star = {
+	if = {
+		limit = { exists = event_target:crisis_country }
+		fire_on_action = {
+			on_action = on_destroy_star_system
+			scopes = { from = event_target:crisis_country }
+		}
+	}
+	else = { fire_on_action = { on_action = on_destroy_star_system } }
+	set_star_flag = star_cracked
+	every_system_planet = {
+		limit = { is_star = yes }
 		create_ambient_object = { type = "star_explosion" play_animation_once = yes location = this }
 		last_created_ambient_object = { set_location = { target = prev distance = 0 angle = random } }
 		create_ambient_object = { type = "destroyed_system" location = this }
@@ -2255,6 +2265,7 @@ starkiller_destroyed_system_everything = {
 		}
 		foa_effect_the_crisis_fleet = yes
 		foa_effect_the_crisis_ship = yes
+		foa_effect_the_crisis_starbase = yes
 		destroy_fleet = { target = this destroy_template = yes kill_leader = yes }
 	}
 	every_system_megastructure = {
@@ -2405,19 +2416,54 @@ starkiller_destroyed_system_everything = {
 			remove_megastructure = this
 		}
 		else_if = {
+			limit = {
+				OR = {
+					is_megastructure_type = quantum_catapult_1
+					is_megastructure_type = quantum_catapult_2
+					is_megastructure_type = quantum_catapult_3
+					is_megastructure_type = quantum_catapult_ruined
+					is_megastructure_type = quantum_catapult_restored
+				}
+			}
+			solar_system = {
+				spawn_megastructure = {
+					type = "quantum_catapult_permanently_ruined"
+					coords_from = prev
+				}
+			}
+			remove_megastructure = this
+		}
+		else_if = {
+			limit = {
+				OR = {
+					is_megastructure_type = hyper_relay
+					is_megastructure_type = hyper_relay_restored
+				}
+			}
+			solar_system = {
+				spawn_megastructure = {
+					type = "hyper_relay_ruined"
+					coords_from = prev
+				}
+			}
+			remove_megastructure = this
+		}
+		else_if = {
 			limit = { is_crisis_sphere = yes }
-			solar_system = { spawn_megastructure = {
-				type = crisis_sphere_ruined
-				coords_from = prev
-				init_effect = {
-					random_country = {
-						limit = { prevprev = { 
-							has_megastructure_flag = crisis_sphere_of@prev 
-						} }
-						save_event_target_as = former_owner
+			solar_system = {
+				spawn_megastructure = {
+					type = crisis_sphere_ruined
+					coords_from = prev
+					init_effect = {
+						random_country = {
+							limit = {
+								prevprev = { has_megastructure_flag = crisis_sphere_of@prev }
+							}
+							save_event_target_as = former_owner
+						}
+						set_megastructure_flag = crisis_sphere_of@event_target:former_owner
 					}
-					set_megastructure_flag = crisis_sphere_of@event_target:former_owner
-				} }
+				}
 			}
 			remove_megastructure = this
 		}
@@ -2442,55 +2488,59 @@ starkiller_destroyed_system_everything = {
 	system_event = { id = kuat_starkiller.8 days = 120 }
 }
 
-#fleet: fleet
+#scope: fleet
 foa_effect_the_crisis_fleet = {
 	optimize_memory
-	root = {
-		fire_on_action = {
-			on_action = on_fleet_destroyed_perp
-			scopes = {
-				from = prev.owner
-				fromfrom = event_target:foa_target_fleet
-				fromfromfrom = prev
-			}
+	root = { fire_on_action = {
+		on_action = on_fleet_destroyed_perp
+		scopes = {
+			from = prev.owner
+			fromfrom = event_target:foa_target_fleet
+			fromfromfrom = prev
 		}
-	}
-	owner = {
-		fire_on_action = {
-			on_action = on_fleet_destroyed_victim
-			scopes = {
-				from = root
-				fromfrom = prev
-				fromfromfrom = event_target:foa_target_fleet
-			}
+	} }
+	owner = { fire_on_action = {
+		on_action = on_fleet_destroyed_victim
+		scopes = {
+			from = root
+			fromfrom = prev
+			fromfromfrom = event_target:foa_target_fleet
 		}
-	}
+	} }
 }
 
-#fleet: ship
+#scope: ship
 foa_effect_the_crisis_ship = {
 	optimize_memory
 	every_controlled_ship = {
-		root = {
-			fire_on_action = {
-				on_action = on_ship_destroyed_perp
-				scopes = {
-					from = prev.owner
-					fromfrom = event_target:foa_target_ship
-					fromfromfrom = prev
-				}
+		root = { fire_on_action = {
+			on_action = on_ship_destroyed_perp
+			scopes = {
+				from = prev.owner
+				fromfrom = event_target:foa_target_ship
+				fromfromfrom = prev
 			}
-		}
-		owner = {
-			fire_on_action = {
-				on_action = on_ship_destroyed_victim
-				scopes = {
-					from = root
-					fromfrom = prev
-					fromfromfrom = event_target:foa_target_ship
-				}
+		} }
+		owner = { fire_on_action = {
+			on_action = on_ship_destroyed_victim
+			scopes = {
+				from = root
+				fromfrom = prev
+				fromfromfrom = event_target:foa_target_ship
 			}
-		}
+		} }
+	}
+}
+
+#scope: starbase
+foa_effect_the_crisis_starbase = {
+	optimize_memory
+	if = {
+		limit = { is_ship_class = shipclass_starbase }
+		starbase = { fire_on_action = {
+			on_action = on_starbase_destroyed
+			scopes = { from = event_target:foa_target_fleet }
+		} }
 	}
 }
 
