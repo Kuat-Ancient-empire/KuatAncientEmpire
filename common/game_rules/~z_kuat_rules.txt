@@ -115,53 +115,79 @@ can_enter_system_by_jump = {
 	custom_tooltip = {
 		success_text = "debug: can jump"
 		fail_text = cannot_jump_to_system
-		NOT = { root = { is_country_type = teif_primitive } }
 		OR = {
-			NOR = {
-				has_star_flag = sealed_system
-				has_star_flag = fallen_sol_system			
-			}
-			AND = {
-				root = {
-					has_country_flag = entered_fallen_sol_system
-				}
-				has_star_flag = fallen_sol_system
-			}
-			AND = {
-				root = {
-					has_country_flag = entered_sealed_system
-				}
-				has_star_flag = sealed_system
-			}
-		}
-		NOR = {
-			has_star_flag = lcluster
-			has_star_flag = wg_sealed_system
-			has_star_flag = ag_no_jump_in_system			
-			has_star_flag = Kuat_system
-			has_star_flag = Kuat_system_1
-			has_star_flag = Kuat_system_2
-			has_star_flag = Kuat_system_3
-			has_star_flag = kuat_initial_system
-			has_star_flag = Kuat_system_int
-			has_star_flag = Kuat_system_int_1
-			has_star_flag = Kuat_system_int_2
-			has_star_flag = Kuat_system_int_3
-			has_star_flag = Kuat_system_int_4			
-			has_star_flag = outercluster			
-			has_star_flag = nep_Krahen_cluster			
-			has_star_flag = nep_Scrus_cluster		
-			AND = {
-				has_global_flag = starkillerbase_not_passed
-				has_star_flag = starkiller_system	
-			}
-			AND = {
-				has_global_flag = nep_not_pass_Aemethms
+			###_绝对通行	z_fw
+			root = {
 				OR = {
-					has_star_flag = nep_dragon_system
-					has_star_flag = nep_heptagram_cluster
+					has_country_flag = z_fw_r_celestial_orrey_activited			# 璀璨星图
+					has_country_flag = z_fw_r_cheat_quantum_beacon_activited	# 永恒星炬
+				}
+			}
+			###_特殊通行	AAR
+			root = {
+				has_country_flag = AAR_flg_cntr_JUMP_webway_TGT			# 网道行者
+			}
+			
+			###_基础条件
+			AND = {
+				##_Sealed system
+				OR = {
+					# vanilla
+					NOT = { has_star_flag = sealed_system }
+					AND = {
+						root = { has_country_flag = entered_sealed_system }
+						has_star_flag = sealed_system
+					}
+				}
+
+				##_特殊禁入星系		+wsg/古代帝国/阿夸/SOFE/Giga/Ehof/seooc/多彩
+				NOR = {
+					# vanilla
+					has_star_flag = lcluster
+
+					# wsg
+					has_star_flag = wg_sealed_system
+					has_star_flag = wg_psionic_systems
+					# 古代帝国
+					has_star_flag = ag_no_jump_in_system
+					# 阿夸
+					has_star_flag = kuat_initial_system
+					has_star_flag = Kuat_system
+					has_star_flag = Kuat_system_1
+					has_star_flag = Kuat_system_2
+					has_star_flag = Kuat_system_3
+					has_star_flag = Kuat_system_int
+					has_star_flag = Kuat_system_int_1
+					has_star_flag = Kuat_system_int_2
+					has_star_flag = Kuat_system_int_3
+					has_star_flag = Kuat_system_int_4
+					AND = {
+						has_global_flag = starkillerbase_not_passed
+						has_star_flag = starkiller_system	
+					}
+					# SOFE
+					has_star_flag = outercluster
+					# seooc
+					has_star_flag = nep_Krahen_cluster
+					has_star_flag = nep_Scrus_cluster
+					AND = {
+						has_global_flag = nep_not_pass_Aemethms 
+						OR = {
+							has_star_flag = nep_dragon_system
+							has_star_flag = nep_heptagram_cluster
+						}
+					}
+					# 多彩
+					AND = {
+						has_global_flag = love_between_us
+						OR = {
+							has_star_flag = ten_crisis_system
+							any_neighbor_system = { has_star_flag = ten_crisis_system }
+						}
+					}
 				}
 			}
 		}
 	}
 }
+
