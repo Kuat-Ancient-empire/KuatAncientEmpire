@@ -634,10 +634,18 @@ ship_event = {
 				scale = 1
 			} }
 		} }
-		owner = { start_situation = {
+		if = {
+			limit = { owner = { has_origin = origin_kuat_apocalyptic } }
+			owner = { 
+				add_random_research_option = { add_progress = 1 } 
+				hidden_effect = { change_variable = { which = num_finish value = 1 } }
+				add_event_chain_counter = { event_chain = ag_find_invasion_chain counter = ag_legacy_system_amount amount = 1 }
+			}
+		}
+		else = { owner = { start_situation = {
 			type = situation_unlocked_the_first_station
 			target = event_target:ag_kuat_invasion_country
-		} }
+		} } }
 	}
 	option = {
 		name = exe_return_invasion.29.a
@@ -655,10 +663,18 @@ ship_event = {
 				scale = 1
 			} }
 		} }
-		owner = { start_situation = {
-			type = situation_unlocked_the_second_station
+		if = {
+			limit = { owner = { has_origin = origin_kuat_apocalyptic } }
+			owner = { 
+				add_random_research_option = { add_progress = 1 } 
+				hidden_effect = { change_variable = { which = num_finish value = 1 } }
+				add_event_chain_counter = { event_chain = ag_find_invasion_chain counter = ag_legacy_system_amount amount = 1 }
+			}
+		}
+		else = { owner = { start_situation = {
+			type = situation_unlocked_the_first_station
 			target = event_target:ag_kuat_invasion_country
-		} }
+		} } }
 	}
 	option = {
 		name = exe_return_invasion.29.a
@@ -676,10 +692,28 @@ ship_event = {
 				scale = 1
 			} }
 		} }
-		owner = { start_situation = {
-			type = situation_unlocked_the_third_station
+		if = {
+			limit = { owner = { has_origin = origin_kuat_apocalyptic } }
+			owner = { 
+				add_random_research_option = { add_progress = 1 } 
+				hidden_effect = { change_variable = { which = num_finish value = 1 } }
+				add_event_chain_counter = { event_chain = ag_find_invasion_chain counter = ag_legacy_system_amount amount = 1 }
+			}
+			event_target:ag_kuat_invasion_country = {
+				if = {
+					limit = { NOT = { any_controlled_fleet = { has_fleet_flag = ag_kuat_invasion_fleet } } }
+					random_system_within_border = {
+						limit = { has_star_flag = eternal_starbase_megastructure_in_system }
+						system_star = { create_exe_retrun_invasion_fleet_detail = yes }
+					}
+				}
+			}
+			every_playable_country = { country_event = { id = exe_return_invasion.33 } }
+		}
+		else = { owner = { start_situation = {
+			type = situation_unlocked_the_first_station
 			target = event_target:ag_kuat_invasion_country
-		} }
+		} } }
 	}
 }
 
