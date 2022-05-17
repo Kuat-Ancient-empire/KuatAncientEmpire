@@ -8,15 +8,17 @@ situation_unlocked_the_eternal_fleet = {
 	fail_icon = GFX_situation_outcome_meh
 	on_progress_complete = {
 		custom_tooltip = situation_unknown_outcome_approach
-		if = {
-			limit = { current_situation_approach = situation_hositile_altitude }
-			situation_event = { id = kuat_situation.6 }
+		hidden_effect = {
+			if = {
+				limit = { current_situation_approach = situation_hositile_altitude }
+				situation_event = { id = kuat_situation.6 }
+			}
+			else_if = {
+				limit = { current_situation_approach = situation_netural_altitude }
+				situation_event = { id = kuat_situation.7 }
+			}
+			else = { situation_event = { id = kuat_situation.8 } }
 		}
-		else_if = {
-			limit = { current_situation_approach = situation_netural_altitude }
-			situation_event = { id = kuat_situation.7 }
-		}
-		else = { situation_event = { id = kuat_situation.8 } }
 	}
 	stages = {
 		stage_1 = {
@@ -55,9 +57,7 @@ situation_unlocked_the_eternal_fleet = {
 				multiplier = target.trigger:num_pops
 			}
 		}
-		on_select = {
-			custom_tooltip = approach_outcome_tooltip
-		}
+		on_select = { custom_tooltip = approach_outcome_tooltip }
 		target_modifier = { planet_jobs_alloys_upkeep_mult = 0.5 }
 	}
 	#neutral
@@ -150,5 +150,421 @@ situation_unlocked_the_eternal_fleet = {
 	abort_trigger = { OR = {
 		NOT = { exists = target.owner }
 		target.owner = { NOT = { is_same_value = root.owner } }
+	} }
+}
+
+#unlock the station
+situation_unlocked_the_first_station = {
+	picture = GFX_evt_star_neutron
+	complete_icon_frame = GFX_situation_outcome_frame_blue
+	complete_icon = GFX_situation_outcome_unknown
+	fail_icon_frame = GFX_situation_outcome_frame_red
+	fail_icon = GFX_situation_outcome_meh
+	on_progress_complete = {
+		custom_tooltip = situation_unknown_outcome_approach
+		hidden_effect = {
+			if = {
+				limit = { current_situation_approach = situation_hositile_altitude }
+				situation_event = { id = kuat_situation.14 }
+			}
+			else_if = {
+				limit = { current_situation_approach = situation_netural_altitude }
+				situation_event = { id = kuat_situation.15 }
+			}
+			else = { situation_event = { id = kuat_situation.16 } }
+			target = { 
+				remove_modifier = country_distorted_by_lost_eternal_station
+				add_modifier = { modifier = country_distorted_by_lost_eternal_station }
+			}
+		}
+	}
+	stages = {
+		stage_1 = {
+			icon = GFX_situation_stage_1
+			icon_background = GFX_situation_stage_frame_blue
+			end = 25
+			custom_tooltip = stage_unknown_effects
+		}
+		stage_2 = {
+			icon = GFX_situation_stage_2
+			icon_background = GFX_situation_stage_frame_blue
+			end = 75
+			on_first_enter = { situation_event = { id = kuat_situation.12 } }
+			custom_tooltip = stage_unknown_effects
+		}
+		stage_3 = {
+			icon = GFX_situation_stage_3
+			icon_background = GFX_situation_stage_frame_blue
+			end = 100
+			on_first_enter = { situation_event = { id = kuat_situation.13 } }
+			custom_tooltip = stage_unknown_effects
+		}
+	}
+	#hositle
+	approach = {
+		name = "situation_hositile_altitude_station"
+		icon = GFX_situation_approach_research
+		icon_background = GFX_situation_approach_bg_red
+		resources = {
+			category = situations
+			upkeep = {
+				trigger = { NOT = { current_stage = stage_1 } }
+				physics_research = 0.25
+				society_research = 0.25
+				engineering_research = 0.25
+				multiplier = target.trigger:num_pops
+			}
+		}
+		on_select = { custom_tooltip = approach_outcome_tooltip }
+		target_modifier = { planet_jobs_alloys_upkeep_mult = 0.5 }
+	}
+	#neutral
+	approach = {
+		name = "situation_netural_altitude_station"
+		icon = GFX_situation_approach_research
+		icon_background = GFX_situation_approach_bg_yellow
+		resources = {
+			category = situations
+			produces = {
+				trigger = {
+					NOT = { current_stage = stage_1 }
+				}
+				alloys = 1
+				multiplier = target.trigger:num_pops
+			}
+			upkeep = {
+				trigger = { NOT = { current_stage = stage_1 } }
+				physics_research = 0.25
+				society_research = 0.25
+				engineering_research = 0.25
+				multiplier = target.trigger:num_pops
+			}
+		}
+		on_select = { custom_tooltip = approach_outcome_tooltip }
+	}
+	#friendly
+	approach = {
+		name = "situation_friendly_altitude_station"
+		icon = GFX_situation_approach_research
+		icon_background = GFX_situation_approach_bg_green
+		resources = {
+			category = situations
+			produces = {
+				trigger = { NOT = { current_stage = stage_1 } }
+				alloys = 2
+				multiplier = target.trigger:num_pops
+			}
+			upkeep = {
+				trigger = { NOT = { current_stage = stage_1 } }
+				physics_research = 0.25
+				society_research = 0.25
+				engineering_research = 0.25
+				multiplier = target.trigger:num_pops
+			}
+		}
+		on_select = { custom_tooltip = approach_outcome_tooltip }
+	}
+	on_monthly = {
+		random_events = {
+			40 = 0
+			20 = kuat_situation.9
+			20 = kuat_situation.10
+			20 = kuat_situation.11
+		}
+	}
+	monthly_progress = {
+		base = 10
+		modifier = {
+			add = 12
+			desc = "situation_kuat_flagship_accept_us_desc"
+			current_situation_approach = situation_netural_altitude
+			has_situation_flag = kuat_counrsey
+		}
+		modifier = {
+			add = 20
+			desc = "situation_kuat_flagship_friendly_us_desc"
+			current_situation_approach = situation_friendly_altitude
+			has_situation_flag = kuat_acception_ai
+		}
+	}
+	abort_trigger = { OR = {
+		NOT = { exists = target }
+		target = { NOT = { is_same_value = root } }
+	} }
+}
+situation_unlocked_the_second_station = {
+	picture = GFX_evt_star_neutron
+	complete_icon_frame = GFX_situation_outcome_frame_blue
+	complete_icon = GFX_situation_outcome_unknown
+	fail_icon_frame = GFX_situation_outcome_frame_red
+	fail_icon = GFX_situation_outcome_meh
+	on_progress_complete = {
+		custom_tooltip = situation_unknown_outcome_approach
+		hidden_effect = {
+			if = {
+				limit = { current_situation_approach = situation_hositile_altitude }
+				situation_event = { id = kuat_situation.14 }
+			}
+			else_if = {
+				limit = { current_situation_approach = situation_netural_altitude }
+				situation_event = { id = kuat_situation.15 }
+			}
+			else = { situation_event = { id = kuat_situation.16 } }
+			target = { 
+				remove_modifier = country_distorted_by_lost_eternal_station
+				add_modifier = { modifier = country_distorted_by_lost_eternal_station multiplier = 2 }
+			}
+		}
+	}
+	stages = {
+		stage_1 = {
+			icon = GFX_situation_stage_1
+			icon_background = GFX_situation_stage_frame_blue
+			end = 25
+			custom_tooltip = stage_unknown_effects
+		}
+		stage_2 = {
+			icon = GFX_situation_stage_2
+			icon_background = GFX_situation_stage_frame_blue
+			end = 75
+			on_first_enter = { situation_event = { id = kuat_situation.17 } }
+			custom_tooltip = stage_unknown_effects
+		}
+		stage_3 = {
+			icon = GFX_situation_stage_3
+			icon_background = GFX_situation_stage_frame_blue
+			end = 100
+			on_first_enter = { situation_event = { id = kuat_situation.18 } }
+			custom_tooltip = stage_unknown_effects
+		}
+	}
+	#hositle
+	approach = {
+		name = "situation_hositile_altitude_station"
+		icon = GFX_situation_approach_research
+		icon_background = GFX_situation_approach_bg_red
+		resources = {
+			category = situations
+			upkeep = {
+				trigger = { NOT = { current_stage = stage_1 } }
+				physics_research = 0.25
+				society_research = 0.25
+				engineering_research = 0.25
+				multiplier = target.trigger:num_pops
+			}
+		}
+		on_select = { custom_tooltip = approach_outcome_tooltip }
+		target_modifier = { planet_jobs_alloys_upkeep_mult = 0.5 }
+	}
+	#neutral
+	approach = {
+		name = "situation_netural_altitude_station"
+		icon = GFX_situation_approach_research
+		icon_background = GFX_situation_approach_bg_yellow
+		resources = {
+			category = situations
+			produces = {
+				trigger = {
+					NOT = { current_stage = stage_1 }
+				}
+				alloys = 1
+				multiplier = target.trigger:num_pops
+			}
+			upkeep = {
+				trigger = { NOT = { current_stage = stage_1 } }
+				physics_research = 0.25
+				society_research = 0.25
+				engineering_research = 0.25
+				multiplier = target.trigger:num_pops
+			}
+		}
+		on_select = { custom_tooltip = approach_outcome_tooltip }
+	}
+	#friendly
+	approach = {
+		name = "situation_friendly_altitude_station"
+		icon = GFX_situation_approach_research
+		icon_background = GFX_situation_approach_bg_green
+		resources = {
+			category = situations
+			produces = {
+				trigger = { NOT = { current_stage = stage_1 } }
+				alloys = 2
+				multiplier = target.trigger:num_pops
+			}
+			upkeep = {
+				trigger = { NOT = { current_stage = stage_1 } }
+				physics_research = 0.25
+				society_research = 0.25
+				engineering_research = 0.25
+				multiplier = target.trigger:num_pops
+			}
+		}
+		on_select = { custom_tooltip = approach_outcome_tooltip }
+	}
+	on_monthly = {
+		random_events = {
+			40 = 0
+			20 = kuat_situation.9
+			20 = kuat_situation.10
+			20 = kuat_situation.11
+		}
+	}
+	monthly_progress = {
+		base = 10
+		modifier = {
+			add = 12
+			desc = "situation_kuat_flagship_accept_us_desc"
+			current_situation_approach = situation_netural_altitude
+			has_situation_flag = kuat_counrsey
+		}
+		modifier = {
+			add = 20
+			desc = "situation_kuat_flagship_friendly_us_desc"
+			current_situation_approach = situation_friendly_altitude
+			has_situation_flag = kuat_acception_ai
+		}
+	}
+	abort_trigger = { OR = {
+		NOT = { exists = target }
+		target = { NOT = { is_same_value = root } }
+	} }
+}
+situation_unlocked_the_third_station = {
+	picture = GFX_evt_star_neutron
+	complete_icon_frame = GFX_situation_outcome_frame_blue
+	complete_icon = GFX_situation_outcome_unknown
+	fail_icon_frame = GFX_situation_outcome_frame_red
+	fail_icon = GFX_situation_outcome_meh
+	on_progress_complete = {
+		custom_tooltip = situation_unknown_outcome_approach
+		hidden_effect = {
+			if = {
+				limit = { current_situation_approach = situation_hositile_altitude }
+				situation_event = { id = kuat_situation.14 }
+			}
+			else_if = {
+				limit = { current_situation_approach = situation_netural_altitude }
+				situation_event = { id = kuat_situation.15 }
+			}
+			else = { situation_event = { id = kuat_situation.16 } }
+			target = { 
+				remove_modifier = country_distorted_by_lost_eternal_station
+				add_modifier = { modifier = country_distorted_by_lost_eternal_station multiplier = 3 }
+			}
+		}
+	}
+	stages = {
+		stage_1 = {
+			icon = GFX_situation_stage_1
+			icon_background = GFX_situation_stage_frame_blue
+			end = 25
+			custom_tooltip = stage_unknown_effects
+		}
+		stage_2 = {
+			icon = GFX_situation_stage_2
+			icon_background = GFX_situation_stage_frame_blue
+			end = 75
+			on_first_enter = { situation_event = { id = kuat_situation.19 } }
+			custom_tooltip = stage_unknown_effects
+		}
+		stage_3 = {
+			icon = GFX_situation_stage_3
+			icon_background = GFX_situation_stage_frame_blue
+			end = 100
+			on_first_enter = { situation_event = { id = kuat_situation.20 } }
+			custom_tooltip = stage_unknown_effects
+		}
+	}
+	#hositle
+	approach = {
+		name = "situation_hositile_altitude_station"
+		icon = GFX_situation_approach_research
+		icon_background = GFX_situation_approach_bg_red
+		resources = {
+			category = situations
+			upkeep = {
+				trigger = { NOT = { current_stage = stage_1 } }
+				physics_research = 0.25
+				society_research = 0.25
+				engineering_research = 0.25
+				multiplier = target.trigger:num_pops
+			}
+		}
+		on_select = { custom_tooltip = approach_outcome_tooltip }
+		target_modifier = { planet_jobs_alloys_upkeep_mult = 0.5 }
+	}
+	#neutral
+	approach = {
+		name = "situation_netural_altitude_station"
+		icon = GFX_situation_approach_research
+		icon_background = GFX_situation_approach_bg_yellow
+		resources = {
+			category = situations
+			produces = {
+				trigger = {
+					NOT = { current_stage = stage_1 }
+				}
+				alloys = 1
+				multiplier = target.trigger:num_pops
+			}
+			upkeep = {
+				trigger = { NOT = { current_stage = stage_1 } }
+				physics_research = 0.25
+				society_research = 0.25
+				engineering_research = 0.25
+				multiplier = target.trigger:num_pops
+			}
+		}
+		on_select = { custom_tooltip = approach_outcome_tooltip }
+	}
+	#friendly
+	approach = {
+		name = "situation_friendly_altitude_station"
+		icon = GFX_situation_approach_research
+		icon_background = GFX_situation_approach_bg_green
+		resources = {
+			category = situations
+			produces = {
+				trigger = { NOT = { current_stage = stage_1 } }
+				alloys = 2
+				multiplier = target.trigger:num_pops
+			}
+			upkeep = {
+				trigger = { NOT = { current_stage = stage_1 } }
+				physics_research = 0.25
+				society_research = 0.25
+				engineering_research = 0.25
+				multiplier = target.trigger:num_pops
+			}
+		}
+		on_select = { custom_tooltip = approach_outcome_tooltip }
+	}
+	on_monthly = {
+		random_events = {
+			40 = 0
+			20 = kuat_situation.9
+			20 = kuat_situation.10
+			20 = kuat_situation.11
+		}
+	}
+	monthly_progress = {
+		base = 10
+		modifier = {
+			add = 12
+			desc = "situation_kuat_flagship_accept_us_desc"
+			current_situation_approach = situation_netural_altitude
+			has_situation_flag = kuat_counrsey
+		}
+		modifier = {
+			add = 20
+			desc = "situation_kuat_flagship_friendly_us_desc"
+			current_situation_approach = situation_friendly_altitude
+			has_situation_flag = kuat_acception_ai
+		}
+	}
+	abort_trigger = { OR = {
+		NOT = { exists = target }
+		target = { NOT = { is_same_value = root } }
 	} }
 }

@@ -592,24 +592,18 @@ ship_event = {
 	is_triggered_only = yes
 	trigger = {
 		owner = { is_variable_set = num_vaild_system }
-		from = {
-			OR = {
-				has_star_flag = final_1_system
-				has_star_flag = final_2_system
-				has_star_flag = final_3_system
-			}
-		}
+		from = { OR = {
+			has_star_flag = final_1_system
+			has_star_flag = final_2_system
+			has_star_flag = final_3_system
+		} }
 	}
 	immediate = {
-		from = {
-			system_star = {
-				enable_special_project = {
-					name = exe_return_invasion_exploring_project
-					owner = root.owner
-					location = this
-				}
-			}
-		}
+		from = { system_star = { enable_special_project = {
+			name = exe_return_invasion_exploring_project
+			owner = root.owner
+			location = this
+		} } }
 	}
 	option = { name = exe_return_invasion.28.a }
 }
@@ -627,90 +621,65 @@ ship_event = {
 	option = {
 		name = exe_return_invasion.29.a
 		trigger = { owner = { check_variable = { which = num_vaild_system value = 1 } } }
-		owner = { 
-			add_random_research_option = { add_progress = 1 } 
-			hidden_effect = { change_variable = { which = num_finish value = 1 } }
-			add_event_chain_counter = { event_chain = ag_find_invasion_chain counter = ag_legacy_system_amount amount = 1 }
-		}
-		solar_system = {
-			every_system_ambient_object = {
-				limit = { is_ambient_object_type = kuat_gateway_entity_object }
-				destroy_ambient_object = this
-				prev.star = {
-					create_ambient_object = {
-						type = kuat_gateway_disbale_entity_object
-						location = this
-						use_3d_location = yes
-						entity_offset = { min = 0 max = 0 }
-						entity_offset_angle = { min = 0 max = 0 }
-						entity_offset_height = { min = 0 max = 0 }
-						scale = 1
-					}
-				}
-			}
-		}
+		solar_system = { every_system_ambient_object = {
+			limit = { is_ambient_object_type = kuat_gateway_entity_object }
+			destroy_ambient_object = this
+			prev.star = { create_ambient_object = {
+				type = kuat_gateway_disbale_entity_object
+				location = this
+				use_3d_location = yes
+				entity_offset = { min = 0 max = 0 }
+				entity_offset_angle = { min = 0 max = 0 }
+				entity_offset_height = { min = 0 max = 0 }
+				scale = 1
+			} }
+		} }
+		owner = { start_situation = {
+			type = situation_unlocked_the_first_station
+			target = event_target:ag_kuat_invasion_country
+		} }
 	}
 	option = {
 		name = exe_return_invasion.29.a
 		trigger = { owner = { check_variable = { which = num_vaild_system value = 2 } } }
-		owner = { 
-			add_random_research_option = { add_progress = 1 } 
-			hidden_effect = { change_variable = { which = num_finish value = 1 } }
-			add_event_chain_counter = { event_chain = ag_find_invasion_chain counter = ag_legacy_system_amount amount = 1 }
-		}
-		solar_system = {
-			every_system_ambient_object = {
-				limit = { is_ambient_object_type = kuat_gateway_entity_object }
-				destroy_ambient_object = this
-				prev.star = {
-					create_ambient_object = {
-						type = kuat_gateway_disbale_entity_object
-						location = this
-						use_3d_location = yes
-						entity_offset = { min = 0 max = 0 }
-						entity_offset_angle = { min = 0 max = 0 }
-						entity_offset_height = { min = 0 max = 0 }
-						scale = 1
-					}
-				}
-			}
-		}
+		solar_system = { every_system_ambient_object = {
+			limit = { is_ambient_object_type = kuat_gateway_entity_object }
+			destroy_ambient_object = this
+			prev.star = { create_ambient_object = {
+				type = kuat_gateway_disbale_entity_object
+				location = this
+				use_3d_location = yes
+				entity_offset = { min = 0 max = 0 }
+				entity_offset_angle = { min = 0 max = 0 }
+				entity_offset_height = { min = 0 max = 0 }
+				scale = 1
+			} }
+		} }
+		owner = { start_situation = {
+			type = situation_unlocked_the_second_station
+			target = event_target:ag_kuat_invasion_country
+		} }
 	}
 	option = {
 		name = exe_return_invasion.29.a
 		trigger = { owner = { check_variable = { which = num_vaild_system value = 3 } } }
-		owner = { 
-			add_random_research_option = { add_progress = 1 } 
-			hidden_effect = { change_variable = { which = num_finish value = 1 } }
-			add_event_chain_counter = { event_chain = ag_find_invasion_chain counter = ag_legacy_system_amount amount = 1 }
-		}
-		solar_system = {
-			every_system_ambient_object = {
-				limit = { is_ambient_object_type = kuat_gateway_entity_object }
-				destroy_ambient_object = this
-				prev.star = {
-					create_ambient_object = {
-						type = kuat_gateway_disbale_entity_object
-						location = this
-						use_3d_location = yes
-						entity_offset = { min = 0 max = 0 }
-						entity_offset_angle = { min = 0 max = 0 }
-						entity_offset_height = { min = 0 max = 0 }
-						scale = 1
-					}
-				}
-			}
-		}
-		event_target:ag_kuat_invasion_country = {
-			if = {
-				limit = { NOT = { any_controlled_fleet = { has_fleet_flag = ag_kuat_invasion_fleet } } }
-				random_system_within_border = {
-					limit = { has_star_flag = eternal_starbase_megastructure_in_system }
-					system_star = { create_exe_retrun_invasion_fleet_detail = yes }
-				}
-			}
-		}
-		every_playable_country = { country_event = { id = exe_return_invasion.33 } }
+		solar_system = { every_system_ambient_object = {
+			limit = { is_ambient_object_type = kuat_gateway_entity_object }
+			destroy_ambient_object = this
+			prev.star = { create_ambient_object = {
+				type = kuat_gateway_disbale_entity_object
+				location = this
+				use_3d_location = yes
+				entity_offset = { min = 0 max = 0 }
+				entity_offset_angle = { min = 0 max = 0 }
+				entity_offset_height = { min = 0 max = 0 }
+				scale = 1
+			} }
+		} }
+		owner = { start_situation = {
+			type = situation_unlocked_the_third_station
+			target = event_target:ag_kuat_invasion_country
+		} }
 	}
 }
 
