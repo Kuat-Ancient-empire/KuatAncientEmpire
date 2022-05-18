@@ -1058,8 +1058,8 @@ country_event = {
 					building = "colossus_yards"
 					building = "titan_yards"
 				}
-				random_system_planet = {
-					limit = { is_primary_star = yes }
+				every_system_planet = {
+					limit = { has_planet_flag = create_defender_fleet_location }
 					create_kuat_fleet_country_type_defend_army = yes
 				}
 			}
@@ -1753,10 +1753,10 @@ country_event = {
 				fail_text = executor_build.374.c
 				check_variable = { which = num_hiring_eclipse value < 1 }
 			}
-			resource_stockpile_compare = { resource = energy value > 200000 }
+			resource_stockpile_compare = { resource = energy value > 500000 }
 		} 
 		hidden_effect = {
-			add_resource = { energy = -200000 }
+			add_resource = { energy = -500000 }
 			save_event_target_as = hiring_country_eclipse
 			change_variable = { which = num_hiring_eclipse value = 1 }
 			create_message = {
@@ -1773,17 +1773,19 @@ country_event = {
 			create_fleet = {
 				name = "Name_DFLEET"
 				effect = {
-					set_owner = prev
+					set_owner = event_target:fallen_empire_kuat_fleet
 					create_ship = { design = "Name_boss_eclipse" }
-					while = { count = 10 create_ship = { design = "Name_boss_EMPIRE" } }
+					while = { count = 48 create_ship = { design = "Name_boss_EMPIRE" } }
 					set_location = prev.capital_scope
 					set_fleet_flag = will_be_return_eclipse
+					save_event_target_as = return_eclipse_fleet
 					set_fleet_stance = aggressive
 					set_fleet_bombardment_stance = indiscriminate
-					fleet_event = { id = executor_build.386 days = 7200 }
+					root = { country_event = { id = executor_build.386 days = 3600 } }
 				}
 				settings = { is_boss = yes can_disband = no spawn_debris = no can_change_composition = no }
 			}
+			event_target:return_eclipse_fleet = { give_fleet = { controller = root days = 3600 } }
 		}
 	}
 	option = {
@@ -1827,16 +1829,18 @@ country_event = {
 			create_fleet = {
 				name = "Name_DFLEET"
 				effect = {
-					set_owner = prev
-					while = { count = 10 create_ship = { design = "Name_boss_EMPIRE" } }
+					set_owner = event_target:fallen_empire_kuat_fleet
+					while = { count = 50 create_ship = { design = "Name_boss_EMPIRE" } }
 					set_location = prev.capital_scope
 					set_fleet_flag = will_be_return
+					save_event_target_as = return_fleet
 					set_fleet_stance = aggressive
 					set_fleet_bombardment_stance = indiscriminate
-					fleet_event = { id = executor_build.376 days = 3600 }
+					root = { country_event = { id = executor_build.376 days = 3600 } }
 				}
 				settings = { is_boss = yes can_disband = no spawn_debris = no can_change_composition = no }
 			}
+			event_target:return_fleet = { give_fleet = { controller = root days = 3600 } }
 		}
 	}
 	option = {
@@ -1845,7 +1849,7 @@ country_event = {
 	}
 }
 
-fleet_event = {
+country_event = {
 	id = executor_build.376
 	diplomatic = yes
 	title = "executor_build.376.title"
@@ -1859,12 +1863,12 @@ fleet_event = {
 	is_triggered_only = yes
 	option = {
 		name = executor_build.376.a
-		destroy_fleet = { target = this destroy_template = yes kill_leader = no }
+		event_target:return_fleet = { destroy_fleet = { target = this destroy_template = yes kill_leader = no } }
 		event_target:hiring_country = { clear_variable = num_hiring }
 	}
 }
 
-fleet_event = {
+country_event = {
 	id = executor_build.386
 	diplomatic = yes
 	title = "executor_build.376.title"
@@ -1878,7 +1882,7 @@ fleet_event = {
 	is_triggered_only = yes
 	option = {
 		name = executor_build.376.a
-		destroy_fleet = { target = this destroy_template = yes kill_leader = no }
+		event_target:return_eclipse_fleet = { destroy_fleet = { target = this destroy_template = yes kill_leader = no } }
 		event_target:hiring_country_eclipse = { clear_variable = num_hiring_eclipse }
 	}
 }
