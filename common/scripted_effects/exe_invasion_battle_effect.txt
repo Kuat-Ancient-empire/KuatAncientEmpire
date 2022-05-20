@@ -1,38 +1,4 @@
 # scope: ship
-increase_executor_power = {
-	optimize_memory
-	if = {
-		limit = { has_hp <= 2000000 }
-		clear_ship_modifier = { modifier = ship_hull_mult DAYS = $DAYS$ subtract = 1 }
-		clear_ship_modifier = { modifier = ship_hull_regen_add_perc DAYS = $DAYS$ subtract = 1 }
-		add_modifier = { modifier = increase_hp_t5_times days = $DAYS$ }
-	}
-	else_if = {
-		limit = { has_hp <= 4000000 }
-		clear_ship_modifier = { modifier = ship_hull_mult DAYS = $DAYS$ subtract = 1 }
-		clear_ship_modifier = { modifier = ship_hull_regen_add_perc DAYS = $DAYS$ subtract = 1 }
-		add_modifier = { modifier = increase_hp_t4_times days = $DAYS$ }
-	}
-	else_if = {
-		limit = { has_hp <= 6000000 }
-		clear_ship_modifier = { modifier = ship_hull_mult DAYS = $DAYS$ subtract = 1 }
-		clear_ship_modifier = { modifier = ship_hull_regen_add_perc DAYS = $DAYS$ subtract = 1 }
-		add_modifier = { modifier = increase_hp_t3_times days = $DAYS$ }
-	}
-	else_if = {
-		limit = { has_hp <= 8000000 }
-		clear_ship_modifier = { modifier = ship_hull_mult DAYS = $DAYS$ subtract = 1 }
-		clear_ship_modifier = { modifier = ship_hull_regen_add_perc DAYS = $DAYS$ subtract = 1 }
-		add_modifier = { modifier = increase_hp_t2_times days = $DAYS$ }
-	}
-	else_if = {
-		limit = { has_hp <= 100000000 }
-		clear_ship_modifier = { modifier = ship_hull_mult DAYS = $DAYS$ subtract = 1 }
-		clear_ship_modifier = { modifier = ship_hull_regen_add_perc DAYS = $DAYS$ subtract = 1 }
-		add_modifier = { modifier = increase_hp_t1_times days = $DAYS$ }
-	}
-}
-
 eternal_increase_executor_power = {
 	optimize_memory
 	if = {
@@ -81,14 +47,14 @@ increase_ship_hp_effect_change = {
 		limit = { owner = { is_kuat_fallen_empire = yes } }
 		every_controlled_ship = {
 			set_timed_ship_flag = { flag = is_invisiable_trigger days = $DAYS$ }
-			increase_executor_power = { DAYS = $DAYS$ }
+			eternal_increase_executor_power = { DAYS = $DAYS$ }
 			ship_event = { id = exe_invasion.119 }
 		}
 	}
 	else = {
 		every_controlled_ship = {
 			set_timed_ship_flag = { flag = is_invisiable_trigger days = $DAYS$ }
-			increase_executor_power = { DAYS = $DAYS$ }
+			eternal_increase_executor_power = { DAYS = $DAYS$ }
 			ship_event = { id = exe_invasion.119 }
 		}
 	}
