@@ -335,7 +335,7 @@ set_eternal_fleet_standard_modifier = {
 		export_modifier_to_variable = { modifier = $paramater$ variable = $paramater$_value }
 		change_variable = { which = $paramater$_value value = $UNIT_VALUE$ }
 		set_invasion_fleet_basic_modifier = { SUB = basic_$paramater$ FACTOR = $paramater$_value }
-		if = { limit = { is_variable_set = $paramater$_value } clear_variable = $paramater$_value }
+		set_ship_flag = fire_ship_var clear_variable = $paramater$_value
 	} 
 	else_if = { 
 		limit = { 
@@ -364,7 +364,7 @@ set_eternal_fleet_damage_modifier = {
 		export_modifier_to_variable = { modifier = $paramater$ variable = $paramater$_value }
 		change_variable = { which = $paramater$_value value = @modifer_mult_$UNIT$_value }
 		set_invasion_fleet_basic_modifier = { SUB = basic_$paramater$ FACTOR = $paramater$_value }
-		if = { limit = { is_variable_set = $paramater$_value } clear_variable = $paramater$_value }
+		set_ship_flag = fire_ship_var clear_variable = $paramater$_value
 	} 
 	else_if = { 
 		limit = { has_ship_flag = fire_ship_var }
@@ -406,7 +406,7 @@ set_eternal_fleet_insane_damage_modifier = {
 		export_modifier_to_variable = { modifier = $paramater$ variable = $paramater$_value }
 		change_variable = { which = $paramater$_value value = @modifer_mult_$UNIT$_value }
 		set_invasion_fleet_basic_modifier = { SUB = basic_$paramater$ FACTOR = $paramater$_value }
-		if = { limit = { is_variable_set = $paramater$_value } clear_variable = $paramater$_value }
+		set_ship_flag = fire_ship_var clear_variable = $paramater$_value
 	} 
 	else_if = { 
 		limit = { 
@@ -435,7 +435,7 @@ set_eternal_fleet_protection_modifier = {
 		export_modifier_to_variable = { modifier = $paramater$ variable = $paramater$_value }
 		subtract_variable = { which = $paramater$_value value = @modifer_mult_$UNIT$_value }
 		set_invasion_fleet_basic_modifier = { SUB = basic_$paramater$ FACTOR = $paramater$_value }
-		if = { limit = { is_variable_set = $paramater$_value } clear_variable = $paramater$_value }
+		set_ship_flag = fire_ship_var clear_variable = change_$paramater$_value
 	} 
 	else_if = { 
 		limit = { 
@@ -513,14 +513,20 @@ clear_battleship_modifier_fixed_ship = {
 	remove_modifier = basic_ship_accuracy_mult							remove_modifier = change_basic_ship_accuracy_mult
 	remove_modifier = basic_ship_weapon_range_mult						remove_modifier = change_basic_ship_weapon_range_mult
 	remove_modifier = basic_ship_fire_rate_mult							remove_modifier = change_basic_ship_fire_rate_mult
-	remove_modifier = basical_weapon_type_energy_weapon_damage_mult		remove_modifier = change_basical_weapon_type_energy_weapon_damage_mult
-	remove_modifier = basical_weapon_type_explosive_weapon_damage_mult	remove_modifier = change_basical_weapon_type_explosive_weapon_damage_mult
-	remove_modifier = basical_weapon_type_kinetic_weapon_damage_mult	remove_modifier = change_basical_weapon_type_kinetic_weapon_damage_mult
+	remove_modifier = basic_weapon_type_energy_weapon_damage_mult		remove_modifier = change_basic_weapon_type_energy_weapon_damage_mult
+	remove_modifier = basic_weapon_type_explosive_weapon_damage_mult	remove_modifier = change_basic_weapon_type_explosive_weapon_damage_mult
+	remove_modifier = basic_weapon_type_kinetic_weapon_damage_mult		remove_modifier = change_basic_weapon_type_kinetic_weapon_damage_mult
 	remove_modifier = basic_ship_tracking_add							remove_modifier = change_basic_ship_tracking_add
 	remove_modifier = basic_ship_accuracy_add							remove_modifier = change_basic_ship_accuracy_add
 	remove_modifier = basic_ship_armor_add								remove_modifier = change_basic_ship_armor_add
 	remove_modifier = basic_ship_shield_add								remove_modifier = change_basic_ship_shield_add
-	fleet = { remove_fleet_flag = eternal_learned_leader } 				remove_ship_flag = fire_ship_var remove_ship_flag = is_modifiering
+	fleet = { remove_fleet_flag = eternal_learned_leader } 				remove_ship_modifier_trigger_flag = yes
+}
+
+remove_ship_modifier_trigger_flag = {
+	remove_ship_flag = fire_ship_var 
+	remove_ship_flag = fire_ship_var_1
+	remove_ship_flag = is_modifiering
 }
 
 set_fleet_modifier = {
