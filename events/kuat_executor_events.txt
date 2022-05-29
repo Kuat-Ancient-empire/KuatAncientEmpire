@@ -1629,18 +1629,9 @@ country_event = {
 			set_spawn_system_batch = end
 		}
 		every_playable_country = {
-			if = {
-				limit = { is_ai = yes }
-				set_faction_hostility = {
-					target = event_target:fallen_empire_kuat_fleet
-					set_hostile = no set_neutral = yes
-				}
-			}
-			if = {
-				limit = { is_ai = no }
-				country_event = { id = executor_build.372 }
-				country_event = { id = executor_build.9 days = 30 }
-			}
+			limit = { is_ai = no }
+			country_event = { id = executor_build.372 }
+			country_event = { id = executor_build.9 days = 30 }
 		}
 	}
 }
@@ -1684,12 +1675,9 @@ country_event = {
 		OR = {
 			from = { is_same_value = root }
 			from = { is_country_type = kuat_fleet }
+			from = { is_country_type = kuat_fleet_hostile }
 			from = { is_country_type = kuat_shipyard }
 		}
-	}
-	option = {
-		name = executor_build.373.hiring
-		hidden_effect = { country_event = { id = executor_build.374 } }
 	}
 	option = {
 		name = executor_build.373.trading
@@ -1713,6 +1701,10 @@ country_event = {
 		}
 		response_text = executor_build.373.trading.a
 		is_dialog_only = yes
+	}
+	option = {
+		name = executor_build.373.hiring
+		hidden_effect = { country_event = { id = executor_build.374 } }
 	}
 	option = {
 		name = executor_build.373.back_shipyard

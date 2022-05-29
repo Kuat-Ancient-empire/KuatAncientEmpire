@@ -31,10 +31,7 @@ country_event = {
 		}	
 		event_target:fallen_empire_kuat_fleet = {
 			every_system_within_border = { save_event_target_as = begin_kuat_fleet_system }
-			set_faction_hostility = {
-				target = event_target:kuat_warning_country
-				set_hostile = yes set_friendly = no set_neutral = no
-			}
+			set_country_type = kuat_fleet_hostile
 			if = {
 				limit = { NOT = { has_global_flag = wind_up_for_kuat_fleet } }
 				create_kuat_millatery_defender_and_attack_fleet = yes
@@ -58,27 +55,19 @@ planet_event = {
 				exists = event_target:Eternalempire
 				exists = event_target:eternal_support_country
 			}
-			owner = {
-				add_static_war_exhaustion = {
-					attacker = event_target:Eternalempire
-					location = root
-					value_for_planet_destruction = 1.0
-				}
-			}
+			owner = { add_static_war_exhaustion = {
+				attacker = event_target:Eternalempire
+				location = root
+				value_for_planet_destruction = 1.0
+			} }
 		}
-		else = {
-			owner = { 
-				add_static_war_exhaustion = {
-					attacker = from
-					location = root
-					value_for_planet_destruction = 1.0
-				}
-			}
-		}
+		else = { owner = { add_static_war_exhaustion = {
+			attacker = from
+			location = root
+			value_for_planet_destruction = 1.0
+		} } }
 		if = {
-			limit = {
-				has_planet_flag = phaseshifting_active
-			}
+			limit = { has_planet_flag = phaseshifting_active }
 			remove_planet_flag = phaseshifting_active
 			remove_modifier = phaseshifted
 		}
@@ -138,10 +127,7 @@ planet_event = {
 					clear_orders = yes
 					destroy_fleet = { target = this destroy_template = yes kill_leader = yes }
 				}
-				set_faction_hostility = {
-					target = event_target:kuat_warning_country
-					set_hostile = no set_neutral = yes set_friendly = no
-				}
+				set_country_type = kuat_fleet
 			}
 		}
 		else_if = {
@@ -201,10 +187,7 @@ country_event = {
 					clear_orders = yes
 					destroy_fleet = { target = this destroy_template = yes kill_leader = yes }
 				}
-				set_faction_hostility = {
-					target = event_target:kuat_warning_country
-					set_hostile = no set_neutral = yes set_friendly = no
-				}
+				set_country_type = kuat_fleet
 			}
 		}
 		else_if = {
