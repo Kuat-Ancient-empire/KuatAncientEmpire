@@ -1174,32 +1174,34 @@ country_event = {
 				has_enable_flag_ship_system_true = yes
 				has_enable_flag_ship_system_false = yes
 			}
-			if = {
-				limit = { has_global_flag = enable_modifer_check }
-				every_controlled_ship = {
-					if = {
-						limit = { kuat_is_flagship_system_protection = yes }
-						set_ship_flag = is_invisiable_trigger
-						eternal_increase_executor_power = { DAYS = -1 }
-						ship_event = { id = exe_invasion.114 }
-					}
-					if = {
-						limit = { 
-							kuat_is_flagship_system_protection = no  
-							fleet = { kuat_is_addon_flagship_system_protection = yes }
-						}
-						set_timed_ship_flag = { flag = is_invisiable_trigger days = -1 }
-						eternal_increase_executor_power = { DAYS = -1 }
-						ship_event = { id = exe_invasion.114 }
-					}
-					else_if = {
-						limit = { kuat_is_flagship_system_protection = no }
-						set_timed_ship_flag = { flag = is_invisiable_trigger days = 3 }
-						eternal_increase_executor_power = { DAYS = 3 }
-						ship_event = { id = exe_invasion.114 }
-					}
-				}
-			}
+			# 3.42 update dynamic modifier system down #
+			# if = {
+			# 	limit = { has_global_flag = enable_modifer_check }
+			# 	every_controlled_ship = {
+			# 		if = {
+			# 			limit = { kuat_is_flagship_system_protection = yes }
+			# 			set_ship_flag = is_invisiable_trigger
+			# 			eternal_increase_executor_power = { DAYS = -1 }
+			# 			ship_event = { id = exe_invasion.114 }
+			# 		}
+			# 		if = {
+			# 			limit = { 
+			# 				kuat_is_flagship_system_protection = no  
+			# 				fleet = { kuat_is_addon_flagship_system_protection = yes }
+			# 			}
+			# 			set_timed_ship_flag = { flag = is_invisiable_trigger days = -1 }
+			# 			eternal_increase_executor_power = { DAYS = -1 }
+			# 			ship_event = { id = exe_invasion.114 }
+			# 		}
+			# 		else_if = {
+			# 			limit = { kuat_is_flagship_system_protection = no }
+			# 			set_timed_ship_flag = { flag = is_invisiable_trigger days = 3 }
+			# 			eternal_increase_executor_power = { DAYS = 3 }
+			# 			ship_event = { id = exe_invasion.114 }
+			# 		}
+			# 	}
+			# }
+			# 3.42 update dynamic modifier system down #
 			set_fleet_modifier = { SUB = Eternal_support DAYS = -1 }
 		} }
 	}
@@ -1376,7 +1378,9 @@ ship_event = {
 	is_triggered_only = yes
 	trigger = { 
 		owner = { is_country_type = ag_kuat_invasion_country }
-		has_global_flag = enable_modifer_check
+		# 3.42 update dynamic modifier system down #
+		# has_global_flag = enable_modifer_check
+		# 3.42 update dynamic modifier system down #
 	}
 	immediate = { repair_ship = yes set_disabled = no }
 }
@@ -1386,7 +1390,9 @@ ship_event = {
 	is_triggered_only = yes
 	trigger = { 
 		owner = { is_country_type = ag_kuat_invasion_country }
-		has_global_flag = enable_modifer_check
+		# 3.42 update dynamic modifier system down #
+		# has_global_flag = enable_modifer_check
+		# 3.42 update dynamic modifier system down #
 	}
 	immediate = {
 		if = {
@@ -1395,15 +1401,32 @@ ship_event = {
 				limit = { is_in_combat = yes }
 				change_variable = { which = combat_days value = 1 }
 				if = {
+					limit = { check_variable = { which = Eternal_FLeet_Time value > 0 } }
+					change_variable = { which = Eternal_FLeet_Time value = -1 }
+				}
+				# 3.42 update dynamic modifier system down #
+				# if = {
+				# 	limit = { 
+				# 		check_variable = { which = combat_days value > 3 }
+				# 		fleet = { has_enable_flag_ship_system_true = yes }	
+				# 	}
+				# 	set_disable_at_health = -1
+				# }
+				# 3.42 update dynamic modifier system down #
+				if = {
 					limit = { 
-						check_variable = { which = combat_days value > 3 }
-						fleet = { has_enable_flag_ship_system_true = yes }	
+						is_variable_set = Eternal_FLeet_Time
+						check_variable = { which = Eternal_FLeet_Time value <= 0 }
 					}
+					set_disable_at_health = -1
+				}
+				else_if = {
+					limit = { check_variable = { which = combat_days value > 30 } }
 					set_disable_at_health = -1
 				}
 				ship_event = { id = exe_invasion.138 days = 1 }
 			}
-			else = { clear_variable = combat_days set_disable_at_health = 0.01 }
+			else = { clear_variable = combat_days clear_variable = Eternal_FLeet_Time set_disable_at_health = 0.01 }
 		}
 		else = { 
 			if = {
@@ -1412,7 +1435,7 @@ ship_event = {
 				set_disable_at_health = -1
 				ship_event = { id = exe_invasion.138 days = 1 }
 			}
-			else = { clear_variable = combat_days set_disable_at_health = 0.01 }
+			else = { clear_variable = combat_days clear_variable = Eternal_FLeet_Time set_disable_at_health = 0.01 }
 		}
 	}
 }
@@ -1454,38 +1477,54 @@ country_event = {
 				easy_exe_invasion = { ship_event = { id = exe_invasion.144 } }
 				default = { ship_event = { id = exe_invasion.144 } }
 			}
+			# 3.42 update dynamic modifier system down #
+			# if = {
+			# 	limit = { 
+			# 		has_global_flag = enable_modifer_check 
+			# 		NOT = { is_variable_set = combat_days }
+			# 	}
+			# 	change_variable = { which = combat_days value = 1 }
+			# 	ship_event = { id = exe_invasion.138 days = 1 }
+			# }
+			# 3.42 update dynamic modifier system down #
 			if = {
-				limit = { 
-					has_global_flag = enable_modifer_check 
-					NOT = { is_variable_set = combat_days }
-				}
-				change_variable = { which = combat_days value = 1 }
-				ship_event = { id = exe_invasion.138 days = 1 }
-			}
-			else_if = {
 				limit = { NOT = { is_variable_set = combat_days } }
 				change_variable = { which = combat_days value = 1 }
-				clear_variable = combat_days set_disable_at_health = -1
-			} }	
-		}
-		fromfromfrom = { every_controlled_ship = {
-			if = {
-				limit = { has_global_flag = enable_modifer_check }
-				set_ship_flag = is_modifiering
 				if = {
-					limit = { ROOT = { is_country_type = ag_kuat_invasion_country } }
-					switch = {
-						trigger = has_global_flag
-						ban_exe_invasion = { ship_event = { id = exe_invasion.136 } }
-						difficult_exe_invasion = { ship_event = { id = exe_invasion.131 } }
-						normal_exe_invasion = { ship_event = { id = exe_invasion.129 } }
-						easy_exe_invasion= { ship_event = { id = exe_invasion.142 } }
-						default = { ship_event = { id = exe_invasion.142 } }
-					}	
+					limit = { has_global_flag = difficult_exe_invasion }
+					enable_difficult_eternal_protection_system = yes
 				}
-				else = { ship_event = { id = exe_invasion.142 } }
-			}
-		} }
+				else = { set_disable_at_health = -1 }
+				ship_event = { id = exe_invasion.138 days = 1 }
+			} }
+			# 3.42 update dynamic modifier system down #
+			# else_if = {
+			# 	limit = { NOT = { is_variable_set = combat_days } }
+			# 	change_variable = { which = combat_days value = 1 }
+			# 	clear_variable = combat_days set_disable_at_health = -1
+			# } }
+			# 3.42 update dynamic modifier system down #	
+		}
+		# 3.42 update dynamic modifier system down #
+		# fromfromfrom = { every_controlled_ship = {
+		# 	if = {
+		# 		limit = { has_global_flag = enable_modifer_check }
+		# 		set_ship_flag = is_modifiering
+		# 		if = {
+		# 			limit = { ROOT = { is_country_type = ag_kuat_invasion_country } }
+		# 			switch = {
+		# 				trigger = has_global_flag
+		# 				ban_exe_invasion = { ship_event = { id = exe_invasion.136 } }
+		# 				difficult_exe_invasion = { ship_event = { id = exe_invasion.131 } }
+		# 				normal_exe_invasion = { ship_event = { id = exe_invasion.129 } }
+		# 				easy_exe_invasion= { ship_event = { id = exe_invasion.142 } }
+		# 				default = { ship_event = { id = exe_invasion.142 } }
+		# 			}	
+		# 		}
+		# 		else = { ship_event = { id = exe_invasion.142 } }
+		# 	}
+		# } }
+		# 3.42 update dynamic modifier system down #
 	}
 }
 
@@ -1832,17 +1871,19 @@ country_event = {
 	hide_window = yes
 	is_triggered_only = yes
 	trigger = {
-		OR = {
-			AND = {
-				has_global_flag = difficult_exe_invasion
-				has_global_flag = exe_return_invasion_begin
-				event_target:global_event_country = { check_variable = { which = eternal_fleet_return_index value >= 1 } }
-			}
-			AND = {
-				has_global_flag = special_exe_invasion
-				has_global_flag = exe_invasion_begin
-			}
-		}
+		# 3.42 update dynamic modifier system down #
+		# OR = {
+		# 	AND = {
+		# 		has_global_flag = difficult_exe_invasion
+		# 		has_global_flag = exe_return_invasion_begin
+		# 		event_target:global_event_country = { check_variable = { which = eternal_fleet_return_index value >= 1 } }
+		# 	}
+		# 	AND = {
+		# 		has_global_flag = special_exe_invasion
+		# 		has_global_flag = exe_invasion_begin
+		# 	}
+		# }
+		# 3.42 update dynamic modifier system down #
 		is_country_type = ag_kuat_invasion_country
 		from = { NOT = { is_country_type = ag_kuat_invasion_country } }
 	}
@@ -1900,7 +1941,6 @@ country_event = {
 							modifier = {
 								factor = 0
 								OR = {
-									NOT = { has_global_flag = enable_modifer_check }
 									owner = { is_country_type = ag_kuat_invasion_country }
 									owner = { is_kuat_fallen_empire = yes }
 								}
@@ -1912,7 +1952,6 @@ country_event = {
 							modifier = {
 								factor = 0
 								OR = {
-									NOT = { has_global_flag = enable_modifer_check }
 									owner = { is_country_type = ag_kuat_invasion_country }
 									owner = { is_kuat_fallen_empire = yes }
 								}
@@ -1924,7 +1963,6 @@ country_event = {
 							modifier = {
 								factor = 0
 								OR = {
-									NOT = { has_global_flag = enable_modifer_check }
 									owner = { is_country_type = ag_kuat_invasion_country }
 									owner = { is_kuat_fallen_empire = yes }
 								}
@@ -1936,7 +1974,6 @@ country_event = {
 							modifier = {
 								factor = 0
 								OR = {
-									NOT = { has_global_flag = enable_modifer_check }
 									owner = { is_country_type = ag_kuat_invasion_country }
 									owner = { is_kuat_fallen_empire = yes }
 								}
@@ -1948,7 +1985,6 @@ country_event = {
 							modifier = {
 								factor = 0
 								OR = {
-									NOT = { has_global_flag = enable_modifer_check }
 									owner = { is_country_type = ag_kuat_invasion_country }
 									owner = { is_kuat_fallen_empire = yes }
 								}
@@ -1960,7 +1996,6 @@ country_event = {
 							modifier = {
 								factor = 0
 								OR = {
-									NOT = { has_global_flag = enable_modifer_check }
 									owner = { is_country_type = ag_kuat_invasion_country }
 									owner = { is_kuat_fallen_empire = yes }
 								}
@@ -1973,7 +2008,6 @@ country_event = {
 								factor = 0
 								OR = {
 									has_ship_flag = kuat_clear_ship_modifier_target
-									NOT = { has_global_flag = enable_modifer_check }
 									owner = { is_country_type = ag_kuat_invasion_country }
 									owner = { is_kuat_fallen_empire = yes }
 								}
@@ -1992,7 +2026,6 @@ country_event = {
 								factor = 0
 								OR = {
 									has_ship_flag = kuat_clear_ship_modifier_target
-									NOT = { has_global_flag = enable_modifer_check }
 									owner = { is_country_type = ag_kuat_invasion_country }
 									owner = { is_kuat_fallen_empire = yes }
 								}
@@ -2011,7 +2044,6 @@ country_event = {
 								factor = 0
 								OR = {
 									has_ship_flag = kuat_clear_ship_modifier_target
-									NOT = { has_global_flag = enable_modifer_check }
 									owner = { is_country_type = ag_kuat_invasion_country }
 									owner = { is_kuat_fallen_empire = yes }
 								}
@@ -2030,7 +2062,6 @@ country_event = {
 								factor = 0
 								OR = {
 									has_ship_flag = kuat_clear_ship_modifier_target
-									NOT = { has_global_flag = enable_modifer_check }
 									owner = { is_country_type = ag_kuat_invasion_country }
 									owner = { is_kuat_fallen_empire = yes }
 								}
@@ -2055,17 +2086,19 @@ country_event = {
 	hide_window = yes
 	is_triggered_only = yes
 	trigger = {
-		OR = {
-			AND = {
-				has_global_flag = difficult_exe_invasion
-				has_global_flag = exe_return_invasion_begin
-				event_target:global_event_country = { check_variable = { which = eternal_fleet_return_index value >= 1 } }
-			}
-			AND = {
-				has_global_flag = special_exe_invasion
-				has_global_flag = exe_invasion_begin
-			}
-		}
+		# 3.42 update dynamic modifier system down #
+		# OR = {
+		# 	AND = {
+		# 		has_global_flag = difficult_exe_invasion
+		# 		has_global_flag = exe_return_invasion_begin
+		# 		event_target:global_event_country = { check_variable = { which = eternal_fleet_return_index value >= 1 } }
+		# 	}
+		# 	AND = {
+		# 		has_global_flag = special_exe_invasion
+		# 		has_global_flag = exe_invasion_begin
+		# 	}
+		# }
+		# 3.42 update dynamic modifier system down #
 		is_country_type = ag_kuat_invasion_country
 		from = { NOT = { is_country_type = ag_kuat_invasion_country } }
 	}
@@ -2129,7 +2162,6 @@ country_event = {
 					modifier = {
 						factor = 0
 						OR = {
-							NOT = { has_global_flag = enable_modifer_check }
 							owner = { is_country_type = ag_kuat_invasion_country }
 							owner = { is_kuat_fallen_empire = yes }
 						}
@@ -2141,7 +2173,6 @@ country_event = {
 					modifier = {
 						factor = 0
 						OR = {
-							NOT = { has_global_flag = enable_modifer_check }
 							owner = { is_country_type = ag_kuat_invasion_country }
 							owner = { is_kuat_fallen_empire = yes }
 						}
@@ -2153,7 +2184,6 @@ country_event = {
 					modifier = {
 						factor = 0
 						OR = {
-							NOT = { has_global_flag = enable_modifer_check }
 							owner = { is_country_type = ag_kuat_invasion_country }
 							owner = { is_kuat_fallen_empire = yes }
 						}
@@ -2165,7 +2195,6 @@ country_event = {
 					modifier = {
 						factor = 0
 						OR = {
-							NOT = { has_global_flag = enable_modifer_check }
 							owner = { is_country_type = ag_kuat_invasion_country }
 							owner = { is_kuat_fallen_empire = yes }
 						}
@@ -2177,7 +2206,6 @@ country_event = {
 					modifier = {
 						factor = 0
 						OR = {
-							NOT = { has_global_flag = enable_modifer_check }
 							owner = { is_country_type = ag_kuat_invasion_country }
 							owner = { is_kuat_fallen_empire = yes }
 						}
@@ -2189,7 +2217,6 @@ country_event = {
 					modifier = {
 						factor = 0
 						OR = {
-							NOT = { has_global_flag = enable_modifer_check }
 							owner = { is_country_type = ag_kuat_invasion_country }
 							owner = { is_kuat_fallen_empire = yes }
 						}
@@ -2202,7 +2229,6 @@ country_event = {
 						factor = 0
 						OR = {
 							has_ship_flag = kuat_clear_ship_modifier_target
-							NOT = { has_global_flag = enable_modifer_check }
 							owner = { is_country_type = ag_kuat_invasion_country }
 							owner = { is_kuat_fallen_empire = yes }
 						}
@@ -2221,7 +2247,6 @@ country_event = {
 						factor = 0
 						OR = {
 							has_ship_flag = kuat_clear_ship_modifier_target
-							NOT = { has_global_flag = enable_modifer_check }
 							owner = { is_country_type = ag_kuat_invasion_country }
 							owner = { is_kuat_fallen_empire = yes }
 						}
@@ -2240,7 +2265,6 @@ country_event = {
 						factor = 0
 						OR = {
 							has_ship_flag = kuat_clear_ship_modifier_target
-							NOT = { has_global_flag = enable_modifer_check }
 							owner = { is_country_type = ag_kuat_invasion_country }
 							owner = { is_kuat_fallen_empire = yes }
 						}
@@ -2259,7 +2283,6 @@ country_event = {
 						factor = 0
 						OR = {
 							has_ship_flag = kuat_clear_ship_modifier_target
-							NOT = { has_global_flag = enable_modifer_check }
 							owner = { is_country_type = ag_kuat_invasion_country }
 							owner = { is_kuat_fallen_empire = yes }
 						}
