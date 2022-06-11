@@ -1202,6 +1202,29 @@ country_event = {
 			# 	}
 			# }
 			# 3.42 update dynamic modifier system down #
+			every_controlled_ship = {
+				if = {
+					limit = { kuat_is_flagship_system_protection = yes }
+					set_ship_flag = is_invisiable_trigger
+					eternal_increase_executor_power = { DAYS = -1 }
+					ship_event = { id = exe_invasion.114 }
+				}
+				if = {
+					limit = { 
+						kuat_is_flagship_system_protection = no  
+						fleet = { kuat_is_addon_flagship_system_protection = yes }
+					}
+					set_timed_ship_flag = { flag = is_invisiable_trigger days = -1 }
+					eternal_increase_executor_power = { DAYS = -1 }
+					ship_event = { id = exe_invasion.114 }
+				}
+				else_if = {
+					limit = { kuat_is_flagship_system_protection = no }
+					set_timed_ship_flag = { flag = is_invisiable_trigger days = 3 }
+					eternal_increase_executor_power = { DAYS = 3 }
+					ship_event = { id = exe_invasion.114 }
+				}
+			}
 			set_fleet_modifier = { SUB = Eternal_support DAYS = -1 }
 		} }
 	}
