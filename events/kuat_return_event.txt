@@ -675,13 +675,15 @@ country_event = {
 	immediate = { set_global_flag = winer_gamer_kuat }
 	option = {
 		name = "exe_kuat_return.16.a"
-		win = yes
+		tooltip = { win = yes }
 		hidden_effect = {
+			win = yes
 			if = {
 				limit = { has_federation = yes }
 				federation = { every_member = { leave_alliance = { override_requirements = yes } } }
 				every_war = { end_war_effect = yes }
 			}
+			country_event = { id = exe_kuat_return.161 days = 30 }
 		}
 	}
 	option = {
@@ -707,40 +709,96 @@ country_event = {
 	}
 }
 
-#轰炸
-# planet_event = {
-# 	id = exe_kuat_return.1001
-# 	hide_window = yes
-# 	is_triggered_only = yes
-# 	trigger = {
-# 		planet_devastation = 100
-# 		from = { is_country_type = awakened_return_kuat_empire }
-# 	}
-# 	immediate = {
-# 		if = {
-# 			limit = { has_planet_flag = phaseshifting_active }
-# 			remove_planet_flag = phaseshifting_active
-# 			remove_modifier = phaseshifted
-# 		}
-# 		if = {
-# 			limit = { num_pops > 0 }
-# 			every_owned_pop = { kill_pop = yes }
-# 		}
-# 		destroy_colony = yes
-# 		if = {
-# 			limit = { kuat_is_ringworld = yes }
-# 			spawn_ringworld_cracker_effect = yes
-# 			change_pc = pc_ringworld_habitable_damaged
-# 			set_planet_entity = { entity = ringworld_habitable_damaged_entity }
-# 		}
-# 		else_if = {
-# 			limit = { kuat_is_habitat = yes }
-# 			spawn_habitat_cracker_effect = yes
-# 			remove_planet = yes
-# 		}
-# 		else = { change_pc = pc_shattered }
-# 	}
-# }
+#中继站激活
+country_event = {
+	id = exe_kuat_return.161
+	hide_window = yes
+	is_triggered_only = yes
+	immediate = {
+		remove_global_flag = exe_invasion_ended
+		remove_global_flag = exe_invasion_begin
+		remove_global_flag = can_win_the_fleet
+		country_event = { id = exe_kuat_return.162 days = 30 }
+	}
+}
+
+country_event = {
+	id = exe_kuat_return.162
+	title = "exe_kuat_return.162.title"
+	desc = {
+		trigger = { has_country_flag = fire_once_contact }
+		text = "exe_kuat_return.162.fdesc"
+	}
+	desc = {
+		trigger = { NOT = { has_country_flag = fire_once_contact } }
+		text = "exe_kuat_return.162.desc"
+	}
+	diplomatic = yes
+	picture_event_data = {
+		portrait = event_target:kuat_player_target_species
+		room = kuat_mega_shipyard_room
+	}
+	custom_gui = "kuat_event_diplomacy_window"
+	custom_gui_option = "kuat_event_diplomacy_option"
+	show_sound = event_wind_ruins
+	is_triggered_only = yes
+	option = { 
+		name = exe_kuat_return.162.a 
+		is_dialog_only = yes
+		hidden_effect = { set_country_flag = fire_once_contact }
+		response_text = exe_kuat_return.162.a.resp 
+	}
+	option = { 
+		name = exe_kuat_return.162.b 
+		is_dialog_only = yes
+		hidden_effect = { set_country_flag = fire_once_contact }
+		response_text = exe_kuat_return.162.b.resp 
+	}
+	#你们为什么阴魂不散
+	option = { 
+		name = exe_kuat_return.162.c 
+		is_dialog_only = yes
+		hidden_effect = { set_country_flag = fire_once_contact }
+		response_text = exe_kuat_return.162.c.resp 
+	}
+	#你们究竟要做什么
+	option = { 
+		name = exe_kuat_return.162.d 
+		is_dialog_only = yes
+		hidden_effect = { set_country_flag = fire_once_contact }
+		response_text = exe_kuat_return.162.d.resp 
+	}
+	#我们会记住这一切的
+	option = { 
+		name = exe_kuat_return.162.e
+		response_text = exe_kuat_return.162.e.resp 
+		play_sound = swfo_starkillerbase_fire
+		hidden_effect = { country_event = { id = exe_kuat_return.163 days = 1 } }
+	}
+}
+
+country_event = {
+	id = exe_kuat_return.163
+	hide_window = yes
+	is_triggered_only = yes
+	immediate = {
+		every_playable_country = {
+			limit = {
+				is_ai = no
+				NOT = { is_same_value = root }
+			}
+			country_event = { id = crisis.6051 }
+		}
+		event_target:ag_kuat_invasion_country = {
+			set_global_flag = exe_invasion_ended
+			set_global_flag = can_win_the_fleet
+			destroy_country = yes
+		}
+		set_update_modifiers_batch = begin
+		every_system = { destroy_star_system = yes }
+		set_update_modifiers_batch = end
+	}
+}
 
 country_event = {
 	id = exe_kuat_return.19
@@ -821,14 +879,10 @@ ship_event = {
 	}
 	option = {
 		name = "exe_kuat_return.20.a"
-		hidden_effect = {
-			owner = {
-				if = {
-					limit = { check_variable = { which = finish_recover value = 4 } }
-					country_event = { id = exe_kuat_return.21 }
-				}
-			}
-		}
+		hidden_effect = { owner = { if = {
+			limit = { check_variable = { which = finish_recover value = 4 } }
+			country_event = { id = exe_kuat_return.21 }
+		} } }
 	}
 }
 
@@ -844,15 +898,13 @@ country_event = {
 	trigger = { check_variable = { which = finish_recover value = 4 } }
 	option = {
 		name = "exe_kuat_return.21.a"
-		hidden_effect = {
-			every_system_within_border = {
-				limit = { kuat_is_kuat_system = yes }
-				random_system_planet = {
-					limit = { is_planet_class = pc_gaia }
-					create_archaeological_site = kuat_lagacy_6
-				}
+		hidden_effect = { every_system_within_border = {
+			limit = { kuat_is_kuat_system = yes }
+			random_system_planet = {
+				limit = { is_planet_class = pc_gaia }
+				create_archaeological_site = kuat_lagacy_6
 			}
-		}
+		} }
 	}
 }
 
@@ -967,25 +1019,23 @@ country_event = {
 	immediate = { set_global_flag = final_stage }
 	option = {
 		name = exe_kuat_return.27.a
-		hidden_effect = {
-			random_list = {
-				5 = {
-					if = {
-						limit = { is_multiplayer = yes }
-						every_playable_country = {
-							limit = { is_ai = no }
-							give_technology = { tech = tech_eternal_fleet }
-							country_event = { id = exe_kuat_return.28 }
-						}
-					}
-					else = {
+		hidden_effect = { random_list = {
+			5 = {
+				if = {
+					limit = { is_multiplayer = yes }
+					every_playable_country = {
+						limit = { is_ai = no }
 						give_technology = { tech = tech_eternal_fleet }
 						country_event = { id = exe_kuat_return.28 }
 					}
 				}
-				5 = { win = yes }
+				else = {
+					give_technology = { tech = tech_eternal_fleet }
+					country_event = { id = exe_kuat_return.28 }
+				}
 			}
-		}
+			5 = { win = yes country_event = { id = exe_kuat_return.161 days = 30 } }
+		} }
 	}
 	option = {
 		name = exe_kuat_return.27.b
@@ -1040,6 +1090,8 @@ country_event = {
 	option = {
 		name = "exe_kuat_return.28.b"
 		custom_tooltip = "exe_kuat_return.28.ban_tooltip"
+		tooltip = { win = yes }
+		hidden_effect = { win = yes country_event = { id = exe_kuat_return.161 days = 30 } }
 	}
 }
 
