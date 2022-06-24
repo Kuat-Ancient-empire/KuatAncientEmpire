@@ -347,7 +347,7 @@ event = {
 		} }
 		event_target:ag_kuat_invasion_country = { country_event = { id = exe_return_invasion.19 days = 100 } }
 		every_country = {
-			limit = { NOT = { is_country_type = ag_kuat_invasion_country } }
+			limit = { is_eternal_faction = no }
 			establish_communications_no_message = event_target:ag_kuat_invasion_country
 			country_event = { id = exe_return_invasion.10 }
 		}
@@ -746,7 +746,7 @@ country_event = {
 	trigger = { 
 		has_global_flag = exe_return_invasion_begin
 		has_global_flag = can_win_the_fleet
-		from = { is_country_type = ag_kuat_invasion_country }
+		from = { is_eternal_faction = yes }
 		fromfromfrom = { has_fleet_flag = ag_kuat_invasion_starbase }
 	}
 	immediate = { 
@@ -763,7 +763,7 @@ country_event = {
 					set_planet_size = 18
 				}
 				every_fleet_in_system = {
-					limit = { NOT = { owner = { is_country_type = ag_kuat_invasion_country } } }
+					limit = { owner = { is_eternal_faction = no } }
 					every_controlled_ship = { kuat_reduce_hp_percent = { value = 75 } }
 				}
 				random_ambient_object = {
@@ -961,7 +961,7 @@ country_event = {
 	is_triggered_only = yes
 	trigger = {
 		exists = event_target:ag_kuat_invasion_country
-		is_country_type = ag_kuat_invasion_country
+		is_eternal_faction = yes
 		NOT = { has_global_flag = can_win_the_fleet }
 		has_global_flag = can_win_the_fleet_stage_1
 	}
@@ -1061,14 +1061,12 @@ country_event = {
 	hide_window = yes
 	is_triggered_only = yes
 	trigger = {
-		is_country_type = ag_kuat_invasion_country
+		is_eternal_faction = yes
 		fromfrom = { fleet = { has_fleet_flag = ag_kuat_invasion_fleet } }
-		fromfromfrom = {
-			OR = {
-				is_ship_class = shipclass_starbase
-				is_ship_class = shipclass_military
-			}
-		}
+		fromfromfrom = { OR = {
+			is_ship_class = shipclass_starbase
+			is_ship_class = shipclass_military
+		} }
 	}
 	after = {
 		fromfrom = {
@@ -1076,7 +1074,7 @@ country_event = {
 				every_fleet_in_system = {
 					limit = {
 						exists = owner
-						owner = { is_country_type = ag_kuat_invasion_country }
+						owner = { is_eternal_faction = yes }
 						has_fleet_flag = ag_kuat_invasion_fleet
 					}
 					clear_orders = yes
@@ -1094,14 +1092,12 @@ country_event = {
 	hide_window = yes
 	is_triggered_only = yes
 	trigger = {
-		is_country_type = ag_kuat_invasion_country
+		is_eternal_faction = yes
 		from = { has_fleet_flag = ag_kuat_invasion_fleet }
-		fromfrom = {
-			OR = {
-				is_star = yes
-				NOT = { exists = owner }
-			}
-		}
+		fromfrom = { OR = {
+			is_star = yes
+			NOT = { exists = owner }
+		} }
 	}
 	immediate = {
 		from = {
@@ -1217,7 +1213,7 @@ planet_event = {
 			planet_devastation >= 100
 			num_pops < 2
 		}
-		from = { is_country_type = ag_kuat_invasion_country }
+		from = { is_eternal_faction = yes }
 	}
 	immediate = {
 		owner = { country_event = { id = exe_return_invasion.34 } }
@@ -1261,7 +1257,7 @@ planet_event = {
 			every_fleet_in_system = {
 				limit = {
 					exists = owner
-					owner = { is_country_type = ag_kuat_invasion_country }
+					owner = { is_eternal_faction = yes }
 					has_fleet_flag = ag_kuat_invasion_fleet
 					OR = {
 						AND = {
@@ -1324,7 +1320,7 @@ country_event = {
 	is_triggered_only = yes
 	trigger = {
 		has_global_flag = exe_return_invasion_begin
-		is_country_type = ag_kuat_invasion_country
+		is_eternal_faction = yes
 	}
 	immediate = {
 		from = {
@@ -1355,8 +1351,8 @@ country_event = {
 	is_triggered_only = yes
 	trigger = {
 		has_global_flag = exe_return_invasion_begin
-		is_country_type = ag_kuat_invasion_country
-		from = { NOT = { is_country_type = ag_kuat_invasion_country } }
+		is_eternal_faction = yes
+		from = { is_eternal_faction = no }
 	}
 	immediate = {
 		every_country = {
@@ -1381,7 +1377,7 @@ country_event = {
 	is_triggered_only = yes
 	trigger = {
 		has_global_flag = exe_return_invasion_begin
-		from = { is_country_type = ag_kuat_invasion_country }
+		from = { is_eternal_faction = yes }
 		fromfromfrom = { has_fleet_flag = ag_kuat_invasion_fleet }
 	}
 	immediate = {
@@ -1403,7 +1399,7 @@ country_event = {
 	trigger = {
 		has_global_flag = exe_return_invasion_begin
 		from = {
-			is_country_type = ag_kuat_invasion_country
+			is_eternal_faction = yes
 			count_controlled_fleet = {
 				limit = {
 					has_fleet_flag = ag_kuat_invasion_fleet
@@ -1454,7 +1450,7 @@ country_event = {
 	trigger = {
 		has_global_flag = exe_return_invasion_begin
 		from = {
-			is_country_type = ag_kuat_invasion_country
+			is_eternal_faction = yes
 			count_controlled_fleet = {
 				limit = {
 					has_fleet_flag = ag_kuat_invasion_starbase
