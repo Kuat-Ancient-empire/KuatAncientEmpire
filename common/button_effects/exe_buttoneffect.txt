@@ -407,15 +407,12 @@ kuat_set_shipyard_add = {
 kuat_set_shipyard_dicrease = {
 	potential = { always = yes }
 	allow = { 
-		hidden_trigger = { 
-			from = {
-				OR = {
-					check_variable = { which = horriwer_queue value > 0 } 
-					check_variable = { which = empire_queue value > 0 }
-					check_variable = { which = resugrant_queue value > 0 }
-				}
-			}
-		} 
+		hidden_trigger = { from = { switch = {
+			trigger = has_country_flag
+			building_the_horriwer = { check_variable = { which = horriwer_queue value > 0 } }
+			building_the_empire = { check_variable = { which = empire_queue value > 0 } }
+			building_the_resugrant = { check_variable = { which = resugrant_queue value > 0 } }
+		} } } 
 	}
 	effect = {
 		custom_tooltip = "exe_shipyard.b"
