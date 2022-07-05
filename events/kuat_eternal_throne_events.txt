@@ -94,7 +94,8 @@ country_event = {
 	show_sound = event_wind_ruins
 	is_triggered_only = yes
 	fire_only_once = yes
-	trigger = { 
+	trigger = {
+		NOT = { has_country_flag = ag_kae_ge_invasion_209_mutex } 
 		has_established_contact = event_target:eternal_support_country
 		exists = event_target:eternal_support_country
 		OR = {
@@ -191,6 +192,10 @@ country_event = {
 	option = {
 		name = kuat_EEstart.5.b
 		trigger = { check_variable = { which = eternal_kuat_invasion_fleet_num value >= 1 } }
+		allow = { fail_text = {
+			text = "ag_kae_ge_invasion_209_mutex_tooltip"
+			NOT = { has_country_flag = ag_kae_ge_invasion_209_mutex }
+		} }
 		hidden_effect = { country_event = { id = kuat_EEstart.7 } }
 	}
 	option = {
@@ -323,7 +328,10 @@ country_event = {
 	#全部派遣
 	option = {
 		name = kuat_EEstart.7.b
-		trigger = { check_variable = { which = eternal_kuat_invasion_fleet_num value >= 1 } }
+		trigger = { 
+			has_country_flag = ag_kae_e_area_arc_site_project_completed
+			check_variable = { which = eternal_kuat_invasion_fleet_num value >= 1 } 
+		}
 		allow = {
 			custom_tooltip = {
 				fail_text = kuat_EEstart.7.fail_reason.a

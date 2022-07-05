@@ -1346,7 +1346,10 @@ country_event = {
 	id = exe_invasion.121
 	hide_window = yes
 	is_triggered_only = yes
-	trigger = { is_kuat_fallen_empire = yes }
+	trigger = { 
+		is_kuat_fallen_empire = yes 
+		from = { is_eternal_faction = no }
+	}
 	immediate = {
 		FROMFROM = { if = {
 			limit = { has_enable_flag_ship_system_true = yes }
@@ -1374,7 +1377,6 @@ country_event = {
 			else_if = { limit = { kuat_is_flagship_size = { size = ag_epsilon_titan_1 } } increase_ship_hp_effect_change = { DAYS = 3 } } 
 			else_if = { limit = { kuat_is_flagship_size = { size = ag_eta_titan_1 } } increase_ship_hp_effect_change = { DAYS = 3 } } 
 			else_if = { limit = { kuat_is_flagship_size = { size = SRA_Spear_Of_Galaxy_Zenith } } increase_ship_hp_effect_change = { DAYS = 3 } } 
-			set_fleet_modifier = { SUB = Eternal_support DAYS = 6 } clear_variable = Eternal_support_var
 		} }
 	}
 }
@@ -1459,18 +1461,19 @@ country_event = {
 	id = exe_invasion.130
 	hide_window = yes
 	is_triggered_only = yes
-	trigger = { OR = {
-		is_eternal_faction = yes
-		is_kuat_fallen_empire = yes
-	} }
+	trigger = {  
+		OR = {
+			is_eternal_faction = yes
+			is_kuat_fallen_empire = yes
+		}
+		NOT = { exists = event_target:ag_kae_ge_invasion_country }
+	}
 	immediate = { 
 		random_list = {
-			5 = { fromfromfrom = {
-				every_controlled_ship = { if = { 
-					limit = { check_modifier_value = { modifier = ship_hull_mult value > 4 } } 
-					clear_ship_modifier = { modifier = ship_hull_mult subtract = 4 DAYS = -1 } 
-				} }
-			} }
+			5 = { fromfromfrom = { every_controlled_ship = { if = { 
+				limit = { check_modifier_value = { modifier = ship_hull_mult value > 4 } } 
+				clear_ship_modifier = { modifier = ship_hull_mult subtract = 4 DAYS = -1 } 
+			} } } }
 			1 = { 
 				modifier = { factor = 2 has_global_flag = ban_exe_invasion }
 				modifier = { factor = 3 has_global_flag = easy_exe_invasion }
