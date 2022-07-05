@@ -1,0 +1,375 @@
+
+ag_kae_e_area_init = {
+	name = "NAME_ag_kae_e_area"
+	class = "sc_t"
+	prevent_anomalies = yes
+	
+	asteroid_belt = {
+		type = icy_asteroid_belt
+		radius = 250
+	}
+
+	flags = { ag_kae_e_area_system }
+	max_instances = 1
+	
+	planet = {
+		count = 1
+		name = "NAME_ag_kae_e_area"
+		class = pc_t_star
+		orbit_distance = 0
+		orbit_angle = 0
+		size = 15
+		has_ring = no
+
+		init_effect = {
+			while = {
+				count = 25
+				create_ambient_object = {
+					type = "small_debris_object"
+					entity_offset_height = { min = -0 max = -25 }
+					location = this
+				}
+				last_created_ambient_object = {
+					set_location = {
+						target = prev
+						distance = 45
+						angle = random
+					}
+				}
+			}
+			create_ambient_object = { type = "kuat_gateway_disbale_entity_object" }
+			last_created_ambient_object = {
+				set_location = {
+					target = prev
+					distance = 275
+					angle = random
+				}
+			}
+			create_country = {
+				name = "NAME_ag_kae_e_area_guardian"
+				type = ag_kae_e_area_guardian
+				species = event_target:kuat_player_target_species
+				flag = {
+					icon = {
+						category = "domination"
+						file = "domination_22.dds"
+					}
+					background = {
+						category = "backgrounds"
+						file = "00_solid.dds"
+					}
+					colors = { "red" "red" "null" "null" }
+				}
+				effect = {
+					set_graphical_culture = fallen_empire_kuat_01
+					set_country_flag = ag_kae_e_area_guardian
+					save_global_event_target_as = ag_kae_e_area_guardian
+				}
+			}
+			while = { count = 3 ag_kae_e_area_guardian_fleet_spawn = yes }
+		}
+	}
+	
+	change_orbit = 45
+	
+	planet = {
+		name = "NAME_ag_kae_e_habitable_segment"
+		class = "pc_ringworld_habitable"
+		orbit_angle = 30
+		orbit_distance = 0
+		flags = { ag_kae_e_habitable_segment }
+		
+		init_effect = {
+			set_planet_entity = { picture = pc_relic }
+			save_global_event_target_as = ag_kae_e_habitable_segment
+		}
+	}
+	
+	#################### Ringworld Structures #####################
+	
+	planet = {
+		name = "NAME_ag_kae_e_ring_struct"
+		class = "pc_ringworld_tech_damaged"
+		orbit_angle = 30
+		orbit_distance = 0
+		flags = { ag_kae_ring_struct_1 }
+		
+		init_effect = {
+		}
+	}
+	
+	planet = {
+		name = "NAME_ag_kae_e_ring_struct"
+		class = "pc_ringworld_seam_damaged"
+		orbit_angle = 30
+		orbit_distance = 0
+		flags = { ag_kae_ring_struct_2 }
+
+		init_effect = {
+		}
+	}
+	
+	planet = {
+		name = "NAME_ag_kae_e_ring_struct"
+		class = "pc_ringworld_tech_damaged"
+		orbit_angle = 30
+		orbit_distance = 0
+		flags = { ag_kae_ring_struct_3 }
+
+		init_effect = {
+		}
+	}
+	
+	planet = {
+		name = "NAME_ag_kae_e_ring_struct"
+		class = "pc_ringworld_seam_damaged"
+		orbit_angle = 30
+		orbit_distance = 0
+		flags = { ag_kae_ring_struct_4 }
+
+		init_effect = {
+		}
+	}
+	
+	planet = {
+		name = "NAME_ag_kae_e_ring_struct"
+		class = "pc_ringworld_tech_damaged"
+		orbit_angle = 30
+		orbit_distance = 0
+		flags = { ag_kae_ring_struct_5 }
+
+		init_effect = {
+		}
+	}
+	
+	planet = {
+		name = "NAME_ag_kae_e_ring_struct"
+		class = "pc_ringworld_seam_damaged"
+		orbit_angle = 30
+		orbit_distance = 0
+		flags = { ag_kae_ring_struct_6 }
+
+		init_effect = {
+		}
+	}
+	
+	planet = {
+		name = "NAME_ag_kae_e_ring_struct"
+		class = "pc_ringworld_tech_damaged"
+		orbit_angle = 30
+		orbit_distance = 0
+		flags = { ag_kae_ring_struct_7 }
+
+		init_effect = {
+		}
+	}
+	
+	planet = {
+		name = "NAME_ag_kae_e_ring_struct"
+		class = "pc_ringworld_seam_damaged"
+		orbit_angle = 30
+		orbit_distance = 0
+		flags = { ag_kae_ring_struct_8 }
+
+		init_effect = {
+		}
+	}
+	
+	planet = {
+		name = "NAME_ag_kae_e_ring_struct"
+		class = "pc_ringworld_tech_damaged"
+		orbit_angle = 30
+		orbit_distance = 0
+		flags = { ag_kae_ring_struct_9 }
+
+		init_effect = {
+		}
+	}
+	
+	planet = {
+		name = "NAME_ag_kae_e_ring_struct"
+		class = "pc_ringworld_seam_damaged"
+		orbit_angle = 30
+		orbit_distance = 0
+		flags = { ag_kae_ring_struct_10 }
+
+		init_effect = {
+		}
+	}
+	
+	planet = {
+		name = "NAME_ag_kae_e_ring_struct"
+		class = "pc_ringworld_tech_damaged"
+		orbit_angle = 30
+		orbit_distance = 0
+		flags = { ag_kae_ring_struct_11 }
+
+		init_effect = {
+		}
+	}
+	
+	################################################
+	
+	change_orbit = 205
+	
+	planet = {
+		class = pc_ice_asteroid
+		orbit_distance = 0
+		orbit_angle = random
+		count = { max = 6 min = 3 }
+		size = 4
+		
+		init_effect = {
+			random_list = {
+				33 = {
+					create_ambient_object = {
+						type = "small_debris_object"
+						location = this
+					}
+				}
+				66 = { }
+			}
+		}
+	}
+	
+	change_orbit = 250
+	
+	init_effect = {
+		while = {
+			count = 12
+			create_ambient_object = {
+				type = "large_debris_object"
+				location = solar_system
+			}
+		}
+		while = {
+			count = 8
+			create_ambient_object = {
+				type = "medium_debris_01_object"
+				location = solar_system
+			}
+		}
+		while = {
+			count = 15
+			create_ambient_object = {
+				type = "medium_debris_02_object"
+				location = solar_system
+			}
+		}
+		while = {
+			count = 15
+			create_ambient_object = {
+				type = "small_debris_object"
+				location = solar_system
+			}
+		}
+		while = {
+			count = 3
+			create_ambient_object = {
+				type = "derelict_ship_object"
+				location = solar_system
+			}
+			last_created_ambient_object = {
+				while = {
+					count = 3
+					create_ambient_object = {
+						type = "medium_debris_01_object"
+						location = this
+					}
+					last_created_ambient_object = {
+						set_location = {
+							target = prev
+							distance = 80
+							angle = random
+						}
+					}
+				}
+			}
+		}
+		while = {
+			count = 4
+			create_ambient_object = {
+				type = "abandoned_ship_2_object"
+				location = solar_system
+			}
+			last_created_ambient_object = {
+				while = {
+					count = 3
+					create_ambient_object = {
+						type = "medium_debris_01_object"
+						location = this
+					}
+					last_created_ambient_object = {
+						set_location = {
+							target = prev
+							distance = 80
+							angle = random
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+ag_kae_portal_system_init = {
+	class = "rl_standard_stars"
+	prevent_anomalies = yes
+	
+	flags = { ag_kae_portal_system }
+	max_instances = 6
+
+	planet = {
+		count = 1
+		class = star
+		orbit_distance = 0
+		orbit_angle = 1
+		size = { min = 20 max = 30 }
+		has_ring = no
+	}
+
+	change_orbit = 45
+
+	planet = {
+		count = { min = 2 max = 4 }
+		orbit_distance = 20
+		orbit_angle = { min = 0 max = 360 }
+
+		change_orbit = 10
+
+		moon = {
+			count = { min = 0 max = 1 }
+			orbit_angle = { min = 0 max = 360 }
+			orbit_distance = 5
+		}
+	}
+
+	change_orbit = 20
+
+	planet = {
+		class = pc_barren
+		size = 20
+		orbit_distance = 0
+		orbit_angle = { min = 0 max = 360 }
+	}
+
+	planet = {
+		count = { min = 2 max = 5 }
+		orbit_distance = 20
+		orbit_angle = { min = 0 max = 360 }
+
+		change_orbit = 10
+
+		moon = {
+			count = { min = 0 max = 1 }
+			orbit_angle = { min = 0 max = 360 }
+			orbit_distance = 5
+		}
+	}
+	
+	init_effect = { star = {
+		ag_kae_ge_invasion_secondary_portal_spawn = yes
+		ag_kae_ge_invasion_secondary_portal_guradian_spawn = yes
+		ag_kae_ge_invasion_assault_fleet_spawn = yes
+	} }
+}
