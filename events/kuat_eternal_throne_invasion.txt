@@ -7,7 +7,7 @@ namespace = ag_kae_ge_invasion
 #######################################################
 
 # Flag, Variables, Event Targets and other stuff:
-# ag_kae_e_area_system													(Star Flag, E区域唯一标识。)
+# ag_kae_e_area_system													(Star Flag, Global Eventarget E区域唯一标识。)
 # ag_kae_e_area_guardian												(Country Flag & Global Event Target & Country Type, E区域守卫。)
 # ag_kae_e_habitable_segment											(Planet Flag & Global Event Target, E区域可殖民的环。)
 # ag_kae_ring_struct_1 ~ ag_kae_ring_struct_11							(Planet Flags, E区域其他环区段。)
@@ -101,7 +101,7 @@ country_event = {
 		}
 		random_system = {
 			limit = { has_star_flag = ag_kae_e_area_system }
-			save_event_target_as = ag_kae_e_area_system
+			save_global_event_target_as = ag_kae_e_area_system
 		}
 		country_event = { id = ag_kae_ge_invasion.102 days = 2 random = 5 }
 		every_playable_country = {
@@ -177,9 +177,7 @@ fleet_event = {
 			set_country_flag = ag_kae_is_hostile_to_@event_target:ag_kae_e_area_guardian
 			set_faction_hostility = {
 				target = event_target:ag_kae_e_area_guardian
-				set_hostile = yes
-				set_neutral = no
-				set_friendly = no
+				set_hostile = yes set_neutral = no set_friendly = no
 			}
 		} } }
 	}
@@ -222,9 +220,7 @@ country_event = {
 			set_country_flag = ag_kae_is_hostile_to_@event_target:ag_kae_e_area_guardian
 			set_faction_hostility = {
 				target = event_target:ag_kae_e_area_guardian
-				set_hostile = yes
-				set_neutral = no
-				set_friendly = no
+				set_hostile = yes set_neutral = no set_friendly = no
 			}
 		} }
 	}
@@ -244,12 +240,10 @@ country_event = {
 	is_triggered_only = yes
 	trigger = {
 		root = { NOT = { is_hostile = event_target:ag_kae_e_area_guardian } }
-		fromfromfrom = {
-			any_ship_in_system = {
-				exists = owner
-				owner = { is_same_value = root }
-			}
-		}
+		event_target:ag_kae_e_area_system = { any_ship_in_system = {
+			exists = owner
+			owner = { is_same_value = root }
+		} }
 	}
 
 	option = {
@@ -260,9 +254,7 @@ country_event = {
 			set_country_flag = ag_kae_is_hostile_to_@event_target:ag_kae_e_area_guardian
 			set_faction_hostility = {
 				target = event_target:ag_kae_e_area_guardian
-				set_hostile = yes
-				set_neutral = no
-				set_friendly = no
+				set_hostile = yes set_neutral = no set_friendly = no
 			}
 		} }
 	}
