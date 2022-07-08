@@ -1286,6 +1286,29 @@ country_event = {
 	}
 }
 
+ship_event = {
+	id = exe_invasion.128
+	hide_window = yes
+	is_triggered_only = yes
+	trigger = { OR = {
+		has_ship_flag = ag_kae_ge_primary_portal
+		has_ship_flag = ag_kae_ge_secondary_portal
+	} }
+	immediate = {
+		if = {
+			limit = { solar_system = {
+				any_fleet_in_system = { OR = {
+					has_fleet_flag = ag_kae_ge_secondary_portal_guradian
+					has_fleet_flag = ag_kae_ge_primary_portal_guradian
+					has_fleet_flag = ag_kae_ge_assault_fleet
+				} }
+			} }
+			repair_ship = yes set_disabled = no
+		} 
+		else = { repair_ship = yes set_disabled = no set_disable_at_health = -1 }
+	}
+}
+
 #FLEET INVISIABLE WITHOUT SPECIAL
 ship_event = {
 	id = exe_invasion.119
