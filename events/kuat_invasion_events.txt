@@ -1928,9 +1928,12 @@ country_event = {
 		fromfrom = { every_controlled_ship = {
 			Root.fromfromfrom = {
 				every_controlled_ship = {
-					limit = { is_disabled = no is_in_combat = yes has_hp > 0 }
+					limit = { 
+						kuat_is_flagship_system_protection = no
+						is_disabled = no is_in_combat = yes has_hp > 0 
+					}
 					random_list = {
-						300 = {
+						450 = {
 							modifier = {
 								factor = 0.9
 								event_target:global_event_country = { check_variable = { which = eternal_fleet_return_index value = 1 } }
@@ -1972,8 +1975,64 @@ country_event = {
 								event_target:global_event_country = { check_variable = { which = eternal_fleet_return_index value > 9 } }
 							}
 							modifier = { factor = 10 has_ship_flag = kuat_ancient_21_target }
+							modifier = { factor = 10 has_ship_flag = kuat_clear_ship_modifier_target }
 						}
-						# 400 Totally, 300 Available
+						# 600 Totally, 150 Available
+						10 = {
+							modifier = {
+								factor = 0
+								OR = {
+									owner = { is_eternal_faction = yes }
+									owner = { is_kuat_fallen_empire = yes }
+								}
+							}
+							kuat_reduce_hp_percent = { value = 20 }
+							set_timed_ship_flag = { flag = kuat_ancient_21_target days = 2 }
+						}
+						10 = {
+							modifier = {
+								factor = 0
+								OR = {
+									owner = { is_eternal_faction = yes }
+									owner = { is_kuat_fallen_empire = yes }
+								}
+							}
+							kuat_reduce_hp_percent = { value = 18 }
+							set_timed_ship_flag = { flag = kuat_ancient_21_target days = 2 }
+						}
+						10 = {
+							modifier = {
+								factor = 0
+								OR = {
+									owner = { is_eternal_faction = yes }
+									owner = { is_kuat_fallen_empire = yes }
+								}
+							}
+							kuat_reduce_hp_percent = { value = 16 }
+							set_timed_ship_flag = { flag = kuat_ancient_21_target days = 2 }
+						}
+						10 = {
+							modifier = {
+								factor = 0
+								OR = {
+									owner = { is_eternal_faction = yes }
+									owner = { is_kuat_fallen_empire = yes }
+								}
+							}
+							kuat_reduce_hp_percent = { value = 14 }
+							set_timed_ship_flag = { flag = kuat_ancient_21_target days = 2 }
+						}
+						10 = {
+							modifier = {
+								factor = 0
+								OR = {
+									owner = { is_eternal_faction = yes }
+									owner = { is_kuat_fallen_empire = yes }
+								}
+							}
+							kuat_reduce_hp_percent = { value = 12 }
+							set_timed_ship_flag = { flag = kuat_ancient_21_target days = 2 }
+						}
 						10 = {
 							modifier = {
 								factor = 0
@@ -2056,7 +2115,6 @@ country_event = {
 							clear_ship_modifier = { modifier = weapon_type_explosive_weapon_fire_rate_mult multiply = 0.2 DAYS = 6 }
 							clear_ship_modifier = { modifier = weapon_type_kinetic_weapon_fire_rate_mult multiply = 0.2 DAYS = 6 }
 							set_timed_ship_flag = { flag = kuat_clear_ship_modifier_target days = 6 }
-							set_timed_ship_flag = { flag = kuat_ancient_21_target days = 2 }
 						}
 						10 = {
 							modifier = {
@@ -2074,7 +2132,6 @@ country_event = {
 							clear_ship_modifier = { modifier = weapon_type_explosive_weapon_fire_rate_mult multiply = 0.3 DAYS = 6 }
 							clear_ship_modifier = { modifier = weapon_type_kinetic_weapon_fire_rate_mult multiply = 0.3 DAYS = 6 }
 							set_timed_ship_flag = { flag = kuat_clear_ship_modifier_target days = 6 }
-							set_timed_ship_flag = { flag = kuat_ancient_21_target days = 2 }
 						}
 						10 = {
 							modifier = {
@@ -2092,7 +2149,6 @@ country_event = {
 							clear_ship_modifier = { modifier = weapon_type_explosive_weapon_fire_rate_mult multiply = 0.5 DAYS = 6 }
 							clear_ship_modifier = { modifier = weapon_type_kinetic_weapon_fire_rate_mult multiply = 0.5 DAYS = 6 }
 							set_timed_ship_flag = { flag = kuat_clear_ship_modifier_target days = 6 }
-							set_timed_ship_flag = { flag = kuat_ancient_21_target days = 2 }
 						}
 						10 = {
 							modifier = {
@@ -2110,7 +2166,6 @@ country_event = {
 							clear_ship_modifier = { modifier = weapon_type_explosive_weapon_fire_rate_mult multiply = 0.75 DAYS = 6 }
 							clear_ship_modifier = { modifier = weapon_type_kinetic_weapon_fire_rate_mult multiply = 0.75 DAYS = 6 }
 							set_timed_ship_flag = { flag = kuat_clear_ship_modifier_target days = 6 }
-							set_timed_ship_flag = { flag = kuat_ancient_21_target days = 2 }
 						}
 					}
 				}
@@ -2141,17 +2196,12 @@ country_event = {
 	}
 	immediate = { fromfromfrom.fleet = {
 		every_controlled_ship = {
-			limit = {
-				NOT = { is_same_value = root.fromfromfrom }
+			limit = { 
+				kuat_is_flagship_system_protection = no
 				is_disabled = no is_in_combat = yes has_hp > 0
-				OR = {
-					is_ship_class = shipclass_military
-					is_ship_class = shipclass_military_station
-					is_ship_class = shipclass_starbase
-				}
 			}
 			random_list = {
-				300 = {
+				850 = {
 					modifier = {
 						factor = 0.9
 						event_target:global_event_country = { check_variable = { which = eternal_fleet_return_index value = 1 } }
@@ -2193,8 +2243,64 @@ country_event = {
 						event_target:global_event_country = { check_variable = { which = eternal_fleet_return_index value > 9 } }
 					}
 					modifier = { factor = 10 has_ship_flag = kuat_ancient_21_target }
+					modifier = { factor = 10 has_ship_flag = kuat_clear_ship_modifier_target }
 				}
-				# 400 Totally, 300 Available
+				# 1000 Totally, 150 Available
+				10 = {
+					modifier = {
+						factor = 0
+						OR = {
+							owner = { is_eternal_faction = yes }
+							owner = { is_kuat_fallen_empire = yes }
+						}
+					}
+					kuat_reduce_hp_percent = { value = 20 }
+					set_timed_ship_flag = { flag = kuat_ancient_21_target days = 2 }
+				}
+				10 = {
+					modifier = {
+						factor = 0
+						OR = {
+							owner = { is_eternal_faction = yes }
+							owner = { is_kuat_fallen_empire = yes }
+						}
+					}
+					kuat_reduce_hp_percent = { value = 18 }
+					set_timed_ship_flag = { flag = kuat_ancient_21_target days = 2 }
+				}
+				10 = {
+					modifier = {
+						factor = 0
+						OR = {
+							owner = { is_eternal_faction = yes }
+							owner = { is_kuat_fallen_empire = yes }
+						}
+					}
+					kuat_reduce_hp_percent = { value = 16 }
+					set_timed_ship_flag = { flag = kuat_ancient_21_target days = 2 }
+				}
+				10 = {
+					modifier = {
+						factor = 0
+						OR = {
+							owner = { is_eternal_faction = yes }
+							owner = { is_kuat_fallen_empire = yes }
+						}
+					}
+					kuat_reduce_hp_percent = { value = 14 }
+					set_timed_ship_flag = { flag = kuat_ancient_21_target days = 2 }
+				}
+				10 = {
+					modifier = {
+						factor = 0
+						OR = {
+							owner = { is_eternal_faction = yes }
+							owner = { is_kuat_fallen_empire = yes }
+						}
+					}
+					kuat_reduce_hp_percent = { value = 12 }
+					set_timed_ship_flag = { flag = kuat_ancient_21_target days = 2 }
+				}
 				10 = {
 					modifier = {
 						factor = 0
@@ -2277,7 +2383,6 @@ country_event = {
 					clear_ship_modifier = { modifier = weapon_type_explosive_weapon_fire_rate_mult multiply = 0.2 DAYS = 6 }
 					clear_ship_modifier = { modifier = weapon_type_kinetic_weapon_fire_rate_mult multiply = 0.2 DAYS = 6 }
 					set_timed_ship_flag = { flag = kuat_clear_ship_modifier_target days = 6 }
-					set_timed_ship_flag = { flag = kuat_ancient_21_target days = 2 }
 				}
 				10 = {
 					modifier = {
@@ -2295,7 +2400,6 @@ country_event = {
 					clear_ship_modifier = { modifier = weapon_type_explosive_weapon_fire_rate_mult multiply = 0.3 DAYS = 6 }
 					clear_ship_modifier = { modifier = weapon_type_kinetic_weapon_fire_rate_mult multiply = 0.3 DAYS = 6 }
 					set_timed_ship_flag = { flag = kuat_clear_ship_modifier_target days = 6 }
-					set_timed_ship_flag = { flag = kuat_ancient_21_target days = 2 }
 				}
 				10 = {
 					modifier = {
@@ -2313,7 +2417,6 @@ country_event = {
 					clear_ship_modifier = { modifier = weapon_type_explosive_weapon_fire_rate_mult multiply = 0.5 DAYS = 6 }
 					clear_ship_modifier = { modifier = weapon_type_kinetic_weapon_fire_rate_mult multiply = 0.5 DAYS = 6 }
 					set_timed_ship_flag = { flag = kuat_clear_ship_modifier_target days = 6 }
-					set_timed_ship_flag = { flag = kuat_ancient_21_target days = 2 }
 				}
 				10 = {
 					modifier = {
@@ -2331,7 +2434,6 @@ country_event = {
 					clear_ship_modifier = { modifier = weapon_type_explosive_weapon_fire_rate_mult multiply = 0.75 DAYS = 6 }
 					clear_ship_modifier = { modifier = weapon_type_kinetic_weapon_fire_rate_mult multiply = 0.75 DAYS = 6 }
 					set_timed_ship_flag = { flag = kuat_clear_ship_modifier_target days = 6 }
-					set_timed_ship_flag = { flag = kuat_ancient_21_target days = 2 }
 				}
 			}
 		} }
