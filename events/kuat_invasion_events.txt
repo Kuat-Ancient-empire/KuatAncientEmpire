@@ -2388,10 +2388,9 @@ event = {
 	id = exe_invasion.9999
 	hide_window = yes
 	is_triggered_only = yes
-	trigger = { any_system = {
-		has_star_flag = ag_kae_e_area_system
-	} }
+	trigger = { always = yes }
 	immediate = { 
+		#补档flag
 		if = {
 			limit = { any_country = {
 				has_origin = origin_eternalthrone
@@ -2399,9 +2398,23 @@ event = {
 			} }
 			set_global_flag = has_origin_eternalthrone
 		}
-		random_system = {
-			limit = { has_star_flag = ag_kae_e_area_system }
-			save_global_event_target_as = ag_kae_e_area_system
+		#补档恢复旗舰
+		if = {
+			limit = { any_country = {
+				is_ai = no
+				any_controlled_ship = { is_ship_size = eternal_flagship }
+			} }
+			set_country_flag = all_flagship_building_limit_1
+		}
+		#补档E星域flag
+		if = {
+			limit = { any_system = {
+				has_star_flag = ag_kae_e_area_system
+			} }
+			random_system = {
+				limit = { has_star_flag = ag_kae_e_area_system }
+				save_global_event_target_as = ag_kae_e_area_system
+			}
 		}
 	}
 }
