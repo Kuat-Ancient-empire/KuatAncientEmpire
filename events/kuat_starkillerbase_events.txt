@@ -115,7 +115,7 @@ country_event = {
 				limit = {  exists = owner owner = {
 					OR = {
 						is_country_type = default_ev
-						is_country_type = default
+						is_ai = no is_country_type = default
 						is_country_type = fallen_empire
 						is_country_type = awakened_fallen_empire
 					}			
@@ -123,6 +123,7 @@ country_event = {
 						is_same_value = root
 						is_at_war_with = root
 						has_country_flag = fire_once_war
+						exists = event_target:ag_kuat_invasion_country
 					}
 				} }
 				owner = {
@@ -485,7 +486,32 @@ ship_event = {
 	trigger = { kuat_is_flagship_system_protection = yes }
 	immediate = {
 		owner = { country_event = { id = kuat_starkiller.12 } }
-		switch = {
+		if = {
+			limit = { owner = { has_country_flag = all_flagship_building_limit_1 } }
+			switch = {
+				trigger = is_ship_size
+				X308_Balletor = { flagship_building_check = { SHIPSIZE = X308_Balletor  SHIP_LIMIT = 4 } }
+				X308_Titan = { flagship_building_check = { SHIPSIZE = X308_Titan  SHIP_LIMIT = 4 } }
+				nebula_executor = { flagship_building_check = { SHIPSIZE = nebula_executor  SHIP_LIMIT = 4 } }
+				knigjt_hammer_executor = { flagship_building_check = { SHIPSIZE = knigjt_hammer_executor  SHIP_LIMIT = 4 } }
+				eclipse = { flagship_building_check = { SHIPSIZE = eclipse  SHIP_LIMIT = 4 } }
+				Venguard = { flagship_building_check = { SHIPSIZE = Venguard  SHIP_LIMIT = 4 } }
+				nebula_dominance = { flagship_building_check = { SHIPSIZE = nebula_dominance  SHIP_LIMIT = 4 } }
+				SWGS_EclipseII = { flagship_building_check = { SHIPSIZE = SWGS_EclipseII  SHIP_LIMIT = 5 } }
+				SWGS_Lusankya = { flagship_building_check = { SHIPSIZE = SWGS_Lusankya  SHIP_LIMIT = 5 } }
+				SWGS_Nemesis = { flagship_building_check = { SHIPSIZE = SWGS_Nemesis  SHIP_LIMIT = 5 } }
+				ag_ancient_wandering_ship_1 = { flagship_building_check = { SHIPSIZE = ag_ancient_wandering_ship_1  SHIP_LIMIT = 1 } }
+				ag_delta_titan_1 = { flagship_building_check = { SHIPSIZE = ag_delta_titan_1  SHIP_LIMIT = 1 } }
+				ag_zeta_titan = { flagship_building_check = { SHIPSIZE = ag_zeta_titan  SHIP_LIMIT = 1 } }
+				ag_zeta_titan_psi = { flagship_building_check = { SHIPSIZE = ag_zeta_titan_psi  SHIP_LIMIT = 1 } }
+				ag_gamma_titan_1 = { flagship_building_check = { SHIPSIZE = ag_gamma_titan_1  SHIP_LIMIT = 1 } }
+				ag_epsilon_titan_1 = { flagship_building_check = { SHIPSIZE = ag_epsilon_titan_1  SHIP_LIMIT = 1 } }
+				ag_eta_titan_1 = { flagship_building_check = { SHIPSIZE = ag_eta_titan_1  SHIP_LIMIT = 1 } }
+				SRA_Spear_Of_Galaxy_Zenith = { flagship_building_check = { SHIPSIZE = SRA_Spear_Of_Galaxy_Zenith  SHIP_LIMIT = 1 } }
+				Annihilator = { flagship_building_check = { SHIPSIZE = Annihilator  SHIP_LIMIT = 1 } }
+			}
+		} 
+		else = { switch = {
 			trigger = is_ship_size
 			X308_Balletor = { flagship_building_check = { SHIPSIZE = X308_Balletor  SHIP_LIMIT = 3 } }
 			X308_Titan = { flagship_building_check = { SHIPSIZE = X308_Titan  SHIP_LIMIT = 3 } }
@@ -494,8 +520,6 @@ ship_event = {
 			eclipse = { flagship_building_check = { SHIPSIZE = eclipse  SHIP_LIMIT = 3 } }
 			Venguard = { flagship_building_check = { SHIPSIZE = Venguard  SHIP_LIMIT = 3 } }
 			nebula_dominance = { flagship_building_check = { SHIPSIZE = nebula_dominance  SHIP_LIMIT = 3 } }
-			Annihilator = { flagship_building_check = { SHIPSIZE = Annihilator  SHIP_LIMIT = 1 } }
-			eternal_flagship = { flagship_building_check = { SHIPSIZE = eternal_flagship  SHIP_LIMIT = 1 } }
 			SWGS_EclipseII = { flagship_building_check = { SHIPSIZE = SWGS_EclipseII  SHIP_LIMIT = 5 } }
 			SWGS_Lusankya = { flagship_building_check = { SHIPSIZE = SWGS_Lusankya  SHIP_LIMIT = 5 } }
 			SWGS_Nemesis = { flagship_building_check = { SHIPSIZE = SWGS_Nemesis  SHIP_LIMIT = 5 } }
@@ -507,7 +531,8 @@ ship_event = {
 			ag_epsilon_titan_1 = { flagship_building_check = { SHIPSIZE = ag_epsilon_titan_1  SHIP_LIMIT = 1 } }
 			ag_eta_titan_1 = { flagship_building_check = { SHIPSIZE = ag_eta_titan_1  SHIP_LIMIT = 1 } }
 			SRA_Spear_Of_Galaxy_Zenith = { flagship_building_check = { SHIPSIZE = SRA_Spear_Of_Galaxy_Zenith  SHIP_LIMIT = 1 } }
-		} 
+			Annihilator = { flagship_building_check = { SHIPSIZE = Annihilator  SHIP_LIMIT = 1 } }
+		} }
 	}
 }
 
