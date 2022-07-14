@@ -1707,3 +1707,24 @@ country_event = {
 	}
 	immediate = { from = { fleet_event = { id = ag_kae_ge_invasion.241 days = 2 random = 2 } } }
 }
+
+# on_entering_system Check system fleet
+ship_event = {
+	id = ag_kae_ge_invasion.244
+	hide_window = yes
+	is_triggered_only = yes
+
+	is_triggered_only = yes
+
+	trigger = {
+		owner = { is_invisable_faction = no }
+		exists = event_target:ag_kae_ge_invasion_country
+		from = { has_star_flag = ag_kae_e_area_system }
+		AND = {
+			exists = event_target:global_event_country
+			event_target:global_event_country = { check_variable = { which = ag_kae_ge_invasion_num_portals_destroyed value < 6 } }
+		}
+	}
+
+	immediate = { fleet = { destroy_fleet = { target = this destroy_template = yes kill_leader = no } } }
+}
