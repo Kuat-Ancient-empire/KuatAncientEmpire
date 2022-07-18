@@ -485,11 +485,11 @@ set_fleet_modifier = {
 	change_variable = { which = $SUB$_var value = 1 }
 }
 
-# 3.42 update dynamic modifier system down #
 enable_difficult_eternal_protection_system = {
 	if = {
-		limit = { has_enable_flag_ship_system_true = yes owner = { is_kuat_fallen_empire = no } }
-		if = { limit = { kuat_is_flagship_size = { size = Annihilator } } set_fleet_ship_variable_hp = { VALUE = 2 } }
+		limit = { has_enable_flag_ship_system_true = yes has_global_flag = difficult_exe_invasion }
+		if = { limit = { owner = { is_kuat_fallen_empire = yes } } set_fleet_ship_variable_hp = { VALUE = 1 } }
+		else_if = { limit = { kuat_is_flagship_size = { size = Annihilator } } set_fleet_ship_variable_hp = { VALUE = 2 } }
 		else_if = { limit = { kuat_is_flagship_size = { size = eclipse } } set_fleet_ship_variable_hp = { VALUE = 2 } }
 		else_if = { limit = { kuat_is_flagship_size = { size = Venguard } } set_fleet_ship_variable_hp = { VALUE = 2 } }
 		else_if = { limit = { kuat_is_flagship_size = { size = nebula_executor } } set_fleet_ship_variable_hp = { VALUE = 2 } }
@@ -513,22 +513,10 @@ enable_difficult_eternal_protection_system = {
 		else_if = { limit = { kuat_is_flagship_size = { size = ag_eta_titan_1 } } set_fleet_ship_variable_hp = { VALUE = 3 } } 
 		else_if = { limit = { kuat_is_flagship_size = { size = SRA_Spear_Of_Galaxy_Zenith } } set_fleet_ship_variable_hp = { VALUE = 3 } } 
 	}
-	else_if = { limit = { owner = { is_kuat_fallen_empire = yes } } set_fleet_ship_variable_hp = { VALUE = 1 } }
+	else = { set_fleet_ship_variable_hp = { VALUE = 1 } }
 }
-# scope: 
-# prev: ship
-set_fleet_ship_variable_hp = {
-	prev = { 
-		set_variable = { which = Eternal_FLeet_Time value = $VALUE$ } 
-		if = {
-			limit = { NOT = { has_ship_flag = has_eternal_increase_executor_power } }
-			set_timed_ship_flag = { flag = is_invisiable_trigger days = $VALUE$ }
-			eternal_increase_executor_power = { DAYS = $VALUE$ }
-			ship_event = { id = exe_invasion.119 }
-		}
-	}
-}
-# 3.42 update dynamic modifier system down #
+
+set_fleet_ship_variable_hp = { prev = { set_variable = { which = Eternal_FLeet_Time value = $VALUE$ } } }
 
 kuat_reduce_hp_percent = {
 	optimize_memory
