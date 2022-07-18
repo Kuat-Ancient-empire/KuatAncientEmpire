@@ -1457,24 +1457,27 @@ country_event = {
 				ship_event = { id = exe_invasion.138 days = 1 }
 			} }
 		}
-		fromfromfrom = { every_controlled_ship = {
-			if = {
-				limit = { has_global_flag = enable_modifer_check }
-				set_ship_flag = is_modifiering
+		if = {
+			limit = { from = { is_invisable_faction = no } }
+			fromfromfrom = { every_controlled_ship = {
 				if = {
-					limit = { ROOT = { is_eternal_faction = yes } }
-					switch = {
-						trigger = has_global_flag
-						ban_exe_invasion = { ship_event = { id = exe_invasion.136 } }
-						difficult_exe_invasion = { ship_event = { id = exe_invasion.131 } }
-						normal_exe_invasion = { ship_event = { id = exe_invasion.129 } }
-						easy_exe_invasion= { ship_event = { id = exe_invasion.142 } }
-						default = { ship_event = { id = exe_invasion.142 } }
-					}	
+					limit = { has_global_flag = enable_modifer_check }
+					set_ship_flag = is_modifiering
+					if = {
+						limit = { ROOT = { is_eternal_faction = yes } }
+						switch = {
+							trigger = has_global_flag
+							ban_exe_invasion = { ship_event = { id = exe_invasion.136 } }
+							difficult_exe_invasion = { ship_event = { id = exe_invasion.131 } }
+							normal_exe_invasion = { ship_event = { id = exe_invasion.129 } }
+							easy_exe_invasion= { ship_event = { id = exe_invasion.142 } }
+							default = { ship_event = { id = exe_invasion.142 } }
+						}	
+					}
+					else = { ship_event = { id = exe_invasion.142 } }
 				}
-				else = { ship_event = { id = exe_invasion.142 } }
-			}
-		} }
+			} }
+		}
 	}
 }
 
