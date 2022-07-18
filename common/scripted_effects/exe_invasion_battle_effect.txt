@@ -170,12 +170,12 @@ set_easy_eternal_fleet_mult_modifier = {
 	[[hull_regen_add_perc_standard] set_eternal_fleet_standard_modifier = { paramater = $hull_regen_add_perc_standard$ relation = "!=" OUTPUT_VALUE = 1 UNIT_VALUE = -1 }]
 	[[armor_regen_add_perc_standard] set_eternal_fleet_standard_modifier = { paramater = $armor_regen_add_perc_standard$ relation = "!=" OUTPUT_VALUE = 1 UNIT_VALUE = -1 }]
 	[[shield_regen_add_perc_standard] set_eternal_fleet_standard_modifier = { paramater = $shield_regen_add_perc_standard$ relation = "!=" OUTPUT_VALUE = 1 UNIT_VALUE = -1 }] 
-	[[armor_damage_standard] set_eternal_fleet_damage_modifier = { paramater = $armor_damage_standard$ relation = "!=" UNIT = origin UNIT1 = min }]  
-	[[shield_damage_standard] set_eternal_fleet_damage_modifier = { paramater = $shield_damage_standard$ relation = "!=" UNIT = origin UNIT1 = min }]  
-	[[hull_damage_standard] set_eternal_fleet_damage_modifier = { paramater = $hull_damage_standard$ relation = "!=" UNIT = origin UNIT1 = min }]  
-	[[weapon_damage_standard] set_eternal_fleet_damage_modifier = { paramater = $weapon_damage_standard$ relation = "!=" UNIT = origin UNIT1 = min }]  
-	[[tracking_standard] set_eternal_fleet_damage_modifier = { paramater = $tracking_standard$ relation = "!=" UNIT = origin UNIT1 = initial }]  
-	[[accuracy_standard] set_eternal_fleet_damage_modifier = { paramater = $accuracy_standard$ relation = "!=" UNIT = origin UNIT1 = initial }] 
+	[[armor_damage_standard] set_eternal_fleet_insane_damage_modifier = { paramater = $armor_damage_standard$ relation = "!=" UNIT = origin UNIT1 = min }]  
+	[[shield_damage_standard] set_eternal_fleet_insane_damage_modifier = { paramater = $shield_damage_standard$ relation = "!=" UNIT = origin UNIT1 = min }]  
+	[[hull_damage_standard] set_eternal_fleet_insane_damage_modifier = { paramater = $hull_damage_standard$ relation = "!=" UNIT = origin UNIT1 = min }]  
+	[[weapon_damage_standard] set_eternal_fleet_insane_damage_modifier = { paramater = $weapon_damage_standard$ relation = "!=" UNIT = origin UNIT1 = min }]  
+	[[tracking_standard] set_eternal_fleet_insane_damage_modifier = { paramater = $tracking_standard$ relation = "!=" UNIT = origin UNIT1 = initial }]  
+	[[accuracy_standard] set_eternal_fleet_insane_damage_modifier = { paramater = $accuracy_standard$ relation = "!=" UNIT = origin UNIT1 = initial }] 
 
 	#scope: fromfrom
 	[[shield_penetration] set_eternal_fleet_protection_modifier = { paramater = $shield_penetration$ relation = "<" UNIT = min }]  
@@ -216,12 +216,12 @@ set_normal_eternal_fleet_mult_modifier = {
 	[[hull_regen_add_perc_standard] set_eternal_fleet_standard_modifier = { paramater = $hull_regen_add_perc_standard$ relation = "!=" OUTPUT_VALUE = 1 UNIT_VALUE = -1 }]
 	[[armor_regen_add_perc_standard] set_eternal_fleet_standard_modifier = { paramater = $armor_regen_add_perc_standard$ relation = "!=" OUTPUT_VALUE = 1 UNIT_VALUE = -1 }]
 	[[shield_regen_add_perc_standard] set_eternal_fleet_standard_modifier = { paramater = $shield_regen_add_perc_standard$ relation = "!=" OUTPUT_VALUE = 1 UNIT_VALUE = -1 }] 
-	[[armor_damage_standard] set_eternal_fleet_damage_modifier = { paramater = $armor_damage_standard$ relation = "!=" UNIT = origin UNIT1 = small }]  
-	[[shield_damage_standard] set_eternal_fleet_damage_modifier = { paramater = $shield_damage_standard$ relation = "!=" UNIT = origin UNIT1 = small }]  
-	[[hull_damage_standard] set_eternal_fleet_damage_modifier = { paramater = $hull_damage_standard$ relation = "!=" UNIT = origin UNIT1 = small }]  
-	[[weapon_damage_standard] set_eternal_fleet_damage_modifier = { paramater = $weapon_damage_standard$ relation = "!=" UNIT = origin UNIT1 = small }]  
-	[[tracking_standard] set_eternal_fleet_damage_modifier = { paramater = $tracking_standard$ relation = "!=" UNIT = origin UNIT1 = initial }]  
-	[[accuracy_standard] set_eternal_fleet_damage_modifier = { paramater = $accuracy_standard$ relation = "!=" UNIT = origin UNIT1 = initial }]  
+	[[armor_damage_standard] set_eternal_fleet_insane_damage_modifier = { paramater = $armor_damage_standard$ relation = "!=" UNIT = origin UNIT1 = small }]  
+	[[shield_damage_standard] set_eternal_fleet_insane_damage_modifier = { paramater = $shield_damage_standard$ relation = "!=" UNIT = origin UNIT1 = small }]  
+	[[hull_damage_standard] set_eternal_fleet_insane_damage_modifier = { paramater = $hull_damage_standard$ relation = "!=" UNIT = origin UNIT1 = small }]  
+	[[weapon_damage_standard] set_eternal_fleet_insane_damage_modifier = { paramater = $weapon_damage_standard$ relation = "!=" UNIT = origin UNIT1 = small }]  
+	[[tracking_standard] set_eternal_fleet_insane_damage_modifier = { paramater = $tracking_standard$ relation = "!=" UNIT = origin UNIT1 = initial }]  
+	[[accuracy_standard] set_eternal_fleet_insane_damage_modifier = { paramater = $accuracy_standard$ relation = "!=" UNIT = origin UNIT1 = initial }]  
 
 	#scope: fromfrom
 	[[shield_penetration] set_eternal_fleet_protection_modifier = { paramater = $shield_penetration$ relation = "<" UNIT = small }]  
@@ -303,7 +303,6 @@ set_difiicult_eternal_fleet_mult_modifier = {
 # OUTPUT_VALUE: target value of modifier.
 # TYPE: value class type, for example change\subtract.
 # SUPPORT: + OR -  
-# No used(can not run normally after 3.4 version)
 set_eternal_fleet_standard_modifier = {
 	optimize_memory
 	if = { 
@@ -314,19 +313,19 @@ set_eternal_fleet_standard_modifier = {
 		export_modifier_to_variable = { modifier = $paramater$ variable = $paramater$_value }
 		change_variable = { which = $paramater$_value value = $UNIT_VALUE$ }
 		set_invasion_fleet_basic_modifier = { SUB = basic_$paramater$ FACTOR = $paramater$_value }
-		set_variable = { which = debug_$paramater$_value value = $paramater$_value }
-		set_ship_flag = fire_ship_var clear_variable = $paramater$_value
+		if = { limit = { is_variable_set = $paramater$_value } clear_variable = $paramater$_value }
+		set_timed_ship_flag = { flag = $paramater$_ship_cooldown days = 1 }
 	} 
 	else_if = { 
 		limit = { 
-			has_ship_flag = fire_ship_var  
+			has_ship_flag = fire_ship_var NOT = { has_ship_flag = $paramater$_ship_cooldown }
 			check_modifier_value = { modifier = $paramater$ value $relation$ $OUTPUT_VALUE$ }
 		}
 		export_modifier_to_variable = { modifier = $paramater$ variable = change_$paramater$_value }
 		change_variable = { which = change_$paramater$_value value = $UNIT_VALUE$ }
 		set_invasion_fleet_basic_modifier = { SUB = change_basic_$paramater$ FACTOR = change_$paramater$_value }
-		change_variable = { which = debug_$paramater$_value value = change_$paramater$_value }
 		if = { limit = { is_variable_set = change_$paramater$_value } clear_variable = change_$paramater$_value }
+		set_timed_ship_flag = { flag = $paramater$_ship_cooldown days = 1 }
 	}
 }
 
@@ -335,7 +334,6 @@ set_eternal_fleet_standard_modifier = {
 # UNIT：Non flagship value  
 # UNIT1：flagship value
 # SUPPORT: -
-# No used(can not run normally after 3.4 version)
 set_eternal_fleet_damage_modifier = {
 	optimize_memory
 	if = {
@@ -346,10 +344,11 @@ set_eternal_fleet_damage_modifier = {
 		export_modifier_to_variable = { modifier = $paramater$ variable = $paramater$_value }
 		change_variable = { which = $paramater$_value value = @modifer_mult_$UNIT$_value }
 		set_invasion_fleet_basic_modifier = { SUB = basic_$paramater$ FACTOR = $paramater$_value }
-		set_ship_flag = fire_ship_var clear_variable = $paramater$_value
+		if = { limit = { is_variable_set = $paramater$_value } clear_variable = $paramater$_value }
+		set_timed_ship_flag = { flag = $paramater$_ship_cooldown days = 1 }
 	} 
 	else_if = { 
-		limit = { has_ship_flag = fire_ship_var }
+		limit = { has_ship_flag = fire_ship_var NOT = { has_ship_flag = $paramater$_ship_cooldown } }
 		if = {
 			limit = { 
 				fleet = { has_enable_flag_ship_system_true = yes } 
@@ -358,6 +357,8 @@ set_eternal_fleet_damage_modifier = {
 			export_modifier_to_variable = { modifier = $paramater$ variable = change_$paramater$_value }
 			change_variable = { which = change_$paramater$_value value = @modifer_mult_$UNIT1$_value }
 			set_invasion_fleet_basic_modifier = { SUB = change_basic_$paramater$ FACTOR = change_$paramater$_value }
+			if = { limit = { is_variable_set = change_$paramater$_value } clear_variable = change_$paramater$_value }
+			set_timed_ship_flag = { flag = $paramater$_ship_cooldown days = 1 }
 		}
 		else_if = {
 			limit = { 
@@ -367,8 +368,9 @@ set_eternal_fleet_damage_modifier = {
 			export_modifier_to_variable = { modifier = $paramater$ variable = change_$paramater$_value }
 			change_variable = { which = change_$paramater$_value value = @modifer_mult_$UNIT$_value }
 			set_invasion_fleet_basic_modifier = { SUB = change_basic_$paramater$ FACTOR = change_$paramater$_value }
+			if = { limit = { is_variable_set = change_$paramater$_value } clear_variable = change_$paramater$_value }
+			set_timed_ship_flag = { flag = $paramater$_ship_cooldown days = 1 }
 		}
-		if = { limit = { is_variable_set = change_$paramater$_value } clear_variable = change_$paramater$_value }
 	}
 }
 
@@ -378,7 +380,6 @@ set_eternal_fleet_damage_modifier = {
 # UNIT1：flagship value
 # relation： < > or = 
 # SUPPORT -
-# No used(can not run normally after 3.4 version)
 set_eternal_fleet_insane_damage_modifier = {
 	optimize_memory
 	if = {
@@ -389,17 +390,19 @@ set_eternal_fleet_insane_damage_modifier = {
 		export_modifier_to_variable = { modifier = $paramater$ variable = $paramater$_value }
 		change_variable = { which = $paramater$_value value = @modifer_mult_$UNIT$_value }
 		set_invasion_fleet_basic_modifier = { SUB = basic_$paramater$ FACTOR = $paramater$_value }
-		set_ship_flag = fire_ship_var clear_variable = $paramater$_value
+		if = { limit = { is_variable_set = $paramater$_value } clear_variable = $paramater$_value }
+		set_timed_ship_flag = { flag = $paramater$_ship_cooldown days = 1 }
 	} 
 	else_if = { 
 		limit = { 
-			has_ship_flag = fire_ship_var 
+			has_ship_flag = fire_ship_var NOT = { has_ship_flag = $paramater$_ship_cooldown }
 			check_modifier_value = { modifier = $paramater$ value $relation$ @mult_modifer_mult_$UNIT1$_value }
 		}
 		export_modifier_to_variable = { modifier = $paramater$ variable = change_$paramater$_value }
 		change_variable = { which = change_$paramater$_value value = @modifer_mult_$UNIT1$_value }
 		set_invasion_fleet_basic_modifier = { SUB = change_basic_$paramater$ FACTOR = change_$paramater$_value }
 		if = { limit = { is_variable_set = change_$paramater$_value } clear_variable = change_$paramater$_value }
+		set_timed_ship_flag = { flag = $paramater$_ship_cooldown days = 1 }
 	}
 }
 
@@ -418,17 +421,19 @@ set_eternal_fleet_protection_modifier = {
 		export_modifier_to_variable = { modifier = $paramater$ variable = $paramater$_value }
 		subtract_variable = { which = $paramater$_value value = @modifer_mult_$UNIT$_value }
 		set_invasion_fleet_basic_modifier = { SUB = basic_$paramater$ FACTOR = $paramater$_value }
-		set_ship_flag = fire_ship_var clear_variable = $paramater$_value
+		if = { limit = { is_variable_set = $paramater$_value } clear_variable = $paramater$_value }
+		set_timed_ship_flag = { flag = $paramater$_ship_cooldown days = 1 }
 	} 
 	else_if = { 
 		limit = { 
-			has_ship_flag = fire_ship_var 
+			has_ship_flag = fire_ship_var NOT = { has_ship_flag = $paramater$_ship_cooldown }
 			check_modifier_value = { modifier = $paramater$ value $relation$ @modifer_mult_$UNIT$_value }
 		}
 		export_modifier_to_variable = { modifier = $paramater$ variable = change_$paramater$_value }
 		subtract_variable = { which = change_$paramater$_value value = @modifer_mult_$UNIT$_value }
 		set_invasion_fleet_basic_modifier = { SUB = change_basic_$paramater$ FACTOR = change_$paramater$_value }
 		if = { limit = { is_variable_set = change_$paramater$_value } clear_variable = change_$paramater$_value }
+		set_timed_ship_flag = { flag = $paramater$_ship_cooldown days = 1 }
 	}
 }
 
@@ -471,7 +476,6 @@ clear_battleship_modifier_fixed_ship = {
 
 remove_ship_modifier_trigger_flag = {
 	remove_ship_flag = fire_ship_var 
-	remove_ship_flag = fire_ship_var_1
 	remove_ship_flag = is_modifiering
 }
 
@@ -486,28 +490,28 @@ enable_difficult_eternal_protection_system = {
 	if = {
 		limit = { has_enable_flag_ship_system_true = yes owner = { is_kuat_fallen_empire = no } }
 		if = { limit = { kuat_is_flagship_size = { size = Annihilator } } set_fleet_ship_variable_hp = { VALUE = 2 } }
-		else_if = { limit = { kuat_is_flagship_size = { size = SG_Annihilator } } set_fleet_ship_variable_hp = { VALUE = 2 } } 
+		else_if = { limit = { kuat_is_flagship_size = { size = eclipse } } set_fleet_ship_variable_hp = { VALUE = 2 } }
+		else_if = { limit = { kuat_is_flagship_size = { size = Venguard } } set_fleet_ship_variable_hp = { VALUE = 2 } }
+		else_if = { limit = { kuat_is_flagship_size = { size = nebula_executor } } set_fleet_ship_variable_hp = { VALUE = 2 } }
+		else_if = { limit = { kuat_is_flagship_size = { size = knigjt_hammer_executor } } set_fleet_ship_variable_hp = { VALUE = 2 } }
+		else_if = { limit = { kuat_is_flagship_size = { size = nebula_dominance } } set_fleet_ship_variable_hp = { VALUE = 2 } }
+		else_if = { limit = { kuat_is_flagship_size = { size = X308_Balletor } } set_fleet_ship_variable_hp = { VALUE = 2 } }
+		else_if = { limit = { kuat_is_flagship_size = { size = X308_Titan } } set_fleet_ship_variable_hp = { VALUE = 2 } }
+		else_if = { limit = { kuat_is_flagship_size = { size = SG_Annihilator } } set_fleet_ship_variable_hp = { VALUE = 3 } } 
 		else_if = { limit = { kuat_is_flagship_size = { size = sg_eclipse } } set_fleet_ship_variable_hp = { VALUE = 3 } } 
 		else_if = { limit = { kuat_is_flagship_size = { size = sg_nebula_executor } } set_fleet_ship_variable_hp = { VALUE = 3 } } 
 		else_if = { limit = { kuat_is_flagship_size = { size = sg_nebula_dominance } } set_fleet_ship_variable_hp = { VALUE = 3 } } 
-		else_if = { limit = { kuat_is_flagship_size = { size = eclipse } } set_fleet_ship_variable_hp = { VALUE = 3 } }
-		else_if = { limit = { kuat_is_flagship_size = { size = Venguard } } set_fleet_ship_variable_hp = { VALUE = 3 } }
-		else_if = { limit = { kuat_is_flagship_size = { size = nebula_executor } } set_fleet_ship_variable_hp = { VALUE = 3 } }
-		else_if = { limit = { kuat_is_flagship_size = { size = knigjt_hammer_executor } } set_fleet_ship_variable_hp = { VALUE = 3 } }
-		else_if = { limit = { kuat_is_flagship_size = { size = nebula_dominance } } set_fleet_ship_variable_hp = { VALUE = 3 } }
-		else_if = { limit = { kuat_is_flagship_size = { size = X308_Balletor } } set_fleet_ship_variable_hp = { VALUE = 4 } }
-		else_if = { limit = { kuat_is_flagship_size = { size = X308_Titan } } set_fleet_ship_variable_hp = { VALUE = 4 } }
-		else_if = { limit = { kuat_is_flagship_size = { size = SWGS_Nemesis } } set_fleet_ship_variable_hp = { VALUE = 4 } } 
-		else_if = { limit = { kuat_is_flagship_size = { size = SWGS_Lusankya } } set_fleet_ship_variable_hp = { VALUE = 4 } } 
-		else_if = { limit = { kuat_is_flagship_size = { size = SWGS_EclipseII } } set_fleet_ship_variable_hp = { VALUE = 4 } } 
-		else_if = { limit = { kuat_is_flagship_size = { size = ag_ancient_wandering_ship_1 } } set_fleet_ship_variable_hp = { VALUE = 4 } } 
-		else_if = { limit = { kuat_is_flagship_size = { size = ag_delta_titan_1 } } set_fleet_ship_variable_hp = { VALUE = 4 } } 
-		else_if = { limit = { kuat_is_flagship_size = { size = ag_gamma_titan_1 } } set_fleet_ship_variable_hp = { VALUE = 4 } } 
-		else_if = { limit = { kuat_is_flagship_size = { size = ag_zeta_titan } } set_fleet_ship_variable_hp = { VALUE = 4 } } 
-		else_if = { limit = { kuat_is_flagship_size = { size = ag_zeta_titan_psi } } set_fleet_ship_variable_hp = { VALUE = 4 } } 
-		else_if = { limit = { kuat_is_flagship_size = { size = ag_epsilon_titan_1 } } set_fleet_ship_variable_hp = { VALUE = 4 } } 
-		else_if = { limit = { kuat_is_flagship_size = { size = ag_eta_titan_1 } } set_fleet_ship_variable_hp = { VALUE = 4 } } 
-		else_if = { limit = { kuat_is_flagship_size = { size = SRA_Spear_Of_Galaxy_Zenith } } set_fleet_ship_variable_hp = { VALUE = 4 } } 
+		else_if = { limit = { kuat_is_flagship_size = { size = SWGS_Nemesis } } set_fleet_ship_variable_hp = { VALUE = 3 } } 
+		else_if = { limit = { kuat_is_flagship_size = { size = SWGS_Lusankya } } set_fleet_ship_variable_hp = { VALUE = 3 } } 
+		else_if = { limit = { kuat_is_flagship_size = { size = SWGS_EclipseII } } set_fleet_ship_variable_hp = { VALUE = 3 } } 
+		else_if = { limit = { kuat_is_flagship_size = { size = ag_ancient_wandering_ship_1 } } set_fleet_ship_variable_hp = { VALUE = 3 } } 
+		else_if = { limit = { kuat_is_flagship_size = { size = ag_delta_titan_1 } } set_fleet_ship_variable_hp = { VALUE = 3 } } 
+		else_if = { limit = { kuat_is_flagship_size = { size = ag_gamma_titan_1 } } set_fleet_ship_variable_hp = { VALUE = 3 } } 
+		else_if = { limit = { kuat_is_flagship_size = { size = ag_zeta_titan } } set_fleet_ship_variable_hp = { VALUE = 3 } } 
+		else_if = { limit = { kuat_is_flagship_size = { size = ag_zeta_titan_psi } } set_fleet_ship_variable_hp = { VALUE = 3 } } 
+		else_if = { limit = { kuat_is_flagship_size = { size = ag_epsilon_titan_1 } } set_fleet_ship_variable_hp = { VALUE = 3 } } 
+		else_if = { limit = { kuat_is_flagship_size = { size = ag_eta_titan_1 } } set_fleet_ship_variable_hp = { VALUE = 3 } } 
+		else_if = { limit = { kuat_is_flagship_size = { size = SRA_Spear_Of_Galaxy_Zenith } } set_fleet_ship_variable_hp = { VALUE = 3 } } 
 	}
 	else_if = { limit = { owner = { is_kuat_fallen_empire = yes } } set_fleet_ship_variable_hp = { VALUE = 2 } }
 }
