@@ -728,27 +728,15 @@ country_event = {
 	hide_window = yes
 	is_triggered_only = yes
 	trigger = {
+		any_country = { has_origin = origin_eternalthrone }
 		OR = {
-			AND = {
-				any_country = { has_origin = origin_eternalthrone }
-				OR = {
-					any_country = { has_country_flag = eternal_fleet_attack_enenmy }
-					any_country = { has_country_flag = eternal_fleet_destroy_enenmy }
-				}
-				fromfrom = { has_fleet_flag = executing_eternal_fleet }
-				is_same_value = event_target:eternal_support_country
-			}
-			is_country_type = eternal_support_guadian
+			any_country = { has_country_flag = eternal_fleet_attack_enenmy }
+			any_country = { has_country_flag = eternal_fleet_destroy_enenmy }
 		}
+		fromfrom = { has_fleet_flag = executing_eternal_fleet }
+		is_same_value = event_target:eternal_support_country
 	}
 	immediate = {
-		if = {
-			limit = { is_country_type = eternal_support_guadian }
-			random_country = {
-				limit = { is_same_value = event_target:Eternalempire }
-				subtract_variable = { which = eternal_kuat_invasion_fleet_num value = 1 }
-			}
-		}
 		if = {
 			limit = { any_country = { has_country_flag = eternal_fleet_attack_enenmy } }
 			random_country = {
