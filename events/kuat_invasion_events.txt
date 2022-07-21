@@ -1461,10 +1461,10 @@ country_event = {
 				from = { is_invisable_faction = no } 
 				has_global_flag = enable_modifer_check 
 			}
-			fromfromfrom = { every_controlled_ship = {
-				set_ship_flag = is_modifiering
-				if = {
-					limit = { ROOT = { is_eternal_faction = yes } }
+			if = {
+				limit = { ROOT = { is_eternal_faction = yes } }
+				fromfromfrom = { every_controlled_ship = {
+					set_ship_flag = is_modifiering
 					switch = {
 						trigger = has_global_flag
 						ban_exe_invasion = { ship_event = { id = exe_invasion.136 } }
@@ -1473,8 +1473,10 @@ country_event = {
 						easy_exe_invasion= { ship_event = { id = exe_invasion.142 } }
 						default = { ship_event = { id = exe_invasion.142 } }
 					}	
-				}
-				else = { ship_event = { id = exe_invasion.142 } }
+				} }
+			}
+			else = { fromfromfrom = {
+				every_controlled_ship = { set_ship_flag = is_modifiering ship_event = { id = exe_invasion.142 } }
 			} }
 		}
 	}
@@ -1867,7 +1869,6 @@ country_event = {
 								event_target:global_event_country = { check_variable = { which = eternal_fleet_return_index value > 9 } }
 							}
 							modifier = { factor = 10 OR = { has_ship_flag = kuat_ancient_21_target has_ship_flag = kuat_clear_ship_modifier_target } }
-							modifier = { factor = 10 has_global_flag = enable_modifer_check }
 						}
 						# 600 Totally, 150 Available
 						10 = {
@@ -2123,7 +2124,6 @@ country_event = {
 						event_target:global_event_country = { check_variable = { which = eternal_fleet_return_index value > 9 } }
 					}
 					modifier = { factor = 10 OR = { has_ship_flag = kuat_ancient_21_target has_ship_flag = kuat_clear_ship_modifier_target } }
-					modifier = { factor = 10 has_global_flag = enable_modifer_check }
 				}
 				# 1000 Totally, 150 Available
 				10 = {
