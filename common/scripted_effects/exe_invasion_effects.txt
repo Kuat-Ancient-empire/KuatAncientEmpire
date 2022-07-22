@@ -2856,7 +2856,7 @@ eternal_player_fleet_order_1 = {
 			find_closest_planet = {
 				trigger = {
 					id = executing_eternal_fleet.1
-					is_colony = yes
+					is_colony = yes exists = owner
 					owner = { is_hostile = event_target:eternal_support_country }
 					solar_system = { is_same_value = prevprevprevprev }
 				}
@@ -2893,18 +2893,18 @@ eternal_player_fleet_order_1 = {
 						event_target:Eternalempire = {
 							if = {
 								limit = { has_country_flag = eternal_fleet_destroy_enenmy }
-								prevprev = { 
+								event_target:eternal_support_country = { 
 									subtract_variable = { which = list_owned_eternal_fleet value = 1 } 
 									change_variable = { which = mission_finished_eternal_fleet value = 1 }
 								}
 								if = {
-									limit = { prevprev = { OR = {
+									limit = { event_target:eternal_support_country = { OR = {
 										check_variable = { which = list_owned_eternal_fleet value <= 0 } 
 										check_variable = { which = mission_finished_eternal_fleet value >= mission_pending_eternal_fleet }
 									} } }
 									set_timed_country_flag = { flag = have_been_ordered_eternal_fleet days = 1800 } 
 									country_event = { id = kuat_starkiller.18 }
-									prevprev = {
+									event_target:eternal_support_country = {
 										clear_variable = list_owned_eternal_fleet
 										clear_variable = page_owned_eternal_fleet
 										clear_variable = count_eternal_center_target
