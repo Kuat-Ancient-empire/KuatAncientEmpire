@@ -1505,4 +1505,220 @@ situation_event = {
 	after = { destroy_situation = this }
 }
 
+#################
+#STARKILLER BASE#
+#################
+#mtth trigger
+planet_event = {
+	id = kuat_situation.9998
+	title = kuat_situation.9998.name
+	desc = kuat_situation.9998.desc
+	picture = GFX_evt_arctic
+	fire_only_once = yes
+	show_sound = event_default
+
+	location = root
+
+	mean_time_to_happen = { years = 3 }
+
+	pre_triggers = {
+		has_owner = yes
+		is_ai = no
+	}
+
+	trigger = {
+		is_same_value = event_target:starkillerbase_location
+		owner = { has_country_flag = fighting_won_with_facility }
+	}
+
+	option = {
+		name = INTERESTING
+		owner = { start_situation = { type = situation_unlocked_the_I_Area target = this } }
+	}
+}
+
+#25% event essential discover
+situation_event = {
+	id = kuat_situation.45
+	title = kuat_situation.45.name
+	desc = kuat_situation.45.desc
+	picture = GFX_evt_ancient_databank
+	show_sound = event_ai_started
+	is_triggered_only = yes
+	location = target
+
+	option = {
+		name = kuat_situation.21.A
+		custom_tooltip = kuat_situation.21.A.tooltip
+		set_situation_approach = "situation_enlarge_research"
+		icon = {
+			icon = GFX_situation_approach_research
+			icon_background = GFX_situation_approach_bg_green
+			text = set_situation_approach_icon_text
+		}
+		add_situation_progress = 1.6
+	}
+	option = {
+		name = kuat_situation.21.B
+		custom_tooltip = kuat_situation.21.B.tooltip
+		set_situation_approach = "situation_reduce_research"
+		icon = {
+			icon = GFX_situation_approach_research
+			icon_background = GFX_situation_approach_bg_yellow
+			text = set_situation_approach_icon_text
+		}
+		add_situation_progress = 1.6
+	}
+}
+
+#75% event essential discover
+situation_event = {
+	id = kuat_situation.46
+	title = kuat_situation.46.name
+	desc = kuat_situation.46.desc
+	picture = GFX_evt_ancient_databank
+	show_sound = event_ai_started
+	is_triggered_only = yes
+	location = target
+
+	option = {
+		name = kuat_situation.21.A
+		custom_tooltip = kuat_situation.21.A.tooltip
+		set_situation_approach = "situation_enlarge_research"
+		icon = {
+			icon = GFX_situation_approach_research
+			icon_background = GFX_situation_approach_bg_green
+			text = set_situation_approach_icon_text
+		}
+		add_situation_progress = 1.6
+	}
+	option = {
+		name = kuat_situation.21.B
+		custom_tooltip = kuat_situation.21.B.tooltip
+		set_situation_approach = "situation_reduce_research"
+		icon = {
+			icon = GFX_situation_approach_research
+			icon_background = GFX_situation_approach_bg_yellow
+			text = set_situation_approach_icon_text
+		}
+		add_situation_progress = 1.6
+	}
+}
+
+#random event research trap
+situation_event = {
+	id = kuat_situation.47
+	title = kuat_situation.47.name
+	desc = kuat_situation.47.desc
+	picture = GFX_evt_sapient_AI
+	show_sound = event_alien_nature
+	is_triggered_only = yes
+	location = target
+
+	trigger = {
+		current_situation_approach = situation_reduce_research
+		NOT = { has_situation_flag = kuat_random_research_event } 
+	}
+
+	immediate = { set_situation_flag = kuat_random_research_event }
+
+	option = {
+		name = kuat_situation.47.A
+		add_situation_progress = -1.6
+	}
+	option = {
+		name = kuat_situation.47.B
+		add_situation_progress = -0.8
+	}
+}
+
+#random event research paradox
+situation_event = {
+	id = kuat_situation.48
+	title = kuat_situation.48.name
+	desc = kuat_situation.48.desc
+	picture = GFX_evt_sapient_AI
+	show_sound = event_alien_nature
+	is_triggered_only = yes
+	location = target
+
+	trigger = { NOT = { has_situation_flag = kuat_random_research_event } }
+
+	immediate = { set_situation_flag = kuat_random_research_event }
+
+	option = {
+		name = kuat_situation.48.A
+		add_situation_progress = 0.8
+	}
+	option = {
+		name = kuat_situation.48.B
+		hidden_effect = { set_situation_flag = kuat_research_slowly }
+	}
+}
+
+#random event research progress
+situation_event = {
+	id = kuat_situation.49
+	title = kuat_situation.49.name
+	desc = kuat_situation.49.desc
+	picture = GFX_evt_sapient_AI
+	show_sound = event_alien_nature
+	is_triggered_only = yes
+	location = target
+
+	trigger = { 
+		current_stage = stage_2
+		current_situation_approach = situation_enlarge_research
+		NOT = { has_situation_flag = kuat_random_research_event } 
+	}
+
+	immediate = { set_situation_flag = kuat_random_research_event }
+
+	option = {
+		name = kuat_situation.49.A
+		add_situation_progress = 0.8
+	}
+	option = {
+		name = kuat_situation.49.B
+		hidden_effect = { set_situation_flag = kuat_research_quickly }
+	}
+}
+
+#progress completed(effect of Ancient shadow)
+situation_event = {
+	id = kuat_situation.50
+	title = kuat_situation.50.name
+	desc = kuat_situation.50.desc
+	picture = GFX_evt_black_hole
+	show_sound = event_ai_started
+	is_triggered_only = yes
+	location = target
+
+	option = {
+		name = kuat_situation.44.A
+		custom_tooltip = kuat_situation.44.A.tooltip
+		hidden_effect = { enable_special_project = {
+			name = exe_return_starkillerbase_Megashipclass
+			location = event_target:starkillerbase_location
+			owner = root.owner
+		} }
+	}
+	after = { destroy_situation = this }
+}
+
+#add megaship class
+ship_event = {
+	id = kuat_situation.51
+	title = "kuat_situation.51.title"
+	desc = "kuat_situation.51.desc"
+	diplomatic = yes
+	fire_only_once = yes
+	is_triggered_only = yes
+	picture_event_data = { room = satellite_in_orbit_room }
+	custom_gui = "kuat_event_m_window"
+	custom_gui_option = "kuat_event_m_option"
+	immediate = { owner = { set_country_flag = can_build_supermacy } }
+	option = { name = kuat_situation.51.a }
+}
+
 
