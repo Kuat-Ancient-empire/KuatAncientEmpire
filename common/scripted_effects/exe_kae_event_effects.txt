@@ -1,4 +1,5 @@
 
+@ag_jumpdrive_effect_scale = 0.05
 @ag_kae_num_ships_eclipse = 1
 @ag_kae_num_ships_venator = 5
 @ag_kae_ge_fleet_jumpdrive_to_target_distance = 200
@@ -289,20 +290,6 @@ ag_kae_ge_invasion_assault_fleet_spawn = {
 }
 
 ag_kae_ge_invasion_starbase_spawn = {
-	optimize_memory
-	# Failsafe for ship design.
-	if = {
-		limit = { NOT = { exists = event_target:NAME_KUAT_Starbase } }
-		event_target:ag_kae_ge_invasion_country = {
-			create_ship_design = { design = "NAME_KUAT_Starbase" }
-			last_created_design = { save_global_event_target_as = NAME_KUAT_Starbase }
-		}
-	}
-	event_target:ag_kae_ge_invasion_country = { if = {
-		limit = { NOT = { has_country_flag = NAME_KUAT_Starbase } }
-		set_country_flag = NAME_KUAT_Starbase
-		add_ship_design = event_target:NAME_KUAT_Starbase
-	} }
 	create_starbase = { size = exe_starbase owner = event_target:ag_kae_ge_invasion_country }
 }
 

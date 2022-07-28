@@ -31,9 +31,10 @@ namespace = ag_kae_ge_invasion
 @ag_kae_e_area_delayed_hostility_time = 30								# 进入星系后要求离开的时间。
 @ag_kae_ge_invasion_warning_delay_time = 720							# 天灾前兆每次警告通知的间隔。
 @ag_kae_ge_invasion_warning_delay_random = 180							# 天灾前兆每次警告通知的间隔随机值。
-@ag_kae_ge_invasion_primary_portal_num_initial_assault_fleets = 4		# 天灾主传送门自带的舰队数量。
-@ag_kae_ge_invasion_secondary_portal_delay_time = 360					# 天灾传送门刷新间隔。
-@ag_kae_ge_invasion_secondary_portal_delay_random = 360					# 天灾传送门刷新间隔随机值。
+@ag_kae_ge_invasion_primary_portal_num_guardian_fleets = 3				# 天灾主传送门的防卫舰队数量。
+@ag_kae_ge_invasion_primary_portal_num_initial_assault_fleets = 6		# 天灾主传送门的攻击舰队数量。
+@ag_kae_ge_invasion_secondary_portal_delay_time = 720					# 天灾传送门刷新间隔。
+@ag_kae_ge_invasion_secondary_portal_delay_random = 720					# 天灾传送门刷新间隔随机值。
 @ag_kae_ge_invasion_reinforcement_time = 720							# 天灾援军生成间隔。
 @ag_kae_ge_invasion_reinforcement_random = 720							# 天灾援军生成间隔随机值。
 
@@ -897,16 +898,25 @@ country_event = {
 						set_country_flag = ag_kae_ge_invasion_country
 						save_global_event_target_as = ag_kae_ge_invasion_country
 						country_event = { id = ag_kae_ge_invasion.233 days = @ag_kae_ge_invasion_reinforcement_time random = @ag_kae_ge_invasion_reinforcement_random }
+						create_ship_design = { design = "NAME_KUAT_Starbase" }
+						add_ship_design = last_created_design
 					}
 				}
 				ag_kae_ge_invasion_starbase_spawn = yes
 				star = {
 					ag_kae_ge_invasion_primary_portal_spawn = yes
-					ag_kae_ge_invasion_primary_portal_guradian_spawn = yes
+					while = {
+						count = @ag_kae_ge_invasion_primary_portal_num_guardian_fleets
+						ag_kae_ge_invasion_primary_portal_guradian_spawn = yes
+					}
 					while = {
 						count = @ag_kae_ge_invasion_primary_portal_num_initial_assault_fleets
 						ag_kae_ge_invasion_assault_fleet_spawn = yes
 					}
+				}
+				every_fleet_in_system = {
+					limit = { owner = { NOT = { is_same_value = event_target:ag_kae_ge_invasion_country } } }
+					destroy_fleet = { target = this destroy_template = yes kill_leader = no }
 				}
 			}
 			ag_kae_ge_invasion_create_secondary_portal_system = yes
@@ -1145,7 +1155,7 @@ fleet_event = {
 		queue_actions = {
 			repeat = {
 				effect = {
-					id = ag_kae_ge_invasion.218.e0
+					id = ag_kae_ge_invasion.218.jump
 					if = {
 						limit = { has_fleet_flag = eternal_findout_path }
 						random_system = {
@@ -1164,8 +1174,9 @@ fleet_event = {
 				}
 				find_closest_system = {
 					trigger = {
-						id = ag_kae_ge_invasion.218.t1
+						id = ag_kae_ge_invasion.218.attack5
 						NOT = { has_star_flag = ag_kae_e_area_system }
+						distance = { source = root type = hyperlane max_jumps = 5 }
 						any_fleet_in_system = {
 							exists = owner
 							owner = { is_same_value = event_target:ag_kae_ge_invasion_country }
@@ -1175,16 +1186,17 @@ fleet_event = {
 					}
 					found_system = {
 						effect = {
-							id = ag_kae_ge_invasion.218.e1
+							id = ag_kae_ge_invasion.218.move5
 							set_variable = { which = eternal_guardian_fleet_id value = root.fleet_id }
 						}
 						move_to = this 
-						wait = 15
+						wait = { duration = 5 random = 10 }
 					}					
 					failed = { find_closest_system = {
 						trigger = {
-							id = ag_kae_ge_invasion.218.t9
+							id = ag_kae_ge_invasion.218.attack10
 							ROOT = { can_access_system = prev }
+							distance = { source = root type = hyperlane max_jumps = 10 }
 							any_fleet_in_system = {
 								exists = owner
 								owner = { is_same_value = event_target:ag_kae_ge_invasion_country }
@@ -1193,13 +1205,33 @@ fleet_event = {
 						}
 						found_system = {
 							effect = {
-								id = ag_kae_ge_invasion.218.t91
+								id = ag_kae_ge_invasion.218.move10
 								set_variable = { which = eternal_guardian_fleet_id value = root.fleet_id }
 							}
 							move_to = this
-							wait = 15
+							wait = { duration = 5 random = 10 }
 						}
-						failed = { effect = { id = ag_kae_ge_invasion.218.e13 ROOT = { set_fleet_flag = eternal_findout_path } } wait = 15 }
+						failed = { find_closest_system = {
+							trigger = {
+								id = ag_kae_ge_invasion.218.defender
+								is_same_value = event_target:zakuul_system
+								ROOT = { can_access_system = prev }
+								any_fleet_in_system = {
+									exists = owner
+									owner = { is_same_value = event_target:ag_kae_ge_invasion_country }
+								}
+								NOT = { has_star_flag = ag_kae_e_area_system }
+							}
+							found_system = {
+								effect = {
+									id = ag_kae_ge_invasion.218.t91
+									set_variable = { which = eternal_guardian_fleet_id value = root.fleet_id }
+								}
+								move_to = this
+								wait = { duration = 5 random = 10 }
+							}
+							failed = { effect = { id = ag_kae_ge_invasion.218.e13 ROOT = { set_fleet_flag = eternal_findout_path } } wait = { duration = 5 random = 3 } }
+						} }
 					} }
 				}
 			}
