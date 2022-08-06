@@ -1290,7 +1290,7 @@ fleet_execute_order_1 = {
 											while = { id = executor.5.t3 ROOT = { has_fleet_flag = kuat_fallen_bombaring_fleet } }
 											effect = {
 												id = executor.5.t1
-												if = { is_colony = no ROOT = { remove_fleet_flag = kuat_fallen_bombaring_fleet } }
+												if = { limit = { is_colony = no } ROOT = { remove_fleet_flag = kuat_fallen_bombaring_fleet } }
 											} 
 											wait = 5
 										}
@@ -1317,9 +1317,9 @@ fleet_execute_order_3 = {
 				if = {
 					limit = { has_fleet_flag = kuat_cannot_find_path }
 					if = {
-						limit = { exists = event_target:wg_crisis_country }
+						limit = { kuat_is_defense_galaxy_fleet = yes }
 						random_system = {
-							limit = { any_fleet_in_system = { owner = { is_country_type = wg_crisis_country } } }
+							limit = { any_fleet_in_system = { owner = { is_kuat_battle_country = yes } } }
 							random_system_planet = { 
 								prevprev = { 
 									set_location = { target = PREV distance = 300 angle = random } 
@@ -1341,7 +1341,7 @@ fleet_execute_order_3 = {
 			find_closest_system = {
 				trigger = {
 					id = executor.20
-					any_fleet_in_system = { any_controlled_ship = { is_ship_size = wg_dimensional_portal } }
+					any_fleet_in_system = { owner = { is_kuat_battle_country = yes } }
 					prev = { can_access_system = prev }
 					check_variable = { which = kuat_fleet_id value < 1 }
 				}
@@ -1354,7 +1354,7 @@ fleet_execute_order_3 = {
 					repeat = {
 						while = {
 							id = executor.20.a
-							any_fleet_in_system = { any_controlled_ship = { is_ship_size = wg_dimensional_portal } }
+							any_fleet_in_system = { owner = { is_kuat_battle_country = yes } }
 						}
 						move_to = this wait = 5
 					} 
@@ -1364,7 +1364,7 @@ fleet_execute_order_3 = {
 					find_closest_system = {
 						trigger = {
 							id = executor.21
-							any_fleet_in_system = { owner = { is_country_type = wg_crisis_country } }
+							any_fleet_in_system = { owner = { is_kuat_battle_country = yes } }
 							prev = { can_access_system = prev }
 							check_variable = { which = kuat_fleet_id value < 1 }
 						}
@@ -1377,7 +1377,7 @@ fleet_execute_order_3 = {
 							repeat = {
 								while = {
 									id = executor.21.a
-									any_fleet_in_system = { owner = { is_country_type = wg_crisis_country } }
+									any_fleet_in_system = { owner = { is_kuat_battle_country = yes } }
 								}
 								move_to = this wait = 5
 							} 
@@ -2110,6 +2110,10 @@ create_exe_invasion_fleet = {
 			[[Eclipse] while = { count = $Eclipse$ create_ship = { design = Name_boss_eclipse } }]
 
 			#invasion ships
+			[[Infinite_Battleship] while = { count = $Infinite_Battleship$ create_ship = { design = Name_boss_crisis_IBC_$DIFF$ } }]
+			[[Infinite_Crusier] while = { count = $Infinite_Crusier$ create_ship = { design = Name_boss_crisis_IC_$DIFF$ } }]
+			[[Infinite_Mothership] while = { count = $Infinite_Mothership$ create_ship = { design = Name_boss_crisis_IMS_$DIFF$ } }]
+
 			[[Venganza] while = { count = $Venganza$ create_ship = { design = Name_boss_crisis_Venganza_$DIFF$ } }]
 			[[Dominance] while = { count = $Dominance$ create_ship = { design = Name_boss_CRISIS_Dominance_$DIFF$ } }]
 			[[Balletor] while = { count = $Balletor$ create_ship = { design = Name_boss_CRISIS_Balletor_$DIFF$ } }]
@@ -2121,7 +2125,7 @@ create_exe_invasion_fleet = {
 			[[Eternal_battleship] while = { count = $Eternal_battleship$ create_ship = { design = Name_boss_crisis_EBC_$DIFF$ } }] 
 			[[Eternal_flagship] while = { count = $Eternal_flagship$ create_ship = { design = Name_boss_crisis_EFS_$DIFF$ } }] 
 
-			[[Location] set_location = { target = $Location$ distance = 25 angle = 0 }]
+			[[Location] set_location = { target = $Location$ distance = 25 angle = random }]
 			[[spawn_starbase] fleet_event = { id = $spawn_starbase$ days = 1 }] 
 			[[initial_invisable] fleet_event = { id = $initial_invisable$ }]
 			[[fleet_action] fleet_event = { id = $fleet_action$ }]

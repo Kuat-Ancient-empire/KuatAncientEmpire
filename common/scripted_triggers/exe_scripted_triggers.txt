@@ -25,6 +25,7 @@ is_eternal_faction = {
 
 is_invisable_faction= {
 	OR = {
+		is_country_type = Infinite_empire
 		is_kuat_fallen_empire = yes
 		is_eternal_faction = yes
 	}
@@ -89,6 +90,8 @@ eternal_support_diplo_event_active = {
 		kuat_EEstart.6
 		kuat_EEstart.7
 		kuat_EEstart.8
+		kuat_EEstart.9
+		kuat_EEstart.10
 	}
 }
 
@@ -97,10 +100,7 @@ can_communicate_with_kuat = {
 	exists = event_target:fallen_empire_kuat
 	event_target:fallen_empire_kuat = {
 		NOT = { is_hostile = root }
-		OR = {
-			root = { has_ascension_perk = ap_shenhai_silent }
-			event_target:fallen_empire_kuat = { opinion = { who = root value > -100 } }
-		}
+		event_target:fallen_empire_kuat = { opinion = { who = root value > -100 } }
 	}
 	exists = event_target:kuat_shipyard_country
 	event_target:kuat_shipyard_country = { NOT = { is_hostile = root } }
@@ -119,10 +119,7 @@ can_communicate_with_kuat_fleet = {
 	exists = event_target:fallen_empire_kuat
 	event_target:fallen_empire_kuat = {
 		NOT = { is_hostile = root }
-		OR = {
-			root = { has_ascension_perk = ap_shenhai_silent }
-			event_target:fallen_empire_kuat = { opinion = { who = root value > -500 } }
-		}
+		event_target:fallen_empire_kuat = { opinion = { who = root value > -500 } }
 	}
 	exists = event_target:fallen_empire_kuat_fleet
 }
@@ -139,6 +136,18 @@ kuat_is_defense_galaxy_fleet = {
 			is_country_type = wg_crisis_country
 			is_country_type = afk_crisis_country
 		}
+	}
+}
+
+is_kuat_battle_country = {
+	OR = {
+		is_country_type = ai_empire
+		is_country_type = extradimensional
+		is_country_type = extradimensional_2
+		is_country_type = extradimensional_3
+		is_country_type = swarm
+		is_country_type = wg_crisis_country
+		is_country_type = afk_crisis_country
 	}
 }
 
@@ -194,10 +203,9 @@ kuat_is_create_system = {
 kuat_is_can_pass_by_country = {
 	optimize_memory
 	OR = {
+		has_origin = origin_eternalthrone
 		has_country_flag = can_pass_by
 		is_invisable_faction = yes
-		is_country_type = wg_crisis_country
-		is_country_type = afk_crisis_country
 	}
 }
 
@@ -208,17 +216,6 @@ kuat_is_can_inpass_by_country = {
 		has_origin = origin_kuat_apocalyptic
 		has_origin = origin_eternalthrone
 		has_country_flag = can_pass_inner_by
-		is_country_type = wg_crisis_country
-		is_country_type = afk_crisis_country
-	}
-}
-
-kuat_is_diplomat_wsg_country = {
-	optimize_memory
-	OR = {
-		has_authority = auth_warshipgirls
-		has_authority = auth_shenhai
-		has_authority = auth_starshipgirls
 	}
 }
 
@@ -860,4 +857,26 @@ kuat_is_legacy_arc_planet = {
 	is_ringworld = no
 	is_star = no
 	NOT = { exists = archaeological_site }
+}
+
+#bomborment country
+kuat_can_do_bombarment_country = {
+	OR = {
+		is_country_type = kuat_fallen_empire				
+		is_country_type = kuat_awakened_fallen_empire				
+		is_country_type = awakened_return_kuat_empire				
+		is_country_type = ag_kuat_invasion_country				
+		is_country_type = ag_kae_ge_invasion_country
+		is_country_type = Infinite_empire	
+	}
+}
+#be bombarment country
+kuat_can_be_orbital_bombarment_country = {
+	OR = {
+		is_country_type = kuat_fleet
+		is_country_type = kuat_fleet_hostile
+		is_country_type = awakened_return_kuat_empire	
+		is_country_type = kuat_fallen_empire				
+		is_country_type = kuat_awakened_fallen_empire		
+	}
 }

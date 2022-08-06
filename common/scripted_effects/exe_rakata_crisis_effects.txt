@@ -1,0 +1,149 @@
+#scope: swgs crisis
+create_Kuat_Rakata_crisis_fleet_and_admiral = {
+    optimize_memory
+    create_exe_invasion_fleet = {
+        NAME = Name_DFLEET_II
+        is_boss = yes  can_disband = no
+        Fleet_owner = event_target:Infinite_empire
+        bombardment = indiscriminate
+        Infinite_Mothership = 1 Infinite_Battleship = 20 Infinite_Crusier = 30 DIFF = 0
+        Location = PREV flag = Kuat_Rakata_attack_fleet
+        fleet_action = kuat_final_crisis_events.40
+        VAR_TARGET =  event_target:Infinite_empire
+    }
+}
+
+create_Kuat_Rakata_crisis_guard_fleet = {
+    optimize_memory
+    create_exe_invasion_fleet = {
+        NAME = Name_DFLEET
+        is_boss = yes  can_disband = no
+        Fleet_owner = event_target:Infinite_empire
+        bombardment = indiscriminate
+        Infinite_Mothership = 1 Infinite_Battleship = 25 Infinite_Crusier = 50 DIFF = 0
+        Location = PREV flag = Kuat_Rakata_defence_fleet
+    }
+}
+
+create_Kuat_Rakata_crisis_greater_fleet = {
+    optimize_memory
+    create_exe_invasion_fleet = {
+        NAME = Name_DFLEET
+        is_boss = yes  can_disband = no
+        Fleet_owner = event_target:Infinite_empire
+        bombardment = indiscriminate
+        Infinite_Mothership = 1 Infinite_Battleship = 25 Infinite_Crusier = 50 DIFF = 0
+        Location = PREV flag = Kuat_Rakata_defence_fleet
+    }
+}
+
+spawn_rakata_fleets_insane_1 = {
+    optimize_memory
+    while = { 
+        count = 1
+        create_Kuat_Rakata_crisis_greater_fleet = yes
+        last_created_fleet = {
+            set_name = "Name_DFLEET_I"
+            set_timed_fleet_flag = { flag = Kuat_Rakata_defence_fleet days = 4500 }
+            fleet_event = { id = kuat_final_crisis_events.401 days = 4501 }
+        }
+    }
+    while = { 
+        count = 1
+        create_Kuat_Rakata_crisis_greater_fleet = yes
+        last_created_fleet = {
+            set_name = "Name_DFLEET_I"
+            set_timed_fleet_flag = { flag = Kuat_Rakata_defence_fleet days = 6000 }
+            fleet_event = { id = kuat_final_crisis_events.401 days = 6001 }
+        }
+    }
+}
+
+spawn_rakata_fleets_insane_2 = {
+    optimize_memory
+    while = { 
+        count = 1
+        create_Kuat_Rakata_crisis_greater_fleet = yes
+        last_created_fleet = {
+            set_name = "Name_DFLEET_I"
+            set_timed_fleet_flag = { flag = Kuat_Rakata_defence_fleet days = 4500 }
+            fleet_event = { id = kuat_final_crisis_events.401 days = 4501 }
+        }
+    }
+    while = { 
+        count = 1
+        create_Kuat_Rakata_crisis_greater_fleet = yes
+        last_created_fleet = {
+            set_name = "Name_DFLEET_I"
+            set_timed_fleet_flag = { flag = Kuat_Rakata_defence_fleet days = 6000 }
+            fleet_event = { id = kuat_final_crisis_events.401 days = 6001 }
+        }
+    }
+}
+
+
+initialize_Rakata_crisis_system_select = {
+	optimize_memory
+	every_system = {
+		limit = { 
+			OR = {
+				any_country = {
+					OR = {
+						is_country_type = fallen_empire
+						is_country_type = awakened_fallen_empire
+					}
+					any_system_within_border = { is_same_value = PREVPREV }
+				}
+				any_country = {
+					is_country_type = default
+					capital_scope = { solar_system = { is_same_value = PREVPREVPREV } }
+				}
+			}
+		}
+		set_timed_star_flag = { flag = forbit_spawn_system days = 1 }
+	}
+	every_system = {
+		limit = {
+			NOT = { has_star_flag = forbit_spawn_system }
+			OR = {
+				kuat_is_kuat_system	= yes
+				closest_system = {
+					max_steps = 3
+					limit = { has_star_flag = forbit_spawn_system }
+				}
+			}
+		}
+		set_timed_star_flag = { flag = forbit_spawn_system days = 1 }
+	}
+}
+
+initialize_Kuat_Rakata_second_warp_portal_system_select = {
+	optimize_memory
+	every_system = {
+		limit = {
+			NOT = { has_star_flag = forbit_spawn_system }
+			closest_system = {
+				max_steps = 10
+				has_star_flag = Kuat_Rakata_first_warp_portal_system
+			}
+		}
+		set_timed_star_flag = { flag = forbit_spawn_system days = 1 }
+	}
+}
+
+initialize_Kuat_Rakata_third_warp_portal_system_select = {
+	optimize_memory
+	every_system = {
+		limit = {
+			NOT = { has_star_flag = forbit_spawn_system }
+			closest_system = {
+				max_steps = 10
+				OR = {
+					has_star_flag = Kuat_Rakata_first_warp_portal_system
+					has_star_flag = Kuat_Rakata_second_warp_portal_system
+				}
+			}
+		}
+		set_timed_star_flag = { flag = forbit_spawn_system days = 1 }
+	}
+}
