@@ -1170,6 +1170,13 @@ fleet_event = {
 				effect = {
 					id = ag_kae_ge_invasion.218.jump
 					if = {
+						limit = { has_fleet_flag = eternal_findout_path_defender }
+						event_target:zakuul_system = { random_system_planet = { 
+							ROOT = { set_location = { target = PREV distance = 5 angle = random } } 
+						} }
+						remove_fleet_flag = eternal_findout_path_defender
+					}
+					else_if = {
 						limit = { has_fleet_flag = eternal_findout_path }
 						random_system = {
 							limit = {
@@ -1178,9 +1185,12 @@ fleet_event = {
 									exists = owner
 									owner = { is_same_value = event_target:ag_kae_ge_invasion_country }
 								}
-								closest_system = { min_steps = 1 }
 							}
-							random_system_planet = { ROOT = { set_location = { target = PREV distance = 5 angle = random } } }
+							closest_system = { 
+								min_steps = 1
+								max_steps = 3 
+								random_system_planet = { ROOT = { set_location = { target = PREV distance = 5 angle = random } } }
+							}
 						}
 						remove_fleet_flag = eternal_findout_path
 					}
@@ -1237,13 +1247,26 @@ fleet_event = {
 							}
 							found_system = {
 								effect = {
-									id = ag_kae_ge_invasion.218.t91
+									id = ag_kae_ge_invasion.218.defendermove
 									set_variable = { which = eternal_guardian_fleet_id value = root.fleet_id }
 								}
 								move_to = this
 								wait = { duration = 5 random = 10 }
 							}
-							failed = { effect = { id = ag_kae_ge_invasion.218.e13 ROOT = { set_fleet_flag = eternal_findout_path } } wait = { duration = 5 random = 3 } }
+							failed = { 
+								effect = { 
+									id = ag_kae_ge_invasion.218.e13 
+									if = {
+										limit = { event_target:zakuul_system = { any_fleet_in_system = {
+											exists = owner
+											owner = { is_same_value = event_target:ag_kae_ge_invasion_country }
+										} } }
+										ROOT = { set_fleet_flag = eternal_findout_path_defender }
+									} 
+									else = { root = { set_fleet_flag = eternal_findout_path } }
+								} 
+								wait = { duration = 5 random = 3 } 
+							}
 						} }
 					} }
 				}

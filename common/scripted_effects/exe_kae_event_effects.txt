@@ -436,37 +436,43 @@ ag_kae_ge_assault_fleet_action = {
 	else_if = {
 		limit = {
 			root = { exists = solar_system }
-			root.solar_system = {
-				has_star_flag = ag_kae_e_area_system
-			}
+			root.solar_system = { has_star_flag = ag_kae_e_area_system }
 			any_system = {
-				NOT = {
-					has_star_flag = ag_kae_e_area_system
+				if = {
+					limit = { root.solar_system = {
+						count_fleet_in_system = { limit = { has_fleet_flag = ag_kae_ge_assault_fleet } count > 4 }
+					} }
+					NOT = { has_star_flag = ag_kae_e_area_system }
+					exists = owner
+					owner = { is_hostile = event_target:ag_kae_ge_invasion_country }
 				}
-				any_ship_in_system = {
-					is_ship_size = exe_megastructure_starbase
+				else = {
+					NOT = { has_star_flag = ag_kae_e_area_system }
+					any_ship_in_system = { is_ship_size = exe_megastructure_starbase }
 				}
 			}
 		}
 		random_system = {
 			limit = {
-				NOT = {
-					has_star_flag = ag_kae_e_area_system
+				if = {
+					limit = { root.solar_system = {
+						count_fleet_in_system = { limit = { has_fleet_flag = ag_kae_ge_assault_fleet } count > 4 }
+					} }
+					NOT = { has_star_flag = ag_kae_e_area_system }
+					exists = owner
+					owner = { is_hostile = event_target:ag_kae_ge_invasion_country }
 				}
-				any_ship_in_system = {
-					is_ship_size = exe_megastructure_starbase
+				else = { 
+					NOT = { has_star_flag = ag_kae_e_area_system }
+					any_ship_in_system = { is_ship_size = exe_megastructure_starbase }
 				}
 			}
 			random_system_planet = {
-				limit = {
-					is_primary_star = yes
-				}
-				prevprev = {
-					auto_move_to_planet = {
-						target = prev
-						clear_auto_move_on_arrival = yes
-					}
-				}
+				limit = { is_primary_star = yes }
+				prevprev = { auto_move_to_planet = {
+					target = prev
+					clear_auto_move_on_arrival = yes
+				} }
 			}
 		}
 	}
