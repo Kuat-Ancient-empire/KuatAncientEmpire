@@ -95,3 +95,28 @@ country_event = {
 		custom_tooltip = new_admiral
 	}
 }
+
+namespace = crisis
+country_event = {
+	id = crisis.6052
+	hide_window = yes
+
+	is_triggered_only = yes
+
+	immediate = {
+		every_playable_country = {
+			limit = {
+				is_ai = no
+				NOT = { is_same_value = root }
+			}
+			country_event = { id = crisis.6051 }
+		}
+		set_update_modifiers_batch = begin
+		every_system = { 
+			limit = { kuat_is_kuat_system = no }
+			destroy_star_system = yes
+		}
+		set_update_modifiers_batch = end
+		win = yes
+	}
+}
