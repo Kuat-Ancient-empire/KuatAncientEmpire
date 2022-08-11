@@ -884,75 +884,67 @@ fleet_event = {
 		queue_actions = {
 			repeat = {
 				effect = {
-					id = kuat_final_crisis_events.40.e0
+					id = kuat_final_crisis_events.40.jump
 					if = {
-						limit = { count_system = { limit = { check_variable = { which = Rakata_crisis_fleet_id value > 0 } } count = all } }
-						every_system = { set_variable = { which = Rakata_crisis_fleet_id value = 0 } clear_variable = Rakata_crisis_fleet_id }
+						limit = { count_system = { 
+							limit = { check_variable = { which = Rakata_crisis_fleet_id value > 0 } } 
+							count = all 
+						} }
+						every_system = { 
+							set_variable = { which = Rakata_crisis_fleet_id value = 0 } 
+							clear_variable = Rakata_crisis_fleet_id 
+						}
 					}
 					if = {
 						limit = { has_fleet_flag = kuat_cannot_find_path }
-						if = {
+						random_system = {
 							limit = {
-								# 等候一段时间后仍然找不到可通行路径，折跃
-								NOT = {
-									any_system = {
-										ROOT = { can_access_system = PREV }
-										OR = {
-											AND = {
-												exists = starbase
-												starbase = { NOT = { has_starbase_size = exe_starbase } }
-											}
-											any_system_planet = { OR = { is_colony = yes is_colonizable = yes } }
-										}
-									}
+								check_variable = { which = Rakata_crisis_fleet_id value < 1 }
+								OR = {
+									any_system_planet = { OR = { is_colony = yes is_colonizable = yes } }
+									any_fleet_in_system = { exists = owner owner = { is_hostile = event_target:Infinite_empire } }
 								}
 							}
-							random_system = {
-								limit = {
-									any_system_planet = { is_colony = no }
-									closest_system = {
-										min_steps = 1
-										any_system_planet = { OR = { is_colony = yes is_colonizable = yes } }
-									}
-								}
-								random_system_planet = { ROOT = { set_location = { target = PREV distance = 5 angle = random } } }
+							closest_system = {
+								min_steps = 1
+								system_star = { ROOT = { set_location = { target = PREV distance = 5 angle = random } } }
 							}
-						} remove_fleet_flag = kuat_cannot_find_path
+						} 
+						set_timed_fleet_flag = { flag = ag_jump_drive_cooldown days = 200 }
+						remove_fleet_flag = kuat_cannot_find_path
 					}
 				}
 				find_closest_system = {
 					trigger = {
-						id = kuat_final_crisis_events.40.t1
+						id = kuat_final_crisis_events.40.find5
 						OR = {
-							AND = {
-								exists = starbase
-								starbase = { NOT = { has_starbase_size = exe_starbase } }
-							}
+							any_fleet_in_system = { exists = owner owner = { is_hostile = event_target:Infinite_empire } }
 							any_system_planet = { OR = { is_colony = yes is_colonizable = yes } }
 						}
+						distance = { source = root type = hyperlane max_jumps = 10 }
 						ROOT = { can_access_system = prev }
 						check_variable = { which = Rakata_crisis_fleet_id value < 1 }
 					}
 					found_system = {
 						effect = {
-							id = kuat_final_crisis_events.40.e1
+							id = kuat_final_crisis_events.40.move5
 							set_variable = { which = Rakata_crisis_fleet_id value = root.fleet_id }
 						}
 						move_to = this
 						repeat = {
 							while = {
-								id = kuat_final_crisis_events.40.t2
+								id = kuat_final_crisis_events.40.find5planetwhile
 								any_system_planet = { OR = { is_colony = yes is_colonizable = yes } }
 							}
 							find_closest_planet = {
 								trigger = {
-									id = kuat_final_crisis_events.40.t3
+									id = kuat_final_crisis_events.40.find5planet
 									OR = { is_colony = yes is_colonizable = yes }
 								}
 								found_planet = {
 									orbit_planet = this
 									effect = {
-										id = kuat_final_crisis_events.40.e2
+										id = kuat_final_crisis_events.40.move5planet
 										ROOT = { set_fleet_flag = Rakata_bombarding_planet }
 										if = {
 											limit = { is_colony = no is_colonizable = yes }
@@ -962,100 +954,95 @@ fleet_event = {
 									}
 									repeat = {
 										while = {
-											id = kuat_final_crisis_events.40.t4
+											id = kuat_final_crisis_events.40.bombardment5while
 											ROOT = { has_fleet_flag = Rakata_bombarding_planet }
 										}
 										effect = {
-											id = kuat_final_crisis_events.40.e3
+											id = kuat_final_crisis_events.40.bombardment5action
 											if = {
-												# 星球被炸到没人，移除flag
 												limit = { is_colony = no is_colonizable = no }
 												ROOT = { remove_fleet_flag = Rakata_bombarding_planet }
 											}
 										} 
-										wait = 5
+										wait = { duration = 5 random = 1 }
 									}
 								}
 							}
 							move_to = this							# move away from the planet
-							wait = 5
+							wait = { duration = 5 random = 10 }
 						} 
-						wait = 15
+						wait = { duration = 5 random = 10 }
 					}					
-					failed = {
-						# 找不到路，先去附近有舰队的星系帮忙炸球
-						find_closest_system = {
-							trigger = {
-								id = kuat_final_crisis_events.40.t9
-								ROOT = { can_access_system = prev }
-								check_variable = { which = Rakata_crisis_fleet_id value < 1 }
+					failed = { find_closest_system = {
+						trigger = {
+							id = kuat_final_crisis_events.40.find10
+							ROOT = { can_access_system = prev }
+							OR = {
+								any_fleet_in_system = { exists = owner owner = { is_hostile = event_target:Infinite_empire } }
+								any_system_planet = { OR = { is_colony = yes is_colonizable = yes } }
 							}
-							found_system = {
-								effect = {
-									id = kuat_final_crisis_events.40.t91
-									set_variable = { which = Rakata_crisis_fleet_id value = root.fleet_id }
-								}
-								move_to = this
-								repeat = {
-									while = {
-										id = kuat_final_crisis_events.40.t10
-										any_system_planet = { OR = { is_colony = yes is_colonizable = yes } }
-									}
-									find_closest_planet = {
-										trigger = {
-											id = kuat_final_crisis_events.40.t11
-											is_colony = yes
-										}
-										found_planet = {
-											orbit_planet = this
-											effect = {
-												id = kuat_final_crisis_events.40.e10
-												ROOT = { set_fleet_flag = Rakata_bombarding_planet }
-												if = {
-													limit = {
-														#宜居星球过1个月炸掉
-														is_colony = no
-														is_colonizable = yes
-													}
-													set_planet_flag = Rakata_crisis_target_planet
-													planet_event = { id = kuat_final_crisis_events.47 days = 30 }
-												}
-											}
-											repeat = {
-												while = {
-													id = kuat_final_crisis_events.40.t12
-													ROOT = { has_fleet_flag = Rakata_bombarding_planet }
-												}
-												effect = {
-													id = kuat_final_crisis_events.40.e11
-													if = {
-														# 星球被炸到没人，移除flag
-														limit = {
-															is_colony = no
-															is_colonizable = no
-														}
-														ROOT = { remove_fleet_flag = Rakata_bombarding_planet }
-													}
-												} 
-												wait = 5
-											}
-										}
-									}
-									move_to = this											# move away from the planet
-									wait = 15
-								} 
-								wait = 15
-							}
-							failed = {
-								# 完全找不到路，等候一会
-								effect = {
-									id = kuat_final_crisis_events.40.e13
-									ROOT = { set_fleet_flag = kuat_cannot_find_path }
-								}
-								wait = 200
-							}
+							distance = { source = root type = hyperlane max_jumps = 20 }
+							check_variable = { which = Rakata_crisis_fleet_id value < 1 }
 						}
-					}
+						found_system = {
+							effect = {
+								id = kuat_final_crisis_events.40.move10
+								set_variable = { which = Rakata_crisis_fleet_id value = root.fleet_id }
+							}
+							move_to = this
+							repeat = {
+								while = {
+									id = kuat_final_crisis_events.40.find10planetwhile
+									any_system_planet = { OR = { is_colony = yes is_colonizable = yes } }
+								}
+								find_closest_planet = {
+									trigger = {
+										id = kuat_final_crisis_events.40.find10planet
+										OR = { is_colony = yes is_colonizable = yes }
+									}
+									found_planet = {
+										orbit_planet = this
+										effect = {
+											id = kuat_final_crisis_events.40.move10planet
+											ROOT = { set_fleet_flag = Rakata_bombarding_planet }
+											if = {
+												limit = { is_colony = no is_colonizable = yes }
+												set_planet_flag = Rakata_crisis_target_planet
+												planet_event = { id = kuat_final_crisis_events.47 days = 30 }
+											}
+										}
+										repeat = {
+											while = {
+												id = kuat_final_crisis_events.40.bombardment10while
+												ROOT = { has_fleet_flag = Rakata_bombarding_planet }
+											}
+											effect = {
+												id = kuat_final_crisis_events.40.bombardment10action
+												if = {
+													limit = { is_colony = no is_colonizable = no }
+													ROOT = { remove_fleet_flag = Rakata_bombarding_planet }
+												}
+											} 
+											wait = { duration = 5 random = 1 }
+										}
+									}
+								}
+								move_to = this											# move away from the planet
+								wait = { duration = 5 random = 10 }
+							} 
+							wait = { duration = 5 random = 10 }
+						}
+						failed = { 
+							effect = { 
+								id = kuat_final_crisis_events.40.jumptrigger 
+								root = { if = {
+									limit = { NOT = { has_fleet_flag = ag_jump_drive_cooldown } }
+									set_fleet_flag = kuat_cannot_find_path
+								} }
+							} 
+							wait = { duration = 5 random = 10 } 
+						}
+					} }
 				}
 			}
 		}
