@@ -1,6 +1,6 @@
 namespace = kuat_origin
 country_event = {
-	id = kuat_origin.0
+	id = kuat_origin.999
 	hide_window = yes
 	is_triggered_only = yes
 	trigger = { 
@@ -20,12 +20,13 @@ country_event = {
 	hide_window = yes
 	is_triggered_only = yes
 	
-	trigger = { 
-		is_ai = no
+	trigger = {
+		NOT = { has_country_flag = fire_only_once_system }
 		has_origin = origin_kuat_apocalyptic 
 	}
 	
 	immediate = {
+		set_country_flag = fire_only_once_system
 		every_playable_country = {
 			limit = { NOT = { has_communications = root } }
 			establish_communications_no_message = root
@@ -34,12 +35,10 @@ country_event = {
 			limit = { has_star_flag = kuat_initial_origin_system }
 			kuat_origin_system_initial_creating = yes
 		}
-		event_target:Kuat_system_int = {
-			random_system_planet = {
-				limit = { has_planet_flag = center_world }
-				save_event_target_as = new_home_planet
-			}
-		}
+		event_target:Kuat_system_int = { random_system_planet = {
+			limit = { has_planet_flag = center_world }
+			save_event_target_as = new_home_planet
+		} }
 		kuat_research_all_technology = yes
 		kuat_origin_give_all_ship_and_tech = yes
 		set_country_flag = kuat_starting_country
