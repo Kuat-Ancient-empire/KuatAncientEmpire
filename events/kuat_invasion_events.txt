@@ -1430,7 +1430,7 @@ country_event = {
 	hide_window = yes
 	is_triggered_only = yes
 	trigger = { is_invisable_faction = yes }
-	immediate = { 
+	immediate = {
 		if = {
 			limit = { from = { is_invisable_faction = no } }
 			random_list = {
@@ -1465,7 +1465,14 @@ country_event = {
 					owner = { is_eternal_faction = yes }
 				}
 				change_variable = { which = combat_days value = 1 }
-				root.fromfromfrom = { enable_difficult_eternal_protection_system = yes }
+				switch = {
+					trigger = has_global_flag
+					ban_exe_invasion = { set_fleet_ship_variable_hp = { VALUE = 1 } }
+					difficult_exe_invasion = { set_fleet_ship_variable_hp = { VALUE = 2 } }
+					normal_exe_invasion = { set_fleet_ship_variable_hp = { VALUE = 1 } }
+					easy_exe_invasion = { set_fleet_ship_variable_hp = { VALUE = 1 } }
+					default = { set_fleet_ship_variable_hp = { VALUE = 1 } }
+				}
 				ship_event = { id = exe_invasion.138 days = 1 }
 			} }
 		}
