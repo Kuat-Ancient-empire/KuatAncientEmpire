@@ -2030,3 +2030,40 @@ country_event = {
 		}
 	}
 }
+
+country_event = {
+	id = executor_build.292
+	hide_window = yes
+	is_triggered_only = yes
+	trigger = { has_origin = origin_eternalthrone }
+	immediate = { country_event = { id = executor_build.293 days = 3 random = 5 } }
+}
+
+country_event = {
+	id = executor_build.293
+	hide_window = yes
+	is_triggered_only = yes
+	trigger = { has_origin = origin_eternalthrone }
+	immediate = { every_owned_planet = {
+		if = {
+			limit = { 
+				OR = {
+					NOT = { is_variable_set = building_producation_index }
+					NOT = { check_variable = { which = building_producation_index value = trigger:num_pops } }
+				}
+				NOT = { has_planet_flag = PR_flg_plnt_ASCENDED }
+			}
+			set_variable = { which = building_producation_index value = trigger:num_pops }
+		}
+		else_if = {
+			limit = { 
+				has_planet_flag = PR_flg_plnt_ASCENDED 
+				OR = {
+					NOT = { is_variable_set = building_producation_index }
+					NOT = { check_variable = { which = building_producation_index value = PR_var_plnt_HC } }
+				}
+			}
+			set_variable = { which = building_producation_index value = PR_var_plnt_HC }
+		}
+	} }
+}
