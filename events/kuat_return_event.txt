@@ -242,8 +242,8 @@ country_event = {
 	desc = "exe_kuat_return.6.desc"
 	diplomatic = yes
 	picture_event_data = { room = fallen_empire_awakes_room }
-	custom_gui = "kuat_event_window"
-	custom_gui_option = "kuat_event_option"
+	custom_gui = "kuat_event_m_window"
+	custom_gui_option = "kuat_event_m_option"
 	show_sound = event_yellow_alert
 	location = root.capital_scope
 	is_triggered_only = yes
@@ -667,7 +667,14 @@ country_event = {
 	hide_window = no
 	is_triggered_only = yes
 	title = "exe_kuat_return.16.title"
-	desc = "exe_kuat_return.16.desc"
+	desc = {
+		trigger = { NOT = { has_origin = origin_eternalthrone } }
+		text = "exe_kuat_return.16.desc"
+	}
+	desc = {
+		trigger = { has_origin = origin_eternalthrone }
+		text = "kuat_facility_return_invasion.24.desc"
+	}
 	diplomatic = yes
 	picture_event_data = { room = galactic_community_room }
 	custom_gui = "kuat_event_m_window"
@@ -679,19 +686,23 @@ country_event = {
 		hidden_effect = {
 			win = yes
 			if = {
-				limit = { has_federation = yes }
-				federation = { every_member = { leave_alliance = { override_requirements = yes } } }
-				every_war = { end_war_effect = yes }
+				limit = { NOT = { has_origin = origin_eternalthrone } }
+				if = {
+					limit = { has_federation = yes }
+					federation = { every_member = { leave_alliance = { override_requirements = yes } } }
+					every_war = { end_war_effect = yes }
+				}
+				if = {
+					limit = { has_global_flag = begin_eternal_return }
+					country_event = { id = exe_kuat_return.161 days = 30 }
+				}
 			}
-			if = {
-				limit = { has_global_flag = begin_eternal_return }
-				country_event = { id = exe_kuat_return.161 days = 30 }
-			}
+			country_event = { id = kuat_facility_return_invasion.23 days = 2 random = 2 }
 		}
 	}
 	option = {
 		name = "exe_kuat_return.16.b"
-		trigger = { has_global_flag = finish_five_stage_legacy_kuat }
+		trigger = { has_global_flag = finish_five_stage_legacy_kuat NOT = { has_origin = origin_eternalthrone } }
 		hidden_effect = {
 			if = {
 				limit = { has_federation = yes }
@@ -1168,4 +1179,619 @@ country_event = {
 			}
 		}
 	}
+}
+
+
+namespace = kuat_facility_return_invasion
+#阶段一
+event = {
+	id = kuat_facility_return_invasion.1
+	hide_window = yes
+	is_triggered_only = yes
+	trigger = {
+		has_global_flag = fire_facility_return
+		NOT = { has_global_flag = exe_kuat_return_seed }
+	}
+	immediate = {
+		set_global_flag = exe_kuat_return_seed
+		set_timed_global_flag = {
+			flag = exe_invasion_signs_kuat_return_cooldown
+			days = 1000
+		}
+		every_playable_country = { country_event = { id = kuat_facility_return_invasion.2 days = 1 random = 2 } }
+	}
+}
+
+country_event = {
+	id = kuat_facility_return_invasion.2
+	title = "kuat_facility_return_invasion.2.name"
+	desc = "kuat_facility_return_invasion.2.desc"
+	diplomatic = yes
+	picture_event_data = { room = satellite_in_orbit_room }
+	custom_gui = "kuat_event_m_window"
+	custom_gui_option = "kuat_event_m_option"
+	show_sound = event_sensor_ping
+	location = root.capital_scope
+	is_triggered_only = yes
+	option = { name = "kuat_facility_return_invasion.2.a" }
+}
+
+#阶段二(星域变动）
+event = {
+	id = kuat_facility_return_invasion.3
+	hide_window = yes
+	is_triggered_only = yes
+	trigger = {
+		has_global_flag = fire_facility_return
+		has_global_flag = exe_kuat_return_seed
+		NOR = {
+			has_global_flag = exe_kuat_return_2_fired
+			has_global_flag = exe_invasion_signs_kuat_return_cooldown
+		}
+	}
+	immediate = {
+		set_global_flag = exe_kuat_return_2_fired
+		set_timed_global_flag = {
+			flag = exe_invasion_signs_kuat_return_cooldown
+			days = 200
+		}
+		set_spawn_system_batch = begin
+		kuat_spawn_origin_system_initial_all = yes
+		set_spawn_system_batch = end
+		every_playable_country = { country_event = { id = kuat_facility_return_invasion.4 days = 1 random = 2 } }
+	}
+}
+
+country_event = {
+	id = kuat_facility_return_invasion.4
+	title = "kuat_facility_return_invasion.4.name"
+	desc = "kuat_facility_return_invasion.4.desc"
+	diplomatic = yes
+	picture_event_data = { room = Eternal_Empire2_room }
+	custom_gui = "kuat_event_m_window"
+	custom_gui_option = "kuat_event_m_option"
+	show_sound = event_yellow_alert
+	location = root.capital_scope
+	is_triggered_only = yes
+	option = { name = "kuat_facility_return_invasion.4.a" }
+}
+
+#阶段三(监管者创建）
+event = {
+	id = kuat_facility_return_invasion.5
+	hide_window = yes
+	is_triggered_only = yes
+	trigger = {
+		has_global_flag = fire_facility_return
+		has_global_flag = exe_kuat_return_2_fired
+		NOR = {
+			has_global_flag = exe_invasion_signs_kuat_return_cooldown
+			has_global_flag = exe_kuat_return_3_fired
+		}
+	}
+	immediate = {
+		set_global_flag = exe_kuat_return_3_fired
+		set_timed_global_flag = { flag = exe_invasion_signs_kuat_return_cooldown days = 20 }
+		every_playable_country = { country_event = { id = kuat_facility_return_invasion.6 days = 2 } }
+		random_country = {
+			limit = { is_ai = no }
+			country_event = { id = kuat_facility_return_invasion.61 days = 1 }
+		}
+	}
+}
+
+country_event = {
+	id = kuat_facility_return_invasion.61
+	hide_window = yes
+	fire_only_once = yes
+	is_triggered_only = yes
+	immediate = {
+		#国家
+		create_country = {
+			name = "Name_Kuat_Fire_base"
+			species = event_target:kuat_player_target_species
+			name_list = "MAM3"
+			type = awakened_return_kuat_empire
+			flag = {
+				icon = {
+					category = "Kuat"
+					file = "flag_swsit_1.dds"
+				}
+				background = {
+					category = "backgrounds"
+					file = "00_solid.dds"
+				}
+				colors = { "red" "red" "null" "null" }
+			}
+			ignore_initial_colony_error = yes
+			authority = auth_imperial
+			civics = {
+				civic = civic_revanchist_fervor_kuat
+				civic = civic_ancient_caches_of_technology_kuat
+			}
+			origin = "origin_fallen_empire"
+			ethos = { ethic = ethic_fanatic_materialist }
+			effect = {
+				save_global_event_target_as = return_kuat_awakening_country
+				set_graphical_culture = fallen_empire_kuat_01
+				set_country_flag = return_fallen_empire_kuat
+				# must initialize global designs here
+				create_ship_design = { design = "NAME_KUAT_Starbase" }
+				add_ship_design = last_created_design
+				add_modifier = { modifier = awaken_ship }
+			}
+		}
+		#殖民
+		every_system = {
+			limit = { kuat_is_kuat_system = yes }
+			every_system_planet = {
+				if = {
+					limit = { is_colonizable = yes }
+					set_controller = event_target:return_kuat_awakening_country
+					set_owner = event_target:return_kuat_awakening_country
+					create_pop = { species = event_target:return_kuat_awakening_country.main_species }
+					add_district = district_city
+				}
+				else_if = {
+					limit = {
+						is_star = no
+						is_asteroid = no
+						is_ringworld = no
+						NOR = {
+							has_planet_flag = has_megastructure
+							is_planet_class = pc_gaia
+							is_planet_class = pc_ringworld_habitable
+							is_planet_class = pc_ringworld_seam
+							is_planet_class = pc_ringworld_tech
+							is_planet_class = pc_ringworld_habitable_damaged
+							is_planet_class = pc_ringworld_seam_damaged
+							is_planet_class = pc_ringworld_tech_damaged
+							is_planet_class = pc_ringworld_shielded
+						}
+					}
+					set_controller = event_target:return_kuat_awakening_country
+					set_owner = event_target:return_kuat_awakening_country
+					change_pc = pc_gaia
+					create_pop = { species = event_target:return_kuat_awakening_country.main_species }
+					while = { count = 1 add_district = district_city }
+				}
+			}
+		}
+	}
+}
+
+country_event = {
+	id = kuat_facility_return_invasion.6
+	title = "kuat_facility_return_invasion.6.name"
+	desc = "kuat_facility_return_invasion.6.desc"
+	diplomatic = yes
+	picture_event_data = { room = fallen_empire_awakes_room }
+	custom_gui = "kuat_event_m_window"
+	custom_gui_option = "kuat_event_m_option"
+	show_sound = event_yellow_alert
+	location = root.capital_scope
+	is_triggered_only = yes
+	immediate = { establish_communications_no_message = event_target:return_kuat_awakening_country }
+	option = { name = "kuat_facility_return_invasion.6.a" }
+}
+
+#阶段四(监管者军事力量关闭星门）
+event = {
+	id = kuat_facility_return_invasion.7
+	hide_window = yes
+	is_triggered_only = yes
+	trigger = {
+		has_global_flag = fire_facility_return
+		has_global_flag = exe_kuat_return_3_fired
+		NOR = {
+			has_global_flag = exe_invasion_signs_kuat_return_cooldown
+			has_global_flag = exe_kuat_return_4_fired
+		}
+	}
+	immediate = {
+		set_global_flag = disable_kuat_by_passed
+		set_global_flag = exe_kuat_return_4_fired
+		set_timed_global_flag = {
+			flag = exe_invasion_signs_kuat_return_cooldown
+			days = 20
+		}
+		every_playable_country = { country_event = { id = kuat_facility_return_invasion.8 days = 2 } }
+		random_country = {
+			limit = { is_ai = no }
+			country_event = { id = kuat_facility_return_invasion.81 days = 1 }
+		}
+	}
+}
+
+country_event = {
+	id = kuat_facility_return_invasion.81
+	hide_window = yes
+	is_triggered_only = yes
+	fire_only_once = yes
+	trigger = {
+		has_global_flag = fire_facility_return
+	}
+	immediate = {
+		event_target:return_kuat_awakening_country = {
+			create_kuat_return_starbase = yes
+			while = { count = 2 create_kuat_return_fleet_defender = yes }
+		}
+		remove_country_flag = can_pass_by 
+		remove_country_flag = can_pass_inner_by
+	}
+}
+
+country_event = {
+	id = kuat_facility_return_invasion.8
+	hide_window = no
+	diplomatic = yes
+	title = "kuat_facility_return_invasion.8.title"
+	desc = "kuat_facility_return_invasion.8.desc"
+	custom_gui = "kuat_event_diplomacy_window"
+	custom_gui_option = "kuat_event_diplomacy_option"
+	picture_event_data = {
+		city_level = event_target:return_kuat_awakening_country
+		portrait = event_target:return_kuat_awakening_country
+		room = event_target:return_kuat_awakening_country.ruler
+		planet_background = event_target:return_kuat_awakening_country
+		graphical_culture = event_target:return_kuat_awakening_country
+	}
+	is_triggered_only = yes
+	#你们怎么阴魂不散
+	option = { 
+		name = "kuat_facility_return_invasion.8.a" 
+		is_dialog_only = yes
+		response_text = "kuat_facility_return_invasion.8.a.response"
+	}
+	#你们才是这个银河的毒瘤
+	option = { 
+		name = "kuat_facility_return_invasion.8.b" 
+		response_text = "kuat_facility_return_invasion.8.b.response"
+	}
+}
+
+#阶段五（重启星门）
+event = {
+	id = kuat_facility_return_invasion.9
+	hide_window = yes
+	is_triggered_only = yes
+	trigger = {
+		has_global_flag = fire_facility_return
+		has_global_flag = exe_kuat_return_4_fired
+		NOR = {
+			has_global_flag = exe_invasion_signs_kuat_return_cooldown
+			has_global_flag = exe_kuat_return_5_fired
+		}
+	}
+	immediate = {
+		set_global_flag = exe_kuat_return_5_fired
+		set_timed_global_flag = {
+			flag = exe_invasion_signs_kuat_return_cooldown
+			days = 20
+		}
+		every_playable_country = { country_event = { id = kuat_facility_return_invasion.10 days = 2 random = 2 } }
+	}
+}
+
+country_event = {
+	id = kuat_facility_return_invasion.10
+	hide_window = no
+	is_triggered_only = yes
+	title = "kuat_facility_return_invasion.10.title"
+	desc = "kuat_facility_return_invasion.10.desc"
+	diplomatic = yes
+	picture_event_data = { room = l-gateway_room }
+	custom_gui = "kuat_event_m_window"
+	custom_gui_option = "kuat_event_m_option"
+	trigger = {
+		has_global_flag = fire_facility_return
+	}
+	immediate = { 
+		remove_country_flag = can_pass_by 
+		remove_country_flag = can_pass_inner_by
+		every_system = {
+			limit = { kuat_is_kuat_system = yes }
+			isolate_system = yes
+		}
+	}
+	option = { name = "kuat_facility_return_invasion.10.a" }
+}
+
+#泛银河同盟
+event = {
+	id = kuat_facility_return_invasion.11
+	hide_window = yes
+	is_triggered_only = yes
+	trigger = {
+		has_global_flag = fire_facility_return
+		has_global_flag = exe_kuat_return_5_fired
+		NOR = {
+			has_global_flag = exe_invasion_signs_kuat_return_cooldown
+			has_global_flag = exe_kuat_return_6_fired
+		}
+	}
+	immediate = {
+		set_global_flag = exe_kuat_return_6_fired
+		every_playable_country = {
+			limit = { is_ai = no }
+			country_event = { id = kuat_facility_return_invasion.12 days = 2 }
+		}
+	}
+}
+
+country_event = {
+	id = kuat_facility_return_invasion.12
+	hide_window = no
+	title = "kuat_facility_return_invasion.12.title"
+	desc = "kuat_facility_return_invasion.12.desc"
+	diplomatic = yes
+	picture_event_data = { room = galactic_community_room }
+	custom_gui = "kuat_event_window"
+	custom_gui_option = "kuat_event_option"
+	fire_only_once = yes
+	is_triggered_only = yes
+	trigger = {
+		has_global_flag = fire_facility_return
+		any_country = { is_country_type = awakened_return_kuat_empire }
+		has_global_flag = exe_kuat_return_6_fired
+	}
+	immediate = { save_global_event_target_as = player_declare_warer }
+	#建立同盟
+	option = {
+		name = "exe_kuat_return.12.a"
+		set_global_flag = build_the_galaxy_guardiance_alliance
+		hidden_effect = { country_event = { id = kuat_facility_return_invasion.15 days = 30 } }
+	}
+}
+
+#玩家建立
+country_event = {
+	id = kuat_facility_return_invasion.15
+	fire_only_once = yes
+	hide_window = yes
+	is_triggered_only = yes
+	trigger = { 
+		has_global_flag = build_the_galaxy_guardiance_alliance 
+		has_global_flag = fire_facility_return
+	}
+	immediate = {
+		if = {
+			limit = { has_federation = yes }
+			set_federation_leader = root
+			every_playable_country = {
+				limit = { has_federation = no }
+				join_alliance = { who = root override_requirements = yes }
+			}
+			federation = {
+				set_name = "Name_DEFNECE"
+				add_cohesion = 200
+				add_federation_experience = 1000
+				set_federation_flag = galactic_alliance_for_kuat
+				set_federation_type = imperial_loyalists_federation
+				set_federation_law = centralization_imperial_loyalists
+				set_federation_law = succession_type_none
+				set_federation_law = succession_term_perpetual
+				set_federation_law = fleet_contribution_none
+				set_federation_law = treaties_separate_no_imperial_loyalists
+				set_federation_law = declare_war_president_vote_imperial_loyalists
+				set_federation_law = invite_members_president_vote_imperial_loyalists
+				set_federation_law = kick_members_president_vote_imperial_loyalists
+				set_federation_law = vote_weight_diplomatic_imperial_loyalists
+				set_federation_law = allow_subjects_to_join_yes_imperial_loyalists
+			}
+		} 
+		else = {
+			join_alliance = {
+				who = root
+				name = "Name_DEFNECE"
+				override_requirements = yes
+			}
+			set_federation_leader = root
+			every_playable_country = {
+				limit = { has_federation = no }
+				join_alliance = { who = root override_requirements = yes }
+			}
+			federation = {
+				add_cohesion = 200
+				add_federation_experience = 1000
+				set_federation_flag = galactic_alliance_for_kuat
+				set_federation_type = imperial_loyalists_federation
+				set_federation_law = centralization_imperial_loyalists
+				set_federation_law = succession_type_none
+				set_federation_law = succession_term_perpetual
+				set_federation_law = fleet_contribution_none
+				set_federation_law = treaties_separate_no_imperial_loyalists
+				set_federation_law = declare_war_president_vote_imperial_loyalists
+				set_federation_law = invite_members_president_vote_imperial_loyalists
+				set_federation_law = kick_members_president_vote_imperial_loyalists
+				set_federation_law = vote_weight_diplomatic_imperial_loyalists
+				set_federation_law = allow_subjects_to_join_yes_imperial_loyalists
+			}
+		}
+		country_event = { id = kuat_facility_return_invasion.16 }
+	}
+}
+
+country_event = {
+	id = kuat_facility_return_invasion.16
+	hide_window = no
+	title = "kuat_facility_return_invasion.16.title"
+	desc = "kuat_facility_return_invasion.16.desc"
+	diplomatic = yes
+	picture_event_data = { room = Eternal_Empire2_room }
+	custom_gui = "kuat_event_m_window"
+	custom_gui_option = "kuat_event_m_option"
+	fire_only_once = yes
+	is_triggered_only = yes
+	trigger = {
+		has_global_flag = fire_facility_return
+	}
+	option = {
+		name = "kuat_facility_return_invasion.16.a"
+		hidden_effect = {
+			save_global_event_target_as = kuat_Annihilate_country
+			set_country_flag = kuat_Annihilate_country
+			declare_war = {
+				target = event_target:return_kuat_awakening_country
+				name = "Galactic Civil War"
+				attacker_war_goal = Kuat_total_war
+			}
+			event_target:return_kuat_awakening_country = {
+				country_event = { id = kuat_facility_return_invasion.18 days = 180 }
+				country_event = { id = kuat_facility_return_invasion.18 days = 360 }
+				country_event = { id = kuat_facility_return_invasion.18 days = 540 }
+				country_event = { id = kuat_facility_return_invasion.19 days = 720 }
+			}
+		}
+	}
+	after = { country_event = { id = kuat_facility_return_invasion.20 days = 1 random = 2 } set_global_flag = exe_return_invasion_7_fired }
+}
+
+#战争补船
+country_event = {
+	id = kuat_facility_return_invasion.18
+	hide_window = yes
+	is_triggered_only = yes
+	trigger = {
+		has_global_flag = fire_facility_return
+		is_at_war = yes
+		is_country_type = awakened_return_kuat_empire
+	}
+	immediate = { create_kuat_return_fleet_attacker = yes }
+}
+
+country_event = {
+	id = kuat_facility_return_invasion.19
+	hide_window = yes
+	is_triggered_only = yes
+	trigger = {
+		has_global_flag = fire_facility_return
+		is_country_type = awakened_return_kuat_empire
+		is_at_war = yes
+	}
+	immediate = {
+		create_kuat_return_fleet_attacker = yes
+		country_event = { id = kuat_facility_return_invasion.19 days = 360 random = 360 }
+	}
+}
+
+# Eternal Systme Tale
+country_event = {
+	id = kuat_facility_return_invasion.20
+	title = "kuat_facility_return_invasion.20.title"
+	desc = "kuat_facility_return_invasion.20.desc"
+	diplomatic = yes
+	picture_event_data = {
+		portrait = event_target:ETERNAL_LEADER
+		room = Eternal_Empire_room
+	}
+	custom_gui = "kuat_event_diplomacy_window"
+	custom_gui_option = "kuat_event_diplomacy_option"
+	show_sound = event_wind_ruins
+	is_triggered_only = yes
+	trigger = { has_global_flag = eternal_support_country_channal }
+	#What about the Eternal Fleet
+	option = { 
+		name = kuat_facility_return_invasion.20.a 
+		is_dialog_only = yes
+		response_text = kuat_facility_return_invasion.20.a.resp 
+	}
+	#Can you control them?
+	option = { 
+		name = kuat_facility_return_invasion.20.b 
+		is_dialog_only = yes
+		response_text = kuat_facility_return_invasion.20.b.resp 
+	}
+	#What can i do for you
+	option = { 
+		name = kuat_facility_return_invasion.20.c 
+		response_text = kuat_facility_return_invasion.20.c.resp 
+	}
+	#We will
+	option = { 
+		name = kuat_facility_return_invasion.20.d 
+		response_text = kuat_facility_return_invasion.20.d.resp 
+	}
+}
+
+country_event = {
+	id = kuat_facility_return_invasion.21
+	title = "kuat_facility_return_invasion.21.title"
+	desc = "kuat_facility_return_invasion.21.desc"
+	diplomatic = yes
+	picture_event_data = {
+		portrait = event_target:ETERNAL_LEADER
+		room = Eternal_Empire_room
+	}
+	custom_gui = "kuat_event_diplomacy_window"
+	custom_gui_option = "kuat_event_diplomacy_option"
+	show_sound = event_wind_ruins
+	is_triggered_only = yes
+	trigger = { has_global_flag = eternal_support_country_channal }
+	#Enable Gateway
+	option = { 
+		name = kuat_facility_return_invasion.21.a 
+		is_dialog_only = yes
+		response_text = kuat_facility_return_invasion.21.a.resp 
+	}
+	#Final fire
+	option = { 
+		name = kuat_facility_return_invasion.21.b 
+		response_text = kuat_facility_return_invasion.21.b.resp 
+	}
+}
+
+country_event = {
+	id = kuat_facility_return_invasion.22
+	title = "kuat_facility_return_invasion.22.title"
+	desc = "kuat_facility_return_invasion.22.desc"
+	diplomatic = yes
+	picture_event_data = {
+		portrait = event_target:ETERNAL_LEADER
+		room = Eternal_Empire_room
+	}
+	custom_gui = "kuat_event_diplomacy_window"
+	custom_gui_option = "kuat_event_diplomacy_option"
+	show_sound = event_wind_ruins
+	is_triggered_only = yes
+	trigger = { has_global_flag = eternal_support_country_channal }
+	#We will destroy all starbase
+	option = { 
+		name = kuat_facility_return_invasion.22.b 
+		response_text = kuat_facility_return_invasion.22.b.resp 
+	}
+}
+
+country_event = {
+	id = kuat_facility_return_invasion.23
+	title = "kuat_facility_return_invasion.23.title"
+	desc = "kuat_facility_return_invasion.23.desc"
+	diplomatic = yes
+	picture_event_data = {
+		portrait = event_target:ETERNAL_LEADER
+		room = Eternal_Empire_room
+	}
+	custom_gui = "kuat_event_diplomacy_window"
+	custom_gui_option = "kuat_event_diplomacy_option"
+	show_sound = event_wind_ruins
+	is_triggered_only = yes
+	trigger = { has_global_flag = eternal_support_country_channal }
+	#For ALL thing we need say good bye, for the future we will see again
+	option = { 
+		name = kuat_facility_return_invasion.23.b 
+		response_text = kuat_facility_return_invasion.23.b.resp 
+		hidden_effect = {
+			if = {
+				limit = { NOT = { has_existing_ship_design = eternal_battleship } }
+				create_ship_design = { design = Name_boss_crisis_EBC_3 }
+				add_ship_design = last_created_design
+			}
+			if = {
+				limit = { NOT = { has_existing_ship_design = eternal_flagship } }
+				create_ship_design = { design = Name_boss_crisis_EFS_3 }
+				add_ship_design = last_created_design
+			}
+		}
+	}
+	after = { event_target:eternal_support_country = { destroy_country = yes } }
 }
