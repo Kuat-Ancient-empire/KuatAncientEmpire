@@ -723,7 +723,14 @@ country_event = {
 					country_event = { id = exe_kuat_return.161 days = 30 }
 				}
 			}
-			country_event = { id = kuat_facility_return_invasion.23 days = 2 random = 2 }
+			if = {
+				limit = { has_country_flag = eternal_fleet_ennded_A }
+				country_event = { id = kuat_facility_return_invasion.23 days = 2 random = 2 }
+			}
+			else_if = {
+				limit = { has_country_flag = eternal_fleet_ennded_B }
+				country_event = { id = kuat_facility_return_invasion.25 days = 2 random = 2 }
+			}
 		}
 	}
 	option = {
@@ -1454,7 +1461,7 @@ country_event = {
 	immediate = {
 		event_target:return_kuat_awakening_country = {
 			create_kuat_return_starbase = yes
-			while = { count = 2 create_kuat_return_fleet_defender = yes }
+			create_kuat_return_fleet_defender = yes
 		}
 		remove_country_flag = can_pass_by 
 		remove_country_flag = can_pass_inner_by
@@ -1683,12 +1690,14 @@ country_event = {
 				attacker_war_goal = Kuat_total_war
 			}
 			event_target:return_kuat_awakening_country = {
-				country_event = { id = kuat_facility_return_invasion.18 days = 180 }
-				country_event = { id = kuat_facility_return_invasion.18 days = 360 }
 				country_event = { id = kuat_facility_return_invasion.18 days = 540 }
 				country_event = { id = kuat_facility_return_invasion.19 days = 720 }
 			}
 		}
+	}
+	immediate = { 
+		event_target:global_event_country = { set_variable = { which = count_destroy_eternal_fleet value = 0 } }
+		event_target:global_event_country = { set_variable = { which = eternal_fleet_return_index value = 3 } } 
 	}
 	after = { country_event = { id = kuat_facility_return_invasion.20 days = 1 random = 2 } set_global_flag = exe_return_invasion_7_fired }
 }
@@ -1723,11 +1732,11 @@ country_event = {
 				limit = { is_ship_size = eclipse }
 				count > 36
 			} }
-			country_event = { id = kuat_facility_return_invasion.19 days = 360 random = 360 }
+			country_event = { id = kuat_facility_return_invasion.19 days = 720 random = 720 }
 		}
 		else = {
 			create_kuat_return_fleet_attacker = yes
-			country_event = { id = kuat_facility_return_invasion.19 days = 360 random = 360 }
+			country_event = { id = kuat_facility_return_invasion.19 days = 720 random = 720 }
 		}
 	}
 }
@@ -1764,10 +1773,17 @@ country_event = {
 		name = kuat_facility_return_invasion.20.c 
 		response_text = kuat_facility_return_invasion.20.c.resp 
 	}
-	#We will
+	#We will A
 	option = { 
 		name = kuat_facility_return_invasion.20.d 
 		response_text = kuat_facility_return_invasion.20.d.resp 
+		hidden_effect = { set_country_flag = eternal_fleet_ennded_A }
+	}
+	#We will B
+	option = { 
+		name = kuat_facility_return_invasion.20.e 
+		response_text = kuat_facility_return_invasion.20.e.resp 
+		hidden_effect = { set_country_flag = eternal_fleet_ennded_B }
 	}
 }
 
@@ -1851,4 +1867,82 @@ country_event = {
 		}
 	}
 	after = { event_target:eternal_support_country = { destroy_country = yes } }
+}
+
+country_event = {
+	id = kuat_facility_return_invasion.24
+	title = "kuat_facility_return_invasion.24.title"
+	desc = "kuat_facility_return_invasion.24.desc"
+	diplomatic = yes
+	picture_event_data = { room = Eternal_Empire2_room }
+	custom_gui = "kuat_event_m_window"
+	custom_gui_option = "kuat_event_m_option"
+	show_sound = event_wind_ruins
+	is_triggered_only = yes
+	trigger = { has_global_flag = eternal_support_country_channal }
+	#Final fire
+	option = { name = kuat_facility_return_invasion.24.a }
+}
+
+country_event = {
+	id = kuat_facility_return_invasion.25
+	title = "kuat_facility_return_invasion.25.title"
+	desc = "kuat_facility_return_invasion.25.desc"
+	diplomatic = yes
+	picture_event_data = {
+		portrait = event_target:ETERNAL_LEADER
+		room = Eternal_Empire_room
+	}
+	custom_gui = "kuat_event_diplomacy_window"
+	custom_gui_option = "kuat_event_diplomacy_option"
+	show_sound = event_wind_ruins
+	is_triggered_only = yes
+	trigger = { has_global_flag = eternal_support_country_channal }
+	#For ALL thing we need say good bye, for the future we will see again
+	immediate = {
+		if = {
+			limit = { NOT = { has_existing_ship_design = eternal_battleship } }
+			create_ship_design = { design = Name_boss_crisis_EBC_3 }
+			add_ship_design = last_created_design
+		}
+		if = {
+			limit = { NOT = { has_existing_ship_design = eternal_flagship } }
+			create_ship_design = { design = Name_boss_crisis_EFS_3 }
+			add_ship_design = last_created_design
+		}
+	}
+	option = { 
+		name = kuat_facility_return_invasion.25.b 
+		is_dialog_only = yes
+		response_text = kuat_facility_return_invasion.25.b.resp 
+	}
+	option = { 
+		name = kuat_facility_return_invasion.25.a
+		response_text = kuat_facility_return_invasion.25.a.resp 
+		hidden_effect = { enable_special_project = {
+			name = eternal_reroll_endedA_rountine
+			location = root.capital_scope owner = root
+		} }
+	}
+	option = { 
+		name = kuat_facility_return_invasion.25.c 
+		response_text = kuat_facility_return_invasion.25.c.resp 
+	}
+}
+
+country_event = {
+	id = kuat_facility_return_invasion.26
+	title = "kuat_facility_return_invasion.26.name"
+	desc = "kuat_facility_return_invasion.26.desc"
+	diplomatic = yes
+	custom_gui = "kuat_event_m_window"
+	custom_gui_option = "kuat_event_m_option"
+	picture_event_data = { room = ancient_knowledge_room }
+	show_sound = event_wind_ruins
+	is_triggered_only = yes
+	immediate = { 
+		set_global_flag = eternal_ended_A_rountine
+		event_target:zakuul_system = { create_elternal_origin_system_warbase = { lock = yes } }
+	}
+	option = { name = "kuat_facility_return_invasion.26.a" }
 }

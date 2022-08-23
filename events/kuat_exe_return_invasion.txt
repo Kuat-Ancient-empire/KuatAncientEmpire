@@ -230,7 +230,10 @@ event = {
 			create_elternal_system_warbase = { lock = yes }
 			system_star = {
 				if = {
-					limit = { any_country = { is_ai = no has_origin = origin_kuat_apocalyptic } }
+					limit = { any_country = { is_ai = no OR = {
+						has_origin = origin_kuat_apocalyptic
+						has_origin = origin_eternalthrone
+					} } }
 					if = {
 						limit = { event_target:global_event_country = {
 							check_variable = { which = eternal_fleet_return_index value <= 1 }
@@ -737,7 +740,7 @@ country_event = {
 			event_target:ag_kuat_invasion_country = { country_event = { id = exe_return_invasion.37 days = 30 } }
 		}
 	}
-	after = { if = { limit = { has_origin = origin_eternalthrone } country_event = { id = kuat_facility_return_invasion.22 days = 2 random = 3 } } }
+	after = { if = { limit = { has_origin = origin_eternalthrone has_country_flag = eternal_fleet_ennded_A } country_event = { id = kuat_facility_return_invasion.22 days = 2 random = 3 } } }
 }
 
 #Eternal starbase destroy
@@ -810,7 +813,10 @@ planet_event = {
 		}
 		event_target:ag_kuat_invasion_country = {
 			if = {
-				limit = { any_country = { is_ai = no has_origin = origin_kuat_apocalyptic } }
+				limit = { any_country = { is_ai = no OR = {
+					has_origin = origin_kuat_apocalyptic
+					has_origin = origin_eternalthrone
+				} } }
 				if = {
 					limit = { 
 						event_target:global_event_country = {
@@ -966,7 +972,10 @@ country_event = {
 		if = {
 			limit = { 
 				if = {
-					limit = { any_country = { is_ai = no has_origin = origin_kuat_apocalyptic } }
+					limit = { any_country = { is_ai = no OR = {
+						has_origin = origin_kuat_apocalyptic
+						has_origin = origin_eternalthrone
+					} } }
 					if = {
 						limit = { event_target:global_event_country = {
 							check_variable = { which = eternal_fleet_return_index value <= 1 }
@@ -1523,7 +1532,14 @@ country_event = {
 			if = {
 				limit = { is_ai = no has_origin = origin_eternalthrone  }
 				remove_global_flag = disable_kuat_by_passed
-				country_event = { id = kuat_facility_return_invasion.21 days = 2 random = 2 }
+				if = {
+					limit = { has_country_flag = eternal_fleet_ennded_A }
+					country_event = { id = kuat_facility_return_invasion.21 days = 2 random = 2 }
+				}
+				else_if = {
+					limit = { has_country_flag = eternal_fleet_ennded_B }
+					country_event = { id = kuat_facility_return_invasion.24 days = 2 random = 2 }
+				}
 			}
 			set_country_flag = can_be_kuat_building_T2
 		}
