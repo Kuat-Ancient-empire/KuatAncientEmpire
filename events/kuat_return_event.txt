@@ -1718,8 +1718,17 @@ country_event = {
 		is_at_war = yes
 	}
 	immediate = {
-		create_kuat_return_fleet_attacker = yes
-		country_event = { id = kuat_facility_return_invasion.19 days = 360 random = 360 }
+		if = {
+			limit = { count_owned_ship = {
+				limit = { is_ship_size = eclipse }
+				count > 36
+			} }
+			country_event = { id = kuat_facility_return_invasion.19 days = 360 random = 360 }
+		}
+		else = {
+			create_kuat_return_fleet_attacker = yes
+			country_event = { id = kuat_facility_return_invasion.19 days = 360 random = 360 }
+		}
 	}
 }
 
