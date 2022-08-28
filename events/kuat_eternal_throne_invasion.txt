@@ -510,10 +510,7 @@ fleet_event = {
 	show_sound = event_collapsing_ruins
 	archaeology = yes
 	is_triggered_only = yes
-	immediate = {
-		from = { set_site_progress_locked = yes }
-		owner = { set_country_flag = ag_kae_e_area_arc_site_completed }
-	}
+	immediate = { from = { set_site_progress_locked = yes } }
 	after = { from = { set_site_progress_locked = no } }
 	option = {
 		name = "ag_kae_ge_invasion.127.a"
@@ -522,6 +519,7 @@ fleet_event = {
 			change_pc = pc_ringworld_habitable_damaged
 			set_planet_entity = { picture = pc_ringworld_habitable_damaged }
 		}
+		hidden_effect = { owner = { set_country_flag = ag_kae_e_area_arc_site_completed } }
 	}
 }
 
@@ -555,7 +553,12 @@ country_event = {
 	custom_gui_option = "kuat_event_m_option"
 
 	fire_only_once = yes
-	mean_time_to_happen = { years = 3 }
+	mean_time_to_happen = { 
+		years = 3 
+		modifier = { factor = 0.5 years_passed > 100 }
+		modifier = { factor = 0.25 years_passed > 125 }
+		modifier = { factor = 0.1 years_passed > 135 }
+	}
 	trigger = { has_country_flag = ag_kae_e_area_arc_site_completed }
 	immediate = {
 		random_system = {
@@ -1187,10 +1190,18 @@ fleet_event = {
 									owner = { is_same_value = event_target:ag_kae_ge_invasion_country }
 								}
 							}
-							closest_system = { 
-								min_steps = 1
-								max_steps = 3 
-								limit = { NOT = { has_star_flag = ag_kae_e_area_system } }
+							if = {
+								limit = { event_target:global_event_country = {
+									check_variable = { which = ag_kae_ge_invasion_num_portals_destroyed value > 3 }
+								} }
+								closest_system = { 
+									min_steps = 1
+									max_steps = 3 
+									limit = { NOT = { has_star_flag = ag_kae_e_area_system } }
+									random_system_planet = { ROOT = { set_location = { target = PREV distance = 5 angle = random } } }
+								}
+							}
+							else = {
 								random_system_planet = { ROOT = { set_location = { target = PREV distance = 5 angle = random } } }
 							}
 						}
@@ -2210,7 +2221,10 @@ country_event = {
 	show_sound = event_wind_ruins
 	is_triggered_only = yes
 	fire_only_once = yes
-	immediate = { every_system = { limit = { has_star_flag = kuat_initial_system } remove_star_flag = kuat_initial_system } }
+	immediate = { 
+		every_system = { limit = { has_star_flag = kuat_initial_system } remove_star_flag = kuat_initial_system } 
+		random_system = { limit = { has_star_flag = Kuat_system_int_4 } remove_star_flag = Kuat_empire_system }
+	}
 	# get infinite fleet
 	option = { 
 		name = ag_kae_ge_invasion.258.a 
@@ -2245,6 +2259,7 @@ country_event = {
 				}
 				every_system_planet = { remove_modifier = exe_megastructure_starbase_in_system }
 			}
+			set_global_flag = infinite_empire_channal
 			enable_special_project = { name = rakata_invasion_eternal_reward_project location = capital_scope owner =  root }
 		}
 		response_text = ag_kae_ge_invasion.258.b.resp 

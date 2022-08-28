@@ -673,7 +673,14 @@ country_event = {
 	id = exe_kuat_return.15
 	hide_window = yes
 	is_triggered_only = yes
-	trigger = { is_country_type = awakened_return_kuat_empire }
+	trigger = { 
+		if = {
+			limit = { has_global_flag = has_origin_eternalthrone }
+			has_global_flag = enable_attack_facility_Area
+			is_country_type = awakened_return_kuat_empire
+		}
+		else = { is_country_type = awakened_return_kuat_empire }
+	}
 	immediate = {
 		every_country = {
 			limit = { is_ai = no }
@@ -699,7 +706,7 @@ country_event = {
 	}
 	desc = {
 		trigger = { has_origin = origin_eternalthrone }
-		text = "kuat_facility_return_invasion.24.desc"
+		text = "kuat_facility_return_invasion.27.desc"
 	}
 	diplomatic = yes
 	picture_event_data = { room = galactic_community_room }
@@ -1697,7 +1704,13 @@ country_event = {
 	}
 	immediate = { 
 		event_target:global_event_country = { set_variable = { which = count_destroy_eternal_fleet value = 0 } }
-		event_target:global_event_country = { set_variable = { which = eternal_fleet_return_index value = 3 } } 
+		if = {
+			limit = { has_global_flag = eternal_support_country_channal }
+			event_target:global_event_country = { set_variable = { which = eternal_fleet_return_index value = 3 } }
+		} 
+		else = {
+			event_target:global_event_country = { set_variable = { which = eternal_fleet_return_index value = 5 } }
+		}
 	}
 	after = { country_event = { id = kuat_facility_return_invasion.20 days = 1 random = 2 } set_global_flag = exe_return_invasion_7_fired }
 }
@@ -1771,6 +1784,7 @@ country_event = {
 	#What can i do for you
 	option = { 
 		name = kuat_facility_return_invasion.20.c 
+		is_dialog_only = yes
 		response_text = kuat_facility_return_invasion.20.c.resp 
 	}
 	#We will A
