@@ -648,21 +648,55 @@ country_event = {
 	immediate = {
 		every_system = {
 			limit = { has_star_flag = kuat_epsilon_titan_star_killer_weapon_target@root }
-			event_target:eternal_support_country = {
-				establish_communications_no_message = prev.space_owner
-				set_faction_hostility = { 
-					target = prev.space_owner
-					set_hostile = yes set_friendly = no 
-				}
-				random_controlled_fleet = {
-					limit = { 
-						has_fleet_flag = executing_eternal_fleet 
-						NOT = { has_fleet_flag = executing_eternal_fleet_temple }
+			if = {
+				limit = { exists = space_owner }
+				event_target:eternal_support_country = {
+					establish_communications_no_message = prev.space_owner
+					set_faction_hostility = { 
+						target = prev.space_owner
+						set_hostile = yes set_friendly = no 
 					}
-					set_location = prevprev.system_star
-					set_timed_fleet_flag = { flag = executing_eternal_fleet_temple days = 1 }
-					every_controlled_ship = { create_jump_particle_effect = yes }
-					eternal_player_fleet_order_1 = yes
+					random_controlled_fleet = {
+						limit = { 
+							has_fleet_flag = executing_eternal_fleet 
+							NOT = { has_fleet_flag = executing_eternal_fleet_temple }
+						}
+						set_location = prevprev.system_star
+						set_timed_fleet_flag = { flag = executing_eternal_fleet_temple days = 1 }
+						every_controlled_ship = { create_jump_particle_effect = yes }
+						eternal_player_fleet_order_1 = yes
+					}
+				}
+			}
+			else = {
+				every_fleet_in_system = {
+					limit = {
+						exists = owner
+						owner = {  
+							NOR = {
+								is_same_value = root
+								is_same_value = event_target:eternal_support_country
+							}
+							is_hostile = root
+							NOT = { is_hostile = event_target:eternal_support_country }
+						}
+					}
+					owner = {  
+						establish_communications_no_message = event_target:eternal_support_country
+						set_faction_hostility = { target = event_target:eternal_support_country set_hostile = yes set_friendly = no }
+					}
+				}
+				event_target:eternal_support_country = {
+					random_controlled_fleet = {
+						limit = { 
+							has_fleet_flag = executing_eternal_fleet 
+							NOT = { has_fleet_flag = executing_eternal_fleet_temple }
+						}
+						set_location = prevprev.system_star
+						set_timed_fleet_flag = { flag = executing_eternal_fleet_temple days = 1 }
+						every_controlled_ship = { create_jump_particle_effect = yes }
+						eternal_player_fleet_order_1 = yes
+					}
 				}
 			}
 			remove_star_flag = kuat_epsilon_titan_star_killer_weapon_target@root

@@ -270,6 +270,7 @@ fleet_event = {
 		large_artifact_reward = yes
 		event_target:has_kuat_lagacy_9 = {
 			change_pc = pc_gaia
+			set_planet_size = 25
 			add_modifier = { modifier = paradise_planet }
 			add_deposit = d_underwater_vent
 			add_deposit = d_frozen_gas_lake
@@ -497,6 +498,7 @@ fleet_event = {
 		large_artifact_reward = yes
 		event_target:has_kuat_lagacy_10 = {
 			change_pc = pc_gaia
+			set_planet_size = 25
 			add_modifier = { modifier = paradise_planet }
 			add_deposit = d_underwater_vent
 			add_deposit = d_frozen_gas_lake
@@ -2086,9 +2088,11 @@ planet_event = {
 	}
 	trigger = { 
 		has_planet_flag = colonied_eternal_ringworld
+		NOT = { has_planet_flag = colonied_eternal_ringworld_over }
 		is_planet_class = pc_kuat_eternal_ringworld_habitable 
 		owner = { has_origin = origin_eternalthrone }
 	}
+	immediate = { set_planet_flag = colonied_eternal_ringworld_over }
 	option = {
 		name = executor_build.294.a
 		hidden_effect = { while = { limit = { free_district_slots > 1 } add_district = district_arcology_kuat_housing } }
@@ -2112,5 +2116,23 @@ planet_event = {
 	option = {
 		name = executor_build.294.f
 		hidden_effect = { while = { limit = { free_district_slots > 1 } add_district = district_arcology_eternal_Khaydarin } }
+	}
+}
+
+planet_event = {
+	id = executor_build.295
+	hide_window = yes
+	is_triggered_only = yes
+	trigger = { has_planet_flag = enable_kuat_shield }
+	immediate = {
+		solar_system = {
+			random_system_ambient_object = {
+				limit = {
+					has_ambient_object_flag = kuat_planet_shield_effect_object_@root
+				}
+				destroy_ambient_object = this
+			}
+		}
+		remove_planet_flag = enable_kuat_shield
 	}
 }
