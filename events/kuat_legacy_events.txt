@@ -1,9 +1,16 @@
 namespace = kuat_legacy
+@standard_event_days = 45
+@standard_lower_days = 15
+@standard_random_days = 60
 #GAIA ARCHITECT
 country_event = {
 	id = kuat_legacy.1
 	hide_window = yes
-	mean_time_to_happen = { years = 5 }
+	mean_time_to_happen = { 
+		years = 2  
+		modifier = { factor = 0.5 years_passed > 125 }
+		modifier = { factor = 0.25 years_passed > 175 }
+	}
 	fire_only_once = yes
 	trigger = { 
 		is_player_country = yes
@@ -22,7 +29,7 @@ country_event = {
 	immediate = {
 		random_planet_within_border = {
 			limit = { kuat_is_legacy_arc_planet = yes }
-			planet_event = { id = kuat_legacy.2 days = 45 random = 45 }
+			planet_event = { id = kuat_legacy.2 days = @standard_event_days random = @standard_lower_days }
 		}
 	}
 }
@@ -149,7 +156,7 @@ fleet_event = {
 	option = {
 		name = kuat_legacy.6.a
 		from.planet = { change_pc = pc_frozen }
-		hidden_effect = { owner = { country_event = { id = kuat_legacy.7 days = 360 random = 180 } } }
+		hidden_effect = { owner = { country_event = { id = kuat_legacy.7 days = @standard_event_days random = @standard_random_days } } }
 	}
 }
 
@@ -168,7 +175,7 @@ country_event = {
 	fire_only_once = yes
 	option = {
 		name = kuat_legacy.7.a
-		hidden_effect = { country_event = { id = kuat_legacy.8 days = 30 } }
+		hidden_effect = { country_event = { id = kuat_legacy.8 days = @standard_event_days } }
 	}
 }
 
@@ -283,7 +290,7 @@ fleet_event = {
 	option = {
 		name = kuat_legacy.12.a
 		owner = { add_resource = { influence = 300 } }
-		hidden_effect = { owner = { country_event = { id = kuat_legacy.13 days = 240 random = 120 } } }
+		hidden_effect = { owner = { country_event = { id = kuat_legacy.13 days = @standard_event_days random = @standard_lower_days } } }
 	}
 }
 
@@ -398,7 +405,7 @@ fleet_event = {
 		owner = {
 			add_500_unity_per_year_passed = yes
 			add_resource = { influence = 500 }
-			country_event = { id = kuat_legacy.18 days = 240 random = 120 }
+			country_event = { id = kuat_legacy.18 days = @standard_event_days random = @standard_random_days }
 		}
 	}
 }
@@ -605,7 +612,7 @@ fleet_event = {
 		name = kuat_legacy.25.a
 		small_artifact_reward = yes
 		hidden_effect = { owner = {
-			country_event = { id = kuat_legacy.49 days = 240 random = 120 }
+			country_event = { id = kuat_legacy.49 days = @standard_event_days random = @standard_random_days }
 			set_country_flag = fire_the_legacy_kuat_stage_5
 		} }
 		from.planet = { change_pc = pc_ringworld_habitable }
@@ -1348,7 +1355,7 @@ fleet_event = {
 				}
 			}
 			else = { owner = { give_technology = { tech = tech_kuat_databank message = no } } }
-			owner = { country_event = { id = kuat_legacy.57 days = 360 random = 180 } }
+			owner = { country_event = { id = kuat_legacy.57 days = @standard_event_days random = @standard_random_days } }
 			event_target:will_be_add_habitable_damaged = { 
 				change_pc = pc_ringworld_habitable 
 				add_deposit = d_str_kuat_spring
@@ -1652,7 +1659,7 @@ fleet_event = {
 			else = { owner = { give_technology = { tech = tech_kuat_shield message = no } } }
 			owner = { if = {
 				limit = { NOT = { has_origin = origin_eternalthrone } }
-				country_event = { id = kuat_legacy.26 days = 360 random = 180 }
+				country_event = { id = kuat_legacy.26 days = @standard_event_days random = @standard_random_days }
 			} }
 			event_target:will_be_add_ringworld_shielded = { 
 				change_pc = pc_ringworld_habitable 
@@ -1778,9 +1785,9 @@ country_event = {
 			set_country_flag = can_restore_the_black_hole
 			if = {
 				limit = { NOT = { has_origin = origin_eternalthrone } }
-				country_event = { id = kuat_legacy.76 days = 360 random = 180 }
+				country_event = { id = kuat_legacy.76 days = @standard_event_days random = @standard_random_days }
 			}
-			else = { country_event = { id = kuat_eternal_legacy.49 days = 30 random = 15 } }
+			else = { country_event = { id = kuat_eternal_legacy.49 days = @standard_event_days random = @standard_lower_days } }
 		}
 	}
 }
@@ -1820,7 +1827,7 @@ country_event = {
 					limit = { is_at_war_with = event_target:fallen_empire_kuat }
 					set_country_flag = impact_kuat_exist
 				}
-				country_event = { id = kuat_legacy.27 days = 360 random = 180 }
+				country_event = { id = kuat_legacy.27 days = @standard_event_days random = @standard_random_days }
 			} 
 			else = { end_event_chain = ag_legacy_invasion_chain set_country_flag = kuat_war_goal } 
 		}
@@ -2528,7 +2535,7 @@ ship_event = {
 				limit = { is_ai = no }
 				establish_communications_no_message = event_target:kuat_firebase_country
 			}
-			country_event = { id = kuat_legacy.78 days = 120 random = 60 } 
+			country_event = { id = kuat_legacy.78 days = @standard_event_days random = @standard_random_days } 
 		}
 	}
 	option = { 
