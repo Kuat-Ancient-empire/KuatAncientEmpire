@@ -115,6 +115,37 @@ remove_executor_power = {
 
 # initial = 0  min = 0.25  small = 0.5  medium = 0.75  max = 0.99  origin = 1
 # double = 2  fifth = 5  Tenth = 10  One_of_fourth = 25  One_of_double = 50  hundred = 100  million = 1000000  dmillion = 2000000
+random_list_eternal_fleet_rate = {
+	set_repeatable_eternal_fleet_mult_rate = { TYPE = explosive }
+	set_repeatable_eternal_fleet_mult_rate = { TYPE = kinetic }
+	set_repeatable_eternal_fleet_mult_rate = { TYPE = energy }
+}
+set_repeatable_eternal_fleet_mult_rate = {
+	optimize_memory
+	if = {
+		limit = { check_modifier_value = { modifier = weapon_type_$TYPE$_weapon_fire_rate_mult value > 50 } }
+		set_standard_battle_repeatable_modifier = { PARAMATER1 = weapon_type_$TYPE$_weapon_fire_rate_mult PARAMATER2 = weapon_type_$TYPE$_weapon_damage_mult UNIT = Tenth RATE = -0.3 } 
+	}
+	else_if = {
+		limit = { check_modifier_value = { modifier = weapon_type_$TYPE$_weapon_fire_rate_mult value > 40 } }
+		set_standard_battle_repeatable_modifier = { PARAMATER1 = weapon_type_$TYPE$_weapon_fire_rate_mult PARAMATER2 = weapon_type_$TYPE$_weapon_damage_mult UNIT = Tenth RATE = -0.5 } 
+	}
+	else_if = {
+		limit = { check_modifier_value = { modifier = weapon_type_$TYPE$_weapon_fire_rate_mult value > 30 } }
+		set_standard_battle_repeatable_modifier = { PARAMATER1 = weapon_type_$TYPE$_weapon_fire_rate_mult PARAMATER2 = weapon_type_$TYPE$_weapon_damage_mult UNIT = Tenth RATE = -0.7 } 
+	}
+	else_if = {
+		limit = { check_modifier_value = { modifier = weapon_type_$TYPE$_weapon_fire_rate_mult value > 20 } }
+		set_standard_battle_repeatable_modifier = { PARAMATER1 = weapon_type_$TYPE$_weapon_fire_rate_mult PARAMATER2 = weapon_type_$TYPE$_weapon_damage_mult UNIT = Tenth RATE = -0.9 } 
+	}
+	else_if = {
+		limit = { check_modifier_value = { modifier = weapon_type_$TYPE$_weapon_fire_rate_mult value > 10 } }
+		set_standard_battle_repeatable_modifier = { PARAMATER1 = weapon_type_$TYPE$_weapon_fire_rate_mult PARAMATER2 = weapon_type_$TYPE$_weapon_damage_mult UNIT = Tenth RATE = -1 } 
+	}
+}
+
+# initial = 0  min = 0.25  small = 0.5  medium = 0.75  max = 0.99  origin = 1
+# double = 2  fifth = 5  Tenth = 10  One_of_fourth = 25  One_of_double = 50  hundred = 100  million = 1000000  dmillion = 2000000
 set_ban_eternal_fleet_mult_modifier = {
 	optimize_memory
 	########MULT VALUE########
@@ -129,7 +160,7 @@ set_ban_eternal_fleet_mult_modifier = {
 	[[hull_damage_standard] set_eternal_fleet_insane_damage_modifier = { paramater = $hull_damage_standard$ relation = "!=" UNIT = origin UNIT1 = max }]  
 	[[weapon_damage_standard] set_eternal_fleet_insane_damage_modifier = { paramater = $weapon_damage_standard$ relation = "!=" UNIT = origin UNIT1 = max }]  
 	[[tracking_standard] set_eternal_fleet_insane_damage_modifier = { paramater = $tracking_standard$ relation = "!=" UNIT = origin UNIT1 = initial }]  
-	[[accuracy_standard] set_eternal_fleet_insane_damage_modifier = { paramater = $accuracy_standard$ relation = "!=" UNIT = origin UNIT1 = initial }]  
+	[[accuracy_standard] set_eternal_fleet_insane_damage_modifier = { paramater = $accuracy_standard$ relation = "!=" UNIT = origin UNIT1 = initial }]
 
 	#scope: fromfrom
 	[[weapon_damage] set_eternal_fleet_protection_modifier = { paramater = $weapon_damage$ relation = "<" UNIT = initial }]  
@@ -306,12 +337,12 @@ set_difiicult_eternal_fleet_mult_modifier = {
 set_eternal_fleet_standard_modifier = {
 	if = { 
 		limit = { 
-			NOT = { has_ship_flag = fire_ship_var } 
+			NOR = { has_ship_flag = fire_ship_var has_ship_flag = $paramater$_ship_cooldown }
 			check_modifier_value = { modifier = $paramater$ value $relation$ $OUTPUT_VALUE$ }
 		}
 		export_modifier_to_variable = { modifier = $paramater$ variable = $paramater$_value }
 		change_variable = { which = $paramater$_value value = $UNIT_VALUE$ }
-		set_invasion_fleet_basic_modifier = { SUB = basic_$paramater$ FACTOR = $paramater$_value }
+		add_modifier = { modifier = basic_$paramater$ multiplier = $paramater$_value }
 		if = { limit = { is_variable_set = $paramater$_value } clear_variable = $paramater$_value }
 		set_timed_ship_flag = { flag = $paramater$_ship_cooldown days = 1 }
 	} 
@@ -322,7 +353,7 @@ set_eternal_fleet_standard_modifier = {
 		}
 		export_modifier_to_variable = { modifier = $paramater$ variable = change_$paramater$_value }
 		change_variable = { which = change_$paramater$_value value = $UNIT_VALUE$ }
-		set_invasion_fleet_basic_modifier = { SUB = change_basic_$paramater$ FACTOR = change_$paramater$_value }
+		add_modifier = { modifier = change_basic_$paramater$ multiplier = change_$paramater$_value }
 		if = { limit = { is_variable_set = change_$paramater$_value } clear_variable = change_$paramater$_value }
 		set_timed_ship_flag = { flag = $paramater$_ship_cooldown days = 1 }
 	}
@@ -336,12 +367,12 @@ set_eternal_fleet_standard_modifier = {
 set_eternal_fleet_damage_modifier = {
 	if = {
 		limit = { 
-			NOT = { has_ship_flag = fire_ship_var } 
+			NOR = { has_ship_flag = fire_ship_var has_ship_flag = $paramater$_ship_cooldown }
 			check_modifier_value = { modifier = $paramater$ value > @mult_modifer_mult_$UNIT$_value } 
 		}
 		export_modifier_to_variable = { modifier = $paramater$ variable = $paramater$_value }
 		change_variable = { which = $paramater$_value value = @modifer_mult_$UNIT$_value }
-		set_invasion_fleet_basic_modifier = { SUB = basic_$paramater$ FACTOR = $paramater$_value }
+		add_modifier = { modifier = basic_$paramater$ multiplier = $paramater$_value }
 		if = { limit = { is_variable_set = $paramater$_value } clear_variable = $paramater$_value }
 		set_timed_ship_flag = { flag = $paramater$_ship_cooldown days = 1 }
 	} 
@@ -354,7 +385,7 @@ set_eternal_fleet_damage_modifier = {
 			}
 			export_modifier_to_variable = { modifier = $paramater$ variable = change_$paramater$_value }
 			change_variable = { which = change_$paramater$_value value = @modifer_mult_$UNIT1$_value }
-			set_invasion_fleet_basic_modifier = { SUB = change_basic_$paramater$ FACTOR = change_$paramater$_value }
+			add_modifier = { modifier = change_basic_$paramater$ multiplier = change_$paramater$_value }
 			if = { limit = { is_variable_set = change_$paramater$_value } clear_variable = change_$paramater$_value }
 			set_timed_ship_flag = { flag = $paramater$_ship_cooldown days = 1 }
 		}
@@ -365,7 +396,7 @@ set_eternal_fleet_damage_modifier = {
 			}
 			export_modifier_to_variable = { modifier = $paramater$ variable = change_$paramater$_value }
 			change_variable = { which = change_$paramater$_value value = @modifer_mult_$UNIT$_value }
-			set_invasion_fleet_basic_modifier = { SUB = change_basic_$paramater$ FACTOR = change_$paramater$_value }
+			add_modifier = { modifier = change_basic_$paramater$ multiplier = change_$paramater$_value }
 			if = { limit = { is_variable_set = change_$paramater$_value } clear_variable = change_$paramater$_value }
 			set_timed_ship_flag = { flag = $paramater$_ship_cooldown days = 1 }
 		}
@@ -381,12 +412,12 @@ set_eternal_fleet_damage_modifier = {
 set_eternal_fleet_insane_damage_modifier = {
 	if = {
 		limit = { 
-			NOT = { has_ship_flag = fire_ship_var } 
+			NOR = { has_ship_flag = fire_ship_var has_ship_flag = $paramater$_ship_cooldown }
 			check_modifier_value = { modifier = $paramater$ value > @mult_modifer_mult_$UNIT$_value }
 		}
 		export_modifier_to_variable = { modifier = $paramater$ variable = $paramater$_value }
 		change_variable = { which = $paramater$_value value = @modifer_mult_$UNIT$_value }
-		set_invasion_fleet_basic_modifier = { SUB = basic_$paramater$ FACTOR = $paramater$_value }
+		add_modifier = { modifier = basic_$paramater$ multiplier = $paramater$_value }
 		if = { limit = { is_variable_set = $paramater$_value } clear_variable = $paramater$_value }
 		set_timed_ship_flag = { flag = $paramater$_ship_cooldown days = 1 }
 	} 
@@ -397,7 +428,7 @@ set_eternal_fleet_insane_damage_modifier = {
 		}
 		export_modifier_to_variable = { modifier = $paramater$ variable = change_$paramater$_value }
 		change_variable = { which = change_$paramater$_value value = @modifer_mult_$UNIT1$_value }
-		set_invasion_fleet_basic_modifier = { SUB = change_basic_$paramater$ FACTOR = change_$paramater$_value }
+		add_modifier = { modifier = change_basic_$paramater$ multiplier = change_$paramater$_value }
 		if = { limit = { is_variable_set = change_$paramater$_value } clear_variable = change_$paramater$_value }
 		set_timed_ship_flag = { flag = $paramater$_ship_cooldown days = 1 }
 	}
@@ -411,12 +442,12 @@ set_eternal_fleet_insane_damage_modifier = {
 set_eternal_fleet_protection_modifier = {
 	if = {
 		limit = { 
-			NOT = { has_ship_flag = fire_ship_var } 
+			NOR = { has_ship_flag = fire_ship_var has_ship_flag = $paramater$_ship_cooldown }
 			check_modifier_value = { modifier = $paramater$ value $relation$ @modifer_mult_$UNIT$_value }
 		}
 		export_modifier_to_variable = { modifier = $paramater$ variable = $paramater$_value }
 		subtract_variable = { which = $paramater$_value value = @modifer_mult_$UNIT$_value }
-		set_invasion_fleet_basic_modifier = { SUB = basic_$paramater$ FACTOR = $paramater$_value }
+		add_modifier = { modifier = basic_$paramater$ multiplier = $paramater$_value }
 		if = { limit = { is_variable_set = $paramater$_value } clear_variable = $paramater$_value }
 		set_timed_ship_flag = { flag = $paramater$_ship_cooldown days = 1 }
 	} 
@@ -427,9 +458,45 @@ set_eternal_fleet_protection_modifier = {
 		}
 		export_modifier_to_variable = { modifier = $paramater$ variable = change_$paramater$_value }
 		subtract_variable = { which = change_$paramater$_value value = @modifer_mult_$UNIT$_value }
-		set_invasion_fleet_basic_modifier = { SUB = change_basic_$paramater$ FACTOR = change_$paramater$_value }
+		add_modifier = { modifier = change_basic_$paramater$ multiplier = change_$paramater$_value }
 		if = { limit = { is_variable_set = change_$paramater$_value } clear_variable = change_$paramater$_value }
 		set_timed_ship_flag = { flag = $paramater$_ship_cooldown days = 1 }
+	}
+}
+
+
+# tip:script scope available in repeatable technology
+# parameter1： the repeatable fire rate modifier(input)
+# parameter1： the repeatable damage modifier(output)
+# UNIT：Value standard
+set_standard_battle_repeatable_modifier = {
+	if = {
+		limit = { NOR = { has_ship_flag = fire_ship_var has_ship_flag = repeatable_$PARAMATER1$_ship_cooldown } }
+
+		export_modifier_to_variable = { modifier = $PARAMATER1$ variable = $PARAMATER1$_value }
+		subtract_variable = { which = $PARAMATER1$_value value = @modifer_mult_$UNIT$_value }
+		add_modifier = { modifier = basic_$PARAMATER1$ multiplier = $PARAMATER1$_value }
+
+		set_variable = { which = $PARAMATER2$_value value = $PARAMATER1$_value }
+		multiply_variable = { which = $PARAMATER2$_value value = $RATE$ }
+		add_modifier = { modifier = basic_$PARAMATER2$ multiplier = $PARAMATER2$_value }
+
+		clear_variable = $PARAMATER1$_value clear_variable = $PARAMATER2$_value
+		set_timed_ship_flag = { flag = repeatable_$PARAMATER1$_ship_cooldown days = 1 }
+	} 
+	else_if = { 
+		limit = { has_ship_flag = fire_ship_var NOT = { has_ship_flag = repeatable_$PARAMATER1$_ship_cooldown } }
+
+		export_modifier_to_variable = { modifier = $PARAMATER1$ variable = change_$PARAMATER1$_value }
+		subtract_variable = { which = change_$PARAMATER1$_value value = @modifer_mult_$UNIT$_value }
+		add_modifier = { modifier = change_basic_$PARAMATER1$ multiplier = change_$PARAMATER1$_value }
+
+		set_variable = { which = change_$PARAMATER2$_value value = change_$PARAMATER1$_value }
+		multiply_variable = { which = change_$PARAMATER2$_value value = $RATE$ }
+		add_modifier = { modifier = change_basic_$PARAMATER2$ multiplier = change_$PARAMATER2$_value }
+
+		clear_variable = change_$PARAMATER1$_value clear_variable = change_$PARAMATER2$_value
+		set_timed_ship_flag = { flag = repeatable_$PARAMATER1$_ship_cooldown days = 1 }
 	}
 }
 
@@ -461,6 +528,9 @@ clear_battleship_modifier_fixed_ship = {
 	remove_modifier = basic_weapon_type_energy_weapon_damage_mult		remove_modifier = change_basic_weapon_type_energy_weapon_damage_mult
 	remove_modifier = basic_weapon_type_explosive_weapon_damage_mult	remove_modifier = change_basic_weapon_type_explosive_weapon_damage_mult
 	remove_modifier = basic_weapon_type_kinetic_weapon_damage_mult		remove_modifier = change_basic_weapon_type_kinetic_weapon_damage_mult
+	remove_modifier = basic_weapon_type_energy_weapon_fire_rate_mult	remove_modifier = change_basic_weapon_type_energy_weapon_fire_rate_mult
+	remove_modifier = basic_weapon_type_explosive_weapon_fire_rate_mult	remove_modifier = change_basic_weapon_type_explosive_weapon_fire_rate_mult
+	remove_modifier = basic_weapon_type_kinetic_weapon_fire_rate_mult	remove_modifier = change_basic_weapon_type_kinetic_weapon_fire_rate_mult
 	remove_modifier = basic_ship_tracking_add							remove_modifier = change_basic_ship_tracking_add
 	remove_modifier = basic_ship_accuracy_add							remove_modifier = change_basic_ship_accuracy_add
 	remove_modifier = basic_ship_armor_add								remove_modifier = change_basic_ship_armor_add
