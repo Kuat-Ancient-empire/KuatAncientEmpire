@@ -38,28 +38,10 @@ eternal_increase_executor_power = {
 
 increase_ship_hp_effect_change = {
 	optimize_memory
-	if = {
-		limit = { owner = { is_eternal_faction = yes } }
-		every_controlled_ship = {
-			set_timed_ship_flag = { flag = is_invisiable_trigger days = $DAYS$ }
-			eternal_increase_executor_power = { DAYS = $DAYS$ }
-			ship_event = { id = exe_invasion.119 }
-		}
-	}
-	else_if = {
-		limit = { owner = { is_kuat_fallen_empire = yes } }
-		every_controlled_ship = {
-			set_timed_ship_flag = { flag = is_invisiable_trigger days = $DAYS$ }
-			eternal_increase_executor_power = { DAYS = $DAYS$ }
-			ship_event = { id = exe_invasion.119 }
-		}
-	}
-	else = {
-		every_controlled_ship = {
-			set_timed_ship_flag = { flag = is_invisiable_trigger days = $DAYS$ }
-			eternal_increase_executor_power = { DAYS = $DAYS$ }
-			ship_event = { id = exe_invasion.119 }
-		}
+	every_controlled_ship = {
+		set_timed_ship_flag = { flag = is_invisiable_trigger days = $DAYS$ }
+		eternal_increase_executor_power = { DAYS = $DAYS$ }
+		ship_event = { id = exe_invasion.119 }
 	}
 	set_fleet_modifier = { SUB = Eternal_submit DAYS = $DAYS$ }
 }
@@ -75,6 +57,7 @@ clear_ship_modifier = {
 }
 
 remove_executor_power = {
+	optimize_memory
 	remove_ship_flag = has_eternal_increase_executor_power
 	remove_modifier = iep_basic_ship_shield_penetration_mult
 	remove_modifier = iep_basic_ship_armor_penetration_mult			
@@ -86,17 +69,14 @@ remove_executor_power = {
 	remove_modifier = iep_basic_ship_hull_regen_add_perc			
 	remove_modifier = iep_basic_ship_armor_regen_add_perc			
 	remove_modifier = iep_basic_ship_shield_regen_add_perc				
-	remove_modifier = iep_basic_ship_hull_mult						
+	remove_modifier = iep_basic_ship_hull_mult		
 	remove_modifier = iep_basic_ship_armor_mult						
-	remove_modifier = iep_basic_ship_shield_mult							
-	remove_modifier = iep_basic_ship_shield_reduction					
-	remove_modifier = iep_basic_ship_armor_reduction						
+	remove_modifier = iep_basic_ship_shield_mult			
+	remove_modifier = iep_basic_ship_shield_reduction	
+	remove_modifier = iep_basic_ship_armor_reduction	
 	remove_modifier = iep_basic_ship_accuracy_mult							
 	remove_modifier = iep_basic_ship_weapon_range_mult						
 	remove_modifier = iep_basic_ship_fire_rate_mult							
-	remove_modifier = iep_basic_weapon_type_energy_weapon_damage_mult		
-	remove_modifier = iep_basic_weapon_type_explosive_weapon_damage_mult	
-	remove_modifier = iep_basic_weapon_type_kinetic_weapon_damage_mult	
 	remove_modifier = iep_basic_ship_tracking_add							
 	remove_modifier = iep_basic_ship_accuracy_add							
 	remove_modifier = iep_basic_ship_armor_add								
@@ -111,221 +91,328 @@ remove_executor_power = {
 	remove_modifier = increase_hp_3000000_times
 	remove_modifier = increase_hp_2000000_times
 	remove_modifier = increase_hp_1000000_times
+	remove_repetable_modifier = { TITLE = iep_basic TYPE = explosive }
+	remove_repetable_modifier = { TITLE = iep_basic TYPE = kinetic }
+	remove_repetable_modifier = { TITLE = iep_basic TYPE = energy }
+	remove_repetable_modifier = { TITLE = iep_basic TYPE = gravity }
+	remove_repetable_modifier = { TITLE = iep_basic TYPE = psionic }
+	remove_repetable_modifier = { TITLE = iep_basic TYPE = anti_psionic }
+	remove_repetable_modifier = { TITLE = iep_basic TYPE = playerable_ancient }
+	remove_repetable_modifier = { TITLE = iep_basic TYPE = ancient_primary }
+	remove_repetable_modifier = { TITLE = iep_basic TYPE = titan_primary }
+	remove_repetable_modifier = { TITLE = iep_basic TYPE = titan_secondary }
+	remove_repetable_modifier = { TITLE = iep_basic TYPE = zeta_crisis_primary }
+	remove_repetable_modifier = { TITLE = iep_basic TYPE = zeta_crisis_primary_alt }
+	remove_repetable_modifier = { TITLE = iep_basic TYPE = zeta_crisis_secondary }
+	remove_repetable_modifier = { TITLE = iep_basic TYPE = SRA_SRA }
+	remove_repetable_modifier = { TITLE = iep_basic TYPE = SRA_RE_Core }
+}
+
+remove_repetable_modifier = {
+	remove_modifier = $TITLE$_weapon_type_$TYPE$_weapon_damage_mult
+	remove_modifier = $TITLE$_weapon_type_$TYPE$_weapon_fire_rate_mult
 }
 
 # initial = 0  min = 0.25  small = 0.5  medium = 0.75  max = 0.99  origin = 1
-# double = 2  fifth = 5  Tenth = 10  One_of_fourth = 25  One_of_double = 50  hundred = 100  million = 1000000  dmillion = 2000000
+# double = 2  fifth = 5  Tenth = 10  one_of_fourth = 25  one_of_double = 50  hundred = 100  million = 1000000  dmillion = 2000000
 random_list_eternal_fleet_rate = {
-	set_repeatable_eternal_fleet_mult_rate = { TYPE = explosive }
-	set_repeatable_eternal_fleet_mult_rate = { TYPE = kinetic }
-	set_repeatable_eternal_fleet_mult_rate = { TYPE = energy }
-}
-set_repeatable_eternal_fleet_mult_rate = {
 	optimize_memory
 	if = {
+		limit = { exists = owner owner = { is_invisable_faction = no } }
+		set_repeatable_eternal_fleet_mult_rate_to_damage = { TYPE = explosive }
+		set_repeatable_eternal_fleet_mult_rate_to_damage = { TYPE = kinetic }
+		set_repeatable_eternal_fleet_mult_rate_to_damage = { TYPE = energy }
+		set_repeatable_eternal_fleet_mult_damage_to_rate = { TYPE = gravity }
+		set_repeatable_eternal_fleet_mult_damage_to_rate = { TYPE = psionic }
+		set_repeatable_eternal_fleet_mult_damage_to_rate = { TYPE = anti_psionic }
+		set_repeatable_eternal_fleet_mult_damage_to_rate = { TYPE = playerable_ancient }
+		set_repeatable_eternal_fleet_mult_damage_to_rate = { TYPE = ancient_primary }
+		set_repeatable_eternal_fleet_mult_damage_to_rate = { TYPE = titan_primary }
+		set_repeatable_eternal_fleet_mult_damage_to_rate = { TYPE = titan_secondary }
+		set_repeatable_eternal_fleet_mult_damage_to_rate = { TYPE = zeta_crisis_primary }
+		set_repeatable_eternal_fleet_mult_damage_to_rate = { TYPE = zeta_crisis_primary_alt }
+		set_repeatable_eternal_fleet_mult_damage_to_rate = { TYPE = zeta_crisis_secondary }
+		set_repeatable_eternal_fleet_mult_damage_to_rate = { TYPE = SRA_SRA }
+		set_repeatable_eternal_fleet_mult_damage_to_rate = { TYPE = SRA_RE_Core }
+	}
+}
+set_repeatable_eternal_fleet_mult_rate_to_damage = {
+	if = {
+		limit = { check_modifier_value = { modifier = weapon_type_$TYPE$_weapon_fire_rate_mult value > 200 } }
+		set_standard_battle_repeatable_modifier = { PARAMATER1 = weapon_type_$TYPE$_weapon_fire_rate_mult PARAMATER2 = weapon_type_$TYPE$_weapon_damage_mult UNIT = Tenth RATE = -0.00 } 
+	}
+	if = {
+		limit = { check_modifier_value = { modifier = weapon_type_$TYPE$_weapon_fire_rate_mult value > 100 } }
+		set_standard_battle_repeatable_modifier = { PARAMATER1 = weapon_type_$TYPE$_weapon_fire_rate_mult PARAMATER2 = weapon_type_$TYPE$_weapon_damage_mult UNIT = Tenth RATE = -0.01 } 
+	}
+	else_if = {
+		limit = { check_modifier_value = { modifier = weapon_type_$TYPE$_weapon_fire_rate_mult value > 90 } }
+		set_standard_battle_repeatable_modifier = { PARAMATER1 = weapon_type_$TYPE$_weapon_fire_rate_mult PARAMATER2 = weapon_type_$TYPE$_weapon_damage_mult UNIT = Tenth RATE = -0.05 } 
+	}
+	else_if = {
+		limit = { check_modifier_value = { modifier = weapon_type_$TYPE$_weapon_fire_rate_mult value > 80 } }
+		set_standard_battle_repeatable_modifier = { PARAMATER1 = weapon_type_$TYPE$_weapon_fire_rate_mult PARAMATER2 = weapon_type_$TYPE$_weapon_damage_mult UNIT = Tenth RATE = -0.10 } 
+	}
+	else_if = {
+		limit = { check_modifier_value = { modifier = weapon_type_$TYPE$_weapon_fire_rate_mult value > 70 } }
+		set_standard_battle_repeatable_modifier = { PARAMATER1 = weapon_type_$TYPE$_weapon_fire_rate_mult PARAMATER2 = weapon_type_$TYPE$_weapon_damage_mult UNIT = Tenth RATE = -0.15 } 
+	}
+	else_if = {
+		limit = { check_modifier_value = { modifier = weapon_type_$TYPE$_weapon_fire_rate_mult value > 60 } }
+		set_standard_battle_repeatable_modifier = { PARAMATER1 = weapon_type_$TYPE$_weapon_fire_rate_mult PARAMATER2 = weapon_type_$TYPE$_weapon_damage_mult UNIT = Tenth RATE = -0.20 } 
+	}
+	else_if = {
 		limit = { check_modifier_value = { modifier = weapon_type_$TYPE$_weapon_fire_rate_mult value > 50 } }
-		set_standard_battle_repeatable_modifier = { PARAMATER1 = weapon_type_$TYPE$_weapon_fire_rate_mult PARAMATER2 = weapon_type_$TYPE$_weapon_damage_mult UNIT = Tenth RATE = -0.3 } 
+		set_standard_battle_repeatable_modifier = { PARAMATER1 = weapon_type_$TYPE$_weapon_fire_rate_mult PARAMATER2 = weapon_type_$TYPE$_weapon_damage_mult UNIT = Tenth RATE = -0.25 } 
 	}
 	else_if = {
 		limit = { check_modifier_value = { modifier = weapon_type_$TYPE$_weapon_fire_rate_mult value > 40 } }
-		set_standard_battle_repeatable_modifier = { PARAMATER1 = weapon_type_$TYPE$_weapon_fire_rate_mult PARAMATER2 = weapon_type_$TYPE$_weapon_damage_mult UNIT = Tenth RATE = -0.5 } 
+		set_standard_battle_repeatable_modifier = { PARAMATER1 = weapon_type_$TYPE$_weapon_fire_rate_mult PARAMATER2 = weapon_type_$TYPE$_weapon_damage_mult UNIT = Tenth RATE = -0.30 } 
 	}
 	else_if = {
 		limit = { check_modifier_value = { modifier = weapon_type_$TYPE$_weapon_fire_rate_mult value > 30 } }
-		set_standard_battle_repeatable_modifier = { PARAMATER1 = weapon_type_$TYPE$_weapon_fire_rate_mult PARAMATER2 = weapon_type_$TYPE$_weapon_damage_mult UNIT = Tenth RATE = -0.7 } 
+		set_standard_battle_repeatable_modifier = { PARAMATER1 = weapon_type_$TYPE$_weapon_fire_rate_mult PARAMATER2 = weapon_type_$TYPE$_weapon_damage_mult UNIT = Tenth RATE = -0.35 } 
 	}
 	else_if = {
 		limit = { check_modifier_value = { modifier = weapon_type_$TYPE$_weapon_fire_rate_mult value > 20 } }
-		set_standard_battle_repeatable_modifier = { PARAMATER1 = weapon_type_$TYPE$_weapon_fire_rate_mult PARAMATER2 = weapon_type_$TYPE$_weapon_damage_mult UNIT = Tenth RATE = -0.9 } 
+		set_standard_battle_repeatable_modifier = { PARAMATER1 = weapon_type_$TYPE$_weapon_fire_rate_mult PARAMATER2 = weapon_type_$TYPE$_weapon_damage_mult UNIT = Tenth RATE = -0.40 } 
 	}
 	else_if = {
 		limit = { check_modifier_value = { modifier = weapon_type_$TYPE$_weapon_fire_rate_mult value > 10 } }
-		set_standard_battle_repeatable_modifier = { PARAMATER1 = weapon_type_$TYPE$_weapon_fire_rate_mult PARAMATER2 = weapon_type_$TYPE$_weapon_damage_mult UNIT = Tenth RATE = -1 } 
+		set_standard_battle_repeatable_modifier = { PARAMATER1 = weapon_type_$TYPE$_weapon_fire_rate_mult PARAMATER2 = weapon_type_$TYPE$_weapon_damage_mult UNIT = Tenth RATE = -0.45 } 
 	}
+	else = { no_events = yes }
+}
+set_repeatable_eternal_fleet_mult_damage_to_rate = {
+	if = {
+		limit = { check_modifier_value = { modifier = weapon_type_$TYPE$_weapon_damage_mult value > 200 } }
+		set_standard_battle_repeatable_modifier = { PARAMATER1 = weapon_type_$TYPE$_weapon_damage_mult PARAMATER2 = weapon_type_$TYPE$_weapon_fire_rate_mult UNIT = Tenth RATE = -0.00 } 
+	}
+	else_if = {
+		limit = { check_modifier_value = { modifier = weapon_type_$TYPE$_weapon_damage_mult value > 100 } }
+		set_standard_battle_repeatable_modifier = { PARAMATER1 = weapon_type_$TYPE$_weapon_damage_mult PARAMATER2 = weapon_type_$TYPE$_weapon_fire_rate_mult UNIT = Tenth RATE = -0.01 } 
+	}
+	else_if = {
+		limit = { check_modifier_value = { modifier = weapon_type_$TYPE$_weapon_damage_mult value > 90 } }
+		set_standard_battle_repeatable_modifier = { PARAMATER1 = weapon_type_$TYPE$_weapon_damage_mult PARAMATER2 = weapon_type_$TYPE$_weapon_fire_rate_mult UNIT = Tenth RATE = -0.05 } 
+	}
+	else_if = {
+		limit = { check_modifier_value = { modifier = weapon_type_$TYPE$_weapon_damage_mult value > 80 } }
+		set_standard_battle_repeatable_modifier = { PARAMATER1 = weapon_type_$TYPE$_weapon_damage_mult PARAMATER2 = weapon_type_$TYPE$_weapon_fire_rate_mult UNIT = Tenth RATE = -0.10 } 
+	}
+	else_if = {
+		limit = { check_modifier_value = { modifier = weapon_type_$TYPE$_weapon_damage_mult value > 70 } }
+		set_standard_battle_repeatable_modifier = { PARAMATER1 = weapon_type_$TYPE$_weapon_damage_mult PARAMATER2 = weapon_type_$TYPE$_weapon_fire_rate_mult UNIT = Tenth RATE = -0.15 } 
+	}
+	else_if = {
+		limit = { check_modifier_value = { modifier = weapon_type_$TYPE$_weapon_damage_mult value > 60 } }
+		set_standard_battle_repeatable_modifier = { PARAMATER1 = weapon_type_$TYPE$_weapon_damage_mult PARAMATER2 = weapon_type_$TYPE$_weapon_fire_rate_mult UNIT = Tenth RATE = -0.20 } 
+	}
+	else_if = {
+		limit = { check_modifier_value = { modifier = weapon_type_$TYPE$_weapon_damage_mult value > 50 } }
+		set_standard_battle_repeatable_modifier = { PARAMATER1 = weapon_type_$TYPE$_weapon_damage_mult PARAMATER2 = weapon_type_$TYPE$_weapon_fire_rate_mult UNIT = Tenth RATE = -0.25 } 
+	}
+	else_if = {
+		limit = { check_modifier_value = { modifier = weapon_type_$TYPE$_weapon_damage_mult value > 40 } }
+		set_standard_battle_repeatable_modifier = { PARAMATER1 = weapon_type_$TYPE$_weapon_damage_mult PARAMATER2 = weapon_type_$TYPE$_weapon_fire_rate_mult UNIT = Tenth RATE = -0.30 } 
+	}
+	else_if = {
+		limit = { check_modifier_value = { modifier = weapon_type_$TYPE$_weapon_damage_mult value > 30 } }
+		set_standard_battle_repeatable_modifier = { PARAMATER1 = weapon_type_$TYPE$_weapon_damage_mult PARAMATER2 = weapon_type_$TYPE$_weapon_fire_rate_mult UNIT = Tenth RATE = -0.35 } 
+	}
+	else_if = {
+		limit = { check_modifier_value = { modifier = weapon_type_$TYPE$_weapon_damage_mult value > 20 } }
+		set_standard_battle_repeatable_modifier = { PARAMATER1 = weapon_type_$TYPE$_weapon_damage_mult PARAMATER2 = weapon_type_$TYPE$_weapon_fire_rate_mult UNIT = Tenth RATE = -0.40 } 
+	}
+	else_if = {
+		limit = { check_modifier_value = { modifier = weapon_type_$TYPE$_weapon_damage_mult value > 10 } }
+		set_standard_battle_repeatable_modifier = { PARAMATER1 = weapon_type_$TYPE$_weapon_damage_mult PARAMATER2 = weapon_type_$TYPE$_weapon_fire_rate_mult UNIT = Tenth RATE = -0.45 } 
+	}
+	else = { no_events = yes }
 }
 
 # initial = 0  min = 0.25  small = 0.5  medium = 0.75  max = 0.99  origin = 1
-# double = 2  fifth = 5  Tenth = 10  One_of_fourth = 25  One_of_double = 50  hundred = 100  million = 1000000  dmillion = 2000000
+# double = 2  fifth = 5  Tenth = 10  one_of_fourth = 25  one_of_double = 50  hundred = 100  million = 1000000  dmillion = 2000000
 set_ban_eternal_fleet_mult_modifier = {
 	optimize_memory
 	########MULT VALUE########
 	# #scope: fromfromfrom
-	[[shield_penetration_standard] set_eternal_fleet_standard_modifier = { paramater = $shield_penetration_standard$ relation = "!=" OUTPUT_VALUE = -1 UNIT_VALUE = 1 }]  
-	[[armor_penetration_standard] set_eternal_fleet_standard_modifier = { paramater = $armor_penetration_standard$  relation = "!=" OUTPUT_VALUE = -1 UNIT_VALUE = 1 }] 
-	[[hull_regen_add_perc_standard] set_eternal_fleet_standard_modifier = { paramater = $hull_regen_add_perc_standard$ relation = "!=" OUTPUT_VALUE = 1 UNIT_VALUE = -1 }]
-	[[armor_regen_add_perc_standard] set_eternal_fleet_standard_modifier = { paramater = $armor_regen_add_perc_standard$ relation = "!=" OUTPUT_VALUE = 1 UNIT_VALUE = -1 }]
-	[[shield_regen_add_perc_standard] set_eternal_fleet_standard_modifier = { paramater = $shield_regen_add_perc_standard$ relation = "!=" OUTPUT_VALUE = 1 UNIT_VALUE = -1 }] 
-	[[armor_damage_standard] set_eternal_fleet_insane_damage_modifier = { paramater = $armor_damage_standard$ relation = "!=" UNIT = origin UNIT1 = max }]  
-	[[shield_damage_standard] set_eternal_fleet_insane_damage_modifier = { paramater = $shield_damage_standard$ relation = "!=" UNIT = origin UNIT1 = max }]  
-	[[hull_damage_standard] set_eternal_fleet_insane_damage_modifier = { paramater = $hull_damage_standard$ relation = "!=" UNIT = origin UNIT1 = max }]  
-	[[weapon_damage_standard] set_eternal_fleet_insane_damage_modifier = { paramater = $weapon_damage_standard$ relation = "!=" UNIT = origin UNIT1 = max }]  
-	[[tracking_standard] set_eternal_fleet_insane_damage_modifier = { paramater = $tracking_standard$ relation = "!=" UNIT = origin UNIT1 = initial }]  
-	[[accuracy_standard] set_eternal_fleet_insane_damage_modifier = { paramater = $accuracy_standard$ relation = "!=" UNIT = origin UNIT1 = initial }]
+	[[shield_penetration_standard] set_eternal_fleet_standard_modifier = { PARAMATER = $shield_penetration_standard$ RELATION = "!=" OUTPUT_VALUE = -1 UNIT_VALUE = 1 }]  
+	[[armor_penetration_standard] set_eternal_fleet_standard_modifier = { PARAMATER = $armor_penetration_standard$  RELATION = "!=" OUTPUT_VALUE = -1 UNIT_VALUE = 1 }] 
+	[[hull_regen_add_perc_standard] set_eternal_fleet_standard_modifier = { PARAMATER = $hull_regen_add_perc_standard$ RELATION = "!=" OUTPUT_VALUE = 1 UNIT_VALUE = -1 }]
+	[[armor_regen_add_perc_standard] set_eternal_fleet_standard_modifier = { PARAMATER = $armor_regen_add_perc_standard$ RELATION = "!=" OUTPUT_VALUE = 1 UNIT_VALUE = -1 }]
+	[[shield_regen_add_perc_standard] set_eternal_fleet_standard_modifier = { PARAMATER = $shield_regen_add_perc_standard$ RELATION = "!=" OUTPUT_VALUE = 1 UNIT_VALUE = -1 }] 
+	[[armor_damage_standard] set_eternal_fleet_insane_damage_modifier = { PARAMATER = $armor_damage_standard$ RELATION = "!=" UNIT = origin UNIT1 = max }]  
+	[[shield_damage_standard] set_eternal_fleet_insane_damage_modifier = { PARAMATER = $shield_damage_standard$ RELATION = "!=" UNIT = origin UNIT1 = max }]  
+	[[hull_damage_standard] set_eternal_fleet_insane_damage_modifier = { PARAMATER = $hull_damage_standard$ RELATION = "!=" UNIT = origin UNIT1 = max }]  
+	[[weapon_damage_standard] set_eternal_fleet_insane_damage_modifier = { PARAMATER = $weapon_damage_standard$ RELATION = "!=" UNIT = origin UNIT1 = max }]  
+	[[tracking_standard] set_eternal_fleet_insane_damage_modifier = { PARAMATER = $tracking_standard$ RELATION = "!=" UNIT = origin UNIT1 = initial }]  
+	[[accuracy_standard] set_eternal_fleet_insane_damage_modifier = { PARAMATER = $accuracy_standard$ RELATION = "!=" UNIT = origin UNIT1 = initial }]
 
 	#scope: fromfrom
-	[[weapon_damage] set_eternal_fleet_protection_modifier = { paramater = $weapon_damage$ relation = "<" UNIT = initial }]  
-	[[fire_rate_mult] set_eternal_fleet_protection_modifier = { paramater = $fire_rate_mult$ relation = "<" UNIT = initial }]  
-	[[shield_penetration] set_eternal_fleet_protection_modifier = { paramater = $shield_penetration$ relation = "<" UNIT = initial }]  
-	[[armor_penetration] set_eternal_fleet_protection_modifier = { paramater = $armor_penetration$ relation = "<" UNIT = initial }]  
-	[[hull_regen_add_perc] set_eternal_fleet_protection_modifier = { paramater = $hull_regen_add_perc$ relation = "<" UNIT = initial }]  
-	[[armor_regen_add_perc] set_eternal_fleet_protection_modifier = { paramater = $armor_regen_add_perc$ relation = "<" UNIT = initial }]  
-	[[shield_regen_add_perc] set_eternal_fleet_protection_modifier = { paramater = $shield_regen_add_perc$ relation = "<" UNIT = initial }]  
-	[[hull_mult] set_eternal_fleet_protection_modifier = { paramater = $hull_mult$ relation = "<" UNIT = initial }]  
-	[[armor_mult] set_eternal_fleet_protection_modifier = { paramater = $armor_mult$ relation = "<" UNIT = initial }]  
-	[[shield_mult] set_eternal_fleet_protection_modifier = { paramater = $shield_mult$ relation = "<" UNIT = initial }]  
-	[[weapon_range_mult] set_eternal_fleet_protection_modifier = { paramater = $weapon_range_mult$ relation = "<" UNIT = initial }]  
-	[[tracking] set_eternal_fleet_protection_modifier = { paramater = $tracking$ relation = "<" UNIT = initial }]  
-	[[accuracy] set_eternal_fleet_protection_modifier = { paramater = $accuracy$ relation = "<" UNIT = initial }]  
-	[[weapon_type_energy] set_eternal_fleet_protection_modifier = { paramater = $weapon_type_energy$ relation = "<" UNIT = initial }]  
-	[[weapon_type_kinetic] set_eternal_fleet_protection_modifier = { paramater = $weapon_type_kinetic$ relation = "<" UNIT = initial }]  
-	[[weapon_type_explosive] set_eternal_fleet_protection_modifier = { paramater = $weapon_type_explosive$ relation = "<" UNIT = initial }]  
-	[[armor_damage] set_eternal_fleet_protection_modifier = { paramater = $armor_damage$ relation = "<" UNIT = initial }]  
-	[[shield_damage] set_eternal_fleet_protection_modifier = { paramater = $shield_damage$ relation = "<" UNIT = initial }]  
-	[[hull_damage] set_eternal_fleet_protection_modifier = { paramater = $hull_damage$ relation = "<" UNIT = initial }]  
-	[[tracking_add] set_eternal_fleet_protection_modifier = { paramater = $tracking_add$ relation = "<" UNIT = One_of_fourth }]  
-	[[accuracy_add] set_eternal_fleet_protection_modifier = { paramater = $accuracy_add$ relation = "<" UNIT = One_of_fourth }] 
-	[[shield_add] set_eternal_fleet_protection_modifier = { paramater = $shield_add$ relation = "<" UNIT = million }]  
-	[[armor_add] set_eternal_fleet_protection_modifier = { paramater = $armor_add$ relation = "<" UNIT = million }]  
-	[[shield_reduction] set_eternal_fleet_protection_modifier = { paramater = $shield_reduction$ relation = ">" UNIT = initial }]  
-	[[armor_reduction] set_eternal_fleet_protection_modifier = { paramater = $armor_reduction$ relation = ">" UNIT = initial }]  
+	[[weapon_damage] set_eternal_fleet_protection_modifier = { PARAMATER = $weapon_damage$ RELATION = "<" UNIT = initial }]  
+	[[fire_rate_mult] set_eternal_fleet_protection_modifier = { PARAMATER = $fire_rate_mult$ RELATION = "<" UNIT = initial }]  
+	[[shield_penetration] set_eternal_fleet_protection_modifier = { PARAMATER = $shield_penetration$ RELATION = "<" UNIT = initial }]  
+	[[armor_penetration] set_eternal_fleet_protection_modifier = { PARAMATER = $armor_penetration$ RELATION = "<" UNIT = initial }]  
+	[[hull_regen_add_perc] set_eternal_fleet_protection_modifier = { PARAMATER = $hull_regen_add_perc$ RELATION = "<" UNIT = initial }]  
+	[[armor_regen_add_perc] set_eternal_fleet_protection_modifier = { PARAMATER = $armor_regen_add_perc$ RELATION = "<" UNIT = initial }]  
+	[[shield_regen_add_perc] set_eternal_fleet_protection_modifier = { PARAMATER = $shield_regen_add_perc$ RELATION = "<" UNIT = initial }]  
+	[[hull_mult] set_eternal_fleet_protection_modifier = { PARAMATER = $hull_mult$ RELATION = "<" UNIT = initial }]  
+	[[armor_mult] set_eternal_fleet_protection_modifier = { PARAMATER = $armor_mult$ RELATION = "<" UNIT = initial }]  
+	[[shield_mult] set_eternal_fleet_protection_modifier = { PARAMATER = $shield_mult$ RELATION = "<" UNIT = initial }]  
+	[[weapon_range_mult] set_eternal_fleet_protection_modifier = { PARAMATER = $weapon_range_mult$ RELATION = "<" UNIT = initial }]  
+	[[tracking] set_eternal_fleet_protection_modifier = { PARAMATER = $tracking$ RELATION = "<" UNIT = initial }]  
+	[[accuracy] set_eternal_fleet_protection_modifier = { PARAMATER = $accuracy$ RELATION = "<" UNIT = initial }]  
+	[[weapon_type_energy] set_eternal_fleet_protection_modifier = { PARAMATER = $weapon_type_energy$ RELATION = "<" UNIT = initial }]  
+	[[weapon_type_kinetic] set_eternal_fleet_protection_modifier = { PARAMATER = $weapon_type_kinetic$ RELATION = "<" UNIT = initial }]  
+	[[weapon_type_explosive] set_eternal_fleet_protection_modifier = { PARAMATER = $weapon_type_explosive$ RELATION = "<" UNIT = initial }]  
+	[[armor_damage] set_eternal_fleet_protection_modifier = { PARAMATER = $armor_damage$ RELATION = "<" UNIT = initial }]  
+	[[shield_damage] set_eternal_fleet_protection_modifier = { PARAMATER = $shield_damage$ RELATION = "<" UNIT = initial }]  
+	[[hull_damage] set_eternal_fleet_protection_modifier = { PARAMATER = $hull_damage$ RELATION = "<" UNIT = initial }]  
+	[[tracking_add] set_eternal_fleet_protection_modifier = { PARAMATER = $tracking_add$ RELATION = "<" UNIT = one_of_fourth }]  
+	[[accuracy_add] set_eternal_fleet_protection_modifier = { PARAMATER = $accuracy_add$ RELATION = "<" UNIT = one_of_fourth }] 
+	[[shield_add] set_eternal_fleet_protection_modifier = { PARAMATER = $shield_add$ RELATION = "<" UNIT = million }]  
+	[[armor_add] set_eternal_fleet_protection_modifier = { PARAMATER = $armor_add$ RELATION = "<" UNIT = million }]  
+	[[shield_reduction] set_eternal_fleet_protection_modifier = { PARAMATER = $shield_reduction$ RELATION = ">" UNIT = initial }]  
+	[[armor_reduction] set_eternal_fleet_protection_modifier = { PARAMATER = $armor_reduction$ RELATION = ">" UNIT = initial }]  
 }
 
 # initial = 0  min = 0.25  small = 0.5  medium = 0.75  max = 0.99  origin = 1
-# double = 2  fifth = 5  Tenth = 10  One_of_fourth = 25  One_of_double = 50  hundred = 100  million = 1000000  dmillion = 2000000
+# double = 2  fifth = 5  Tenth = 10  one_of_fourth = 25  one_of_double = 50  hundred = 100  million = 1000000  dmillion = 2000000
 set_easy_eternal_fleet_mult_modifier = {
 	optimize_memory
 	########MULT VALUE########
 	#scope: fromfromfrom
-	[[shield_penetration_standard] set_eternal_fleet_standard_modifier = { paramater = $shield_penetration_standard$ relation = "!=" OUTPUT_VALUE = -1 UNIT_VALUE = 1 }]  
-	[[armor_penetration_standard] set_eternal_fleet_standard_modifier = { paramater = $armor_penetration_standard$ relation = "!=" OUTPUT_VALUE = -1 UNIT_VALUE = 1 }] 
-	[[hull_regen_add_perc_standard] set_eternal_fleet_standard_modifier = { paramater = $hull_regen_add_perc_standard$ relation = "!=" OUTPUT_VALUE = 1 UNIT_VALUE = -1 }]
-	[[armor_regen_add_perc_standard] set_eternal_fleet_standard_modifier = { paramater = $armor_regen_add_perc_standard$ relation = "!=" OUTPUT_VALUE = 1 UNIT_VALUE = -1 }]
-	[[shield_regen_add_perc_standard] set_eternal_fleet_standard_modifier = { paramater = $shield_regen_add_perc_standard$ relation = "!=" OUTPUT_VALUE = 1 UNIT_VALUE = -1 }] 
-	[[armor_damage_standard] set_eternal_fleet_insane_damage_modifier = { paramater = $armor_damage_standard$ relation = "!=" UNIT = origin UNIT1 = min }]  
-	[[shield_damage_standard] set_eternal_fleet_insane_damage_modifier = { paramater = $shield_damage_standard$ relation = "!=" UNIT = origin UNIT1 = min }]  
-	[[hull_damage_standard] set_eternal_fleet_insane_damage_modifier = { paramater = $hull_damage_standard$ relation = "!=" UNIT = origin UNIT1 = min }]  
-	[[weapon_damage_standard] set_eternal_fleet_insane_damage_modifier = { paramater = $weapon_damage_standard$ relation = "!=" UNIT = origin UNIT1 = min }]  
-	[[tracking_standard] set_eternal_fleet_insane_damage_modifier = { paramater = $tracking_standard$ relation = "!=" UNIT = origin UNIT1 = initial }]  
-	[[accuracy_standard] set_eternal_fleet_insane_damage_modifier = { paramater = $accuracy_standard$ relation = "!=" UNIT = origin UNIT1 = initial }] 
+	[[shield_penetration_standard] set_eternal_fleet_standard_modifier = { PARAMATER = $shield_penetration_standard$ RELATION = "!=" OUTPUT_VALUE = -1 UNIT_VALUE = 1 }]  
+	[[armor_penetration_standard] set_eternal_fleet_standard_modifier = { PARAMATER = $armor_penetration_standard$ RELATION = "!=" OUTPUT_VALUE = -1 UNIT_VALUE = 1 }] 
+	[[hull_regen_add_perc_standard] set_eternal_fleet_standard_modifier = { PARAMATER = $hull_regen_add_perc_standard$ RELATION = "!=" OUTPUT_VALUE = 1 UNIT_VALUE = -1 }]
+	[[armor_regen_add_perc_standard] set_eternal_fleet_standard_modifier = { PARAMATER = $armor_regen_add_perc_standard$ RELATION = "!=" OUTPUT_VALUE = 1 UNIT_VALUE = -1 }]
+	[[shield_regen_add_perc_standard] set_eternal_fleet_standard_modifier = { PARAMATER = $shield_regen_add_perc_standard$ RELATION = "!=" OUTPUT_VALUE = 1 UNIT_VALUE = -1 }] 
+	[[armor_damage_standard] set_eternal_fleet_insane_damage_modifier = { PARAMATER = $armor_damage_standard$ RELATION = "!=" UNIT = origin UNIT1 = min }]  
+	[[shield_damage_standard] set_eternal_fleet_insane_damage_modifier = { PARAMATER = $shield_damage_standard$ RELATION = "!=" UNIT = origin UNIT1 = min }]  
+	[[hull_damage_standard] set_eternal_fleet_insane_damage_modifier = { PARAMATER = $hull_damage_standard$ RELATION = "!=" UNIT = origin UNIT1 = min }]  
+	[[weapon_damage_standard] set_eternal_fleet_insane_damage_modifier = { PARAMATER = $weapon_damage_standard$ RELATION = "!=" UNIT = origin UNIT1 = min }]  
+	[[tracking_standard] set_eternal_fleet_insane_damage_modifier = { PARAMATER = $tracking_standard$ RELATION = "!=" UNIT = origin UNIT1 = initial }]  
+	[[accuracy_standard] set_eternal_fleet_insane_damage_modifier = { PARAMATER = $accuracy_standard$ RELATION = "!=" UNIT = origin UNIT1 = initial }] 
 
 	#scope: fromfrom
-	[[weapon_damage] set_eternal_fleet_protection_modifier = { paramater = $weapon_damage$ relation = "<" UNIT = min }] 
-	[[fire_rate_mult] set_eternal_fleet_protection_modifier = { paramater = $fire_rate_mult$ relation = "<" UNIT = min }]  
-	[[shield_penetration] set_eternal_fleet_protection_modifier = { paramater = $shield_penetration$ relation = "<" UNIT = min }]  
-	[[armor_penetration] set_eternal_fleet_protection_modifier = { paramater = $armor_penetration$ relation = "<" UNIT = min }]   
-	[[hull_regen_add_perc] set_eternal_fleet_protection_modifier = { paramater = $hull_regen_add_perc$ relation = "<" UNIT = min }]  
-	[[armor_regen_add_perc] set_eternal_fleet_protection_modifier = { paramater = $armor_regen_add_perc$ relation = "<" UNIT = min }]  
-	[[shield_regen_add_perc] set_eternal_fleet_protection_modifier = { paramater = $shield_regen_add_perc$ relation = "<" UNIT = min }]  
-	[[hull_mult] set_eternal_fleet_protection_modifier = { paramater = $hull_mult$ relation = "<" UNIT = min }]  
-	[[armor_mult] set_eternal_fleet_protection_modifier = { paramater = $armor_mult$ relation = "<" UNIT = min }]  
-	[[shield_mult] set_eternal_fleet_protection_modifier = { paramater = $shield_mult$ relation = "<" UNIT = min }]  
-	[[weapon_range_mult] set_eternal_fleet_protection_modifier = { paramater = $weapon_range_mult$ relation = "<" UNIT = min }]  
-	[[tracking] set_eternal_fleet_protection_modifier = { paramater = $tracking$ relation = "<" UNIT = min }]  
-	[[accuracy] set_eternal_fleet_protection_modifier = { paramater = $accuracy$ relation = "<" UNIT = min }]  
-	[[weapon_type_energy] set_eternal_fleet_protection_modifier = { paramater = $weapon_type_energy$ relation = "<" UNIT = min }]  
-	[[weapon_type_kinetic] set_eternal_fleet_protection_modifier = { paramater = $weapon_type_kinetic$ relation = "<" UNIT = min }]  
-	[[weapon_type_explosive] set_eternal_fleet_protection_modifier = { paramater = $weapon_type_explosive$ relation = "<" UNIT = min }]  
-	[[armor_damage] set_eternal_fleet_protection_modifier = { paramater = $armor_damage$ relation = "<" UNIT = min }]  
-	[[shield_damage] set_eternal_fleet_protection_modifier = { paramater = $shield_damage$ relation = "<" UNIT = min }]  
-	[[hull_damage] set_eternal_fleet_protection_modifier = { paramater = $hull_damage$ relation = "<" UNIT = min }]  
-	[[tracking_add] set_eternal_fleet_protection_modifier = { paramater = $tracking_add$ relation = "<" UNIT = One_of_fourth }]  
-	[[accuracy_add] set_eternal_fleet_protection_modifier = { paramater = $accuracy_add$ relation = "<" UNIT = One_of_fourth }]  
-	[[shield_add] set_eternal_fleet_protection_modifier = { paramater = $shield_add$ relation = "<" UNIT = million }]  
-	[[armor_add] set_eternal_fleet_protection_modifier = { paramater = $armor_add$ relation = "<" UNIT = million }]  
-	[[shield_reduction] set_eternal_fleet_protection_modifier = { paramater = $shield_reduction$ relation = ">" UNIT = initial }]  
-	[[armor_reduction] set_eternal_fleet_protection_modifier = { paramater = $armor_reduction$ relation = ">" UNIT = initial }]  
+	[[weapon_damage] set_eternal_fleet_protection_modifier = { PARAMATER = $weapon_damage$ RELATION = "<" UNIT = min }] 
+	[[fire_rate_mult] set_eternal_fleet_protection_modifier = { PARAMATER = $fire_rate_mult$ RELATION = "<" UNIT = min }]  
+	[[shield_penetration] set_eternal_fleet_protection_modifier = { PARAMATER = $shield_penetration$ RELATION = "<" UNIT = min }]  
+	[[armor_penetration] set_eternal_fleet_protection_modifier = { PARAMATER = $armor_penetration$ RELATION = "<" UNIT = min }]   
+	[[hull_regen_add_perc] set_eternal_fleet_protection_modifier = { PARAMATER = $hull_regen_add_perc$ RELATION = "<" UNIT = min }]  
+	[[armor_regen_add_perc] set_eternal_fleet_protection_modifier = { PARAMATER = $armor_regen_add_perc$ RELATION = "<" UNIT = min }]  
+	[[shield_regen_add_perc] set_eternal_fleet_protection_modifier = { PARAMATER = $shield_regen_add_perc$ RELATION = "<" UNIT = min }]  
+	[[hull_mult] set_eternal_fleet_protection_modifier = { PARAMATER = $hull_mult$ RELATION = "<" UNIT = min }]  
+	[[armor_mult] set_eternal_fleet_protection_modifier = { PARAMATER = $armor_mult$ RELATION = "<" UNIT = min }]  
+	[[shield_mult] set_eternal_fleet_protection_modifier = { PARAMATER = $shield_mult$ RELATION = "<" UNIT = min }]  
+	[[weapon_range_mult] set_eternal_fleet_protection_modifier = { PARAMATER = $weapon_range_mult$ RELATION = "<" UNIT = min }]  
+	[[tracking] set_eternal_fleet_protection_modifier = { PARAMATER = $tracking$ RELATION = "<" UNIT = min }]  
+	[[accuracy] set_eternal_fleet_protection_modifier = { PARAMATER = $accuracy$ RELATION = "<" UNIT = min }]  
+	[[weapon_type_energy] set_eternal_fleet_protection_modifier = { PARAMATER = $weapon_type_energy$ RELATION = "<" UNIT = min }]  
+	[[weapon_type_kinetic] set_eternal_fleet_protection_modifier = { PARAMATER = $weapon_type_kinetic$ RELATION = "<" UNIT = min }]  
+	[[weapon_type_explosive] set_eternal_fleet_protection_modifier = { PARAMATER = $weapon_type_explosive$ RELATION = "<" UNIT = min }]  
+	[[armor_damage] set_eternal_fleet_protection_modifier = { PARAMATER = $armor_damage$ RELATION = "<" UNIT = min }]  
+	[[shield_damage] set_eternal_fleet_protection_modifier = { PARAMATER = $shield_damage$ RELATION = "<" UNIT = min }]  
+	[[hull_damage] set_eternal_fleet_protection_modifier = { PARAMATER = $hull_damage$ RELATION = "<" UNIT = min }]  
+	[[tracking_add] set_eternal_fleet_protection_modifier = { PARAMATER = $tracking_add$ RELATION = "<" UNIT = one_of_fourth }]  
+	[[accuracy_add] set_eternal_fleet_protection_modifier = { PARAMATER = $accuracy_add$ RELATION = "<" UNIT = one_of_fourth }]  
+	[[shield_add] set_eternal_fleet_protection_modifier = { PARAMATER = $shield_add$ RELATION = "<" UNIT = million }]  
+	[[armor_add] set_eternal_fleet_protection_modifier = { PARAMATER = $armor_add$ RELATION = "<" UNIT = million }]  
+	[[shield_reduction] set_eternal_fleet_protection_modifier = { PARAMATER = $shield_reduction$ RELATION = ">" UNIT = initial }]  
+	[[armor_reduction] set_eternal_fleet_protection_modifier = { PARAMATER = $armor_reduction$ RELATION = ">" UNIT = initial }]  
 }
 
 # initial = 0  min = 0.25  small = 0.5  medium = 0.75  max = 0.99  origin = 1
-# double = 2  fifth = 5  Tenth = 10  One_of_fourth = 25  One_of_double = 50  hundred = 100  million = 1000000  dmillion = 2000000
+# double = 2  fifth = 5  Tenth = 10  one_of_fourth = 25  one_of_double = 50  hundred = 100  million = 1000000  dmillion = 2000000
 set_normal_eternal_fleet_mult_modifier = {
 	optimize_memory
 	########MULT VALUE########
 	#scope: fromfromfrom
-	[[shield_penetration_standard] set_eternal_fleet_standard_modifier = { paramater = $shield_penetration_standard$ relation = "!=" OUTPUT_VALUE = -1 UNIT_VALUE = 1 }]  
-	[[armor_penetration_standard] set_eternal_fleet_standard_modifier = { paramater = $armor_penetration_standard$ relation = "!=" OUTPUT_VALUE = -1 UNIT_VALUE = 1 }] 
-	[[hull_regen_add_perc_standard] set_eternal_fleet_standard_modifier = { paramater = $hull_regen_add_perc_standard$ relation = "!=" OUTPUT_VALUE = 1 UNIT_VALUE = -1 }]
-	[[armor_regen_add_perc_standard] set_eternal_fleet_standard_modifier = { paramater = $armor_regen_add_perc_standard$ relation = "!=" OUTPUT_VALUE = 1 UNIT_VALUE = -1 }]
-	[[shield_regen_add_perc_standard] set_eternal_fleet_standard_modifier = { paramater = $shield_regen_add_perc_standard$ relation = "!=" OUTPUT_VALUE = 1 UNIT_VALUE = -1 }] 
-	[[armor_damage_standard] set_eternal_fleet_insane_damage_modifier = { paramater = $armor_damage_standard$ relation = "!=" UNIT = origin UNIT1 = small }]  
-	[[shield_damage_standard] set_eternal_fleet_insane_damage_modifier = { paramater = $shield_damage_standard$ relation = "!=" UNIT = origin UNIT1 = small }]  
-	[[hull_damage_standard] set_eternal_fleet_insane_damage_modifier = { paramater = $hull_damage_standard$ relation = "!=" UNIT = origin UNIT1 = small }]  
-	[[weapon_damage_standard] set_eternal_fleet_insane_damage_modifier = { paramater = $weapon_damage_standard$ relation = "!=" UNIT = origin UNIT1 = small }]  
-	[[tracking_standard] set_eternal_fleet_insane_damage_modifier = { paramater = $tracking_standard$ relation = "!=" UNIT = origin UNIT1 = initial }]  
-	[[accuracy_standard] set_eternal_fleet_insane_damage_modifier = { paramater = $accuracy_standard$ relation = "!=" UNIT = origin UNIT1 = initial }]  
+	[[shield_penetration_standard] set_eternal_fleet_standard_modifier = { PARAMATER = $shield_penetration_standard$ RELATION = "!=" OUTPUT_VALUE = -1 UNIT_VALUE = 1 }]  
+	[[armor_penetration_standard] set_eternal_fleet_standard_modifier = { PARAMATER = $armor_penetration_standard$ RELATION = "!=" OUTPUT_VALUE = -1 UNIT_VALUE = 1 }] 
+	[[hull_regen_add_perc_standard] set_eternal_fleet_standard_modifier = { PARAMATER = $hull_regen_add_perc_standard$ RELATION = "!=" OUTPUT_VALUE = 1 UNIT_VALUE = -1 }]
+	[[armor_regen_add_perc_standard] set_eternal_fleet_standard_modifier = { PARAMATER = $armor_regen_add_perc_standard$ RELATION = "!=" OUTPUT_VALUE = 1 UNIT_VALUE = -1 }]
+	[[shield_regen_add_perc_standard] set_eternal_fleet_standard_modifier = { PARAMATER = $shield_regen_add_perc_standard$ RELATION = "!=" OUTPUT_VALUE = 1 UNIT_VALUE = -1 }] 
+	[[armor_damage_standard] set_eternal_fleet_insane_damage_modifier = { PARAMATER = $armor_damage_standard$ RELATION = "!=" UNIT = origin UNIT1 = small }]  
+	[[shield_damage_standard] set_eternal_fleet_insane_damage_modifier = { PARAMATER = $shield_damage_standard$ RELATION = "!=" UNIT = origin UNIT1 = small }]  
+	[[hull_damage_standard] set_eternal_fleet_insane_damage_modifier = { PARAMATER = $hull_damage_standard$ RELATION = "!=" UNIT = origin UNIT1 = small }]  
+	[[weapon_damage_standard] set_eternal_fleet_insane_damage_modifier = { PARAMATER = $weapon_damage_standard$ RELATION = "!=" UNIT = origin UNIT1 = small }]  
+	[[tracking_standard] set_eternal_fleet_insane_damage_modifier = { PARAMATER = $tracking_standard$ RELATION = "!=" UNIT = origin UNIT1 = initial }]  
+	[[accuracy_standard] set_eternal_fleet_insane_damage_modifier = { PARAMATER = $accuracy_standard$ RELATION = "!=" UNIT = origin UNIT1 = initial }]  
 
 	#scope: fromfrom
-	[[weapon_damage] set_eternal_fleet_protection_modifier = { paramater = $weapon_damage$ relation = "<" UNIT = medium }]  
-	[[fire_rate_mult] set_eternal_fleet_protection_modifier = { paramater = $fire_rate_mult$ relation = "<" UNIT = medium }]  
-	[[shield_penetration] set_eternal_fleet_protection_modifier = { paramater = $shield_penetration$ relation = "<" UNIT = small }]  
-	[[armor_penetration] set_eternal_fleet_protection_modifier = { paramater = $armor_penetration$ relation = "<" UNIT = small }]  
-	[[hull_regen_add_perc] set_eternal_fleet_protection_modifier = { paramater = $hull_regen_add_perc$ relation = "<" UNIT = small }]  
-	[[armor_regen_add_perc] set_eternal_fleet_protection_modifier = { paramater = $armor_regen_add_perc$ relation = "<" UNIT = small }]  
-	[[shield_regen_add_perc] set_eternal_fleet_protection_modifier = { paramater = $shield_regen_add_perc$ relation = "<" UNIT = small }]  
-	[[hull_mult] set_eternal_fleet_protection_modifier = { paramater = $hull_mult$ relation = "<" UNIT = small }]  
-	[[armor_mult] set_eternal_fleet_protection_modifier = { paramater = $armor_mult$ relation = "<" UNIT = small }]  
-	[[shield_mult] set_eternal_fleet_protection_modifier = { paramater = $shield_mult$ relation = "<" UNIT = small }]  
-	[[weapon_range_mult] set_eternal_fleet_protection_modifier = { paramater = $weapon_range_mult$ relation = "<" UNIT = small }]  
-	[[tracking] set_eternal_fleet_protection_modifier = { paramater = $tracking$ relation = "<" UNIT = small }]  
-	[[accuracy] set_eternal_fleet_protection_modifier = { paramater = $accuracy$ relation = "<" UNIT = small }]  
-	[[weapon_type_energy] set_eternal_fleet_protection_modifier = { paramater = $weapon_type_energy$ relation = "<" UNIT = small }]  
-	[[weapon_type_kinetic] set_eternal_fleet_protection_modifier = { paramater = $weapon_type_kinetic$ relation = "<" UNIT = small }]  
-	[[weapon_type_explosive] set_eternal_fleet_protection_modifier = { paramater = $weapon_type_explosive$ relation = "<" UNIT = small }]  
-	[[armor_damage] set_eternal_fleet_protection_modifier = { paramater = $armor_damage$ relation = "<" UNIT = small }]  
-	[[shield_damage] set_eternal_fleet_protection_modifier = { paramater = $shield_damage$ relation = "<" UNIT = small }]  
-	[[hull_damage] set_eternal_fleet_protection_modifier = { paramater = $hull_damage$ relation = "<" UNIT = small }]  
-	[[tracking_add] set_eternal_fleet_protection_modifier = { paramater = $tracking_add$ relation = "<" UNIT = One_of_double }]  
-	[[accuracy_add] set_eternal_fleet_protection_modifier = { paramater = $accuracy_add$ relation = "<" UNIT = One_of_double }]  
-	[[shield_add] set_eternal_fleet_protection_modifier = { paramater = $shield_add$ relation = "<" UNIT = million }]  
-	[[armor_add] set_eternal_fleet_protection_modifier = { paramater = $armor_add$ relation = "<" UNIT = million }]  
-	[[shield_reduction] set_eternal_fleet_protection_modifier = { paramater = $shield_reduction$ relation = ">" UNIT = initial }]  
-	[[armor_reduction] set_eternal_fleet_protection_modifier = { paramater = $armor_reduction$ relation = ">" UNIT = initial }]  
+	[[weapon_damage] set_eternal_fleet_protection_modifier = { PARAMATER = $weapon_damage$ RELATION = "<" UNIT = small }]  
+	[[fire_rate_mult] set_eternal_fleet_protection_modifier = { PARAMATER = $fire_rate_mult$ RELATION = "<" UNIT = small }]  
+	[[shield_penetration] set_eternal_fleet_protection_modifier = { PARAMATER = $shield_penetration$ RELATION = "<" UNIT = small }]  
+	[[armor_penetration] set_eternal_fleet_protection_modifier = { PARAMATER = $armor_penetration$ RELATION = "<" UNIT = small }]  
+	[[hull_regen_add_perc] set_eternal_fleet_protection_modifier = { PARAMATER = $hull_regen_add_perc$ RELATION = "<" UNIT = small }]  
+	[[armor_regen_add_perc] set_eternal_fleet_protection_modifier = { PARAMATER = $armor_regen_add_perc$ RELATION = "<" UNIT = small }]  
+	[[shield_regen_add_perc] set_eternal_fleet_protection_modifier = { PARAMATER = $shield_regen_add_perc$ RELATION = "<" UNIT = small }]  
+	[[hull_mult] set_eternal_fleet_protection_modifier = { PARAMATER = $hull_mult$ RELATION = "<" UNIT = small }]  
+	[[armor_mult] set_eternal_fleet_protection_modifier = { PARAMATER = $armor_mult$ RELATION = "<" UNIT = small }]  
+	[[shield_mult] set_eternal_fleet_protection_modifier = { PARAMATER = $shield_mult$ RELATION = "<" UNIT = small }]  
+	[[weapon_range_mult] set_eternal_fleet_protection_modifier = { PARAMATER = $weapon_range_mult$ RELATION = "<" UNIT = small }]  
+	[[tracking] set_eternal_fleet_protection_modifier = { PARAMATER = $tracking$ RELATION = "<" UNIT = small }]  
+	[[accuracy] set_eternal_fleet_protection_modifier = { PARAMATER = $accuracy$ RELATION = "<" UNIT = small }]  
+	[[weapon_type_energy] set_eternal_fleet_protection_modifier = { PARAMATER = $weapon_type_energy$ RELATION = "<" UNIT = small }]  
+	[[weapon_type_kinetic] set_eternal_fleet_protection_modifier = { PARAMATER = $weapon_type_kinetic$ RELATION = "<" UNIT = small }]  
+	[[weapon_type_explosive] set_eternal_fleet_protection_modifier = { PARAMATER = $weapon_type_explosive$ RELATION = "<" UNIT = small }]  
+	[[armor_damage] set_eternal_fleet_protection_modifier = { PARAMATER = $armor_damage$ RELATION = "<" UNIT = small }]  
+	[[shield_damage] set_eternal_fleet_protection_modifier = { PARAMATER = $shield_damage$ RELATION = "<" UNIT = small }]  
+	[[hull_damage] set_eternal_fleet_protection_modifier = { PARAMATER = $hull_damage$ RELATION = "<" UNIT = small }]  
+	[[tracking_add] set_eternal_fleet_protection_modifier = { PARAMATER = $tracking_add$ RELATION = "<" UNIT = one_of_double }]  
+	[[accuracy_add] set_eternal_fleet_protection_modifier = { PARAMATER = $accuracy_add$ RELATION = "<" UNIT = one_of_double }]  
+	[[shield_add] set_eternal_fleet_protection_modifier = { PARAMATER = $shield_add$ RELATION = "<" UNIT = million }]  
+	[[armor_add] set_eternal_fleet_protection_modifier = { PARAMATER = $armor_add$ RELATION = "<" UNIT = million }]  
+	[[shield_reduction] set_eternal_fleet_protection_modifier = { PARAMATER = $shield_reduction$ RELATION = ">" UNIT = initial }]  
+	[[armor_reduction] set_eternal_fleet_protection_modifier = { PARAMATER = $armor_reduction$ RELATION = ">" UNIT = initial }]  
 }
  
 # initial = 0  min = 0.25  small = 0.5  medium = 0.75  max = 0.99  origin = 1
-# double = 2  fifth = 5  Tenth = 10  One_of_fourth = 25  One_of_double = 50  hundred = 100  million = 1000000  dmillion = 2000000
+# double = 2  fifth = 5  Tenth = 10  one_of_fourth = 25  one_of_double = 50  hundred = 100  million = 1000000  dmillion = 2000000
 set_difiicult_eternal_fleet_mult_modifier = {
 	optimize_memory
 	########MULT VALUE########
 	#scope: fromfromfrom
-	[[shield_penetration_standard] set_eternal_fleet_standard_modifier = { paramater = $shield_penetration_standard$ relation = "!=" OUTPUT_VALUE = -1 UNIT_VALUE = 1 }]  
-	[[armor_penetration_standard] set_eternal_fleet_standard_modifier = { paramater = $armor_penetration_standard$ relation = "!=" OUTPUT_VALUE = -1 UNIT_VALUE = 1 }] 
-	[[hull_regen_add_perc_standard] set_eternal_fleet_standard_modifier = { paramater = $hull_regen_add_perc_standard$ relation = "!=" OUTPUT_VALUE = 1 UNIT_VALUE = -1 }]
-	[[armor_regen_add_perc_standard] set_eternal_fleet_standard_modifier = { paramater = $armor_regen_add_perc_standard$ relation = "!=" OUTPUT_VALUE = 1 UNIT_VALUE = -1 }]
-	[[shield_regen_add_perc_standard] set_eternal_fleet_standard_modifier = { paramater = $shield_regen_add_perc_standard$ relation = "!=" OUTPUT_VALUE = 1 UNIT_VALUE = -1 }] 
-	[[armor_damage_standard] set_eternal_fleet_damage_modifier = { paramater = $armor_damage_standard$ relation = "!=" UNIT = origin UNIT1 = medium }]  
-	[[shield_damage_standard] set_eternal_fleet_damage_modifier = { paramater = $shield_damage_standard$ relation = "!=" UNIT = origin UNIT1 = medium }]  
-	[[hull_damage_standard] set_eternal_fleet_damage_modifier = { paramater = $hull_damage_standard$ relation = "!=" UNIT = origin UNIT1 = medium }]  
-	[[weapon_damage_standard] set_eternal_fleet_damage_modifier = { paramater = $weapon_damage_standard$ relation = "!=" UNIT = origin UNIT1 = medium }]  
-	[[tracking_standard] set_eternal_fleet_damage_modifier = { paramater = $tracking_standard$ relation = "!=" UNIT = origin UNIT1 = initial }]  
-	[[accuracy_standard] set_eternal_fleet_damage_modifier = { paramater = $accuracy_standard$ relation = "!=" UNIT = origin UNIT1 = initial }]  
+	[[shield_penetration_standard] set_eternal_fleet_standard_modifier = { PARAMATER = $shield_penetration_standard$ RELATION = "!=" OUTPUT_VALUE = -1 UNIT_VALUE = 1 }]  
+	[[armor_penetration_standard] set_eternal_fleet_standard_modifier = { PARAMATER = $armor_penetration_standard$ RELATION = "!=" OUTPUT_VALUE = -1 UNIT_VALUE = 1 }] 
+	[[hull_regen_add_perc_standard] set_eternal_fleet_standard_modifier = { PARAMATER = $hull_regen_add_perc_standard$ RELATION = "!=" OUTPUT_VALUE = 1 UNIT_VALUE = -1 }]
+	[[armor_regen_add_perc_standard] set_eternal_fleet_standard_modifier = { PARAMATER = $armor_regen_add_perc_standard$ RELATION = "!=" OUTPUT_VALUE = 1 UNIT_VALUE = -1 }]
+	[[shield_regen_add_perc_standard] set_eternal_fleet_standard_modifier = { PARAMATER = $shield_regen_add_perc_standard$ RELATION = "!=" OUTPUT_VALUE = 1 UNIT_VALUE = -1 }] 
+	[[armor_damage_standard] set_eternal_fleet_damage_modifier = { PARAMATER = $armor_damage_standard$ RELATION = "!=" UNIT = origin UNIT1 = medium }]  
+	[[shield_damage_standard] set_eternal_fleet_damage_modifier = { PARAMATER = $shield_damage_standard$ RELATION = "!=" UNIT = origin UNIT1 = medium }]  
+	[[hull_damage_standard] set_eternal_fleet_damage_modifier = { PARAMATER = $hull_damage_standard$ RELATION = "!=" UNIT = origin UNIT1 = medium }]  
+	[[weapon_damage_standard] set_eternal_fleet_damage_modifier = { PARAMATER = $weapon_damage_standard$ RELATION = "!=" UNIT = origin UNIT1 = medium }]  
+	[[tracking_standard] set_eternal_fleet_damage_modifier = { PARAMATER = $tracking_standard$ RELATION = "!=" UNIT = origin UNIT1 = initial }]  
+	[[accuracy_standard] set_eternal_fleet_damage_modifier = { PARAMATER = $accuracy_standard$ RELATION = "!=" UNIT = origin UNIT1 = initial }]  
 
 	#scope: fromfrom
-	[[weapon_damage] set_eternal_fleet_protection_modifier = { paramater = $weapon_damage$ relation = "<" UNIT = double }]  
-	[[fire_rate_mult] set_eternal_fleet_protection_modifier = { paramater = $fire_rate_mult$ relation = "<" UNIT = double }]  
-	[[shield_penetration] set_eternal_fleet_protection_modifier = { paramater = $shield_penetration$ relation = "<" UNIT = origin }]  
-	[[armor_penetration] set_eternal_fleet_protection_modifier = { paramater = $armor_penetration$ relation = "<" UNIT = origin }]  
-	[[hull_regen_add_perc] set_eternal_fleet_protection_modifier = { paramater = $hull_regen_add_perc$ relation = "<" UNIT = origin }]  
-	[[armor_regen_add_perc] set_eternal_fleet_protection_modifier = { paramater = $armor_regen_add_perc$ relation = "<" UNIT = origin }]  
-	[[shield_regen_add_perc] set_eternal_fleet_protection_modifier = { paramater = $shield_regen_add_perc$ relation = "<" UNIT = origin }]  
-	[[hull_mult] set_eternal_fleet_protection_modifier = { paramater = $hull_mult$ relation = "<" UNIT = origin }]  
-	[[armor_mult] set_eternal_fleet_protection_modifier = { paramater = $armor_mult$ relation = "<" UNIT = origin }]  
-	[[shield_mult] set_eternal_fleet_protection_modifier = { paramater = $shield_mult$ relation = "<" UNIT = origin }]  
-	[[weapon_range_mult] set_eternal_fleet_protection_modifier = { paramater = $weapon_range_mult$ relation = "<" UNIT = origin }]  
-	[[tracking] set_eternal_fleet_protection_modifier = { paramater = $tracking$ relation = "<" UNIT = origin }]  
-	[[accuracy] set_eternal_fleet_protection_modifier = { paramater = $accuracy$ relation = "<" UNIT = origin }]  
-	[[weapon_type_energy] set_eternal_fleet_protection_modifier = { paramater = $weapon_type_energy$ relation = "<" UNIT = origin }]  
-	[[weapon_type_kinetic] set_eternal_fleet_protection_modifier = { paramater = $weapon_type_kinetic$ relation = "<" UNIT = origin }]  
-	[[weapon_type_explosive] set_eternal_fleet_protection_modifier = { paramater = $weapon_type_explosive$ relation = "<" UNIT = origin }]  
-	[[armor_damage] set_eternal_fleet_protection_modifier = { paramater = $armor_damage$ relation = "<" UNIT = origin }]  
-	[[shield_damage] set_eternal_fleet_protection_modifier = { paramater = $shield_damage$ relation = "<" UNIT = origin }]  
-	[[hull_damage] set_eternal_fleet_protection_modifier = { paramater = $hull_damage$ relation = "<" UNIT = origin }]  
-	[[tracking_add] set_eternal_fleet_protection_modifier = { paramater = $tracking_add$ relation = "<" UNIT = hundred }]  
-	[[accuracy_add] set_eternal_fleet_protection_modifier = { paramater = $accuracy_add$ relation = "<" UNIT = hundred }]  
-	[[shield_add] set_eternal_fleet_protection_modifier = { paramater = $shield_add$ relation = "<" UNIT = million }]  
-	[[armor_add] set_eternal_fleet_protection_modifier = { paramater = $armor_add$ relation = "<" UNIT = million }]  
-	[[shield_reduction] set_eternal_fleet_protection_modifier = { paramater = $shield_reduction$ relation = ">" UNIT = initial }]  
-	[[armor_reduction] set_eternal_fleet_protection_modifier = { paramater = $armor_reduction$ relation = ">" UNIT = initial }]  
+	[[weapon_damage] set_eternal_fleet_protection_modifier = { PARAMATER = $weapon_damage$ RELATION = "<" UNIT = origin }]  
+	[[fire_rate_mult] set_eternal_fleet_protection_modifier = { PARAMATER = $fire_rate_mult$ RELATION = "<" UNIT = origin }]  
+	[[shield_penetration] set_eternal_fleet_protection_modifier = { PARAMATER = $shield_penetration$ RELATION = "<" UNIT = origin }]  
+	[[armor_penetration] set_eternal_fleet_protection_modifier = { PARAMATER = $armor_penetration$ RELATION = "<" UNIT = origin }]  
+	[[hull_regen_add_perc] set_eternal_fleet_protection_modifier = { PARAMATER = $hull_regen_add_perc$ RELATION = "<" UNIT = origin }]  
+	[[armor_regen_add_perc] set_eternal_fleet_protection_modifier = { PARAMATER = $armor_regen_add_perc$ RELATION = "<" UNIT = origin }]  
+	[[shield_regen_add_perc] set_eternal_fleet_protection_modifier = { PARAMATER = $shield_regen_add_perc$ RELATION = "<" UNIT = origin }]  
+	[[hull_mult] set_eternal_fleet_protection_modifier = { PARAMATER = $hull_mult$ RELATION = "<" UNIT = origin }]  
+	[[armor_mult] set_eternal_fleet_protection_modifier = { PARAMATER = $armor_mult$ RELATION = "<" UNIT = origin }]  
+	[[shield_mult] set_eternal_fleet_protection_modifier = { PARAMATER = $shield_mult$ RELATION = "<" UNIT = origin }]  
+	[[weapon_range_mult] set_eternal_fleet_protection_modifier = { PARAMATER = $weapon_range_mult$ RELATION = "<" UNIT = origin }]  
+	[[tracking] set_eternal_fleet_protection_modifier = { PARAMATER = $tracking$ RELATION = "<" UNIT = origin }]  
+	[[accuracy] set_eternal_fleet_protection_modifier = { PARAMATER = $accuracy$ RELATION = "<" UNIT = origin }]  
+	[[weapon_type_energy] set_eternal_fleet_protection_modifier = { PARAMATER = $weapon_type_energy$ RELATION = "<" UNIT = origin }]  
+	[[weapon_type_kinetic] set_eternal_fleet_protection_modifier = { PARAMATER = $weapon_type_kinetic$ RELATION = "<" UNIT = origin }]  
+	[[weapon_type_explosive] set_eternal_fleet_protection_modifier = { PARAMATER = $weapon_type_explosive$ RELATION = "<" UNIT = origin }]  
+	[[armor_damage] set_eternal_fleet_protection_modifier = { PARAMATER = $armor_damage$ RELATION = "<" UNIT = origin }]  
+	[[shield_damage] set_eternal_fleet_protection_modifier = { PARAMATER = $shield_damage$ RELATION = "<" UNIT = origin }]  
+	[[hull_damage] set_eternal_fleet_protection_modifier = { PARAMATER = $hull_damage$ RELATION = "<" UNIT = origin }]  
+	[[tracking_add] set_eternal_fleet_protection_modifier = { PARAMATER = $tracking_add$ RELATION = "<" UNIT = hundred }]  
+	[[accuracy_add] set_eternal_fleet_protection_modifier = { PARAMATER = $accuracy_add$ RELATION = "<" UNIT = hundred }]  
+	[[shield_add] set_eternal_fleet_protection_modifier = { PARAMATER = $shield_add$ RELATION = "<" UNIT = million }]  
+	[[armor_add] set_eternal_fleet_protection_modifier = { PARAMATER = $armor_add$ RELATION = "<" UNIT = million }]  
+	[[shield_reduction] set_eternal_fleet_protection_modifier = { PARAMATER = $shield_reduction$ RELATION = ">" UNIT = initial }]  
+	[[armor_reduction] set_eternal_fleet_protection_modifier = { PARAMATER = $armor_reduction$ RELATION = ">" UNIT = initial }]  
 }
 
 # tip:script scope available in penetration modifier, other will be error.
@@ -337,25 +424,25 @@ set_difiicult_eternal_fleet_mult_modifier = {
 set_eternal_fleet_standard_modifier = {
 	if = { 
 		limit = { 
-			NOR = { has_ship_flag = fire_ship_var has_ship_flag = $paramater$_ship_cooldown }
-			check_modifier_value = { modifier = $paramater$ value $relation$ $OUTPUT_VALUE$ }
+			NOR = { has_ship_flag = fire_ship_var has_ship_flag = $PARAMATER$_ship_cooldown }
+			check_modifier_value = { modifier = $PARAMATER$ value $RELATION$ $OUTPUT_VALUE$ }
 		}
-		export_modifier_to_variable = { modifier = $paramater$ variable = $paramater$_value }
-		change_variable = { which = $paramater$_value value = $UNIT_VALUE$ }
-		add_modifier = { modifier = basic_$paramater$ multiplier = $paramater$_value }
-		if = { limit = { is_variable_set = $paramater$_value } clear_variable = $paramater$_value }
-		set_timed_ship_flag = { flag = $paramater$_ship_cooldown days = 1 }
+		export_modifier_to_variable = { modifier = $PARAMATER$ variable = $PARAMATER$_value }
+		change_variable = { which = $PARAMATER$_value value = $UNIT_VALUE$ }
+		add_modifier = { modifier = basic_$PARAMATER$ multiplier = $PARAMATER$_value }
+		if = { limit = { is_variable_set = $PARAMATER$_value } clear_variable = $PARAMATER$_value }
+		set_timed_ship_flag = { flag = $PARAMATER$_ship_cooldown days = 1 }
 	} 
 	else_if = { 
 		limit = { 
-			has_ship_flag = fire_ship_var NOT = { has_ship_flag = $paramater$_ship_cooldown }
-			check_modifier_value = { modifier = $paramater$ value $relation$ $OUTPUT_VALUE$ }
+			has_ship_flag = fire_ship_var NOT = { has_ship_flag = $PARAMATER$_ship_cooldown }
+			check_modifier_value = { modifier = $PARAMATER$ value $RELATION$ $OUTPUT_VALUE$ }
 		}
-		export_modifier_to_variable = { modifier = $paramater$ variable = change_$paramater$_value }
-		change_variable = { which = change_$paramater$_value value = $UNIT_VALUE$ }
-		add_modifier = { modifier = change_basic_$paramater$ multiplier = change_$paramater$_value }
-		if = { limit = { is_variable_set = change_$paramater$_value } clear_variable = change_$paramater$_value }
-		set_timed_ship_flag = { flag = $paramater$_ship_cooldown days = 1 }
+		export_modifier_to_variable = { modifier = $PARAMATER$ variable = change_$PARAMATER$_value }
+		change_variable = { which = change_$PARAMATER$_value value = $UNIT_VALUE$ }
+		add_modifier = { modifier = change_basic_$PARAMATER$ multiplier = change_$PARAMATER$_value }
+		if = { limit = { is_variable_set = change_$PARAMATER$_value } clear_variable = change_$PARAMATER$_value }
+		set_timed_ship_flag = { flag = $PARAMATER$_ship_cooldown days = 1 }
 	}
 }
 
@@ -367,38 +454,38 @@ set_eternal_fleet_standard_modifier = {
 set_eternal_fleet_damage_modifier = {
 	if = {
 		limit = { 
-			NOR = { has_ship_flag = fire_ship_var has_ship_flag = $paramater$_ship_cooldown }
-			check_modifier_value = { modifier = $paramater$ value > @mult_modifer_mult_$UNIT$_value } 
+			NOR = { has_ship_flag = fire_ship_var has_ship_flag = $PARAMATER$_ship_cooldown }
+			check_modifier_value = { modifier = $PARAMATER$ value > @mult_modifer_mult_$UNIT$_value } 
 		}
-		export_modifier_to_variable = { modifier = $paramater$ variable = $paramater$_value }
-		change_variable = { which = $paramater$_value value = @modifer_mult_$UNIT$_value }
-		add_modifier = { modifier = basic_$paramater$ multiplier = $paramater$_value }
-		if = { limit = { is_variable_set = $paramater$_value } clear_variable = $paramater$_value }
-		set_timed_ship_flag = { flag = $paramater$_ship_cooldown days = 1 }
+		export_modifier_to_variable = { modifier = $PARAMATER$ variable = $PARAMATER$_value }
+		change_variable = { which = $PARAMATER$_value value = @modifer_mult_$UNIT$_value }
+		add_modifier = { modifier = basic_$PARAMATER$ multiplier = $PARAMATER$_value }
+		if = { limit = { is_variable_set = $PARAMATER$_value } clear_variable = $PARAMATER$_value }
+		set_timed_ship_flag = { flag = $PARAMATER$_ship_cooldown days = 1 }
 	} 
 	else_if = { 
-		limit = { has_ship_flag = fire_ship_var NOT = { has_ship_flag = $paramater$_ship_cooldown } }
+		limit = { has_ship_flag = fire_ship_var NOT = { has_ship_flag = $PARAMATER$_ship_cooldown } }
 		if = {
 			limit = { 
 				fleet = { has_enable_flag_ship_system_true = yes } 
-				check_modifier_value = { modifier = $paramater$ value $relation$ @mult_modifer_mult_$UNIT1$_value }
+				check_modifier_value = { modifier = $PARAMATER$ value $RELATION$ @mult_modifer_mult_$UNIT1$_value }
 			}
-			export_modifier_to_variable = { modifier = $paramater$ variable = change_$paramater$_value }
-			change_variable = { which = change_$paramater$_value value = @modifer_mult_$UNIT1$_value }
-			add_modifier = { modifier = change_basic_$paramater$ multiplier = change_$paramater$_value }
-			if = { limit = { is_variable_set = change_$paramater$_value } clear_variable = change_$paramater$_value }
-			set_timed_ship_flag = { flag = $paramater$_ship_cooldown days = 1 }
+			export_modifier_to_variable = { modifier = $PARAMATER$ variable = change_$PARAMATER$_value }
+			change_variable = { which = change_$PARAMATER$_value value = @modifer_mult_$UNIT1$_value }
+			add_modifier = { modifier = change_basic_$PARAMATER$ multiplier = change_$PARAMATER$_value }
+			if = { limit = { is_variable_set = change_$PARAMATER$_value } clear_variable = change_$PARAMATER$_value }
+			set_timed_ship_flag = { flag = $PARAMATER$_ship_cooldown days = 1 }
 		}
 		else_if = {
 			limit = { 
 				fleet = { has_enable_flag_ship_system_true = no } 
-				check_modifier_value = { modifier = $paramater$ value $relation$ @mult_modifer_mult_$UNIT$_value }
+				check_modifier_value = { modifier = $PARAMATER$ value $RELATION$ @mult_modifer_mult_$UNIT$_value }
 			}
-			export_modifier_to_variable = { modifier = $paramater$ variable = change_$paramater$_value }
-			change_variable = { which = change_$paramater$_value value = @modifer_mult_$UNIT$_value }
-			add_modifier = { modifier = change_basic_$paramater$ multiplier = change_$paramater$_value }
-			if = { limit = { is_variable_set = change_$paramater$_value } clear_variable = change_$paramater$_value }
-			set_timed_ship_flag = { flag = $paramater$_ship_cooldown days = 1 }
+			export_modifier_to_variable = { modifier = $PARAMATER$ variable = change_$PARAMATER$_value }
+			change_variable = { which = change_$PARAMATER$_value value = @modifer_mult_$UNIT$_value }
+			add_modifier = { modifier = change_basic_$PARAMATER$ multiplier = change_$PARAMATER$_value }
+			if = { limit = { is_variable_set = change_$PARAMATER$_value } clear_variable = change_$PARAMATER$_value }
+			set_timed_ship_flag = { flag = $PARAMATER$_ship_cooldown days = 1 }
 		}
 	}
 }
@@ -407,60 +494,60 @@ set_eternal_fleet_damage_modifier = {
 # parameter： the modifier  
 # UNIT：Non flagship value  
 # UNIT1：flagship value
-# relation： < > or = 
+# RELATION： < > or = 
 # SUPPORT -
 set_eternal_fleet_insane_damage_modifier = {
 	if = {
 		limit = { 
-			NOR = { has_ship_flag = fire_ship_var has_ship_flag = $paramater$_ship_cooldown }
-			check_modifier_value = { modifier = $paramater$ value > @mult_modifer_mult_$UNIT$_value }
+			NOR = { has_ship_flag = fire_ship_var has_ship_flag = $PARAMATER$_ship_cooldown }
+			check_modifier_value = { modifier = $PARAMATER$ value > @mult_modifer_mult_$UNIT$_value }
 		}
-		export_modifier_to_variable = { modifier = $paramater$ variable = $paramater$_value }
-		change_variable = { which = $paramater$_value value = @modifer_mult_$UNIT$_value }
-		add_modifier = { modifier = basic_$paramater$ multiplier = $paramater$_value }
-		if = { limit = { is_variable_set = $paramater$_value } clear_variable = $paramater$_value }
-		set_timed_ship_flag = { flag = $paramater$_ship_cooldown days = 1 }
+		export_modifier_to_variable = { modifier = $PARAMATER$ variable = $PARAMATER$_value }
+		change_variable = { which = $PARAMATER$_value value = @modifer_mult_$UNIT$_value }
+		add_modifier = { modifier = basic_$PARAMATER$ multiplier = $PARAMATER$_value }
+		if = { limit = { is_variable_set = $PARAMATER$_value } clear_variable = $PARAMATER$_value }
+		set_timed_ship_flag = { flag = $PARAMATER$_ship_cooldown days = 1 }
 	} 
 	else_if = { 
 		limit = { 
-			has_ship_flag = fire_ship_var NOT = { has_ship_flag = $paramater$_ship_cooldown }
-			check_modifier_value = { modifier = $paramater$ value $relation$ @mult_modifer_mult_$UNIT1$_value }
+			has_ship_flag = fire_ship_var NOT = { has_ship_flag = $PARAMATER$_ship_cooldown }
+			check_modifier_value = { modifier = $PARAMATER$ value $RELATION$ @mult_modifer_mult_$UNIT1$_value }
 		}
-		export_modifier_to_variable = { modifier = $paramater$ variable = change_$paramater$_value }
-		change_variable = { which = change_$paramater$_value value = @modifer_mult_$UNIT1$_value }
-		add_modifier = { modifier = change_basic_$paramater$ multiplier = change_$paramater$_value }
-		if = { limit = { is_variable_set = change_$paramater$_value } clear_variable = change_$paramater$_value }
-		set_timed_ship_flag = { flag = $paramater$_ship_cooldown days = 1 }
+		export_modifier_to_variable = { modifier = $PARAMATER$ variable = change_$PARAMATER$_value }
+		change_variable = { which = change_$PARAMATER$_value value = @modifer_mult_$UNIT1$_value }
+		add_modifier = { modifier = change_basic_$PARAMATER$ multiplier = change_$PARAMATER$_value }
+		if = { limit = { is_variable_set = change_$PARAMATER$_value } clear_variable = change_$PARAMATER$_value }
+		set_timed_ship_flag = { flag = $PARAMATER$_ship_cooldown days = 1 }
 	}
 }
 
 # tip:script scope available in all modifier about protecting ship
 # parameter： the modifier  
 # UNIT：Non flagship value  
-# relation： < > or = 
+# RELATION： < > or = 
 # SUPPORT: +
 set_eternal_fleet_protection_modifier = {
 	if = {
 		limit = { 
-			NOR = { has_ship_flag = fire_ship_var has_ship_flag = $paramater$_ship_cooldown }
-			check_modifier_value = { modifier = $paramater$ value $relation$ @modifer_mult_$UNIT$_value }
+			NOR = { has_ship_flag = fire_ship_var has_ship_flag = $PARAMATER$_ship_cooldown }
+			check_modifier_value = { modifier = $PARAMATER$ value $RELATION$ @modifer_mult_$UNIT$_value }
 		}
-		export_modifier_to_variable = { modifier = $paramater$ variable = $paramater$_value }
-		subtract_variable = { which = $paramater$_value value = @modifer_mult_$UNIT$_value }
-		add_modifier = { modifier = basic_$paramater$ multiplier = $paramater$_value }
-		if = { limit = { is_variable_set = $paramater$_value } clear_variable = $paramater$_value }
-		set_timed_ship_flag = { flag = $paramater$_ship_cooldown days = 1 }
+		export_modifier_to_variable = { modifier = $PARAMATER$ variable = $PARAMATER$_value }
+		subtract_variable = { which = $PARAMATER$_value value = @modifer_mult_$UNIT$_value }
+		add_modifier = { modifier = basic_$PARAMATER$ multiplier = $PARAMATER$_value }
+		if = { limit = { is_variable_set = $PARAMATER$_value } clear_variable = $PARAMATER$_value }
+		set_timed_ship_flag = { flag = $PARAMATER$_ship_cooldown days = 1 }
 	} 
 	else_if = { 
 		limit = { 
-			has_ship_flag = fire_ship_var NOT = { has_ship_flag = $paramater$_ship_cooldown }
-			check_modifier_value = { modifier = $paramater$ value $relation$ @modifer_mult_$UNIT$_value }
+			has_ship_flag = fire_ship_var NOT = { has_ship_flag = $PARAMATER$_ship_cooldown }
+			check_modifier_value = { modifier = $PARAMATER$ value $RELATION$ @modifer_mult_$UNIT$_value }
 		}
-		export_modifier_to_variable = { modifier = $paramater$ variable = change_$paramater$_value }
-		subtract_variable = { which = change_$paramater$_value value = @modifer_mult_$UNIT$_value }
-		add_modifier = { modifier = change_basic_$paramater$ multiplier = change_$paramater$_value }
-		if = { limit = { is_variable_set = change_$paramater$_value } clear_variable = change_$paramater$_value }
-		set_timed_ship_flag = { flag = $paramater$_ship_cooldown days = 1 }
+		export_modifier_to_variable = { modifier = $PARAMATER$ variable = change_$PARAMATER$_value }
+		subtract_variable = { which = change_$PARAMATER$_value value = @modifer_mult_$UNIT$_value }
+		add_modifier = { modifier = change_basic_$PARAMATER$ multiplier = change_$PARAMATER$_value }
+		if = { limit = { is_variable_set = change_$PARAMATER$_value } clear_variable = change_$PARAMATER$_value }
+		set_timed_ship_flag = { flag = $PARAMATER$_ship_cooldown days = 1 }
 	}
 }
 
@@ -507,6 +594,7 @@ set_invasion_fleet_basic_modifier = {
 
 # reset all modifier
 clear_battleship_modifier_fixed_ship = {
+	optimize_memory
 	remove_modifier = basic_ship_shield_penetration_mult				remove_modifier = change_basic_ship_shield_penetration_mult 
 	remove_modifier = basic_ship_armor_penetration_mult					remove_modifier = change_basic_ship_armor_penetration_mult
 	remove_modifier = basic_ship_armor_damage_mult						remove_modifier = change_basic_ship_armor_damage_mult
@@ -525,20 +613,48 @@ clear_battleship_modifier_fixed_ship = {
 	remove_modifier = basic_ship_accuracy_mult							remove_modifier = change_basic_ship_accuracy_mult
 	remove_modifier = basic_ship_weapon_range_mult						remove_modifier = change_basic_ship_weapon_range_mult
 	remove_modifier = basic_ship_fire_rate_mult							remove_modifier = change_basic_ship_fire_rate_mult
-	remove_modifier = basic_weapon_type_energy_weapon_damage_mult		remove_modifier = change_basic_weapon_type_energy_weapon_damage_mult
-	remove_modifier = basic_weapon_type_explosive_weapon_damage_mult	remove_modifier = change_basic_weapon_type_explosive_weapon_damage_mult
-	remove_modifier = basic_weapon_type_kinetic_weapon_damage_mult		remove_modifier = change_basic_weapon_type_kinetic_weapon_damage_mult
-	remove_modifier = basic_weapon_type_energy_weapon_fire_rate_mult	remove_modifier = change_basic_weapon_type_energy_weapon_fire_rate_mult
-	remove_modifier = basic_weapon_type_explosive_weapon_fire_rate_mult	remove_modifier = change_basic_weapon_type_explosive_weapon_fire_rate_mult
-	remove_modifier = basic_weapon_type_kinetic_weapon_fire_rate_mult	remove_modifier = change_basic_weapon_type_kinetic_weapon_fire_rate_mult
 	remove_modifier = basic_ship_tracking_add							remove_modifier = change_basic_ship_tracking_add
 	remove_modifier = basic_ship_accuracy_add							remove_modifier = change_basic_ship_accuracy_add
 	remove_modifier = basic_ship_armor_add								remove_modifier = change_basic_ship_armor_add
 	remove_modifier = basic_ship_shield_add								remove_modifier = change_basic_ship_shield_add
-	fleet = { remove_fleet_flag = eternal_learned_leader } 				remove_ship_modifier_trigger_flag = yes
+	remove_ship_modifier_trigger_flag = yes								remove_total_repeatable_modifier = yes
+}
+
+remove_total_repeatable_modifier = {
+	remove_repetable_modifier = { TITLE = change_basic TYPE = explosive }
+	remove_repetable_modifier = { TITLE = change_basic TYPE = kinetic }
+	remove_repetable_modifier = { TITLE = change_basic TYPE = energy }
+	remove_repetable_modifier = { TITLE = change_basic TYPE = gravity }
+	remove_repetable_modifier = { TITLE = change_basic TYPE = psionic }
+	remove_repetable_modifier = { TITLE = change_basic TYPE = anti_psionic }
+	remove_repetable_modifier = { TITLE = change_basic TYPE = playerable_ancient }
+	remove_repetable_modifier = { TITLE = change_basic TYPE = ancient_primary }
+	remove_repetable_modifier = { TITLE = change_basic TYPE = titan_primary }
+	remove_repetable_modifier = { TITLE = change_basic TYPE = titan_secondary }
+	remove_repetable_modifier = { TITLE = change_basic TYPE = zeta_crisis_primary }
+	remove_repetable_modifier = { TITLE = change_basic TYPE = zeta_crisis_primary_alt }
+	remove_repetable_modifier = { TITLE = change_basic TYPE = zeta_crisis_secondary }
+	remove_repetable_modifier = { TITLE = change_basic TYPE = SRA_SRA }
+	remove_repetable_modifier = { TITLE = change_basic TYPE = SRA_RE_Core }
+	remove_repetable_modifier = { TITLE = basic TYPE = explosive }
+	remove_repetable_modifier = { TITLE = basic TYPE = kinetic }
+	remove_repetable_modifier = { TITLE = basic TYPE = energy }
+	remove_repetable_modifier = { TITLE = basic TYPE = gravity }
+	remove_repetable_modifier = { TITLE = basic TYPE = psionic }
+	remove_repetable_modifier = { TITLE = basic TYPE = anti_psionic }
+	remove_repetable_modifier = { TITLE = basic TYPE = playerable_ancient }
+	remove_repetable_modifier = { TITLE = basic TYPE = ancient_primary }
+	remove_repetable_modifier = { TITLE = basic TYPE = titan_primary }
+	remove_repetable_modifier = { TITLE = basic TYPE = titan_secondary }
+	remove_repetable_modifier = { TITLE = basic TYPE = zeta_crisis_primary }
+	remove_repetable_modifier = { TITLE = basic TYPE = zeta_crisis_primary_alt }
+	remove_repetable_modifier = { TITLE = basic TYPE = zeta_crisis_secondary }
+	remove_repetable_modifier = { TITLE = basic TYPE = SRA_SRA }
+	remove_repetable_modifier = { TITLE = basic TYPE = SRA_RE_Core }
 }
 
 remove_ship_modifier_trigger_flag = {
+	fleet = { remove_fleet_flag = eternal_learned_leader }
 	remove_ship_flag = fire_ship_var 
 	remove_ship_flag = is_modifiering
 }
@@ -649,10 +765,14 @@ kuat_copy_leader_learning_system = {
 		}
 		fromfromfrom = {
 			random_list = {
-				1 = { if = {
-					limit = { 
-						exists = leader 
-						leader = { NOT = { has_leader_flag = eternal_learned_leader } }
+				1 = { 
+					modifier = {
+						set = 0
+						OR = {
+							NOT = { exists = leader }
+							NOT = { leader_class = admiral }
+							leader = { has_leader_flag = eternal_learned_leader }
+						}
 					}
 					set_fleet_flag = eternal_learned_leader
 					leader = { set_timed_leader_flag = { flag = eternal_learned_leader days = 180 } }
@@ -685,16 +805,30 @@ kuat_copy_leader_learning_system = {
 							} }
 						}
 						from = { country_event = { id = exe_invasion.141 } }
-					} }
-					else = { every_controlled_ship = { if = { 
+					}
+				}
+				1 = {  
+					modifier = {
+						set = 0
+						NOT = { any_controlled_ship = { check_modifier_value = { modifier = ship_hull_mult value > 4 } } }
+					}
+					every_controlled_ship = { if = { 
 						limit = { check_modifier_value = { modifier = ship_hull_mult value > 4 } } 
 						clear_ship_modifier = { modifier = ship_hull_mult subtract = 4 DAYS = -1 } 
-					} } }
+					} }
 				}
-				1 = { every_controlled_ship = { if = { 
-					limit = { check_modifier_value = { modifier = ship_hull_mult value > 4 } } 
-					clear_ship_modifier = { modifier = ship_hull_mult subtract = 4 DAYS = -1 } 
-				} } }
+				1 = {
+					modifier = {
+						set = 100
+						OR = {
+							NOT = { exists = leader }
+							NOT = { leader_class = admiral }
+							leader = { has_leader_flag = eternal_learned_leader }
+							NOT = { any_controlled_ship = { check_modifier_value = { modifier = ship_hull_mult value > 4 } } }
+						}
+					}
+					no_events = yes
+				}
 			}
 			reroll_random = yes
 		}
