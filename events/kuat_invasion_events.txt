@@ -1309,7 +1309,6 @@ country_event = {
 		FROMFROM = { if = {
 			limit = { has_enable_flag_ship_system_true = yes }
 			if = { limit = { kuat_is_flagship_size = { size = Annihilator } } increase_ship_hp_effect_change = { DAYS = 7 } }
-			else_if = { limit = { kuat_is_flagship_size = { size = Infinite_Mothership } } increase_ship_hp_effect_change = { DAYS = 6 } }
 			else_if = { limit = { kuat_is_flagship_size = { size = eclipse } } increase_ship_hp_effect_change = { DAYS = 6 } }
 			else_if = { limit = { kuat_is_flagship_size = { size = Vengeance } } increase_ship_hp_effect_change = { DAYS = 6 } }
 			else_if = { limit = { kuat_is_flagship_size = { size = nebula_executor } } increase_ship_hp_effect_change = { DAYS = 5 } }
@@ -1340,13 +1339,15 @@ country_event = {
 	is_triggered_only = yes
 	trigger = { 
 		is_kuat_fallen_empire = yes 
-		from = { is_eternal_faction = no }
+		from = { NOR = {
+			is_eternal_faction = yes
+			is_infinite_faction = yes
+		} }
 	}
 	immediate = {
 		FROMFROM = { if = {
 			limit = { has_enable_flag_ship_system_true = yes }
 			if = { limit = { kuat_is_flagship_size = { size = Annihilator } } increase_ship_hp_effect_change = { DAYS = 7 } }
-			else_if = { limit = { kuat_is_flagship_size = { size = Infinite_Mothership } } increase_ship_hp_effect_change = { DAYS = 6 } }
 			else_if = { limit = { kuat_is_flagship_size = { size = eclipse } } increase_ship_hp_effect_change = { DAYS = 6 } }
 			else_if = { limit = { kuat_is_flagship_size = { size = Vengeance } } increase_ship_hp_effect_change = { DAYS = 6 } }
 			else_if = { limit = { kuat_is_flagship_size = { size = nebula_executor } } increase_ship_hp_effect_change = { DAYS = 5 } }
@@ -1497,8 +1498,12 @@ country_event = {
 					}	
 				} }
 			}
+			else_if = {  
+				limit = { ROOT = { is_infinite_faction = yes } }
+				fromfromfrom = { every_controlled_ship = { set_ship_flag = is_modifiering ship_event = { id = exe_invasion.129 } } }
+			}
 			else = { fromfromfrom = {
-				every_controlled_ship = { set_ship_flag = is_modifiering ship_event = { id = exe_invasion.132 } }
+				every_controlled_ship = { set_ship_flag = is_modifiering ship_event = { id = exe_invasion.142 } }
 			} }
 		}
 	}
@@ -1855,6 +1860,7 @@ country_event = {
 					}
 					random_list = {
 						450 = {
+							modifier = { factor = 0.2 root = { is_infinite_faction = yes } }
 							modifier = {
 								factor = 0.9
 								event_target:global_event_country = { check_variable = { which = eternal_fleet_return_index value = 1 } }
@@ -2076,6 +2082,7 @@ country_event = {
 			}
 			random_list = {
 				450 = {
+					modifier = { factor = 0.2 root = { is_infinite_faction = yes } }
 					modifier = {
 						factor = 0.9
 						event_target:global_event_country = { check_variable = { which = eternal_fleet_return_index value = 1 } }
