@@ -31,28 +31,27 @@ action_declare_war = {
 	should_open_auto_accept_message_recipient = yes
 	should_notify_all_communications = yes
 	action_type = aggressive
-	possible = {
-		custom_tooltip = {
-			fail_text = delcare_war_trigger_desc
-			hidden_trigger = {
-				if = {
-					limit = { 
-						from = { is_kuat_fallen_empire = yes } 
-						NOT = { has_origin = origin_eternalthrone }
-					}
-					has_country_flag = kuat_war_goal
-					is_player_country = yes
+	possible = { custom_tooltip = {
+		fail_text = delcare_war_trigger_desc
+		hidden_trigger = {
+			if = {
+				limit = { 
+					from = { is_kuat_fallen_empire = yes } 
+					NOT = { has_origin = origin_eternalthrone }
 				}
-				else_if = {
-					limit = { 
-						from = { is_kuat_fallen_empire = yes } 
-						has_origin = origin_eternalthrone
-					}
-					has_country_flag = kuat_Annihilate_country
-					is_player_country = yes
-				}
-				else = { always = yes }
+				has_country_flag = kuat_war_goal
+				is_player_country = yes
+				NOT = { exists = event_target:fallen_empire_kuat_fleet }
 			}
+			else_if = {
+				limit = { 
+					from = { is_kuat_fallen_empire = yes } 
+					has_origin = origin_eternalthrone
+				}
+				has_country_flag = kuat_Annihilate_country
+				is_player_country = yes
+			}
+			else = { always = yes }
 		}
-	}
+	} }
 }

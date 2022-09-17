@@ -11,13 +11,36 @@ Kuat_total_war = {
 	}
 	possible = { always = yes }
 	ai_weight = { weight = 0 }
-	on_accept = {
-		if = {
-			limit = { has_federation = yes }
-			federation = { every_member = { leave_alliance = { override_requirements = yes } } }
+	on_status_quo = { 
+		create_kuat_fleet_country_type = yes
+		every_system = {
+			limit = { has_star_flag = kuat_military_base_system_home }
+			every_fleet_in_system = { 
+				limit = { exists = owner owner = { is_kuat_fallen_empire = no } }
+				destroy_fleet = { target = this destroy_template = yes kill_leader = yes }  
+			}
+			create_starbase = {
+				owner = event_target:fallen_empire_kuat_fleet
+				size = exe_starbase
+				module = "gun_battery"
+				module = "gun_battery"
+				module = "gun_battery"
+				module = "gun_battery"
+				module = "gun_battery"
+				module = "gun_battery"
+				building = "target_uplink_computer"
+				building = "defense_grid"
+				building = "colossus_yards"
+				building = "titan_yards"
+			}
+			every_system_planet = {
+				limit = { has_planet_flag = create_defender_fleet_location }
+				create_kuat_fleet_country_type_defend_army = yes
+			}
 		}
+		from = { establish_communications_no_message = event_target:fallen_empire_kuat_fleet }
+		country_event = { id = ai_action.5 days = 1 } 
 	}
-	on_status_quo = { country_event = { id = ai_action.5 days = 1 } }
 }
 
 kuat_humiliation = {
@@ -33,12 +56,13 @@ kuat_humiliation = {
 	on_accept = {
 		custom_tooltip = wg_humiliation_fe_accept
 		save_event_target_as = fallen_empire_humiliator
-		random_system = {
+		create_kuat_fleet_country_type = yes
+		every_system = {
 			limit = { has_star_flag = kuat_military_base_system_home }
 			every_fleet_in_system = { 
+				limit = { exists = owner owner = { is_kuat_fallen_empire = no } }
 				destroy_fleet = { target = this destroy_template = yes kill_leader = yes }  
 			}
-			create_kuat_fleet_country_type = yes
 			create_starbase = {
 				owner = event_target:fallen_empire_kuat_fleet
 				size = exe_starbase

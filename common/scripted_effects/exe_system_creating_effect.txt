@@ -1,3 +1,112 @@
+kuat_military_base_system_initial = {
+	set_spawn_system_batch = begin
+	no_scope = { 
+		spawn_system = { 
+			initializer = kuat_base_system 
+			hyperlane = no 
+			max_orientation_angle = 0
+			min_orientation_angle = 0
+			max_distance = 0
+			min_distance = 0
+		} 
+		spawn_system = { 
+			initializer = kuat_base_system_rim_1 
+			hyperlane = no 
+			max_orientation_angle = 0
+			min_orientation_angle = 0
+			max_distance = 50
+			min_distance = 50
+		} 
+		spawn_system = { 
+			initializer = kuat_base_system_rim_2
+			hyperlane = no 
+			max_orientation_angle = 45
+			min_orientation_angle = 45
+			max_distance = 50
+			min_distance = 50
+		}
+		spawn_system = { 
+			initializer = kuat_base_system_rim_3
+			hyperlane = no 
+			max_orientation_angle = 90
+			min_orientation_angle = 90
+			max_distance = 50
+			min_distance = 50
+		} 
+		spawn_system = { 
+			initializer = kuat_base_system_rim_4
+			hyperlane = no 
+			max_orientation_angle = 135
+			min_orientation_angle = 135
+			max_distance = 50
+			min_distance = 50
+		} 
+		spawn_system = { 
+			initializer = kuat_base_system_rim_5
+			hyperlane = no 
+			max_orientation_angle = 180
+			min_orientation_angle = 180
+			max_distance = 50
+			min_distance = 50
+		} 
+		spawn_system = { 
+			initializer = kuat_base_system_rim_6
+			hyperlane = no 
+			max_orientation_angle = 225
+			min_orientation_angle = 225
+			max_distance = 50
+			min_distance = 50
+		} 
+		spawn_system = { 
+			initializer = kuat_base_system_rim_7 
+			hyperlane = no 
+			max_orientation_angle = 270
+			min_orientation_angle = 270
+			max_distance = 50
+			min_distance = 50
+		} 
+		spawn_system = { 
+			initializer = kuat_base_system_rim_8 
+			hyperlane = no 
+			max_orientation_angle = 315
+			min_orientation_angle = 315
+			max_distance = 50
+			min_distance = 50
+		} 
+	}
+	add_hyperlane = { from = event_target:kuat_base_system_rim_1 to = event_target:kuat_base_system_rim_2 }
+	add_hyperlane = { from = event_target:kuat_base_system_rim_2 to = event_target:kuat_base_system_rim_3 }
+	add_hyperlane = { from = event_target:kuat_base_system_rim_3 to = event_target:kuat_base_system_rim_4 }
+	add_hyperlane = { from = event_target:kuat_base_system_rim_4 to = event_target:kuat_base_system_rim_5 }
+	add_hyperlane = { from = event_target:kuat_base_system_rim_5 to = event_target:kuat_base_system_rim_6 }
+	add_hyperlane = { from = event_target:kuat_base_system_rim_6 to = event_target:kuat_base_system_rim_7 }
+	add_hyperlane = { from = event_target:kuat_base_system_rim_7 to = event_target:kuat_base_system_rim_8 }
+	add_hyperlane = { from = event_target:kuat_base_system_rim_8 to = event_target:kuat_base_system_rim_1 }
+	set_spawn_system_batch = end
+}
+
+create_sol_kuat_military_gateway = {
+	set_update_modifiers_batch = begin
+	while = {
+		count = $NUM$
+		random_system = {
+			limit = {
+				NOT = { has_star_flag = exe_center_rim_gate_cooldown }
+				kuat_is_create_system = no
+				NOT = { has_star_flag = ag_no_jump_in_system }
+				NOT = { any_neighbor_system_euclidean = { has_star_flag = exe_center_rim_gate_cooldown } }
+			}
+			spawn_megastructure = {
+				type = exe_center_rim_gate
+				orbit_angle = 225 orbit_distance = 200 planet = system_star
+			}
+			set_timed_star_flag = { flag = exe_center_rim_gate_cooldown days = 1 }
+		}
+	}
+	set_update_modifiers_batch = end
+}
+
+
 kuat_spawn_origin_system_initial_all = {
 	if = {
 		limit = { NOT = { has_global_flag = fire_origin_system_initial_creating_0 } }

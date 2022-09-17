@@ -721,9 +721,7 @@ event = {
 				}
 			}
 			kuat_system_initial_creating = yes
-			every_playable_country = {
-				country_event = { id = executor_build.3 days = 30 }
-			}
+			every_playable_country = { country_event = { id = executor_build.3 days = 30 } }
 			set_global_flag = kuat_spawned
 		}
 	}
@@ -1013,7 +1011,7 @@ country_event = {
 		is_kuat_fallen_empire = yes
 		is_at_war = no
 		NOT = { exists = event_target:fallen_empire_kuat_fleet }
-		NOT = { any_country = { is_country_type = wg_crisis_country } }
+		NOT = { any_country = { is_kuat_battle_country = yes } }
 	}
 	immediate = {
 		if = {
@@ -1033,13 +1031,13 @@ country_event = {
 		}
 		else = {
 			save_event_target_as = fallen_empire_humiliator
-			random_system = {
+			create_kuat_fleet_country_type = yes
+			every_system = {
 				limit = { has_star_flag = kuat_military_base_system_home }
 				every_fleet_in_system = { 
-					limit = { is_kuat_fallen_empire = no }
+					limit = { exists = owner owner = { is_kuat_fallen_empire = no } }
 					set_location =  owner.capital_scope 
 				}
-				create_kuat_fleet_country_type = yes
 				create_starbase = {
 					owner = event_target:fallen_empire_kuat_fleet
 					size = exe_starbase
@@ -1084,15 +1082,11 @@ country_event = {
 	trigger = { exists = event_target:fallen_empire_kuat }
 	option = {
 		name = executor_build.24.a
-		hidden_effect = {
-			event_target:fallen_empire_kuat = {
-				declare_war = {
-					target = event_target:target_for_kuat
-					name = "Name_kuat_war"
-					attacker_war_goal = kuat_humiliation
-				}
-			}
-		}
+		hidden_effect = { event_target:fallen_empire_kuat = { declare_war = {
+			target = event_target:target_for_kuat
+			name = "Name_kuat_war"
+			attacker_war_goal = Kuat_total_war
+		} } }
 	}
 }
 
@@ -1140,7 +1134,7 @@ country_event = {
 				last_created_ambient_object = { set_ambient_object_flag = destroyed_system_effect set_location = { target = prev  distance = 0  angle = random  } }
 			}
 			every_fleet_in_system = { 
-				limit = { owner = { is_kuat_fallen_empire = no } }
+				limit = { exists = owner owner = { is_kuat_fallen_empire = no } }
 				destroy_fleet = { target = this destroy_template = yes kill_leader = yes } 
 			}
 		}
@@ -1614,19 +1608,13 @@ country_event = {
 	fire_only_once = yes
 	immediate = {
 		create_kuat_fleet_country_type = yes
-		random_system = {
-			limit = {
-				kuat_is_create_system = no
-				has_owner = no
-				any_neighbor_system_euclidean = { has_owner = no }
-			}
-			set_spawn_system_batch = begin
-			spawn_system = { initializer = kuat_base_system }
-			set_spawn_system_batch = end
+		kuat_military_base_system_initial = yes
+		random_playable_country = {
+			limit = { is_ai = no }
+			country_event = { id = executor_build.372 }
 		}
 		every_playable_country = {
 			limit = { is_ai = no }
-			country_event = { id = executor_build.372 }
 			country_event = { id = executor_build.9 days = 30 }
 		}
 	}
@@ -1645,7 +1633,7 @@ country_event = {
 	}
 	is_triggered_only = yes
 	immediate = { establish_communications_no_message = event_target:fallen_empire_kuat_fleet }
-	option = { name = "executor_build.372.a" }
+	option = { name = "executor_build.372.a" hidden_effect = { create_sol_kuat_military_gateway = { NUM = 8 } } }
 	after = { every_megastructure = { limit = { has_megastructure_flag = can_active_gateway } activate_gateway = this } }
 }
 
@@ -1906,7 +1894,16 @@ country_event = {
 
 	trigger = {
 		exists = event_target:fallen_empire_kuat
-		fromfromfrom = { has_fleet_flag = kuat_fundation_main_fleet }
+		from = {
+			count_controlled_fleet = {
+				limit = {
+					has_fleet_flag = kuat_fundation_main_fleet
+					NOT = { is_same_value = root.fromfromfrom }
+				}
+				count = 0
+			}
+			is_country_type = kuat_fleet
+		}
 	}
 
 	immediate = {
