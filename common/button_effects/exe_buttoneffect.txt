@@ -401,9 +401,10 @@ kuat_animal_trigger_disable_alt = {
 
 #shipyard
 kuat_set_shipyard_add = {
-	potential = { always = yes }
+	potential = { from = { is_scope_type = country has_country_flag = fire_five_impirial } }
 	allow = { 
 		from = {
+			hidden_trigger = { is_scope_type = country }
 			custom_tooltip = {
 				fail_text = kuat_shipyard.check
 				get_variable_alloys_check_allow = yes
@@ -418,35 +419,18 @@ kuat_set_shipyard_add = {
 	}
 	effect = {
 		custom_tooltip = "exe_shipyard.a"
-		hidden_effect = {
-			if = {
-				limit = { from = { has_country_flag = building_the_horriwer } }
-				from = {
-					set_country_flag = fired_horriwer
-					hidden_effect = { change_variable = { which = horriwer_queue value = 6 } get_variable_alloys_bought = yes }
-				}
-			}
-			else_if = {
-				limit = { from = { has_country_flag = building_the_empire } }
-				from = {
-					set_country_flag = fired_empire
-					hidden_effect = { change_variable = { which = empire_queue value = 6 } get_variable_alloys_bought = yes }
-				}
-			}
-			else_if = {
-				limit = { from = { has_country_flag = building_the_resugrant } }
-				from = {
-					set_country_flag = fired_resugrant
-					hidden_effect = { change_variable = { which = resugrant_queue value = 6 } get_variable_alloys_bought = yes }
-				}
-			}
-		}
+		hidden_effect = { from = { switch = {
+			trigger = has_country_flag
+			building_the_horriwer = { set_country_flag = fired_horriwer change_variable = { which = horriwer_queue value = 6 } get_variable_alloys_bought = yes }
+			building_the_empire = { set_country_flag = fired_empire change_variable = { which = empire_queue value = 6 } get_variable_alloys_bought = yes }
+			building_the_resugrant = { set_country_flag = fired_resugrant change_variable = { which = resugrant_queue value = 6 } get_variable_alloys_bought = yes }
+		} } }
 	}
 }
 kuat_set_shipyard_dicrease = {
-	potential = { always = yes }
+	potential = { from = { is_scope_type = country has_country_flag = fire_five_impirial } }
 	allow = { 
-		hidden_trigger = { from = { switch = {
+		hidden_trigger = { from = { is_scope_type = country switch = {
 			trigger = has_country_flag
 			building_the_horriwer = { check_variable = { which = horriwer_queue value > 0 } }
 			building_the_empire = { check_variable = { which = empire_queue value > 0 } }
@@ -455,29 +439,12 @@ kuat_set_shipyard_dicrease = {
 	}
 	effect = {
 		custom_tooltip = "exe_shipyard.b"
-		hidden_effect = {
-			if = {
-				limit = { from = { has_country_flag = building_the_horriwer } }
-				from = {
-					set_country_flag = fired_horriwer
-					hidden_effect = { subtract_variable = { which = horriwer_queue value = 6 } get_variable_alloys = yes }
-				}
-			}
-			else_if = {
-				limit = { from = { has_country_flag = building_the_empire } }
-				from = {
-					set_country_flag = fired_empire
-					hidden_effect = { subtract_variable = { which = empire_queue value = 6 } get_variable_alloys = yes }
-				}
-			}
-			else_if = {
-				limit = { from = { has_country_flag = building_the_resugrant } }
-				from = {
-					set_country_flag = fired_resugrant
-					hidden_effect = { subtract_variable = { which = resugrant_queue value = 6 } get_variable_alloys = yes }
-				}
-			}
-		}
+		hidden_effect = { from = { switch = {
+			trigger = has_country_flag
+			building_the_horriwer = { set_country_flag = fired_horriwer subtract_variable = { which = horriwer_queue value = 6 } get_variable_alloys = yes }
+			building_the_empire = { set_country_flag = fired_empire subtract_variable = { which = empire_queue value = 6 } get_variable_alloys = yes }
+			building_the_resugrant = { set_country_flag = fired_resugrant subtract_variable = { which = resugrant_queue value = 6 } get_variable_alloys = yes }
+		} } }
 	}
 }
 
