@@ -2129,13 +2129,12 @@ create_exe_invasion_fleet = {
 			[[spawn_starbase] fleet_event = { id = $spawn_starbase$ days = 1 }] 
 			[[initial_invisable] fleet_event = { id = $initial_invisable$ }]
 			[[fleet_action] fleet_event = { id = $fleet_action$ }]
-			[[VAR_TARGET] $VAR_TARGET$ = { change_variable = { which = fleet_id value = 1 } } 
-			set_variable = { which = fleet_id value = $VAR_TARGET$.fleet_id } 
-			solar_system = { set_variable = { which = kuat_fleet_id value = prev.fleet_id } }]
+			[[VAR_TARGET] $VAR_TARGET$ = { change_variable = { which = fleet_id value = 1 } } set_variable = { which = fleet_id value = $VAR_TARGET$.fleet_id } solar_system = { set_variable = { which = kuat_fleet_id value = prev.fleet_id } }]
 			[[SAVE_TARGET] save_event_target_as = $SAVE_TARGET$ ]
 			[[flagship_flag] random_controlled_ship = { limit = { is_ship_size = $ship_class$ } set_ship_flag = $flagship_flag$ }]
 			[[disable_health] every_controlled_ship = { set_disable_at_health = $disable_health$ }]
 			[[modifier] add_modifier = { modifier = $modifier$ }]
+			every_owned_ship = { prev = { change_variable = { which = kuat_fleet_count_check value = 1 } } }
 		}
 	}
 }

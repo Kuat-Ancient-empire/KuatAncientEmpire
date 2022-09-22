@@ -1390,7 +1390,16 @@ ship_event = {
 	hide_window = yes
 	is_triggered_only = yes
 	trigger = { owner = { is_eternal_faction = yes } }
-	immediate = { repair_ship = yes set_disabled = no }
+	immediate = { 
+		repair_ship = yes set_disabled = no 
+		if = {
+			limit = { fleet = {
+				check_variable = { which = kuat_fleet_count_check_currently value = kuat_fleet_count_check }
+				count_controlled_ship = { limit = { check_variable = { which = combat_days value = 1 } is_disabled = yes } count = all }
+			} }
+			clear_variable = combat_days
+		}
+	}
 }
 ship_event = {
 	id = exe_invasion.138
@@ -1401,24 +1410,28 @@ ship_event = {
 		if = {
 			limit = { is_in_combat = yes }
 			change_variable = { which = combat_days value = 1 }
-			if = {
-				limit = { check_variable = { which = Eternal_FLeet_Time value > 0 } }
-				change_variable = { which = Eternal_FLeet_Time value = -1 }
-			}
-			if = {
-				limit = { 
-					is_variable_set = Eternal_FLeet_Time
-					check_variable = { which = Eternal_FLeet_Time value <= 0 }
-				}
-				set_disable_at_health = -1
-			}
-			else_if = {
-				limit = { check_variable = { which = combat_days value > 30 } }
-				set_disable_at_health = -1
-			}
+			if = { limit = { check_variable = { which = combat_days value > 3 } } set_disable_at_health = -1 }
 			ship_event = { id = exe_invasion.138 days = 1 }
 		}
-		else = { clear_variable = combat_days clear_variable = Eternal_FLeet_Time set_disable_at_health = 0.01 }
+		else = { clear_variable = combat_days set_disable_at_health = 0.01 fleet = { clear_variable = kuat_fleet_count_check_currently } }
+	}
+}
+fleet_event = {
+	id = exe_invasion.145
+	hide_window = yes
+	is_triggered_only = yes
+	trigger = { owner = { is_eternal_faction = yes } }
+	immediate = {
+		clear_variable = kuat_fleet_count_check_currently
+		if = {
+			limit = { is_in_combat = yes }
+			export_trigger_value_to_variable = {
+				trigger = count_controlled_ship
+				parameters = { limit = { always = yes } }
+				variable = kuat_fleet_count_check_currently
+			}
+			fleet_event = { id = exe_invasion.145 days = 1 }
+		}
 	}
 }
 
@@ -1448,32 +1461,33 @@ country_event = {
 			}
 			reroll_random = yes
 		}
-		fromfrom = { every_controlled_ship = {
-			set_ship_flag = is_modifiering
-			switch = {
-				trigger = has_global_flag
-				ban_exe_invasion = { ship_event = { id = exe_invasion.140 } }
-				difficult_exe_invasion = { ship_event = { id = exe_invasion.137 } }
-				normal_exe_invasion = { ship_event = { id = exe_invasion.143 } }
-				easy_exe_invasion = { ship_event = { id = exe_invasion.144 } }
-				default = { ship_event = { id = exe_invasion.144 } }
-			}
+		fromfrom = { 
 			if = {
-				limit = { 
-					NOT = { is_variable_set = combat_days } 
-					owner = { is_eternal_faction = yes }
+				limit = { owner = { is_eternal_faction = yes } }
+				clear_variable = kuat_fleet_count_check_currently
+				export_trigger_value_to_variable = {
+					trigger = count_controlled_ship
+					parameters = { limit = { always = yes } }
+					variable = kuat_fleet_count_check_currently
 				}
-				change_variable = { which = combat_days value = 1 }
+				fleet_event = { id = exe_invasion.145 days = 1 }
+			}
+			every_controlled_ship = {
+				set_ship_flag = is_modifiering
 				switch = {
 					trigger = has_global_flag
-					difficult_exe_invasion = { set_fleet_ship_variable_hp = { VALUE = 3 } }
-					normal_exe_invasion = { set_fleet_ship_variable_hp = { VALUE = 2 } }
-					easy_exe_invasion = { set_fleet_ship_variable_hp = { VALUE = 1 } }
-					ban_exe_invasion = { set_fleet_ship_variable_hp = { VALUE = 1 } }
-					default = { set_fleet_ship_variable_hp = { VALUE = 1 } }
+					ban_exe_invasion = { ship_event = { id = exe_invasion.140 } }
+					difficult_exe_invasion = { ship_event = { id = exe_invasion.137 } }
+					normal_exe_invasion = { ship_event = { id = exe_invasion.143 } }
+					easy_exe_invasion = { ship_event = { id = exe_invasion.144 } }
+					default = { ship_event = { id = exe_invasion.144 } }
 				}
-				ship_event = { id = exe_invasion.138 days = 1 }
-			} }
+				if = {
+					limit = { owner = { is_eternal_faction = yes } }
+					set_variable = { which = combat_days value = 1 }
+					ship_event = { id = exe_invasion.138 days = 1 }
+				} 
+			}
 		}
 		if = {
 			limit = { 
