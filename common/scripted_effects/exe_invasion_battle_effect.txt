@@ -1141,11 +1141,11 @@ kuat_copy_leader_learning_system = {
 				1 = {  
 					modifier = {
 						set = 0
-						NOT = { any_controlled_ship = { check_modifier_value = { modifier = ship_hull_mult value > 4 } } }
+						NOT = { any_controlled_ship = { check_modifier_value = { modifier = ship_hull_mult value > 2 } } }
 					}
 					every_controlled_ship = { if = { 
-						limit = { check_modifier_value = { modifier = ship_hull_mult value > 4 } } 
-						clear_ship_modifier = { modifier = ship_hull_mult subtract = 4 DAYS = -1 } 
+						limit = { check_modifier_value = { modifier = ship_hull_mult value > 2 } } 
+						clear_ship_modifier = { modifier = ship_hull_mult subtract = 2 DAYS = -1 } 
 					} }
 				}
 				1 = {
@@ -1155,7 +1155,7 @@ kuat_copy_leader_learning_system = {
 							NOT = { exists = leader }
 							NOT = { leader_class = admiral }
 							leader = { has_leader_flag = eternal_learned_leader }
-							NOT = { any_controlled_ship = { check_modifier_value = { modifier = ship_hull_mult value > 4 } } }
+							NOT = { any_controlled_ship = { check_modifier_value = { modifier = ship_hull_mult value > 2 } } }
 						}
 					}
 					no_events = yes
@@ -1164,4 +1164,11 @@ kuat_copy_leader_learning_system = {
 			reroll_random = yes
 		}
 	}
+}
+
+#scope: fleet
+mult_half_variable = {
+	set_variable = { which = $WHICH$_half value = $WHICH$ }
+	multiply_variable = { which = $WHICH$_half value = $VALUE$ }
+	floor_variable = $WHICH$_half
 }
