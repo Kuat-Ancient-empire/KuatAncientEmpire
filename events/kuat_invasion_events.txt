@@ -1465,12 +1465,13 @@ country_event = {
 		}
 		fromfrom = { 
 			if = {
-				limit = { owner = { is_eternal_faction = yes } NOT = {
+				limit = { 
+					owner = { is_eternal_faction = yes } NOT = {
 					has_fleet_flag = fired_onced_again_not
 				} }
 				mult_half_variable = { WHICH = kuat_fleet_count_check VALUE = 0.98 }
 				every_controlled_ship = { 
-					limit = { NOT = { is_variable_set = combat_days } } 
+					limit = { NOT = { is_variable_set = combat_days } is_ship_class = shipclass_military } 
 					change_variable = { which = combat_days value = 1 } 
 					set_timed_ship_flag = { flag = count_disable_cleaner days = 1 }
 				}
@@ -1863,7 +1864,7 @@ country_event = {
 						is_disabled = no is_in_combat = yes has_hp > 0 
 					}
 					random_list = {
-						450 = {
+						400 = {
 							modifier = { factor = 0.2 root = { is_infinite_faction = yes } }
 							modifier = {
 								factor = 0.9
@@ -1905,121 +1906,48 @@ country_event = {
 								factor = 0.05
 								event_target:global_event_country = { check_variable = { which = eternal_fleet_return_index value > 9 } }
 							}
-							modifier = { factor = 10 OR = { has_ship_flag = kuat_ancient_21_target has_ship_flag = kuat_clear_ship_modifier_target } }
+							modifier = { factor = 10 has_ship_flag = kuat_clear_ship_modifier_target }
 						}
-						# 600 Totally, 150 Available
+						# 600 Totally, 200 Available
 						10 = {
 							modifier = {
 								factor = 0
 								owner = { is_invisable_faction = yes }
 							}
-							kuat_reduce_hp_percent = { value = 20 }
-							set_timed_ship_flag = { flag = kuat_ancient_21_target days = 2 }
-						}
-						10 = {
-							modifier = {
-								factor = 0
-								owner = { is_invisable_faction = yes }
-							}
-							kuat_reduce_hp_percent = { value = 18 }
-							set_timed_ship_flag = { flag = kuat_ancient_21_target days = 2 }
+							clear_ship_repeatable_modifier = { multiply = 0.5 DAYS = 12 }
+							set_timed_ship_flag = { flag = kuat_clear_ship_modifier_target days = 12 }
 						}
 						10 = {
 							modifier = {
 								factor = 0
 								owner = { is_invisable_faction = yes }
 							}
-							kuat_reduce_hp_percent = { value = 16 }
-							set_timed_ship_flag = { flag = kuat_ancient_21_target days = 2 }
+							clear_ship_repeatable_modifier = { multiply = 0.6 DAYS = 12 }
+							set_timed_ship_flag = { flag = kuat_clear_ship_modifier_target days = 12 }
 						}
 						10 = {
 							modifier = {
 								factor = 0
 								owner = { is_invisable_faction = yes }
 							}
-							kuat_reduce_hp_percent = { value = 14 }
-							set_timed_ship_flag = { flag = kuat_ancient_21_target days = 2 }
-						}
-						10 = {
-							modifier = {
-								factor = 0
-								OR = {
-									owner = { is_eternal_faction = yes }
-									owner = { is_kuat_fallen_empire = yes }
-								}
-							}
-							kuat_reduce_hp_percent = { value = 12 }
-							set_timed_ship_flag = { flag = kuat_ancient_21_target days = 2 }
+							clear_ship_repeatable_modifier = { multiply = 0.7 DAYS = 12 }
+							set_timed_ship_flag = { flag = kuat_clear_ship_modifier_target days = 12 }
 						}
 						10 = {
 							modifier = {
 								factor = 0
 								owner = { is_invisable_faction = yes }
 							}
-							kuat_reduce_hp_percent = { value = 10 }
-							set_timed_ship_flag = { flag = kuat_ancient_21_target days = 2 }
+							clear_ship_repeatable_modifier = { multiply = 0.8 DAYS = 12 }
+							set_timed_ship_flag = { flag = kuat_clear_ship_modifier_target days = 12 }
 						}
 						10 = {
 							modifier = {
 								factor = 0
 								owner = { is_invisable_faction = yes }
 							}
-							kuat_reduce_hp_percent = { value = 8 }
-							set_timed_ship_flag = { flag = kuat_ancient_21_target days = 2 }
-						}
-						10 = {
-							modifier = {
-								factor = 0
-								owner = { is_invisable_faction = yes }
-							}
-							kuat_reduce_hp_percent = { value = 6 }
-							set_timed_ship_flag = { flag = kuat_ancient_21_target days = 2 }
-						}
-						10 = {
-							modifier = {
-								factor = 0
-								owner = { is_invisable_faction = yes }
-							}
-							kuat_reduce_hp_percent = { value = 4 }
-							set_timed_ship_flag = { flag = kuat_ancient_21_target days = 2 }
-						}
-						10 = {
-							modifier = {
-								factor = 0
-								owner = { is_invisable_faction = yes }
-							}
-							kuat_reduce_hp_percent = { value = 2 }
-							set_timed_ship_flag = { flag = kuat_ancient_21_target days = 2 }
-						}
-						10 = {
-							modifier = {
-								factor = 0
-								owner = { is_invisable_faction = yes }
-							}
-							kuat_reduce_hp_percent = { value = 1 }
-							set_timed_ship_flag = { flag = kuat_ancient_21_target days = 2 }
-						}
-						10 = {
-							modifier = {
-								factor = 0
-								OR = {
-									has_ship_flag = kuat_clear_ship_modifier_target
-									owner = { is_invisable_faction = yes }
-								}
-							}
-							clear_ship_repeatable_modifier = { multiply = 0.2 DAYS = 6 }
-							set_timed_ship_flag = { flag = kuat_clear_ship_modifier_target days = 6 }
-						}
-						10 = {
-							modifier = {
-								factor = 0
-								OR = {
-									has_ship_flag = kuat_clear_ship_modifier_target
-									owner = { is_invisable_faction = yes }
-								}
-							}
-							clear_ship_repeatable_modifier = { multiply = 0.3 DAYS = 6 }
-							set_timed_ship_flag = { flag = kuat_clear_ship_modifier_target days = 6 }
+							clear_ship_repeatable_modifier = { multiply = 0.9 DAYS = 12 }
+							set_timed_ship_flag = { flag = kuat_clear_ship_modifier_target days = 12 }
 						}
 						10 = {
 							modifier = {
@@ -2040,7 +1968,40 @@ country_event = {
 									owner = { is_invisable_faction = yes }
 								}
 							}
-							clear_ship_repeatable_modifier = { multiply = 0.75 DAYS = 6 }
+							clear_ship_repeatable_modifier = { multiply = 0.6 DAYS = 6 }
+							set_timed_ship_flag = { flag = kuat_clear_ship_modifier_target days = 6 }
+						}
+						10 = {
+							modifier = {
+								factor = 0
+								OR = {
+									has_ship_flag = kuat_clear_ship_modifier_target
+									owner = { is_invisable_faction = yes }
+								}
+							}
+							clear_ship_repeatable_modifier = { multiply = 0.7 DAYS = 6 }
+							set_timed_ship_flag = { flag = kuat_clear_ship_modifier_target days = 6 }
+						}
+						10 = {
+							modifier = {
+								factor = 0
+								OR = {
+									has_ship_flag = kuat_clear_ship_modifier_target
+									owner = { is_invisable_faction = yes }
+								}
+							}
+							clear_ship_repeatable_modifier = { multiply = 0.8 DAYS = 6 }
+							set_timed_ship_flag = { flag = kuat_clear_ship_modifier_target days = 6 }
+						}
+						10 = {
+							modifier = {
+								factor = 0
+								OR = {
+									has_ship_flag = kuat_clear_ship_modifier_target
+									owner = { is_invisable_faction = yes }
+								}
+							}
+							clear_ship_repeatable_modifier = { multiply = 0.9 DAYS = 6 }
 							set_timed_ship_flag = { flag = kuat_clear_ship_modifier_target days = 6 }
 						}
 					}
@@ -2065,7 +2026,7 @@ country_event = {
 				is_disabled = no is_in_combat = yes has_hp > 0
 			}
 			random_list = {
-				450 = {
+				400 = {
 					modifier = { factor = 0.2 root = { is_infinite_faction = yes } }
 					modifier = {
 						factor = 0.9
@@ -2107,121 +2068,48 @@ country_event = {
 						factor = 0.05
 						event_target:global_event_country = { check_variable = { which = eternal_fleet_return_index value > 9 } }
 					}
-					modifier = { factor = 10 OR = { has_ship_flag = kuat_ancient_21_target has_ship_flag = kuat_clear_ship_modifier_target } }
+					modifier = { factor = 10 has_ship_flag = kuat_clear_ship_modifier_target }
 				}
-				# 600 Totally, 150 Available
+				# 600 Totally, 200 Available
 				10 = {
 					modifier = {
 						factor = 0
 						owner = { is_invisable_faction = yes }
 					}
-					kuat_reduce_hp_percent = { value = 20 }
-					set_timed_ship_flag = { flag = kuat_ancient_21_target days = 2 }
-				}
-				10 = {
-					modifier = {
-						factor = 0
-						owner = { is_invisable_faction = yes }
-					}
-					kuat_reduce_hp_percent = { value = 18 }
-					set_timed_ship_flag = { flag = kuat_ancient_21_target days = 2 }
+					clear_ship_repeatable_modifier = { multiply = 0.5 DAYS = 12 }
+					set_timed_ship_flag = { flag = kuat_clear_ship_modifier_target days = 12 }
 				}
 				10 = {
 					modifier = {
 						factor = 0
 						owner = { is_invisable_faction = yes }
 					}
-					kuat_reduce_hp_percent = { value = 16 }
-					set_timed_ship_flag = { flag = kuat_ancient_21_target days = 2 }
+					clear_ship_repeatable_modifier = { multiply = 0.6 DAYS = 12 }
+					set_timed_ship_flag = { flag = kuat_clear_ship_modifier_target days = 12 }
 				}
 				10 = {
 					modifier = {
 						factor = 0
 						owner = { is_invisable_faction = yes }
 					}
-					kuat_reduce_hp_percent = { value = 14 }
-					set_timed_ship_flag = { flag = kuat_ancient_21_target days = 2 }
-				}
-				10 = {
-					modifier = {
-						factor = 0
-						OR = {
-							owner = { is_eternal_faction = yes }
-							owner = { is_kuat_fallen_empire = yes }
-						}
-					}
-					kuat_reduce_hp_percent = { value = 12 }
-					set_timed_ship_flag = { flag = kuat_ancient_21_target days = 2 }
+					clear_ship_repeatable_modifier = { multiply = 0.7 DAYS = 12 }
+					set_timed_ship_flag = { flag = kuat_clear_ship_modifier_target days = 12 }
 				}
 				10 = {
 					modifier = {
 						factor = 0
 						owner = { is_invisable_faction = yes }
 					}
-					kuat_reduce_hp_percent = { value = 10 }
-					set_timed_ship_flag = { flag = kuat_ancient_21_target days = 2 }
+					clear_ship_repeatable_modifier = { multiply = 0.8 DAYS = 12 }
+					set_timed_ship_flag = { flag = kuat_clear_ship_modifier_target days = 12 }
 				}
 				10 = {
 					modifier = {
 						factor = 0
 						owner = { is_invisable_faction = yes }
 					}
-					kuat_reduce_hp_percent = { value = 8 }
-					set_timed_ship_flag = { flag = kuat_ancient_21_target days = 2 }
-				}
-				10 = {
-					modifier = {
-						factor = 0
-						owner = { is_invisable_faction = yes }
-					}
-					kuat_reduce_hp_percent = { value = 6 }
-					set_timed_ship_flag = { flag = kuat_ancient_21_target days = 2 }
-				}
-				10 = {
-					modifier = {
-						factor = 0
-						owner = { is_invisable_faction = yes }
-					}
-					kuat_reduce_hp_percent = { value = 4 }
-					set_timed_ship_flag = { flag = kuat_ancient_21_target days = 2 }
-				}
-				10 = {
-					modifier = {
-						factor = 0
-						owner = { is_invisable_faction = yes }
-					}
-					kuat_reduce_hp_percent = { value = 2 }
-					set_timed_ship_flag = { flag = kuat_ancient_21_target days = 2 }
-				}
-				10 = {
-					modifier = {
-						factor = 0
-						owner = { is_invisable_faction = yes }
-					}
-					kuat_reduce_hp_percent = { value = 1 }
-					set_timed_ship_flag = { flag = kuat_ancient_21_target days = 2 }
-				}
-				10 = {
-					modifier = {
-						factor = 0
-						OR = {
-							has_ship_flag = kuat_clear_ship_modifier_target
-							owner = { is_invisable_faction = yes }
-						}
-					}
-					clear_ship_repeatable_modifier = { multiply = 0.2 DAYS = 6 }
-					set_timed_ship_flag = { flag = kuat_clear_ship_modifier_target days = 6 }
-				}
-				10 = {
-					modifier = {
-						factor = 0
-						OR = {
-							has_ship_flag = kuat_clear_ship_modifier_target
-							owner = { is_invisable_faction = yes }
-						}
-					}
-					clear_ship_repeatable_modifier = { multiply = 0.3 DAYS = 6 }
-					set_timed_ship_flag = { flag = kuat_clear_ship_modifier_target days = 6 }
+					clear_ship_repeatable_modifier = { multiply = 0.9 DAYS = 12 }
+					set_timed_ship_flag = { flag = kuat_clear_ship_modifier_target days = 12 }
 				}
 				10 = {
 					modifier = {
@@ -2242,7 +2130,40 @@ country_event = {
 							owner = { is_invisable_faction = yes }
 						}
 					}
-					clear_ship_repeatable_modifier = { multiply = 0.75 DAYS = 6 }
+					clear_ship_repeatable_modifier = { multiply = 0.6 DAYS = 6 }
+					set_timed_ship_flag = { flag = kuat_clear_ship_modifier_target days = 6 }
+				}
+				10 = {
+					modifier = {
+						factor = 0
+						OR = {
+							has_ship_flag = kuat_clear_ship_modifier_target
+							owner = { is_invisable_faction = yes }
+						}
+					}
+					clear_ship_repeatable_modifier = { multiply = 0.7 DAYS = 6 }
+					set_timed_ship_flag = { flag = kuat_clear_ship_modifier_target days = 6 }
+				}
+				10 = {
+					modifier = {
+						factor = 0
+						OR = {
+							has_ship_flag = kuat_clear_ship_modifier_target
+							owner = { is_invisable_faction = yes }
+						}
+					}
+					clear_ship_repeatable_modifier = { multiply = 0.8 DAYS = 6 }
+					set_timed_ship_flag = { flag = kuat_clear_ship_modifier_target days = 6 }
+				}
+				10 = {
+					modifier = {
+						factor = 0
+						OR = {
+							has_ship_flag = kuat_clear_ship_modifier_target
+							owner = { is_invisable_faction = yes }
+						}
+					}
+					clear_ship_repeatable_modifier = { multiply = 0.9 DAYS = 6 }
 					set_timed_ship_flag = { flag = kuat_clear_ship_modifier_target days = 6 }
 				}
 			}
