@@ -1416,22 +1416,13 @@ fleet_event = {
 					OR = { has_global_flag = difficult_exe_invasion has_global_flag = ban_exe_invasion }
 					owner = { is_eternal_guardian = no } 
 					count_controlled_ship = {
-						limit = { 
-							check_variable = { which = disable_time value > 0 }  
-							check_variable = { which = combat_days value < 4 }
-						}
 						count >= kuat_fleet_count_check_half
+						limit = { check_variable = { which = disable_time value > 1 } check_variable = { which = combat_days value < 4 } }
 					}
 				}
-				every_controlled_ship = { 
-					set_variable = { which = combat_days value = 0 }
-					set_variable = { which = disable_time value = 0 }
-				}
+				every_controlled_ship = { set_variable = { which = combat_days value = 0 } set_variable = { which = disable_time value = 0 } }
 			}
-			else = { every_controlled_ship = { 
-				limit = { check_variable = { which = combat_days value > 3 } } 
-				set_disable_at_health = -1 
-			} }
+			else = { every_controlled_ship = { limit = { check_variable = { which = combat_days value > 3 } } set_disable_at_health = -1 } }
 			every_controlled_ship = { change_variable = { which = combat_days value = 1 } }
 			fleet_event = { id = exe_invasion.145 days = 1 }
 		}
