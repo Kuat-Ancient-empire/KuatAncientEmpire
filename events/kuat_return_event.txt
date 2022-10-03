@@ -176,6 +176,8 @@ country_event = {
 				add_global_ship_design = "Name_criss_boss_Horriwer_0"
 				add_global_ship_design = "Name_boss_eclipse"
 				add_modifier = { modifier = awaken_ship }
+				create_ship_design = { design = "NAME_KUAT_Starbase" }
+				add_ship_design = last_created_design
 			}
 		}
 		#舰队
@@ -190,13 +192,12 @@ country_event = {
 				if = {
 					limit = { is_planet_class = pc_gaia }
 					every_owned_pop = { kill_pop = yes }
-					destroy_colony = yes
 					set_controller = event_target:return_kuat_awakening_country
 					set_owner = event_target:return_kuat_awakening_country
-					create_pop = { species = event_target:return_kuat_awakening_country.main_species }
+					create_pop = { species = event_target:return_kuat_awakening_country.owner_main_species }
 					add_district = district_city
 				}
-				else_if = {
+				if = {
 					limit = {
 						is_star = no
 						is_asteroid = no
@@ -213,20 +214,15 @@ country_event = {
 							is_planet_class = pc_ringworld_shielded
 						}
 					}
+					change_pc = pc_gaia
 					set_controller = event_target:return_kuat_awakening_country
 					set_owner = event_target:return_kuat_awakening_country
-					change_pc = pc_gaia
-					while = {
-						count = 1
-						create_pop = { species = event_target:return_kuat_awakening_country.main_species }
-					}
-					while = {
-						count = 1
-						add_district = district_city
-					}
+					create_pop = { species = event_target:return_kuat_awakening_country.owner_main_species }
+					add_district = district_city
 				}
 			}
 			every_fleet_in_system = {
+				limit = { exists = owner NOT = { owner = { is_same_value = event_target:return_kuat_awakening_country } } }
 				destroy_fleet = { target = this destroy_template = yes kill_leader = yes }
 			}
 		}
@@ -1363,6 +1359,19 @@ country_event = {
 				set_graphical_culture = fallen_empire_kuat_01
 				set_country_flag = return_fallen_empire_kuat
 				# must initialize global designs here
+				add_global_ship_design = "NAME_Enforcer"
+				add_global_ship_design = "NAME_Savant"
+				add_global_ship_design = "NAME_Scholar"
+				add_global_ship_design = "NAME_Sage"
+				add_global_ship_design = "NAME_Cloaker"
+				add_global_ship_design = "NAME_Librarian"
+				add_global_ship_design = "NAME_Seeker"
+				add_global_ship_design = "NAME_FE_Starbase"
+				add_global_ship_design = "Name_boss_crisis_EMPIRE_0"
+				add_global_ship_design = "Name_boss_crisis_Venganza_0"
+				add_global_ship_design = "Name_boss_CRISIS_Dominance_0"
+				add_global_ship_design = "Name_criss_boss_Horriwer_0"
+				add_global_ship_design = "Name_boss_eclipse"
 				create_ship_design = { design = "NAME_KUAT_Starbase" }
 				add_ship_design = last_created_design
 				add_modifier = { modifier = awaken_ship }
@@ -1376,10 +1385,10 @@ country_event = {
 					limit = { is_colonizable = yes }
 					set_controller = event_target:return_kuat_awakening_country
 					set_owner = event_target:return_kuat_awakening_country
-					create_pop = { species = event_target:return_kuat_awakening_country.main_species }
+					create_pop = { species = event_target:return_kuat_awakening_country.owner_main_species }
 					add_district = district_city
 				}
-				else_if = {
+				if = {
 					limit = {
 						is_star = no
 						is_asteroid = no
@@ -1396,12 +1405,16 @@ country_event = {
 							is_planet_class = pc_ringworld_shielded
 						}
 					}
+					change_pc = pc_gaia
 					set_controller = event_target:return_kuat_awakening_country
 					set_owner = event_target:return_kuat_awakening_country
-					change_pc = pc_gaia
-					create_pop = { species = event_target:return_kuat_awakening_country.main_species }
-					while = { count = 1 add_district = district_city }
+					create_pop = { species = event_target:return_kuat_awakening_country.owner_main_species }
+					add_district = district_city
 				}
+			}
+			every_fleet_in_system = {
+				limit = { exists = owner NOT = { owner = { is_same_value = event_target:return_kuat_awakening_country } } }
+				destroy_fleet = { target = this destroy_template = yes kill_leader = yes }
 			}
 		}
 	}
@@ -1470,9 +1483,9 @@ country_event = {
 		has_global_flag = fire_facility_return
 	}
 	immediate = {
-		event_target:return_kuat_awakening_country = {
+		event_target:return_kuat_awakening_country = { 
 			create_kuat_return_starbase = yes
-			while = { count = 4 create_kuat_return_fleet_defender = yes }
+			while = { count = 4 create_kuat_return_fleet_defender = yes } 
 		}
 		remove_country_flag = can_pass_by 
 		remove_country_flag = can_pass_inner_by
