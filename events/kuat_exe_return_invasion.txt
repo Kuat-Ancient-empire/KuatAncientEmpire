@@ -19,9 +19,7 @@ event = {
 			set_global_flag = enable_modifer_check
 			set_global_flag = difficult_exe_invasion
 		}
-		event_target:global_event_country = {
-			set_variable = { which = count_destroy_eternal_fleet value = 0 }
-		}
+		event_target:global_event_country = { set_variable = { which = count_destroy_eternal_fleet value = 0 } }
 		remove_global_flag = can_win_the_fleet
 		if = {
 			limit = { event_target:global_event_country = { check_variable = { which = eternal_fleet_return_index value >= 1 } } }
@@ -755,29 +753,35 @@ country_event = {
 		fromfromfrom = { has_fleet_flag = ag_kuat_invasion_starbase }
 	}
 	immediate = { 
-		fromfromfrom = {
-			solar_system = {
-				remove_star_flag = eternal_starbase_megastructure_in_system
-				set_star_class = sc_black_hole
-				star = {
-					create_ambient_object = { type = "star_explosion" play_animation_once = yes location = this }
-					last_created_ambient_object = { set_location = { target = prev distance = 0 angle = random } }
-					create_ambient_object = { type = "destroyed_system" location = this }
-					last_created_ambient_object = { set_ambient_object_flag = destroyed_system_effect set_location = { target = prev  distance = 0  angle = random  } }
-					change_pc = pc_black_hole
-					set_planet_size = 18
-				}
-				every_fleet_in_system = {
-					limit = { owner = { is_eternal_faction = no } }
-					every_controlled_ship = { kuat_reduce_hp_percent = { value = 75 } }
-				}
-				random_ambient_object = {
-					limit = { has_ambient_object_flag = space_storm_object }
-					destroy_ambient_object = this
-				}
+		fromfromfrom = { solar_system = {
+			remove_star_flag = eternal_starbase_megastructure_in_system
+			set_star_class = sc_black_hole
+			star = {
+				create_ambient_object = { type = "star_explosion" play_animation_once = yes location = this }
+				last_created_ambient_object = { set_location = { target = prev distance = 0 angle = random } }
+				create_ambient_object = { type = "destroyed_system" location = this }
+				last_created_ambient_object = { set_ambient_object_flag = destroyed_system_effect set_location = { target = prev  distance = 0  angle = random  } }
+				change_pc = pc_black_hole
+				set_planet_size = 18
 			}
+			every_fleet_in_system = {
+				limit = { exists = owner owner = { is_eternal_faction = no } }
+				every_controlled_ship = { kuat_reduce_hp_percent = { value = 75 } }
+			}
+			random_ambient_object = {
+				limit = { has_ambient_object_flag = space_storm_object }
+				destroy_ambient_object = this
+			}
+			if = {
+				limit = { NOT = { has_star_flag = fire_only_once_temple } }
+				set_timed_star_flag = { flag = fire_only_once_temple days = 1 }
+				event_target:ag_kuat_invasion_country = { change_variable = { which = ag_kuat_invasion_starbase_arrived value = 1 } }
+			}
+		} }
+		every_playable_country = { 
+			limit = { NOT = { has_country_flag = fire_only_once_temple } } 
+			country_event = { id = exe_return_invasion.18 } set_timed_country_flag = { flag = fire_only_once_temple days = 1 }
 		}
-		every_playable_country = { country_event = { id = exe_return_invasion.18 } }
 	}
 }
 
@@ -1387,13 +1391,15 @@ country_event = {
 		fromfromfrom = { has_fleet_flag = ag_kuat_invasion_fleet }
 	}
 	immediate = {
-		every_country = {
-			limit = { has_event_chain = ag_exe_invasion_chain }
-			add_event_chain_counter = { event_chain = ag_exe_invasion_chain counter = ag_exe_invasion_fleet amount = -1 }
-		}
-		event_target:global_event_country = {
-			change_variable = { which = count_destroy_eternal_fleet value = 1 }
-		}
+		fromfromfrom = { if = {
+			limit = { NOT = { has_fleet_flag = fire_only_once_temple } }
+			set_timed_fleet_flag = { flag = fire_only_once_temple days = 1 }
+			every_country = {
+				limit = { has_event_chain = ag_exe_invasion_chain }
+				add_event_chain_counter = { event_chain = ag_exe_invasion_chain counter = ag_exe_invasion_fleet amount = -1 }
+			}
+			event_target:global_event_country = { change_variable = { which = count_destroy_eternal_fleet value = 1 } }
+		} }
 	}
 }
 
@@ -1407,11 +1413,8 @@ country_event = {
 		from = {
 			is_eternal_faction = yes
 			count_controlled_fleet = {
-				limit = {
-					has_fleet_flag = ag_kuat_invasion_fleet
-					NOT = { is_same_value = root.fromfromfrom }
-				}
 				count = 0
+				limit = { has_fleet_flag = ag_kuat_invasion_fleet NOT = { is_same_value = root.fromfromfrom } }
 			}
 		}
 		fromfromfrom = { has_fleet_flag = ag_kuat_invasion_fleet }
@@ -1419,10 +1422,7 @@ country_event = {
 	}
 	immediate = {
 		set_global_flag = enable_the_eternal_starbase
-		from = { every_controlled_fleet = {
-			limit = { has_fleet_flag = ag_kuat_invasion_starbase }
-			set_event_locked = no
-		} }
+		from = { every_controlled_fleet = { limit = { has_fleet_flag = ag_kuat_invasion_starbase } set_event_locked = no } }
 	}
 }
 
@@ -1459,19 +1459,21 @@ country_event = {
 		from = {
 			is_eternal_faction = yes
 			count_controlled_fleet = {
-				limit = {
-					has_fleet_flag = ag_kuat_invasion_starbase
-					NOT = { is_same_value = root.fromfromfrom }
-				}
 				count = 0
+				limit = { has_fleet_flag = ag_kuat_invasion_starbase NOT = { is_same_value = root.fromfromfrom } }
 			}
 		}
+		has_global_flag = enable_the_eternal_starbase
 		fromfromfrom = { has_fleet_flag = ag_kuat_invasion_starbase }
-		has_global_flag = can_win_the_fleet
+		event_target:ag_kuat_invasion_country = { check_variable = { which = ag_kuat_invasion_starbase_arrived value = 4 } }
 	}
 	immediate = {
 		every_country = {
-			limit = { NOT = { is_same_value = event_target:ag_kuat_invasion_country } }
+			limit = { NOR = { 
+				is_same_value = event_target:ag_kuat_invasion_country 
+				has_country_flag = trigger_ended_event_temple
+			} }
+			set_timed_country_flag = { flag = trigger_ended_event_temple days = 1 }
 			country_event = { id = exe_return_invasion.35 }
 		}
 		add_threat = { who = root amount = 50 }
@@ -1513,6 +1515,7 @@ country_event = {
 	}
 	option = { 
 		name = "exe_return_invasion.35.b" 
+		ai_chance = { weight = 5 }
 		hidden_effect = {
 			if = {
 				limit = { is_ai = no NOR = { has_origin = origin_kuat_apocalyptic has_origin = origin_eternalthrone } }

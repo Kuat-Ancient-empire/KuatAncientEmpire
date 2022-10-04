@@ -886,11 +886,15 @@ country_event = {
 		fromfromfrom = { has_fleet_flag = ag_kuat_invasion_fleet }
 	}
 	immediate = {
-		every_country = {
-			limit = { has_event_chain = ag_exe_invasion_chain }
-			add_event_chain_counter = { event_chain = ag_exe_invasion_chain counter = ag_exe_invasion_fleet amount = -1 }
-		}
-		event_target:global_event_country = { change_variable = { which = var_eternal_fleet_defeated value = 1 } }
+		fromfromfrom = { if = {
+			limit = { NOT = { has_fleet_flag = fire_only_once_temple } }
+			set_timed_fleet_flag = { flag = fire_only_once_temple days = 1 }
+			every_country = {
+				limit = { has_event_chain = ag_exe_invasion_chain }
+				add_event_chain_counter = { event_chain = ag_exe_invasion_chain counter = ag_exe_invasion_fleet amount = -1 }
+			}
+			event_target:global_event_country = { change_variable = { which = var_eternal_fleet_defeated value = 1 } }
+		} }
 	}
 }
 
@@ -917,13 +921,16 @@ country_event = {
 	}
 	immediate = {
 		every_country = {
-			limit = {
-				NOT = { is_same_value = event_target:ag_kuat_invasion_country }
-			}
+			limit = { NOR = { 
+				is_same_value = event_target:ag_kuat_invasion_country 
+				has_country_flag = trigger_ended_event_temple
+			} }
+			set_timed_country_flag = { flag = trigger_ended_event_temple days = 1 }
 			if = {
 				limit = { NOT = { has_global_flag = special_exe_invasion } }
 				country_event = { id = exe_invasion.33 }
-			} else = { country_event = { id = exe_invasion.35 } }
+			} 
+			else = { country_event = { id = exe_invasion.35 } }
 		}
 		add_threat = { who = root amount = 50 }
 		set_global_flag = exe_invasion_ended
