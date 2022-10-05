@@ -35,21 +35,23 @@ action_declare_war = {
 		fail_text = delcare_war_trigger_desc
 		hidden_trigger = {
 			if = {
-				limit = { 
-					from = { is_kuat_fallen_empire = yes } 
-					NOT = { has_origin = origin_eternalthrone }
-				}
-				has_global_flag = kuat_war_goal
+				limit = { from = { is_kuat_fallen_empire = yes }  }
 				is_player_country = yes
-				NOT = { exists = event_target:fallen_empire_kuat_fleet }
-			}
-			else_if = {
-				limit = { 
-					from = { is_kuat_fallen_empire = yes } 
-					has_origin = origin_eternalthrone
+				if = {
+					limit = { NOT = { has_origin = origin_eternalthrone } }
+					has_global_flag = kuat_war_goal
+					OR = {
+						NOT = { exists = event_target:fallen_empire_kuat_fleet }
+						AND = {
+							exists = event_target:fallen_empire_kuat_fleet
+							event_target:fallen_empire_kuat_fleet = { count_owned_fleet = { limit = { has_fleet_flag = kuat_fundation_main_fleet } count = 0 } }
+						}
+					}
 				}
-				has_country_flag = kuat_Annihilate_country
-				is_player_country = yes
+				else_if = {
+					limit = { has_origin = origin_eternalthrone }
+					has_country_flag = kuat_Annihilate_country
+				}
 			}
 			else = { always = yes }
 		}
