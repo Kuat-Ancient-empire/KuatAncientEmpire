@@ -891,6 +891,7 @@ country_event = {
 	is_triggered_only = yes
 	trigger = { NOT = { has_global_flag = ag_kae_no_ge_invasion_crisis } }
 	immediate = {
+		set_update_modifiers_batch = begin
 		set_global_flag = ag_kae_ge_invasion_begin
 		if = { limit = { exists = event_target:ag_kae_portal_system } clear_global_event_target = ag_kae_portal_system }
 		if = { limit = { NOT = { is_variable_set = ag_kae_ge_invasion_num_portals_destroyed } } set_variable = { which = ag_kae_ge_invasion_num_portals_destroyed value = 0 } }
@@ -991,6 +992,7 @@ country_event = {
 				country_event = { id = ag_kae_ge_invasion.217 days = 1 random = 2 }
 			}
 		}
+		set_update_modifiers_batch = end
 	}
 }
 country_event = {
@@ -1186,29 +1188,37 @@ fleet_event = {
 					}
 					else_if = {
 						limit = { has_fleet_flag = eternal_findout_path }
-						random_system = {
-							limit = {
+						if = {
+							limit = { any_system = {
 								NOT = { has_star_flag = ag_kae_e_area_system }
 								any_fleet_in_system = {
 									exists = owner
 									owner = { is_same_value = event_target:ag_kae_ge_invasion_country }
 								}
-							}
-							if = {
-								limit = { event_target:global_event_country = {
-									check_variable = { which = ag_kae_ge_invasion_num_portals_destroyed value > 3 }
-								} }
-								closest_system = { 
-									min_steps = 1
-									max_steps = 3 
-									limit = { NOT = { has_star_flag = ag_kae_e_area_system } }
-									random_system_planet = { ROOT = { set_location = { target = PREV distance = 5 angle = random } } }
+							} }
+							random_system = {
+								limit = {
+									NOT = { has_star_flag = ag_kae_e_area_system }
+									any_fleet_in_system = {
+										exists = owner
+										owner = { is_same_value = event_target:ag_kae_ge_invasion_country }
+									}
 								}
-							}
-							else = {
-								random_system_planet = { ROOT = { set_location = { target = PREV distance = 5 angle = random } } }
+								if = {
+									limit = { event_target:global_event_country = {
+										check_variable = { which = ag_kae_ge_invasion_num_portals_destroyed value > 3 }
+									} }
+									closest_system = { 
+										min_steps = 1
+										max_steps = 3 
+										limit = { NOT = { has_star_flag = ag_kae_e_area_system } }
+										random_system_planet = { ROOT = { set_location = { target = PREV distance = 5 angle = random } } }
+									}
+								}
+								else = { random_system_planet = { ROOT = { set_location = { target = PREV distance = 5 angle = random } } } }
 							}
 						}
+						else = { clear_fleet_actions = this clear_orders = yes set_fleet_flag = kuat_disable_fleet_action_order }
 						remove_fleet_flag = eternal_findout_path
 					}
 				}
@@ -2325,4 +2335,27 @@ country_event = {
 		}
 	}
 	option = { name = "ag_kae_ge_invasion.260.a" }
+}
+
+# on_monthly_purly_country forsake the eternal action
+country_event = {
+	id = ag_kae_ge_invasion.261
+	hide_window = yes
+	is_triggered_only = yes
+	trigger = {
+		exists = event_target:ag_kae_ge_invasion_country
+		any_system = { 
+			NOT = { has_star_flag = ag_kae_e_area_system }
+			any_fleet_in_system = { exists = owner owner = { is_same_value = event_target:ag_kae_ge_invasion_country } }
+		}
+		any_controlled_fleet = { has_fleet_flag = kuat_disable_fleet_action_order }
+		is_country_type = eternal_support_guadian
+	}
+	immediate = {
+		every_controlled_fleet = {
+			limit = { has_fleet_flag = kuat_disable_fleet_action_order }
+			remove_fleet_flag = kuat_disable_fleet_action_order
+			fleet_event = { id = ag_kae_ge_invasion.218 days = 1 }
+		}
+	}
 }
