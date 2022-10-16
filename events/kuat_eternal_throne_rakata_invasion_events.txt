@@ -8,6 +8,7 @@ country_event = {
 	is_triggered_only = yes
 	trigger = { NOT = { has_global_flag = Kuat_Rakata_invasion_happened	} }
 	immediate = {
+		set_update_modifiers_batch = begin
 		set_global_flag = Kuat_Rakata_invasion_happened
 		initialize_Rakata_crisis_system_select = yes
 		random_system = {
@@ -76,6 +77,7 @@ country_event = {
 				country_event = { id = kuat_final_crisis_events.6 }
 			}
 		}
+		set_update_modifiers_batch = end
 	}
 }
 
@@ -572,6 +574,7 @@ country_event = {
 		FROMFROM = { is_ship_size = exe_starbase }
 	}
 	immediate = {
+		set_update_modifiers_batch = begin
 		FROM = { save_event_target_as = Kuat_Rakata_portal_killer }
 		FROMFROM.FLEET = {
 			if = {
@@ -672,6 +675,7 @@ country_event = {
 				}
 			}
 		}
+		set_update_modifiers_batch = end
 	}
 }
 
@@ -760,6 +764,7 @@ country_event = {
 	fire_only_once = yes
 	trigger = { NOT = { has_global_flag = Kuat_Rakata_second_warp_portal_opened } }
 	immediate = {
+		set_update_modifiers_batch = begin
 		set_global_flag = Kuat_Rakata_second_warp_portal_opened
 		initialize_Rakata_crisis_system_select = yes
 		initialize_Kuat_Rakata_second_warp_portal_system_select = yes
@@ -793,6 +798,7 @@ country_event = {
 			limit = { is_ai = no }
 			country_event = { id = kuat_final_crisis_events.54 }
 		}
+		set_update_modifiers_batch = end
 	}
 }
 
@@ -812,6 +818,7 @@ country_event = {
 	mean_time_to_happen = { months = 12 }
 	fire_only_once = yes
 	immediate = {
+		set_update_modifiers_batch = begin
 		set_global_flag = Kuat_Rakata_third_warp_portal_opened
 		initialize_Rakata_crisis_system_select = yes
 		initialize_Kuat_Rakata_second_warp_portal_system_select = yes
@@ -846,6 +853,7 @@ country_event = {
 			limit = { is_ai = no }
 			country_event = { id = kuat_final_crisis_events.55 }
 		}
+		set_update_modifiers_batch = end
 	}
 }
 
@@ -1088,6 +1096,7 @@ planet_event = {
 		}
 	}
 	immediate = {
+		set_update_modifiers_batch = begin
 		if = {
 			limit = {
 				has_planet_flag = phaseshifting_active
@@ -1113,6 +1122,7 @@ planet_event = {
 			limit = { has_event_chain = "kuat_rakata_invasion_chain" }
 			add_event_chain_counter = { event_chain = "kuat_rakata_invasion_chain" counter = "kuat_rakata_invastor_planets" amount = 1 }
 		}
+		set_update_modifiers_batch = end
 	}
 }
 
@@ -1458,6 +1468,7 @@ country_event = {
 	}
 
 	immediate = {
+		set_update_modifiers_batch = begin
 		fromfrom = { if = {
 			limit = { 
 				NOT = { has_fleet_flag = exe_starbase_invisible_@this }
@@ -1475,6 +1486,7 @@ country_event = {
 				ship_event = { id = kuat_final_crisis_events.60 }
 			}
 		} }
+		set_update_modifiers_batch = end
 	}
 }
 
@@ -1486,6 +1498,7 @@ ship_event = {
 	trigger = { has_ship_flag = is_invisiable_trigger }
 
 	immediate = {
+		set_update_modifiers_batch = begin
 		if = {
 			limit = { 
 				solar_system = { count_fleet_in_system = {
@@ -1497,5 +1510,6 @@ ship_event = {
 			repair_ship = yes  ship_event = { id = kuat_final_crisis_events.60 days = 1 }
 		}
 		else = { remove_executor_power = yes remove_ship_flag = is_invisiable_trigger }
+		set_update_modifiers_batch = end
 	}
 }

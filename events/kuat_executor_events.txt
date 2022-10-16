@@ -1967,13 +1967,10 @@ country_event = {
 	id = executor_build.29
 	hide_window = yes
 	is_triggered_only = yes
+	trigger = { is_ai = no }
 	immediate = { 
-		if = {
-			limit = { NOT = {
-				has_country_flag = executor_build_command_limit_running
-			} }
-			set_country_flag = executor_build_command_limit_running
-		}
+		set_update_modifiers_batch = begin
+		set_country_flag = executor_build_command_limit_running
 		if = {
 			limit = { command_limit >= 800 }
 			if = {
@@ -1995,6 +1992,7 @@ country_event = {
 			}
 		}
 		else = { country_event = { id = executor_build.29 days = 360 } }
+		set_update_modifiers_batch = end
 	}
 }
 
@@ -2002,7 +2000,8 @@ country_event = {
 	id = executor_build.291
 	hide_window = yes
 	is_triggered_only = yes
-	immediate = { 
+	trigger = { is_ai = no }
+	immediate = {
 		set_update_modifiers_batch = begin
 		if = {
 			limit = { 
