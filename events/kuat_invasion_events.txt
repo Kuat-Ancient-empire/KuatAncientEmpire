@@ -466,6 +466,7 @@ country_event = {
 				has_star_flag = eternal_starbase_megastructure_in_system
 				has_star_flag = kuat_starbase_megastructure_in_system
 			} }
+			fleet = { NOT = { has_fleet_flag = ag_kuat_invasion_starbase_disable } }
 		}
 	}
 	immediate = {
@@ -1177,7 +1178,6 @@ country_event = {
 	is_triggered_only = yes
 	trigger = { from = { is_eternal_faction = yes } }
 	immediate = {
-		set_update_modifiers_batch = begin
 		fromfrom = { if = {
 			limit = {	
 				check_variable = { which = Eternal_support_var value < 1 }
@@ -1211,7 +1211,6 @@ country_event = {
 				}
 			}
 		} }
-		set_update_modifiers_batch = end
 	}
 }
 ship_event = {
@@ -1220,16 +1219,16 @@ ship_event = {
 	is_triggered_only = yes
 	trigger = { has_ship_flag = is_invisiable_trigger }
 	immediate = {
-		set_update_modifiers_batch = begin
 		if = {
 			limit = { fleet = { has_enable_flag_ship_system_false = yes } is_in_combat = yes }
 			repair_ship = yes ship_event = { id = exe_invasion.114 days = 1 }
 		}
 		else = {
+			set_update_modifiers_batch = begin
 			remove_executor_power = yes remove_ship_flag = is_invisiable_trigger
 			fleet = { while = { count = Eternal_support_var remove_modifier = Eternal_support } clear_variable = Eternal_support_var }
+			set_update_modifiers_batch = end
 		}
-		set_update_modifiers_batch = end
 	}
 }
 country_event = {
@@ -1241,13 +1240,15 @@ country_event = {
 		fromfrom = { has_fleet_flag = ag_kuat_invasion_starbase }
 	}
 	immediate = {
-		set_update_modifiers_batch = begin
 		fromfrom = { if = {
 			limit = { NOT = { has_fleet_flag = fired_onced_again_not } }
+			if = {
+				limit = { NOT = { has_fleet_flag = ag_kuat_invasion_starbase_disable } }
+				set_fleet_flag = ag_kuat_invasion_starbase_disable
+			}
 			increase_ship_hp_effect_change = { DAYS = 6 }
 			set_timed_fleet_flag = { flag = fired_onced_again_not days = 1 }
 		} }
-		set_update_modifiers_batch = end
 	}
 } 
 ship_event = {
@@ -1260,7 +1261,10 @@ ship_event = {
 			limit = { has_ship_flag = is_invisiable_trigger }
 			repair_ship = yes set_disabled = no
 		} 
-		else = { repair_ship = yes set_disabled = no set_disable_at_health = -1 }
+		else = { 
+			repair_ship = yes set_disabled = no set_disable_at_health = -1  
+			fleet = { remove_fleet_flag = ag_kuat_invasion_starbase_disable }
+		}
 	}
 }
 country_event = {
@@ -1310,13 +1314,16 @@ ship_event = {
 	is_triggered_only = yes
 	trigger = { has_ship_flag = is_invisiable_trigger }
 	immediate = {
-		set_update_modifiers_batch = begin
 		if = {
 			limit = { is_in_combat = yes }
 			repair_ship = yes ship_event = { id = exe_invasion.119 days = 1 }
 		}
-		else = { remove_executor_power = yes remove_ship_flag = is_invisiable_trigger }
-		set_update_modifiers_batch = end
+		else = { 
+			set_update_modifiers_batch = begin
+			remove_executor_power = yes 
+			remove_ship_flag = is_invisiable_trigger 
+			set_update_modifiers_batch = end
+		}
 	}
 }
 country_event = {
@@ -1332,7 +1339,6 @@ country_event = {
 		} }
 	}
 	immediate = {
-		set_update_modifiers_batch = begin
 		FROMFROM = { if = {
 			limit = { has_enable_flag_ship_system_true = yes }
 			if = { limit = { kuat_is_flagship_size = { size = Annihilator } } increase_ship_hp_effect_change = { DAYS = 7 } }
@@ -1356,7 +1362,6 @@ country_event = {
 			else_if = { limit = { kuat_is_flagship_size = { size = ag_eta_titan_1 } } increase_ship_hp_effect_change = { DAYS = 3 } } 
 			else_if = { limit = { kuat_is_flagship_size = { size = SRA_Spear_Of_Galaxy_Zenith } } increase_ship_hp_effect_change = { DAYS = 3 } } 
 		} }
-		set_update_modifiers_batch = end
 	}
 }
 
@@ -1373,7 +1378,6 @@ country_event = {
 		} }
 	}
 	immediate = {
-		set_update_modifiers_batch = begin
 		FROMFROM = { if = {
 			limit = { has_enable_flag_ship_system_true = yes }
 			if = { limit = { kuat_is_flagship_size = { size = Annihilator } } increase_ship_hp_effect_change = { DAYS = 7 } }
@@ -1397,7 +1401,6 @@ country_event = {
 			else_if = { limit = { kuat_is_flagship_size = { size = ag_eta_titan_1 } } increase_ship_hp_effect_change = { DAYS = 3 } } 
 			else_if = { limit = { kuat_is_flagship_size = { size = SRA_Spear_Of_Galaxy_Zenith } } increase_ship_hp_effect_change = { DAYS = 3 } } 
 		} }
-		set_update_modifiers_batch = end
 	}
 }
 country_event = {
@@ -1477,7 +1480,6 @@ country_event = {
 	is_triggered_only = yes
 	trigger = { is_invisable_faction = yes }
 	immediate = {
-		set_update_modifiers_batch = begin
 		if = {
 			limit = { from = { is_invisable_faction = no } }
 			random_list = {
@@ -1526,6 +1528,11 @@ country_event = {
 				from = { is_invisable_faction = no } 
 				has_global_flag = enable_modifer_check 
 			}
+			fromfromfrom = { every_controlled_ship = {
+				limit = { NOT = { has_ship_flag = random_list_eternal_fleet_rate_placeholder }  }
+				random_list_eternal_fleet_rate = yes set_ship_flag = fire_ship_var_repeat
+				set_timed_ship_flag = { flag = random_list_eternal_fleet_rate_placeholder days = 1 }
+			} }
 			if = {
 				limit = { ROOT = { is_eternal_faction = yes } }
 				fromfromfrom = { every_controlled_ship = { set_ship_flag = is_modifiering switch = {
@@ -1545,7 +1552,6 @@ country_event = {
 				every_controlled_ship = { set_ship_flag = is_modifiering ship_event = { id = exe_invasion.142 } }
 			} }
 		}
-		set_update_modifiers_batch = end
 	}
 }
 
@@ -1556,7 +1562,6 @@ ship_event = {
 	is_triggered_only = yes
 	trigger = { has_ship_flag = is_modifiering }
 	immediate = {
-		set_update_modifiers_batch = begin
 		if = {
 			limit = { is_in_combat = yes }
 			set_ban_eternal_fleet_mult_modifier = {
@@ -1589,8 +1594,11 @@ ship_event = {
 			set_ship_flag = fire_ship_var
 			ship_event = { id = exe_invasion.140 days = 1 }
 		}
-		else = { clear_battleship_modifier_fixed_ship = yes }
-		set_update_modifiers_batch = end
+		else = { 
+			set_update_modifiers_batch = begin
+			clear_battleship_modifier_fixed_ship = yes 
+			set_update_modifiers_batch = end
+		}
 	}
 }
 #difficult_exe_invasion: fromfrom
@@ -1600,7 +1608,6 @@ ship_event = {
 	is_triggered_only = yes
 	trigger = { has_ship_flag = is_modifiering }
 	immediate = {
-		set_update_modifiers_batch = begin
 		if = {
 			limit = { is_in_combat = yes }
 			set_difiicult_eternal_fleet_mult_modifier = {
@@ -1633,8 +1640,11 @@ ship_event = {
 			set_ship_flag = fire_ship_var
 			ship_event = { id = exe_invasion.137 days = 1 }
 		}
-		else = { clear_battleship_modifier_fixed_ship = yes }
-		set_update_modifiers_batch = end
+		else = { 
+			set_update_modifiers_batch = begin
+			clear_battleship_modifier_fixed_ship = yes 
+			set_update_modifiers_batch = end
+		}
 	}
 }
 #normal_exe_invasion: fromfrom
@@ -1644,7 +1654,6 @@ ship_event = {
 	is_triggered_only = yes
 	trigger = { has_ship_flag = is_modifiering }
 	immediate = {
-		set_update_modifiers_batch = begin
 		if = {
 			limit = { is_in_combat = yes }
 			set_normal_eternal_fleet_mult_modifier = {
@@ -1677,8 +1686,11 @@ ship_event = {
 			set_ship_flag = fire_ship_var
 			ship_event = { id = exe_invasion.143 days = 1 }
 		}
-		else = { clear_battleship_modifier_fixed_ship = yes }
-		set_update_modifiers_batch = end
+		else = { 
+			set_update_modifiers_batch = begin
+			clear_battleship_modifier_fixed_ship = yes 
+			set_update_modifiers_batch = end
+		}
 	}
 }
 #easy_exe_invasion: fromfrom
@@ -1688,7 +1700,6 @@ ship_event = {
 	is_triggered_only = yes
 	trigger = { has_ship_flag = is_modifiering }
 	immediate = {
-		set_update_modifiers_batch = begin
 		if = {
 			limit = { is_in_combat = yes }
 			set_easy_eternal_fleet_mult_modifier = {
@@ -1721,8 +1732,11 @@ ship_event = {
 			set_ship_flag = fire_ship_var
 			ship_event = { id = exe_invasion.144 days = 1 }
 		}
-		else = { clear_battleship_modifier_fixed_ship = yes }
-		set_update_modifiers_batch = end
+		else = { 
+			set_update_modifiers_batch = begin
+			clear_battleship_modifier_fixed_ship = yes 
+			set_update_modifiers_batch = end
+		}
 	}
 }
 
@@ -1733,10 +1747,8 @@ ship_event = {
 	is_triggered_only = yes
 	trigger = { has_ship_flag = is_modifiering }
 	immediate = { 
-		set_update_modifiers_batch = begin
 		if = {
 			limit = { is_in_combat = yes }
-			random_list_eternal_fleet_rate = yes
 			set_ban_eternal_fleet_mult_modifier = {
 				hull_regen_add_perc_standard = ship_hull_regen_add_perc
 				shield_regen_add_perc_standard = ship_shield_regen_add_perc
@@ -1751,8 +1763,11 @@ ship_event = {
 			set_ship_flag = fire_ship_var
 			ship_event = { id = exe_invasion.136 days = 1 }
 		}
-		else = { clear_battleship_modifier_fixed_ship = yes }
-		set_update_modifiers_batch = end
+		else = { 
+			set_update_modifiers_batch = begin
+			clear_battleship_modifier_fixed_ship = yes 
+			set_update_modifiers_batch = end
+		}
 	}
 }
 #difficult_exe_invasion：fromfromfrom
@@ -1762,10 +1777,8 @@ ship_event = {
 	is_triggered_only = yes
 	trigger = { has_ship_flag = is_modifiering }
 	immediate = { 
-		set_update_modifiers_batch = begin
 		if = {
 			limit = { is_in_combat = yes }
-			random_list_eternal_fleet_rate = yes
 			set_difiicult_eternal_fleet_mult_modifier = {
 				hull_regen_add_perc_standard = ship_hull_regen_add_perc
 				shield_regen_add_perc_standard = ship_shield_regen_add_perc
@@ -1780,8 +1793,11 @@ ship_event = {
 			set_ship_flag = fire_ship_var
 			ship_event = { id = exe_invasion.131 days = 1 }
 		}
-		else = { clear_battleship_modifier_fixed_ship = yes }
-		set_update_modifiers_batch = end
+		else = { 
+			set_update_modifiers_batch = begin
+			clear_battleship_modifier_fixed_ship = yes 
+			set_update_modifiers_batch = end
+		}
 	}
 }
 #normal_exe_invasion: fromfromfrom
@@ -1791,10 +1807,8 @@ ship_event = {
 	is_triggered_only = yes
 	trigger = { has_ship_flag = is_modifiering }
 	immediate = { 
-		set_update_modifiers_batch = begin
 		if = {
 			limit = { is_in_combat = yes }
-			random_list_eternal_fleet_rate = yes
 			set_normal_eternal_fleet_mult_modifier = {
 				hull_regen_add_perc_standard = ship_hull_regen_add_perc
 				shield_regen_add_perc_standard = ship_shield_regen_add_perc
@@ -1809,8 +1823,11 @@ ship_event = {
 			set_ship_flag = fire_ship_var
 			ship_event = { id = exe_invasion.129 days = 1 }
 		}
-		else = { clear_battleship_modifier_fixed_ship = yes }
-		set_update_modifiers_batch = end
+		else = { 
+			set_update_modifiers_batch = begin
+			clear_battleship_modifier_fixed_ship = yes 
+			set_update_modifiers_batch = end
+		}
 	}
 }
 #easy_exe_invasion and default: fromfromfrom
@@ -1820,10 +1837,8 @@ ship_event = {
 	is_triggered_only = yes
 	trigger = { has_ship_flag = is_modifiering }
 	immediate = { 
-		set_update_modifiers_batch = begin
 		if = {
 			limit = { is_in_combat = yes }
-			random_list_eternal_fleet_rate = yes
 			set_easy_eternal_fleet_mult_modifier = {
 				hull_regen_add_perc_standard = ship_hull_regen_add_perc
 				shield_regen_add_perc_standard = ship_shield_regen_add_perc
@@ -1838,8 +1853,11 @@ ship_event = {
 			set_ship_flag = fire_ship_var
 			ship_event = { id = exe_invasion.142 days = 1 }
 		}
-		else = { clear_battleship_modifier_fixed_ship = yes }
-		set_update_modifiers_batch = end
+		else = { 
+			set_update_modifiers_batch = begin
+			clear_battleship_modifier_fixed_ship = yes 
+			set_update_modifiers_batch = end
+		}
 	}
 }
 
@@ -1854,10 +1872,8 @@ country_event = {
 		fromfrom = { any_controlled_ship = { has_component = EXE_STARBASE_MEAGASTRUCTRUE_AUX_2 } }
 	}
 	immediate = {
-		set_update_modifiers_batch = begin
 		fromfromfrom = { every_controlled_ship = { set_ship_flag = is_modifiering ship_event = { id = exe_invasion.132 } } }
 		fromfrom = { every_controlled_ship = { set_ship_flag = is_modifiering ship_event = { id = exe_invasion.134 } } }
-		set_update_modifiers_batch = end
 	}
 }
 ship_event = {
@@ -1866,10 +1882,8 @@ ship_event = {
 	is_triggered_only = yes
 	trigger = { has_ship_flag = is_modifiering }
 	immediate = {
-		set_update_modifiers_batch = begin
 		if = {
 			limit = { is_in_combat = yes }
-			random_list_eternal_fleet_rate = yes
 			set_difiicult_eternal_fleet_mult_modifier = { 
 				shield_penetration_standard = ship_shield_penetration_mult
 				armor_penetration_standard = ship_armor_penetration_mult
@@ -1877,8 +1891,11 @@ ship_event = {
 			set_ship_flag = fire_ship_var
 			ship_event = { id = exe_invasion.132 days = 1 }
 		}
-		else = { clear_battleship_modifier_fixed_ship = yes }
-		set_update_modifiers_batch = end
+		else = { 
+			set_update_modifiers_batch = begin
+			clear_battleship_modifier_fixed_ship = yes 
+			set_update_modifiers_batch = end
+		}
 	}
 }
 ship_event = {
@@ -1887,7 +1904,6 @@ ship_event = {
 	is_triggered_only = yes
 	trigger = { has_ship_flag = is_modifiering }
 	immediate = {
-		set_update_modifiers_batch = begin
 		if = {
 			limit = { is_in_combat = yes }
 			set_difiicult_eternal_fleet_mult_modifier = { 
@@ -1897,8 +1913,11 @@ ship_event = {
 			set_ship_flag = fire_ship_var
 			ship_event = { id = exe_invasion.134 days = 1 }
 		}
-		else = { clear_battleship_modifier_fixed_ship = yes }
-		set_update_modifiers_batch = end
+		else = { 
+			set_update_modifiers_batch = begin
+			clear_battleship_modifier_fixed_ship = yes 
+			set_update_modifiers_batch = end
+		}
 	}
 }
 
@@ -1913,7 +1932,6 @@ country_event = {
 		from = { is_invisable_faction = no }
 	}
 	immediate = {
-		set_update_modifiers_batch = begin
 		fromfrom = { every_controlled_ship = {
 			Root.fromfromfrom = {
 				every_controlled_ship = {
@@ -2082,7 +2100,6 @@ country_event = {
 				} 
 			} }
 		}
-		set_update_modifiers_batch = end
 	}
 }
 country_event = {
@@ -2095,7 +2112,6 @@ country_event = {
 		from = { is_invisable_faction = no }
 	}
 	immediate = { 
-		set_update_modifiers_batch = begin
 		fromfromfrom.fleet = {
 			every_controlled_ship = {
 				limit = { 
@@ -2262,7 +2278,6 @@ country_event = {
 				reroll_random = yes
 			} 
 		}
-		set_update_modifiers_batch = end
 	}
 }
 
@@ -2273,14 +2288,12 @@ fleet_event = {
 	is_triggered_only = yes
 	trigger = { owner = { is_eternal_faction = yes } }
 	immediate = {
-		set_update_modifiers_batch = begin
 		every_controlled_ship = {
 			set_timed_ship_flag = { flag = inviciable_time_for_gate days = 1 }
 			eternal_increase_executor_power = { DAYS = -1 }
 			add_modifier = { modifier = Eternal_support multiplier = 100 days = -1 }
 			ship_event = { id = exe_invasion.1988 }
 		} 
-		set_update_modifiers_batch = end
 	}
 }
 ship_event = {
@@ -2289,7 +2302,6 @@ ship_event = {
 	is_triggered_only = yes
 	trigger = { owner = { is_eternal_faction = yes } }
 	immediate = {
-		set_update_modifiers_batch = begin
 		if = {
 			limit = { OR = {
 				AND = {
@@ -2301,8 +2313,12 @@ ship_event = {
 			repair_ship = yes
 			ship_event = { id = exe_invasion.1988 days = 1 }
 		}
-		else = { remove_executor_power = yes remove_modifier = Eternal_support }
-		set_update_modifiers_batch = end
+		else = { 
+			set_update_modifiers_batch = begin
+			remove_executor_power = yes 
+			remove_modifier = Eternal_support 
+			set_update_modifiers_batch = end
+		}
 	}
 }
 
@@ -2335,6 +2351,13 @@ event = {
 				NOT = { has_global_flag = kuat_war_goal }
 			} }
 			set_global_flag = kuat_war_goal
+		}
+		every_galaxy_fleet = {
+			limit = {
+				any_owned_ship = { has_ship_flag = enable_disable_starbase }
+				NOT = { has_fleet_flag = ag_kuat_invasion_starbase_disable }
+			}
+			set_fleet_flag = ag_kuat_invasion_starbase_disable
 		}
 	}
 }
