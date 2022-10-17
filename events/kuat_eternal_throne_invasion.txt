@@ -1811,13 +1811,24 @@ ship_event = {
 		owner = { is_invisable_faction = no }
 		exists = event_target:ag_kae_ge_invasion_country
 		from = { has_star_flag = ag_kae_e_area_system }
-		AND = {
-			exists = event_target:global_event_country
-			event_target:global_event_country = { check_variable = { which = ag_kae_ge_invasion_num_portals_destroyed value < 6 } }
-		}
 	}
 
-	immediate = { fleet = { destroy_fleet = { target = this destroy_template = yes kill_leader = no } } }
+	immediate = { 
+		if = {
+			limit = { 
+				exists = event_target:global_event_country
+				event_target:global_event_country = { check_variable = { which = ag_kae_ge_invasion_num_portals_destroyed value < 6 } }
+			}
+			fleet = { destroy_fleet = { target = this destroy_template = yes kill_leader = no } } 
+		}
+		else_if = {
+			limit = {
+				exists = event_target:global_event_country
+				event_target:global_event_country = { check_variable = { which = ag_kae_ge_invasion_num_portals_destroyed value >= 6 } }
+			}
+			fleet = { if = { limit = { exists = owner owner = { is_ai = yes } } fleet = { destroy_fleet = { target = this destroy_template = yes kill_leader = no } } } }
+		}
+	}
 }
 
 
