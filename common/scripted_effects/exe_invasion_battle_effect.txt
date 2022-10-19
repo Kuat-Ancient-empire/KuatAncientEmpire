@@ -43,7 +43,7 @@ eternal_increase_executor_power = {
 
 increase_ship_hp_effect_change = {
 	optimize_memory
-	every_controlled_ship = {
+	every_owned_ship = {
 		set_timed_ship_flag = { flag = is_invisiable_trigger days = $DAYS$ }
 		eternal_increase_executor_power = { DAYS = $DAYS$ }
 		ship_event = { id = exe_invasion.119 }
@@ -250,8 +250,14 @@ remove_executor_power = {
 }
 
 clear_repeatable_modifier = {
-	clear_ship_modifier = { modifier = weapon_type_$TYPE$_weapon_damage_mult multiply = $multiply$ DAYS = $DAYS$ }
-	clear_ship_modifier = { modifier = weapon_type_$TYPE$_fire_rate_mult multiply = $multiply$ DAYS = $DAYS$ }
+	if = {
+		limit = { check_modifier_value = { modifier = weapon_type_$TYPE$_weapon_damage_mult value > 10 } }
+		clear_ship_modifier = { modifier = weapon_type_$TYPE$_weapon_damage_mult multiply = $multiply$ DAYS = $DAYS$ }
+	}
+	if = {
+		limit = { check_modifier_value = { modifier = weapon_type_$TYPE$_weapon_fire_rate_mult value > 10 } }
+		clear_ship_modifier = { modifier = weapon_type_$TYPE$_weapon_fire_rate_mult multiply = $multiply$ DAYS = $DAYS$ }
+	}
 }
 
 remove_repetable_modifier = {
@@ -671,7 +677,7 @@ set_eternal_fleet_damage_modifier = {
 		limit = { has_ship_flag = fire_ship_var NOT = { has_ship_flag = $PARAMATER$_ship_cooldown } }
 		if = {
 			limit = { 
-				fleet = { has_enable_flag_ship_system_true = yes } 
+				fleet = { has_fleet_flag = has_kuat_flagship_system } 
 				check_modifier_value = { modifier = $PARAMATER$ value $RELATION$ @mult_modifer_mult_$UNIT1$_value }
 			}
 			export_modifier_to_variable = { modifier = $PARAMATER$ variable = change_$PARAMATER$_value }
@@ -682,7 +688,7 @@ set_eternal_fleet_damage_modifier = {
 		}
 		else_if = {
 			limit = { 
-				fleet = { has_enable_flag_ship_system_true = no } 
+				fleet = { NOT = { has_fleet_flag = has_kuat_flagship_system } } 
 				check_modifier_value = { modifier = $PARAMATER$ value $RELATION$ @mult_modifer_mult_$UNIT$_value }
 			}
 			export_modifier_to_variable = { modifier = $PARAMATER$ variable = change_$PARAMATER$_value }
@@ -981,7 +987,10 @@ remove_total_repeatable_modifier = {
 }
 
 remove_ship_modifier_trigger_flag = {
-	fleet = { remove_fleet_flag = eternal_learned_leader }
+	fleet = {
+		remove_fleet_flag = eternal_learned_leader 
+		remove_fleet_flag = has_kuat_flagship_system
+	}
 	remove_ship_flag = fire_ship_var 
 	remove_ship_flag = fire_ship_var_repeat
 	remove_ship_flag = is_modifiering
@@ -1117,7 +1126,7 @@ kuat_copy_leader_learning_system = {
 								set_timed_fleet_flag = { flag = have_learned_leader days = 180 }
 							}
 							else = { owner = { 
-								random_controlled_fleet = {
+								random_owned_fleet = {
 									limit = { NOT = { has_fleet_flag = have_learned_leader } }
 									if = {
 										limit = { exists = leader }
@@ -1134,9 +1143,9 @@ kuat_copy_leader_learning_system = {
 				1 = {  
 					modifier = {
 						set = 0
-						NOT = { any_controlled_ship = { check_modifier_value = { modifier = ship_hull_mult value > 2 } } }
+						NOT = { any_owned_ship = { check_modifier_value = { modifier = ship_hull_mult value > 2 } } }
 					}
-					every_controlled_ship = { if = { 
+					every_owned_ship = { if = { 
 						limit = { check_modifier_value = { modifier = ship_hull_mult value > 2 } } 
 						clear_ship_modifier = { modifier = ship_hull_mult subtract = 2 DAYS = -1 } 
 					} }
@@ -1148,7 +1157,7 @@ kuat_copy_leader_learning_system = {
 							NOT = { exists = leader }
 							NOT = { leader_class = admiral }
 							leader = { has_leader_flag = eternal_learned_leader }
-							NOT = { any_controlled_ship = { check_modifier_value = { modifier = ship_hull_mult value > 2 } } }
+							NOT = { any_owned_ship = { check_modifier_value = { modifier = ship_hull_mult value > 2 } } }
 						}
 					}
 					no_events = yes

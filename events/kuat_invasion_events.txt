@@ -518,7 +518,7 @@ planet_event = {
 		}
 		event_target:ag_kuat_invasion_country = { if = {
 			limit = { check_variable = { which = ag_kuat_invasion_fleet_arrived value = 16 } }
-			every_controlled_fleet = {
+			every_owned_fleet = {
 				limit = { has_fleet_flag = ag_kuat_invasion_fleet }
 				fleet_event = { id = exe_invasion.12 days = 1 random = 2 }
 			}
@@ -539,7 +539,7 @@ country_event = {
 	immediate = {
 		if = {
 			limit = {
-				NOT = { any_controlled_fleet = { has_fleet_flag = ag_kuat_invasion_fleet } } 
+				NOT = { any_owned_fleet = { has_fleet_flag = ag_kuat_invasion_fleet } } 
 			}
 			random_system = {
 				limit = { has_star_flag = Kuat_system }
@@ -671,7 +671,7 @@ event = {
 		NOT = { has_global_flag = exe_invasion_ended }
 		exists = event_target:ag_kuat_invasion_country
 		event_target:ag_kuat_invasion_country = {
-			any_controlled_fleet = {
+			any_owned_fleet = {
 				exists = this
 				is_fleet_idle = yes
 				has_fleet_flag = ag_kuat_invasion_fleet
@@ -690,7 +690,7 @@ event = {
 	}
 	immediate = {
 		event_target:ag_kuat_invasion_country = {
-			every_controlled_fleet = {
+			every_owned_fleet = {
 				limit = {
 					exists = this
 					is_fleet_idle = yes
@@ -916,7 +916,7 @@ country_event = {
 		NOT = { has_global_flag = exe_return_invasion_begin }
 		from = {
 			is_eternal_faction = yes
-			count_controlled_fleet = {
+			count_owned_fleet = {
 				limit = {
 					has_fleet_flag = ag_kuat_invasion_fleet
 					NOT = { is_same_value = root.fromfromfrom }
@@ -1178,13 +1178,14 @@ country_event = {
 	is_triggered_only = yes
 	trigger = { from = { is_eternal_faction = yes } }
 	immediate = {
+		set_update_modifiers_batch = begin
 		fromfrom = { if = {
 			limit = {	
 				check_variable = { which = Eternal_support_var value < 1 }
 				has_enable_flag_ship_system_true = yes
 				has_enable_flag_ship_system_false = yes
 			}
-			every_controlled_ship = {
+			every_owned_ship = {
 				if = {
 					limit = { kuat_is_flagship_system_protection = yes }
 					set_ship_flag = is_invisiable_trigger
@@ -1211,6 +1212,7 @@ country_event = {
 				}
 			}
 		} }
+		set_update_modifiers_batch = end
 	}
 }
 ship_event = {
@@ -1350,17 +1352,7 @@ country_event = {
 			else_if = { limit = { kuat_is_flagship_size = { size = X308_Balletor } } increase_ship_hp_effect_change = { DAYS = 4 } }
 			else_if = { limit = { kuat_is_flagship_size = { size = X308_Titan } } increase_ship_hp_effect_change = { DAYS = 4 } }
 			else_if = { limit = { kuat_is_flagship_size = { size = eternal_flagship } } increase_ship_hp_effect_change = { DAYS = 4 } } 
-			else_if = { limit = { kuat_is_flagship_size = { size = SWGS_Nemesis } } increase_ship_hp_effect_change = { DAYS = 3 } } 
-			else_if = { limit = { kuat_is_flagship_size = { size = SWGS_Lusankya } } increase_ship_hp_effect_change = { DAYS = 3 } } 
-			else_if = { limit = { kuat_is_flagship_size = { size = SWGS_EclipseII } } increase_ship_hp_effect_change = { DAYS = 3 } } 
-			else_if = { limit = { kuat_is_flagship_size = { size = ag_ancient_wandering_ship_1 } } increase_ship_hp_effect_change = { DAYS = 3 } } 
-			else_if = { limit = { kuat_is_flagship_size = { size = ag_delta_titan_1 } } increase_ship_hp_effect_change = { DAYS = 3 } } 
-			else_if = { limit = { kuat_is_flagship_size = { size = ag_gamma_titan_1 } } increase_ship_hp_effect_change = { DAYS = 3 } } 
-			else_if = { limit = { kuat_is_flagship_size = { size = ag_zeta_titan } } increase_ship_hp_effect_change = { DAYS = 3 } } 
-			else_if = { limit = { kuat_is_flagship_size = { size = ag_zeta_titan_psi } } increase_ship_hp_effect_change = { DAYS = 3 } } 
-			else_if = { limit = { kuat_is_flagship_size = { size = ag_epsilon_titan_1 } } increase_ship_hp_effect_change = { DAYS = 3 } } 
-			else_if = { limit = { kuat_is_flagship_size = { size = ag_eta_titan_1 } } increase_ship_hp_effect_change = { DAYS = 3 } } 
-			else_if = { limit = { kuat_is_flagship_size = { size = SRA_Spear_Of_Galaxy_Zenith } } increase_ship_hp_effect_change = { DAYS = 3 } } 
+			else_if = { limit = { kuat_has_ship_flag = { flag = has_ag_flagship } } increase_ship_hp_effect_change = { DAYS = 3 } } 
 		} }
 	}
 }
@@ -1389,17 +1381,7 @@ country_event = {
 			else_if = { limit = { kuat_is_flagship_size = { size = X308_Balletor } } increase_ship_hp_effect_change = { DAYS = 4 } }
 			else_if = { limit = { kuat_is_flagship_size = { size = X308_Titan } } increase_ship_hp_effect_change = { DAYS = 4 } }
 			else_if = { limit = { kuat_is_flagship_size = { size = eternal_flagship } } increase_ship_hp_effect_change = { DAYS = 4 } }
-			else_if = { limit = { kuat_is_flagship_size = { size = SWGS_Nemesis } } increase_ship_hp_effect_change = { DAYS = 3 } } 
-			else_if = { limit = { kuat_is_flagship_size = { size = SWGS_Lusankya } } increase_ship_hp_effect_change = { DAYS = 3 } } 
-			else_if = { limit = { kuat_is_flagship_size = { size = SWGS_EclipseII } } increase_ship_hp_effect_change = { DAYS = 3 } } 
-			else_if = { limit = { kuat_is_flagship_size = { size = ag_ancient_wandering_ship_1 } } increase_ship_hp_effect_change = { DAYS = 3 } } 
-			else_if = { limit = { kuat_is_flagship_size = { size = ag_delta_titan_1 } } increase_ship_hp_effect_change = { DAYS = 3 } } 
-			else_if = { limit = { kuat_is_flagship_size = { size = ag_gamma_titan_1 } } increase_ship_hp_effect_change = { DAYS = 3 } } 
-			else_if = { limit = { kuat_is_flagship_size = { size = ag_zeta_titan } } increase_ship_hp_effect_change = { DAYS = 3 } } 
-			else_if = { limit = { kuat_is_flagship_size = { size = ag_zeta_titan_psi } } increase_ship_hp_effect_change = { DAYS = 3 } } 
-			else_if = { limit = { kuat_is_flagship_size = { size = ag_epsilon_titan_1 } } increase_ship_hp_effect_change = { DAYS = 3 } } 
-			else_if = { limit = { kuat_is_flagship_size = { size = ag_eta_titan_1 } } increase_ship_hp_effect_change = { DAYS = 3 } } 
-			else_if = { limit = { kuat_is_flagship_size = { size = SRA_Spear_Of_Galaxy_Zenith } } increase_ship_hp_effect_change = { DAYS = 3 } } 
+			else_if = { limit = { kuat_has_ship_flag = { flag = has_ag_flagship } } increase_ship_hp_effect_change = { DAYS = 3 } } 
 		} }
 	}
 }
@@ -1451,18 +1433,18 @@ fleet_event = {
 					has_global_flag = enable_modifer_check
 					OR = { has_global_flag = difficult_exe_invasion has_global_flag = ban_exe_invasion }
 					owner = { is_eternal_guardian = no } 
-					count_controlled_ship = {
+					count_owned_ship = {
 						count >= kuat_fleet_count_check_half
 						limit = { check_variable = { which = disable_time value > 1 } check_variable = { which = combat_days value < 4 } }
 					}
 				}
-				every_controlled_ship = { set_variable = { which = combat_days value = 0 } set_variable = { which = disable_time value = 0 } }
+				every_owned_ship = { set_variable = { which = combat_days value = 0 } set_variable = { which = disable_time value = 0 } }
 			}
-			else = { every_controlled_ship = { limit = { check_variable = { which = combat_days value > 3 } } set_disable_at_health = -1 } }
-			every_controlled_ship = { change_variable = { which = combat_days value = 1 } }
+			else = { every_owned_ship = { limit = { check_variable = { which = combat_days value > 3 } } set_disable_at_health = -1 } }
+			every_owned_ship = { change_variable = { which = combat_days value = 1 } }
 			fleet_event = { id = exe_invasion.145 days = 1 }
 		}
-		else = { every_controlled_ship = { ship_event = { id = exe_invasion.138 } } }
+		else = { every_owned_ship = { ship_event = { id = exe_invasion.138 } } }
 	}
 }
 ship_event = {
@@ -1480,6 +1462,7 @@ country_event = {
 	is_triggered_only = yes
 	trigger = { is_invisable_faction = yes }
 	immediate = {
+		set_update_modifiers_batch = begin
 		if = {
 			limit = { from = { is_invisable_faction = no } }
 			random_list = {
@@ -1491,7 +1474,7 @@ country_event = {
 					modifier = { factor = 0 OR = { is_kuat_fallen_empire = yes is_infinite_faction = yes } }
 					kuat_copy_leader_learning_system = yes
 				}
-				5 = { fromfromfrom = { every_controlled_ship = { if = { 
+				5 = { fromfromfrom = { every_owned_ship = { if = { 
 					limit = { check_modifier_value = { modifier = ship_hull_mult value > 2 } } 
 					clear_ship_modifier = { modifier = ship_hull_mult subtract = 2 DAYS = -1 } 
 					clear_ship_modifier = { modifier = shipclass_military_hull_mult subtract = 2 DAYS = -1 }
@@ -1506,7 +1489,7 @@ country_event = {
 					has_fleet_flag = fired_onced_again_not
 				} }
 				mult_half_variable = { WHICH = kuat_fleet_count_check VALUE = 0.98 }
-				every_controlled_ship = { 
+				every_owned_ship = { 
 					limit = { NOT = { is_variable_set = combat_days } is_ship_class = shipclass_military } 
 					change_variable = { which = combat_days value = 1 } 
 					set_timed_ship_flag = { flag = count_disable_cleaner days = 1 }
@@ -1514,7 +1497,7 @@ country_event = {
 				fleet_event = { id = exe_invasion.145 days = 1 }
 				set_timed_fleet_flag = { flag = fired_onced_again_not days = 1 }
 			}
-			every_controlled_ship = { set_ship_flag = is_modifiering switch = {
+			every_owned_ship = { set_ship_flag = is_modifiering switch = {
 				trigger = has_global_flag
 				ban_exe_invasion = { ship_event = { id = exe_invasion.140 } }
 				difficult_exe_invasion = { ship_event = { id = exe_invasion.137 } }
@@ -1522,20 +1505,30 @@ country_event = {
 				easy_exe_invasion = { ship_event = { id = exe_invasion.144 } }
 				default = { ship_event = { id = exe_invasion.144 } }
 			} }
+			set_fleet_flag = has_kuat_flagship_system
 		}
 		if = {
 			limit = { 
 				from = { is_invisable_faction = no } 
 				has_global_flag = enable_modifer_check 
 			}
-			fromfromfrom = { every_controlled_ship = {
-				limit = { NOT = { has_ship_flag = random_list_eternal_fleet_rate_placeholder }  }
-				random_list_eternal_fleet_rate = yes set_ship_flag = fire_ship_var_repeat
-				set_timed_ship_flag = { flag = random_list_eternal_fleet_rate_placeholder days = 1 }
-			} }
+			fromfromfrom = { 
+				every_owned_ship = {
+					limit = { NOT = { has_ship_flag = random_list_eternal_fleet_rate_placeholder }  }
+					random_list_eternal_fleet_rate = yes set_ship_flag = fire_ship_var_repeat
+					set_timed_ship_flag = { flag = random_list_eternal_fleet_rate_placeholder days = 1 }
+				}
+				if = {
+					limit = { 
+						NOT = { has_fleet_flag = has_kuat_flagship_system }
+						any_owned_ship = { kuat_is_flagship_system_protection = yes }
+					}
+					set_fleet_flag = has_kuat_flagship_system
+				}
+			}
 			if = {
 				limit = { ROOT = { is_eternal_faction = yes } }
-				fromfromfrom = { every_controlled_ship = { set_ship_flag = is_modifiering switch = {
+				fromfromfrom = { every_owned_ship = { set_ship_flag = is_modifiering switch = {
 					trigger = has_global_flag
 					ban_exe_invasion = { ship_event = { id = exe_invasion.136 } }
 					difficult_exe_invasion = { ship_event = { id = exe_invasion.131 } }
@@ -1546,13 +1539,22 @@ country_event = {
 			}
 			else_if = {  
 				limit = { ROOT = { is_infinite_faction = yes } }
-				fromfromfrom = { every_controlled_ship = { set_ship_flag = is_modifiering ship_event = { id = exe_invasion.129 } } }
+				fromfromfrom = { every_owned_ship = { set_ship_flag = is_modifiering ship_event = { id = exe_invasion.129 } } }
 			}
 			else = { fromfromfrom = {
-				every_controlled_ship = { set_ship_flag = is_modifiering ship_event = { id = exe_invasion.142 } }
+				every_owned_ship = { set_ship_flag = is_modifiering ship_event = { id = exe_invasion.142 } }
 			} }
 		}
+		set_update_modifiers_batch = end
 	}
+}
+
+country_event = {
+	id = exe_invasion.146
+	hide_window = yes
+	is_triggered_only = yes
+	trigger = { fromfrom = { kuat_is_flagship_system_protection = yes } }
+	immediate = { fromfrom = { fleet = { remove_fleet_flag = has_kuat_flagship_system } } }
 }
 
 #ban_exe_invasion: fromfrom
@@ -1869,11 +1871,11 @@ country_event = {
 	trigger = {
 		is_invisable_faction = no
 		from = { is_invisable_faction = no }
-		fromfrom = { any_controlled_ship = { has_component = EXE_STARBASE_MEAGASTRUCTRUE_AUX_2 } }
+		fromfrom = { any_owned_ship = { has_component = EXE_STARBASE_MEAGASTRUCTRUE_AUX_2 } }
 	}
 	immediate = {
-		fromfromfrom = { every_controlled_ship = { set_ship_flag = is_modifiering ship_event = { id = exe_invasion.132 } } }
-		fromfrom = { every_controlled_ship = { set_ship_flag = is_modifiering ship_event = { id = exe_invasion.134 } } }
+		fromfromfrom = { every_owned_ship = { set_ship_flag = is_modifiering ship_event = { id = exe_invasion.132 } } }
+		fromfrom = { every_owned_ship = { set_ship_flag = is_modifiering ship_event = { id = exe_invasion.134 } } }
 	}
 }
 ship_event = {
@@ -1932,174 +1934,174 @@ country_event = {
 		from = { is_invisable_faction = no }
 	}
 	immediate = {
-		fromfrom = { every_controlled_ship = {
-			Root.fromfromfrom = {
-				every_controlled_ship = {
-					limit = { 
-						kuat_is_flagship_system_protection = no
-						is_disabled = no is_in_combat = yes has_hp > 0
+		set_update_modifiers_batch = begin
+		fromfromfrom = { every_owned_ship = {
+			limit = { 
+				NOT = { has_ship_flag = enable_random_list_effect }
+				kuat_is_flagship_system_protection = no
+				is_disabled = no is_in_combat = yes has_hp > 0
+			}
+			set_timed_ship_flag = { flag = enable_random_list_effect days = 1 }
+			random_list = {
+				200 = {
+					modifier = { factor = 0.2 root = { is_infinite_faction = yes } }
+					modifier = {
+						factor = 0.9
+						event_target:global_event_country = { check_variable = { which = eternal_fleet_return_index value = 1 } }
 					}
-					random_list = {
-						400 = {
-							modifier = { factor = 0.2 root = { is_infinite_faction = yes } }
-							modifier = {
-								factor = 0.9
-								event_target:global_event_country = { check_variable = { which = eternal_fleet_return_index value = 1 } }
-							}
-							modifier = {
-								factor = 0.8
-								event_target:global_event_country = { check_variable = { which = eternal_fleet_return_index value = 2 } }
-							}
-							modifier = {
-								factor = 0.7
-								event_target:global_event_country = { check_variable = { which = eternal_fleet_return_index value = 3 } }
-							}
-							modifier = {
-								factor = 0.6
-								event_target:global_event_country = { check_variable = { which = eternal_fleet_return_index value = 4 } }
-							}
-							modifier = {
-								factor = 0.5
-								event_target:global_event_country = { check_variable = { which = eternal_fleet_return_index value = 5 } }
-							}
-							modifier = {
-								factor = 0.4
-								event_target:global_event_country = { check_variable = { which = eternal_fleet_return_index value = 6 } }
-							}
-							modifier = {
-								factor = 0.3
-								event_target:global_event_country = { check_variable = { which = eternal_fleet_return_index value = 7 } }
-							}
-							modifier = {
-								factor = 0.2
-								event_target:global_event_country = { check_variable = { which = eternal_fleet_return_index value = 8 } }
-							}
-							modifier = {
-								factor = 0.1
-								event_target:global_event_country = { check_variable = { which = eternal_fleet_return_index value = 9 } }
-							}
-							modifier = {
-								factor = 0.05
-								event_target:global_event_country = { check_variable = { which = eternal_fleet_return_index value > 9 } }
-							}
-							modifier = { factor = 100 has_ship_flag = kuat_clear_ship_modifier_target }
-						}
-						# 600 Totally, 200 Available
-						10 = {
-							modifier = {
-								factor = 0
-								OR = {
-									has_ship_flag = kuat_clear_ship_modifier_target
-									owner = { is_invisable_faction = yes }
-								}
-							}
-							clear_ship_repeatable_modifier = { multiply = 0.1 DAYS = 12 }
-							set_timed_ship_flag = { flag = kuat_clear_ship_modifier_target days = 12 }
-						}
-						10 = {
-							modifier = {
-								factor = 0
-								OR = {
-									has_ship_flag = kuat_clear_ship_modifier_target
-									owner = { is_invisable_faction = yes }
-								}
-							}
-							clear_ship_repeatable_modifier = { multiply = 0.2 DAYS = 12 }
-							set_timed_ship_flag = { flag = kuat_clear_ship_modifier_target days = 12 }
-						}
-						10 = {
-							modifier = {
-								factor = 0
-								OR = {
-									has_ship_flag = kuat_clear_ship_modifier_target
-									owner = { is_invisable_faction = yes }
-								}
-							}
-							clear_ship_repeatable_modifier = { multiply = 0.3 DAYS = 8 }
-							set_timed_ship_flag = { flag = kuat_clear_ship_modifier_target days = 8 }
-						}
-						10 = {
-							modifier = {
-								factor = 0
-								OR = {
-									has_ship_flag = kuat_clear_ship_modifier_target
-									owner = { is_invisable_faction = yes }
-								}
-							}
-							clear_ship_repeatable_modifier = { multiply = 0.4 DAYS = 8 }
-							set_timed_ship_flag = { flag = kuat_clear_ship_modifier_target days = 8 }
-						}
-						10 = {
-							modifier = {
-								factor = 0
-								OR = {
-									has_ship_flag = kuat_clear_ship_modifier_target
-									owner = { is_invisable_faction = yes }
-								}
-							}
-							clear_ship_repeatable_modifier = { multiply = 0.5 DAYS = 4 }
-							set_timed_ship_flag = { flag = kuat_clear_ship_modifier_target days = 4 }
-						}
-						10 = {
-							modifier = {
-								factor = 0
-								OR = {
-									has_ship_flag = kuat_clear_ship_modifier_target
-									owner = { is_invisable_faction = yes }
-								}
-							}
-							clear_ship_repeatable_modifier = { multiply = 0.6 DAYS = 4 }
-							set_timed_ship_flag = { flag = kuat_clear_ship_modifier_target days = 4 }
-						}
-						10 = {
-							modifier = {
-								factor = 0
-								OR = {
-									has_ship_flag = kuat_clear_ship_modifier_target
-									owner = { is_invisable_faction = yes }
-								}
-							}
-							clear_ship_repeatable_modifier = { multiply = 0.7 DAYS = 2 }
-							set_timed_ship_flag = { flag = kuat_clear_ship_modifier_target days = 2 }
-						}
-						10 = {
-							modifier = {
-								factor = 0
-								OR = {
-									has_ship_flag = kuat_clear_ship_modifier_target
-									owner = { is_invisable_faction = yes }
-								}
-							}
-							clear_ship_repeatable_modifier = { multiply = 0.8 DAYS = 2 }
-							set_timed_ship_flag = { flag = kuat_clear_ship_modifier_target days = 2 }
-						}
-						10 = {
-							modifier = {
-								factor = 0
-								OR = {
-									has_ship_flag = kuat_clear_ship_modifier_target
-									owner = { is_invisable_faction = yes }
-								}
-							}
-							clear_ship_repeatable_modifier = { multiply = 0.9 DAYS = 1 }
-							set_timed_ship_flag = { flag = kuat_clear_ship_modifier_target days = 1 }
-						}
-						10 = {
-							modifier = {
-								factor = 0
-								OR = {
-									has_ship_flag = kuat_clear_ship_modifier_target
-									owner = { is_invisable_faction = yes }
-								}
-							}
-							clear_ship_repeatable_modifier = { multiply = 0.95 DAYS = 1 }
-							set_timed_ship_flag = { flag = kuat_clear_ship_modifier_target days = 1 }
+					modifier = {
+						factor = 0.8
+						event_target:global_event_country = { check_variable = { which = eternal_fleet_return_index value = 2 } }
+					}
+					modifier = {
+						factor = 0.7
+						event_target:global_event_country = { check_variable = { which = eternal_fleet_return_index value = 3 } }
+					}
+					modifier = {
+						factor = 0.6
+						event_target:global_event_country = { check_variable = { which = eternal_fleet_return_index value = 4 } }
+					}
+					modifier = {
+						factor = 0.5
+						event_target:global_event_country = { check_variable = { which = eternal_fleet_return_index value = 5 } }
+					}
+					modifier = {
+						factor = 0.4
+						event_target:global_event_country = { check_variable = { which = eternal_fleet_return_index value = 6 } }
+					}
+					modifier = {
+						factor = 0.3
+						event_target:global_event_country = { check_variable = { which = eternal_fleet_return_index value = 7 } }
+					}
+					modifier = {
+						factor = 0.2
+						event_target:global_event_country = { check_variable = { which = eternal_fleet_return_index value = 8 } }
+					}
+					modifier = {
+						factor = 0.1
+						event_target:global_event_country = { check_variable = { which = eternal_fleet_return_index value = 9 } }
+					}
+					modifier = {
+						factor = 0.05
+						event_target:global_event_country = { check_variable = { which = eternal_fleet_return_index value > 9 } }
+					}
+					modifier = { factor = 100 has_ship_flag = kuat_clear_ship_modifier_target }
+				}
+				# 400 Totally, 200 Available
+				10 = {
+					modifier = {
+						factor = 0
+						OR = {
+							has_ship_flag = kuat_clear_ship_modifier_target
+							owner = { is_invisable_faction = yes }
 						}
 					}
-					reroll_random = yes
-				} 
-			} }
-		}
+					clear_ship_repeatable_modifier = { multiply = 0.1 DAYS = 12 }
+					set_timed_ship_flag = { flag = kuat_clear_ship_modifier_target days = 12 }
+				}
+				10 = {
+					modifier = {
+						factor = 0
+						OR = {
+							has_ship_flag = kuat_clear_ship_modifier_target
+							owner = { is_invisable_faction = yes }
+						}
+					}
+					clear_ship_repeatable_modifier = { multiply = 0.2 DAYS = 12 }
+					set_timed_ship_flag = { flag = kuat_clear_ship_modifier_target days = 12 }
+				}
+				10 = {
+					modifier = {
+						factor = 0
+						OR = {
+							has_ship_flag = kuat_clear_ship_modifier_target
+							owner = { is_invisable_faction = yes }
+						}
+					}
+					clear_ship_repeatable_modifier = { multiply = 0.3 DAYS = 8 }
+					set_timed_ship_flag = { flag = kuat_clear_ship_modifier_target days = 8 }
+				}
+				10 = {
+					modifier = {
+						factor = 0
+						OR = {
+							has_ship_flag = kuat_clear_ship_modifier_target
+							owner = { is_invisable_faction = yes }
+						}
+					}
+					clear_ship_repeatable_modifier = { multiply = 0.4 DAYS = 8 }
+					set_timed_ship_flag = { flag = kuat_clear_ship_modifier_target days = 8 }
+				}
+				10 = {
+					modifier = {
+						factor = 0
+						OR = {
+							has_ship_flag = kuat_clear_ship_modifier_target
+							owner = { is_invisable_faction = yes }
+						}
+					}
+					clear_ship_repeatable_modifier = { multiply = 0.5 DAYS = 4 }
+					set_timed_ship_flag = { flag = kuat_clear_ship_modifier_target days = 4 }
+				}
+				10 = {
+					modifier = {
+						factor = 0
+						OR = {
+							has_ship_flag = kuat_clear_ship_modifier_target
+							owner = { is_invisable_faction = yes }
+						}
+					}
+					clear_ship_repeatable_modifier = { multiply = 0.6 DAYS = 4 }
+					set_timed_ship_flag = { flag = kuat_clear_ship_modifier_target days = 4 }
+				}
+				10 = {
+					modifier = {
+						factor = 0
+						OR = {
+							has_ship_flag = kuat_clear_ship_modifier_target
+							owner = { is_invisable_faction = yes }
+						}
+					}
+					clear_ship_repeatable_modifier = { multiply = 0.7 DAYS = 2 }
+					set_timed_ship_flag = { flag = kuat_clear_ship_modifier_target days = 2 }
+				}
+				10 = {
+					modifier = {
+						factor = 0
+						OR = {
+							has_ship_flag = kuat_clear_ship_modifier_target
+							owner = { is_invisable_faction = yes }
+						}
+					}
+					clear_ship_repeatable_modifier = { multiply = 0.8 DAYS = 2 }
+					set_timed_ship_flag = { flag = kuat_clear_ship_modifier_target days = 2 }
+				}
+				10 = {
+					modifier = {
+						factor = 0
+						OR = {
+							has_ship_flag = kuat_clear_ship_modifier_target
+							owner = { is_invisable_faction = yes }
+						}
+					}
+					clear_ship_repeatable_modifier = { multiply = 0.9 DAYS = 1 }
+					set_timed_ship_flag = { flag = kuat_clear_ship_modifier_target days = 1 }
+				}
+				10 = {
+					modifier = {
+						factor = 0
+						OR = {
+							has_ship_flag = kuat_clear_ship_modifier_target
+							owner = { is_invisable_faction = yes }
+						}
+					}
+					clear_ship_repeatable_modifier = { multiply = 0.95 DAYS = 1 }
+					set_timed_ship_flag = { flag = kuat_clear_ship_modifier_target days = 1 }
+				}
+			}
+			reroll_random = yes
+		} }
+		set_update_modifiers_batch = end
 	}
 }
 country_event = {
@@ -2112,172 +2114,172 @@ country_event = {
 		from = { is_invisable_faction = no }
 	}
 	immediate = { 
-		fromfromfrom.fleet = {
-			every_controlled_ship = {
-				limit = { 
-					kuat_is_flagship_system_protection = no
-					is_disabled = no is_in_combat = yes has_hp > 0
+		set_update_modifiers_batch = begin
+		fromfromfrom.fleet = { every_owned_ship = {
+			limit = { 
+				kuat_is_flagship_system_protection = no
+				is_disabled = no is_in_combat = yes has_hp > 0
+			}
+			random_list = {
+				400 = {
+					modifier = { factor = 0.2 root = { is_infinite_faction = yes } }
+					modifier = {
+						factor = 0.9
+						event_target:global_event_country = { check_variable = { which = eternal_fleet_return_index value = 1 } }
+					}
+					modifier = {
+						factor = 0.8
+						event_target:global_event_country = { check_variable = { which = eternal_fleet_return_index value = 2 } }
+					}
+					modifier = {
+						factor = 0.7
+						event_target:global_event_country = { check_variable = { which = eternal_fleet_return_index value = 3 } }
+					}
+					modifier = {
+						factor = 0.6
+						event_target:global_event_country = { check_variable = { which = eternal_fleet_return_index value = 4 } }
+					}
+					modifier = {
+						factor = 0.5
+						event_target:global_event_country = { check_variable = { which = eternal_fleet_return_index value = 5 } }
+					}
+					modifier = {
+						factor = 0.4
+						event_target:global_event_country = { check_variable = { which = eternal_fleet_return_index value = 6 } }
+					}
+					modifier = {
+						factor = 0.3
+						event_target:global_event_country = { check_variable = { which = eternal_fleet_return_index value = 7 } }
+					}
+					modifier = {
+						factor = 0.2
+						event_target:global_event_country = { check_variable = { which = eternal_fleet_return_index value = 8 } }
+					}
+					modifier = {
+						factor = 0.1
+						event_target:global_event_country = { check_variable = { which = eternal_fleet_return_index value = 9 } }
+					}
+					modifier = {
+						factor = 0.05
+						event_target:global_event_country = { check_variable = { which = eternal_fleet_return_index value > 9 } }
+					}
+					modifier = { factor = 100 has_ship_flag = kuat_clear_ship_modifier_target }
 				}
-				random_list = {
-					400 = {
-						modifier = { factor = 0.2 root = { is_infinite_faction = yes } }
-						modifier = {
-							factor = 0.9
-							event_target:global_event_country = { check_variable = { which = eternal_fleet_return_index value = 1 } }
+				# 600 Totally, 200 Available
+				10 = {
+					modifier = {
+						factor = 0
+						OR = {
+							has_ship_flag = kuat_clear_ship_modifier_target
+							owner = { is_invisable_faction = yes }
 						}
-						modifier = {
-							factor = 0.8
-							event_target:global_event_country = { check_variable = { which = eternal_fleet_return_index value = 2 } }
-						}
-						modifier = {
-							factor = 0.7
-							event_target:global_event_country = { check_variable = { which = eternal_fleet_return_index value = 3 } }
-						}
-						modifier = {
-							factor = 0.6
-							event_target:global_event_country = { check_variable = { which = eternal_fleet_return_index value = 4 } }
-						}
-						modifier = {
-							factor = 0.5
-							event_target:global_event_country = { check_variable = { which = eternal_fleet_return_index value = 5 } }
-						}
-						modifier = {
-							factor = 0.4
-							event_target:global_event_country = { check_variable = { which = eternal_fleet_return_index value = 6 } }
-						}
-						modifier = {
-							factor = 0.3
-							event_target:global_event_country = { check_variable = { which = eternal_fleet_return_index value = 7 } }
-						}
-						modifier = {
-							factor = 0.2
-							event_target:global_event_country = { check_variable = { which = eternal_fleet_return_index value = 8 } }
-						}
-						modifier = {
-							factor = 0.1
-							event_target:global_event_country = { check_variable = { which = eternal_fleet_return_index value = 9 } }
-						}
-						modifier = {
-							factor = 0.05
-							event_target:global_event_country = { check_variable = { which = eternal_fleet_return_index value > 9 } }
-						}
-						modifier = { factor = 100 has_ship_flag = kuat_clear_ship_modifier_target }
 					}
-					# 600 Totally, 200 Available
-					10 = {
-						modifier = {
-							factor = 0
-							OR = {
-								has_ship_flag = kuat_clear_ship_modifier_target
-								owner = { is_invisable_faction = yes }
-							}
-						}
-						clear_ship_repeatable_modifier = { multiply = 0.1 DAYS = 12 }
-						set_timed_ship_flag = { flag = kuat_clear_ship_modifier_target days = 12 }
-					}
-					10 = {
-						modifier = {
-							factor = 0
-							OR = {
-								has_ship_flag = kuat_clear_ship_modifier_target
-								owner = { is_invisable_faction = yes }
-							}
-						}
-						clear_ship_repeatable_modifier = { multiply = 0.2 DAYS = 12 }
-						set_timed_ship_flag = { flag = kuat_clear_ship_modifier_target days = 12 }
-					}
-					10 = {
-						modifier = {
-							factor = 0
-							OR = {
-								has_ship_flag = kuat_clear_ship_modifier_target
-								owner = { is_invisable_faction = yes }
-							}
-						}
-						clear_ship_repeatable_modifier = { multiply = 0.3 DAYS = 8 }
-						set_timed_ship_flag = { flag = kuat_clear_ship_modifier_target days = 8 }
-					}
-					10 = {
-						modifier = {
-							factor = 0
-							OR = {
-								has_ship_flag = kuat_clear_ship_modifier_target
-								owner = { is_invisable_faction = yes }
-							}
-						}
-						clear_ship_repeatable_modifier = { multiply = 0.4 DAYS = 8 }
-						set_timed_ship_flag = { flag = kuat_clear_ship_modifier_target days = 8 }
-					}
-					10 = {
-						modifier = {
-							factor = 0
-							OR = {
-								has_ship_flag = kuat_clear_ship_modifier_target
-								owner = { is_invisable_faction = yes }
-							}
-						}
-						clear_ship_repeatable_modifier = { multiply = 0.5 DAYS = 4 }
-						set_timed_ship_flag = { flag = kuat_clear_ship_modifier_target days = 4 }
-					}
-					10 = {
-						modifier = {
-							factor = 0
-							OR = {
-								has_ship_flag = kuat_clear_ship_modifier_target
-								owner = { is_invisable_faction = yes }
-							}
-						}
-						clear_ship_repeatable_modifier = { multiply = 0.6 DAYS = 4 }
-						set_timed_ship_flag = { flag = kuat_clear_ship_modifier_target days = 4 }
-					}
-					10 = {
-						modifier = {
-							factor = 0
-							OR = {
-								has_ship_flag = kuat_clear_ship_modifier_target
-								owner = { is_invisable_faction = yes }
-							}
-						}
-						clear_ship_repeatable_modifier = { multiply = 0.7 DAYS = 2 }
-						set_timed_ship_flag = { flag = kuat_clear_ship_modifier_target days = 2 }
-					}
-					10 = {
-						modifier = {
-							factor = 0
-							OR = {
-								has_ship_flag = kuat_clear_ship_modifier_target
-								owner = { is_invisable_faction = yes }
-							}
-						}
-						clear_ship_repeatable_modifier = { multiply = 0.8 DAYS = 2 }
-						set_timed_ship_flag = { flag = kuat_clear_ship_modifier_target days = 2 }
-					}
-					10 = {
-						modifier = {
-							factor = 0
-							OR = {
-								has_ship_flag = kuat_clear_ship_modifier_target
-								owner = { is_invisable_faction = yes }
-							}
-						}
-						clear_ship_repeatable_modifier = { multiply = 0.9 DAYS = 1 }
-						set_timed_ship_flag = { flag = kuat_clear_ship_modifier_target days = 1 }
-					}
-					10 = {
-						modifier = {
-							factor = 0
-							OR = {
-								has_ship_flag = kuat_clear_ship_modifier_target
-								owner = { is_invisable_faction = yes }
-							}
-						}
-						clear_ship_repeatable_modifier = { multiply = 0.95 DAYS = 1 }
-						set_timed_ship_flag = { flag = kuat_clear_ship_modifier_target days = 1 }
-					}
+					clear_ship_repeatable_modifier = { multiply = 0.1 DAYS = 12 }
+					set_timed_ship_flag = { flag = kuat_clear_ship_modifier_target days = 12 }
 				}
-				reroll_random = yes
-			} 
-		}
+				10 = {
+					modifier = {
+						factor = 0
+						OR = {
+							has_ship_flag = kuat_clear_ship_modifier_target
+							owner = { is_invisable_faction = yes }
+						}
+					}
+					clear_ship_repeatable_modifier = { multiply = 0.2 DAYS = 12 }
+					set_timed_ship_flag = { flag = kuat_clear_ship_modifier_target days = 12 }
+				}
+				10 = {
+					modifier = {
+						factor = 0
+						OR = {
+							has_ship_flag = kuat_clear_ship_modifier_target
+							owner = { is_invisable_faction = yes }
+						}
+					}
+					clear_ship_repeatable_modifier = { multiply = 0.3 DAYS = 8 }
+					set_timed_ship_flag = { flag = kuat_clear_ship_modifier_target days = 8 }
+				}
+				10 = {
+					modifier = {
+						factor = 0
+						OR = {
+							has_ship_flag = kuat_clear_ship_modifier_target
+							owner = { is_invisable_faction = yes }
+						}
+					}
+					clear_ship_repeatable_modifier = { multiply = 0.4 DAYS = 8 }
+					set_timed_ship_flag = { flag = kuat_clear_ship_modifier_target days = 8 }
+				}
+				10 = {
+					modifier = {
+						factor = 0
+						OR = {
+							has_ship_flag = kuat_clear_ship_modifier_target
+							owner = { is_invisable_faction = yes }
+						}
+					}
+					clear_ship_repeatable_modifier = { multiply = 0.5 DAYS = 4 }
+					set_timed_ship_flag = { flag = kuat_clear_ship_modifier_target days = 4 }
+				}
+				10 = {
+					modifier = {
+						factor = 0
+						OR = {
+							has_ship_flag = kuat_clear_ship_modifier_target
+							owner = { is_invisable_faction = yes }
+						}
+					}
+					clear_ship_repeatable_modifier = { multiply = 0.6 DAYS = 4 }
+					set_timed_ship_flag = { flag = kuat_clear_ship_modifier_target days = 4 }
+				}
+				10 = {
+					modifier = {
+						factor = 0
+						OR = {
+							has_ship_flag = kuat_clear_ship_modifier_target
+							owner = { is_invisable_faction = yes }
+						}
+					}
+					clear_ship_repeatable_modifier = { multiply = 0.7 DAYS = 2 }
+					set_timed_ship_flag = { flag = kuat_clear_ship_modifier_target days = 2 }
+				}
+				10 = {
+					modifier = {
+						factor = 0
+						OR = {
+							has_ship_flag = kuat_clear_ship_modifier_target
+							owner = { is_invisable_faction = yes }
+						}
+					}
+					clear_ship_repeatable_modifier = { multiply = 0.8 DAYS = 2 }
+					set_timed_ship_flag = { flag = kuat_clear_ship_modifier_target days = 2 }
+				}
+				10 = {
+					modifier = {
+						factor = 0
+						OR = {
+							has_ship_flag = kuat_clear_ship_modifier_target
+							owner = { is_invisable_faction = yes }
+						}
+					}
+					clear_ship_repeatable_modifier = { multiply = 0.9 DAYS = 1 }
+					set_timed_ship_flag = { flag = kuat_clear_ship_modifier_target days = 1 }
+				}
+				10 = {
+					modifier = {
+						factor = 0
+						OR = {
+							has_ship_flag = kuat_clear_ship_modifier_target
+							owner = { is_invisable_faction = yes }
+						}
+					}
+					clear_ship_repeatable_modifier = { multiply = 0.95 DAYS = 1 }
+					set_timed_ship_flag = { flag = kuat_clear_ship_modifier_target days = 1 }
+				}
+			}
+			reroll_random = yes
+		}  }
+		set_update_modifiers_batch = end
 	}
 }
 
@@ -2288,10 +2290,9 @@ fleet_event = {
 	is_triggered_only = yes
 	trigger = { owner = { is_eternal_faction = yes } }
 	immediate = {
-		every_controlled_ship = {
+		every_owned_ship = {
 			set_timed_ship_flag = { flag = inviciable_time_for_gate days = 1 }
 			eternal_increase_executor_power = { DAYS = -1 }
-			add_modifier = { modifier = Eternal_support multiplier = 100 days = -1 }
 			ship_event = { id = exe_invasion.1988 }
 		} 
 	}
@@ -2316,7 +2317,6 @@ ship_event = {
 		else = { 
 			set_update_modifiers_batch = begin
 			remove_executor_power = yes 
-			remove_modifier = Eternal_support 
 			set_update_modifiers_batch = end
 		}
 	}
