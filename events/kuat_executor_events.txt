@@ -1608,7 +1608,16 @@ country_event = {
 	fire_only_once = yes
 	immediate = {
 		create_kuat_fleet_country_type = yes
-		kuat_military_base_system_initial = yes
+		if = {
+			limit = { NOT = { has_global_flag = giga_has_host } }
+			kuat_military_base_system_initial = yes
+		}
+		else = { random_system = {
+			limit = { has_owner = no }
+			set_spawn_system_batch = begin
+			spawn_system = { initializer = kuat_base_system } 
+			set_spawn_system_batch = end
+		} }
 		random_playable_country = {
 			limit = { is_ai = no }
 			country_event = { id = executor_build.372 }
