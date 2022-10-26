@@ -218,6 +218,8 @@ event = {
 			set_graphical_culture = fallen_empire_kuat_01
 			create_ship_design = { design = "NAME_EXE_Starbase" }
 			add_ship_design = last_created_design
+			create_ship_design = { design = "NAME_EXE_Starbase_Construction" }
+			add_ship_design = last_created_design
 			add_modifier = { modifier = Elternal_creating }
 		}
 		while = { count = 4 random_rim_system = {
@@ -1238,9 +1240,41 @@ planet_event = {
 		}
 		from = { is_eternal_faction = yes }
 	}
-	immediate = {
+	immediate = { owner = { country_event = { id = exe_return_invasion.34 } } }
+}
+
+country_event = {
+	id = exe_return_invasion.34
+	title = "exe_invasion.21.name"
+	desc = {
+		trigger = { from = { kuat_is_event_borderment_ringworld = no } }
+		text = "exe_invasion.21.a.desc"
+	}
+	desc = {
+		trigger = { from = { kuat_is_ringworld = yes } }
+		text = "exe_invasion.21.b.desc"
+	}
+	desc = {
+		trigger = { from = { is_planet_class = pc_habitat } }
+		text = "exe_invasion.21.c.desc"
+	}
+	desc = {
+		trigger = { from = { kuat_is_holy_world_planet = yes } }
+		text = "exe_invasion.21.d.desc"
+	}
+	diplomatic = yes
+	picture_event_data = { room = nuclear_explosion_room }
+	custom_gui = "kuat_event_m_window"
+	custom_gui_option = "kuat_event_m_option"
+	show_sound = event_super_explosion
+	is_triggered_only = yes
+	trigger = { from = { OR = {
+		planet_devastation >= 100
+		num_pops < 2
+	} } }
+	option = { name = "exe_invasion.21.a" ai_chance = { weight = 100 } }
+	after = { from = {  
 		set_update_modifiers_batch = begin
-		owner = { country_event = { id = exe_return_invasion.34 } }
 		add_threat = { who = from amount = 2 }
 		add_planet_devastation = -100
 		every_owned_pop = { kill_pop = yes }
@@ -1307,35 +1341,7 @@ planet_event = {
 			}
 		}	
 		set_update_modifiers_batch = end
-	}
-}
-
-country_event = {
-	id = exe_return_invasion.34
-	title = "exe_invasion.21.name"
-	desc = {
-		trigger = { from = { kuat_is_event_borderment_ringworld = no } }
-		text = "exe_invasion.21.a.desc"
-	}
-	desc = {
-		trigger = { from = { kuat_is_ringworld = yes } }
-		text = "exe_invasion.21.b.desc"
-	}
-	desc = {
-		trigger = { from = { is_planet_class = pc_habitat } }
-		text = "exe_invasion.21.c.desc"
-	}
-	desc = {
-		trigger = { from = { kuat_is_holy_world_planet = yes } }
-		text = "exe_invasion.21.d.desc"
-	}
-	diplomatic = yes
-	picture_event_data = { room = nuclear_explosion_room }
-	custom_gui = "kuat_event_m_window"
-	custom_gui_option = "kuat_event_m_option"
-	show_sound = event_super_explosion
-	is_triggered_only = yes
-	option = { name = "exe_invasion.21.a" }
+	} }
 }
 
 #Invasion fleet killed counter. 
@@ -1580,29 +1586,24 @@ fleet_event = {
 	hide_window = yes
 	is_triggered_only = yes
 	trigger = {
-		has_global_flag = exe_return_invasion_begin
-		NOT = { has_global_flag = exe_return_invasion_ended }
-		has_fleet_flag = ag_kuat_invasion_fleet
+		exists = this
+		exists = owner
+		owner = { is_eternal_crisis = yes }
+		from = { NOT = { exists = starbase } }
 	}
 	immediate = {
 		if = {
-			limit = { exists = solar_system }
-			solar_system = { if = {
-				limit = { NOR = {
-					any_ship_in_system = { is_ship_class = shipclass_starbase }
-					any_ship_in_system = {
-						exists = owner
-						owner = { is_hostile = event_target:ag_kuat_invasion_country }
-					}
-					any_system_planet = {
-						exists = owner
-						owner = { is_hostile = event_target:ag_kuat_invasion_country }
-					}
-				} }
-				create_starbase = { size = exe_starbase owner = event_target:ag_kuat_invasion_country }
+			limit = { exists = from from = {
+				NOR = {
+					exists = starbase
+					any_fleet_in_system = { exists = owner owner = { is_hostile = root.owner } }
+					any_system_planet = { exists = owner owner = { is_hostile = root.owner } }
+				}
 			} }
+			set_update_modifiers_batch = begin
+			from = { create_starbase = { size = exe_starbase owner = root.owner } }
+			set_update_modifiers_batch = end
 		}
-		fleet_event = { id = exe_return_invasion.36 days = 1 }
 	}
 }
 

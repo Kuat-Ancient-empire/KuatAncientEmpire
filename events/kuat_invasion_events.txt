@@ -233,6 +233,8 @@ event = {
 			set_graphical_culture = fallen_empire_kuat_01
 			create_ship_design = { design = "NAME_EXE_Starbase" }
 			add_ship_design = last_created_design
+			create_ship_design = { design = "NAME_EXE_Starbase_Construction" }
+			add_ship_design = last_created_design
 			add_modifier = { modifier = Elternal_creating }
 		}
 		set_global_flag = eternal_fleet_debug_check
@@ -728,9 +730,41 @@ planet_event = {
 		}
 		from = { is_eternal_faction = yes }
 	}
-	immediate = {
+	immediate = { owner = { country_event = { id = exe_invasion.34 } } }
+}
+
+country_event = {
+	id = exe_invasion.34
+	title = "exe_invasion.21.name"
+	desc = {
+		trigger = { from = { kuat_is_event_borderment_ringworld = no } }
+		text = "exe_invasion.21.a.desc"
+	}
+	desc = {
+		trigger = { from = { kuat_is_ringworld = yes } }
+		text = "exe_invasion.21.b.desc"
+	}
+	desc = {
+		trigger = { from = { is_planet_class = pc_habitat } }
+		text = "exe_invasion.21.c.desc"
+	}
+	desc = {
+		trigger = { from = { kuat_is_holy_world_planet = yes } }
+		text = "exe_invasion.21.d.desc"
+	}
+	diplomatic = yes
+	picture_event_data = { room = nuclear_explosion_room }
+	custom_gui = "kuat_event_m_window"
+	custom_gui_option = "kuat_event_m_option"
+	show_sound = event_super_explosion
+	is_triggered_only = yes
+	trigger = { from = { OR = {
+		planet_devastation >= 100
+		num_pops < 2
+	} } }
+	option = { name = "exe_invasion.21.a" ai_chance = { weight = 100 } }
+	after = { from = {
 		set_update_modifiers_batch = begin
-		owner = { country_event = { id = exe_invasion.34 } }
 		add_threat = { who = from amount = 2 }
 		add_planet_devastation = -100
 		every_owned_pop = { kill_pop = yes }
@@ -795,37 +829,9 @@ planet_event = {
 				clear_fleet_actions = this
 				fleet_event = { id = exe_invasion.12 days = 1 random = 2 }
 			}
-		}	
+		}
 		set_update_modifiers_batch = end
-	}
-}
-
-country_event = {
-	id = exe_invasion.34
-	title = "exe_invasion.21.name"
-	desc = {
-		trigger = { from = { kuat_is_event_borderment_ringworld = no } }
-		text = "exe_invasion.21.a.desc"
-	}
-	desc = {
-		trigger = { from = { kuat_is_ringworld = yes } }
-		text = "exe_invasion.21.b.desc"
-	}
-	desc = {
-		trigger = { from = { is_planet_class = pc_habitat } }
-		text = "exe_invasion.21.c.desc"
-	}
-	desc = {
-		trigger = { from = { kuat_is_holy_world_planet = yes } }
-		text = "exe_invasion.21.d.desc"
-	}
-	diplomatic = yes
-	picture_event_data = { room = nuclear_explosion_room }
-	custom_gui = "kuat_event_m_window"
-	custom_gui_option = "kuat_event_m_option"
-	show_sound = event_super_explosion
-	is_triggered_only = yes
-	option = { name = "exe_invasion.21.a" }
+	} }
 }
 
 #Invasion fleet killed counter. 
@@ -1088,40 +1094,41 @@ ship_event = {
 }
 
 #Spawn starbase
-fleet_event = {
-	id = exe_invasion.36
-	hide_window = yes
-	is_triggered_only = yes
-	trigger = {
-		has_global_flag = exe_invasion_begin
-		NOT = { has_global_flag = exe_invasion_ended }
-		has_fleet_flag = ag_kuat_invasion_fleet
-	}
-	immediate = {
-		if = {
-			limit = { exists = solar_system }
-			solar_system = { 
-				if = {
-					limit = {
-						NOR = {
-							any_ship_in_system = { is_ship_class = shipclass_starbase }
-							any_ship_in_system = {
-								exists = owner
-								owner = { is_hostile = event_target:ag_kuat_invasion_country }
-							}
-							any_system_planet = {
-								exists = owner
-								owner = { is_hostile = event_target:ag_kuat_invasion_country }
-							}
-						}
-					}
-					create_starbase = { size = exe_starbase owner = event_target:ag_kuat_invasion_country }
-				}
-			}
-		}
-		fleet_event = { id = exe_invasion.36 days = 1 }
-	}
-}
+# fleet_event = {
+# 	id = exe_invasion.36
+# 	hide_window = yes
+# 	is_triggered_only = yes
+# 	trigger = {
+# 		# has_global_flag = exe_invasion_begin
+# 		# NOT = { has_global_flag = exe_invasion_ended }
+# 		# has_fleet_flag = ag_kuat_invasion_fleet
+# 		always = no
+# 	}
+# 	immediate = {
+# 		if = {
+# 			limit = { exists = solar_system }
+# 			solar_system = { 
+# 				if = {
+# 					limit = {
+# 						NOR = {
+# 							any_ship_in_system = { is_ship_class = shipclass_starbase }
+# 							any_ship_in_system = {
+# 								exists = owner
+# 								owner = { is_hostile = event_target:ag_kuat_invasion_country }
+# 							}
+# 							any_system_planet = {
+# 								exists = owner
+# 								owner = { is_hostile = event_target:ag_kuat_invasion_country }
+# 							}
+# 						}
+# 					}
+# 					create_starbase = { size = exe_starbase owner = event_target:ag_kuat_invasion_country }
+# 				}
+# 			}
+# 		}
+# 		fleet_event = { id = exe_invasion.36 days = 1 }
+# 	}
+# }
 
 #Invasion happen or not? 
 country_event = {
@@ -2343,21 +2350,32 @@ event = {
 	id = exe_invasion.9999
 	hide_window = yes
 	is_triggered_only = yes
-	trigger = { always = yes }
+	trigger = { any_galaxy_planet = { OR = {
+		is_same_value = event_target:kuat_ancient_epsilon_event_world
+		is_same_value = event_target:kuat_ancient_epsilon_event_world_2
+		is_same_value = event_target:kuat_ancient_epsilon_event_world_3
+	} } }
 	immediate = { 
-		if = {
-			limit = { any_country = {
-				has_country_flag = kuat_war_goal
-				NOT = { has_global_flag = kuat_war_goal }
-			} }
-			set_global_flag = kuat_war_goal
-		}
-		every_galaxy_fleet = {
+		every_galaxy_planet = {
 			limit = {
-				any_owned_ship = { has_ship_flag = enable_disable_starbase }
-				NOT = { has_fleet_flag = ag_kuat_invasion_starbase_disable }
+				OR = {
+					is_same_value = event_target:kuat_ancient_epsilon_event_world
+					is_same_value = event_target:kuat_ancient_epsilon_event_world_2
+					is_same_value = event_target:kuat_ancient_epsilon_event_world_3
+				}
 			}
-			set_fleet_flag = ag_kuat_invasion_starbase_disable
+			if = {
+				limit = { is_same_value = event_target:kuat_ancient_epsilon_event_world }
+				set_planet_flag = kuat_ancient_epsilon_event_world
+			}
+			if = {
+				limit = { is_same_value = event_target:kuat_ancient_epsilon_event_world_2 }
+				set_planet_flag = kuat_ancient_epsilon_event_world_2
+			}
+			if = {
+				limit = { is_same_value = event_target:kuat_ancient_epsilon_event_world_3 }
+				set_planet_flag = kuat_ancient_epsilon_event_world_3
+			}
 		}
 	}
 }
