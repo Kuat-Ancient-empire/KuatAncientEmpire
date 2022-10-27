@@ -1270,18 +1270,12 @@ country_event = {
 	is_triggered_only = yes
 	trigger = { from = { 
 		NOT = { has_planet_flag = exe_return_invasion_borbamment_planet } 
-		OR = { planet_devastation >= 100 num_pops < 2 } 
 	}  }
 	option = { name = "exe_invasion.21.a" ai_chance = { weight = 100 } }
-	after = { hidden_effect = { from = {  
+	after = { hidden_effect = { from = { 
+		set_update_modifiers_batch = begin 
 		set_planet_flag = exe_return_invasion_borbamment_planet
-		set_update_modifiers_batch = begin
-		add_threat = { who = from amount = 2 }
-		add_planet_devastation = -100
-		every_owned_pop = { kill_pop = yes }
-		remove_all_buildings = yes
-		remove_all_districts = yes
-		clear_deposits = yes
+		reset_planet = yes
 		destroy_colony = yes
 		if = {
 			limit = { kuat_is_ringworld = yes }

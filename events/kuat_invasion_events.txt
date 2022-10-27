@@ -760,18 +760,12 @@ country_event = {
 	is_triggered_only = yes
 	trigger = { from = { 
 		NOT = { has_planet_flag = exe_invasion_borbamment_planet } 
-		OR = { planet_devastation >= 100 num_pops < 2 } 
 	}  }
 	option = { name = "exe_invasion.21.a" ai_chance = { weight = 100 } }
 	after = { hidden_effect = { from = {
-		set_planet_flag = exe_invasion_borbamment_planet
 		set_update_modifiers_batch = begin
-		add_threat = { who = from amount = 2 }
-		add_planet_devastation = -100
-		every_owned_pop = { kill_pop = yes }
-		remove_all_buildings = yes
-		remove_all_districts = yes
-		clear_deposits = yes
+		set_planet_flag = exe_invasion_borbamment_planet
+		reset_planet = yes
 		destroy_colony = yes
 		if = {
 			limit = { kuat_is_ringworld = yes }
@@ -1251,13 +1245,13 @@ country_event = {
 	}
 	immediate = {
 		fromfrom = { if = {
-			limit = { NOT = { has_fleet_flag = fired_onced_again_not } }
+			limit = { NOT = { has_fleet_flag = random_list_eternal_fleet_rate_placeholder } }
 			if = {
 				limit = { NOT = { has_fleet_flag = ag_kuat_invasion_starbase_disable } }
 				set_fleet_flag = ag_kuat_invasion_starbase_disable
 			}
 			increase_ship_hp_effect_change = { DAYS = 6 }
-			set_timed_fleet_flag = { flag = fired_onced_again_not days = 1 }
+			set_timed_fleet_flag = { flag = random_list_eternal_fleet_rate_placeholder days = 1 }
 		} }
 	}
 } 
@@ -1482,10 +1476,11 @@ country_event = {
 					modifier = { factor = 0 OR = { is_kuat_fallen_empire = yes is_infinite_faction = yes } }
 					kuat_copy_leader_learning_system = yes
 				}
-				5 = { fromfromfrom = { every_owned_ship = { if = { 
+				5 = { fromfromfrom = { every_owned_ship = { if = {
 					limit = { check_modifier_value = { modifier = ship_hull_mult value > 2 } } 
 					clear_ship_modifier = { modifier = ship_hull_mult subtract = 2 DAYS = -1 } 
-					clear_ship_modifier = { modifier = shipclass_military_hull_mult subtract = 2 DAYS = -1 }
+				} if = { limit = { check_modifier_value = { modifier = shipclass_military_hull_mult value > 2 } } 
+					clear_ship_modifier = { modifier = shipclass_military_hull_mult subtract = 2 DAYS = -1 } 
 				} } } }
 			}
 			reroll_random = yes
@@ -1494,25 +1489,30 @@ country_event = {
 			if = {
 				limit = { 
 					owner = { is_eternal_faction = yes } NOT = {
-					has_fleet_flag = fired_onced_again_not
+					has_fleet_flag = random_list_eternal_fleet_rate_placeholder
 				} }
-				mult_half_variable = { WHICH = kuat_fleet_count_check VALUE = 0.98 }
+				mult_half_variable = { WHICH = kuat_fleet_count_check VALUE = 0.9 }
 				every_owned_ship = { 
 					limit = { NOT = { is_variable_set = combat_days } is_ship_class = shipclass_military } 
 					change_variable = { which = combat_days value = 1 } 
 					set_timed_ship_flag = { flag = count_disable_cleaner days = 1 }
 				}
 				fleet_event = { id = exe_invasion.145 days = 1 }
-				set_timed_fleet_flag = { flag = fired_onced_again_not days = 1 }
+				set_timed_fleet_flag = { flag = random_list_eternal_fleet_rate_placeholder days = 1 }
 			}
-			every_owned_ship = { set_ship_flag = is_modifiering switch = {
-				trigger = has_global_flag
-				ban_exe_invasion = { ship_event = { id = exe_invasion.140 } }
-				difficult_exe_invasion = { ship_event = { id = exe_invasion.137 } }
-				normal_exe_invasion = { ship_event = { id = exe_invasion.143 } }
-				easy_exe_invasion = { ship_event = { id = exe_invasion.144 } }
-				default = { ship_event = { id = exe_invasion.144 } }
-			} }
+			every_owned_ship = {  
+				limit = { NOT = { has_ship_flag = random_list_eternal_fleet_rate_placeholder }  }
+				set_ship_flag = is_modifiering 
+				switch = {
+					trigger = has_global_flag
+					ban_exe_invasion = { ship_event = { id = exe_invasion.140 } }
+					difficult_exe_invasion = { ship_event = { id = exe_invasion.137 } }
+					normal_exe_invasion = { ship_event = { id = exe_invasion.143 } }
+					easy_exe_invasion = { ship_event = { id = exe_invasion.144 } }
+					default = { ship_event = { id = exe_invasion.144 } }
+				}
+				set_timed_ship_flag = { flag = random_list_eternal_fleet_rate_placeholder days = 1 }
+			}
 			set_fleet_flag = has_kuat_flagship_system
 		}
 		if = {
@@ -1520,38 +1520,42 @@ country_event = {
 				from = { is_invisable_faction = no } 
 				has_global_flag = enable_modifer_check 
 			}
-			fromfromfrom = { 
-				every_owned_ship = {
-					limit = { NOT = { has_ship_flag = random_list_eternal_fleet_rate_placeholder }  }
-					random_list_eternal_fleet_rate = yes set_ship_flag = fire_ship_var_repeat
-					set_timed_ship_flag = { flag = random_list_eternal_fleet_rate_placeholder days = 1 }
+			fromfromfrom = { if = {
+				limit = { 
+					NOT = { has_fleet_flag = has_kuat_flagship_system }
+					any_owned_ship = { kuat_is_flagship_system_protection = yes }
 				}
-				if = {
-					limit = { 
-						NOT = { has_fleet_flag = has_kuat_flagship_system }
-						any_owned_ship = { kuat_is_flagship_system_protection = yes }
-					}
-					set_fleet_flag = has_kuat_flagship_system
-				}
-			}
+				set_fleet_flag = has_kuat_flagship_system
+			} }
 			if = {
 				limit = { ROOT = { is_eternal_faction = yes } }
-				fromfromfrom = { every_owned_ship = { set_ship_flag = is_modifiering switch = {
-					trigger = has_global_flag
-					ban_exe_invasion = { ship_event = { id = exe_invasion.136 } }
-					difficult_exe_invasion = { ship_event = { id = exe_invasion.131 } }
-					normal_exe_invasion = { ship_event = { id = exe_invasion.129 } }
-					easy_exe_invasion= { ship_event = { id = exe_invasion.142 } }
-					default = { ship_event = { id = exe_invasion.142 } }
-				} } }
+				fromfromfrom = { every_owned_ship = { 
+					limit = { NOT = { has_ship_flag = random_list_eternal_fleet_rate_placeholder }  }
+					set_ship_flag = is_modifiering  
+					switch = {
+						trigger = has_global_flag
+						ban_exe_invasion = { ship_event = { id = exe_invasion.136 } }
+						difficult_exe_invasion = { ship_event = { id = exe_invasion.131 } }
+						normal_exe_invasion = { ship_event = { id = exe_invasion.129 } }
+						easy_exe_invasion= { ship_event = { id = exe_invasion.142 } }
+						default = { ship_event = { id = exe_invasion.142 } }
+					}
+					set_timed_ship_flag = { flag = random_list_eternal_fleet_rate_placeholder days = 1 }
+				} }
 			}
 			else_if = {  
 				limit = { ROOT = { is_infinite_faction = yes } }
-				fromfromfrom = { every_owned_ship = { set_ship_flag = is_modifiering ship_event = { id = exe_invasion.129 } } }
+				fromfromfrom = { every_owned_ship = { 
+					limit = { NOT = { has_ship_flag = random_list_eternal_fleet_rate_placeholder }  }
+					set_ship_flag = is_modifiering ship_event = { id = exe_invasion.129 } 
+					set_timed_ship_flag = { flag = random_list_eternal_fleet_rate_placeholder days = 1 }
+				} }
 			}
-			else = { fromfromfrom = {
-				every_owned_ship = { set_ship_flag = is_modifiering ship_event = { id = exe_invasion.142 } }
-			} }
+			else = { fromfromfrom = { every_owned_ship = { 
+				limit = { NOT = { has_ship_flag = random_list_eternal_fleet_rate_placeholder }  }
+				set_ship_flag = is_modifiering ship_event = { id = exe_invasion.142 } 
+				set_timed_ship_flag = { flag = random_list_eternal_fleet_rate_placeholder days = 1 }
+			} } }
 		}
 		set_update_modifiers_batch = end
 	}
@@ -1759,6 +1763,7 @@ ship_event = {
 	immediate = { 
 		if = {
 			limit = { is_in_combat = yes }
+			random_list_eternal_fleet_rate = yes
 			set_ban_eternal_fleet_mult_modifier = {
 				hull_regen_add_perc_standard = ship_hull_regen_add_perc
 				shield_regen_add_perc_standard = ship_shield_regen_add_perc
@@ -1789,6 +1794,7 @@ ship_event = {
 	immediate = { 
 		if = {
 			limit = { is_in_combat = yes }
+			random_list_eternal_fleet_rate = yes
 			set_difiicult_eternal_fleet_mult_modifier = {
 				hull_regen_add_perc_standard = ship_hull_regen_add_perc
 				shield_regen_add_perc_standard = ship_shield_regen_add_perc
@@ -1819,6 +1825,7 @@ ship_event = {
 	immediate = { 
 		if = {
 			limit = { is_in_combat = yes }
+			random_list_eternal_fleet_rate = yes
 			set_normal_eternal_fleet_mult_modifier = {
 				hull_regen_add_perc_standard = ship_hull_regen_add_perc
 				shield_regen_add_perc_standard = ship_shield_regen_add_perc
@@ -1849,6 +1856,7 @@ ship_event = {
 	immediate = { 
 		if = {
 			limit = { is_in_combat = yes }
+			random_list_eternal_fleet_rate = yes
 			set_easy_eternal_fleet_mult_modifier = {
 				hull_regen_add_perc_standard = ship_hull_regen_add_perc
 				shield_regen_add_perc_standard = ship_shield_regen_add_perc
@@ -1882,8 +1890,16 @@ country_event = {
 		fromfrom = { count_owned_ship = { limit = { has_component = EXE_STARBASE_MEAGASTRUCTRUE_AUX_2 } count > 40 } }
 	}
 	immediate = {
-		fromfromfrom = { every_owned_ship = { set_ship_flag = is_modifiering ship_event = { id = exe_invasion.132 } } }
-		fromfrom = { every_owned_ship = { set_ship_flag = is_modifiering ship_event = { id = exe_invasion.134 } } }
+		fromfromfrom = { every_owned_ship = { 
+			limit = { NOT = { has_ship_flag = random_list_eternal_fleet_rate_placeholder }  }
+			set_ship_flag = is_modifiering ship_event = { id = exe_invasion.132 } 
+			set_timed_ship_flag = { flag = random_list_eternal_fleet_rate_placeholder days = 1 }
+		} }
+		fromfrom = { every_owned_ship = { 
+			limit = { NOT = { has_ship_flag = random_list_eternal_fleet_rate_placeholder }  }
+			set_ship_flag = is_modifiering ship_event = { id = exe_invasion.134 } 
+			set_timed_ship_flag = { flag = random_list_eternal_fleet_rate_placeholder days = 1 }
+		} }
 	}
 }
 ship_event = {
@@ -1951,7 +1967,7 @@ country_event = {
 			}
 			set_timed_ship_flag = { flag = enable_random_list_effect days = 1 }
 			random_list = {
-				200 = {
+				100 = {
 					modifier = { factor = 0.2 root = { is_infinite_faction = yes } }
 					modifier = {
 						factor = 0.9
@@ -1995,7 +2011,7 @@ country_event = {
 					}
 					modifier = { factor = 100 has_ship_flag = kuat_clear_ship_modifier_target }
 				}
-				# 400 Totally, 200 Available
+				# 200 Totally, 100 Available
 				10 = {
 					modifier = {
 						factor = 0

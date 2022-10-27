@@ -396,7 +396,7 @@ set_repeatable_eternal_fleet_mult_rate_to_damage = {
 set_repeatable_eternal_fleet_mult_damage_to_rate = {
 	if = {
 		limit = { check_modifier_value = { modifier = weapon_type_$TYPE$_weapon_damage_mult value > 200 } }
-		set_standard_battle_repeatable_modifier = { PARAMATER1 = weapon_type_$TYPE$_weapon_damage_mult PARAMATER2 = weapon_type_$TYPE$_weapon_fire_rate_mult UNIT = Tenth RATE = -0.01 } 
+		set_standard_battle_repeatable_modifier = { PARAMATER1 = weapon_type_$TYPE$_weapon_damage_mult PARAMATER2 = weapon_type_$TYPE$_weapon_fire_rate_mult UNIT = Tenth RATE = -0.00 } 
 	}
 	else_if = {
 		limit = { check_modifier_value = { modifier = weapon_type_$TYPE$_weapon_damage_mult value > 100 } }
@@ -768,7 +768,7 @@ set_eternal_fleet_protection_modifier = {
 # UNIT：Value standard
 set_standard_battle_repeatable_modifier = {
 	if = {
-		limit = { NOR = { has_ship_flag = fire_ship_var_repeat has_ship_flag = repeatable_$PARAMATER1$_ship_cooldown } }
+		limit = { NOR = { has_ship_flag = fire_ship_var has_ship_flag = repeatable_$PARAMATER1$_ship_cooldown } }
 
 		export_modifier_to_variable = { modifier = $PARAMATER1$ variable = $PARAMATER1$_value }
 		subtract_variable = { which = $PARAMATER1$_value value = @modifer_mult_$UNIT$_value }
@@ -782,7 +782,7 @@ set_standard_battle_repeatable_modifier = {
 		set_timed_ship_flag = { flag = repeatable_$PARAMATER1$_ship_cooldown days = 1 }
 	} 
 	else_if = { 
-		limit = { has_ship_flag = fire_ship_var_repeat NOT = { has_ship_flag = repeatable_$PARAMATER1$_ship_cooldown } }
+		limit = { has_ship_flag = fire_ship_var NOT = { has_ship_flag = repeatable_$PARAMATER1$_ship_cooldown } }
 
 		export_modifier_to_variable = { modifier = $PARAMATER1$ variable = change_$PARAMATER1$_value }
 		subtract_variable = { which = change_$PARAMATER1$_value value = @modifer_mult_$UNIT$_value }
@@ -991,8 +991,7 @@ remove_ship_modifier_trigger_flag = {
 		remove_fleet_flag = eternal_learned_leader 
 		remove_fleet_flag = has_kuat_flagship_system
 	}
-	remove_ship_flag = fire_ship_var 
-	remove_ship_flag = fire_ship_var_repeat
+	remove_ship_flag = fire_ship_var
 	remove_ship_flag = is_modifiering
 }
 
@@ -1148,6 +1147,9 @@ kuat_copy_leader_learning_system = {
 					every_owned_ship = { if = { 
 						limit = { check_modifier_value = { modifier = ship_hull_mult value > 2 } } 
 						clear_ship_modifier = { modifier = ship_hull_mult subtract = 2 DAYS = -1 } 
+					} if = {
+						limit = { check_modifier_value = { modifier = shipclass_military_hull_mult value > 2 } } 
+						clear_ship_modifier = { modifier = shipclass_military_hull_mult subtract = 2 DAYS = -1 }
 					} }
 				}
 				1 = {
