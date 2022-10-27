@@ -162,13 +162,11 @@ ag_exe_invasion_fleet_action = {
 							is_colony = yes
 							is_under_colonization = yes
 						}
-						NOT = {
-							any_fleet_in_orbit = {
-								exists = owner
-								owner = { is_same_value = event_target:ag_kuat_invasion_country }
-								NOT = { is_same_value = root }
-							}
-						}
+						NOT = { any_fleet_in_orbit = {
+							exists = owner
+							owner = { is_same_value = event_target:ag_kuat_invasion_country }
+							NOT = { is_same_value = root }
+						} }
 					}
 				}
 			}
@@ -185,13 +183,11 @@ ag_exe_invasion_fleet_action = {
 							is_colony = yes
 							is_under_colonization = yes
 						}
-						NOT = {
-							any_fleet_in_orbit = {
-								exists = owner
-								owner = { is_same_value = event_target:ag_kuat_invasion_country }
-								NOT = { is_same_value = root }
-							}
-						}
+						NOT = { any_fleet_in_orbit = {
+							exists = owner
+							owner = { is_same_value = event_target:ag_kuat_invasion_country }
+							NOT = { is_same_value = root }
+						} }
 					}
 					prevprev = { auto_move_to_planet = { target = prev clear_auto_move_on_arrival = yes } }
 				}
@@ -202,14 +198,12 @@ ag_exe_invasion_fleet_action = {
 		limit = {
 			root = {
 				exists = solar_system
-				solar_system = {
-					any_ship_in_system = {
-						is_disabled = no
-						is_ship_class = shipclass_military
-						exists = owner
-						owner = { is_hostile = event_target:ag_kuat_invasion_country }
-					}
-				}
+				solar_system = { any_ship_in_system = {
+					is_disabled = no
+					is_ship_class = shipclass_military
+					exists = owner
+					owner = { is_hostile = event_target:ag_kuat_invasion_country }
+				} }
 			}
 		}
 		root = {
@@ -230,51 +224,49 @@ ag_exe_invasion_fleet_action = {
 	}
 	else_if = {
 		limit = {
-			solar_system = {
-				any_neighbor_system = {
-					OR = {
-						AND = {
-							exists = starbase
-							starbase = {
-								exists = owner
-								owner = { is_hostile = event_target:ag_kuat_invasion_country }
-							}
-						}
-						any_ship_in_system = {
-							is_disabled = no
-							is_ship_class = shipclass_military
+			solar_system = { closest_system = {
+				limit = { OR = {
+					AND = {
+						exists = starbase
+						starbase = {
 							exists = owner
 							owner = { is_hostile = event_target:ag_kuat_invasion_country }
 						}
 					}
-				}
-			}
+					any_ship_in_system = {
+						is_disabled = no
+						is_ship_class = shipclass_military
+						exists = owner
+						owner = { is_hostile = event_target:ag_kuat_invasion_country }
+					}
+				} }
+				use_bypasses = yes
+				max_steps = 10
+			} }
 		}
-		solar_system = {
-			random_neighbor_system = {
-				limit = {
-					OR = {
-						AND = {
-							exists = starbase
-							starbase = {
-								exists = owner
-								owner = { is_hostile = event_target:ag_kuat_invasion_country }
-							}
-						}
-						any_ship_in_system = {
-							is_disabled = no
-							is_ship_class = shipclass_military
-							exists = owner
-							owner = { is_hostile = event_target:ag_kuat_invasion_country }
-						}
+		solar_system = { closest_system = {
+			limit = { OR = {
+				AND = {
+					exists = starbase
+					starbase = {
+						exists = owner
+						owner = { is_hostile = event_target:ag_kuat_invasion_country }
 					}
 				}
-				random_system_planet = {
-					limit = { is_primary_star = yes }
-					prevprevprev = { auto_move_to_planet = { target = prev clear_auto_move_on_arrival = yes } }
+				any_ship_in_system = {
+					is_disabled = no
+					is_ship_class = shipclass_military
+					exists = owner
+					owner = { is_hostile = event_target:ag_kuat_invasion_country }
 				}
+			} }
+			use_bypasses = yes
+			max_steps = 10
+			random_system_planet = {
+				limit = { is_primary_star = yes }
+				prevprevprev = { auto_move_to_planet = { target = prev clear_auto_move_on_arrival = yes } }
 			}
-		}
+		} }
 	}
 	else_if = {
 		limit = {
