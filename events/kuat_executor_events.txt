@@ -1976,29 +1976,28 @@ country_event = {
 	id = executor_build.29
 	hide_window = yes
 	is_triggered_only = yes
-	trigger = { is_ai = no }
+	trigger = { always = yes }
 	immediate = { 
 		set_update_modifiers_batch = begin
 		set_country_flag = executor_build_command_limit_running
 		if = {
-			limit = { command_limit >= 800 }
-			if = {
-				limit = { 
-					exists = event_target:ag_kuat_invasion_country 
-					has_global_flag = ban_exe_invasion
-					has_global_flag = enable_modifer_check
-				}
-				remove_modifier = basic_country_command_limit_add
-				remove_modifier = iep_basic_country_command_limit_mult
-				country_event = { id = executor_build.291 }
-				country_event = { id = executor_build.29 days = 180 }
+			limit = { 
+				command_limit > 4000 
+				exists = event_target:ag_kuat_invasion_country 
+				has_global_flag = ban_exe_invasion
+				has_global_flag = enable_modifer_check
 			}
-			else = {
-				remove_modifier = basic_country_command_limit_add
-				remove_modifier = iep_basic_country_command_limit_mult
-				country_event = { id = executor_build.291 }
-				country_event = { id = executor_build.29 days = 30 }
-			}
+			remove_modifier = basic_country_command_limit_add
+			remove_modifier = iep_basic_country_command_limit_mult
+			country_event = { id = executor_build.291 }
+			country_event = { id = executor_build.29 days = 180 }
+		}
+		else_if = {
+			limit = { command_limit > 800 }
+			remove_modifier = basic_country_command_limit_add
+			remove_modifier = iep_basic_country_command_limit_mult
+			country_event = { id = executor_build.291 }
+			country_event = { id = executor_build.29 days = 30 }
 		}
 		else = { country_event = { id = executor_build.29 days = 360 } }
 		set_update_modifiers_batch = end
@@ -2019,18 +2018,18 @@ country_event = {
 				has_global_flag = enable_modifer_check
 				NOT = { check_modifier_value = { modifier = country_command_limit_add value = 3980 } }
 			}
-			clear_ship_modifier = { modifier = country_command_limit_mult DAYS = 180 }
+			clear_ship_modifier = { modifier = country_command_limit_mult DAYS = -1 }
 			export_modifier_to_variable = { modifier = country_command_limit_add variable = country_command_limit_add_value }
 			subtract_variable = { which = country_command_limit_add_value value = 3980 }
-			set_invasion_fleet_basic_modifier = { SUB = basic_country_command_limit_add FACTOR = country_command_limit_add_value DAYS = 180 }
+			set_invasion_fleet_basic_modifier = { SUB = basic_country_command_limit_add FACTOR = country_command_limit_add_value DAYS = -1 }
 			if = { limit = { is_variable_set = country_command_limit_add_value } clear_variable = country_command_limit_add_value }
 		}
 		else_if = {
 			limit = { NOT = { check_modifier_value = { modifier = country_command_limit_add value = 780 } } }
-			clear_ship_modifier = { modifier = country_command_limit_mult DAYS = 30 }
+			clear_ship_modifier = { modifier = country_command_limit_mult DAYS = -1 }
 			export_modifier_to_variable = { modifier = country_command_limit_add variable = country_command_limit_add_value }
 			subtract_variable = { which = country_command_limit_add_value value = 780 }
-			set_invasion_fleet_basic_modifier = { SUB = basic_country_command_limit_add FACTOR = country_command_limit_add_value DAYS = 30 }
+			set_invasion_fleet_basic_modifier = { SUB = basic_country_command_limit_add FACTOR = country_command_limit_add_value DAYS = -1 }
 			if = { limit = { is_variable_set = country_command_limit_add_value } clear_variable = country_command_limit_add_value }
 		}
 		set_update_modifiers_batch = end

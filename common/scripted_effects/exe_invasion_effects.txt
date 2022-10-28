@@ -50,12 +50,9 @@ ag_exe_invasion_fleet_wandering_action = {
 			if = {
 				limit = { exists = event_target:ag_exe_invasion_fleet_wandering_action_target }
 				event_target:ag_exe_invasion_fleet_wandering_action_target = {
-					random_system_planet = {
-						limit = { is_primary_star = yes }
-						prevprev = { auto_move_to_planet = { target = prev clear_auto_move_on_arrival = yes } }
-					}
+					system_star = { prevprev = { auto_move_to_planet = { target = prev clear_auto_move_on_arrival = yes } } }
 				}
-			} else = { fleet_event = { id = exe_invasion.12 days = 10 random = 2 } }
+			} else = { fleet_event = { id = exe_invasion.12 days = 32 random = 5 } }
 		}
 		25 = {
 			modifier = { 
@@ -140,7 +137,8 @@ ag_exe_invasion_fleet_wandering_action = {
 							prevprev = { auto_move_to_planet = { target = prev clear_auto_move_on_arrival = yes } }
 						}
 					}
-				} else = { fleet_event = { id = exe_invasion.12 days = 10 random = 2 } }
+				} 
+				else = { fleet_event = { id = exe_invasion.12 days = 32 random = 5 } }
 			}
 		}
 	}
@@ -224,27 +222,20 @@ ag_exe_invasion_fleet_action = {
 	}
 	else_if = {
 		limit = {
-			solar_system = { closest_system = {
-				limit = { OR = {
-					AND = {
-						exists = starbase
-						starbase = {
-							exists = owner
-							owner = { is_hostile = event_target:ag_kuat_invasion_country }
-						}
-					}
-					any_ship_in_system = {
-						is_disabled = no
-						is_ship_class = shipclass_military
-						exists = owner
-						owner = { is_hostile = event_target:ag_kuat_invasion_country }
-					}
-				} }
-				use_bypasses = yes
-				max_steps = 10
-			} }
+			solar_system = { any_neighbor_system = { OR = {
+				AND = {
+					exists = starbase
+					starbase = { exists = owner owner = { is_hostile = event_target:ag_kuat_invasion_country } }
+				}
+				any_ship_in_system = {
+					is_disabled = no
+					is_ship_class = shipclass_military
+					exists = owner
+					owner = { is_hostile = event_target:ag_kuat_invasion_country }
+				}
+			} } }
 		}
-		solar_system = { closest_system = {
+		solar_system = { random_neighbor_system = {
 			limit = { OR = {
 				AND = {
 					exists = starbase
@@ -260,12 +251,7 @@ ag_exe_invasion_fleet_action = {
 					owner = { is_hostile = event_target:ag_kuat_invasion_country }
 				}
 			} }
-			use_bypasses = yes
-			max_steps = 10
-			random_system_planet = {
-				limit = { is_primary_star = yes }
-				prevprevprev = { auto_move_to_planet = { target = prev clear_auto_move_on_arrival = yes } }
-			}
+			system_star = { prevprevprev = { auto_move_to_planet = { target = prev clear_auto_move_on_arrival = yes } } }
 		} }
 	}
 	else_if = {
@@ -292,10 +278,7 @@ ag_exe_invasion_fleet_action = {
 						has_star_flag = Kuat_system_int_3
 					}
 				}
-				random_system_planet = {
-					limit = { is_primary_star = yes }
-					prevprev = { auto_move_to_planet = { target = prev clear_auto_move_on_arrival = yes } }
-				}
+				system_star = { prevprev = { auto_move_to_planet = { target = prev clear_auto_move_on_arrival = yes } } }
 			}
 		}
 		else_if = {
@@ -314,10 +297,7 @@ ag_exe_invasion_fleet_action = {
 						has_star_flag = Kuat_system_int_2
 					}
 				}
-				random_system_planet = {
-					limit = { is_primary_star = yes }
-					prevprev = { auto_move_to_planet = { target = prev clear_auto_move_on_arrival = yes } }
-				}
+				system_star = { prevprev = { auto_move_to_planet = { target = prev clear_auto_move_on_arrival = yes } } }
 			}
 		}
 		else_if = {
@@ -336,10 +316,7 @@ ag_exe_invasion_fleet_action = {
 						has_star_flag = Kuat_system_int_1
 					} 
 				}
-				random_system_planet = {
-					limit = { is_primary_star = yes }
-					prevprev = { auto_move_to_planet = { target = prev clear_auto_move_on_arrival = yes } }
-				}
+				system_star = { prevprev = { auto_move_to_planet = { target = prev clear_auto_move_on_arrival = yes } } }
 			}
 		}
 		else_if = {
@@ -357,10 +334,7 @@ ag_exe_invasion_fleet_action = {
 					has_star_flag = ag_exe_invasion_gate_system
 					any_system_megastructure = { is_megastructure_type = exe_outer_gate }
 				}
-				random_system_planet = {
-					limit = { is_primary_star = yes }
-					prevprev = { auto_move_to_planet = { target = prev clear_auto_move_on_arrival = yes } }
-				}
+				system_star = { prevprev = { auto_move_to_planet = { target = prev clear_auto_move_on_arrival = yes } } }
 			}
 		}
 	}
@@ -477,12 +451,8 @@ ag_exe_invasion_fleet_action = {
 									}
 								}
 							}
-						} else = {
-							random_system_planet = {
-								limit = { is_primary_star = yes }
-								prevprev = { auto_move_to_planet = { target = prev clear_auto_move_on_arrival = yes } }
-							}
-						}
+						} 
+						else = { system_star = { prevprev = { auto_move_to_planet = { target = prev clear_auto_move_on_arrival = yes } } } }
 					}
 				} else = {
 					closest_system = {
@@ -598,12 +568,8 @@ ag_exe_invasion_fleet_action = {
 										}
 									}
 								}
-							} else = {
-								random_system_planet = {
-									limit = { is_primary_star = yes }
-									prevprev = { auto_move_to_planet = { target = prev clear_auto_move_on_arrival = yes } }
-								}
-							}
+							} 
+							else = { system_star = { prevprev = { auto_move_to_planet = { target = prev clear_auto_move_on_arrival = yes } } } }
 						}
 					} else = { ag_exe_invasion_fleet_wandering_action = yes }
 				}
@@ -729,12 +695,8 @@ ag_exe_invasion_fleet_action = {
 									}
 								}
 							}
-						} else = {
-							random_system_planet = {
-								limit = { is_primary_star = yes }
-								prevprev = { auto_move_to_planet = { target = prev clear_auto_move_on_arrival = yes } }
-							}
-						}
+						} 
+						else = { system_star = { prevprev = { auto_move_to_planet = { target = prev clear_auto_move_on_arrival = yes } } } }
 					}
 				} else = {
 					random_system = {
@@ -852,12 +814,8 @@ ag_exe_invasion_fleet_action = {
 										}
 									}
 								}
-							} else = {
-								random_system_planet = {
-									limit = { is_primary_star = yes }
-									prevprev = { auto_move_to_planet = { target = prev clear_auto_move_on_arrival = yes } }
-								}
-							}
+							} 
+							else = { system_star = { prevprev = { auto_move_to_planet = { target = prev clear_auto_move_on_arrival = yes } } } }
 						}
 					} else = { ag_exe_invasion_fleet_wandering_action = yes }
 				}

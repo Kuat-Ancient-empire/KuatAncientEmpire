@@ -1077,7 +1077,11 @@ fleet_event = {
 	hide_window = yes
 	is_triggered_only = yes
 	trigger = { exists = this }
-	immediate = { ag_exe_invasion_fleet_action = yes }
+	immediate = { 
+		set_update_modifiers_batch = begin
+		ag_exe_invasion_fleet_action = yes 
+		set_update_modifiers_batch = end
+	}
 }
 
 #Invasion fleet action on win a space battle. 
@@ -1142,10 +1146,7 @@ fleet_event = {
 		has_fleet_flag = ag_kuat_invasion_fleet
 		from = {
 			NOR = {
-				has_star_flag = Kuat_system
-				has_star_flag = Kuat_system_1
-				has_star_flag = Kuat_system_2
-				has_star_flag = Kuat_system_3
+				kuat_is_kuat_system = yes
 				has_star_flag = ag_exe_invasion_gate_system
 			}
 			any_fleet_in_system = {
@@ -1159,15 +1160,7 @@ fleet_event = {
 		clear_fleet_actions = this
 		from = {
 			random_neighbor_system = {
-				random_system_planet = {
-					limit = { is_primary_star = yes }
-					prevprev = {
-						auto_move_to_planet = {
-							target = prev
-							clear_auto_move_on_arrival = yes
-						}
-					}
-				}
+				system_star = { prevprev = { auto_move_to_planet = { target = prev clear_auto_move_on_arrival = yes } } }
 			}
 		}
 	}
@@ -1232,51 +1225,17 @@ planet_event = {
 	hide_window = yes
 	is_triggered_only = yes
 	trigger = {
+		exists = owner
 		has_global_flag = exe_return_invasion_begin
 		NOT = { has_global_flag = exe_return_invasion_ended }
-		OR = {
-			planet_devastation >= 100
-			num_pops < 2
-		}
+		planet_devastation = 100
 		from = { is_eternal_faction = yes }
 	}
-	immediate = { owner = { country_event = { id = exe_return_invasion.34 } } }
-}
-
-country_event = {
-	id = exe_return_invasion.34
-	title = "exe_invasion.21.name"
-	desc = {
-		trigger = { from = { kuat_is_event_borderment_ringworld = no } }
-		text = "exe_invasion.21.a.desc"
-	}
-	desc = {
-		trigger = { from = { kuat_is_ringworld = yes } }
-		text = "exe_invasion.21.b.desc"
-	}
-	desc = {
-		trigger = { from = { is_planet_class = pc_habitat } }
-		text = "exe_invasion.21.c.desc"
-	}
-	desc = {
-		trigger = { from = { kuat_is_holy_world_planet = yes } }
-		text = "exe_invasion.21.d.desc"
-	}
-	diplomatic = yes
-	picture_event_data = { room = nuclear_explosion_room }
-	custom_gui = "kuat_event_m_window"
-	custom_gui_option = "kuat_event_m_option"
-	show_sound = event_super_explosion
-	is_triggered_only = yes
-	trigger = { from = { 
-		NOT = { has_planet_flag = exe_return_invasion_borbamment_planet } 
-	}  }
-	option = { name = "exe_invasion.21.a" ai_chance = { weight = 100 } }
-	after = { hidden_effect = { from = { 
+	immediate = { 
 		set_update_modifiers_batch = begin 
-		set_planet_flag = exe_return_invasion_borbamment_planet
 		reset_planet = yes
 		destroy_colony = yes
+		owner = { country_event = { id = exe_return_invasion.34 } } 
 		if = {
 			limit = { kuat_is_ringworld = yes }
 			spawn_ringworld_cracker_effect = yes
@@ -1336,7 +1295,35 @@ country_event = {
 			}
 		}	
 		set_update_modifiers_batch = end
-	} } }
+	}
+}
+
+country_event = {
+	id = exe_return_invasion.34
+	title = "exe_invasion.21.name"
+	desc = {
+		trigger = { from = { kuat_is_event_borderment_ringworld = no } }
+		text = "exe_invasion.21.a.desc"
+	}
+	desc = {
+		trigger = { from = { kuat_is_ringworld = yes } }
+		text = "exe_invasion.21.b.desc"
+	}
+	desc = {
+		trigger = { from = { is_planet_class = pc_habitat } }
+		text = "exe_invasion.21.c.desc"
+	}
+	desc = {
+		trigger = { from = { kuat_is_holy_world_planet = yes } }
+		text = "exe_invasion.21.d.desc"
+	}
+	diplomatic = yes
+	picture_event_data = { room = nuclear_explosion_room }
+	custom_gui = "kuat_event_m_window"
+	custom_gui_option = "kuat_event_m_option"
+	show_sound = event_super_explosion
+	is_triggered_only = yes
+	option = { name = "exe_invasion.21.a" ai_chance = { weight = 100 } }
 }
 
 #Invasion fleet killed counter. 
@@ -1551,9 +1538,9 @@ country_event = {
 				country_event = { id = exe_return_invasion.38 days = 30 random = 2 }
 			}
 			if = {
-				limit = { is_ai = no has_origin = origin_kuat_apocalyptic  }
-				event_target:global_event_country = { change_variable = { which = eternal_fleet_return_index value = 1 } }
-				change_variable = { which = eternal_bornus_var value = 4000 }
+				limit = { is_ai = no has_origin = origin_kuat_apocalyptic }
+				event_target:global_event_country = { change_variable = { which = eternal_fleet_return_index value = 3 } }
+				change_variable = { which = eternal_bornus_var value = 12000 }
 				reset_return_eternal_fleet = yes
 			}
 			if = {
