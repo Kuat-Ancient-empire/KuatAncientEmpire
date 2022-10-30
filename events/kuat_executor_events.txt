@@ -1982,13 +1982,14 @@ country_event = {
 		set_country_flag = executor_build_command_limit_running
 		if = {
 			limit = { 
-				command_limit > 4000 
+				NOT = { command_limit = 4000 }
 				exists = event_target:ag_kuat_invasion_country 
 				has_global_flag = ban_exe_invasion
 				has_global_flag = enable_modifer_check
 			}
 			remove_modifier = basic_country_command_limit_add
 			remove_modifier = iep_basic_country_command_limit_mult
+			remove_modifier = iep_basic_country_command_limit_add
 			country_event = { id = executor_build.291 days = 1 }
 			country_event = { id = executor_build.29 days = 180 }
 		}
@@ -1996,6 +1997,7 @@ country_event = {
 			limit = { command_limit > 800 }
 			remove_modifier = basic_country_command_limit_add
 			remove_modifier = iep_basic_country_command_limit_mult
+			remove_modifier = iep_basic_country_command_limit_add
 			country_event = { id = executor_build.291 days = 1 }
 			country_event = { id = executor_build.29 days = 30 }
 		}
@@ -2019,6 +2021,7 @@ country_event = {
 				NOT = { check_modifier_value = { modifier = country_command_limit_add value = 3980 } }
 			}
 			clear_ship_modifier = { modifier = country_command_limit_mult DAYS = -1 }
+			clear_ship_modifier = { modifier = country_command_limit_add DAYS = -1 }
 			export_modifier_to_variable = { modifier = country_command_limit_add variable = country_command_limit_add_value }
 			subtract_variable = { which = country_command_limit_add_value value = 3980 }
 			set_invasion_fleet_basic_modifier = { SUB = basic_country_command_limit_add FACTOR = country_command_limit_add_value DAYS = -1 }
@@ -2027,6 +2030,7 @@ country_event = {
 		else_if = {
 			limit = { NOT = { check_modifier_value = { modifier = country_command_limit_add value = 780 } } }
 			clear_ship_modifier = { modifier = country_command_limit_mult DAYS = -1 }
+			clear_ship_modifier = { modifier = country_command_limit_add DAYS = -1 }
 			export_modifier_to_variable = { modifier = country_command_limit_add variable = country_command_limit_add_value }
 			subtract_variable = { which = country_command_limit_add_value value = 780 }
 			set_invasion_fleet_basic_modifier = { SUB = basic_country_command_limit_add FACTOR = country_command_limit_add_value DAYS = -1 }
@@ -2040,7 +2044,10 @@ country_event = {
 	id = executor_build.292
 	hide_window = yes
 	is_triggered_only = yes
-	trigger = { has_origin = origin_eternalthrone }
+	trigger = { 
+		has_origin = origin_eternalthrone 
+		kuat_is_forbidden_ee_production_var = no
+	}
 	immediate = { country_event = { id = executor_build.293 days = 3 random = 5 } }
 }
 
@@ -2048,7 +2055,10 @@ country_event = {
 	id = executor_build.293
 	hide_window = yes
 	is_triggered_only = yes
-	trigger = { has_origin = origin_eternalthrone }
+	trigger = { 
+		has_origin = origin_eternalthrone 
+		kuat_is_forbidden_ee_production_var = no
+	}
 	immediate = { every_owned_planet = {
 		if = {
 			limit = { 
