@@ -2109,9 +2109,7 @@ planet_event = {
 	custom_gui = "kuat_event_m_window"
 	custom_gui_option = "kuat_event_m_option"
 	is_triggered_only = yes
-	pre_triggers = {
-		has_owner = yes
-	}
+	pre_triggers = { has_owner = yes }
 	trigger = { 
 		has_planet_flag = colonied_eternal_ringworld
 		NOT = { has_planet_flag = colonied_eternal_ringworld_over }
@@ -2121,27 +2119,95 @@ planet_event = {
 	immediate = { set_planet_flag = colonied_eternal_ringworld_over }
 	option = {
 		name = executor_build.294.a
-		hidden_effect = { while = { limit = { free_district_slots > 1 } add_district = district_arcology_kuat_housing } }
-	}
-	option = {
-		name = executor_build.294.b
-		hidden_effect = { while = { limit = { free_district_slots > 1 } add_district = district_arcology_kuat_Military } }
+		hidden_effect = { 
+			while = { limit = { free_district_slots > 0 } add_district = district_arcology_kuat_housing } 
+			if = { limit = { free_building_slots > 0 owner = { is_nirvana_empire_council = yes } } add_building = building_cloud_castle }
+			if = { limit = { free_building_slots > 0 owner = { is_nirvana_empire_dragon = yes } } add_building = building_aurora_shrine }
+			if = { limit = { free_building_slots > 0 owner = { has_technology = tr_eternal_building_alloys_Forge } } add_building = building_eternal_alloys_Forge add_building = building_foundry_1 }
+			if = { limit = { free_building_slots > 0 owner = { has_authority = auth_starshipgirls has_technology = swgs_tech_starshipgirls_assembly_plant } } add_building = swgs_building_starshipgirls_assembly_plant }
+			if = { limit = { free_building_slots > 0 owner = { has_authority = auth_starshipgirls has_technology = swgs_tech_building_Fleet_Forge } } add_building = swgs_building_Fleet_Forge }
+			if = { limit = { free_building_slots > 0 owner = { has_authority = auth_starshipgirls has_technology = swgs_building_eddy_monument } } add_building = swgs_building_eddy_monument }
+			if = { limit = { free_building_slots > 0 owner = { has_authority = auth_starshipgirls has_technology = swgs_tech_coordinated_operations } } add_building = swgs_building_fleet_academy }
+			if = { limit = { free_building_slots > 0 owner = { has_authority = auth_starshipgirls has_trait = swg_trait_dark_side } } add_building = swgs_building_trial_court }
+			if = { limit = { free_building_slots > 0 owner = { has_authority = auth_starshipgirls has_trait = swg_trait_ligth_side } } add_building = swgs_building_jedi_temple }
+			if = { limit = { free_building_slots > 0 owner = { has_authority = auth_starshipgirls has_trait = swgs_tech_coordinated_operations } } add_building = swgs_building_fleetlink }
+			while = { limit = { free_building_slots > 0 owner = { has_technology = tr_eternal_building_research_center } } add_building = building_eternal_research_center }
+		}
 	}
 	option = {
 		name = executor_build.294.c
-		hidden_effect = { while = { limit = { free_district_slots > 1 } add_district = district_arcology_kuat_science } }
+		hidden_effect = { 
+			while = { limit = { free_district_slots > 0 } add_district = district_arcology_kuat_science } 
+			if = { limit = { free_building_slots > 0 owner = { is_nirvana_empire_council = yes } } add_building = building_cloud_castle }
+			if = { limit = { free_building_slots > 0 owner = { is_nirvana_empire_dragon = yes } } add_building = building_aurora_shrine }
+			if = { limit = { free_building_slots > 0 owner = { has_technology = tr_eternal_building_business_complex } } add_building = building_eternal_business_complex }
+			if = { limit = { free_building_slots > 0 owner = { has_authority = auth_starshipgirls has_technology = swgs_tech_starshipgirls_assembly_plant } } add_building = swgs_building_starshipgirls_assembly_plant }
+			if = { limit = { free_building_slots > 0 owner = { has_authority = auth_starshipgirls has_technology = swgs_building_eddy_monument } } add_building = swgs_building_eddy_monument }
+			if = { limit = { free_building_slots > 0 owner = { has_authority = auth_starshipgirls has_trait = swgs_tech_coordinated_operations } } add_building = swgs_building_fleetlink }
+			while = { limit = { free_building_slots > 0 owner = { has_technology = tr_eternal_building_research_center } } add_building = building_eternal_research_center }
+		} 
+	}
+	option = {
+		name = executor_build.294.b
+		hidden_effect = { 
+			while = { limit = { free_district_slots > 0 } add_district = district_arcology_kuat_Military }
+			if = { limit = { free_building_slots > 0 owner = { is_nirvana_empire_council = yes } } add_building = building_cloud_castle }
+			if = { limit = { free_building_slots > 0 owner = { is_nirvana_empire_dragon = yes } } add_building = building_aurora_shrine }
+			if = { limit = { free_building_slots > 0 owner = { has_technology = tr_eternal_building_alloys_Forge } } add_building = building_eternal_alloys_Forge add_building = building_foundry_1 }
+			if = { limit = { free_building_slots > 0 owner = { has_authority = auth_starshipgirls has_technology = swgs_tech_starshipgirls_assembly_plant } } add_building = swgs_building_starshipgirls_assembly_plant }
+			if = { limit = { free_building_slots > 0 owner = { has_authority = auth_starshipgirls has_technology = swgs_tech_building_Fleet_Forge } } add_building = swgs_building_Fleet_Forge }
+			if = { limit = { free_building_slots > 0 owner = { has_authority = auth_starshipgirls has_technology = swgs_building_eddy_monument } } add_building = swgs_building_eddy_monument }
+			if = { limit = { free_building_slots > 0 owner = { has_authority = auth_starshipgirls has_trait = swgs_tech_coordinated_operations } } add_building = swgs_building_fleetlink }
+			while = { limit = { free_building_slots > 0 owner = { has_technology = tr_eternal_building_volatile resource_income_compare = { resource = volatile_motes value < 1001 } } } add_building = building_eternal_volatile_focer }
+			while = { limit = { free_building_slots > 0 owner = { has_technology = tr_eternal_building_research_center resource_income_compare = { resource = volatile_motes value > 1000 } } } add_building = building_eternal_research_center }
+		}
 	}
 	option = {
 		name = executor_build.294.d
-		hidden_effect = { while = { limit = { free_district_slots > 1 } add_district = district_arcology_kuat_Khaydarin } }
+		hidden_effect = { 
+			while = { limit = { free_district_slots > 0 } add_district = district_arcology_kuat_Khaydarin } 
+			if = { limit = { free_building_slots > 0 owner = { is_nirvana_empire_council = yes } } add_building = building_cloud_castle }
+			if = { limit = { free_building_slots > 0 owner = { is_nirvana_empire_dragon = yes } } add_building = building_aurora_shrine }
+			if = { limit = { free_building_slots > 0 owner = { has_technology = tr_eternal_building_alloys_Forge } } add_building = building_eternal_alloys_Forge add_building = building_foundry_1 }
+			if = { limit = { free_building_slots > 0 owner = { has_authority = auth_starshipgirls has_technology = swgs_tech_starshipgirls_assembly_plant } } add_building = swgs_building_starshipgirls_assembly_plant }
+			if = { limit = { free_building_slots > 0 owner = { has_authority = auth_starshipgirls has_technology = swgs_tech_building_Fleet_Forge } } add_building = swgs_building_Fleet_Forge }
+			if = { limit = { free_building_slots > 0 owner = { has_authority = auth_starshipgirls has_technology = swgs_building_eddy_monument } } add_building = swgs_building_eddy_monument }
+			if = { limit = { free_building_slots > 0 owner = { has_authority = auth_starshipgirls has_trait = swgs_tech_coordinated_operations } } add_building = swgs_building_fleetlink }
+			while = { limit = { free_building_slots > 0 owner = { has_technology = tr_eternal_building_exotic resource_income_compare = { resource = exotic_gases value < 1001 } } } add_building = building_eternal_exotic_focer }
+			while = { limit = { free_building_slots > 0 owner = { has_technology = tr_eternal_building_research_center resource_income_compare = { resource = exotic_gases value > 1000 } } } add_building = building_eternal_research_center }
+		}
 	}
 	option = {
 		name = executor_build.294.e
-		hidden_effect = { while = { limit = { free_district_slots > 1 } add_district = district_arcology_Kuat_civilian_industry } }
+		hidden_effect = { 
+			while = { limit = { free_district_slots > 0 } add_district = district_arcology_Kuat_civilian_industry }
+			if = { limit = { free_building_slots > 0 owner = { is_nirvana_empire_council = yes } } add_building = building_cloud_castle }
+			if = { limit = { free_building_slots > 0 owner = { is_nirvana_empire_dragon = yes } } add_building = building_aurora_shrine }
+			if = { limit = { free_building_slots > 0 owner = { has_technology = tr_eternal_building_alloys_Forge } } add_building = building_eternal_alloys_Forge add_building = building_foundry_1 }
+			if = { limit = { free_building_slots > 0 owner = { has_authority = auth_starshipgirls has_technology = swgs_tech_starshipgirls_assembly_plant } } add_building = swgs_building_starshipgirls_assembly_plant }
+			if = { limit = { free_building_slots > 0 owner = { has_authority = auth_starshipgirls has_technology = swgs_tech_building_Fleet_Forge } } add_building = swgs_building_Fleet_Forge } 
+			if = { limit = { free_building_slots > 0 owner = { has_authority = auth_starshipgirls has_technology = swgs_building_eddy_monument } } add_building = swgs_building_eddy_monument }
+			if = { limit = { free_building_slots > 0 owner = { has_authority = auth_starshipgirls has_trait = swgs_tech_coordinated_operations } } add_building = swgs_building_fleetlink }
+			while = { limit = { free_building_slots > 0 owner = { has_technology = tr_eternal_building_crystals resource_income_compare = { resource = rare_crystals value < 1001 } } } add_building = building_eternal_crystals_focer }
+			while = { limit = { free_building_slots > 0 owner = { has_technology = tr_eternal_building_research_center resource_income_compare = { resource = rare_crystals value > 1000 } } } add_building = building_eternal_research_center }
+		}
 	}
 	option = {
 		name = executor_build.294.f
-		hidden_effect = { while = { limit = { free_district_slots > 1 } add_district = district_arcology_eternal_Khaydarin } }
+		hidden_effect = { 
+			while = { limit = { free_district_slots > 0 } add_district = district_arcology_eternal_Khaydarin } 
+			if = { limit = { free_building_slots > 0 owner = { is_nirvana_empire_council = yes } } add_building = building_cloud_castle }
+			if = { limit = { free_building_slots > 0 owner = { is_nirvana_empire_dragon = yes } } add_building = building_aurora_shrine }
+			if = { limit = { free_building_slots > 0 owner = { has_technology = tr_eternal_building_alloys_Forge } } add_building = building_eternal_alloys_Forge add_building = building_foundry_1 }
+			if = { limit = { free_building_slots > 0 owner = { has_authority = auth_starshipgirls has_technology = swgs_tech_starshipgirls_assembly_plant } } add_building = swgs_building_starshipgirls_assembly_plant }
+			if = { limit = { free_building_slots > 0 owner = { has_authority = auth_starshipgirls has_technology = swgs_tech_building_Fleet_Forge } } add_building = swgs_building_Fleet_Forge } 
+			if = { limit = { free_building_slots > 0 owner = { has_authority = auth_starshipgirls has_technology = swgs_building_eddy_monument } } add_building = swgs_building_eddy_monument }
+			if = { limit = { free_building_slots > 0 owner = { has_authority = auth_starshipgirls has_technology = swgs_tech_coordinated_operations } } add_building = swgs_building_fleet_academy }
+			if = { limit = { free_building_slots > 0 owner = { has_authority = auth_starshipgirls has_trait = swg_trait_dark_side } } add_building = swgs_building_trial_court }
+			if = { limit = { free_building_slots > 0 owner = { has_authority = auth_starshipgirls has_trait = swg_trait_ligth_side } } add_building = swgs_building_jedi_temple }
+			if = { limit = { free_building_slots > 0 owner = { has_authority = auth_starshipgirls has_trait = swgs_tech_coordinated_operations } } add_building = swgs_building_fleetlink }
+			while = { limit = { free_building_slots > 0 owner = { has_technology = tr_eternal_building_research_center } } add_building = building_eternal_research_center }
+		}
 	}
 }
 
