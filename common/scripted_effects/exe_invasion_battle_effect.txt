@@ -1117,80 +1117,49 @@ kuat_copy_leader_learning_system = {
 	optimize_memory
 	if = {
 		limit = { 
-			fromfromfrom = { NOT = { has_fleet_flag = eternal_learned_leader } } 
+			fromfromfrom = { 
+				exists = leader
+				leader = { 
+					leader_class = admiral
+					NOT = { has_leader_flag = eternal_learned_leader } 
+				}
+				NOT = { has_fleet_flag = eternal_learned_leader } 
+			} 
 			from = { is_ai = no }
 		}
 		fromfromfrom = {
-			random_list = {
-				1 = { 
-					modifier = {
-						set = 0
-						OR = {
-							NOT = { exists = leader }
-							NOT = { leader_class = admiral }
-							leader = { has_leader_flag = eternal_learned_leader }
-						}
-					}
-					set_fleet_flag = eternal_learned_leader
-					leader = { set_timed_leader_flag = { flag = eternal_learned_leader days = 180 } }
-					root = {
-						clone_leader = {
-							class = admiral
-							target = prev.leader
-							effect = { save_event_target_as = eternal_learned_leader_copy }
-						}
-						fromfrom = {
-							if = {
-								limit = { NOT = { has_fleet_flag = have_learned_leader } }
-								if = {
-									limit = { exists = leader }
-									leader = { kill_leader = { show_notification = no } }
-								}
-								assign_leader = event_target:eternal_learned_leader_copy
-								set_timed_fleet_flag = { flag = have_learned_leader days = 180 }
-							}
-							else = { owner = { 
-								random_owned_fleet = {
-									limit = { NOT = { has_fleet_flag = have_learned_leader } }
-									if = {
-										limit = { exists = leader }
-										leader = { kill_leader = { show_notification = no } }
-									}
-									assign_leader = event_target:eternal_learned_leader_copy
-									set_timed_fleet_flag = { flag = have_learned_leader days = 180 }
-								}
-							} }
-						}
-						from = { country_event = { id = exe_invasion.141 } }
-					}
+			set_fleet_flag = eternal_learned_leader
+			leader = { set_timed_leader_flag = { flag = eternal_learned_leader days = 180 } }
+			root = {
+				clone_leader = {
+					class = admiral
+					target = prev.leader
+					effect = { save_event_target_as = eternal_learned_leader_copy }
 				}
-				1 = {  
-					modifier = {
-						set = 0
-						NOT = { any_owned_ship = { check_modifier_value = { modifier = ship_hull_mult value > 2 } } }
+				fromfrom = {
+					if = {
+						limit = { NOT = { has_fleet_flag = have_learned_leader } }
+						if = {
+							limit = { exists = leader }
+							leader = { kill_leader = { show_notification = no } }
+						}
+						assign_leader = event_target:eternal_learned_leader_copy
+						set_timed_fleet_flag = { flag = have_learned_leader days = 180 }
 					}
-					every_owned_ship = { if = { 
-						limit = { check_modifier_value = { modifier = ship_hull_mult value > 2 } } 
-						clear_ship_modifier = { modifier = ship_hull_mult subtract = 2 DAYS = -1 } 
-					} if = {
-						limit = { check_modifier_value = { modifier = shipclass_military_hull_mult value > 2 } } 
-						clear_ship_modifier = { modifier = shipclass_military_hull_mult subtract = 2 DAYS = -1 }
+					else = { owner = { 
+						random_owned_fleet = {
+							limit = { NOT = { has_fleet_flag = have_learned_leader } }
+							if = {
+								limit = { exists = leader }
+								leader = { kill_leader = { show_notification = no } }
+							}
+							assign_leader = event_target:eternal_learned_leader_copy
+							set_timed_fleet_flag = { flag = have_learned_leader days = 180 }
+						}
 					} }
 				}
-				1 = {
-					modifier = {
-						set = 100
-						OR = {
-							NOT = { exists = leader }
-							NOT = { leader_class = admiral }
-							leader = { has_leader_flag = eternal_learned_leader }
-							NOT = { any_owned_ship = { check_modifier_value = { modifier = ship_hull_mult value > 2 } } }
-						}
-					}
-					no_events = yes
-				}
+				from = { country_event = { id = exe_invasion.141 } }
 			}
-			reroll_random = yes
 		}
 	}
 }
