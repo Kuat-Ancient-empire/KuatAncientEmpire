@@ -1258,22 +1258,22 @@ country_event = {
 		} }
 	}
 } 
-ship_event = {
-	id = exe_invasion.115
-	hide_window = yes
-	is_triggered_only = yes
-	trigger = { has_ship_flag = enable_disable_starbase }
-	immediate = {
-		if = {
-			limit = { has_ship_flag = is_invisiable_trigger }
-			repair_ship = yes set_disabled = no
-		} 
-		else = { 
-			repair_ship = yes set_disabled = no set_disable_at_health = -1  
-			fleet = { remove_fleet_flag = ag_kuat_invasion_starbase_disable }
-		}
-	}
-}
+# ship_event = {
+# 	id = exe_invasion.115
+# 	hide_window = yes
+# 	is_triggered_only = yes
+# 	trigger = { has_ship_flag = enable_disable_starbase }
+# 	immediate = {
+# 		if = {
+# 			limit = { has_ship_flag = is_invisiable_trigger }
+# 			repair_ship = yes set_disabled = no
+# 		} 
+# 		else = { 
+# 			repair_ship = yes set_disabled = no set_disable_at_health = -1  
+# 			fleet = { remove_fleet_flag = ag_kuat_invasion_starbase_disable }
+# 		}
+# 	}
+# }
 country_event = {
 	id = exe_invasion.118
 	hide_window = yes
@@ -1292,27 +1292,27 @@ country_event = {
 	}
 }
 
-ship_event = {
-	id = exe_invasion.128
-	hide_window = yes
-	is_triggered_only = yes
-	trigger = { OR = {
-		has_ship_flag = ag_kae_ge_primary_portal
-		has_ship_flag = ag_kae_ge_secondary_portal
-	} }
-	immediate = {
-		if = {
-			limit = { solar_system = {
-				any_fleet_in_system = { OR = {
-					has_fleet_flag = ag_kae_ge_secondary_portal_guradian
-					has_fleet_flag = ag_kae_ge_primary_portal_guradian
-				} }
-			} }
-			repair_ship = yes set_disabled = no
-		} 
-		else = { repair_ship = yes set_disabled = no set_disable_at_health = -1 }
-	}
-}
+# ship_event = {
+# 	id = exe_invasion.128
+# 	hide_window = yes
+# 	is_triggered_only = yes
+# 	trigger = { OR = {
+# 		has_ship_flag = ag_kae_ge_primary_portal
+# 		has_ship_flag = ag_kae_ge_secondary_portal
+# 	} }
+# 	immediate = {
+# 		if = {
+# 			limit = { solar_system = {
+# 				any_fleet_in_system = { OR = {
+# 					has_fleet_flag = ag_kae_ge_secondary_portal_guradian
+# 					has_fleet_flag = ag_kae_ge_primary_portal_guradian
+# 				} }
+# 			} }
+# 			repair_ship = yes set_disabled = no
+# 		} 
+# 		else = { repair_ship = yes set_disabled = no set_disable_at_health = -1 }
+# 	}
+# }
 
 #FLEET INVISIABLE WITHOUT SPECIAL
 ship_event = {
@@ -1340,10 +1340,7 @@ country_event = {
 	trigger = {
 		is_player_country = yes
 		is_invisable_faction = no
-		from = { NOR = {
-			is_eternal_faction = yes
-			is_infinite_faction = yes
-		} }
+		from = { NOR = { is_eternal_faction = yes is_infinite_faction = yes } }
 	}
 	immediate = {
 		FROMFROM = { if = {
@@ -1369,10 +1366,7 @@ country_event = {
 	is_triggered_only = yes
 	trigger = { 
 		is_kuat_fallen_empire = yes 
-		from = { NOR = {
-			is_eternal_faction = yes
-			is_infinite_faction = yes
-		} }
+		from = { NOR = { is_eternal_faction = yes is_infinite_faction = yes } }
 	}
 	immediate = {
 		FROMFROM = { if = {
@@ -1416,12 +1410,40 @@ ship_event = {
 	id = exe_invasion.124
 	hide_window = yes
 	is_triggered_only = yes
-	trigger = { owner = { is_eternal_faction = yes } }
+	trigger = { OR = {
+		AND = { exists = this OR = {
+			has_ship_flag = ag_kae_ge_primary_portal
+			has_ship_flag = ag_kae_ge_secondary_portal
+			has_ship_flag = enable_disable_starbase
+		} }
+		AND = { exists = owner owner = { is_eternal_faction = yes } }
+		AND = { exists = fleet fleet = { has_fleet_flag = has_kuat_disable_checkpoint } }
+	} }
 	immediate = { 
-		repair_ship = yes set_disabled = no
-		if = { 
-			limit = { NOT = { has_ship_flag = count_disable_cleaner } } 
-			change_variable = { which = disable_time value = 1 } 
+		if = {
+			limit = { exists = owner owner = { is_eternal_faction = yes } }
+			repair_ship = yes set_disabled = no change_variable = { which = disable_time value = 1 }
+		}
+		if = {
+			limit = { exists = fleet fleet = { has_fleet_flag = has_kuat_disable_checkpoint } }
+			change_variable = { which = disable_time_checkpoint value = 1 }
+			if = { limit = { check_variable = { which = disable_time_checkpoint value > 3 } } fleet = { destroy_fleet = { target = this destroy_template = yes kill_leader = yes } } }
+		}
+		if = {
+			limit = { exists = this has_ship_flag = enable_disable_starbase }
+			if = { limit = { has_ship_flag = is_invisiable_trigger } repair_ship = yes set_disabled = no } 
+			else = { repair_ship = yes set_disabled = no set_disable_at_health = -1 fleet = { remove_fleet_flag = ag_kuat_invasion_starbase_disable } }
+		}
+		if = {
+			limit = { exists = this OR = { has_ship_flag = ag_kae_ge_primary_portal has_ship_flag = ag_kae_ge_secondary_portal } }
+			if = {
+				limit = { solar_system = { any_fleet_in_system = { OR = {
+					has_fleet_flag = ag_kae_ge_secondary_portal_guradian
+					has_fleet_flag = ag_kae_ge_primary_portal_guradian
+				} } } }
+				repair_ship = yes set_disabled = no
+			} 
+			else = { repair_ship = yes set_disabled = no set_disable_at_health = -1 }
 		}
 	}
 }
@@ -1502,7 +1524,6 @@ country_event = {
 				every_owned_ship = { 
 					limit = { NOT = { is_variable_set = combat_days } is_ship_class = shipclass_military } 
 					change_variable = { which = combat_days value = 1 } 
-					set_timed_ship_flag = { flag = count_disable_cleaner days = 1 }
 				}
 				fleet_event = { id = exe_invasion.145 days = 1 }
 				set_timed_fleet_flag = { flag = random_list_eternal_fleet_rate_placeholder days = 1 }
@@ -1527,13 +1548,20 @@ country_event = {
 				from = { is_invisable_faction = no } 
 				has_global_flag = enable_modifer_check 
 			}
-			fromfromfrom = { if = {
-				limit = { 
-					NOT = { has_fleet_flag = has_kuat_flagship_system }
-					any_owned_ship = { kuat_is_flagship_system_protection = yes }
+			fromfromfrom = { 
+				if = {
+					limit = { 
+						NOT = { has_fleet_flag = has_kuat_flagship_system }
+						any_owned_ship = { kuat_is_flagship_system_protection = yes }
+					}
+					set_fleet_flag = has_kuat_flagship_system
+				} 
+				if = {
+					limit = { NOT = { has_fleet_flag = has_kuat_disable_checkpoint } }
+					every_owned_ship = { clear_variable = disable_time_checkpoint }
+					set_fleet_flag = has_kuat_disable_checkpoint
 				}
-				set_fleet_flag = has_kuat_flagship_system
-			} }
+			}
 			if = {
 				limit = { ROOT = { is_eternal_faction = yes } }
 				fromfromfrom = { every_owned_ship = { 
