@@ -5,5 +5,5 @@ tags={
 	"Events"
 }
 name="Star Wars: Kuat Ancient Empire"
-supported_version="3.5.*"
+supported_version="3.6.*"
 remote_file_id="2461014769"
