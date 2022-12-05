@@ -1175,7 +1175,7 @@ country_event = {
 		set_update_modifiers_batch = begin
 		fromfrom = { if = {
 			limit = {	
-				check_variable = { which = Eternal_support_var value < 1 }
+				NOT = { has_fleet_flag = fire_only_once_temple }
 				has_enable_flag_ship_system_true = yes
 				has_enable_flag_ship_system_false = yes
 			}
@@ -1216,6 +1216,7 @@ country_event = {
 					ship_event = { id = exe_invasion.114 }
 				}
 			}
+			set_timed_fleet_flag = { flag = fire_only_once_temple days = 1 }
 		} }
 		set_update_modifiers_batch = end
 	}
@@ -1232,8 +1233,8 @@ ship_event = {
 		}
 		else = {
 			set_update_modifiers_batch = begin
-			remove_executor_power = yes remove_ship_flag = is_invisiable_trigger
-			fleet = { while = { count = Eternal_support_var remove_modifier = Eternal_support } clear_variable = Eternal_support_var }
+			remove_executor_power = yes 
+			remove_ship_flag = is_invisiable_trigger
 			set_update_modifiers_batch = end
 		}
 	}
@@ -1274,23 +1275,23 @@ country_event = {
 # 		}
 # 	}
 # }
-country_event = {
-	id = exe_invasion.118
-	hide_window = yes
-	is_triggered_only = yes
-	trigger = {
-		from = { is_eternal_faction = yes }
-		fromfrom = { check_variable = { which = Eternal_support_var value > 0 } }
-	}
-	immediate = { 
-		set_update_modifiers_batch = begin
-		FROMFROM = { 
-			while = { count = Eternal_support_var remove_modifier = Eternal_support } 
-			clear_variable = Eternal_support_var
-		} 
-		set_update_modifiers_batch = end
-	}
-}
+# country_event = {
+# 	id = exe_invasion.118
+# 	hide_window = yes
+# 	is_triggered_only = yes
+# 	trigger = {
+# 		from = { is_eternal_faction = yes }
+# 		fromfrom = { check_variable = { which = Eternal_support_var value > 0 } }
+# 	}
+# 	immediate = { 
+# 		set_update_modifiers_batch = begin
+# 		FROMFROM = { 
+# 			while = { count = Eternal_support_var remove_modifier = Eternal_support } 
+# 			clear_variable = Eternal_support_var
+# 		} 
+# 		set_update_modifiers_batch = end
+# 	}
+# }
 
 # ship_event = {
 # 	id = exe_invasion.128
@@ -1384,26 +1385,26 @@ country_event = {
 		} }
 	}
 }
-country_event = {
-	id = exe_invasion.123
-	hide_window = yes
-	is_triggered_only = yes
-	trigger = {
-		OR = {
-			AND = {
-				is_eternal_faction = yes
-				FROMFROM = { check_variable = { which = Eternal_support_var value > 0 } }
-			}
-			FROMFROM = { check_variable = { which = Eternal_submit_var value > 0 } }
-		}
-	}
-	immediate = { 
-		set_update_modifiers_batch = begin
-		FROMFROM = { while = { count = Eternal_support_var remove_modifier = Eternal_support }  clear_variable = Eternal_support_var } 
-		FROMFROM = { while = { count = Eternal_submit_var remove_modifier = Eternal_submit }   clear_variable = Eternal_submit_var }
-		set_update_modifiers_batch = end
-	}
-}
+# country_event = {
+# 	id = exe_invasion.123
+# 	hide_window = yes
+# 	is_triggered_only = yes
+# 	trigger = {
+# 		OR = {
+# 			AND = {
+# 				is_eternal_faction = yes
+# 				FROMFROM = { check_variable = { which = Eternal_support_var value > 0 } }
+# 			}
+# 			FROMFROM = { check_variable = { which = Eternal_submit_var value > 0 } }
+# 		}
+# 	}
+# 	immediate = { 
+# 		set_update_modifiers_batch = begin
+# 		FROMFROM = { while = { count = Eternal_support_var remove_modifier = Eternal_support }  clear_variable = Eternal_support_var } 
+# 		FROMFROM = { while = { count = Eternal_submit_var remove_modifier = Eternal_submit }   clear_variable = Eternal_submit_var }
+# 		set_update_modifiers_batch = end
+# 	}
+# }
 
 #debug for special component weapon destroyed
 ship_event = {
@@ -1427,7 +1428,7 @@ ship_event = {
 		if = {
 			limit = { exists = fleet fleet = { has_fleet_flag = has_kuat_disable_checkpoint } }
 			change_variable = { which = disable_time_checkpoint value = 1 }
-			if = { limit = { check_variable = { which = disable_time_checkpoint value > 4 } } set_disable_at_health = -1 }
+			if = { limit = { check_variable = { which = disable_time_checkpoint value > 4 } } destroy_ship = this }
 		}
 		if = {
 			limit = { exists = this has_ship_flag = enable_disable_starbase }
