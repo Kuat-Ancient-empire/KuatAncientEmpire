@@ -2004,8 +2004,13 @@ country_event = {
 	hide_window = yes
 	is_triggered_only = yes
 	trigger = { always = yes }
-	immediate = { 
-		set_country_flag = executor_build_command_limit_running
+	immediate = {
+		if = {
+			limit = { command_limit = 800 NOT = { 
+				has_country_flag = ever_command_limit_800 
+			} }
+			set_country_flag = ever_command_limit_800
+		}
 		if = {
 			limit = { 
 				NOT = { command_limit = 4000 }
@@ -2019,7 +2024,13 @@ country_event = {
 			country_event = { id = executor_build.29 days = 15 }
 		}
 		else_if = {
-			limit = { command_limit > 800 }
+			limit = { OR = {
+				command_limit > 800 
+				AND = {
+					command_limit < 800
+					has_country_flag = ever_command_limit_800
+				}
+			} }
 			clear_ship_modifier = { modifier = country_command_limit_mult DAYS = -1 }
 			clear_ship_modifier = { modifier = country_command_limit_add DAYS = -1 }
 			country_event = { id = executor_build.291 days = 1 }
@@ -2221,5 +2232,43 @@ planet_event = {
 		}
 		remove_planet_flag = enable_kuat_shield
 		set_timed_planet_flag = { flag = enable_kuat_shield_cooldown days = 1800 }
+	}
+}
+
+country_event = {
+	id = executor_build.296
+	hide_window = yes
+	is_triggered_only = yes
+	trigger = { always = yes }
+	immediate = { 
+		if = {
+			limit = { command_limit = 800 NOT = { 
+				has_country_flag = ever_command_limit_800 
+			} }
+			set_country_flag = ever_command_limit_800
+		}
+		if = {
+			limit = { 
+				NOT = { command_limit = 4000 }
+				exists = event_target:ag_kuat_invasion_country 
+				has_global_flag = ban_exe_invasion
+				has_global_flag = enable_modifer_check
+			}
+			clear_ship_modifier = { modifier = country_command_limit_mult DAYS = -1 }
+			clear_ship_modifier = { modifier = country_command_limit_add DAYS = -1 }
+			country_event = { id = executor_build.291 days = 1 }
+		}
+		else_if = {
+			limit = { OR = {
+				command_limit > 800 
+				AND = {
+					command_limit < 800
+					has_country_flag = ever_command_limit_800
+				}
+			} }
+			clear_ship_modifier = { modifier = country_command_limit_mult DAYS = -1 }
+			clear_ship_modifier = { modifier = country_command_limit_add DAYS = -1 }
+			country_event = { id = executor_build.291 days = 1 }
+		}
 	}
 }
