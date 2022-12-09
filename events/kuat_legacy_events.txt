@@ -675,6 +675,7 @@ ship_event = {
 	immediate = {
 		solar_system = {
 			set_star_flag = kuat_starbase_megastructure_in_system
+			set_star_flag = kuat_starbase_megastructure_around_system
 			random_system_planet = {
 				limit = { is_primary_star = yes }
 				set_planet_size = 1
@@ -689,17 +690,34 @@ ship_event = {
 				}
 				add_modifier = { modifier = "exe_megastructure_starbase_in_system" }
 			}
+			create_ambient_object = { type = "space_storm_1" location = this }
+			add_modifier = { modifier = "kuat_starbase_megastructure_around_system" }
+			every_system = {
+				limit = {
+					NOT = { is_same_value = prev }
+					distance = {
+						source = prev 
+						type = euclidean
+						min_distance >= 0
+						max_distance <= 25
+					}
+					NOT = { has_star_flag = kuat_starbase_megastructure_around_system }
+				}
+				set_star_flag = kuat_starbase_megastructure_around_system
+				add_modifier = { modifier = "kuat_starbase_megastructure_around_system" }
+				create_ambient_object = { type = "space_storm_1" location = this }
+			}
 			every_system = {
 				limit = {
 					has_star_flag = kuat_starbase_megastructure_in_system
 					NOT = { any_fleet_in_system = { has_fleet_flag = kuat_station_player } }
 				}
 				remove_star_flag = kuat_starbase_megastructure_in_system
+				remove_star_flag = kuat_starbase_megastructure_around_system
+				remove_modifier = "kuat_starbase_megastructure_around_system"
 				every_system_planet = {
-					if = {
-						limit = { has_modifier = "exe_megastructure_starbase_in_system" }
-						remove_modifier = "exe_megastructure_starbase_in_system"
-					}
+					limit = { has_modifier = "exe_megastructure_starbase_in_system" }
+					remove_modifier = "exe_megastructure_starbase_in_system"
 				}
 				random_system_planet = {
 					limit = { is_primary_star = yes }
@@ -707,6 +725,21 @@ ship_event = {
 					set_planet_size = 18
 				}
 				set_star_class = sc_black_hole
+				every_system_ambient_object = { limit = { is_ambient_object_type = space_storm_1 } destroy_ambient_object = this }
+				every_system = {
+					limit = {
+						distance = {
+							source = prev 
+							type = euclidean
+							min_distance >= 0
+							max_distance <= 25
+						}
+						has_star_flag = kuat_starbase_megastructure_around_system
+					}
+					remove_star_flag = kuat_starbase_megastructure_around_system
+					remove_modifier = "kuat_starbase_megastructure_around_system"
+					every_system_ambient_object = { limit = { is_ambient_object_type = space_storm_1 } destroy_ambient_object = this }
+				}
 			}
 		}
 	}
@@ -725,11 +758,11 @@ country_event = {
 	immediate = {
 		fromfrom.solar_system = {
 			remove_star_flag = kuat_starbase_megastructure_in_system
+			remove_star_flag = kuat_starbase_megastructure_around_system
+			remove_modifier = "kuat_starbase_megastructure_around_system"
 			every_system_planet = {
-				if = {
-					limit = { has_modifier = "exe_megastructure_starbase_in_system" }
-					remove_modifier = "exe_megastructure_starbase_in_system"
-				}
+				limit = { has_modifier = "exe_megastructure_starbase_in_system" }
+				remove_modifier = "exe_megastructure_starbase_in_system"
 			}
 			random_system_planet = {
 				limit = { is_primary_star = yes }
@@ -737,6 +770,21 @@ country_event = {
 				change_pc = pc_black_hole
 			}
 			set_star_class = sc_black_hole
+			every_system_ambient_object = { limit = { is_ambient_object_type = space_storm_1 } destroy_ambient_object = this }
+			every_system = {
+				limit = {
+					distance = {
+						source = prev 
+						type = euclidean
+						min_distance >= 0
+						max_distance <= 25
+					}
+					has_star_flag = kuat_starbase_megastructure_around_system
+				}
+				remove_star_flag = kuat_starbase_megastructure_around_system
+				remove_modifier = "kuat_starbase_megastructure_around_system"
+				every_system_ambient_object = { limit = { is_ambient_object_type = space_storm_1 } destroy_ambient_object = this }
+			}
 		}
 	}
 }
@@ -1144,6 +1192,7 @@ fleet_event = {
 					create_ship_design = { design = "Name_boss_X308_Titan" }
 					add_ship_design = last_created_design
 				} } }
+				set_country_flag = Kuat_B_facility_area_over
 			} 
 			if = {
 				limit = { 
@@ -1162,6 +1211,7 @@ fleet_event = {
 					set_country_flag = can_have_starbase_country
 					add_research_option = tech_kuat_starbase 
 				}
+				set_country_flag = Kuat_A_facility_area_over
 			} 
 		}
 	}
@@ -1716,6 +1766,7 @@ country_event = {
 	trigger = { has_country_flag = fire_the_legacy_kuat_stage_7 }
 	immediate = {
 		save_event_target_as = interesting_country
+		set_country_flag = Kuat_C_facility_area_over
 		random_system_within_border = {
 			limit = { has_star_flag = myst_system_3 }
 			spawn_system = { initializer = myst_system_4 hyperlane = no }
@@ -2489,6 +2540,9 @@ ship_event = {
 	custom_gui = "kuat_event_m_window"
 	custom_gui_option = "kuat_event_m_option"
 	immediate = {
+		owner = {
+			set_country_flag = Kuat_D_facility_area_over
+		}
 		set_spawn_system_batch = begin
 		solar_system = {
 			closest_system = {
