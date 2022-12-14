@@ -143,6 +143,8 @@ clear_ship_repeatable_modifier = {
 remove_executor_power = {
 	optimize_memory
 	remove_ship_flag = has_eternal_increase_executor_power
+	remove_modifier = iep_basic_ship_armor_hardening_add
+	remove_modifier = iep_basic_ship_shield_hardening_add	
 	remove_modifier = iep_basic_ship_shield_penetration_mult
 	remove_modifier = iep_basic_ship_armor_penetration_mult			
 	remove_modifier = iep_basic_ship_armor_damage_mult				
@@ -644,7 +646,8 @@ set_ban_eternal_fleet_mult_modifier = {
 set_eternal_fleet_standard_modifier = {
 	if = { 
 		limit = { 
-			NOR = { has_ship_flag = fire_ship_var has_ship_flag = $PARAMATER$_ship_cooldown }
+			NOT = { has_ship_flag = $PARAMATER$_ship_cooldown }
+			check_variable = { which = fire_ship_var value < 1 }
 			check_modifier_value = { modifier = $PARAMATER$ value $RELATION$ $OUTPUT_VALUE$ }
 		}
 		export_modifier_to_variable = { modifier = $PARAMATER$ variable = $PARAMATER$_value }
@@ -655,13 +658,13 @@ set_eternal_fleet_standard_modifier = {
 	} 
 	else_if = { 
 		limit = { 
-			has_ship_flag = fire_ship_var NOT = { has_ship_flag = $PARAMATER$_ship_cooldown }
+			check_variable = { which = fire_ship_var value = 1 } 
+			NOT = { has_ship_flag = $PARAMATER$_ship_cooldown }
 			check_modifier_value = { modifier = $PARAMATER$ value $RELATION$ $OUTPUT_VALUE$ }
 		}
 		export_modifier_to_variable = { modifier = $PARAMATER$ variable = change_$PARAMATER$_value }
 		change_variable = { which = change_$PARAMATER$_value value = $UNIT_VALUE$ }
 		add_modifier = { modifier = change_basic_$PARAMATER$ multiplier = change_$PARAMATER$_value }
-		if = { limit = { is_variable_set = change_$PARAMATER$_value } clear_variable = change_$PARAMATER$_value }
 		set_timed_ship_flag = { flag = $PARAMATER$_ship_cooldown days = 1 }
 	}
 }
@@ -674,7 +677,8 @@ set_eternal_fleet_standard_modifier = {
 set_eternal_fleet_damage_modifier = {
 	if = {
 		limit = { 
-			NOR = { has_ship_flag = fire_ship_var has_ship_flag = $PARAMATER$_ship_cooldown }
+			NOT = { has_ship_flag = $PARAMATER$_ship_cooldown }
+			check_variable = { which = fire_ship_var value < 1 }
 			check_modifier_value = { modifier = $PARAMATER$ value > @mult_modifer_mult_$UNIT$_value } 
 		}
 		export_modifier_to_variable = { modifier = $PARAMATER$ variable = $PARAMATER$_value }
@@ -684,8 +688,19 @@ set_eternal_fleet_damage_modifier = {
 		set_timed_ship_flag = { flag = $PARAMATER$_ship_cooldown days = 1 }
 	} 
 	else_if = { 
-		limit = { has_ship_flag = fire_ship_var NOT = { has_ship_flag = $PARAMATER$_ship_cooldown } }
-		if = {
+		limit = { check_variable = { which = fire_ship_var value = 1 } NOT = { has_ship_flag = $PARAMATER$_ship_cooldown } }
+		if = { # -99
+			limit = { 
+				NAND = { exists = solar_system solar_system = { has_kuat_support_modifier_star_flag = yes } }
+				check_modifier_value = { modifier = $PARAMATER$ value $RELATION$ @mult_modifer_mult_$UNIT1$_value } 
+				fleet = { has_fleet_flag = has_kuat_flagship_system }
+			}
+			export_modifier_to_variable = { modifier = $PARAMATER$ variable = change_$PARAMATER$_value }
+			change_variable = { which = change_$PARAMATER$_value value = @modifer_mult_$UNIT1$_value }
+			add_modifier = { modifier = change_basic_$PARAMATER$ multiplier = change_$PARAMATER$_value }
+			set_timed_ship_flag = { flag = $PARAMATER$_ship_cooldown days = 1 }
+		}
+		else_if = { #-75
 			limit = { 
 				exists = solar_system
 				solar_system = { has_kuat_support_modifier_star_flag = yes } 
@@ -695,19 +710,17 @@ set_eternal_fleet_damage_modifier = {
 			export_modifier_to_variable = { modifier = $PARAMATER$ variable = change_$PARAMATER$_value }
 			change_variable = { which = change_$PARAMATER$_value value = @modifer_mult_$UNIT2$_value }
 			add_modifier = { modifier = change_basic_$PARAMATER$ multiplier = change_$PARAMATER$_value }
-			if = { limit = { is_variable_set = change_$PARAMATER$_value } clear_variable = change_$PARAMATER$_value }
 			set_timed_ship_flag = { flag = $PARAMATER$_ship_cooldown days = 1 }
 		}
-		else_if = {
+		else_if = { #-1
 			limit = { 
 				NAND = { exists = solar_system solar_system = { has_kuat_support_modifier_star_flag = yes } }
-				check_modifier_value = { modifier = $PARAMATER$ value $RELATION$ @mult_modifer_mult_$UNIT1$_value } 
-				fleet = { has_fleet_flag = has_kuat_flagship_system }
+				check_modifier_value = { modifier = $PARAMATER$ value $RELATION$ @mult_modifer_mult_$UNIT$_value } 
+				fleet = { NOT = { has_fleet_flag = has_kuat_flagship_system } }
 			}
 			export_modifier_to_variable = { modifier = $PARAMATER$ variable = change_$PARAMATER$_value }
-			change_variable = { which = change_$PARAMATER$_value value = @modifer_mult_$UNIT1$_value }
+			change_variable = { which = change_$PARAMATER$_value value = @modifer_mult_$UNIT$_value }
 			add_modifier = { modifier = change_basic_$PARAMATER$ multiplier = change_$PARAMATER$_value }
-			if = { limit = { is_variable_set = change_$PARAMATER$_value } clear_variable = change_$PARAMATER$_value }
 			set_timed_ship_flag = { flag = $PARAMATER$_ship_cooldown days = 1 }
 		}
 		else_if = {
@@ -720,19 +733,6 @@ set_eternal_fleet_damage_modifier = {
 			export_modifier_to_variable = { modifier = $PARAMATER$ variable = change_$PARAMATER$_value }
 			change_variable = { which = change_$PARAMATER$_value value = @modifer_mult_$UNIT3$_value }
 			add_modifier = { modifier = change_basic_$PARAMATER$ multiplier = change_$PARAMATER$_value }
-			if = { limit = { is_variable_set = change_$PARAMATER$_value } clear_variable = change_$PARAMATER$_value }
-			set_timed_ship_flag = { flag = $PARAMATER$_ship_cooldown days = 1 }
-		}
-		else_if = {
-			limit = { 
-				NAND = { exists = solar_system solar_system = { has_kuat_support_modifier_star_flag = yes } }
-				check_modifier_value = { modifier = $PARAMATER$ value $RELATION$ @mult_modifer_mult_$UNIT$_value } 
-				fleet = { NOT = { has_fleet_flag = has_kuat_flagship_system } }
-			}
-			export_modifier_to_variable = { modifier = $PARAMATER$ variable = change_$PARAMATER$_value }
-			change_variable = { which = change_$PARAMATER$_value value = @modifer_mult_$UNIT$_value }
-			add_modifier = { modifier = change_basic_$PARAMATER$ multiplier = change_$PARAMATER$_value }
-			if = { limit = { is_variable_set = change_$PARAMATER$_value } clear_variable = change_$PARAMATER$_value }
 			set_timed_ship_flag = { flag = $PARAMATER$_ship_cooldown days = 1 }
 		}
 	}
@@ -747,7 +747,8 @@ set_eternal_fleet_damage_modifier = {
 set_eternal_fleet_insane_damage_modifier = {
 	if = {
 		limit = { 
-			NOR = { has_ship_flag = fire_ship_var has_ship_flag = $PARAMATER$_ship_cooldown }
+			NOT = { has_ship_flag = $PARAMATER$_ship_cooldown }
+			check_variable = { which = fire_ship_var value < 1 }
 			check_modifier_value = { modifier = $PARAMATER$ value > @mult_modifer_mult_$UNIT$_value }
 		}
 		export_modifier_to_variable = { modifier = $PARAMATER$ variable = $PARAMATER$_value }
@@ -758,13 +759,13 @@ set_eternal_fleet_insane_damage_modifier = {
 	} 
 	else_if = { 
 		limit = { 
-			has_ship_flag = fire_ship_var NOT = { has_ship_flag = $PARAMATER$_ship_cooldown }
+			check_variable = { which = fire_ship_var value = 1 } 
+			NOT = { has_ship_flag = $PARAMATER$_ship_cooldown }
 			check_modifier_value = { modifier = $PARAMATER$ value $RELATION$ @mult_modifer_mult_$UNIT1$_value }
 		}
 		export_modifier_to_variable = { modifier = $PARAMATER$ variable = change_$PARAMATER$_value }
 		change_variable = { which = change_$PARAMATER$_value value = @modifer_mult_$UNIT1$_value }
 		add_modifier = { modifier = change_basic_$PARAMATER$ multiplier = change_$PARAMATER$_value }
-		if = { limit = { is_variable_set = change_$PARAMATER$_value } clear_variable = change_$PARAMATER$_value }
 		set_timed_ship_flag = { flag = $PARAMATER$_ship_cooldown days = 1 }
 	}
 }
@@ -776,7 +777,10 @@ set_eternal_fleet_insane_damage_modifier = {
 # SUPPORT: +
 set_eternal_fleet_protection_modifier = {
 	if = {
-		limit = { NOR = { has_ship_flag = fire_ship_var has_ship_flag = $PARAMATER$_ship_cooldown } }
+		limit = { 
+			NOT = { has_ship_flag = $PARAMATER$_ship_cooldown } 
+			check_variable = { which = fire_ship_var value < 1 }
+		}
 		if = {
 			limit = { 
 				fleet = { NOT = { has_fleet_flag = has_kuat_flagship_system_addon_repeatable } }
@@ -801,7 +805,10 @@ set_eternal_fleet_protection_modifier = {
 		}
 	} 
 	else_if = { 
-		limit = { has_ship_flag = fire_ship_var NOT = { has_ship_flag = $PARAMATER$_ship_cooldown } }
+		limit = { 
+			check_variable = { which = fire_ship_var value = 1 }  
+			NOT = { has_ship_flag = $PARAMATER$_ship_cooldown } 
+		}
 		if = {
 			limit = { 
 				fleet = { NOT = { has_fleet_flag = has_kuat_flagship_system_addon_repeatable } }
@@ -821,7 +828,6 @@ set_eternal_fleet_protection_modifier = {
 			export_modifier_to_variable = { modifier = $PARAMATER$ variable = change_$PARAMATER$_value }
 			subtract_variable = { which = change_$PARAMATER$_value value = @modifer_mult_$UNIT1$_value }
 			add_modifier = { modifier = change_basic_$PARAMATER$ multiplier = change_$PARAMATER$_value }
-			if = { limit = { is_variable_set = change_$PARAMATER$_value } clear_variable = change_$PARAMATER$_value }
 			set_timed_ship_flag = { flag = $PARAMATER$_ship_cooldown days = 1 }
 		}
 	}
@@ -834,7 +840,10 @@ set_eternal_fleet_protection_modifier = {
 # UNIT：Value standard
 set_standard_battle_repeatable_modifier = {
 	if = {
-		limit = { NOR = { has_ship_flag = fire_ship_var has_ship_flag = repeatable_$PARAMATER1$_ship_cooldown } }
+		limit = { 
+			NOT = { has_ship_flag = repeatable_$PARAMATER1$_ship_cooldown } 
+			check_variable = { which = fire_ship_var value < 1 }
+		}
 
 		export_modifier_to_variable = { modifier = $PARAMATER1$ variable = $PARAMATER1$_value }
 		subtract_variable = { which = $PARAMATER1$_value value = @modifer_mult_$UNIT$_value }
@@ -848,7 +857,10 @@ set_standard_battle_repeatable_modifier = {
 		set_timed_ship_flag = { flag = repeatable_$PARAMATER1$_ship_cooldown days = 1 }
 	} 
 	else_if = { 
-		limit = { has_ship_flag = fire_ship_var NOT = { has_ship_flag = repeatable_$PARAMATER1$_ship_cooldown } }
+		limit = { 
+			check_variable = { which = fire_ship_var value = 1 }
+			NOT = { has_ship_flag = repeatable_$PARAMATER1$_ship_cooldown } 
+		}
 
 		export_modifier_to_variable = { modifier = $PARAMATER1$ variable = change_$PARAMATER1$_value }
 		subtract_variable = { which = change_$PARAMATER1$_value value = @modifer_mult_$UNIT$_value }
@@ -858,7 +870,6 @@ set_standard_battle_repeatable_modifier = {
 		multiply_variable = { which = change_$PARAMATER2$_value value = $RATE$ }
 		add_modifier = { modifier = change_basic_$PARAMATER2$ multiplier = change_$PARAMATER2$_value }
 
-		clear_variable = change_$PARAMATER1$_value clear_variable = change_$PARAMATER2$_value
 		set_timed_ship_flag = { flag = repeatable_$PARAMATER1$_ship_cooldown days = 1 }
 	}
 }
@@ -871,31 +882,165 @@ set_invasion_fleet_basic_modifier = {
 # reset all modifier
 clear_battleship_modifier_fixed_ship = {
 	optimize_memory
-	remove_modifier = basic_ship_shield_penetration_mult				remove_modifier = change_basic_ship_shield_penetration_mult 
-	remove_modifier = basic_ship_armor_penetration_mult					remove_modifier = change_basic_ship_armor_penetration_mult
-	remove_modifier = basic_ship_armor_damage_mult						remove_modifier = change_basic_ship_armor_damage_mult
-	remove_modifier = basic_ship_shield_damage_mult						remove_modifier = change_basic_ship_shield_damage_mult
-	remove_modifier = basic_ship_hull_damage_mult						remove_modifier = change_basic_ship_hull_damage_mult
-	remove_modifier = basic_ship_tracking_mult							remove_modifier = change_basic_ship_tracking_mult
-	remove_modifier = basic_ship_weapon_damage							remove_modifier = change_basic_ship_weapon_damage
-	remove_modifier = basic_ship_hull_regen_add_perc					remove_modifier = change_basic_ship_hull_regen_add_perc
-	remove_modifier = basic_ship_armor_regen_add_perc					remove_modifier = change_basic_ship_armor_regen_add_perc
-	remove_modifier = basic_ship_shield_regen_add_perc					remove_modifier = change_basic_ship_shield_regen_add_perc
-	remove_modifier = basic_ship_hull_mult								remove_modifier = change_basic_ship_hull_mult
-	remove_modifier = basic_ship_armor_mult								remove_modifier = change_basic_ship_armor_mult
-	remove_modifier = basic_ship_shield_mult							remove_modifier = change_basic_ship_shield_mult
-	remove_modifier = basic_ship_shield_reduction						remove_modifier = change_basic_ship_shield_reduction
-	remove_modifier = basic_ship_armor_reduction						remove_modifier = change_basic_ship_armor_reduction
-	remove_modifier = basic_ship_accuracy_mult							remove_modifier = change_basic_ship_accuracy_mult
-	remove_modifier = basic_ship_weapon_range_mult						remove_modifier = change_basic_ship_weapon_range_mult
-	remove_modifier = basic_ship_fire_rate_mult							remove_modifier = change_basic_ship_fire_rate_mult
-	remove_modifier = basic_ship_tracking_add							remove_modifier = change_basic_ship_tracking_add
-	remove_modifier = basic_ship_accuracy_add							remove_modifier = change_basic_ship_accuracy_add
-	remove_modifier = basic_ship_armor_add								remove_modifier = change_basic_ship_armor_add
-	remove_modifier = basic_ship_shield_add								remove_modifier = change_basic_ship_shield_add
-	remove_modifier = base_ship_armor_hardening_add						remove_modifier = change_base_ship_armor_hardening_add
-	remove_modifier = base_ship_shield_hardening_add					remove_modifier = change_base_ship_shield_hardening_add
-	remove_ship_modifier_trigger_flag = yes								remove_total_repeatable_modifier = yes
+	remove_modifier = basic_ship_shield_penetration_mult
+	remove_modifier = change_basic_ship_shield_penetration_mult
+	remove_modifier = basic_ship_armor_penetration_mult
+	remove_modifier = change_basic_ship_armor_penetration_mult
+	remove_modifier = basic_ship_armor_damage_mult
+	remove_modifier = change_basic_ship_armor_damage_mult
+	remove_modifier = basic_ship_shield_damage_mult
+	remove_modifier = change_basic_ship_shield_damage_mult
+	remove_modifier = basic_ship_hull_damage_mult
+	remove_modifier = change_basic_ship_hull_damage_mult
+	remove_modifier = basic_ship_tracking_mult
+	remove_modifier = change_basic_ship_tracking_mult
+	remove_modifier = basic_ship_weapon_damage
+	remove_modifier = change_basic_ship_weapon_damage
+	remove_modifier = basic_ship_hull_regen_add_perc
+	remove_modifier = change_basic_ship_hull_regen_add_perc
+	remove_modifier = basic_ship_armor_regen_add_perc
+	remove_modifier = change_basic_ship_armor_regen_add_perc
+	remove_modifier = basic_ship_shield_regen_add_perc
+	remove_modifier = change_basic_ship_shield_regen_add_perc
+	remove_modifier = basic_ship_hull_mult
+	remove_modifier = change_basic_ship_hull_mult
+	remove_modifier = basic_ship_armor_mult
+	remove_modifier = change_basic_ship_armor_mult
+	remove_modifier = basic_ship_shield_mult
+	remove_modifier = change_basic_ship_shield_mult
+	remove_modifier = basic_ship_shield_reduction
+	remove_modifier = change_basic_ship_shield_reduction
+	remove_modifier = basic_ship_armor_reduction
+	remove_modifier = change_basic_ship_armor_reduction
+	remove_modifier = basic_ship_accuracy_mult
+	remove_modifier = change_basic_ship_accuracy_mult
+	remove_modifier = basic_ship_weapon_range_mult
+	remove_modifier = change_basic_ship_weapon_range_mult
+	remove_modifier = basic_ship_fire_rate_mult
+	remove_modifier = change_basic_ship_fire_rate_mult
+	remove_modifier = basic_ship_tracking_add
+	remove_modifier = change_basic_ship_tracking_add
+	remove_modifier = basic_ship_accuracy_add
+	remove_modifier = change_basic_ship_accuracy_add
+	remove_modifier = basic_ship_armor_add
+	remove_modifier = change_basic_ship_armor_add
+	remove_modifier = basic_ship_shield_add
+	remove_modifier = change_basic_ship_shield_add
+	remove_modifier = basic_ship_armor_hardening_add
+	remove_modifier = change_basic_ship_armor_hardening_add
+	remove_modifier = basic_ship_shield_hardening_add
+	remove_modifier = change_basic_ship_shield_hardening_add
+	remove_ship_modifier_trigger_flag = yes
+	remove_total_repeatable_modifier = yes
+	remove_all_ship_modifier_change_basic_variable = yes
+}
+
+remove_all_ship_modifier_change_basic_variable = {
+
+	remove_ship_modifier_change_basic_variable = { PARAMATER = ship_armor_hardening_add }
+	remove_ship_modifier_change_basic_variable = { PARAMATER = ship_shield_hardening_add }
+	remove_ship_modifier_change_basic_variable = { PARAMATER = ship_shield_penetration_mult }
+	remove_ship_modifier_change_basic_variable = { PARAMATER = ship_armor_penetration_mult }
+	remove_ship_modifier_change_basic_variable = { PARAMATER = ship_hull_regen_add_perc }
+	remove_ship_modifier_change_basic_variable = { PARAMATER = ship_hull_mult }
+	remove_ship_modifier_change_basic_variable = { PARAMATER = ship_shield_regen_add_perc }
+	remove_ship_modifier_change_basic_variable = { PARAMATER = ship_shield_mult }
+	remove_ship_modifier_change_basic_variable = { PARAMATER = ship_armor_regen_add_perc }
+	remove_ship_modifier_change_basic_variable = { PARAMATER = ship_armor_mult }
+	remove_ship_modifier_change_basic_variable = { PARAMATER = ship_shield_reduction }
+	remove_ship_modifier_change_basic_variable = { PARAMATER = ship_armor_reduction }
+	remove_ship_modifier_change_basic_variable = { PARAMATER = ship_weapon_range_mult }
+	remove_ship_modifier_change_basic_variable = { PARAMATER = ship_fire_rate_mult }
+	remove_ship_modifier_change_basic_variable = { PARAMATER = ship_weapon_damage }
+	remove_ship_modifier_change_basic_variable = { PARAMATER = weapon_type_explosive_weapon_damage_mult }
+	remove_ship_modifier_change_basic_variable = { PARAMATER = weapon_type_energy_weapon_damage_mult }
+	remove_ship_modifier_change_basic_variable = { PARAMATER = weapon_type_kinetic_weapon_damage_mult }
+	remove_ship_modifier_change_basic_variable = { PARAMATER = ship_tracking_mult }
+	remove_ship_modifier_change_basic_variable = { PARAMATER = ship_tracking_add }
+	remove_ship_modifier_change_basic_variable = { PARAMATER = ship_accuracy_mult }
+	remove_ship_modifier_change_basic_variable = { PARAMATER = ship_accuracy_add }
+	remove_ship_modifier_change_basic_variable = { PARAMATER = ship_shield_add }
+	remove_ship_modifier_change_basic_variable = { PARAMATER = ship_armor_add }
+	remove_ship_modifier_change_basic_variable = { PARAMATER = ship_hull_damage_mult }
+	remove_ship_modifier_change_basic_variable = { PARAMATER = ship_shield_damage_mult }
+	remove_ship_modifier_change_basic_variable = { PARAMATER = ship_armor_damage_mult }
+
+	remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = explosive }
+	remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = kinetic }
+	remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = energy }
+	remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = arcane }
+	remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = cosmic }
+	remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = gravity }
+	remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = psionic }
+	remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = anti_psionic }
+	remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = ancient_primary }
+	remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = titan_primary }
+	remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = titan_secondary }
+	remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = zeta_crisis_primary }
+	remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = zeta_crisis_primary_alt }
+	remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = zeta_crisis_secondary }
+	remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = SRA_SRA }
+	remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = SRA_RE_Core }
+	remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = H.D.energy }
+	remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = HD.M.kinetic }
+	remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = PrimaMateria }
+	remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = light_power }
+	remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = wsg_pantsu }
+	remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = tesla }
+	remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = kancolle }
+	remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = kancolle_shinkai }
+	remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = magicia }
+	remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = rulerule }
+	remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = fake_madoka }
+	remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = sr_uf }
+	remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = gungnir }
+	remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = xianzhe }
+	remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = knife }
+	remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = lingli }
+	remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = magic }
+	remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = nytowith }
+	remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = light }
+	remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = keto }
+	remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = Akso }
+	remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = LsScepter }
+	remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = son }
+	remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = prism }
+	remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = Electronic }
+	remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = beacon }
+	remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = aoe }
+	remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = aon_rpg_attack }
+	remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = aon_rpg_magic }
+	remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = sfdoll }
+	remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = nano }
+	remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = KZ_VOY_magic }
+	remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = KZ_VOY_wind_magic }
+	remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = KZ_VOY_time_magic }
+	remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = KZ_VOY_earth_magic }
+	remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = KZ_VOY_pyromancy_magic }
+	remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = KZ_VOY_lightning_magic }
+	remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = KZ_VOY_bright_magic }
+	remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = KZ_VOY_dark_magic }
+	remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = KZ_VOY_space_magic }
+	remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = KZ_VOY_aqua_magic }
+	remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = KZ_VOY_life_magic }
+	remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = KZ_VOY_temporal }
+	remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = ge_void_energy }
+	remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = magi }
+	remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = charm }
+	remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = mystical }
+	remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = close_combat }
+	remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = critical }
+	remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = fgosw_block }
+	remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = fgosw_battle_continuation }
+	remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = fgosw_only_one }
+	remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = fgosw_multi_level }
+	remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = fgosw_skill_saber }
+	remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = fgosw_skill_archer }
+	remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = fgosw_skill_lancer }
+	remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = fgosw_skill_rider }
+	remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = fgosw_skill_caster }
+	remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = fgosw_skill_assassin }
+	remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = fgosw_skill_berserker }
 }
 
 remove_total_repeatable_modifier = {
@@ -1061,8 +1206,17 @@ remove_ship_modifier_trigger_flag = {
 		remove_fleet_flag = has_kuat_disable_checkpoint
 		remove_fleet_flag = has_kuat_flagship_system_addon_repeatable
 	}
-	remove_ship_flag = fire_ship_var
+	clear_variable = fire_ship_var
 	remove_ship_flag = is_modifiering
+}
+
+remove_ship_modifier_change_basic_variable = {
+	clear_variable = change_$PARAMATER$_value
+}
+
+remove_repeatable_ship_modifier_change_basic_vairable = {
+	clear_variable = change_weapon_type_$TYPE$_weapon_fire_rate_mult_value
+	clear_variable = change_weapon_type_$TYPE$_weapon_damage_mul_value
 }
 
 set_fleet_modifier = {
