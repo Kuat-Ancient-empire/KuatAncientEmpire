@@ -686,50 +686,54 @@ set_eternal_fleet_damage_modifier = {
 	else_if = { 
 		limit = { has_ship_flag = fire_ship_var NOT = { has_ship_flag = $PARAMATER$_ship_cooldown } }
 		if = {
-			limit = { fleet = { has_fleet_flag = has_kuat_flagship_system } }
-			if = {
-				limit = { 
-					exists = solar_system
-					solar_system = { has_kuat_support_modifier_star_flag = yes } 
-					check_modifier_value = { modifier = $PARAMATER$ value $RELATION$ @mult_modifer_mult_$UNIT2$_value } 
-				}
-				export_modifier_to_variable = { modifier = $PARAMATER$ variable = change_$PARAMATER$_value }
-				change_variable = { which = change_$PARAMATER$_value value = @modifer_mult_$UNIT2$_value }
-				add_modifier = { modifier = change_basic_$PARAMATER$ multiplier = change_$PARAMATER$_value }
-				if = { limit = { is_variable_set = change_$PARAMATER$_value } clear_variable = change_$PARAMATER$_value }
-				set_timed_ship_flag = { flag = $PARAMATER$_ship_cooldown days = 1 }
+			limit = { 
+				exists = solar_system
+				solar_system = { has_kuat_support_modifier_star_flag = yes } 
+				check_modifier_value = { modifier = $PARAMATER$ value $RELATION$ @mult_modifer_mult_$UNIT2$_value } 
+				fleet = { has_fleet_flag = has_kuat_flagship_system }
 			}
-			else_if = {
-				limit = { check_modifier_value = { modifier = $PARAMATER$ value $RELATION$ @mult_modifer_mult_$UNIT1$_value } }
-				export_modifier_to_variable = { modifier = $PARAMATER$ variable = change_$PARAMATER$_value }
-				change_variable = { which = change_$PARAMATER$_value value = @modifer_mult_$UNIT1$_value }
-				add_modifier = { modifier = change_basic_$PARAMATER$ multiplier = change_$PARAMATER$_value }
-				if = { limit = { is_variable_set = change_$PARAMATER$_value } clear_variable = change_$PARAMATER$_value }
-				set_timed_ship_flag = { flag = $PARAMATER$_ship_cooldown days = 1 }
-			}
+			export_modifier_to_variable = { modifier = $PARAMATER$ variable = change_$PARAMATER$_value }
+			change_variable = { which = change_$PARAMATER$_value value = @modifer_mult_$UNIT2$_value }
+			add_modifier = { modifier = change_basic_$PARAMATER$ multiplier = change_$PARAMATER$_value }
+			if = { limit = { is_variable_set = change_$PARAMATER$_value } clear_variable = change_$PARAMATER$_value }
+			set_timed_ship_flag = { flag = $PARAMATER$_ship_cooldown days = 1 }
 		}
 		else_if = {
-			limit = { fleet = { NOT = { has_fleet_flag = has_kuat_flagship_system } } }
-			if = {
-				limit = { 
-					exists = solar_system
-					solar_system = { has_kuat_support_modifier_star_flag = yes } 
-					check_modifier_value = { modifier = $PARAMATER$ value $RELATION$ @mult_modifer_mult_$UNIT3$_value } 
-				}
-				export_modifier_to_variable = { modifier = $PARAMATER$ variable = change_$PARAMATER$_value }
-				change_variable = { which = change_$PARAMATER$_value value = @modifer_mult_$UNIT3$_value }
-				add_modifier = { modifier = change_basic_$PARAMATER$ multiplier = change_$PARAMATER$_value }
-				if = { limit = { is_variable_set = change_$PARAMATER$_value } clear_variable = change_$PARAMATER$_value }
-				set_timed_ship_flag = { flag = $PARAMATER$_ship_cooldown days = 1 }
+			limit = { 
+				NAND = { exists = solar_system solar_system = { has_kuat_support_modifier_star_flag = yes } }
+				check_modifier_value = { modifier = $PARAMATER$ value $RELATION$ @mult_modifer_mult_$UNIT1$_value } 
+				fleet = { has_fleet_flag = has_kuat_flagship_system }
 			}
-			else_if = {
-				limit = { check_modifier_value = { modifier = $PARAMATER$ value $RELATION$ @mult_modifer_mult_$UNIT$_value } }
-				export_modifier_to_variable = { modifier = $PARAMATER$ variable = change_$PARAMATER$_value }
-				change_variable = { which = change_$PARAMATER$_value value = @modifer_mult_$UNIT$_value }
-				add_modifier = { modifier = change_basic_$PARAMATER$ multiplier = change_$PARAMATER$_value }
-				if = { limit = { is_variable_set = change_$PARAMATER$_value } clear_variable = change_$PARAMATER$_value }
-				set_timed_ship_flag = { flag = $PARAMATER$_ship_cooldown days = 1 }
+			export_modifier_to_variable = { modifier = $PARAMATER$ variable = change_$PARAMATER$_value }
+			change_variable = { which = change_$PARAMATER$_value value = @modifer_mult_$UNIT1$_value }
+			add_modifier = { modifier = change_basic_$PARAMATER$ multiplier = change_$PARAMATER$_value }
+			if = { limit = { is_variable_set = change_$PARAMATER$_value } clear_variable = change_$PARAMATER$_value }
+			set_timed_ship_flag = { flag = $PARAMATER$_ship_cooldown days = 1 }
+		}
+		else_if = {
+			limit = { 
+				exists = solar_system
+				solar_system = { has_kuat_support_modifier_star_flag = yes } 
+				check_modifier_value = { modifier = $PARAMATER$ value $RELATION$ @mult_modifer_mult_$UNIT3$_value } 
+				fleet = { NOT = { has_fleet_flag = has_kuat_flagship_system } }
 			}
+			export_modifier_to_variable = { modifier = $PARAMATER$ variable = change_$PARAMATER$_value }
+			change_variable = { which = change_$PARAMATER$_value value = @modifer_mult_$UNIT3$_value }
+			add_modifier = { modifier = change_basic_$PARAMATER$ multiplier = change_$PARAMATER$_value }
+			if = { limit = { is_variable_set = change_$PARAMATER$_value } clear_variable = change_$PARAMATER$_value }
+			set_timed_ship_flag = { flag = $PARAMATER$_ship_cooldown days = 1 }
+		}
+		else_if = {
+			limit = { 
+				NAND = { exists = solar_system solar_system = { has_kuat_support_modifier_star_flag = yes } }
+				check_modifier_value = { modifier = $PARAMATER$ value $RELATION$ @mult_modifer_mult_$UNIT$_value } 
+				fleet = { NOT = { has_fleet_flag = has_kuat_flagship_system } }
+			}
+			export_modifier_to_variable = { modifier = $PARAMATER$ variable = change_$PARAMATER$_value }
+			change_variable = { which = change_$PARAMATER$_value value = @modifer_mult_$UNIT$_value }
+			add_modifier = { modifier = change_basic_$PARAMATER$ multiplier = change_$PARAMATER$_value }
+			if = { limit = { is_variable_set = change_$PARAMATER$_value } clear_variable = change_$PARAMATER$_value }
+			set_timed_ship_flag = { flag = $PARAMATER$_ship_cooldown days = 1 }
 		}
 	}
 }
