@@ -664,7 +664,9 @@ set_eternal_fleet_standard_modifier = {
 		}
 		export_modifier_to_variable = { modifier = $PARAMATER$ variable = change_$PARAMATER$_value }
 		change_variable = { which = change_$PARAMATER$_value value = $UNIT_VALUE$ }
-		add_modifier = { modifier = change_basic_$PARAMATER$ multiplier = change_$PARAMATER$_value }
+		change_variable = { which = debug_change_$PARAMATER$_value value = change_$PARAMATER$_value }
+		add_modifier = { modifier = change_basic_$PARAMATER$ multiplier = debug_change_$PARAMATER$_value }
+		if = { limit = { is_variable_set = change_$PARAMATER$_value } clear_variable = change_$PARAMATER$_value }
 		set_timed_ship_flag = { flag = $PARAMATER$_ship_cooldown days = 1 }
 	}
 }
@@ -697,7 +699,9 @@ set_eternal_fleet_damage_modifier = {
 			}
 			export_modifier_to_variable = { modifier = $PARAMATER$ variable = change_$PARAMATER$_value }
 			change_variable = { which = change_$PARAMATER$_value value = @modifer_mult_$UNIT1$_value }
-			add_modifier = { modifier = change_basic_$PARAMATER$ multiplier = change_$PARAMATER$_value }
+			change_variable = { which = debug_change_$PARAMATER$_value value = change_$PARAMATER$_value }
+			add_modifier = { modifier = change_basic_$PARAMATER$ multiplier = debug_change_$PARAMATER$_value }
+			if = { limit = { is_variable_set = change_$PARAMATER$_value } clear_variable = change_$PARAMATER$_value }
 			set_timed_ship_flag = { flag = $PARAMATER$_ship_cooldown days = 1 }
 		}
 		else_if = { #-75
@@ -709,10 +713,12 @@ set_eternal_fleet_damage_modifier = {
 			}
 			export_modifier_to_variable = { modifier = $PARAMATER$ variable = change_$PARAMATER$_value }
 			change_variable = { which = change_$PARAMATER$_value value = @modifer_mult_$UNIT2$_value }
-			add_modifier = { modifier = change_basic_$PARAMATER$ multiplier = change_$PARAMATER$_value }
+			change_variable = { which = debug_change_$PARAMATER$_value value = change_$PARAMATER$_value }
+			add_modifier = { modifier = change_basic_$PARAMATER$ multiplier = debug_change_$PARAMATER$_value }
+			if = { limit = { is_variable_set = change_$PARAMATER$_value } clear_variable = change_$PARAMATER$_value }
 			set_timed_ship_flag = { flag = $PARAMATER$_ship_cooldown days = 1 }
 		}
-		else_if = { #-1
+		else_if = { #-100
 			limit = { 
 				NAND = { exists = solar_system solar_system = { has_kuat_support_modifier_star_flag = yes } }
 				check_modifier_value = { modifier = $PARAMATER$ value $RELATION$ @mult_modifer_mult_$UNIT$_value } 
@@ -720,10 +726,12 @@ set_eternal_fleet_damage_modifier = {
 			}
 			export_modifier_to_variable = { modifier = $PARAMATER$ variable = change_$PARAMATER$_value }
 			change_variable = { which = change_$PARAMATER$_value value = @modifer_mult_$UNIT$_value }
-			add_modifier = { modifier = change_basic_$PARAMATER$ multiplier = change_$PARAMATER$_value }
+			change_variable = { which = debug_change_$PARAMATER$_value value = change_$PARAMATER$_value }
+			add_modifier = { modifier = change_basic_$PARAMATER$ multiplier = debug_change_$PARAMATER$_value }
+			if = { limit = { is_variable_set = change_$PARAMATER$_value } clear_variable = change_$PARAMATER$_value }
 			set_timed_ship_flag = { flag = $PARAMATER$_ship_cooldown days = 1 }
 		}
-		else_if = {
+		else_if = { #-99
 			limit = { 
 				exists = solar_system
 				solar_system = { has_kuat_support_modifier_star_flag = yes } 
@@ -732,7 +740,9 @@ set_eternal_fleet_damage_modifier = {
 			}
 			export_modifier_to_variable = { modifier = $PARAMATER$ variable = change_$PARAMATER$_value }
 			change_variable = { which = change_$PARAMATER$_value value = @modifer_mult_$UNIT3$_value }
-			add_modifier = { modifier = change_basic_$PARAMATER$ multiplier = change_$PARAMATER$_value }
+			change_variable = { which = debug_change_$PARAMATER$_value value = change_$PARAMATER$_value }
+			add_modifier = { modifier = change_basic_$PARAMATER$ multiplier = debug_change_$PARAMATER$_value }
+			if = { limit = { is_variable_set = change_$PARAMATER$_value } clear_variable = change_$PARAMATER$_value }
 			set_timed_ship_flag = { flag = $PARAMATER$_ship_cooldown days = 1 }
 		}
 	}
@@ -765,7 +775,9 @@ set_eternal_fleet_insane_damage_modifier = {
 		}
 		export_modifier_to_variable = { modifier = $PARAMATER$ variable = change_$PARAMATER$_value }
 		change_variable = { which = change_$PARAMATER$_value value = @modifer_mult_$UNIT1$_value }
-		add_modifier = { modifier = change_basic_$PARAMATER$ multiplier = change_$PARAMATER$_value }
+		change_variable = { which = debug_change_$PARAMATER$_value value = change_$PARAMATER$_value }
+		add_modifier = { modifier = change_basic_$PARAMATER$ multiplier = debug_change_$PARAMATER$_value }
+		if = { limit = { is_variable_set = change_$PARAMATER$_value } clear_variable = change_$PARAMATER$_value }
 		set_timed_ship_flag = { flag = $PARAMATER$_ship_cooldown days = 1 }
 	}
 }
@@ -816,7 +828,8 @@ set_eternal_fleet_protection_modifier = {
 			}
 			export_modifier_to_variable = { modifier = $PARAMATER$ variable = change_$PARAMATER$_value }
 			subtract_variable = { which = change_$PARAMATER$_value value = @modifer_mult_$UNIT$_value }
-			add_modifier = { modifier = change_basic_$PARAMATER$ multiplier = change_$PARAMATER$_value }
+			change_variable = { which = debug_change_$PARAMATER$_value value = change_$PARAMATER$_value }
+			add_modifier = { modifier = change_basic_$PARAMATER$ multiplier = debug_change_$PARAMATER$_value }
 			if = { limit = { is_variable_set = change_$PARAMATER$_value } clear_variable = change_$PARAMATER$_value }
 			set_timed_ship_flag = { flag = $PARAMATER$_ship_cooldown days = 1 }
 		}
@@ -827,7 +840,9 @@ set_eternal_fleet_protection_modifier = {
 			}
 			export_modifier_to_variable = { modifier = $PARAMATER$ variable = change_$PARAMATER$_value }
 			subtract_variable = { which = change_$PARAMATER$_value value = @modifer_mult_$UNIT1$_value }
-			add_modifier = { modifier = change_basic_$PARAMATER$ multiplier = change_$PARAMATER$_value }
+			change_variable = { which = debug_change_$PARAMATER$_value value = change_$PARAMATER$_value }
+			add_modifier = { modifier = change_basic_$PARAMATER$ multiplier = debug_change_$PARAMATER$_value }
+			if = { limit = { is_variable_set = change_$PARAMATER$_value } clear_variable = change_$PARAMATER$_value }
 			set_timed_ship_flag = { flag = $PARAMATER$_ship_cooldown days = 1 }
 		}
 	}
@@ -864,12 +879,15 @@ set_standard_battle_repeatable_modifier = {
 
 		export_modifier_to_variable = { modifier = $PARAMATER1$ variable = change_$PARAMATER1$_value }
 		subtract_variable = { which = change_$PARAMATER1$_value value = @modifer_mult_$UNIT$_value }
-		add_modifier = { modifier = change_basic_$PARAMATER1$ multiplier = change_$PARAMATER1$_value }
+		change_variable = { which = debug_change_$PARAMATER1$_value value = change_$PARAMATER1$_value }
+		add_modifier = { modifier = change_basic_$PARAMATER1$ multiplier = debug_change_$PARAMATER1$_value }
 
 		set_variable = { which = change_$PARAMATER2$_value value = change_$PARAMATER1$_value }
 		multiply_variable = { which = change_$PARAMATER2$_value value = $RATE$ }
-		add_modifier = { modifier = change_basic_$PARAMATER2$ multiplier = change_$PARAMATER2$_value }
+		change_variable = { which = debug_change_$PARAMATER2$_value value = change_$PARAMATER2$_value }
+		add_modifier = { modifier = change_basic_$PARAMATER2$ multiplier = debug_change_$PARAMATER2$_value }
 
+		clear_variable = change_$PARAMATER1$_value clear_variable = change_$PARAMATER2$_value
 		set_timed_ship_flag = { flag = repeatable_$PARAMATER1$_ship_cooldown days = 1 }
 	}
 }
@@ -936,7 +954,6 @@ clear_battleship_modifier_fixed_ship = {
 }
 
 remove_all_ship_modifier_change_basic_variable = {
-
 	remove_ship_modifier_change_basic_variable = { PARAMATER = ship_armor_hardening_add }
 	remove_ship_modifier_change_basic_variable = { PARAMATER = ship_shield_hardening_add }
 	remove_ship_modifier_change_basic_variable = { PARAMATER = ship_shield_penetration_mult }
@@ -1211,12 +1228,12 @@ remove_ship_modifier_trigger_flag = {
 }
 
 remove_ship_modifier_change_basic_variable = {
-	clear_variable = change_$PARAMATER$_value
+	clear_variable = debug_change_$PARAMATER$_value
 }
 
 remove_repeatable_ship_modifier_change_basic_vairable = {
-	clear_variable = change_weapon_type_$TYPE$_weapon_fire_rate_mult_value
-	clear_variable = change_weapon_type_$TYPE$_weapon_damage_mul_value
+	clear_variable = debug_change_weapon_type_$TYPE$_weapon_fire_rate_mult_value
+	clear_variable = debug_change_weapon_type_$TYPE$_weapon_damage_mul_value
 }
 
 set_fleet_modifier = {
