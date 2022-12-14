@@ -136,16 +136,12 @@ exe_megastructure_starbase_platfrom = {
 		custom_tooltip = {
 			fail_text = "kuat_requires_no_existing_station"
 			from = {
-				NOT = {
-					any_owned_megastructure = {
-						OR = {
-							is_megastructure_type = exe_megastructure_starbase_skeletion
-							is_megastructure_type = exe_megastructure_starbase_platfrom
-							is_megastructure_type = exe_megastructure_starbase
-						}
-					}
-					any_owned_fleet = { is_ship_size = exe_megastructure_starbase }
-				}
+				NOT = { any_owned_megastructure = { OR = {
+					is_megastructure_type = exe_megastructure_starbase_skeletion
+					is_megastructure_type = exe_megastructure_starbase_platfrom
+					is_megastructure_type = exe_megastructure_starbase
+				} } }
+				count_owned_fleet = { limit = { is_ship_size = exe_megastructure_starbase } count < 5 }
 			}
 		}
 	}
@@ -198,12 +194,7 @@ exe_megastructure_starbase_skeletion = {
 	possible = {
 		custom_tooltip = {
 			fail_text = "kuat_requires_no_existing_station"
-			from = {
-				NOT  = {
-					any_owned_megastructure = { is_megastructure_type = exe_megastructure_starbase }
-					any_owned_fleet = { is_ship_size = exe_megastructure_starbase }
-				}
-			}
+			from = { count_owned_fleet = { limit = { is_ship_size = exe_megastructure_starbase } count < 5 } }
 		}
 	}	
 	placement_rules = {}	
@@ -238,12 +229,7 @@ exe_megastructure_starbase = {
 	possible = {
 		custom_tooltip = {
 			fail_text = "kuat_requires_no_existing_station"
-			from = {
-				NOT  = {
-					any_owned_megastructure = { is_megastructure_type = exe_megastructure_starbase }
-					any_owned_fleet = { is_ship_size = exe_megastructure_starbase }
-				}
-			}
+			from = { count_owned_fleet = { limit = { is_ship_size = exe_megastructure_starbase } count < 5 } }
 		}
 	}	
 	placement_rules = {}	
