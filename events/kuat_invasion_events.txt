@@ -1166,7 +1166,7 @@ country_event = {
 	id = exe_invasion.116
 	hide_window = yes
 	is_triggered_only = yes
-	trigger = { from = { is_eternal_faction = yes } }
+	trigger = { from = { OR = { is_eternal_faction = yes is_infinite_faction = yes } } }
 	immediate = {
 		set_update_modifiers_batch = begin
 		fromfrom = { if = {
@@ -1381,26 +1381,73 @@ country_event = {
 		} }
 	}
 }
-# country_event = {
-# 	id = exe_invasion.123
-# 	hide_window = yes
-# 	is_triggered_only = yes
-# 	trigger = {
-# 		OR = {
-# 			AND = {
-# 				is_eternal_faction = yes
-# 				FROMFROM = { check_variable = { which = Eternal_support_var value > 0 } }
-# 			}
-# 			FROMFROM = { check_variable = { which = Eternal_submit_var value > 0 } }
-# 		}
-# 	}
-# 	immediate = { 
-# 		set_update_modifiers_batch = begin
-# 		FROMFROM = { while = { count = Eternal_support_var remove_modifier = Eternal_support }  clear_variable = Eternal_support_var } 
-# 		FROMFROM = { while = { count = Eternal_submit_var remove_modifier = Eternal_submit }   clear_variable = Eternal_submit_var }
-# 		set_update_modifiers_batch = end
-# 	}
-# }
+@dupilcate_ship_count = 25
+country_event = {
+	id = exe_invasion.123
+	hide_window = yes
+	is_triggered_only = yes
+	trigger = {
+		is_infinite_faction = yes
+		from = { is_invisable_faction = no is_ai = no }
+	}
+	immediate = { 
+		fromfrom = { random_list = {
+			1 = {
+				modifier = {
+					factor = 0
+					root.fromfromfrom = { OR = {
+						NOT = { is_ship_class = shipclass_military }
+						kuat_is_flagship_system_protection = yes
+						has_ship_flag = infinite_faction_battle_duplicate_ship_temple
+						fleet = { check_variable = { which = infinite_faction_battle_duplicate_ship value >= @dupilcate_ship_count } }
+					} }
+				}
+				root = {  
+					from = { random_owned_design = {
+						limit = { is_same_value = root.fromfromfrom }
+						save_event_target_as = infinite_faction_battle_duplicate_ship
+					} }
+					fromfromfrom.fleet = { change_variable = { which = infinite_faction_battle_duplicate_ship value = 1 } }
+				}
+				fleet = { create_ship = { design = event_target:infinite_faction_battle_duplicate_ship } }
+				set_timed_ship_flag = { flag = infinite_faction_battle_duplicate_ship_temple days = 1 }
+			}
+			1 = {
+				modifier = {
+					factor = 0
+					root = { fromfromfrom.fleet = { OR = {
+						has_fleet_flag = eternal_learned_leader 
+						NOT = { exists = leader }
+						AND = { exists = leader leader = { OR = { has_leader_flag = eternal_learned_leader NOT = { leader_class = admiral } } } }
+						check_variable = { which = infinite_faction_battle_duplicate_ship value < @dupilcate_ship_count }
+					} } }
+				}
+				root = { fromfromfrom.fleet = {
+					set_fleet_flag = eternal_learned_leader
+					leader = { set_timed_leader_flag = { flag = eternal_learned_leader days = 180 } }
+					prev = {
+						clone_leader = { class = admiral target = prev.leader effect = { save_event_target_as = eternal_learned_leader_copy } }
+						fromfrom.fleet = {
+							if = {
+								limit = { NOT = { has_fleet_flag = have_learned_leader } }
+								if = { limit = { exists = leader } leader = { kill_leader = { show_notification = no } } }
+								assign_leader = event_target:eternal_learned_leader_copy
+								set_timed_fleet_flag = { flag = have_learned_leader days = 180 }
+							}
+							else = { owner = { random_owned_fleet = {
+								limit = { NOT = { has_fleet_flag = have_learned_leader } }
+								if = { limit = { exists = leader } leader = { kill_leader = { show_notification = no } } }
+								assign_leader = event_target:eternal_learned_leader_copy
+								set_timed_fleet_flag = { flag = have_learned_leader days = 180 }
+							} } }
+						}
+					}
+				} }
+			}
+			2 = { no_events = yes }
+		} }
+	}
+}
 
 #debug for special component weapon destroyed
 ship_event = {
@@ -1413,12 +1460,12 @@ ship_event = {
 			has_ship_flag = ag_kae_ge_secondary_portal
 			has_ship_flag = enable_disable_starbase
 		} }
-		AND = { exists = owner owner = { is_eternal_faction = yes } }
+		AND = { exists = owner owner = { OR = { is_eternal_faction = yes is_infinite_faction = yes } } is_ship_class = shipclass_military }
 		AND = { exists = fleet fleet = { has_fleet_flag = has_kuat_disable_checkpoint } }
 	} }
 	immediate = { 
 		if = {
-			limit = { exists = owner owner = { is_eternal_faction = yes } }
+			limit = { is_ship_class = shipclass_military exists = owner owner = { OR = { is_eternal_faction = yes is_infinite_faction = yes } } }
 			repair_ship = yes set_disabled = no change_variable = { which = disable_time value = 1 }
 		}
 		if = {
@@ -1448,7 +1495,7 @@ fleet_event = {
 	id = exe_invasion.145
 	hide_window = yes
 	is_triggered_only = yes
-	trigger = { owner = { is_eternal_faction = yes } }
+	trigger = { owner = { OR = { is_eternal_faction = yes is_infinite_faction = yes } } }
 	immediate = {
 		if = {
 			limit = { is_in_combat = yes }
@@ -1475,7 +1522,7 @@ ship_event = {
 	id = exe_invasion.138
 	hide_window = yes
 	is_triggered_only = yes
-	trigger = { owner = { is_eternal_faction = yes } }
+	trigger = { owner = { OR = { is_eternal_faction = yes is_infinite_faction = yes } } }
 	immediate = { clear_variable = combat_days clear_variable = disable_time set_disable_at_health = 0.01 }
 }
 
@@ -1498,12 +1545,12 @@ country_event = {
 					modifier = { factor = 0 OR = { is_kuat_fallen_empire = yes is_infinite_faction = yes } }
 					kuat_copy_leader_learning_system = yes
 				}
-				5 = { fromfromfrom = { every_owned_ship = { if = {
-					limit = { check_modifier_value = { modifier = ship_hull_mult value > 2 } } 
-					clear_ship_modifier = { modifier = ship_hull_mult subtract = 2 DAYS = -1 } 
-				} if = { limit = { check_modifier_value = { modifier = shipclass_military_hull_mult value > 2 } } 
-					clear_ship_modifier = { modifier = shipclass_military_hull_mult subtract = 2 DAYS = -1 } 
-				} } } }
+				5 = { fromfromfrom = { every_owned_ship = { 
+					if = { limit = { check_modifier_value = { modifier = ship_hull_mult value > 2 } } 
+					clear_ship_modifier = { modifier = ship_hull_mult subtract = 2 DAYS = -1 } } 
+					if = { limit = { check_modifier_value = { modifier = shipclass_military_hull_mult value > 2 } } 
+					clear_ship_modifier = { modifier = shipclass_military_hull_mult subtract = 2 DAYS = -1 } } 
+				} } }
 			}
 			fromfromfrom = { if = {
 				limit = { kuat_is_ancient_ship_against = yes }
@@ -1514,7 +1561,8 @@ country_event = {
 		fromfrom = { 
 			if = {
 				limit = { 
-					owner = { is_eternal_faction = yes } NOT = {
+					is_ship_class = shipclass_military
+					owner = { OR = { is_eternal_faction = yes is_infinite_faction = yes } } NOT = {
 					has_fleet_flag = random_list_eternal_fleet_rate_placeholder
 				} }
 				mult_half_variable = { WHICH = kuat_fleet_count_check VALUE = 0.9 }
@@ -1579,7 +1627,7 @@ country_event = {
 				limit = { ROOT = { is_infinite_faction = yes } }
 				fromfromfrom = { every_owned_ship = { 
 					limit = { NOT = { has_ship_flag = random_list_eternal_fleet_rate_placeholder }  }
-					set_ship_flag = is_modifiering ship_event = { id = exe_invasion.129 } 
+					set_ship_flag = is_modifiering ship_event = { id = exe_invasion.136 } 
 					set_timed_ship_flag = { flag = random_list_eternal_fleet_rate_placeholder days = 1 }
 				} }
 			}
@@ -2006,6 +2054,7 @@ country_event = {
 	is_triggered_only = yes
 	trigger = {
 		is_invisable_faction = yes
+		is_infinite_faction = no
 		from = { is_invisable_faction = no }
 	}
 	immediate = {
@@ -2019,7 +2068,6 @@ country_event = {
 			set_timed_ship_flag = { flag = enable_random_list_effect days = 1 }
 			random_list = {
 				100 = {
-					modifier = { factor = 0.2 root = { is_infinite_faction = yes } }
 					modifier = {
 						factor = 0.9
 						event_target:global_event_country = { check_variable = { which = eternal_fleet_return_index value = 1 } }
@@ -2185,6 +2233,7 @@ country_event = {
 	is_triggered_only = yes
 	trigger = {
 		is_invisable_faction = yes
+		is_infinite_faction = no
 		from = { is_invisable_faction = no }
 	}
 	immediate = { 
@@ -2196,7 +2245,6 @@ country_event = {
 			}
 			random_list = {
 				400 = {
-					modifier = { factor = 0.2 root = { is_infinite_faction = yes } }
 					modifier = {
 						factor = 0.9
 						event_target:global_event_country = { check_variable = { which = eternal_fleet_return_index value = 1 } }
