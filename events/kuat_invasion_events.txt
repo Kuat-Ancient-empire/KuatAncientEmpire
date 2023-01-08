@@ -1381,7 +1381,7 @@ country_event = {
 		} }
 	}
 }
-@dupilcate_ship_count = 25
+@dupilcate_ship_count = 50
 country_event = {
 	id = exe_invasion.123
 	hide_window = yes
@@ -1397,19 +1397,20 @@ country_event = {
 					factor = 0
 					root.fromfromfrom = { OR = {
 						NOT = { is_ship_class = shipclass_military }
-						kuat_is_flagship_system_protection = yes
+						kuat_is_kuat_ship = yes
 						has_ship_flag = infinite_faction_battle_duplicate_ship_temple
 						fleet = { check_variable = { which = infinite_faction_battle_duplicate_ship value >= @dupilcate_ship_count } }
 					} }
 				}
-				root = {  
-					from = { random_owned_design = {
-						limit = { is_same_value = root.fromfromfrom }
-						save_event_target_as = infinite_faction_battle_duplicate_ship
-					} }
-					fromfromfrom.fleet = { change_variable = { which = infinite_faction_battle_duplicate_ship value = 1 } }
+				root.fromfromfrom = { if = {
+					limit = { kuat_is_kuat_ship = no is_ship_class = shipclass_military }
+					save_event_target_as = infinite_faction_battle_duplicate_ship 
+					fleet = { change_variable = { which = infinite_faction_battle_duplicate_ship value = 1 } }
+				} }
+				if = {
+					limit = { exists = event_target:infinite_faction_battle_duplicate_ship }
+					fleet = { create_ship = { design = event_target:infinite_faction_battle_duplicate_ship } }
 				}
-				fleet = { create_ship = { design = event_target:infinite_faction_battle_duplicate_ship } }
 				set_timed_ship_flag = { flag = infinite_faction_battle_duplicate_ship_temple days = 1 }
 			}
 			1 = {
@@ -1444,7 +1445,7 @@ country_event = {
 					}
 				} }
 			}
-			2 = { no_events = yes }
+			4 = { no_events = yes }
 		} }
 	}
 }
