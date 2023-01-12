@@ -1410,7 +1410,54 @@ create_kuat_awakening_fleet = {
 #RETURN FLEET
 create_kuat_return_fleet_defender = {
 	optimize_memory
-	every_system = {
+	if = { limit = { has_global_flag = has_origin_eternalthrone }
+		every_system = { limit = { kuat_is_kuat_system = yes }
+			switch = {
+				trigger = has_global_flag
+				difficult_exe_invasion = { create_exe_invasion_fleet = {
+					NAME = Name_DFLEET_II
+					is_boss = yes  can_disband = no
+					Fleet_owner = event_target:return_kuat_awakening_country
+					bombardment = indiscriminate
+					Sector = 2  Resugrant = 100  high_Imperial = 200  DIFF = 1
+					Location = prev.star
+				} }
+				normal_exe_invasion = {	create_exe_invasion_fleet = {
+					NAME = Name_DFLEET_II
+					is_boss = yes  can_disband = no
+					Fleet_owner = event_target:return_kuat_awakening_country
+					bombardment = indiscriminate
+					Sector = 2  Resugrant = 100  high_Imperial = 200  DIFF = 2
+					Location = prev.star
+				} }
+				easy_exe_invasion = { create_exe_invasion_fleet = {
+					NAME = Name_DFLEET_II
+					is_boss = yes  can_disband = no
+					Fleet_owner = event_target:return_kuat_awakening_country
+					bombardment = indiscriminate
+					Sector = 2  Resugrant = 100  high_Imperial = 200  DIFF = 3
+					Location = prev.star
+				} }
+				ban_exe_invasion = { create_exe_invasion_fleet = {
+					NAME = Name_DFLEET_II
+					is_boss = yes  can_disband = no
+					Fleet_owner = event_target:return_kuat_awakening_country
+					bombardment = indiscriminate
+					Sector = 2  Resugrant = 100  high_Imperial = 200  DIFF = 3
+					Location = prev.star
+				} }
+				default = { create_exe_invasion_fleet = {
+					NAME = Name_DFLEET_II
+					is_boss = yes  can_disband = no
+					Fleet_owner = event_target:return_kuat_awakening_country
+					bombardment = indiscriminate
+					Sector = 2  Resugrant = 100  high_Imperial = 200  DIFF = 3
+					Location = prev.star
+				} }
+			}
+		}
+	}
+	else = { every_system = {
 		limit = { kuat_is_kuat_system = yes }
 		switch = {
 			trigger = has_global_flag
@@ -1455,7 +1502,7 @@ create_kuat_return_fleet_defender = {
 				Location = prev.star
 			} }
 		}
-	}
+	} }
 }
 
 create_kuat_return_fleet_attacker = {
@@ -1476,6 +1523,20 @@ create_kuat_return_fleet_attacker = {
 create_random_list_return_kuat_fleet = {
 	optimize_memory
 	random_list = {
+		1 = {
+			modifier = { factor = 0 NOT = { has_global_flag = has_origin_eternalthrone } }
+			modifier = { factor = 5 has_global_flag = has_origin_eternalthrone }
+			create_exe_invasion_fleet = {
+				NAME = Name_DFLEET_II
+				flag = third_attack_fleet
+				is_boss = yes  can_disband = no
+				Fleet_owner = event_target:return_kuat_awakening_country
+				bombardment = indiscriminate
+				Sector = 1  Resugrant = 12  high_Imperial = 24  Harrower = 48  DIFF = $DIFF$
+				Location = prev.star fleet_action = ai_action.12
+				VAR_TARGET = event_target:return_kuat_awakening_country
+			}
+		}
 		1 = { create_exe_invasion_fleet = {
 			NAME = Name_DFLEET_II
 			flag = third_attack_fleet
@@ -2057,6 +2118,7 @@ create_exe_invasion_fleet = {
 			[[Infinite_Crusier] while = { count = $Infinite_Crusier$ create_ship = { design = Name_boss_crisis_IC_$DIFF$ } }]
 			[[Infinite_Mothership] while = { count = $Infinite_Mothership$ create_ship = { design = Name_boss_crisis_IMS_$DIFF$ } }]
 
+			[[Sector] while = { count = $Sector$ create_ship = { design = Name_boss_crisis_Sector_$DIFF$ } }]
 			[[Venganza] while = { count = $Venganza$ create_ship = { design = Name_boss_crisis_Venganza_$DIFF$ } }]
 			[[Dominance] while = { count = $Dominance$ create_ship = { design = Name_boss_CRISIS_Dominance_$DIFF$ } }]
 			[[Balletor] while = { count = $Balletor$ create_ship = { design = Name_boss_CRISIS_Balletor_$DIFF$ } }]
