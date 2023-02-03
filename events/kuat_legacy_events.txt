@@ -1,6 +1,6 @@
 namespace = kuat_legacy
 @standard_lower_days = 5
-@standard_event_days = 10
+@standard_event_days = 30
 @standard_random_days = 15
 #GAIA ARCHITECT
 country_event = {
@@ -25,6 +25,7 @@ country_event = {
 				exists = event_target:eternal_support_country
 			}
 		}
+		any_planet_within_border = { kuat_is_legacy_arc_planet = yes }
 	}
 	immediate = {
 		random_planet_within_border = {
@@ -36,17 +37,6 @@ country_event = {
 
 planet_event = {
 	id = kuat_legacy.2
-	hide_window = yes
-	is_triggered_only = yes
-	immediate = {
-		change_pc = pc_gaia
-		create_archaeological_site = kuat_lagacy
-		solar_system = { owner = { country_event = { id = kuat_legacy.42 } } }
-	}
-}
-
-country_event = {
-	id = kuat_legacy.42
 	title = "kuat_legacy.2.title"
 	desc = "kuat_legacy.2.desc"
 	diplomatic = yes
@@ -54,8 +44,24 @@ country_event = {
 	custom_gui_option = "kuat_event_m_option"
 	picture_event_data = { room = gaia_planet_room }
 	is_triggered_only = yes
+	immediate = {
+		change_pc = pc_gaia create_archaeological_site = kuat_lagacy
+		# solar_system = { owner = { country_event = { id = kuat_legacy.42 } } }
+	}
 	option = { name = "kuat_legacy.2.a" }
 }
+
+# country_event = {
+# 	id = kuat_legacy.42
+# 	title = "kuat_legacy.2.title"
+# 	desc = "kuat_legacy.2.desc"
+# 	diplomatic = yes
+# 	custom_gui = "kuat_event_m_window"
+# 	custom_gui_option = "kuat_event_m_option"
+# 	picture_event_data = { room = gaia_planet_room }
+# 	is_triggered_only = yes
+# 	option = { name = "kuat_legacy.2.a" }
+# }
 
 fleet_event = {
 	id = kuat_legacy.3
@@ -156,7 +162,7 @@ fleet_event = {
 	option = {
 		name = kuat_legacy.6.a
 		from.planet = { change_pc = pc_frozen }
-		hidden_effect = { owner = { country_event = { id = kuat_legacy.7 days = @standard_event_days random = @standard_random_days } } }
+		hidden_effect = { owner = { set_country_flag = discoveryancientkuat01 } }
 	}
 }
 
@@ -166,13 +172,17 @@ country_event = {
 	title = "kuat_legacy.7.title"
 	desc = "kuat_legacy.7.desc"
 	diplomatic = yes
-	picture_event_data = {
-		room = gas_giant_room
-	}
+	picture_event_data = { room = gas_giant_room }
 	custom_gui = "kuat_event_m_window"
 	custom_gui_option = "kuat_event_m_option"
-	is_triggered_only = yes
+	mean_time_to_happen = { days = @standard_event_days }
 	fire_only_once = yes
+	trigger = {
+		has_country_flag = discoveryancientkuat01
+		NOT = { has_country_flag = discoveryancientkuat01_ALREADY }
+		any_planet_within_border = { is_planet_class = pc_gas_giant NOT = { exists = archaeological_site } }
+	}
+	immediate = { set_country_flag = discoveryancientkuat01_ALREADY }
 	option = {
 		name = kuat_legacy.7.a
 		hidden_effect = { country_event = { id = kuat_legacy.8 days = @standard_event_days } }
@@ -184,9 +194,7 @@ country_event = {
 	title = "kuat_legacy.8.title"
 	desc = "kuat_legacy.8.desc"
 	diplomatic = yes
-	picture_event_data = {
-		room = gas_giant_station_room
-	}
+	picture_event_data = { room = gas_giant_station_room }
 	custom_gui = "kuat_event_m_window"
 	custom_gui_option = "kuat_event_m_option"
 	is_triggered_only = yes
@@ -290,7 +298,7 @@ fleet_event = {
 	option = {
 		name = kuat_legacy.12.a
 		owner = { add_resource = { influence = 300 } }
-		hidden_effect = { owner = { country_event = { id = kuat_legacy.13 days = @standard_event_days random = @standard_lower_days } } }
+		hidden_effect = { owner = { set_country_flag = discoveryancientkuat02 } }
 	}
 }
 
@@ -301,21 +309,26 @@ country_event = {
 	title = "kuat_legacy.13.title"
 	desc = "kuat_legacy.13.desc"
 	diplomatic = yes
-	picture_event_data = {
-		room = ancient_databank_room
-	}
+	picture_event_data = { room = ancient_databank_room }
 	custom_gui = "kuat_event_m_window"
 	custom_gui_option = "kuat_event_m_option"
-	is_triggered_only = yes
+	mean_time_to_happen = { days = @standard_event_days }
 	fire_only_once = yes
-	trigger = { is_ai = no }
+	trigger = {
+		has_country_flag = discoveryancientkuat02
+		NOT = { has_country_flag = discoveryancientkuat02_ALREADY }
+		any_planet_within_border = { is_colony = no is_planet_class = pc_ocean NOT = { exists = archaeological_site } }
+	}
+	immediate = { set_country_flag = discoveryancientkuat02_ALREADY }
 	option = {
 		name = kuat_legacy.13.a
-		random_planet_within_border = {
-			limit = { kuat_is_legacy_arc_planet = yes }
-			change_pc = pc_ocean
+		hidden_effect = { random_planet_within_border = {
+			limit = {
+				is_colony = no is_planet_class = pc_ocean 
+				NOT = { exists = archaeological_site }
+			}
 			create_archaeological_site = kuat_lagacy_3
-		}
+		} }
 	}
 }
 
