@@ -1905,6 +1905,11 @@ country_event = {
 				create_ship_design = { design = Name_boss_crisis_EFS_3 }
 				add_ship_design = last_created_design
 			}
+			if = {
+				limit = { NOT = { has_existing_ship_design = kuat_sector } }
+				create_ship_design = { design = Name_boss_crisis_Sector_3 }
+				add_ship_design = last_created_design
+			}
 		}
 	}
 	after = { event_target:eternal_support_country = { destroy_country = yes } }
@@ -1940,18 +1945,6 @@ country_event = {
 	is_triggered_only = yes
 	trigger = { has_global_flag = eternal_support_country_channal }
 	#For ALL thing we need say good bye, for the future we will see again
-	immediate = {
-		if = {
-			limit = { NOT = { has_existing_ship_design = eternal_battleship } }
-			create_ship_design = { design = Name_boss_crisis_EBC_3 }
-			add_ship_design = last_created_design
-		}
-		if = {
-			limit = { NOT = { has_existing_ship_design = eternal_flagship } }
-			create_ship_design = { design = Name_boss_crisis_EFS_3 }
-			add_ship_design = last_created_design
-		}
-	}
 	option = { 
 		name = kuat_facility_return_invasion.25.b 
 		is_dialog_only = yes
@@ -1984,6 +1977,8 @@ country_event = {
 	immediate = { 
 		set_global_flag = eternal_ended_A_rountine
 		event_target:zakuul_system = { create_elternal_origin_system_warbase = { lock = yes } }
+		remove_global_flag = eternal_support_country_disabled
+		clear_variable = eternal_kuat_invasion_fleet_num
 	}
 	option = { name = "kuat_facility_return_invasion.26.a" }
 }

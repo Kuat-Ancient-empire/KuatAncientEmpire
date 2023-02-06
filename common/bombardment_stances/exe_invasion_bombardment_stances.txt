@@ -9,3 +9,31 @@ exe_invasion_bombardment = {
 	min_pops_to_kill_pop = 0
 	ai_weight = { weight = 5000 }
 }
+
+kuat_stance_plague_spread = {
+	trigger = {
+		exists = owner
+		owner = {
+			has_technology = kuat_tech_plague_spread
+			any_owned_planet = { has_planet_flag = kuat_plague_planet }
+		}
+	}
+	default = no
+	stop_when_armies_dead = no
+	abduct_pops = no
+	planet_damage = 1
+	army_damage = 0
+	kill_pop_chance = { base = 0.05 }
+	min_pops_to_kill_pop = 6
+	ai_weight = {
+		weight = 100
+		modifier = {
+			factor = 0
+			exists = from
+			from = { OR = {
+				is_owned_by = root.owner
+				kuat_trigger_plague_valid_planet = no
+			} }
+		}
+	}
+}

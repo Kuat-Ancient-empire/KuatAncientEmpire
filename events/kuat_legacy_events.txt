@@ -862,6 +862,344 @@ planet_event = {
 	}
 }
 
+#F Area
+#inform the strange signal
+country_event = {
+	id = kuat_legacy.100
+	title = "kuat_lagacy.100.name"
+	desc = "kuat_lagacy.100.desc"
+	diplomatic = yes
+	picture_event_data = { room = ancient_knowledge_room }
+	custom_gui = "kuat_event_m_window"
+	custom_gui_option = "kuat_event_m_option"
+	mean_time_to_happen = { 
+		years = 2  
+		modifier = { factor = 0.5 years_passed > 125 }
+		modifier = { factor = 0.25 years_passed > 175 }
+	}
+	fire_only_once = yes
+	trigger = { 
+		is_player_country = yes
+		NOR = { 
+			has_origin = origin_eternalthrone 
+			has_origin = origin_kuat_apocalyptic
+		}
+		has_country_flag = fire_the_legacy_kuat_stage_5
+	}
+	immediate = { set_country_flag = enable_the_F_system_line }
+	option = { 
+		name = "kuat_legacy.100.a" 
+		hidden_effect = { 
+			country_event = { id = kuat_legacy.101 days = 35 random = 35 } 
+			random_owned_leader = {
+				limit = { leader_class = scientist }
+				save_event_target_as = reporter_scientist_leader
+			}
+		}
+	}
+}
+
+#scientist report about strange system
+country_event = {
+	id = kuat_legacy.101
+	title = "kuat_lagacy.101.name"
+	desc = {
+		trigger = {
+			success_text = {
+				text = "kuat_lagacy.101.4.desc"
+				NOR = {
+					has_country_flag = kuat_legacy_discovery0
+					has_country_flag = kuat_legacy_discovery1
+					has_country_flag = kuat_legacy_discovery2
+					has_country_flag = kuat_legacy_discovery3
+				}
+			}
+			success_text = {
+				text = "kuat_lagacy.101.0.desc"
+				has_country_flag = kuat_legacy_discovery0
+			}
+			success_text = {
+				text = "kuat_lagacy.101.1.desc"
+				has_country_flag = kuat_legacy_discovery1
+			}
+			success_text = {
+				text = "kuat_lagacy.101.2.desc"
+				has_country_flag = kuat_legacy_discovery2
+			}
+			success_text = {
+				text = "kuat_lagacy.101.3.desc"
+				has_country_flag = kuat_legacy_discovery3
+			}
+		}
+	}
+	diplomatic = yes
+	picture_event_data = { 
+		room = root
+		portrait = event_target:reporter_scientist_leader
+		planet_background = root
+		city_level = root 
+	}
+	custom_gui = "kuat_event_diplomacy_window"
+	custom_gui_option = "kuat_event_diplomacy_option"
+	is_triggered_only = yes
+	trigger = { has_country_flag = enable_the_F_system_line }
+	option = {
+		name = kuat_legacy.101.a
+		hidden_effect = {
+			remove_country_flag = kuat_legacy_discovery1
+			remove_country_flag = kuat_legacy_discovery2
+			remove_country_flag = kuat_legacy_discovery3
+			set_country_flag = kuat_legacy_discovery0
+			country_event = { id = kuat_legacy.101 }
+		}
+	}
+	option = {
+		name = kuat_legacy.101.b
+		hidden_effect = {
+			remove_country_flag = kuat_legacy_discovery0
+			remove_country_flag = kuat_legacy_discovery2
+			remove_country_flag = kuat_legacy_discovery3
+			set_country_flag = kuat_legacy_discovery1
+			country_event = { id = kuat_legacy.101 }
+		}
+	}
+	option = {
+		name = kuat_legacy.101.c
+		hidden_effect = {
+			remove_country_flag = kuat_legacy_discovery0
+			remove_country_flag = kuat_legacy_discovery1
+			remove_country_flag = kuat_legacy_discovery3
+			set_country_flag = kuat_legacy_discovery2
+			country_event = { id = kuat_legacy.101 }
+		}
+	}
+	option = {
+		name = kuat_legacy.101.d
+		hidden_effect = {
+			remove_country_flag = kuat_legacy_discovery0
+			remove_country_flag = kuat_legacy_discovery2
+			remove_country_flag = kuat_legacy_discovery1
+			set_country_flag = kuat_legacy_discovery3
+			country_event = { id = kuat_legacy.101 }
+		}
+	}
+	option = {
+		name = kuat_legacy.101.e
+		hidden_effect = {
+			capital_scope = {
+				set_spawn_system_batch = begin
+				spawn_system = { initializer = myst_system_5 hyperlane = no }
+				set_spawn_system_batch = end
+			}
+		}
+		default_hide_option = yes
+	}
+}
+
+# entering  system infomation
+ship_event = {
+	id = kuat_legacy.102
+	is_triggered_only = yes
+	title = "kuat_legacy.50.title"
+	desc = "kuat_legacy.102.desc"
+	diplomatic = yes
+	fire_only_once = yes
+	picture_event_data = { room = star_neutron_room }
+	custom_gui = "kuat_event_window"
+	custom_gui_option = "kuat_event_option"
+	trigger = {
+		fromfrom = { has_country_flag = enable_the_F_system_line }
+		from = { has_star_flag = myst_system_5 }
+	}
+	immediate = {
+		fromfrom = { add_event_chain_counter = {
+			event_chain = ag_legacy_invasion_chain
+			counter = ag_legacy_system_amount
+			amount = 1
+		} }
+	}
+	option = {
+		name = kuat_legacy.102.a
+		hidden_effect = { owner = { establish_communications_no_message = event_target:kuat_contractor_country } }
+	}
+	after = { owner = { country_event = { id = kuat_legacy.103 } } }
+}
+
+#first contact with contractor
+country_event = {
+	id = kuat_legacy.103
+	diplomatic = yes
+	title = "kuat_legacy.103.title"
+	desc = "kuat_legacy.103.desc"
+	picture_event_data = { room = no_video_feed_room }
+	custom_gui = "kuat_event_diplomacy_window"
+	custom_gui_option = "kuat_event_diplomacy_option"
+	is_triggered_only = yes
+	option = {
+		name = "kuat_legacy.103.a"
+		hidden_effect = { set_country_flag = enable_the_F_system_contractor }
+	}
+}
+
+country_event = {
+	id = kuat_legacy.104
+	title = "kuat_legacy.103.title"
+	desc = {
+		trigger = {
+			success_text = {
+				text = "kuat_legacy.104.0.desc"
+				NOR = {
+					has_country_flag = kuat_legacy.104.setp.1
+					has_country_flag = kuat_legacy.104.setp.2
+				}
+			}
+			success_text = {
+				text = "kuat_legacy.104.1.desc"
+				has_country_flag = kuat_legacy.104.setp.1
+			}
+			success_text = {
+				text = "kuat_legacy.104.2.desc"
+				has_country_flag = kuat_legacy.104.setp.2
+			}
+		}
+	}
+	picture_event_data = { room = no_video_feed_room }
+	custom_gui = "kuat_event_diplomacy_window"
+	custom_gui_option = "kuat_event_diplomacy_option"
+	location = event_target:kuat_contractor_country
+	is_triggered_only = yes
+	diplomatic = yes
+	trigger = { 
+		has_country_flag = enable_the_F_system_contractor
+		exists = event_target:kuat_contractor_country
+		OR = {
+			NOT = { has_active_event = { kuat_legacy.104 } }
+			from = { is_same_value = root }
+		}
+		OR = {
+			from = { is_country_type = kuat_contractor }
+			from = { is_same_value = root }
+		}
+	}
+	# improve relation message
+	option = { #endodia
+		name = kuat_legacy.104.a
+		trigger = { OR = {
+			check_variable = { which = KUAT_RELATION_CONTRACTOR_VAR value < 1 } 
+			NOT = { is_variable_set = KUAT_RELATION_CONTRACTOR_VAR }
+		} }
+		hidden_effect = { 
+			remove_country_flag = kuat_legacy.104.setp.2
+			set_country_flag = kuat_legacy.104.setp.1
+			change_variable = { which = KUAT_RELATION_CONTRACTOR_VAR value = 1 }
+			get_action_for_contrator_kuat_plague_alert = yes
+		}
+		response_text = kuat_legacy.104.a.res
+	}
+	option = { #kuat
+		name = kuat_legacy.104.b
+		trigger = { check_variable = { which = KUAT_RELATION_CONTRACTOR_VAR value = 1 } }
+		hidden_effect = { 
+			remove_country_flag = kuat_legacy.104.setp.2
+			set_country_flag = kuat_legacy.104.setp.1
+			change_variable = { which = KUAT_RELATION_CONTRACTOR_VAR value = 1 }
+			get_action_for_contrator_kuat_plague_alert = yes
+		}
+		response_text = kuat_legacy.104.b.res
+	}
+	option = { #eternal fleet
+		name = kuat_legacy.104.c
+		trigger = { check_variable = { which = KUAT_RELATION_CONTRACTOR_VAR value = 2 } }
+		hidden_effect = { 
+			remove_country_flag = kuat_legacy.104.setp.2
+			set_country_flag = kuat_legacy.104.setp.1
+			change_variable = { which = KUAT_RELATION_CONTRACTOR_VAR value = 1 }
+			get_action_for_contrator_kuat_plague_alert = yes
+		}
+		response_text = kuat_legacy.104.c.res
+	}
+	option = { #facility protector
+		name = kuat_legacy.104.d
+		trigger = { check_variable = { which = KUAT_RELATION_CONTRACTOR_VAR value = 3 } }
+		hidden_effect = { 
+			remove_country_flag = kuat_legacy.104.setp.2
+			set_country_flag = kuat_legacy.104.setp.1
+			change_variable = { which = KUAT_RELATION_CONTRACTOR_VAR value = 1 }
+			get_action_for_contrator_kuat_plague_alert = yes
+		}
+		response_text = kuat_legacy.104.d.res
+	}
+	# futrue
+	option = { #eternal empire
+		name = kuat_legacy.104.e
+		trigger = { check_variable = { which = KUAT_RELATION_CONTRACTOR_VAR value = 4 } }
+		hidden_effect = { 
+			remove_country_flag = kuat_legacy.104.setp.1
+			set_country_flag = kuat_legacy.104.setp.2
+			change_variable = { which = KUAT_RELATION_CONTRACTOR_VAR value = 1 }
+			get_action_for_contrator_kuat_plague_alert = yes
+		}
+		response_text = kuat_legacy.104.e.res
+	}
+	option = { #infinite empire
+		name = kuat_legacy.104.f
+		trigger = { check_variable = { which = KUAT_RELATION_CONTRACTOR_VAR value = 5 } }
+		hidden_effect = { 
+			remove_country_flag = kuat_legacy.104.setp.1
+			set_country_flag = kuat_legacy.104.setp.2
+			change_variable = { which = KUAT_RELATION_CONTRACTOR_VAR value = 1 }
+			get_action_for_contrator_kuat_plague_alert = yes
+		}
+		response_text = kuat_legacy.104.f.res
+	}
+	option = { #our future
+		name = kuat_legacy.104.g
+		trigger = { check_variable = { which = KUAT_RELATION_CONTRACTOR_VAR value = 6 } }
+		hidden_effect = { 
+			remove_country_flag = kuat_legacy.104.setp.1
+			set_country_flag = kuat_legacy.104.setp.2
+			change_variable = { which = KUAT_RELATION_CONTRACTOR_VAR value = 1 }
+			get_action_for_contrator_kuat_plague_alert = yes
+		}
+		response_text = kuat_legacy.104.g.res
+	}
+	option = { #what are you
+		name = kuat_legacy.104.h
+		trigger = { check_variable = { which = KUAT_RELATION_CONTRACTOR_VAR value = 7 } }
+		hidden_effect = { 
+			remove_country_flag = kuat_legacy.104.setp.1
+			set_country_flag = kuat_legacy.104.setp.2
+			change_variable = { which = KUAT_RELATION_CONTRACTOR_VAR value = 1 }
+			get_action_for_contrator_kuat_plague_alert = yes
+		}
+		response_text = kuat_legacy.104.h.res
+	}
+
+	# inform and alert the plague
+	option = {
+		name = kuat_legacy.104.i
+		trigger = { 
+			NOT = { has_country_flag = fire_only_once_option }
+			check_variable = { which = KUAT_RELATION_CONTRACTOR_VAR value = 8 } 
+		}
+		hidden_effect = { 
+			remove_country_flag = kuat_legacy.104.setp.1
+			set_country_flag = kuat_legacy.104.setp.2
+			clear_variable = KUAT_RELATION_CONTRACTOR_VAR
+			set_country_flag = fire_only_once_option
+			set_global_flag = kuat_plague_enable
+			country_event = { id = kuat_plague.0 days = 1800 random = 900 }
+		}
+		response_text = kuat_legacy.104.i.res
+	}
+	option = { name = kuat_shipyard.exit default_hide_option = yes }
+	after = { if = {
+		limit = { has_global_flag = kuat_plague_enable }
+		event_target:kuat_contractor_country = { destroy_country = yes }
+	} }
+}
+
+
 #A B设施额外拓展坟 远古之影
 fleet_event = {
 	id = kuat_legacy.181

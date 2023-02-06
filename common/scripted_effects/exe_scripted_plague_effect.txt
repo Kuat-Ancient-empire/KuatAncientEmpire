@@ -1,0 +1,80 @@
+kuat_effect_plague_give_immune_tech_boost = {
+	if = {
+		limit = { has_technology = kuat_tech_plague_immune }
+		no_events = yes
+	}
+	else_if = {
+		limit = { 
+			is_ai = no
+			NOT = { has_tech_option = kuat_tech_plague_immune } 
+		}
+		add_research_option = kuat_tech_plague_immune
+	}
+	else_if = { 
+		limit = { is_ai = yes }
+		give_technology = { tech = kuat_tech_plague_immune message = no }
+	}
+	else = { add_tech_progress = {
+		tech = kuat_tech_plague_immune
+		progress = 0.5
+	} }
+}
+
+kuat_effect_random_roll_flags_2_country = {
+	remove_country_flag = kuat_random_0
+	remove_country_flag = kuat_random_1
+	random_list = {
+		10 = { set_timed_country_flag = { flag = kuat_random_0 days = 1 } }
+		10 = { set_timed_country_flag = { flag = kuat_random_1 days = 1 } }
+	}
+}
+
+kuat_effect_plague_planet_clean = {
+	remove_planet_flag = kuat_plague_planet
+	remove_modifier = kuat_plague_lvl_1
+	remove_modifier = kuat_plague_lvl_2
+	remove_modifier = kuat_plague_lvl_3
+	# every_owned_pop = {
+	# 	remove_pop_flag = kuat_plague_pop
+	# }
+	if = {
+		limit = {
+			exists = owner
+			owner = {
+				has_event_chain = kuat_chain_plague_count
+			}
+		}
+		owner = {
+			add_event_chain_counter = {
+				event_chain = kuat_chain_plague_count
+				counter = kuat_chain_plague_infested_planet
+				amount = -1
+			}
+		}
+	}
+	every_playable_country = {
+		limit = {
+			has_event_chain = kuat_chain_plague_count
+		}
+		add_event_chain_counter = {
+			event_chain = kuat_chain_plague_count
+			counter = kuat_chain_plague_infested_planet_total
+			amount = -1
+		}
+	}
+}
+
+get_action_for_contrator_kuat_plague_alert = {
+	random_list = {
+		1 = { while = { count = 11 random_owned_pop = { kill_pop = yes } } }
+		1 = { while = { count = 10 random_owned_pop = { kill_pop = yes } } }
+		1 = { while = { count = 9 random_owned_pop = { kill_pop = yes } } }
+		1 = { while = { count = 8 random_owned_pop = { kill_pop = yes } } }
+		1 = { while = { count = 6 random_owned_pop = { kill_pop = yes } } }
+		1 = { while = { count = 5 random_owned_pop = { kill_pop = yes } } }
+		1 = { while = { count = 4 random_owned_pop = { kill_pop = yes } } }
+		1 = { while = { count = 3 random_owned_pop = { kill_pop = yes } } }
+		1 = { while = { count = 2 random_owned_pop = { kill_pop = yes } } }
+		1 = { while = { count = 1 random_owned_pop = { kill_pop = yes } } }
+	}
+}
