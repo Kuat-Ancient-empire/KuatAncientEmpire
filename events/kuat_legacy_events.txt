@@ -317,16 +317,14 @@ country_event = {
 	trigger = {
 		has_country_flag = discoveryancientkuat02
 		NOT = { has_country_flag = discoveryancientkuat02_ALREADY }
-		any_planet_within_border = { is_colony = no is_planet_class = pc_ocean NOT = { exists = archaeological_site } }
+		any_planet_within_border = { kuat_is_legacy_arc_planet = yes }
 	}
 	immediate = { set_country_flag = discoveryancientkuat02_ALREADY }
 	option = {
 		name = kuat_legacy.13.a
 		hidden_effect = { random_planet_within_border = {
-			limit = {
-				is_colony = no is_planet_class = pc_ocean 
-				NOT = { exists = archaeological_site }
-			}
+			limit = { kuat_is_legacy_arc_planet = yes }
+			change_pc = pc_ocean
 			create_archaeological_site = kuat_lagacy_3
 		} }
 	}
@@ -1188,6 +1186,11 @@ country_event = {
 			clear_variable = KUAT_RELATION_CONTRACTOR_VAR
 			set_country_flag = fire_only_once_option
 			set_global_flag = kuat_plague_enable
+			if = {
+				limit = { NOT = { has_existing_ship_design = kuat_sector } }
+				create_ship_design = { design = Name_boss_crisis_Sector_3 }
+				add_ship_design = last_created_design
+			}
 			country_event = { id = kuat_plague.0 days = 1800 random = 900 }
 		}
 		response_text = kuat_legacy.104.i.res
