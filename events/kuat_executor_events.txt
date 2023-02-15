@@ -1980,6 +1980,7 @@ country_event = {
 		if = {
 			limit = { is_ai = no is_invisable_faction = no }
 			every_system = { 
+				limit = { NOT = { has_star_flag = kuat_starbase_megastructure_around_system } }
 				remove_star_flag = kuat_starbase_megastructure_conbine_system 
 				remove_modifier = "kuat_starbase_megastructure_around_system"
 				every_system_ambient_object = {
@@ -1996,6 +1997,30 @@ country_event = {
 					add_modifier = { modifier = "kuat_starbase_megastructure_around_system" }
 					create_ambient_object = { type = "contingency_2" location = this }
 				}
+			}
+		}
+		if = {
+			limit = { any_owned_planet = {
+				NOT = { num_pops = 5 }
+				has_building = building_kuat_command_center_auto
+			} }
+			every_owned_planet = {
+				limit = {
+					NOT = { num_pops = 5 }
+					has_building = building_kuat_command_center_auto
+				}
+				set_variable = { which = planet_temple_return_pop value = trigger:num_pops }
+				subtract_variable = { which = planet_temple_return_pop value = 5 }
+				multiply_variable = { which = planet_temple_return_pop value = -1 }
+				if = {
+					limit = { check_variable = { which = planet_temple_return_pop value > 0 } }
+					while = { count = planet_temple_return_pop create_pop = { species = owner_main_species } }
+				}
+				else_if = {
+					limit = { check_variable = { which = planet_temple_return_pop value < 0 } }
+					while = { count = planet_temple_return_pop random_owned_pop = { kill_pop = yes } }
+				}
+				else = { no_events = yes }
 			}
 		}
 		country_event = { id = executor_build.293 days = 1 } 

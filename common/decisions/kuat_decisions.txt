@@ -47,6 +47,41 @@ Building_The_Kuat_Command_Line = {
 	ai_weight = { weight = 0 }
 }
 
+Building_The_Kuat_Command_Line_Auto_planet = {
+	owned_planets_only = yes
+	sound = event_air_raid_siren
+	icon = decision_arcology_project
+	enactment_time = 15
+	resources = { 
+		category = decisions 
+		cost = { trigger = { FROM = { is_ai = yes } } influence = 25 }
+		cost = { trigger = { FROM = { is_ai = no } } alloys = 25000 }
+	}
+	potential = {
+		kuat_num_pops = { WHICH = PR_var_plnt_HC NUM = 35 }
+		from = { OR = {
+			is_ai = yes
+			has_technology = tech_kuat_command_center
+		} }
+		NOT = { has_building = building_kuat_command_center_auto }
+	}
+	effect = {
+		custom_tooltip = "building_kuat_command_center"
+		set_update_modifiers_batch = begin
+		destroy_colony = yes
+		remove_all_buildings = yes
+		clear_blockers = yes
+		add_building = building_kuat_command_center_auto
+		set_owner = FROM
+		while = { count = 5 create_pop = { species = owner_main_species } }
+		add_modifier = { modifier = planet_population_control }
+		add_modifier = { modifier = planet_population_control_gestalt }
+		add_modifier = { modifier = planet_robot_assembly_control }
+		set_update_modifiers_batch = end
+	}
+	ai_weight = { weight = 150000 }
+}
+
 Building_The_Kuat_Shield = {
 	owned_planets_only = yes
 	sound = event_air_raid_siren
