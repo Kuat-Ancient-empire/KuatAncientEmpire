@@ -60,7 +60,7 @@ Building_The_Kuat_Command_Line_Auto_planet = {
 	potential = {
 		kuat_num_pops = { WHICH = PR_var_plnt_HC NUM = 35 }
 		from = { OR = {
-			is_ai = yes
+			AND = { is_ai = yes years_passed > 75 }
 			has_technology = tech_kuat_command_center
 		} }
 		NOT = { has_building = building_kuat_command_center_auto }
@@ -79,7 +79,11 @@ Building_The_Kuat_Command_Line_Auto_planet = {
 		add_modifier = { modifier = planet_robot_assembly_control }
 		set_update_modifiers_batch = end
 	}
-	ai_weight = { weight = 150000 }
+	ai_weight = { 
+		weight = 1
+		modifier = { factor = 0 years_passed < 75 }
+		modifier = { factor = 150000 years_passed > 75 }
+	}
 }
 
 Building_The_Kuat_Shield = {
