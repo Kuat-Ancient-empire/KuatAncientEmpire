@@ -68,6 +68,7 @@ Building_The_Kuat_Command_Line_Auto_planet = {
 	effect = {
 		custom_tooltip = "building_kuat_command_center_auto_desc"
 		hidden_effect = {
+			
 			set_update_modifiers_batch = begin
 			destroy_colony = yes
 			remove_all_buildings = yes
@@ -79,6 +80,27 @@ Building_The_Kuat_Command_Line_Auto_planet = {
 			add_modifier = { modifier = planet_population_control_gestalt }
 			add_modifier = { modifier = planet_robot_assembly_control }
 			set_update_modifiers_batch = end
+
+			set_variable = { which = planet_production_array value = trigger:years_passed }
+			multiply_variable = { which = planet_production_array value = 0.1 }
+			change_variable = { which = planet_production_array value = trigger:planet_size }
+			if = {
+				limit = { owner = { is_nirvana_empire = yes is_ai = yes } }
+				if = { limit = { years_passed >= 100 } multiply_variable = { which = planet_production_array value = 1.5 } }
+				else_if = { limit = { years_passed >= 90 } multiply_variable = { which = planet_production_array value = 1.4 } }
+				else_if = { limit = { years_passed >= 80 } multiply_variable = { which = planet_production_array value = 1.3 } }
+				else_if = { limit = { years_passed >= 70 } multiply_variable = { which = planet_production_array value = 1.2 } }
+				else_if = { limit = { years_passed >= 60 } multiply_variable = { which = planet_production_array value = 1.1 } }
+				else = { multiply_variable = { which = planet_production_array value = 1.0 } }
+			}
+			else = {
+				if = { limit = { years_passed >= 100 } multiply_variable = { which = planet_production_array value = 1 } }
+				else_if = { limit = { years_passed >= 90 } multiply_variable = { which = planet_production_array value = 0.9 } }
+				else_if = { limit = { years_passed >= 80 } multiply_variable = { which = planet_production_array value = 0.8 } }
+				else_if = { limit = { years_passed >= 70 } multiply_variable = { which = planet_production_array value = 0.7 } }
+				else_if = { limit = { years_passed >= 60 } multiply_variable = { which = planet_production_array value = 0.6 } }
+				else = { multiply_variable = { which = planet_production_array value = 0.5 } }
+			}
 		}
 	}
 	ai_weight = { 
