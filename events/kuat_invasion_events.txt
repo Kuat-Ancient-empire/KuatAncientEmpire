@@ -2502,6 +2502,21 @@ event = {
 		}
 		every_galaxy_planet = {
 			limit = { has_building = building_kuat_command_center_auto }
+			if = {
+				limit = { NOT = { num_pops = 5 } }
+				set_variable = { which = planet_temple_return_pop value = trigger:num_pops }
+				subtract_variable = { which = planet_temple_return_pop value = 5 }
+				multiply_variable = { which = planet_temple_return_pop value = -1 }
+				if = {
+					limit = { check_variable = { which = planet_temple_return_pop value > 0 } }
+					while = { count = planet_temple_return_pop create_pop = { species = owner_main_species } }
+				}
+				else_if = {
+					limit = { check_variable = { which = planet_temple_return_pop value < 0 } }
+					multiply_variable = { which = planet_temple_return_pop value = -1 }
+					while = { count = planet_temple_return_pop random_owned_pop = { kill_pop = yes } }
+				}
+			}
 			set_variable = { which = planet_production_array value = trigger:years_passed }
 			change_variable = { which = planet_production_array value = planet_production_array_base }
 			multiply_variable = { which = planet_production_array value = 0.1 }
