@@ -71,6 +71,7 @@ Building_The_Kuat_Command_Line_Auto_planet = {
 			set_variable = { which = planet_production_array_base value = trigger:num_pops }
 			
 			set_update_modifiers_batch = begin
+			if = { limit = { is_capital = yes } set_timed_planet_flag = { flag = destroy_colony_capital_temple days = 1 } }
 			destroy_colony = yes
 			remove_all_buildings = yes
 			clear_blockers = yes
@@ -80,6 +81,7 @@ Building_The_Kuat_Command_Line_Auto_planet = {
 			add_modifier = { modifier = planet_population_control }
 			add_modifier = { modifier = planet_population_control_gestalt }
 			add_modifier = { modifier = planet_robot_assembly_control }
+			if = { limit = { has_planet_flag = destroy_colony_capital_temple } set_capital = yes }
 			set_update_modifiers_batch = end
 
 			set_variable = { which = planet_production_array value = trigger:years_passed }
@@ -107,7 +109,7 @@ Building_The_Kuat_Command_Line_Auto_planet = {
 	}
 	ai_weight = { 
 		weight = 1
-		modifier = { factor = 0 OR = { years_passed < 50 is_capital = yes } }
+		modifier = { factor = 0 OR = { years_passed < 50 AND = { is_capital = yes num_pops < 65 } } }
 		modifier = { factor = 150000 years_passed >= 50 }
 	}
 }
