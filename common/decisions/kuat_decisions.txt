@@ -55,10 +55,13 @@ Building_The_Kuat_Command_Line_Auto_planet = {
 	resources = { 
 		category = decisions 
 		cost = { trigger = { FROM = { is_ai = yes } } influence = 25 }
-		cost = { trigger = { FROM = { is_ai = no } } alloys = 25000 }
+		cost = { trigger = { FROM = { is_ai = no } } alloys = 5000 }
 	}
 	potential = {
-		kuat_num_pops = { WHICH = PR_var_plnt_HC NUM = 10 }
+		OR = { 
+			AND = { kuat_num_pops = { WHICH = PR_var_plnt_HC NUM = 10 } from = { is_ai = no } }
+			AND = { kuat_num_pops = { WHICH = PR_var_plnt_HC NUM = 1 } from = { is_ai = yes } }
+		}
 		from = { OR = {
 			AND = { is_ai = yes years_passed >= 50 }
 			has_technology = tech_kuat_command_center
@@ -68,9 +71,9 @@ Building_The_Kuat_Command_Line_Auto_planet = {
 	effect = {
 		custom_tooltip = "building_kuat_command_center_auto_desc"
 		hidden_effect = {
+			set_update_modifiers_batch = begin
 			set_variable = { which = planet_production_array_base value = trigger:num_pops }
 			
-			set_update_modifiers_batch = begin
 			if = { limit = { is_capital = yes } set_timed_planet_flag = { flag = destroy_colony_capital_temple days = 1 } }
 			destroy_colony = yes
 			remove_all_buildings = yes
@@ -82,7 +85,6 @@ Building_The_Kuat_Command_Line_Auto_planet = {
 			add_modifier = { modifier = planet_population_control_gestalt }
 			add_modifier = { modifier = planet_robot_assembly_control }
 			if = { limit = { has_planet_flag = destroy_colony_capital_temple } set_capital = yes }
-			set_update_modifiers_batch = end
 
 			set_variable = { which = planet_production_array value = trigger:years_passed }
 			change_variable = { which = planet_production_array value = planet_production_array_base }
@@ -105,6 +107,7 @@ Building_The_Kuat_Command_Line_Auto_planet = {
 				else_if = { limit = { years_passed >= 60 } multiply_variable = { which = planet_production_array value = 0.6 } }
 				else = { multiply_variable = { which = planet_production_array value = 0.5 } }
 			}
+			set_update_modifiers_batch = end
 		}
 	}
 	ai_weight = { 

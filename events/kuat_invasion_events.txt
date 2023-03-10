@@ -1179,6 +1179,82 @@ ship_event = {
 	}
 }
 
+#eclipse or eternal flagship lazer fixed
+country_event = {
+	id = exe_invasion.110
+	hide_window = yes
+	is_triggered_only = yes
+	trigger = { fromfrom = { 
+		any_owned_ship = { OR = { is_ship_size = eclipse is_ship_size = eternal_flagship } } 
+	} }
+	immediate = {
+		FROMFROM = { if = {
+			limit = { NOT = { has_fleet_flag = fire_only_once_temple_eclipse } }
+			every_owned_ship = {
+				limit = { 
+					NOT = { has_ship_flag = random_list_superlazer_rate_placeholder }
+					OR = { is_ship_size = eclipse is_ship_size = eternal_flagship } 
+				}
+				set_ship_flag = is_modifiering_superlazer
+				ship_event = { id = exe_invasion.112 }
+				set_timed_ship_flag = { flag = random_list_superlazer_rate_placeholder days = 1 }
+			}
+			set_timed_fleet_flag = { flag = fire_only_once_temple_eclipse days = 1 }
+		} }
+	}
+}
+
+ship_event = {
+	id = exe_invasion.112
+	hide_window = yes
+	is_triggered_only = yes
+	trigger = { has_ship_flag = is_modifiering_superlazer }
+	immediate = {
+		if = {
+			limit = { is_in_combat = yes }
+			if = {
+				limit = { check_variable = { which = fire_ship_var value < 1 } }
+				export_modifier_to_variable = { modifier = ship_fire_rate_mult variable = super_lazer_ship_fire_rate_mult_var }
+				add_modifier = { modifier = super_lazer_ship_fire_rate_mult_modifier multiplier = super_lazer_ship_fire_rate_mult_var }
+			}
+			else_if = {
+				limit = { check_variable = { which = fire_ship_var value >= 1 } }
+				export_modifier_to_variable = { 
+					modifier = ship_fire_rate_mult 
+					variable = debug_super_lazer_ship_fire_rate_mult_var 
+				}
+				export_modifier_to_variable = { 
+					modifier = weapon_type_kuat_superlazer_scale_weapon_fire_rate_mult 
+					variable = debug_super_lazer_weapon_type_kuat_superlazer_scale_weapon_fire_rate_mult_var 
+				}
+				change_variable = { 
+					which = final_super_lazer_ship_fire_rate_mult_var 
+					value = debug_super_lazer_ship_fire_rate_mult_var 
+				}
+				change_variable = { 
+					which = final_super_lazer_ship_fire_rate_mult_var 
+					value = debug_super_lazer_weapon_type_kuat_superlazer_scale_weapon_fire_rate_mult_var 
+				}
+				add_modifier = { 
+					modifier = debug_super_lazer_ship_fire_rate_mult_modifier 
+					multiplier = final_super_lazer_ship_fire_rate_mult_var 
+				}
+			}
+			if = { limit = { NOT = { is_variable_set = fire_ship_var } } set_variable = { which = fire_ship_var value = 1 } }
+			ship_event = { id = exe_invasion.112 days = 1 }
+		}
+		else = {
+			remove_ship_flag = is_modifiering_superlazer 
+			clear_variable = super_lazer_ship_fire_rate_mult_var
+			remove_modifier = super_lazer_ship_fire_rate_mult_modifier
+			clear_variable = debug_super_lazer_ship_fire_rate_mult_var
+			clear_variable = debug_super_lazer_weapon_type_kuat_superlazer_scale_weapon_fire_rate_mult_var
+			clear_variable = final_super_lazer_ship_fire_rate_mult_var
+			remove_modifier = debug_super_lazer_ship_fire_rate_mult_modifier
+			clear_variable = fire_ship_var
+		}
+	}
+}
 #flagship protection difficult
 country_event = {
 	id = exe_invasion.116
@@ -2005,7 +2081,7 @@ country_event = {
 	trigger = {
 		is_invisable_faction = no
 		from = { is_invisable_faction = no }
-		fromfrom = { count_owned_ship = { limit = { has_component = EXE_STARBASE_MEAGASTRUCTRUE_AUX_2 } count > 40 } }
+		fromfrom = { count_owned_ship = { limit = { has_component = EXE_STARBASE_MEAGASTRUCTRUE_AUX_2 } count = 96 } }
 	}
 	immediate = {
 		fromfromfrom = { every_owned_ship = { 
@@ -2028,11 +2104,18 @@ ship_event = {
 	immediate = {
 		if = {
 			limit = { is_in_combat = yes }
-			set_difiicult_eternal_fleet_mult_modifier = { 
+			set_easy_eternal_fleet_mult_modifier = {
 				armor_hardening = ship_armor_hardening_add
 				shield_hardening = ship_shield_hardening_add
+				hull_regen_add_perc_standard = ship_hull_regen_add_perc
+				shield_regen_add_perc_standard = ship_shield_regen_add_perc
+				armor_regen_add_perc_standard = ship_armor_regen_add_perc
 				shield_penetration_standard = ship_shield_penetration_mult
 				armor_penetration_standard = ship_armor_penetration_mult
+				armor_damage_standard = ship_armor_damage_mult
+				shield_damage_standard = ship_shield_damage_mult
+				hull_damage_standard = ship_hull_damage_mult
+				weapon_damage_standard = ship_weapon_damage
 			}
 			if = { limit = { NOT = { is_variable_set = fire_ship_var } } set_variable = { which = fire_ship_var value = 1 } }
 			ship_event = { id = exe_invasion.132 days = 1 }
@@ -2052,11 +2135,34 @@ ship_event = {
 	immediate = {
 		if = {
 			limit = { is_in_combat = yes }
-			set_difiicult_eternal_fleet_mult_modifier = { 
+			set_easy_eternal_fleet_mult_modifier = {
 				armor_hardening = ship_armor_hardening_add
 				shield_hardening = ship_shield_hardening_add
+				hull_regen_add_perc = ship_hull_regen_add_perc
+				hull_mult = ship_hull_mult
+				shield_regen_add_perc = ship_shield_regen_add_perc
+				shield_mult = ship_shield_mult
+				armor_regen_add_perc = ship_armor_regen_add_perc
+				armor_mult = ship_armor_mult
+				shield_reduction = ship_shield_reduction
+				armor_reduction = ship_armor_reduction
+				weapon_range_mult = ship_weapon_range_mult
+				fire_rate_mult = ship_fire_rate_mult
 				shield_penetration = ship_shield_penetration_mult
 				armor_penetration = ship_armor_penetration_mult
+				weapon_damage = ship_weapon_damage
+				weapon_type_explosive = weapon_type_explosive_weapon_damage_mult
+				weapon_type_energy = weapon_type_energy_weapon_damage_mult
+				weapon_type_kinetic = weapon_type_kinetic_weapon_damage_mult
+				tracking = ship_tracking_mult
+				tracking_add = ship_tracking_add
+				accuracy = ship_accuracy_mult
+				accuracy_add = ship_accuracy_add
+				shield_add = ship_shield_add
+				armor_add = ship_armor_add
+				hull_damage = ship_hull_damage_mult
+				shield_damage = ship_shield_damage_mult
+				armor_damage = ship_armor_damage_mult
 			}
 			if = { limit = { NOT = { is_variable_set = fire_ship_var } } set_variable = { which = fire_ship_var value = 1 } }
 			ship_event = { id = exe_invasion.134 days = 1 }
