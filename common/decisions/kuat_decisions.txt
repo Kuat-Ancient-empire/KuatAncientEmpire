@@ -47,6 +47,7 @@ Building_The_Kuat_Command_Line = {
 	ai_weight = { weight = 0 }
 }
 
+#(((years+pop_speed)*0.2+popsnum*0.1+planetsize)*percent_var)
 Building_The_Kuat_Command_Line_Auto_planet = {
 	owned_planets_only = yes
 	sound = event_air_raid_siren
@@ -73,6 +74,32 @@ Building_The_Kuat_Command_Line_Auto_planet = {
 		hidden_effect = {
 			set_update_modifiers_batch = begin
 			set_variable = { which = planet_production_array_base value = trigger:num_pops }
+			multiply_variable = { which = planet_production_array_base value = 0.1 }
+			set_variable = { which = planet_production_array_pop_speed_total value = 0 }
+			if = {
+				limit = { check_modifier_value = { modifier = pop_growth_speed value >= 0 } }
+				set_variable = { which = planet_production_array_growpop_speed_base value = modifier:pop_growth_speed }
+				change_variable = { which = planet_production_array_pop_speed_total value = planet_production_array_growpop_speed_base }
+			}
+			if = {
+				limit = { check_modifier_value = { modifier = planet_pop_assembly_organic_add value >= 0 } }
+				set_variable = { which = planet_production_array_organicpop_speed_base value = modifier:planet_pop_assembly_organic_add }
+				if = {
+					limit = { check_modifier_value = { modifier = planet_pop_assembly_organic_mult value >= 0 } }
+					multiply_variable = { which = planet_production_array_organicpop_speed_base value = modifier:planet_pop_assembly_organic_mult }
+				}
+				change_variable = { which = planet_production_array_pop_speed_total value = planet_production_array_organicpop_speed_base }
+			}
+			if = {
+				limit = { check_modifier_value = { modifier = planet_pop_assembly_add value >= 0 } }
+				set_variable = { which = planet_production_array_pop_speed_base value = modifier:planet_pop_assembly_add }
+				if = {
+					limit = { check_modifier_value = { modifier = planet_pop_assembly_mult value >= 0 } }
+					multiply_variable = { which = planet_production_array_pop_speed_base value = modifier:planet_pop_assembly_mult }
+				}
+				change_variable = { which = planet_production_array_pop_speed_total value = planet_production_array_pop_speed_base }
+			}
+
 			
 			if = { limit = { is_capital = yes } set_timed_planet_flag = { flag = destroy_colony_capital_temple days = 1 } }
 			destroy_colony = yes
@@ -84,11 +111,15 @@ Building_The_Kuat_Command_Line_Auto_planet = {
 			add_modifier = { modifier = planet_population_control }
 			add_modifier = { modifier = planet_population_control_gestalt }
 			add_modifier = { modifier = planet_robot_assembly_control }
+			add_modifier = { modifier = kuat_automatic_colony }
 			if = { limit = { has_planet_flag = destroy_colony_capital_temple } set_capital = yes }
 
+
+			change_variable = { which = planet_production_array_pop_speed_total_dynamic value = planet_production_array_pop_speed_total }
 			set_variable = { which = planet_production_array value = trigger:years_passed }
+			change_variable = { which = planet_production_array value = planet_production_array_pop_speed_total_dynamic }
+			multiply_variable = { which = planet_production_array value = 0.2 }
 			change_variable = { which = planet_production_array value = planet_production_array_base }
-			multiply_variable = { which = planet_production_array value = 0.1 }
 			change_variable = { which = planet_production_array value = trigger:planet_size }
 			if = {
 				limit = { owner = { is_nirvana_empire = yes is_ai = yes } }
