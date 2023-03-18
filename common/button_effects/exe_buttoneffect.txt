@@ -355,12 +355,12 @@ kuat_final_crisis_disable_alt = {
 
 #animal trigger
 kuat_animal_trigger_group = {
-	potential = { always = yes }
+	potential = { hidden_trigger = { from = { has_origin = origin_eternalthrone } } }
 	allow = { always = yes }
 	effect = { }
 }
 kuat_animal_trigger_enable = {
-	potential = { always = yes }
+	potential = { hidden_trigger = { from = { has_origin = origin_eternalthrone } } }
 	allow = { hidden_trigger = { from = { has_origin = origin_eternalthrone } } }
 	effect = { hidden_effect = {
 		remove_global_flag = disable_animal_trigger
@@ -378,12 +378,12 @@ kuat_animal_trigger_enable = {
 	} }
 }
 kuat_animal_trigger_enable_alt = {
-	potential = { hidden_trigger = { has_global_flag = enable_animal_trigger } }
+	potential = { hidden_trigger = { has_global_flag = enable_animal_trigger from = { has_origin = origin_eternalthrone } } }
 	allow = { hidden_trigger = { from = { has_origin = origin_eternalthrone } } }
 	effect = { }
 }
 kuat_animal_trigger_disable = {
-	potential = { always = yes }
+	potential = { hidden_trigger = { from = { has_origin = origin_eternalthrone } } }
 	allow = { hidden_trigger = { from = { has_origin = origin_eternalthrone } } }
 	effect = { hidden_effect = {
 		remove_global_flag = disable_animal_trigger
@@ -394,8 +394,44 @@ kuat_animal_trigger_disable = {
 	} }
 }
 kuat_animal_trigger_disable_alt = {
-	potential = { hidden_trigger = { has_global_flag = disable_animal_trigger } }
+	potential = { hidden_trigger = { has_global_flag = disable_animal_trigger from = { has_origin = origin_eternalthrone } } }
 	allow = { hidden_trigger = { from = { has_origin = origin_eternalthrone } } }
+	effect = { }
+}
+
+
+#ai trigger
+kuat_ai_trigger_group = {
+	potential = { hidden_trigger = { from = { NOT = { has_origin = origin_eternalthrone } } } }
+	allow = { always = yes }
+	effect = { }
+}
+kuat_ai_trigger_enable = {
+	potential = { hidden_trigger = { from = { NOT = { has_origin = origin_eternalthrone } } } }
+	allow = { hidden_trigger = { from = { NOT = { has_origin = origin_eternalthrone } } } }
+	effect = { hidden_effect = {
+		remove_global_flag = disable_ai_trigger
+		remove_global_flag = enable_ai_trigger
+		set_global_flag = enable_ai_trigger
+	} }
+}
+kuat_ai_trigger_enable_alt = {
+	potential = { hidden_trigger = { has_global_flag = enable_ai_trigger from = { NOT = { has_origin = origin_eternalthrone } } } }
+	allow = { hidden_trigger = { from = { NOT = { has_origin = origin_eternalthrone } } } }
+	effect = { }
+}
+kuat_ai_trigger_disable = {
+	potential = { hidden_trigger = { from = { NOT = { has_origin = origin_eternalthrone } } } }
+	allow = { hidden_trigger = { NOT = { from = { has_origin = origin_eternalthrone } } } }
+	effect = { hidden_effect = {
+		remove_global_flag = disable_ai_trigger
+		remove_global_flag = enable_ai_trigger
+		set_global_flag = disable_ai_trigger
+	} }
+}
+kuat_ai_trigger_disable_alt = {
+	potential = { hidden_trigger = { has_global_flag = disable_ai_trigger from = { NOT = { has_origin = origin_eternalthrone } } } }
+	allow = { hidden_trigger = { from = { NOT = { has_origin = origin_eternalthrone } } } }
 	effect = { }
 }
 

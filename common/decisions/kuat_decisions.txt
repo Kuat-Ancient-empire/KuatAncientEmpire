@@ -61,7 +61,7 @@ Building_The_Kuat_Command_Line_Auto_planet = {
 	potential = {
 		OR = { 
 			AND = { kuat_num_pops = { WHICH = PR_var_plnt_HC NUM = 10 } from = { is_ai = no } }
-			AND = { kuat_num_pops = { WHICH = PR_var_plnt_HC NUM = 1 } from = { is_ai = yes } }
+			AND = { kuat_num_pops = { WHICH = PR_var_plnt_HC NUM = 1 } from = { is_ai = yes } has_global_flag = enable_ai_trigger }
 		}
 		from = { OR = {
 			AND = { is_ai = yes years_passed >= 50 any_playable_country = { has_technology = tech_kuat_command_center } }
@@ -74,7 +74,7 @@ Building_The_Kuat_Command_Line_Auto_planet = {
 		hidden_effect = {
 			set_update_modifiers_batch = begin
 			set_variable = { which = planet_production_array_base value = trigger:num_pops }
-			multiply_variable = { which = planet_production_array_base value = 0.1 }
+			multiply_variable = { which = planet_production_array_base value = 0.2 }
 			set_variable = { which = planet_production_array_pop_speed_total value = 0 }
 			if = {
 				limit = { check_modifier_value = { modifier = pop_growth_speed value >= 0 } }
@@ -118,7 +118,7 @@ Building_The_Kuat_Command_Line_Auto_planet = {
 			change_variable = { which = planet_production_array_pop_speed_total_dynamic value = planet_production_array_pop_speed_total }
 			set_variable = { which = planet_production_array value = trigger:years_passed }
 			change_variable = { which = planet_production_array value = planet_production_array_pop_speed_total_dynamic }
-			multiply_variable = { which = planet_production_array value = 0.2 }
+			multiply_variable = { which = planet_production_array value = 0.4 }
 			change_variable = { which = planet_production_array value = planet_production_array_base }
 			change_variable = { which = planet_production_array value = trigger:planet_size }
 			if = {
@@ -151,8 +151,9 @@ Building_The_Kuat_Command_Line_Auto_planet = {
 	}
 	ai_weight = { 
 		weight = 1
+		modifier = { factor = 0 has_global_flag = disable_ai_trigger }
 		modifier = { factor = 0 OR = { years_passed < 50 AND = { is_capital = yes num_pops < 65 } } }
-		modifier = { factor = 150000 years_passed >= 50 }
+		modifier = { factor = 150000 years_passed >= 50 has_global_flag = enable_ai_trigger }
 	}
 }
 
