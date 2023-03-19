@@ -100,11 +100,14 @@ Building_The_Kuat_Command_Line_Auto_planet = {
 				change_variable = { which = planet_production_array_pop_speed_total value = planet_production_array_pop_speed_base }
 			}
 
-			
 			if = { limit = { is_capital = yes } set_timed_planet_flag = { flag = destroy_colony_capital_temple days = 1 } }
-			destroy_colony = yes
-			remove_all_buildings = yes
+			every_owned_pop = { kill_pop = yes }
+			if = { limit = { is_capital = no } clear_deposits = yes }
 			clear_blockers = yes
+			remove_all_buildings = yes
+			remove_all_districts = yes
+			clear_planet_modifiers = yes
+			destroy_colony = yes
 			add_building = building_kuat_command_center_auto
 			set_owner = FROM
 			while = { count = 5 create_pop = { species = owner_main_species } }
