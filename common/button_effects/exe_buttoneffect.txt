@@ -510,3 +510,59 @@ kuat_set_cash_code_wechat = {
 	allow = { always = yes }
 	effect = { }
 }
+
+
+
+
+
+kuat_fleet_attack_action = {
+	potential = { hidden_trigger = { 
+		is_scope_type = fleet NOT = { has_fleet_flag = kuat_auto_fleet_system } 
+	} }
+	allow = { hidden_trigger = { exists = owner owner = { is_at_war = yes } } }
+	effect = {  
+		owner = { save_global_event_target_as = kuat_friendly_faction }
+		switch = {
+			trigger = is_ship_class
+			shipclass_military = { set_automatic_fleet_avaliable = {
+				TYPE = millatry_automatic_action
+				FRIENDLY_TARGET = event_target:kuat_friendly_faction
+			} }
+			shipclass_military_special = { set_automatic_fleet_avaliable = { 
+				TYPE = colossus_automatic_action  
+				FRIENDLY_TARGET = event_target:kuat_friendly_faction 
+			} }
+			shipclass_transport = { set_automatic_fleet_avaliable = { 
+				TYPE = transport_automatic_action  
+				FRIENDLY_TARGET = event_target:kuat_friendly_faction 
+			} }
+		}
+	}
+}
+
+kuat_fleet_attack_action_alt = {
+	potential = { hidden_trigger = { is_scope_type = fleet has_fleet_flag = kuat_auto_fleet_system } }
+	allow = { hidden_trigger = { always = yes } }
+	effect = { remove_automatic_fleet_avaliable = yes }
+}
+
+kuat_fleet_defense_action = {
+	potential = { hidden_trigger = { 
+		is_scope_type = fleet is_ship_class = shipclass_military
+		NOT = { has_fleet_flag = kuat_auto_fleet_system } 
+	} }
+	allow = { always = yes }
+	effect = {  
+		owner = { save_global_event_target_as = kuat_friendly_faction }
+		set_automatic_fleet_avaliable = { 
+			TYPE = defender_automatic_action  
+			FRIENDLY_TARGET = event_target:kuat_friendly_faction 
+		}
+	}
+}
+
+kuat_fleet_defense_action_alt = {
+	potential = { hidden_trigger = { is_scope_type = fleet has_fleet_flag = kuat_auto_fleet_system } }
+	allow = { hidden_trigger = { always = yes } }
+	effect = { remove_automatic_fleet_avaliable = yes }
+}
