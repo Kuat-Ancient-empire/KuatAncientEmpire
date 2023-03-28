@@ -129,14 +129,14 @@ fleet_event = {
 		if = {
 			limit = { is_multiplayer = no }
 			owner = {
-				set_country_flag = can_be_kuat_building
+				set_country_flag = kuat_can_buid_kuat_building
 				add_research_option = tech_kuat_command_center
 				add_research_option = tech_kuat_founfry
 			}
 		} else = {
 			every_playable_country = {
 				limit = { is_ai = no }
-				set_country_flag = can_be_kuat_building
+				set_country_flag = kuat_can_buid_kuat_building
 				add_research_option = tech_kuat_command_center
 				add_research_option = tech_kuat_founfry
 			}
@@ -889,13 +889,7 @@ country_event = {
 	immediate = { set_country_flag = enable_the_F_system_line }
 	option = { 
 		name = "kuat_legacy.100.a" 
-		hidden_effect = { 
-			country_event = { id = kuat_legacy.101 days = 35 random = 35 } 
-			random_owned_leader = {
-				limit = { leader_class = scientist }
-				save_event_target_as = reporter_scientist_leader
-			}
-		}
+		hidden_effect = { country_event = { id = kuat_legacy.101 days = 35 random = 35 } }
 	}
 }
 
@@ -935,7 +929,7 @@ country_event = {
 	diplomatic = yes
 	picture_event_data = { 
 		room = root
-		portrait = event_target:reporter_scientist_leader
+		portrait = root
 		planet_background = root
 		city_level = root 
 	}
@@ -988,6 +982,7 @@ country_event = {
 		hidden_effect = {
 			capital_scope = {
 				set_spawn_system_batch = begin
+				owner = { save_event_target_as = interesting_country }
 				spawn_system = { initializer = myst_system_5 hyperlane = no }
 				set_spawn_system_batch = end
 			}
