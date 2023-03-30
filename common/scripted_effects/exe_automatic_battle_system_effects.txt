@@ -111,6 +111,10 @@ fleet_execute_order_millatry_automatic_action = {
 						set_location = { target = prev.star distance = 300 angle = random }
 						set_timed_fleet_flag = { flag = kuat_auto_defence_fleet_temple days = 30 }
 					} }
+					every_fleet_in_system = {
+						limit = { exists = controller controller = { is_at_war_with = $FRIENDLY_TARGET$ } }
+						set_cloaking_active = no
+					}
 				} }
 				failed = { find_closest_system = {
 					trigger = {
@@ -267,6 +271,10 @@ fleet_execute_order_defender_automatic_action = {
 				set_location = { target = prev.star distance = 300 angle = random }
 				set_timed_fleet_flag = { flag = kuat_auto_defence_fleet_temple days = 30 }
 			} }
+			every_fleet_in_system = {
+				limit = { exists = controller controller = { is_at_war_with = $FRIENDLY_TARGET$ } }
+				set_cloaking_active = no
+			}
 		} }
 		failed = { find_random_system = {
 			trigger = {
