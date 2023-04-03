@@ -712,7 +712,7 @@ ship_event = {
 						source = prev 
 						type = euclidean
 						min_distance >= 0
-						max_distance <= 15
+						max_distance <= 25
 					}
 					NOT = { has_star_flag = kuat_starbase_megastructure_around_system }
 				}
@@ -745,7 +745,7 @@ ship_event = {
 							source = prev 
 							type = euclidean
 							min_distance >= 0
-							max_distance <= 15
+							max_distance <= 25
 						}
 						has_star_flag = kuat_starbase_megastructure_around_system
 					}
@@ -790,7 +790,7 @@ country_event = {
 						source = prev 
 						type = euclidean
 						min_distance >= 0
-						max_distance <= 15
+						max_distance <= 25
 					}
 					has_star_flag = kuat_starbase_megastructure_around_system
 				}
@@ -1079,10 +1079,6 @@ country_event = {
 	# improve relation message
 	option = { #endodia
 		name = kuat_legacy.104.a
-		trigger = { OR = {
-			check_variable = { which = KUAT_RELATION_CONTRACTOR_VAR value < 1 } 
-			NOT = { is_variable_set = KUAT_RELATION_CONTRACTOR_VAR }
-		} }
 		hidden_effect = { 
 			remove_country_flag = kuat_legacy.104.setp.2
 			set_country_flag = kuat_legacy.104.setp.1
@@ -1093,7 +1089,6 @@ country_event = {
 	}
 	option = { #kuat
 		name = kuat_legacy.104.b
-		trigger = { check_variable = { which = KUAT_RELATION_CONTRACTOR_VAR value = 1 } }
 		hidden_effect = { 
 			remove_country_flag = kuat_legacy.104.setp.2
 			set_country_flag = kuat_legacy.104.setp.1
@@ -1104,7 +1099,6 @@ country_event = {
 	}
 	option = { #eternal fleet
 		name = kuat_legacy.104.c
-		trigger = { check_variable = { which = KUAT_RELATION_CONTRACTOR_VAR value = 2 } }
 		hidden_effect = { 
 			remove_country_flag = kuat_legacy.104.setp.2
 			set_country_flag = kuat_legacy.104.setp.1
@@ -1115,7 +1109,6 @@ country_event = {
 	}
 	option = { #facility protector
 		name = kuat_legacy.104.d
-		trigger = { check_variable = { which = KUAT_RELATION_CONTRACTOR_VAR value = 3 } }
 		hidden_effect = { 
 			remove_country_flag = kuat_legacy.104.setp.2
 			set_country_flag = kuat_legacy.104.setp.1
@@ -1127,7 +1120,6 @@ country_event = {
 	# futrue
 	option = { #eternal empire
 		name = kuat_legacy.104.e
-		trigger = { check_variable = { which = KUAT_RELATION_CONTRACTOR_VAR value = 4 } }
 		hidden_effect = { 
 			remove_country_flag = kuat_legacy.104.setp.1
 			set_country_flag = kuat_legacy.104.setp.2
@@ -1138,7 +1130,6 @@ country_event = {
 	}
 	option = { #infinite empire
 		name = kuat_legacy.104.f
-		trigger = { check_variable = { which = KUAT_RELATION_CONTRACTOR_VAR value = 5 } }
 		hidden_effect = { 
 			remove_country_flag = kuat_legacy.104.setp.1
 			set_country_flag = kuat_legacy.104.setp.2
@@ -1149,7 +1140,6 @@ country_event = {
 	}
 	option = { #our future
 		name = kuat_legacy.104.g
-		trigger = { check_variable = { which = KUAT_RELATION_CONTRACTOR_VAR value = 6 } }
 		hidden_effect = { 
 			remove_country_flag = kuat_legacy.104.setp.1
 			set_country_flag = kuat_legacy.104.setp.2
@@ -1160,7 +1150,6 @@ country_event = {
 	}
 	option = { #what are you
 		name = kuat_legacy.104.h
-		trigger = { check_variable = { which = KUAT_RELATION_CONTRACTOR_VAR value = 7 } }
 		hidden_effect = { 
 			remove_country_flag = kuat_legacy.104.setp.1
 			set_country_flag = kuat_legacy.104.setp.2
@@ -1193,10 +1182,10 @@ country_event = {
 		response_text = kuat_legacy.104.i.res
 	}
 	option = { name = kuat_shipyard.exit default_hide_option = yes }
-	after = { if = {
+	after = { hidden_effect = { if = {
 		limit = { has_global_flag = kuat_plague_enable }
 		event_target:kuat_contractor_country = { destroy_country = yes }
-	} }
+	} } }
 }
 
 
