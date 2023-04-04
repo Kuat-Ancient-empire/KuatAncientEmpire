@@ -35,23 +35,23 @@ country_event = {
 		set_variable = { which = kuat_plague_power value = 4 }
 		if = {
 			limit = { is_difficulty > 0 }
-			change_variable = { which = kuat_plague_power value = 1 }
+			change_variable = { which = kuat_plague_power value = 2 }
 		}
 		if = {
 			limit = { is_difficulty > 1 }
-			change_variable = { which = kuat_plague_power value = 1 }
+			change_variable = { which = kuat_plague_power value = 2 }
 		}
 		if = {
 			limit = { is_difficulty > 2 }
-			change_variable = { which = kuat_plague_power value = 1 }
+			change_variable = { which = kuat_plague_power value = 2 }
 		}
 		if = {
 			limit = { is_difficulty > 3 }
-			change_variable = { which = kuat_plague_power value = 1 }
+			change_variable = { which = kuat_plague_power value = 2 }
 		}
 		if = {
 			limit = { is_difficulty > 4 }
-			change_variable = { which = kuat_plague_power value = 1 }
+			change_variable = { which = kuat_plague_power value = 2 }
 		}
 		while = {
 			count = kuat_plague_power
@@ -1491,27 +1491,19 @@ country_event = {
 		}
 	}
 	after = {
-		every_owned_species = {
-			limit = { NOR = {
-				has_trait = kuat_species_trait_immune
-				is_archetype = LITHOID
-				is_archetype = MACHINE
-				is_archetype = ROBOT
-			} }
-			modify_species = { add_trait = kuat_species_trait_immune species = this }
-		}
 		every_owned_pop = {
-			limit = {
+			limit = { 
 				species = { NOR = {
 					has_trait = kuat_species_trait_immune
 					is_archetype = LITHOID
 					is_archetype = MACHINE
 					is_archetype = ROBOT
 				} }
-				NOT = { has_pop_flag = kuat_plague_pop_immune }
 			}
-			set_pop_flag = kuat_plague_pop_immune
+			modify_species = { add_trait = kuat_species_trait_immune species = this }
+			species = { save_event_target_as = play_species }
 		}
+		change_dominant_species = { species = event_target:play_species change_all = yes }
 	}
 }
 
@@ -1544,27 +1536,19 @@ country_event = {
 		}
 	}
 	after = {
-		every_owned_species = {
-			limit = { NOR = {
-				has_trait = kuat_species_trait_immune
-				is_archetype = LITHOID
-				is_archetype = MACHINE
-				is_archetype = ROBOT
-			} }
-			modify_species = { add_trait = kuat_species_trait_immune species = this }
-		}
 		every_owned_pop = {
-			limit = {
+			limit = { 
 				species = { NOR = {
 					has_trait = kuat_species_trait_immune
 					is_archetype = LITHOID
 					is_archetype = MACHINE
 					is_archetype = ROBOT
 				} }
-				NOT = { has_pop_flag = kuat_plague_pop_immune }
 			}
-			set_pop_flag = kuat_plague_pop_immune
+			modify_species = { add_trait = kuat_species_trait_immune species = this }
+			species = { save_event_target_as = play_species }
 		}
+		change_dominant_species = { species = event_target:play_species change_all = yes }
 	}
 }
 
