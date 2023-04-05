@@ -24,6 +24,7 @@ kuat_print_scope = {
 
 # scope: ship
 eternal_increase_executor_power = {
+	optimize_memory
 	if = {
 		limit = { NOT = { has_ship_flag = has_eternal_increase_executor_power } }
 		if = {
@@ -86,6 +87,7 @@ clear_ship_modifier = {
 }
 
 clear_ship_repeatable_modifier = {
+	optimize_memory
 	clear_repeatable_modifier = { TYPE = explosive	 				multiply = $multiply$ DAYS = $DAYS$ }
 	clear_repeatable_modifier = { TYPE = kinetic  	 				multiply = $multiply$ DAYS = $DAYS$ }
 	clear_repeatable_modifier = { TYPE = energy 	 				multiply = $multiply$ DAYS = $DAYS$ }
@@ -375,6 +377,7 @@ random_list_eternal_fleet_rate = {
 	set_repeatable_eternal_fleet_mult_damage_to_rate = { TYPE = fgosw_skill_berserker }
 }
 set_repeatable_eternal_fleet_mult_rate_to_damage = {
+	optimize_memory
 	if = {
 		limit = { check_modifier_value = { modifier = weapon_type_$TYPE$_weapon_fire_rate_mult value > 20 } }
 		if = {
@@ -420,6 +423,7 @@ set_repeatable_eternal_fleet_mult_rate_to_damage = {
 	}
 }
 set_repeatable_eternal_fleet_mult_damage_to_rate = {
+	optimize_memory
 	if = {
 		limit = { check_modifier_value = { modifier = weapon_type_$TYPE$_weapon_damage_mult value > 20 } }
 		if = {
@@ -668,6 +672,7 @@ set_ban_eternal_fleet_mult_modifier = {
 # TYPE: value class type, for example change\subtract.
 # SUPPORT: + OR -  
 set_eternal_fleet_standard_modifier = {
+	optimize_memory
 	if = { 
 		limit = { 
 			NOT = { has_ship_flag = $PARAMATER$_ship_cooldown }
@@ -701,6 +706,7 @@ set_eternal_fleet_standard_modifier = {
 # UNIT1：flagship value
 # SUPPORT: -
 set_eternal_fleet_damage_modifier = {
+	optimize_memory
 	if = {
 		limit = { 
 			NOT = { has_ship_flag = $PARAMATER$_ship_cooldown }
@@ -779,6 +785,7 @@ set_eternal_fleet_damage_modifier = {
 # RELATION： < > or = 
 # SUPPORT -
 set_eternal_fleet_insane_damage_modifier = {
+	optimize_memory
 	if = {
 		limit = { 
 			NOT = { has_ship_flag = $PARAMATER$_ship_cooldown }
@@ -812,6 +819,7 @@ set_eternal_fleet_insane_damage_modifier = {
 # RELATION： < > or = 
 # SUPPORT: +
 set_eternal_fleet_protection_modifier = {
+	optimize_memory
 	if = {
 		limit = { 
 			NOT = { has_ship_flag = $PARAMATER$_ship_cooldown } 
@@ -878,6 +886,7 @@ set_eternal_fleet_protection_modifier = {
 # parameter1： the repeatable damage modifier(output)
 # UNIT：Value standard
 set_standard_battle_repeatable_modifier = {
+	optimize_memory
 	if = {
 		limit = { 
 			NOT = { has_ship_flag = repeatable_$PARAMATER1$_ship_cooldown } 
@@ -921,6 +930,7 @@ set_standard_battle_repeatable_modifier = {
 # parameter1： the repeatable damage modifier(output)
 # UNIT：Value standard
 set_standard_battle_superlazer_weapon_keeping_modifier = {
+	optimize_memory
 	if = {
 		limit = { 
 			NOT = { has_ship_flag = superlazer_$PARAMATER1$_ship_cooldown } 
@@ -948,6 +958,18 @@ set_standard_battle_superlazer_weapon_keeping_modifier = {
 		clear_variable = debug_super_lazer_$PARAMATER1$_var clear_variable = debug_super_lazer_$PARAMATER2$_var
 		set_timed_ship_flag = { flag = superlazer_$PARAMATER1$_ship_cooldown days = 1 }
 	}
+}
+
+clear_superlazer_system_fixed_ship = {
+	optimize_memory
+	remove_ship_flag = is_modifiering_superlazer 
+	clear_variable = super_lazer_ship_fire_rate_mult_var
+	remove_modifier = super_lazer_ship_fire_rate_mult_modifier
+	clear_variable = debug_super_lazer_ship_fire_rate_mult_var
+	clear_variable = debug_super_lazer_weapon_type_kuat_superlazer_scale_weapon_fire_rate_mult_var
+	clear_variable = final_super_lazer_ship_fire_rate_mult_var
+	remove_modifier = debug_super_lazer_ship_fire_rate_mult_modifier
+	clear_variable = fire_ship_var
 }
 
 # base modifier script
@@ -1012,6 +1034,7 @@ clear_battleship_modifier_fixed_ship = {
 }
 
 remove_all_ship_modifier_change_basic_variable = {
+	optimize_memory
 	remove_ship_modifier_change_basic_variable = { PARAMATER = ship_armor_hardening_add }
 	remove_ship_modifier_change_basic_variable = { PARAMATER = ship_shield_hardening_add }
 	remove_ship_modifier_change_basic_variable = { PARAMATER = ship_shield_penetration_mult }
@@ -1275,6 +1298,7 @@ remove_total_repeatable_modifier = {
 }
 
 remove_ship_modifier_trigger_flag = {
+	optimize_memory
 	fleet = {
 		remove_fleet_flag = eternal_learned_leader 
 		remove_fleet_flag = has_kuat_flagship_system
@@ -1441,6 +1465,7 @@ kuat_copy_leader_learning_system = {
 
 #scope: fleet
 mult_half_variable = {
+	optimize_memory
 	set_variable = { which = $WHICH$_half value = $WHICH$ }
 	multiply_variable = { which = $WHICH$_half value = $VALUE$ }
 	floor_variable = $WHICH$_half
