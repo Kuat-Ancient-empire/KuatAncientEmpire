@@ -1,6 +1,6 @@
 namespace = kuat_legacy
 @standard_lower_days = 5
-@standard_event_days = 30
+@standard_event_days = 10
 @standard_random_days = 15
 #GAIA ARCHITECT
 country_event = {
@@ -30,7 +30,7 @@ country_event = {
 	immediate = {
 		random_planet_within_border = {
 			limit = { kuat_is_legacy_arc_planet = yes }
-			planet_event = { id = kuat_legacy.2 days = @standard_event_days random = @standard_lower_days }
+			planet_event = { id = kuat_legacy.2 days = @standard_event_days random = @standard_lower_days scopes = { from = root } }
 		}
 	}
 }
@@ -49,6 +49,7 @@ planet_event = {
 		# solar_system = { owner = { country_event = { id = kuat_legacy.42 } } }
 	}
 	option = { name = "kuat_legacy.2.a" }
+	after = { hidden_effect = { from = { begin_event_chain = { event_chain = ag_legacy_stroy_chain } } } }
 }
 
 # country_event = {
@@ -159,6 +160,13 @@ fleet_event = {
 
 	after = { 
 		from = { set_site_progress_locked = no } 
+		hidden_effect = { owner = { create_point_of_interest = {
+			id = ag_legacy_stroy.1
+			desc = ag_legacy_stroy.1.desc
+			name = ag_legacy_stroy.1
+			event_chain = ag_legacy_stroy_chain
+			location = root.from.planet
+		} } }
 	}
 	
 	option = {
@@ -295,6 +303,13 @@ fleet_event = {
 
 	after = { 
 		from = { set_site_progress_locked = no } 
+		hidden_effect = { owner = { create_point_of_interest = {
+			id = ag_legacy_stroy.2
+			desc = ag_legacy_stroy.2.desc
+			name = ag_legacy_stroy.2
+			event_chain = ag_legacy_stroy_chain
+			location = root.from.planet
+		} } }
 	}
 	
 	option = {
@@ -410,6 +425,13 @@ fleet_event = {
 
 	after = { 
 		from = { set_site_progress_locked = no } 
+		hidden_effect = { owner = { create_point_of_interest = {
+			id = ag_legacy_stroy.3
+			desc = ag_legacy_stroy.3.desc
+			name = ag_legacy_stroy.3
+			event_chain = ag_legacy_stroy_chain
+			location = root.from.planet
+		} } }
 	}
 	
 	option = {
@@ -462,9 +484,8 @@ ship_event = {
 		name = kuat_legacy.19.a
 		hidden_effect = {
 			owner = {
-				begin_event_chain = {
-					event_chain = ag_legacy_invasion_chain
-				}
+				end_event_chain = ag_legacy_stroy_chain
+				begin_event_chain = { event_chain = ag_legacy_invasion_chain }
 				set_country_flag = fire_the_legacy_kuat_stage_4
 				country_event = { id = kuat_legacy.20 days = 1 }
 			}
@@ -1426,71 +1447,71 @@ fleet_event = {
 	}
 }
 
-fleet_event = {
-	id = kuat_legacy.189
-	title = kuat_legacy.189.name
-	desc = kuat_legacy.189.desc
-	picture = GFX_evt_engineering_research
-	is_triggered_only = yes
-	archaeology = yes
-	show_sound = event_wind_ruins
-	immediate = {
-		from = { set_site_progress_locked = yes }
-	}
+# fleet_event = {
+# 	id = kuat_legacy.189
+# 	title = kuat_legacy.189.name
+# 	desc = kuat_legacy.189.desc
+# 	picture = GFX_evt_engineering_research
+# 	is_triggered_only = yes
+# 	archaeology = yes
+# 	show_sound = event_wind_ruins
+# 	immediate = {
+# 		from = { set_site_progress_locked = yes }
+# 	}
 
-	after = {
-		from = { set_site_progress_locked = no }
-	}
+# 	after = {
+# 		from = { set_site_progress_locked = no }
+# 	}
 
-	option = {
-		name = kuat_legacy.189.a
-		large_artifact_reward = yes
-	}
-}
+# 	option = {
+# 		name = kuat_legacy.189.a
+# 		large_artifact_reward = yes
+# 	}
+# }
 
-fleet_event = {
-	id = kuat_legacy.190
-	title = kuat_legacy.190.name
-	desc = kuat_legacy.190.desc
-	picture = GFX_evt_physics_research
-	is_triggered_only = yes
-	archaeology = yes
-	show_sound = event_wind_ruins
-	immediate = {
-		from = { set_site_progress_locked = yes }
-	}
+# fleet_event = {
+# 	id = kuat_legacy.190
+# 	title = kuat_legacy.190.name
+# 	desc = kuat_legacy.190.desc
+# 	picture = GFX_evt_physics_research
+# 	is_triggered_only = yes
+# 	archaeology = yes
+# 	show_sound = event_wind_ruins
+# 	immediate = {
+# 		from = { set_site_progress_locked = yes }
+# 	}
 
-	after = {
-		from = { set_site_progress_locked = no }
-	}
+# 	after = {
+# 		from = { set_site_progress_locked = no }
+# 	}
 
-	option = {
-		name = kuat_legacy.190.a
-		large_artifact_reward = yes
-	}
-}
+# 	option = {
+# 		name = kuat_legacy.190.a
+# 		large_artifact_reward = yes
+# 	}
+# }
 
-fleet_event = {
-	id = kuat_legacy.191
-	title = kuat_legacy.191.name
-	desc = kuat_legacy.191.desc
-	picture = GFX_evt_society_research
-	is_triggered_only = yes
-	archaeology = yes
-	show_sound = event_wind_ruins
-	immediate = {
-		from = { set_site_progress_locked = yes }
-	}
+# fleet_event = {
+# 	id = kuat_legacy.191
+# 	title = kuat_legacy.191.name
+# 	desc = kuat_legacy.191.desc
+# 	picture = GFX_evt_society_research
+# 	is_triggered_only = yes
+# 	archaeology = yes
+# 	show_sound = event_wind_ruins
+# 	immediate = {
+# 		from = { set_site_progress_locked = yes }
+# 	}
 
-	after = {
-		from = { set_site_progress_locked = no }
-	}
+# 	after = {
+# 		from = { set_site_progress_locked = no }
+# 	}
 
-	option = {
-		name = kuat_legacy.191.a
-		large_artifact_reward = yes
-	}
-}
+# 	option = {
+# 		name = kuat_legacy.191.a
+# 		large_artifact_reward = yes
+# 	}
+# }
 
 fleet_event = {
 	id = kuat_legacy.192
@@ -1516,6 +1537,7 @@ fleet_event = {
 					has_country_flag = ancient_shadow_place_B 
 					prev.from.planet = { is_same_value = event_target:ancient_shadow_place_B }
 				} 
+				custom_tooltip = "ancient_shadow_place_B"
 				hidden_effect = { if = {
 					limit = { is_multiplayer = no }
 					add_research_option = tech_kuat_reactor
@@ -1543,17 +1565,20 @@ fleet_event = {
 					has_country_flag = ancient_shadow_place 
 					prev.from.planet = { is_same_value = event_target:ancient_shadow_place }
 				} 
-				if = {
-					limit = { is_multiplayer = yes }
-					every_playable_country = {
-						limit = { is_ai = no }
+				custom_tooltip = "ancient_shadow_place"
+				hidden_effect = {
+					if = {
+						limit = { is_multiplayer = yes }
+						every_playable_country = {
+							limit = { is_ai = no }
+							set_country_flag = can_have_starbase_country
+							add_research_option = tech_kuat_starbase
+						}
+					} 
+					else = { 
 						set_country_flag = can_have_starbase_country
-						add_research_option = tech_kuat_starbase
+						add_research_option = tech_kuat_starbase 
 					}
-				} 
-				else = { 
-					set_country_flag = can_have_starbase_country
-					add_research_option = tech_kuat_starbase 
 				}
 				set_country_flag = Kuat_A_facility_area_over
 			} 
