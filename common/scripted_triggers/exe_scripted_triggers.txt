@@ -289,8 +289,13 @@ kuat_is_flagship_system_protection = {
 }
 
 kuat_is_ancient_ship_against = {
-	if = { limit = { NOT = { has_global_flag = has_ancient_empire_mod } } always = no }
-	else = { any_owned_ship = { ag_is_mod_ship = yes } }
+	OR = {
+		AND = {
+			has_global_flag = has_ancient_empire_mod
+			any_owned_ship = { ag_is_mod_ship = yes }
+		}
+		has_global_flag = kuat_impulse_mod_settings
+	}
 }
 
 kuat_is_forbidden_ee_production_var = {
@@ -369,23 +374,8 @@ kuat_is_ringworld = {
 
 kuat_is_habitat = {
 	OR = {
+		uses_district_set = habitat
 		is_planet_class = pc_habitat
-		is_planet_class = pc_flat_world
-		is_planet_class = pc_squareworld_habitable
-		is_planet_class = pc_interstellar_habitat
-		is_planet_class = pc_mem_vazuran_habitat
-		is_planet_class = pc_habitat_robot
-		is_planet_class = pc_gghab
-		is_planet_class = pc_tmhab
-		is_planet_class = pc_tmhab2
-		is_planet_class = pc_mmhab
-		is_planet_class = pc_mmhab2
-		is_planet_class = pc_bhab
-		is_planet_class = pc_bchab
-		is_planet_class = pc_mhab
-		is_planet_class = pc_fhab
-		is_planet_class = pc_fmhab
-		is_planet_class = pc_mehab
 	}
 }
 
@@ -805,7 +795,6 @@ has_trigger_shipyard = {
 			has_starbase_size = ag_gamma_station_1
 			has_starbase_size = swfo_supremacy
 			has_starbase_size = exe_megastructure_starbase
-			has_starbase_building = edmegashipyard_module
 			owner = { has_origin = origin_kuat_apocalyptic }
 		} }
 		AND = { is_scope_type = megastructure OR = {
