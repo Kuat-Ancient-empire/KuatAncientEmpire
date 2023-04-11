@@ -1984,103 +1984,30 @@ country_event = {
 }
 
 country_event = {
-	id = executor_build.29
+	id = executor_build.290
 	hide_window = yes
 	is_triggered_only = yes
-	trigger = { always = yes }
+	trigger = { is_ai = no is_invisable_faction = no }
 	immediate = { 
-		if = {
-			limit = { OR = {
-				command_limit > 800 
-				AND = { command_limit < 800 has_country_flag = ever_command_limit_800 }
-			} }
-			remove_modifier = basic_country_command_limit_add
-			remove_modifier = iep_basic_country_command_limit_mult
-			remove_modifier = iep_basic_country_command_limit_add
-		}
-		if = {
-			limit = { is_ai = no is_invisable_faction = no }
-			every_system = { 
-				limit = { NOT = { has_star_flag = kuat_starbase_megastructure_around_system } }
-				remove_star_flag = kuat_starbase_megastructure_conbine_system 
-				remove_modifier = "kuat_starbase_megastructure_around_system"
-				every_system_ambient_object = {
-					limit = { is_ambient_object_type = "contingency_2" }
-					destroy_ambient_object = this
+		every_system = { 
+			limit = { NOT = { has_star_flag = kuat_starbase_megastructure_around_system } }
+			remove_star_flag = kuat_starbase_megastructure_conbine_system 
+			remove_modifier = "kuat_starbase_megastructure_around_system"
+			every_system_ambient_object = {
+				limit = { is_ambient_object_type = "contingency_1" }
+				destroy_ambient_object = this
+			}
+			if = {
+				limit = { 
+					exists = space_owner 
+					space_owner = { is_same_value = prevprev } 
+					starbase = { has_starbase_size >= starbase_citadel }
 				}
-				if = {
-					limit = { 
-						exists = space_owner 
-						space_owner = { is_same_value = prevprev } 
-						starbase = { has_starbase_size >= starbase_citadel }
-					}
-					set_star_flag = kuat_starbase_megastructure_conbine_system
-					add_modifier = { modifier = "kuat_starbase_megastructure_around_system" }
-					create_ambient_object = { type = "contingency_2" location = this }
-				}
+				set_star_flag = kuat_starbase_megastructure_conbine_system
+				add_modifier = { modifier = "kuat_starbase_megastructure_around_system" }
+				create_ambient_object = { type = "contingency_1" location = this }
 			}
 		}
-		if = {
-			limit = { any_owned_planet = {
-				NOT = { num_pops = 5 }
-				has_building = building_kuat_command_center_auto
-			} }
-			every_owned_planet = {
-				limit = {
-					NOT = { num_pops = 5 }
-					has_building = building_kuat_command_center_auto
-				}
-				set_variable = { which = planet_temple_return_pop value = trigger:num_pops }
-				subtract_variable = { which = planet_temple_return_pop value = 5 }
-				multiply_variable = { which = planet_temple_return_pop value = -1 }
-				if = {
-					limit = { check_variable = { which = planet_temple_return_pop value > 0 } }
-					while = { count = planet_temple_return_pop create_pop = { species = owner_main_species } }
-				}
-				else_if = {
-					limit = { check_variable = { which = planet_temple_return_pop value < 0 } }
-					multiply_variable = { which = planet_temple_return_pop value = -1 }
-					while = { count = planet_temple_return_pop random_owned_pop = { kill_pop = yes } }
-				}
-			}
-		}
-		every_country = { every_owned_pop = { set_pop_flag = kuat_willbe_destroyed_cleaner_pop } }
-		every_galaxy_pop = { limit = { NOT = { has_pop_flag = kuat_willbe_destroyed_cleaner_pop } } kill_pop = yes }	
-		country_event = { id = executor_build.293 days = 1 } 
-	}
-}
-
-# 自循环
-country_event = {
-	id = executor_build.293
-	hide_window = yes
-	is_triggered_only = yes
-	trigger = { always = yes }
-	immediate = {
-		if = {
-			limit = { command_limit = 800 NOT = { 
-				has_country_flag = ever_command_limit_800 
-			} }
-			set_country_flag = ever_command_limit_800
-		}
-		if = {
-			limit = { OR = {
-				command_limit > 800 
-				AND = {
-					command_limit < 800
-					has_country_flag = ever_command_limit_800
-				}
-			} }
-			clear_ship_modifier = { modifier = country_command_limit_mult DAYS = -1 }
-			clear_ship_modifier = { modifier = country_command_limit_add DAYS = -1 }
-			country_event = { id = executor_build.291 days = 1 }
-			country_event = { id = executor_build.29 days = 15 }
-		}
-		else_if = { 
-			limit = { exists = event_target:ag_kuat_invasion_country }
-			country_event = { id = executor_build.29 days = 360 }
-		}
-		else = { country_event = { id = executor_build.29 days = 1800 } }
 	}
 }
 
@@ -2088,12 +2015,27 @@ country_event = {
 	id = executor_build.291
 	hide_window = yes
 	is_triggered_only = yes
-	trigger = { NOT = { check_modifier_value = { modifier = country_command_limit_add value = 780 } } }
-	immediate = {
-		export_modifier_to_variable = { modifier = country_command_limit_add variable = country_command_limit_add_value }
-		subtract_variable = { which = country_command_limit_add_value value = 780 }
-		set_invasion_fleet_basic_modifier = { SUB = basic_country_command_limit_add FACTOR = country_command_limit_add_value DAYS = -1 }
-		if = { limit = { is_variable_set = country_command_limit_add_value } clear_variable = country_command_limit_add_value }
+	trigger = { OR = {
+		AND = { command_limit > 800 NOT = { check_modifier_value = { modifier = country_command_limit_add value = 780 } } }
+		AND = { is_ai = no check_modifier_value = { modifier = all_technology_research_speed value > 5 } }
+	} }
+	immediate = { 
+		if = { 
+			limit = { is_ai = no check_modifier_value = { modifier = all_technology_research_speed value > 5 } } 
+			clear_ship_modifier = { modifier = all_technology_research_speed subtract = 5 DAYS = 360 } 
+		} 
+		if = {
+			limit = { 
+				command_limit > 800 
+				NOT = { check_modifier_value = { modifier = country_command_limit_add value = 780 } }
+			}
+			clear_ship_modifier = { modifier = country_command_limit_mult DAYS = 360 }
+			clear_ship_modifier = { modifier = country_command_limit_add DAYS = 360 }
+			export_modifier_to_variable = { modifier = country_command_limit_add variable = country_command_limit_add_value }
+			subtract_variable = { which = country_command_limit_add_value value = 780 }
+			set_invasion_fleet_basic_modifier = { SUB = basic_country_command_limit_add FACTOR = country_command_limit_add_value DAYS = 360 }
+			if = { limit = { is_variable_set = country_command_limit_add_value } clear_variable = country_command_limit_add_value }
+		}
 	}
 }
 
@@ -2131,6 +2073,16 @@ country_event = {
 	}
 }
 
+country_event = {
+	id = executor_build.293
+	hide_window = yes
+	is_triggered_only = yes
+	trigger = { always = yes }
+	immediate = {
+		every_country = { every_owned_pop = { set_pop_flag = kuat_willbe_destroyed_cleaner_pop } }
+		every_galaxy_pop = { limit = { NOT = { has_pop_flag = kuat_willbe_destroyed_cleaner_pop } } kill_pop = yes }	
+	}
+}
 
 planet_event = {
 	id = executor_build.294
@@ -2266,44 +2218,6 @@ country_event = {
 	id = executor_build.296
 	hide_window = yes
 	is_triggered_only = yes
-	trigger = { always = yes }
-	immediate = { 
-		if = {
-			limit = { command_limit = 800 NOT = { 
-				has_country_flag = ever_command_limit_800 
-			} }
-			set_country_flag = ever_command_limit_800
-		}
-		if = {
-			limit = { 
-				NOT = { command_limit = 4000 }
-				exists = event_target:ag_kuat_invasion_country 
-				has_global_flag = ban_exe_invasion
-				has_global_flag = enable_modifer_check
-			}
-			clear_ship_modifier = { modifier = country_command_limit_mult DAYS = -1 }
-			clear_ship_modifier = { modifier = country_command_limit_add DAYS = -1 }
-			country_event = { id = executor_build.291 days = 1 }
-		}
-		else_if = {
-			limit = { OR = {
-				command_limit > 800 
-				AND = {
-					command_limit < 800
-					has_country_flag = ever_command_limit_800
-				}
-			} }
-			clear_ship_modifier = { modifier = country_command_limit_mult DAYS = -1 }
-			clear_ship_modifier = { modifier = country_command_limit_add DAYS = -1 }
-			country_event = { id = executor_build.291 days = 1 }
-		}
-	}
-}
-
-country_event = {
-	id = executor_build.297
-	hide_window = yes
-	is_triggered_only = yes
 	trigger = { 
 		OR = {
 			AND = { is_ai = yes years_passed >= 50 }
@@ -2312,12 +2226,23 @@ country_event = {
 		any_owned_planet = { has_building = building_kuat_command_center_auto }
 	}
 	immediate = { 
-		if = { 
-			limit = { is_ai = no check_modifier_value = { modifier = all_technology_research_speed value > 8 } } 
-			clear_ship_modifier = { modifier = all_technology_research_speed subtract = 8 DAYS = 360 } 
-		} 
 		every_owned_planet = {
 			limit = { has_building = building_kuat_command_center_auto }
+			if = {
+				limit = { NOT = { num_pops = 5 } }
+				set_variable = { which = planet_temple_return_pop value = trigger:num_pops }
+				subtract_variable = { which = planet_temple_return_pop value = 5 }
+				multiply_variable = { which = planet_temple_return_pop value = -1 }
+				if = {
+					limit = { check_variable = { which = planet_temple_return_pop value > 0 } }
+					while = { count = planet_temple_return_pop create_pop = { species = owner_main_species } }
+				}
+				else_if = {
+					limit = { check_variable = { which = planet_temple_return_pop value < 0 } }
+					multiply_variable = { which = planet_temple_return_pop value = -1 }
+					while = { count = planet_temple_return_pop random_owned_pop = { kill_pop = yes } }
+				}
+			}
 			change_variable = { which = planet_production_array_pop_speed_total_dynamic value = planet_production_array_pop_speed_total }
 			set_variable = { which = planet_production_array value = trigger:years_passed }
 			change_variable = { which = planet_production_array value = planet_production_array_pop_speed_total_dynamic }
