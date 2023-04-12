@@ -2368,3 +2368,24 @@ country_event = {
 		}
 	}
 }
+
+# starbase check
+fleet_event = {
+	id = ag_kae_ge_invasion.262
+	hide_window = yes
+	is_triggered_only = yes
+	trigger = { OR = {
+		has_fleet_flag = ag_kae_ge_primary_portal
+		has_fleet_flag = ag_kae_ge_secondary_portal
+	} }
+	immediate = {
+		if = {
+			limit = { solar_system = { any_fleet_in_system = { OR = {
+				has_fleet_flag = ag_kae_ge_secondary_portal_guradian
+				has_fleet_flag = ag_kae_ge_primary_portal_guradian
+			} } } }
+			fleet_event = { id = ag_kae_ge_invasion.262 days = 60 }
+		}
+		else = { set_event_locked = no }
+	}
+}
