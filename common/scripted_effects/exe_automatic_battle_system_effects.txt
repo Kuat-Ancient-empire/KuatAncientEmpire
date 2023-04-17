@@ -43,7 +43,10 @@ fleet_execute_order_transport_automatic_action = {
 				found_planet = { orbit_planet = this wait = { duration = 75 random = 25 } }
 			}
 		}
-		failed = { effect = { id = colossus_automatic_action.99.ftl ROOT = { remove_automatic_fleet_avaliable = yes } } }
+		failed = { wait = 75 effect = { 
+			id = colossus_automatic_action.99.ftl 
+			if = { limit = { $FRIENDLY_TARGET$ = { is_at_war = no } } ROOT = { remove_automatic_fleet_avaliable = yes } }
+		} }
 	} } }
 }
 
@@ -79,7 +82,10 @@ fleet_execute_order_colossus_automatic_action = {
 				} }
 			}
 		}
-		failed = { effect = { id = colossus_automatic_action.99.ftl ROOT = { remove_automatic_fleet_avaliable = yes } } }
+		failed = { wait = 75 effect = { 
+			id = colossus_automatic_action.99.ftl 
+			if = { limit = { $FRIENDLY_TARGET$ = { is_at_war = no } } ROOT = { remove_automatic_fleet_avaliable = yes } }
+		} }
 	} } } 
 }
 
@@ -94,7 +100,10 @@ fleet_execute_order_millatry_automatic_action = {
 				id = millatry_automatic_action.0.effect
 				if = {
 					limit = { has_fleet_flag = kuat_auto_cannot_find_path }
-					remove_automatic_fleet_avaliable = yes
+					if = { 
+						limit = { $FRIENDLY_TARGET$ = { is_at_war = no } } 
+						remove_automatic_fleet_avaliable = yes 
+					}
 					every_system = { clear_variable = kuat_fleet_id }
 					remove_fleet_flag = kuat_auto_cannot_find_path
 				}
@@ -188,7 +197,7 @@ fleet_execute_order_millatry_automatic_action = {
 										}
 									}
 								}
-								move_to = this wait = 5
+								wait = 5
 							} 
 							wait = 5
 						}
@@ -241,11 +250,11 @@ fleet_execute_order_millatry_automatic_action = {
 											}
 										}
 									}
-									move_to = this wait = 5
+									wait = 5
 								} 
 								wait = 5
 							}
-							failed = { effect = { id = colossus_automatic_action.99.ftl ROOT = { set_fleet_flag = kuat_auto_cannot_find_path } } wait = 5 }
+							failed = { wait = 75 effect = { id = colossus_automatic_action.99.ftl ROOT = { set_fleet_flag = kuat_auto_cannot_find_path } } }
 						} }
 					} }
 				} }
