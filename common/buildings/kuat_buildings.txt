@@ -115,17 +115,10 @@ building_kuat_command_center_auto = {
 	convert_to = {
 		building_kuat_command_center_auto
 	}
-	triggered_country_modifier = {
-		potential = { owner = { is_ai = no } }
-		country_naval_cap_add = 200
-		country_admin_cap_add = 200
-		country_resource_max_add = 50000
-	}
-	triggered_country_modifier = {
-		potential = { owner = { is_ai = yes } }
-		country_naval_cap_add = 10
+	country_modifier = {
+		country_naval_cap_add = 100
 		country_admin_cap_add = 100
-		country_resource_max_add = 5000
+		country_resource_max_add = 10000
 	}
 	triggered_planet_modifier = {
 		potential = { 
@@ -137,7 +130,10 @@ building_kuat_command_center_auto = {
 	triggered_planet_modifier = {
 		potential = {
 			exists = owner
-			owner = { is_robot_empire = yes }
+			owner = { OR = {
+				is_robot_empire = yes
+				is_hive_empire = yes
+			} }
 		}
 		job_kuat_auto_machine_drone_per_pop = 1
 	}
@@ -164,13 +160,25 @@ building_kuat_command_center_auto = {
 	resources = {
 		category = planet_farmers
 		produces = {
+			trigger = { owner = { is_nirvana_empire_dragon = yes } }
 			food = 20
+			multiplier = planet.planet_production_array
+		}
+		produces = {
+			trigger = { owner = { is_nirvana_empire_dragon = no } }
+			food = 5
 			multiplier = planet.planet_production_array
 		}
 	}
 	resources = {
 		category = planet_metallurgists
 		produces = {
+			trigger = { owner = { is_nirvana_empire_dragon = yes } }
+			alloys = 10
+			multiplier = planet.planet_production_array
+		}
+		produces = {
+			trigger = { owner = { is_nirvana_empire_dragon = no } }
 			alloys = 20
 			multiplier = planet.planet_production_array
 		}
@@ -178,7 +186,7 @@ building_kuat_command_center_auto = {
 	resources = {
 		category = planet_artisans
 		produces = {
-			consumer_goods = 20
+			consumer_goods = 5
 			multiplier = planet.planet_production_array
 		}
 	}
@@ -188,34 +196,39 @@ building_kuat_command_center_auto = {
 			rare_crystals = 2
 			exotic_gases = 2
 			volatile_motes = 2
-			nanites = 1
+			nanites = 0.05
 			multiplier = planet.planet_production_array
 		}
 		produces = {
 			trigger = { owner = { has_technology = tech_mine_dark_matter } }
-			sr_dark_matter = 1
+			sr_dark_matter = 0.1
 			multiplier = planet.planet_production_array
 		}
 		produces = {
 			trigger = { owner = { has_technology = tech_mine_zro } }
-			sr_zro = 1
+			sr_zro = 0.01
 			multiplier = planet.planet_production_array
 		}
 		produces = {
 			trigger = { owner = { has_technology = tech_mine_living_metal } }
-			sr_living_metal = 1
+			sr_living_metal = 0.01
+			multiplier = planet.planet_production_array
+		}
+		produces = {
+			trigger = { has_ancrel = yes }
+			minor_artifacts = 0.01
 			multiplier = planet.planet_production_array
 		}
 		#星舰
 		produces = {
 			trigger = { owner = { has_authority = auth_starshipgirls } }
-			sr_kyber_swgs = 2 sr_tibanna_swgs = 2
+			sr_kyber_swgs = 1 sr_tibanna_swgs = 1
 			multiplier = planet.planet_production_array
 		}
 		#灰烬
 		produces = {
 			trigger = { owner = { has_authority = auth_asharmdolls } }
-			sr_crystal_adf = 2 sr_parts_adf = 2 
+			sr_crystal_adf = 1 sr_parts_adf = 1 
 			multiplier = planet.planet_production_array
 		}	
 		#舰R深海
@@ -233,45 +246,45 @@ building_kuat_command_center_auto = {
 		#碧蓝舰娘
 		produces = {
 			trigger = { owner = { azurlane_default_govement_trigger = yes } }
-			mind_club = 2 azur_shippartbox = 1 azur_red_diamond = 0.02
+			mind_club = 1 azur_shippartbox = 1 azur_red_diamond = 0.01
 			multiplier = planet.planet_production_array
 		}
 		#ACOT
 		produces = {
 			trigger = { owner = { has_technology = tech_mine_dark_energy } has_global_flag = acot_activated }
-			acot_sr_dark_energy = 2
+			acot_sr_dark_energy = 1
 			multiplier = planet.planet_production_array
 		}
 		produces = {
 			trigger = { owner = { has_technology = tech_stellarite_reactor } has_global_flag = acot_activated }
-			acot_sr_stellarite = 2
+			acot_sr_stellarite = 1
 			multiplier = planet.planet_production_array
 		}
 		produces = {
 			trigger = { owner = { has_technology = tech_lightmatter_reactor } has_global_flag = acot_activated }
-			acot_sr_light_matter = 2
+			acot_sr_light_matter = 1
 			multiplier = planet.planet_production_array
 		}
 		#久远
 		produces = {
 			trigger = { owner = { KZ_VOY_terran_tech_authorization = yes } }
-			KZ_VOY_zero_g_crystal = 2 KZ_VOY_dilithium_crystal = 2 KZ_VOY_stellar_core = 2
+			KZ_VOY_zero_g_crystal = 1 KZ_VOY_dilithium_crystal = 1 KZ_VOY_stellar_core = 1
 			multiplier = planet.planet_production_array
 		}
 		produces = {
 			trigger = { owner = { KZ_VOY_temporal_tech_authorization = yes } }
-			KZ_VOY_hyperstructure_alloys = 2
+			KZ_VOY_hyperstructure_alloys = 1
 			multiplier = planet.planet_production_array
 		}
 		produces = {
 			trigger = { owner = { KZ_VOY_terran_tech_authorization = yes } }
-			KZ_VOY_stellar_sakura = 2
+			KZ_VOY_stellar_sakura = 1
 			multiplier = planet.planet_production_array
 		}
 		#汞灯
 		produces = {
 			trigger = { has_global_flag = ge_aft_global_flag }
-			sr_rosa_mystica = 0.01 sr_void_core = 0.1 sr_void_core_hidden = 0.01
+			sr_rosa_mystica = 0.01 sr_void_core = 0.01 sr_void_core_hidden = 0.01
 			multiplier = planet.planet_production_array
 		}
 	}

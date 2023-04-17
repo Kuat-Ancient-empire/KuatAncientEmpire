@@ -7,7 +7,7 @@ country_event = {
 	is_triggered_only = yes
 	immediate = {
 		change_variable = { which = fire_var value = 1 }
-		country_event = { id = kuat_starkiller.2 days = 20 }
+		country_event = { id = kuat_starkiller.2 days = 9 }
 		event_target:sun_target_system = {
 			spawn_megastructure = {
 				type = "kuat_sun_drain"
@@ -22,7 +22,7 @@ country_event = {
 			} }
 			add_opinion_modifier = { who = ROOT modifier = opinion_in_starkillerbase_fire_control }
 		}
-		set_timed_country_flag = { flag = starkiller_base_cooldown days = 120 }
+		set_timed_country_flag = { flag = starkiller_base_cooldown days = 360 }
 	}
 }
 
@@ -76,7 +76,7 @@ country_event = {
 			set_planet_entity = { entity = "starkillerbase_megastructure_firing_entity" picture = pc_starkiller }
 			set_planet_flag = buildingsoon
 		}
-		country_event = { id = kuat_starkiller.5 days = 10 }
+		country_event = { id = kuat_starkiller.5 days = 1 }
 	}
 }
 
@@ -86,7 +86,7 @@ country_event = {
 	hide_window = yes
 	is_triggered_only = yes
 	immediate = {
-		country_event = { id = kuat_starkiller.6 days = 12 }
+		country_event = { id = kuat_starkiller.6 days = 5 }
 		every_megastructure = {
 			if = {
 				limit = { is_megastructure_type = kuat_starkiller_marker_1 }
@@ -99,7 +99,7 @@ country_event = {
 				finish_upgrade = yes
 			}
 		}
-		country_event = { id = kuat_starkiller.11 days = 10 }
+		country_event = { id = kuat_starkiller.11 days = 4 }
 	}
 }
 
@@ -243,7 +243,10 @@ country_event = {
 	custom_gui_option = "kuat_event_option"
 	is_triggered_only = yes
 	fire_only_once = yes
-	trigger = { check_variable = { which = fire_var value > 9 } }
+	trigger = { 
+		any_playable_country = { is_ai = yes is_subject = no }
+		check_variable = { which = fire_var value > 9 } 
+	}
 	immediate = { rebellion_remove_from_wars = yes }
 	option = {
 		name = kuat_starkiller.7.a

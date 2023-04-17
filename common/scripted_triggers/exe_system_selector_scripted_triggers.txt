@@ -485,6 +485,10 @@ kuat_is_sc_fu = {
 	is_star_class = sc_fu
 }
 
+kuat_is_sc_eternal_fleet = {
+	any_fleet_in_system = { has_fleet_flag = ag_kuat_invasion_fleet }
+}
+
 kuat_star_classes_check = {
 	optimize_memory
 	OR = {
@@ -501,7 +505,7 @@ kuat_star_classes_check = {
 			kuat_is_sc_w = no kuat_is_sc_nova = no kuat_is_sc_collapsar = no
 			kuat_is_sc_protostar = no kuat_is_sc_lbv = no kuat_is_sc_tt = no
 			kuat_is_sc_ae = no kuat_is_sc_pn = no kuat_is_sc_magnetar = no
-			kuat_is_sc_microquasar = no kuat_is_sc_fu = no
+			kuat_is_sc_microquasar = no kuat_is_sc_fu = no kuat_is_sc_eternal_fleet = no
 		}
 		AND = {
 			prev = { has_country_flag = kuat_star_classes_list_selected_1_2 }
@@ -626,6 +630,10 @@ kuat_star_classes_check = {
 		AND = {
 			prev = { has_country_flag = kuat_star_classes_list_selected_4_5 }
 			kuat_is_sc_fu = yes
+		}
+		AND = {
+			prev = { has_country_flag = kuat_star_classes_list_selected_4_6 }
+			kuat_is_sc_eternal_fleet = yes
 		}
 	}
 }
@@ -904,7 +912,8 @@ kuat_epsilon_planet_killer_weapon_selector_trigger = {
 					OR = {
 						root = {
 							exists = event_target:ag_kuat_invasion_country
-							has_global_flag = difficult_exe_invasion
+							has_global_flag = ban_exe_invasion
+							has_global_flag = enable_modifer_check
 							check_variable = { which = kuat_num_system_selector_selected_systems value < 10 }
 						}
 						kuat_system_selector_system_selected_trigger = { kuat_system_seq = $kuat_system_seq$ }
