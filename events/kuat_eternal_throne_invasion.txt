@@ -2240,7 +2240,23 @@ country_event = {
 country_event = {
 	id = ag_kae_ge_invasion.258
 	title = "ag_kae_ge_invasion.258.title"
-	desc = "ag_kae_ge_invasion.258.desc"
+	desc = { trigger = {
+		success_text = {
+			NOR = { 
+				has_country_flag = kuat_ag_kae_ge_invasion.258.c 
+				has_country_flag = kuat_ag_kae_ge_invasion.258.d
+			}
+			text = "ag_kae_ge_invasion.258.desc"
+		}
+		success_text = {
+			has_country_flag = kuat_ag_kae_ge_invasion.258.c 
+			text = "ag_kae_ge_invasion.258.a.desc"
+		}
+		success_text = {
+			has_country_flag = kuat_ag_kae_ge_invasion.258.d
+			text = "ag_kae_ge_invasion.258.b.desc"
+		}
+	} }
 	diplomatic = yes
 	picture_event_data = {
 		portrait = event_target:ETERNAL_LEADER
@@ -2255,9 +2271,30 @@ country_event = {
 		every_system = { limit = { has_star_flag = kuat_initial_system } remove_star_flag = kuat_initial_system } 
 		random_system = { limit = { has_star_flag = Kuat_system_int_4 } remove_star_flag = Kuat_empire_system }
 	}
+	option = {
+		name = ag_kae_ge_invasion.258.c
+		trigger = { NOR = { 
+			has_country_flag = kuat_ag_kae_ge_invasion.258.c 
+			has_country_flag = kuat_ag_kae_ge_invasion.258.d
+		} }
+		hidden_effect = {
+			set_country_flag = kuat_ag_kae_ge_invasion.258.c
+			country_event = { id = ag_kae_ge_invasion.258 }
+		}
+	}
+	option = {
+		name = ag_kae_ge_invasion.258.d
+		trigger = { has_country_flag = kuat_ag_kae_ge_invasion.258.c }
+		hidden_effect = {
+			remove_country_flag = kuat_ag_kae_ge_invasion.258.c
+			set_country_flag = kuat_ag_kae_ge_invasion.258.d
+			country_event = { id = ag_kae_ge_invasion.258 }
+		}
+	}
 	# get infinite fleet
 	option = { 
 		name = ag_kae_ge_invasion.258.a 
+		trigger = { has_country_flag = kuat_ag_kae_ge_invasion.258.d }
 		hidden_effect = {
 			event_target:eternal_support_country = { every_owned_ship = {
 				limit = { is_ship_size = exe_megastructure_starbase }
@@ -2279,6 +2316,7 @@ country_event = {
 	# get eternal fleet
 	option = { 
 		name = ag_kae_ge_invasion.258.b 
+		trigger = { has_country_flag = kuat_ag_kae_ge_invasion.258.d }
 		hidden_effect = {
 			event_target:eternal_support_country = { destroy_country = yes }
 			event_target:zakuul_system = {
@@ -2294,7 +2332,10 @@ country_event = {
 		}
 		response_text = ag_kae_ge_invasion.258.b.resp 
 	}
-	after = { set_global_flag = fire_facility_return }
+	after = { 
+		set_global_flag = fire_facility_return 
+		remove_country_flag = kuat_ag_kae_ge_invasion.258.d
+	}
 }
 
 country_event = {
