@@ -20,7 +20,7 @@ fleet_execute_order_transport_automatic_action = {
 		trigger = {
 			id = transport_automatic_action.0.find_closest_system
 			any_system_planet = {
-				exists = controller
+				exists = controller has_planet_flag = kuat_bombardment_planet
 				controller = { is_at_war_with = $FRIENDLY_TARGET$ } 
 				any_fleet_in_orbit = { exists = controller controller = { is_same_value = $FRIENDLY_TARGET$ } }
 			}
@@ -56,7 +56,7 @@ fleet_execute_order_colossus_automatic_action = {
 		trigger = {
 			id = colossus_automatic_action.0.find_closest_system
 			any_system_planet = {
-				exists = controller
+				exists = controller has_planet_flag = kuat_bombardment_planet
 				controller = { is_at_war_with = $FRIENDLY_TARGET$ }
 				any_fleet_in_orbit = { exists = controller controller = { is_same_value = $FRIENDLY_TARGET$ } }
 			}
@@ -76,7 +76,7 @@ fleet_execute_order_colossus_automatic_action = {
 					exists = controller controller = { is_at_war_with = $FRIENDLY_TARGET$ }
 					any_fleet_in_orbit = { exists = controller controller = { is_same_value = $FRIENDLY_TARGET$ } }
 				}
-				found_planet = { destroy_planet = { target = this } effect = { 
+				found_planet = { destroy_planet = { target = this skip_rules = yes } effect = { 
 					id = colossus_automatic_action.0.destroy_planet 
 					remove_planet_flag = kuat_bombardment_planet 
 				} }
@@ -254,7 +254,7 @@ fleet_execute_order_millatry_automatic_action = {
 								} 
 								wait = 5
 							}
-							failed = { wait = 75 effect = { id = colossus_automatic_action.99.ftl ROOT = { set_fleet_flag = kuat_auto_cannot_find_path } } }
+							failed = { wait = 1 effect = { id = colossus_automatic_action.99.ftl ROOT = { set_fleet_flag = kuat_auto_cannot_find_path } } }
 						} }
 					} }
 				} }
