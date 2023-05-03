@@ -4,14 +4,8 @@ kuat_shipyard_check_allow_resource = {
 	optimize_memory
 	resource_stockpile_compare = {
 		resource = alloys
-		value >= $first_alloys$
+		value >= @\[ $second_alloys$ * $MULT$ * $basic$ ]
 	}
-}
-
-#cost
-get_running_variable_check_allow_alloys = {
-	optimize_memory
-	kuat_shipyard_check_allow_resource = { first_alloys = @\[ $second_alloys$ * $basic$ ] }
 }
 
 get_ship_alloys_allow = {
@@ -20,46 +14,46 @@ get_ship_alloys_allow = {
 		limit = { has_country_flag = building_the_horriwer }
 		if = {
 			limit = { NOT = { has_country_flag = kuat_build_fifth_ships } }
-			get_running_variable_check_allow_alloys = { second_alloys = 20000 basic = $basic$ }
+			kuat_shipyard_check_allow_resource = { second_alloys = @building_the_horriwer_cost basic = $basic$ MULT = 1 }
 		}
 		if = {
 			limit = { has_country_flag = kuat_build_fifth_ships }
-			get_running_variable_check_allow_alloys = { second_alloys = 120000 basic = $basic$ }
+			kuat_shipyard_check_allow_resource = { second_alloys = @building_the_horriwer_cost basic = $basic$ MULT = 6 }
 		} 
 	}
 	else_if = {
 		limit = { has_country_flag = building_the_empire } 
 		if = {
 			limit = { NOT = { has_country_flag = kuat_build_fifth_ships } }
-			get_running_variable_check_allow_alloys = { second_alloys = 50000 basic = $basic$ }
+			kuat_shipyard_check_allow_resource = { second_alloys = @building_the_empire_cost basic = $basic$ MULT = 1 }
 		}
 		if = {
 			limit = { has_country_flag = kuat_build_fifth_ships }
-			get_running_variable_check_allow_alloys = { second_alloys = 300000 basic = $basic$ }
+			kuat_shipyard_check_allow_resource = { second_alloys = @building_the_empire_cost basic = $basic$ MULT = 6 }
 		}
 	}
 	else_if = {
 		limit = { has_country_flag = building_the_resugrant }
 		if = {
 			limit = { NOT = { has_country_flag = kuat_build_fifth_ships } }
-			get_running_variable_check_allow_alloys = { second_alloys = 100000 basic = $basic$ }
+			kuat_shipyard_check_allow_resource = { second_alloys = @building_the_resugrant_cost basic = $basic$ MULT = 1 }
 		}
 		if = {
 			limit = { has_country_flag = kuat_build_fifth_ships }
-			get_running_variable_check_allow_alloys = { second_alloys = 600000 basic = $basic$ }
+			kuat_shipyard_check_allow_resource = { second_alloys = @building_the_resugrant_cost basic = $basic$ MULT = 6 }
 		} 
 	}
 	else_if = {
 		limit = { has_country_flag = building_the_donimance }
-		get_running_variable_check_allow_alloys = { second_alloys = 150000 basic = $basic$ }
+		kuat_shipyard_check_allow_resource = { second_alloys = @building_the_donimance_cost basic = $basic$ MULT = 1 }
 	}
 	else_if = {
 		limit = { has_country_flag = building_the_eclipse }
-		get_running_variable_check_allow_alloys = { second_alloys = 300000 basic = $basic$ }
+		kuat_shipyard_check_allow_resource = { second_alloys = @building_the_eclipse_cost basic = $basic$ MULT = 1 }
 	}
 	else_if = {
 		limit = { has_country_flag = building_the_Vengeance }
-		get_running_variable_check_allow_alloys = { second_alloys = 300000 basic = $basic$ }
+		kuat_shipyard_check_allow_resource = { second_alloys = @building_the_Vengeance_cost basic = $basic$ MULT = 1 }
 	}
 }
 

@@ -1,109 +1,97 @@
 ##GET KUAT SHIPYARD ALLOYS
 kuat_shipyard_add_resource = {
 	optimize_memory
-	add_resource = { alloys = $first_alloys$ }
-}
-
-#cost
-get_running_variable_alloys_bought = {
-	optimize_memory
-	kuat_shipyard_add_resource = { first_alloys = @\[ $first_alloys$ * $basic$ * -1 ] }
+	add_resource = { alloys = @\[ $first_alloys$ * $basic$ * $MULT$ ] }
 }
 
 get_ship_alloys_bounght = {
 	optimize_memory
 	if = {
 		limit = { has_country_flag = building_the_Vengeance }
-		get_running_variable_alloys_bought = { first_alloys = 300000 basic = $basic$ }
+		kuat_shipyard_add_resource = { first_alloys = @building_the_Vengeance_cost basic = $basic$ MULT = -1 }
 	}
 	else_if = {
 		limit = { has_country_flag = building_the_eclipse }
-		get_running_variable_alloys_bought = { first_alloys = 300000 basic = $basic$ }
+		kuat_shipyard_add_resource = { first_alloys = @building_the_eclipse_cost basic = $basic$ MULT = -1 }
 	}
 	else_if = {
 		limit = { has_country_flag = building_the_donimance }
-		get_running_variable_alloys_bought = { first_alloys = 150000 basic = $basic$ }
+		kuat_shipyard_add_resource = { first_alloys = @building_the_donimance_cost basic = $basic$ MULT = -1 }
 	}
 	else_if = {
 		limit = { has_country_flag = building_the_resugrant }
 		if = {
 			limit = { has_country_flag = kuat_build_fifth_ships }
-			get_running_variable_alloys_bought = { first_alloys = 600000 basic = $basic$ }
+			kuat_shipyard_add_resource = { first_alloys = @building_the_resugrant_cost basic = $basic$ MULT = -6 }
 		} 
-		else = { get_running_variable_alloys_bought = { first_alloys = 100000 basic = $basic$ } }
+		else = { kuat_shipyard_add_resource = { first_alloys = @building_the_resugrant_cost basic = $basic$ MULT = -1 } }
 	}
 	else_if = {
 		limit = { has_country_flag = building_the_empire }
 		if = {
 			limit = { has_country_flag = kuat_build_fifth_ships }
-			get_running_variable_alloys_bought = { first_alloys = 300000 basic = $basic$ }
+			kuat_shipyard_add_resource = { first_alloys = @building_the_empire_cost basic = $basic$ MULT = -6 }
 		} 
-		else = { get_running_variable_alloys_bought = { first_alloys = 50000 basic = $basic$ } }
+		else = { kuat_shipyard_add_resource = { first_alloys = @building_the_empire_cost basic = $basic$ MULT = -1 } }
 	}
 	else_if = {
 		limit = { has_country_flag = building_the_horriwer }
 		if = {
 			limit = { has_country_flag = kuat_build_fifth_ships }
-			get_running_variable_alloys_bought = { first_alloys = 120000 basic = $basic$ }
+			kuat_shipyard_add_resource = { first_alloys = @building_the_horriwer_cost basic = $basic$ MULT = -6 }
 		} 
-		else = { get_running_variable_alloys_bought = { first_alloys = 20000 basic = $basic$ } }
+		else = { kuat_shipyard_add_resource = { first_alloys = @building_the_horriwer_cost basic = $basic$ MULT = -1 } }
 	}
-}
-
-get_variable_alloys_bought = {
-	optimize_memory
-	if = { limit = { event_target:fallen_empire_kuat = { opinion = { who = root value > 999 } } } get_ship_alloys_bounght = { basic = 0.5 } } 
-	else_if = { limit = { event_target:fallen_empire_kuat = { opinion = { who = root value > 899 } } } get_ship_alloys_bounght = { basic = 0.6 } }
-	else_if = { limit = { event_target:fallen_empire_kuat = { opinion = { who = root value > 699 } } } get_ship_alloys_bounght = { basic = 0.7 } }
-	else_if = { limit = { event_target:fallen_empire_kuat = { opinion = { who = root value > 499 } } } get_ship_alloys_bounght = { basic = 0.8 } }
-	else_if = { limit = { event_target:fallen_empire_kuat = { opinion = { who = root value > 299 } } } get_ship_alloys_bounght = { basic = 0.9 } }
-	else_if = { limit = { event_target:fallen_empire_kuat = { opinion = { who = root value > 99 } } } get_ship_alloys_bounght = { basic = 1 } }
-}
-
-#increase
-get_running_variable_alloys = {
-	optimize_memory
-	kuat_shipyard_add_resource = { first_alloys = @\[ $first_alloys$ * $basic$ ] }
 }
 
 get_ship_alloys = {
 	optimize_memory
 	if = {
 		limit = { has_country_flag = building_the_Vengeance }
-		get_running_variable_alloys = { first_alloys = 300000 basic = $basic$ }
+		kuat_shipyard_add_resource = { first_alloys = @building_the_Vengeance_cost basic = $basic$ MULT = 1 }
 	}
 	else_if = {
 		limit = { has_country_flag = building_the_eclipse }
-		get_running_variable_alloys = { first_alloys = 300000 basic = $basic$ }
+		kuat_shipyard_add_resource = { first_alloys = @building_the_eclipse_cost basic = $basic$ MULT = 1 }
 	}
 	else_if = {
 		limit = { has_country_flag = building_the_donimance }
-		get_running_variable_alloys = { first_alloys = 150000 basic = $basic$ }
+		kuat_shipyard_add_resource = { first_alloys = @building_the_donimance_cost basic = $basic$ MULT = 1 }
 	}
 	else_if = {
 		limit = { has_country_flag = building_the_resugrant }
 		if = {
 			limit = { has_country_flag = kuat_build_fifth_ships }
-			get_running_variable_alloys = { first_alloys = 600000 basic = $basic$ }
+			kuat_shipyard_add_resource = { first_alloys = @building_the_resugrant_cost basic = $basic$ MULT = 6 }
 		} 
-		else = { get_running_variable_alloys = { first_alloys = 100000 basic = $basic$ } }
+		else = { kuat_shipyard_add_resource = { first_alloys = @building_the_resugrant_cost basic = $basic$ MULT = 1 } }
 	}
 	else_if = {
 		limit = { has_country_flag = building_the_empire }
 		if = {
 			limit = { has_country_flag = kuat_build_fifth_ships }
-			get_running_variable_alloys = { first_alloys = 300000 basic = $basic$ }
+			kuat_shipyard_add_resource = { first_alloys = @building_the_empire_cost basic = $basic$ MULT = 6 }
 		} 
-		else = { get_running_variable_alloys = { first_alloys = 50000 basic = $basic$ } }
+		else = { kuat_shipyard_add_resource = { first_alloys = @building_the_empire_cost basic = $basic$ MULT = 1 } }
 	}
 	else_if = {
 		limit = { has_country_flag = building_the_horriwer }
 		if = {
 			limit = { has_country_flag = kuat_build_fifth_ships }
-			get_running_variable_alloys = { first_alloys = 120000 basic = $basic$ }
+			kuat_shipyard_add_resource = { first_alloys = @building_the_horriwer_cost basic = $basic$ MULT = 6 }
 		}
-		else = { get_running_variable_alloys = { first_alloys = 20000 basic = $basic$ } }
+		else = { kuat_shipyard_add_resource = { first_alloys = @building_the_horriwer_cost basic = $basic$ MULT = 1 } }
 	}
+}
+
+get_variable_alloys_bought = {
+	optimize_memory
+	if = { limit = { event_target:fallen_empire_kuat = { opinion = { who = root value > 999 } } } get_ship_alloys_bounght = { basic = 0.5 } }
+	else_if = { limit = { event_target:fallen_empire_kuat = { opinion = { who = root value > 899 } } } get_ship_alloys_bounght = { basic = 0.6 } }
+	else_if = { limit = { event_target:fallen_empire_kuat = { opinion = { who = root value > 699 } } } get_ship_alloys_bounght = { basic = 0.7 } }
+	else_if = { limit = { event_target:fallen_empire_kuat = { opinion = { who = root value > 499 } } } get_ship_alloys_bounght = { basic = 0.8 } }
+	else_if = { limit = { event_target:fallen_empire_kuat = { opinion = { who = root value > 299 } } } get_ship_alloys_bounght = { basic = 0.9 } }
+	else_if = { limit = { event_target:fallen_empire_kuat = { opinion = { who = root value > 99 } } } get_ship_alloys_bounght = { basic = 1 } }
 }
 
 get_variable_alloys = {
@@ -119,54 +107,38 @@ get_variable_alloys = {
 #variable for tips
 get_screen_alloys_need = {
 	optimize_memory
-	set_variable = { which = ship_alloys value = $second_alloys$ }
+	set_variable = { which = ship_alloys value = @\[ $second_alloys$ * $basic$ ] }
 	round_variable = ship_alloys
-}
 
-get_screen_second_alloys_need = {
-	optimize_memory
-	set_variable = { which = five_ship_alloys value = $third_alloys$ }
+	set_variable = { which = five_ship_alloys value = @\[ $second_alloys$ * $MULT$ * $basic$ ] }
 	round_variable = five_ship_alloys
-}
-
-get_running_variable_screen_alloys = {
-	optimize_memory
-	get_screen_alloys_need = { second_alloys = @\[ $second_alloys$ * $basic$ ] }
-}
-
-get_running_second_variable_screen_alloys = {
-	optimize_memory
-	get_screen_second_alloys_need = { third_alloys = @\[ $third_alloys$ * $basic$ ] }
 }
 
 get_ship_screen_alloys = {
 	optimize_memory
 	if = {
 		limit = { has_country_flag = building_the_eclipse }
-		get_running_variable_screen_alloys = { second_alloys = 300000 basic = $basic$ }
+		get_screen_alloys_need = { second_alloys = @building_the_eclipse_cost MULT = 6 basic = $basic$ }
 	}
 	else_if = {
 		limit = { has_country_flag = building_the_Vengeance }
-		get_running_variable_screen_alloys = { second_alloys = 300000 basic = $basic$ }
+		get_screen_alloys_need = { second_alloys = @building_the_Vengeance_cost MULT = 6 basic = $basic$ }
 	}
 	else_if = {
 		limit = { has_country_flag = building_the_donimance }
-		get_running_variable_screen_alloys = { second_alloys = 150000 basic = $basic$ }
+		get_screen_alloys_need = { second_alloys = @building_the_donimance_cost MULT = 6 basic = $basic$ }
 	}
 	else_if = {
 		limit = { has_country_flag = building_the_resugrant }
-		get_running_second_variable_screen_alloys = { third_alloys = 600000 basic = $basic$ }
-		get_running_variable_screen_alloys = { second_alloys = 100000 basic = $basic$ }
+		get_screen_alloys_need = { second_alloys = @building_the_resugrant_cost MULT = 6 basic = $basic$ }
 	}
 	else_if = {
 		limit = { has_country_flag = building_the_empire }
-		get_running_second_variable_screen_alloys = { third_alloys = 300000 basic = $basic$ }
-		get_running_variable_screen_alloys = { second_alloys = 50000 basic = $basic$ }
+		get_screen_alloys_need = { second_alloys = @building_the_empire_cost MULT = 6 basic = $basic$ }
 	}
 	else_if = {
 		limit = { has_country_flag = building_the_horriwer }
-		get_running_second_variable_screen_alloys = { third_alloys = 120000 basic = $basic$ }
-		get_running_variable_screen_alloys = { second_alloys = 20000 basic = $basic$ }
+		get_screen_alloys_need = { second_alloys = @building_the_horriwer_cost MULT = 6 basic = $basic$ }
 	}
 }
 
