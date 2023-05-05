@@ -262,6 +262,7 @@ remove_executor_power = {
 }
 
 clear_repeatable_modifier = {
+	optimize_memory
 	if = {
 		limit = { check_modifier_value = { modifier = weapon_type_$TYPE$_weapon_damage_mult value > 10 } }
 		clear_ship_modifier = { modifier = weapon_type_$TYPE$_weapon_damage_mult multiply = $multiply$ DAYS = $DAYS$ }
@@ -273,6 +274,7 @@ clear_repeatable_modifier = {
 }
 
 remove_repetable_modifier = {
+	optimize_memory
 	remove_modifier = $TITLE$_weapon_type_$TYPE$_weapon_damage_mult
 	remove_modifier = $TITLE$_weapon_type_$TYPE$_weapon_fire_rate_mult
 }
@@ -449,6 +451,76 @@ set_repeatable_eternal_fleet_mult_damage_to_rate = {
 			set_standard_battle_repeatable_modifier = { PARAMATER1 = weapon_type_$TYPE$_weapon_damage_mult PARAMATER2 = weapon_type_$TYPE$_weapon_fire_rate_mult UNIT = Tenth RATE = -0.90 } 
 		}
 	}
+}
+
+# THIS: SOLAR SYSTEM
+setup_invinciable_protection_pragram = {
+	optimize_memory
+	set_update_modifiers_batch = begin
+	if = {
+		limit = { is_in_combat = yes }
+		$KEY$ = {
+			armor_hardening = ship_armor_hardening_add
+			shield_hardening = ship_shield_hardening_add
+			shield_penetration = ship_shield_penetration_mult
+			armor_penetration = ship_armor_penetration_mult
+			hull_regen_add_perc = ship_hull_regen_add_perc
+			hull_mult = ship_hull_mult
+			shield_regen_add_perc = ship_shield_regen_add_perc
+			shield_mult = ship_shield_mult
+			armor_regen_add_perc = ship_armor_regen_add_perc
+			armor_mult = ship_armor_mult
+			shield_reduction = ship_shield_reduction
+			armor_reduction = ship_armor_reduction
+			weapon_range_mult = ship_weapon_range_mult
+			fire_rate_mult = ship_fire_rate_mult
+			weapon_damage = ship_weapon_damage
+			weapon_type_explosive = weapon_type_explosive_weapon_damage_mult
+			weapon_type_energy = weapon_type_energy_weapon_damage_mult
+			weapon_type_kinetic = weapon_type_kinetic_weapon_damage_mult
+			tracking = ship_tracking_mult
+			tracking_add = ship_tracking_add
+			accuracy = ship_accuracy_mult
+			accuracy_add = ship_accuracy_add
+			shield_add = ship_shield_add
+			armor_add = ship_armor_add
+			hull_damage = ship_hull_damage_mult
+			shield_damage = ship_shield_damage_mult
+			armor_damage = ship_armor_damage_mult
+		}
+		set_ship_flag = fire_ship_var
+		ship_event = { id = $ID$ days = 1 }
+	}
+	else = { clear_battleship_modifier_fixed_ship = yes }
+	set_update_modifiers_batch = end
+}
+setup_invinciable_attacketion_pragram = {
+	optimize_memory
+	set_update_modifiers_batch = begin
+	if = {
+		limit = { is_in_combat = yes }
+		if = {
+			limit = { always = $RLEFR|no$ }
+			random_list_eternal_fleet_rate = yes
+		}
+		$KEY$ = {
+			armor_hardening = ship_armor_hardening_add
+			shield_hardening = ship_shield_hardening_add
+			hull_regen_add_perc_standard = ship_hull_regen_add_perc
+			shield_regen_add_perc_standard = ship_shield_regen_add_perc
+			armor_regen_add_perc_standard = ship_armor_regen_add_perc
+			shield_penetration_standard = ship_shield_penetration_mult
+			armor_penetration_standard = ship_armor_penetration_mult
+			armor_damage_standard = ship_armor_damage_mult
+			shield_damage_standard = ship_shield_damage_mult
+			hull_damage_standard = ship_hull_damage_mult
+			weapon_damage_standard = ship_weapon_damage
+		}
+		set_ship_flag = fire_ship_var
+		ship_event = { id = $ID$ days = 1 }
+	}
+	else = { clear_battleship_modifier_fixed_ship = yes }
+	set_update_modifiers_batch = end
 }
 
 # initial = 0  min = 0.25  small = 0.5  medium = 0.75  max = 0.99  origin = 1
@@ -657,8 +729,10 @@ set_eternal_fleet_standard_modifier = {
 	optimize_memory
 	if = { 
 		limit = { 
-			NOT = { has_ship_flag = $PARAMATER$_ship_cooldown }
-			check_variable = { which = fire_ship_var value < 1 }
+			NOR = { 
+				has_ship_flag = $PARAMATER$_ship_cooldown 
+				has_ship_flag = fire_ship_var
+			}
 			check_modifier_value = { modifier = $PARAMATER$ value $RELATION$ $OUTPUT_VALUE$ }
 		}
 		export_modifier_to_variable = { modifier = $PARAMATER$ variable = $PARAMATER$_value }
@@ -669,7 +743,7 @@ set_eternal_fleet_standard_modifier = {
 	} 
 	else_if = { 
 		limit = { 
-			check_variable = { which = fire_ship_var value = 1 } 
+			has_ship_flag = fire_ship_var 
 			NOT = { has_ship_flag = $PARAMATER$_ship_cooldown }
 			check_modifier_value = { modifier = $PARAMATER$ value $RELATION$ $OUTPUT_VALUE$ }
 		}
@@ -691,8 +765,10 @@ set_eternal_fleet_damage_modifier = {
 	optimize_memory
 	if = {
 		limit = { 
-			NOT = { has_ship_flag = $PARAMATER$_ship_cooldown }
-			check_variable = { which = fire_ship_var value < 1 }
+			NOR = { 
+				has_ship_flag = $PARAMATER$_ship_cooldown 
+				has_ship_flag = fire_ship_var
+			}
 			check_modifier_value = { modifier = $PARAMATER$ value > @mult_modifer_mult_$UNIT$_value } 
 		}
 		export_modifier_to_variable = { modifier = $PARAMATER$ variable = $PARAMATER$_value }
@@ -702,7 +778,7 @@ set_eternal_fleet_damage_modifier = {
 		set_timed_ship_flag = { flag = $PARAMATER$_ship_cooldown days = 1 }
 	} 
 	else_if = { 
-		limit = { check_variable = { which = fire_ship_var value = 1 } NOT = { has_ship_flag = $PARAMATER$_ship_cooldown } }
+		limit = { has_ship_flag = fire_ship_var NOT = { has_ship_flag = $PARAMATER$_ship_cooldown } }
 		if = { # -99
 			limit = { 
 				NAND = { exists = solar_system solar_system = { has_kuat_support_modifier_star_flag = yes } }
@@ -770,8 +846,10 @@ set_eternal_fleet_insane_damage_modifier = {
 	optimize_memory
 	if = {
 		limit = { 
-			NOT = { has_ship_flag = $PARAMATER$_ship_cooldown }
-			check_variable = { which = fire_ship_var value < 1 }
+			NOR = { 
+				has_ship_flag = $PARAMATER$_ship_cooldown 
+				has_ship_flag = fire_ship_var
+			}
 			check_modifier_value = { modifier = $PARAMATER$ value > @mult_modifer_mult_$UNIT$_value }
 		}
 		export_modifier_to_variable = { modifier = $PARAMATER$ variable = $PARAMATER$_value }
@@ -782,7 +860,7 @@ set_eternal_fleet_insane_damage_modifier = {
 	} 
 	else_if = { 
 		limit = { 
-			check_variable = { which = fire_ship_var value = 1 } 
+			has_ship_flag = fire_ship_var 
 			NOT = { has_ship_flag = $PARAMATER$_ship_cooldown }
 			check_modifier_value = { modifier = $PARAMATER$ value $RELATION$ @mult_modifer_mult_$UNIT1$_value }
 		}
@@ -804,8 +882,10 @@ set_eternal_fleet_protection_modifier = {
 	optimize_memory
 	if = {
 		limit = { 
-			NOT = { has_ship_flag = $PARAMATER$_ship_cooldown } 
-			check_variable = { which = fire_ship_var value < 1 }
+			NOR = { 
+				has_ship_flag = $PARAMATER$_ship_cooldown 
+				has_ship_flag = fire_ship_var
+			}
 		}
 		if = {
 			limit = { 
@@ -832,7 +912,7 @@ set_eternal_fleet_protection_modifier = {
 	} 
 	else_if = { 
 		limit = { 
-			check_variable = { which = fire_ship_var value = 1 }  
+			has_ship_flag = fire_ship_var  
 			NOT = { has_ship_flag = $PARAMATER$_ship_cooldown } 
 		}
 		if = {
@@ -871,8 +951,10 @@ set_standard_battle_repeatable_modifier = {
 	optimize_memory
 	if = {
 		limit = { 
-			NOT = { has_ship_flag = repeatable_$PARAMATER1$_ship_cooldown } 
-			check_variable = { which = fire_ship_var value < 1 }
+			NOR = { 
+				has_ship_flag = repeatable_$PARAMATER1$_ship_cooldown 
+				has_ship_flag = fire_ship_var
+			} 
 		}
 
 		export_modifier_to_variable = { modifier = $PARAMATER1$ variable = $PARAMATER1$_value }
@@ -888,7 +970,7 @@ set_standard_battle_repeatable_modifier = {
 	} 
 	else_if = { 
 		limit = { 
-			check_variable = { which = fire_ship_var value = 1 }
+			has_ship_flag = fire_ship_var
 			NOT = { has_ship_flag = repeatable_$PARAMATER1$_ship_cooldown } 
 		}
 
@@ -915,8 +997,10 @@ set_standard_battle_superlazer_weapon_keeping_modifier = {
 	optimize_memory
 	if = {
 		limit = { 
-			NOT = { has_ship_flag = superlazer_$PARAMATER1$_ship_cooldown } 
-			check_variable = { which = fire_ship_var value < 1 }
+			NOR = { 
+				has_ship_flag = superlazer_$PARAMATER1$_ship_cooldown 
+				has_ship_flag = fire_ship_var
+			} 
 		}
 
 		export_modifier_to_variable = { modifier = $PARAMATER1$ variable = super_lazer_$PARAMATER1$_var }
@@ -927,7 +1011,7 @@ set_standard_battle_superlazer_weapon_keeping_modifier = {
 	} 
 	else_if = { 
 		limit = { 
-			check_variable = { which = fire_ship_var value = 1 }
+			has_ship_flag = fire_ship_var
 			NOT = { has_ship_flag = superlazer_$PARAMATER1$_ship_cooldown } 
 		}
 
@@ -951,7 +1035,7 @@ clear_superlazer_system_fixed_ship = {
 	clear_variable = debug_super_lazer_weapon_type_kuat_superlazer_scale_weapon_fire_rate_mult_var
 	clear_variable = final_super_lazer_ship_fire_rate_mult_var
 	remove_modifier = debug_super_lazer_ship_fire_rate_mult_modifier
-	clear_variable = fire_ship_var
+	remove_ship_flag = fire_ship_var
 }
 
 # base modifier script
@@ -1287,9 +1371,9 @@ remove_ship_modifier_trigger_flag = {
 		remove_fleet_flag = has_kuat_disable_checkpoint
 		remove_fleet_flag = has_kuat_flagship_system_addon_repeatable
 		clear_variable = infinite_faction_battle_duplicate_ship
+		remove_fleet_flag = is_modifiering
 	}
-	clear_variable = fire_ship_var
-	remove_ship_flag = is_modifiering
+	remove_ship_flag = fire_ship_var
 }
 
 remove_ship_modifier_change_basic_variable = {
@@ -1400,10 +1484,7 @@ kuat_copy_leader_learning_system = {
 		limit = { 
 			fromfromfrom = { 
 				exists = leader
-				leader = { 
-					leader_class = admiral
-					NOT = { has_leader_flag = eternal_learned_leader } 
-				}
+				leader = { leader_class = admiral NOT = { has_leader_flag = eternal_learned_leader } }
 				NOT = { has_fleet_flag = eternal_learned_leader } 
 			} 
 			from = { is_ai = no }
