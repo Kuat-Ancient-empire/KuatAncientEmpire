@@ -2186,6 +2186,7 @@ create_kuat_fleet_country_type = {
 			colors = { "blue" "blue" "null" "null" }
 		}
 		effect = {
+			add_modifier = { modifier = Elternal_creating }
 			save_global_event_target_as = fallen_empire_kuat_fleet
 			set_graphical_culture = fallen_empire_kuat_01
 			set_country_flag = fallen_empire_kuat_fleet
@@ -3119,6 +3120,7 @@ flagship_building_check = {
 	owner = {
 		set_variable = { which = SHIP_LIMIT_VAR_$SHIPSIZE$ value = 0 }
 		set_variable = { which = SHIP_LIMIT_STANDARD_VAR_$SHIPSIZE$ value = $SHIP_LIMIT$ }
+		if = { limit = { NOT = { has_global_flag = ban_exe_invasion } } change_variable = { which = SHIP_LIMIT_STANDARD_VAR_$SHIPSIZE$ value = 1 } }
 		if = { limit = { has_country_flag = all_flagship_building_limit_1 } set_variable = { which = SHIP_LIMIT_ADDON_VAR_$SHIPSIZE$ value = 1 } }
 		if = { limit = { has_country_flag = all_flagship_building_limit_2 } set_variable = { which = SHIP_LIMIT_ADDON_VAR_$SHIPSIZE$ value = 2 } }
 		if = { limit = { has_country_flag = all_flagship_building_limit_3 } set_variable = { which = SHIP_LIMIT_ADDON_VAR_$SHIPSIZE$ value = 3 } }
@@ -3128,17 +3130,8 @@ flagship_building_check = {
 		if = { limit = { has_country_flag = all_flagship_building_limit_7 } set_variable = { which = SHIP_LIMIT_ADDON_VAR_$SHIPSIZE$ value = 7 } }
 		if = { limit = { has_country_flag = all_flagship_building_limit_8 } set_variable = { which = SHIP_LIMIT_ADDON_VAR_$SHIPSIZE$ value = 8 } }
 		if = { limit = { has_country_flag = all_flagship_building_limit_9 } set_variable = { which = SHIP_LIMIT_ADDON_VAR_$SHIPSIZE$ value = 9 } }
-		if = {
-			limit = { OR = { has_global_flag = difficult_exe_invasion has_global_flag = ban_exe_invasion } owner = { command_limit > 800 } }
-			if = { limit = { owner = { command_limit > 3200 } } set_variable = { which = SHIP_LIMIT_DECREASE_VAR_$SHIPSIZE$ value = -4 } }
-			else_if = { limit = { owner = { command_limit > 2400 } } set_variable = { which = SHIP_LIMIT_DECREASE_VAR_$SHIPSIZE$ value = -3 } }
-			else_if = { limit = { owner = { command_limit > 1600 } } set_variable = { which = SHIP_LIMIT_DECREASE_VAR_$SHIPSIZE$ value = -2 } }
-			else_if = { limit = { owner = { command_limit > 800 } } set_variable = { which = SHIP_LIMIT_DECREASE_VAR_$SHIPSIZE$ value = -1 } }
-		}
-		else_if = { limit = { is_variable_set = SHIP_LIMIT_DECREASE_VAR_$SHIPSIZE$ } set_variable = { which = SHIP_LIMIT_DECREASE_VAR_$SHIPSIZE$ value = 0 } }
 		change_variable = { which = SHIP_LIMIT_VAR_$SHIPSIZE$ value = SHIP_LIMIT_STANDARD_VAR_$SHIPSIZE$ }
 		change_variable = { which = SHIP_LIMIT_VAR_$SHIPSIZE$ value = SHIP_LIMIT_ADDON_VAR_$SHIPSIZE$ }
-		change_variable = { which = SHIP_LIMIT_VAR_$SHIPSIZE$ value = SHIP_LIMIT_DECREASE_VAR_$SHIPSIZE$ }
 		if = {
 			limit = { any_owned_ship = { NOT = { is_same_value = prevprev } is_ship_size = $SHIPSIZE$ } }
 			export_trigger_value_to_variable = {
