@@ -1327,9 +1327,18 @@ country_event = {
 				}
 				root = { fromfromfrom.fleet = {
 					set_fleet_flag = eternal_learned_leader
-					leader = { set_timed_leader_flag = { flag = eternal_learned_leader days = 180 } }
+					leader = { 
+						set_timed_leader_flag = { flag = eternal_learned_leader days = 180 } 
+						save_event_target_as = eternal_learned_leader
+					}
 					prev = {
-						clone_leader = { class = admiral target = prev.leader effect = { save_event_target_as = eternal_learned_leader_copy copy_flags_and_variables_from = prev.leader } }
+						clone_leader = { 
+							class = admiral target = event_target:eternal_learned_leader
+							effect = { 
+								save_event_target_as = eternal_learned_leader_copy 
+								copy_flags_and_variables_from = event_target:eternal_learned_leader
+							} 
+						}
 						fromfrom.fleet = {
 							if = {
 								limit = { NOT = { has_fleet_flag = have_learned_leader } }
