@@ -1796,7 +1796,7 @@ country_event = {
 					set_fleet_bombardment_stance = indiscriminate
 					root = { country_event = { id = executor_build.386 days = 3600 } }
 				}
-				settings = { is_boss = yes can_disband = no spawn_debris = no can_change_composition = no }
+				settings = { is_boss = yes can_disband = no spawn_debris = no can_change_composition = no uses_naval_capacity = no }
 			}
 			event_target:return_eclipse_fleet = { give_fleet = { controller = root days = 3600 } }
 		}
@@ -1851,7 +1851,7 @@ country_event = {
 					set_fleet_bombardment_stance = indiscriminate
 					root = { country_event = { id = executor_build.376 days = 3600 } }
 				}
-				settings = { is_boss = yes can_disband = no spawn_debris = no can_change_composition = no }
+				settings = { is_boss = yes can_disband = no spawn_debris = no can_change_composition = no uses_naval_capacity = no }
 			}
 			event_target:return_fleet = { give_fleet = { controller = root days = 3600 } }
 		}
@@ -2033,52 +2033,51 @@ country_event = {
 	hide_window = yes
 	is_triggered_only = yes
 	trigger = {  
-		kuat_is_playable_country = yes
-		OR = {
-			AND = { 
-				NOT = { has_global_flag = ban_eternal_return } command_limit > 800 
-				NOT = { check_modifier_value = { modifier = command_limit_add value = 780 } } 
-			}
-			AND = { 
-				has_global_flag = ban_exe_invasion command_limit > 4000 
-				NOT = { check_modifier_value = { modifier = command_limit_add value = 3980 } } 
-			}
-			check_modifier_value = { modifier = all_technology_research_speed value > 5 }
-		}
+		# kuat_is_playable_country = yes
+		is_ai = no
+		check_modifier_value = { modifier = all_technology_research_speed value > 5 }
+		# OR = {
+		# 	# AND = { NOT = { has_global_flag = ban_exe_invasion } command_limit > 800 }
+		# 	# AND = { has_global_flag = ban_exe_invasion command_limit > 4000 }
+		# 	# check_modifier_value = { modifier = all_technology_research_speed value > 5 }
+		# }
 	}
 	immediate = { 
-		if = { 
-			limit = { check_modifier_value = { modifier = all_technology_research_speed value > 5 } } 
-			clear_ship_modifier = { modifier = all_technology_research_speed subtract = 5 DAYS = 30 } 
-		} 
-		if = {
-			limit = { 
-				NOT = { has_global_flag = ban_eternal_return } 
-				OR = { command_limit > 800 has_country_flag = kuat_command_limit_always_temple_800 }
-				NOT = { check_modifier_value = { modifier = command_limit_add value = 780 } }
-			}
-			remove_country_flag = kuat_command_limit_always_temple_4000
-			set_country_flag = kuat_command_limit_always_temple_800
-			clear_ship_modifier = { modifier = command_limit_mult DAYS = 30 }
-			export_modifier_to_variable = { modifier = command_limit_add variable = command_limit_add_value }
-			subtract_variable = { which = command_limit_add_value value = 780 }
-			set_invasion_fleet_basic_modifier = { SUB = basic_command_limit_add FACTOR = command_limit_add_value DAYS = 30 }
-			if = { limit = { is_variable_set = command_limit_add_value } clear_variable = command_limit_add_value }
-		}
-		else_if = {
-			limit = { 
-				has_global_flag = ban_exe_invasion 
-				OR = { command_limit > 4000 has_country_flag = kuat_command_limit_always_temple_4000 }
-				NOT = { check_modifier_value = { modifier = command_limit_add value = 3980 } }
-			}
-			remove_country_flag = kuat_command_limit_always_temple_800
-			set_country_flag = kuat_command_limit_always_temple_4000
-			clear_ship_modifier = { modifier = command_limit_mult DAYS = 30 }
-			export_modifier_to_variable = { modifier = command_limit_add variable = command_limit_add_value }
-			subtract_variable = { which = command_limit_add_value value = 3980 }
-			set_invasion_fleet_basic_modifier = { SUB = basic_command_limit_add FACTOR = command_limit_add_value DAYS = 30 }
-			if = { limit = { is_variable_set = command_limit_add_value } clear_variable = command_limit_add_value }
-		}
+		clear_ship_modifier = { modifier = all_technology_research_speed subtract = 5 DAYS = 30 } 
+		# if = { 
+		# 	limit = { check_modifier_value = { modifier = all_technology_research_speed value > 5 } } 
+		# 	clear_ship_modifier = { modifier = all_technology_research_speed subtract = 5 DAYS = 30 } 
+		# } 
+		# every_owned_leader = {
+		# 	limit = { leader_class = admiral NOT = { has_trait = leader_trait_commandline_modifier_updated } } 
+		# 	add_trait = leader_trait_commandline_modifier_updated
+		# }
+		# if = {
+		# 	limit = { 
+		# 		NOT = { has_global_flag = ban_exe_invasion } 
+		# 		OR = { command_limit > 800 has_country_flag = kuat_command_limit_always_temple_800 }
+		# 	}
+		# 	remove_country_flag = kuat_command_limit_always_temple_4000
+		# 	set_country_flag = kuat_command_limit_always_temple_800
+		# 	clear_ship_modifier = { modifier = command_limit_mult DAYS = 30 }
+		# 	export_modifier_to_variable = { modifier = command_limit_add variable = command_limit_add_value }
+		# 	subtract_variable = { which = command_limit_add_value value = 780 } 
+		# 	set_invasion_fleet_basic_modifier = { SUB = basic_command_limit_add FACTOR = command_limit_add_value DAYS = 30 }
+		# 	if = { limit = { is_variable_set = command_limit_add_value } clear_variable = command_limit_add_value }
+		# }
+		# else_if = {
+		# 	limit = { 
+		# 		has_global_flag = ban_exe_invasion 
+		# 		OR = { command_limit > 4000 has_country_flag = kuat_command_limit_always_temple_4000 }
+		# 	}
+		# 	remove_country_flag = kuat_command_limit_always_temple_800
+		# 	set_country_flag = kuat_command_limit_always_temple_4000
+		# 	clear_ship_modifier = { modifier = command_limit_mult DAYS = 30 }
+		# 	export_modifier_to_variable = { modifier = command_limit_add variable = command_limit_add_value }
+		# 	subtract_variable = { which = command_limit_add_value value = 3980 }
+		# 	set_invasion_fleet_basic_modifier = { SUB = basic_command_limit_add FACTOR = command_limit_add_value DAYS = 30 }
+		# 	if = { limit = { is_variable_set = command_limit_add_value } clear_variable = command_limit_add_value }
+		# }
 	}
 }
 
