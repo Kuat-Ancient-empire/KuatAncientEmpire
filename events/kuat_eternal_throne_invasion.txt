@@ -1565,10 +1565,7 @@ planet_event = {
 					owner = { is_country_type = ag_kae_ge_invasion_country }
 					has_fleet_flag = ag_kae_ge_assault_fleet
 					OR = {
-						AND = {
-							exists = orbit
-							orbit = { is_same_value = root }
-						}
+						AND = { exists = orbit orbit = { is_same_value = root } }
 						AND = {
 							is_fleet_idle = yes
 							NAND = {
@@ -2414,10 +2411,16 @@ country_event = {
 	is_triggered_only = yes
 	trigger = {
 		exists = event_target:ag_kae_ge_invasion_country
-		any_system = { 
-			NOT = { has_star_flag = ag_kae_e_area_system }
-			any_fleet_in_system = { exists = owner owner = { is_same_value = event_target:ag_kae_ge_invasion_country } }
+		if = {
+			limit = { event_target:global_event_country = {
+				check_variable = { which = ag_kae_ge_invasion_num_portals_destroyed value < 6 }
+			} }
+			any_system = { 
+				NOT = { has_star_flag = ag_kae_e_area_system }
+				any_fleet_in_system = { exists = owner owner = { is_same_value = event_target:ag_kae_ge_invasion_country } }
+			}
 		}
+		else = { any_system = { any_fleet_in_system = { exists = owner owner = { is_same_value = event_target:ag_kae_ge_invasion_country } } } }
 		any_owned_fleet = { has_fleet_flag = kuat_disable_fleet_action_order }
 		is_country_type = eternal_support_guadian
 	}

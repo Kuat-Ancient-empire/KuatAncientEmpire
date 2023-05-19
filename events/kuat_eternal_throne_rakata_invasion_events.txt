@@ -925,7 +925,14 @@ fleet_event = {
 						id = kuat_final_crisis_events.40.find5
 						OR = {
 							any_fleet_in_system = { exists = owner owner = { is_hostile = event_target:Infinite_empire } }
-							any_system_planet = { OR = { is_colony = yes is_colonizable = yes } }
+							any_system_planet = { 
+								OR = { is_colony = yes is_colonizable = yes } 
+								NOT = { any_fleet_in_orbit = {
+									exists = controller
+									is_ship_class = shipclass_military
+									controller = { is_same_value = event_target:Infinite_empire }
+								} }
+							}
 						}
 						distance = { source = root type = hyperlane max_jumps = 10 }
 						ROOT = { can_access_system = prev }
@@ -940,12 +947,24 @@ fleet_event = {
 						repeat = {
 							while = {
 								id = kuat_final_crisis_events.40.find5planetwhile
-								any_system_planet = { OR = { is_colony = yes is_colonizable = yes } }
+								any_system_planet = { 
+									OR = { is_colony = yes is_colonizable = yes } 
+									NOT = { any_fleet_in_orbit = {
+										exists = controller
+										is_ship_class = shipclass_military
+										controller = { is_same_value = event_target:Infinite_empire }
+									} }
+								}
 							}
 							find_closest_planet = {
 								trigger = {
 									id = kuat_final_crisis_events.40.find5planet
 									OR = { is_colony = yes is_colonizable = yes }
+									NOT = { any_fleet_in_orbit = {
+										exists = controller
+										is_ship_class = shipclass_military
+										controller = { is_same_value = event_target:Infinite_empire }
+									} }
 								}
 								found_planet = {
 									orbit_planet = this
@@ -985,7 +1004,14 @@ fleet_event = {
 							ROOT = { can_access_system = prev }
 							OR = {
 								any_fleet_in_system = { exists = owner owner = { is_hostile = event_target:Infinite_empire } }
-								any_system_planet = { OR = { is_colony = yes is_colonizable = yes } }
+								any_system_planet = { 
+									OR = { is_colony = yes is_colonizable = yes } 
+									NOT = { any_fleet_in_orbit = {
+										exists = controller
+										is_ship_class = shipclass_military
+										controller = { is_same_value = event_target:Infinite_empire }
+									} }
+								}
 							}
 							distance = { source = root type = hyperlane max_jumps = 20 }
 							check_variable = { which = Rakata_crisis_fleet_id value < 1 }
@@ -999,12 +1025,24 @@ fleet_event = {
 							repeat = {
 								while = {
 									id = kuat_final_crisis_events.40.find10planetwhile
-									any_system_planet = { OR = { is_colony = yes is_colonizable = yes } }
+									any_system_planet = { 
+										OR = { is_colony = yes is_colonizable = yes } 
+										NOT = { any_fleet_in_orbit = {
+											exists = controller
+											is_ship_class = shipclass_military
+											controller = { is_same_value = event_target:Infinite_empire }
+										} }
+									}
 								}
 								find_closest_planet = {
 									trigger = {
 										id = kuat_final_crisis_events.40.find10planet
 										OR = { is_colony = yes is_colonizable = yes }
+										NOT = { any_fleet_in_orbit = {
+											exists = controller
+											is_ship_class = shipclass_military
+											controller = { is_same_value = event_target:Infinite_empire }
+										} }
 									}
 									found_planet = {
 										orbit_planet = this
