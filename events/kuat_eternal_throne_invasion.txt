@@ -1197,7 +1197,9 @@ fleet_event = {
 								exists = owner
 								owner = { is_same_value = event_target:ag_kae_ge_invasion_country }
 							}
-							has_star_flag = ag_kae_portal_system
+							event_target:global_event_country = {
+								check_variable = { which = ag_kae_ge_invasion_num_portals_destroyed value < 6 }
+							}
 						} }
 						random_system = {
 							limit = {
@@ -1206,7 +1208,9 @@ fleet_event = {
 									exists = owner
 									owner = { is_same_value = event_target:ag_kae_ge_invasion_country }
 								}
-								has_star_flag = ag_kae_portal_system
+								event_target:global_event_country = {
+									check_variable = { which = ag_kae_ge_invasion_num_portals_destroyed value < 6 }
+								}
 							}
 							random_system_planet = { ROOT = { set_location = { target = PREV distance = 5 angle = random } } }
 						}
@@ -1258,10 +1262,12 @@ fleet_event = {
 					id = ag_kae_ge_invasion.218.attack1
 					NOT = { has_star_flag = ag_kae_e_area_system }
 					distance = { source = root type = hyperlane max_jumps = 2 }
-					has_star_flag = ag_kae_portal_system
 					any_fleet_in_system = {
 						exists = owner
 						owner = { is_same_value = event_target:ag_kae_ge_invasion_country }
+					}
+					event_target:global_event_country = {
+						check_variable = { which = ag_kae_ge_invasion_num_portals_destroyed value < 6 }
 					}
 					ROOT = { can_access_system = prev }
 				}
@@ -1284,14 +1290,14 @@ fleet_event = {
 					failed = { find_closest_system = {
 						trigger = {
 							id = ag_kae_ge_invasion.218.attack3
-							NOR = {
-								has_star_flag = ag_kae_e_area_system
-								has_star_flag = ag_kae_portal_system
-							}
+							has_star_flag = ag_kae_portal_system
 							distance = { source = root type = hyperlane max_jumps = 2 }
 							any_fleet_in_system = {
 								exists = owner
 								owner = { is_same_value = event_target:ag_kae_ge_invasion_country }
+							}
+							event_target:global_event_country = {
+								check_variable = { which = ag_kae_ge_invasion_num_portals_destroyed value < 6 }
 							}
 							ROOT = { can_access_system = prev }
 						}

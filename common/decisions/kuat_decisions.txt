@@ -55,8 +55,7 @@ Building_The_Kuat_Command_Line_Auto_planet = {
 	enactment_time = 15
 	resources = { 
 		category = decisions 
-		cost = { trigger = { FROM = { is_ai = yes } } influence = 25 }
-		cost = { trigger = { FROM = { is_ai = no } } alloys = 5000 }
+		cost = { unity = 100 }
 	}
 	potential = {
 		OR = { 
@@ -64,7 +63,7 @@ Building_The_Kuat_Command_Line_Auto_planet = {
 			AND = { kuat_num_pops = { WHICH = PR_var_plnt_HC NUM = 1 } from = { is_ai = yes } has_global_flag = enable_ai_trigger }
 		}
 		from = { OR = {
-			AND = { is_ai = yes years_passed >= 50 any_playable_country = { has_technology = tech_kuat_command_center } }
+			AND = { is_ai = yes years_passed >= 25 any_playable_country = { has_technology = tech_kuat_command_center } }
 			AND = { is_ai = no has_technology = tech_kuat_command_center }
 		} }
 		kuat_is_not_allow_to_build_auto_planet = no
@@ -121,12 +120,12 @@ Building_The_Kuat_Command_Line_Auto_planet = {
 
 			change_variable = { which = planet_production_array_pop_speed_total_dynamic value = planet_production_array_pop_speed_total }
 			if = {
-				limit = { check_variable = { which = planet_production_array_pop_speed_total_dynamic value > 1000 } }
-				set_variable = { which = planet_production_array_pop_speed_total_dynamic value = 1000 }
+				limit = { check_variable = { which = planet_production_array_pop_speed_total_dynamic value > 2000 } }
+				set_variable = { which = planet_production_array_pop_speed_total_dynamic value = 2000 }
 			}
 			set_variable = { which = planet_production_array value = trigger:years_passed }
 			change_variable = { which = planet_production_array value = planet_production_array_pop_speed_total_dynamic }
-			multiply_variable = { which = planet_production_array value = 0.1 }
+			multiply_variable = { which = planet_production_array value = 0.2 }
 			change_variable = { which = planet_production_array value = trigger:planet_size }
 			change_variable = { which = planet_production_array value = planet_production_array_base }
 			multiply_variable = { which = planet_production_array value = trigger:planet_size }
@@ -138,8 +137,7 @@ Building_The_Kuat_Command_Line_Auto_planet = {
 			else_if = { limit = { years_passed >= 60 } multiply_variable = { which = planet_production_array value = 0.6 } }
 			else_if = { limit = { years_passed >= 50 } multiply_variable = { which = planet_production_array value = 0.5 } }
 			else_if = { limit = { years_passed >= 40 } multiply_variable = { which = planet_production_array value = 0.3 } }
-			else_if = { limit = { years_passed >= 30 } multiply_variable = { which = planet_production_array value = 0.2 } }
-			else = { multiply_variable = { which = planet_production_array value = 0.1 } }
+			else = { multiply_variable = { which = planet_production_array value = 0.2 } }
 			floor_variable = planet_production_array
 			set_update_modifiers_batch = end
 		}
@@ -147,8 +145,7 @@ Building_The_Kuat_Command_Line_Auto_planet = {
 	ai_weight = { 
 		weight = 1
 		modifier = { factor = 0 has_global_flag = disable_ai_trigger }
-		modifier = { factor = 0 OR = { years_passed < 50 AND = { is_capital = yes num_pops < 65 } } }
-		modifier = { factor = 150000 years_passed >= 50 has_global_flag = enable_ai_trigger }
+		modifier = { factor = 150000 years_passed >= 25 has_global_flag = enable_ai_trigger }
 	}
 }
 
