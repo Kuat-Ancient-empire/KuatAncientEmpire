@@ -2260,63 +2260,11 @@ country_event = {
 	id = executor_build.296
 	hide_window = yes
 	is_triggered_only = yes
-	trigger = { 
-		OR = {
-			AND = { is_ai = yes years_passed >= 50 }
-			AND = { is_ai = no has_technology = tech_kuat_command_center }
-		}
-		any_owned_planet = { has_planet_flag = has_building_kuat_command_center_auto }
-	}
+	trigger = { any_owned_planet = { has_planet_flag = has_building_kuat_command_center_auto } }
 	immediate = { 
 		every_owned_planet = {
 			limit = { has_planet_flag = has_building_kuat_command_center_auto }
-			if = {
-				limit = { NOT = { has_building = building_kuat_command_center_auto } }
-				remove_all_buildings = yes
-				add_building = building_kuat_command_center_auto
-			}
-			if = {
-				limit = { NOT = { num_pops = 5 } }
-				set_variable = { which = planet_temple_return_pop value = trigger:num_pops }
-				subtract_variable = { which = planet_temple_return_pop value = 5 }
-				multiply_variable = { which = planet_temple_return_pop value = -1 }
-				if = {
-					limit = { check_variable = { which = planet_temple_return_pop value > 0 } }
-					while = { 
-						count = planet_temple_return_pop create_pop = { species = owner_main_species } 
-						subtract_variable = { which = planet_production_array value = 1 }
-					}
-				}
-				else_if = {
-					limit = { check_variable = { which = planet_temple_return_pop value < 0 } }
-					multiply_variable = { which = planet_temple_return_pop value = -1 }
-					while = { 
-						count = planet_temple_return_pop random_owned_pop = { kill_pop = yes } 
-						change_variable = { which = planet_production_array value = 0.2 }
-					}
-				}
-			}
-			change_variable = { which = planet_production_array_pop_speed_total_dynamic value = planet_production_array_pop_speed_total }
-			if = {
-				limit = { check_variable = { which = planet_production_array_pop_speed_total_dynamic value > 2000 } }
-				set_variable = { which = planet_production_array_pop_speed_total_dynamic value = 2000 }
-			}
-			set_variable = { which = planet_production_array value = trigger:years_passed }
-			change_variable = { which = planet_production_array value = planet_production_array_pop_speed_total_dynamic }
-			multiply_variable = { which = planet_production_array value = 0.2 }
-			change_variable = { which = planet_production_array value = trigger:planet_size }
-			change_variable = { which = planet_production_array value = planet_production_array_base }
-			multiply_variable = { which = planet_production_array value = trigger:planet_size }
-			multiply_variable = { which = planet_production_array value = 0.1 }
-			if = { limit = { years_passed >= 100 } multiply_variable = { which = planet_production_array value = 1 } }
-			else_if = { limit = { years_passed >= 90 } multiply_variable = { which = planet_production_array value = 0.9 } }
-			else_if = { limit = { years_passed >= 80 } multiply_variable = { which = planet_production_array value = 0.8 } }
-			else_if = { limit = { years_passed >= 70 } multiply_variable = { which = planet_production_array value = 0.7 } }
-			else_if = { limit = { years_passed >= 60 } multiply_variable = { which = planet_production_array value = 0.6 } }
-			else_if = { limit = { years_passed >= 50 } multiply_variable = { which = planet_production_array value = 0.5 } }
-			else_if = { limit = { years_passed >= 40 } multiply_variable = { which = planet_production_array value = 0.3 } }
-			else = { multiply_variable = { which = planet_production_array value = 0.2 } }
-			floor_variable = planet_production_array
+			kuat_reset_auto_colony_variable = yes
 		}
 	}
 }
