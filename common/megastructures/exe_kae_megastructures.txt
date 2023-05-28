@@ -98,10 +98,6 @@ swfo_supermacy_platfrom = {
 				has_anomaly = no
 			}
 			custom_tooltip = {
-				fail_text = "requires_no_orbital_station"
-				has_orbital_station = no
-			}
-			custom_tooltip = {
 				fail_text = "kuat_requires_exe_construction_section"
 				NOT = { has_planet_flag = has_supermacy }
 			}
@@ -179,13 +175,50 @@ swfo_supermacy = {
 	on_build_start = {}
 	on_build_cancel = {}
 	on_build_complete = {
+		fromfrom.planet = {
+			remove_planet_flag = has_exe_starbase
+			set_planet_size = -1
+			set_planet_entity = { entity = starforge_avoid_entity }
+			solar_system = {
+				set_star_flag = kuat_starbase_megastructure_around_system
+				set_star_flag = kuat_starbase_megastructure_in_system
+				every_system_planet = {
+					limit = {
+						exists = owner
+						owner = { NOT = { is_same_value = from } }
+					}
+					add_modifier = { modifier = "exe_megastructure_starbase_in_system" }
+				}
+				add_modifier = { modifier = "kuat_starbase_megastructure_around_system" }
+			}
+		}
+		create_ambient_object = { type = "contingency_1" location = this }
+		every_system = {
+			limit = {
+				NOT = { is_same_value = prev }
+				distance = {
+					source = prev 
+					type = euclidean
+					min_distance >= 0
+					max_distance <= 25
+				}
+				NOT = { has_star_flag = kuat_starbase_megastructure_around_system }
+			}
+			set_star_flag = kuat_starbase_megastructure_around_system
+			add_modifier = { modifier = "kuat_starbase_megastructure_around_system" }
+			create_ambient_object = { type = "contingency_1" location = this }
+		}
 		add_threat = { who = from amount = 50 }
 		create_fleet = {
 			name = "NAME_EXE_SWFO_SUPERMACY"
 			settings = { spawn_debris = no can_disband = no }
 			effect = {
+				set_fleet_flag = kuat_station_player
 				set_owner = from
-				create_ship = { design = "NAME_EXE_SWFO_SUPERMACY" }
+				create_ship = { 
+					design = "NAME_EXE_SWFO_SUPERMACY" 
+					effect = { set_ship_flag = kuat_station_player }
+				}
 				set_location = { target = fromfrom distance = -1 angle = 0 }
 			}
 		}
