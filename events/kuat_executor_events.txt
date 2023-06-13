@@ -2035,7 +2035,11 @@ country_event = {
 	trigger = {  
 		# kuat_is_playable_country = yes
 		is_ai = no
-		check_modifier_value = { modifier = all_technology_research_speed value > 5 }
+		OR = {
+			check_modifier_value = { modifier = all_technology_research_speed value > 5 }
+			check_modifier_value = { modifier = country_leader_pool_size value > 1 }
+			check_modifier_value = { modifier = external_leader_pool_add value > 0 }
+		}
 		# OR = {
 		# 	# AND = { NOT = { has_global_flag = ban_exe_invasion } command_limit > 800 }
 		# 	# AND = { has_global_flag = ban_exe_invasion command_limit > 4000 }
@@ -2043,7 +2047,18 @@ country_event = {
 		# }
 	}
 	immediate = { 
-		clear_ship_modifier = { modifier = all_technology_research_speed subtract = 5 DAYS = 30 } 
+		if = {
+			limit = { check_modifier_value = { modifier = all_technology_research_speed value > 5 } }
+			clear_ship_modifier = { modifier = all_technology_research_speed subtract = 5 DAYS = 30 } 
+		}
+		if = {
+			limit = { check_modifier_value = { modifier = country_leader_pool_size value > 1 } }
+			clear_ship_modifier = { modifier = country_leader_pool_size subtract = 1 DAYS = 30 }
+		}
+		if = {
+			limit = { check_modifier_value = { modifier = external_leader_pool_add value > 0 } }
+			clear_ship_modifier = { modifier = external_leader_pool_add DAYS = 30 } 
+		}
 		# if = { 
 		# 	limit = { check_modifier_value = { modifier = all_technology_research_speed value > 5 } } 
 		# 	clear_ship_modifier = { modifier = all_technology_research_speed subtract = 5 DAYS = 30 } 
