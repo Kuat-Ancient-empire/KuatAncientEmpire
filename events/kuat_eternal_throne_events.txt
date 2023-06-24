@@ -2265,6 +2265,7 @@ fleet_event = {
 		name = kuat_eternal_legacy.5010.a
 		hidden_effect = {
 			set_update_modifiers_batch = begin
+			set_global_flag = kuat_eternal_legacy_God_awakened
 			owner = { 
 				add_event_chain_counter = {
 					event_chain = "Eternal_legacyancient_chain"
@@ -2302,6 +2303,90 @@ fleet_event = {
 			}
 			set_update_modifiers_batch = end
 		}
+	}
+}
+
+#BY XIAOBEIFANG
+country_event = {
+	id = kuat_eternal_legacy.50101
+	title = "kuat_eternal_legacy.50101.name"
+	desc = "kuat_eternal_legacy.50101.desc"
+	picture_event_data = { room = Eternal_Empire_room }
+	custom_gui = "kuat_event_m_window"
+	custom_gui_option = "kuat_event_m_option"
+	show_sound = event_power_down
+	diplomatic = yes
+	mean_time_to_happen = { months = 1 }
+	fire_only_once = yes
+	trigger = { has_origin = origin_eternalthrone has_global_flag = kuat_eternal_legacy_God_awakened }
+	option = {
+		name = "kuat_eternal_legacy.50101.a"
+		hidden_effect = { add_modifier = { modifier = kuat_eternal_audio_limited days = 360 } } 
+	}
+	option = {
+		name = "kuat_eternal_legacy.50101.b"
+		default_hide_option = yes
+		hidden_effect = { 
+			add_modifier = { modifier = kuat_eternal_investigation_histroy days = 360 } 
+			country_event = { id = kuat_eternal_legacy.50102 days = 10 random = 10 }
+		}  
+	}
+}
+
+country_event = {
+	id = kuat_eternal_legacy.50102
+	title = "kuat_eternal_legacy.50102.name"
+	desc = "kuat_eternal_legacy.50102.desc"
+	picture_event_data = { room = Eternal_Empire_room }
+	custom_gui = "kuat_event_window"
+	custom_gui_option = "kuat_event_option"
+	show_sound = event_power_down
+	diplomatic = yes
+	is_triggered_only = yes
+	trigger = { has_origin = origin_eternalthrone }
+	option = { name = "kuat_eternal_legacy.50102.a" }
+	after = { country_event = { id = kuat_eternal_legacy.50103 days = 10 random = 10 } }
+}
+
+country_event = {
+	id = kuat_eternal_legacy.50103
+	title = "kuat_eternal_legacy.50103.name"
+	desc = { trigger = {
+		success_text = {
+			NOT = { has_country_flag = kuat_eternal_legacy.50103.a.fired }
+			text = "kuat_eternal_legacy.50103.a.desc"
+		}
+		success_text = {
+			has_country_flag = kuat_eternal_legacy.50103.a.fired
+			text = "kuat_eternal_legacy.50103.b.desc"
+		}
+	} }
+	diplomatic = yes
+	picture_event_data = {
+		portrait = event_target:ETERNAL_LEADER
+		room = Eternal_Empire_room
+	}
+	custom_gui = "kuat_event_diplomacy_window"
+	custom_gui_option = "kuat_event_diplomacy_option"
+	show_sound = event_wind_ruins
+	is_triggered_only = yes
+	trigger = { 
+		exists = event_target:eternal_support_country
+		has_origin = origin_eternalthrone
+	}
+	option = { 
+		name = kuat_eternal_legacy.50103.a 
+		trigger = { NOT = { has_country_flag = kuat_eternal_legacy.50103.a.fired } }
+		hidden_effect = { set_country_flag = kuat_eternal_legacy.50103.a.fired }
+	}
+	option = { 
+		name = kuat_eternal_legacy.50103.b 
+		trigger = { has_country_flag = kuat_eternal_legacy.50103.a.fired }
+		hidden_effect = { add_unity_times_empire_size = { VALUE = 15 } }  
+	}
+	option = { 
+		name = kuat_eternal_legacy.50103.c 
+		hidden_effect = { add_unity_times_empire_size = { VALUE = 5 } } 
 	}
 }
 
