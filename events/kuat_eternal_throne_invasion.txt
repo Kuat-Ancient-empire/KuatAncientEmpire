@@ -1197,9 +1197,6 @@ fleet_event = {
 								exists = owner
 								owner = { is_same_value = event_target:ag_kae_ge_invasion_country }
 							}
-							event_target:global_event_country = {
-								check_variable = { which = ag_kae_ge_invasion_num_portals_destroyed value < 6 }
-							}
 						} }
 						random_system = {
 							limit = {
@@ -1208,24 +1205,21 @@ fleet_event = {
 									exists = owner
 									owner = { is_same_value = event_target:ag_kae_ge_invasion_country }
 								}
-								event_target:global_event_country = {
-									check_variable = { which = ag_kae_ge_invasion_num_portals_destroyed value < 6 }
-								}
 							}
 							random_system_planet = { ROOT = { set_location = { target = PREV distance = 5 angle = random } } }
 						}
 					}
 					else_if = {
-						limit = { any_system = {
-							has_star_flag = ag_kae_e_area_system
-							any_fleet_in_system = {
-								exists = owner
-								owner = { is_same_value = event_target:ag_kae_ge_invasion_country }
+						limit = { 
+							any_system = {
+								has_star_flag = ag_kae_e_area_system
+								any_fleet_in_system = {
+									exists = owner
+									owner = { is_same_value = event_target:ag_kae_ge_invasion_country }
+								}
 							}
-							event_target:global_event_country = {
-								check_variable = { which = ag_kae_ge_invasion_num_portals_destroyed value >= 6 }
-							}
-						} }
+							event_target:global_event_country = { check_variable = { which = ag_kae_ge_invasion_num_portals_destroyed value >= 6 } }
+						}
 						random_system = {
 							limit = {
 								has_star_flag = ag_kae_e_area_system
@@ -1233,22 +1227,6 @@ fleet_event = {
 									exists = owner
 									owner = { is_same_value = event_target:ag_kae_ge_invasion_country }
 								}
-								event_target:global_event_country = {
-									check_variable = { which = ag_kae_ge_invasion_num_portals_destroyed value >= 6 }
-								}
-							}
-							random_system_planet = { ROOT = { set_location = { target = PREV distance = 5 angle = random } } }
-						}
-					}
-					else_if = {
-						limit = { any_system = {
-							NOR = { has_star_flag = ag_kae_e_area_system has_star_flag = ag_kae_portal_system }
-							any_fleet_in_system = { exists = owner owner = { is_same_value = event_target:ag_kae_ge_invasion_country } }
-						} }
-						random_system = {
-							limit = {
-								NOR = { has_star_flag = ag_kae_e_area_system has_star_flag = ag_kae_portal_system }
-								any_fleet_in_system = { exists = owner owner = { is_same_value = event_target:ag_kae_ge_invasion_country } }
 							}
 							random_system_planet = { ROOT = { set_location = { target = PREV distance = 5 angle = random } } }
 						}
@@ -1261,13 +1239,10 @@ fleet_event = {
 				trigger = {
 					id = ag_kae_ge_invasion.218.attack1
 					NOT = { has_star_flag = ag_kae_e_area_system }
-					distance = { source = root type = hyperlane max_jumps = 2 }
+					distance = { source = root type = hyperlane max_jumps = 1 }
 					any_fleet_in_system = {
 						exists = owner
 						owner = { is_same_value = event_target:ag_kae_ge_invasion_country }
-					}
-					event_target:global_event_country = {
-						check_variable = { which = ag_kae_ge_invasion_num_portals_destroyed value < 6 }
 					}
 					ROOT = { can_access_system = prev }
 				}
@@ -1275,56 +1250,37 @@ fleet_event = {
 				failed = { find_closest_system = {
 					trigger = {
 						id = ag_kae_ge_invasion.218.attack2
-						ROOT = { can_access_system = prev }
+						NOT = { has_star_flag = ag_kae_e_area_system }
 						distance = { source = root type = hyperlane max_jumps = 2 }
 						any_fleet_in_system = {
 							exists = owner
 							owner = { is_same_value = event_target:ag_kae_ge_invasion_country }
 						}
-						event_target:global_event_country = {
-							check_variable = { which = ag_kae_ge_invasion_num_portals_destroyed value >= 6 }
-						}
-						has_star_flag = ag_kae_e_area_system
+						ROOT = { can_access_system = prev }
 					}
 					found_system = { move_to = this wait = 5 }
 					failed = { find_closest_system = {
 						trigger = {
-							id = ag_kae_ge_invasion.218.attack3
-							has_star_flag = ag_kae_portal_system
-							distance = { source = root type = hyperlane max_jumps = 2 }
+							id = ag_kae_ge_invasion.218.defender
+							is_same_value = event_target:zakuul_system
+							ROOT = { can_access_system = prev }
 							any_fleet_in_system = {
 								exists = owner
-								owner = { is_same_value = event_target:ag_kae_ge_invasion_country }
+								owner = { is_hostile = event_target:Eternalempire }
 							}
-							event_target:global_event_country = {
-								check_variable = { which = ag_kae_ge_invasion_num_portals_destroyed value < 6 }
-							}
-							ROOT = { can_access_system = prev }
+							distance = { source = root type = hyperlane max_jumps = 2 }
 						}
 						found_system = { move_to = this wait = 5 }
-						failed = { find_closest_system = {
-							trigger = {
-								id = ag_kae_ge_invasion.218.defender
-								is_same_value = event_target:zakuul_system
-								ROOT = { can_access_system = prev }
-								any_fleet_in_system = {
+						failed = { wait = 5 effect = {
+							id = ag_kae_ge_invasion.218.e13
+							if = {
+								limit = { event_target:zakuul_system = { any_fleet_in_system = {
 									exists = owner
 									owner = { is_hostile = event_target:Eternalempire }
-								}
-								distance = { source = root type = hyperlane max_jumps = 2 }
+								} } }
+								ROOT = { set_fleet_flag = eternal_findout_path_defender }
 							}
-							found_system = { move_to = this wait = 5 }
-							failed = { wait = 5 effect = {
-								id = ag_kae_ge_invasion.218.e13
-								if = {
-									limit = { event_target:zakuul_system = { any_fleet_in_system = {
-										exists = owner
-										owner = { is_hostile = event_target:Eternalempire }
-									} } }
-									ROOT = { set_fleet_flag = eternal_findout_path_defender }
-								}
-								else = { root = { set_fleet_flag = eternal_findout_path } }
-							} }
+							else = { root = { set_fleet_flag = eternal_findout_path } }
 						} }
 					} }
 				} }
