@@ -190,3 +190,32 @@ MUI_trgr_flt_SWITCH_mods = { always = no }
 
 #aspr
 has_apsr_modifiers = { always = no }
+
+
+#	文件夹拷贝到	\common
+#	在所有建筑和区划中加一条	"exempt_from_ai_planet_specialization = yes"	其他兼容伞来做就行
+#	PR总人数
+
+
+
+###	PR总人数
+# value:PR_sv_plnt_HC
+# PR_flg_plnt_VALID
+#_用法提示	可替换所有<星球域>和<国家域>的|num_pops|
+#			如果是星球域, "num_pops > X"	"num_pops >= X"	替换为	"PR_prmt_trgr_HC = { MORE = X }"
+#			如果是星球域, "num_pops < X"	"num_pops <= X"	替换为	"PR_prmt_trgr_HC = { LESS = X }"
+#			如果是国家域, 括号中再添加一个	SCOPE = cntr
+#			如果是"num_pops ? X", X<5, 那么可以不替换, 影响不大
+#_prmt	|MORE/LESS/SCOPE|
+PR_prmt_trgr_HC = {
+	[[MORE]
+		num_pops > $MORE$
+	]
+	[[LESS]
+		num_pops < $LESS$
+	]
+	[[SCOPE]
+		NOT = { is_variable_set = $SCOPE$ }
+	]
+}
+

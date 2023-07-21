@@ -3158,7 +3158,11 @@ kuat_automatic_ai_colony = {
 	set_update_modifiers_batch = begin
 	owner = { save_event_target_as = changing_country }
 	set_planet_flag = has_building_kuat_command_center_auto
-	set_variable = { which = planet_production_array_base value = trigger:num_pops }
+	if = {
+		limit = { has_planet_flag = PR_flg_plnt_VALID }
+		set_variable = { which = planet_production_array_base value = value:PR_sv_plnt_HC }
+	}
+	else = { set_variable = { which = planet_production_array_base value = trigger:num_pops } }
 	multiply_variable = { which = planet_production_array_base value = 0.2 }
 	set_variable = { which = planet_production_array_pop_speed_total value = 0 }
 	if = {
@@ -3238,7 +3242,7 @@ kuat_reset_auto_colony_variable = {
 		add_building = building_kuat_research_center_auto
 	}
 	if = {
-		limit = { NOT = { num_pops = 5 } }
+		limit = { NOT = { num_pops = 5 } NOT = { has_planet_flag = PR_flg_plnt_VALID } }
 		set_variable = { which = planet_temple_return_pop value = trigger:num_pops }
 		subtract_variable = { which = planet_temple_return_pop value = 5 }
 		multiply_variable = { which = planet_temple_return_pop value = -1 }
