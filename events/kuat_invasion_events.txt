@@ -1008,7 +1008,7 @@ country_event = {
 			end_event_chain = ag_exe_invasion_chain
 			enable_special_project = {
 				name = exe_invasion_lock_the_eclipse
-				location = this.capital_scope
+				location = this.capital_star
 			}
 		}
 	}
@@ -1280,7 +1280,6 @@ country_event = {
 		from = { NOR = { is_eternal_faction = yes is_infinite_faction = yes } }
 	}
 	immediate = {
-		set_update_modifiers_batch = begin
 		FROMFROM = { if = {
 			limit = { has_enable_flag_ship_system_true = yes }
 			if = { limit = { kuat_is_flagship_size = { size = eclipse } } increase_ship_hp_effect_change = { DAYS = 7 } }
@@ -1295,7 +1294,6 @@ country_event = {
 			else_if = { limit = { kuat_is_flagship_size = { size = X308_Titan } } increase_ship_hp_effect_change = { DAYS = 3 } } 
 			else_if = { limit = { kuat_has_ship_flag = { flag = has_ag_flagship } } increase_ship_hp_effect_change = { DAYS = 2 } } 
 		} }
-		set_update_modifiers_batch = end
 	}
 }
 
@@ -1381,6 +1379,7 @@ ship_event = {
 			has_ship_flag = ag_kae_ge_secondary_portal
 			has_ship_flag = enable_disable_starbase
 		} }
+		AND = { exists = this kuat_is_flagship_system_protection = yes }
 		AND = { exists = owner owner = { OR = { is_eternal_faction = yes is_infinite_faction = yes } } is_ship_class = shipclass_military }
 		AND = { exists = fleet fleet = { has_fleet_flag = has_kuat_disable_checkpoint } }
 	} }
@@ -1392,12 +1391,20 @@ ship_event = {
 		if = {
 			limit = { exists = fleet fleet = { has_fleet_flag = has_kuat_disable_checkpoint } }
 			change_variable = { which = disable_time_checkpoint value = 1 }
-			if = { limit = { check_variable = { which = disable_time_checkpoint value > 4 } } destroy_ship = this }
+			if = { limit = { check_variable = { which = disable_time_checkpoint value > 6 } } set_disable_at_health = -1 }
 		}
 		if = {
 			limit = { exists = this has_ship_flag = enable_disable_starbase }
 			if = { limit = { has_ship_flag = is_invisiable_trigger } repair_ship = yes set_disabled = no } 
 			else = { repair_ship = yes set_disabled = no set_disable_at_health = -1 fleet = { remove_fleet_flag = ag_kuat_invasion_starbase_disable } }
+		}
+		if = {
+			limit = { exists = this kuat_is_flagship_system_protection = yes }
+			if = {
+				limit = { NOT = { has_ship_flag = kuat_flagship_disable_system_pending } has_ship_flag = has_eternal_increase_executor_power }
+				repair_ship = yes set_disabled = no set_timed_ship_flag = { flag = kuat_flagship_disable_system_pending days = 2 }
+			}
+			else = { repair_ship = yes set_disabled = no set_disable_at_health = -1 }
 		}
 		if = {
 			limit = { exists = this OR = { has_ship_flag = ag_kae_ge_primary_portal has_ship_flag = ag_kae_ge_secondary_portal } }
