@@ -1379,9 +1379,9 @@ ship_event = {
 			has_ship_flag = ag_kae_ge_secondary_portal
 			has_ship_flag = enable_disable_starbase
 		} }
-		AND = { exists = this kuat_is_flagship_system_protection = yes }
+		AND = { exists = this kuat_is_flagship_system_protection = yes ag_is_ancient_titan_alt = no }
+		AND = { exists = fleet fleet = { has_fleet_flag = has_kuat_disable_checkpoint } ag_is_ancient_titan_alt = no }
 		AND = { exists = owner owner = { OR = { is_eternal_faction = yes is_infinite_faction = yes } } is_ship_class = shipclass_military }
-		AND = { exists = fleet fleet = { has_fleet_flag = has_kuat_disable_checkpoint } }
 	} }
 	immediate = { 
 		if = {
@@ -1389,22 +1389,29 @@ ship_event = {
 			repair_ship = yes set_disabled = no change_variable = { which = disable_time value = 1 }
 		}
 		if = {
-			limit = { exists = fleet fleet = { has_fleet_flag = has_kuat_disable_checkpoint } }
-			change_variable = { which = disable_time_checkpoint value = 1 }
-			if = { limit = { check_variable = { which = disable_time_checkpoint value > 6 } } set_disable_at_health = -1 }
-		}
-		if = {
 			limit = { exists = this has_ship_flag = enable_disable_starbase }
 			if = { limit = { has_ship_flag = is_invisiable_trigger } repair_ship = yes set_disabled = no } 
 			else = { repair_ship = yes set_disabled = no set_disable_at_health = -1 fleet = { remove_fleet_flag = ag_kuat_invasion_starbase_disable } }
 		}
 		if = {
-			limit = { exists = this kuat_is_flagship_system_protection = yes }
+			limit = { ag_is_ancient_titan_alt = no }
 			if = {
-				limit = { NOT = { has_ship_flag = kuat_flagship_disable_system_pending } has_ship_flag = has_eternal_increase_executor_power }
-				repair_ship = yes set_disabled = no set_timed_ship_flag = { flag = kuat_flagship_disable_system_pending days = 2 }
+				limit = { exists = fleet fleet = { has_fleet_flag = has_kuat_disable_checkpoint } }
+				change_variable = { which = disable_time_checkpoint value = 1 }
+				if = { limit = { check_variable = { which = disable_time_checkpoint value > 6 } } set_disable_at_health = -1 }
 			}
-			else = { repair_ship = yes set_disabled = no set_disable_at_health = -1 }
+			if = {
+				limit = { exists = this kuat_is_flagship_system_protection = yes }
+				if = {
+					limit = { 
+						NOT = { has_ship_flag = kuat_flagship_disable_system_pending } 
+						has_ship_flag = has_eternal_increase_executor_power 
+					}
+					repair_ship = yes set_disabled = no 
+					set_timed_ship_flag = { flag = kuat_flagship_disable_system_pending days = 2 }
+				}
+				else = { repair_ship = yes set_disabled = no set_disable_at_health = -1 }
+			}
 		}
 		if = {
 			limit = { exists = this OR = { has_ship_flag = ag_kae_ge_primary_portal has_ship_flag = ag_kae_ge_secondary_portal } }
@@ -1416,6 +1423,40 @@ ship_event = {
 				repair_ship = yes set_disabled = no
 			} 
 			else = { repair_ship = yes set_disabled = no set_disable_at_health = -1 }
+		}
+	}
+}
+ship_event = {
+	id = exe_invasion.150
+	hide_window = yes
+	is_triggered_only = yes
+	trigger = { 
+		ag_is_ancient_titan_alt = yes
+		OR = {
+			AND = { exists = this kuat_is_flagship_system_protection = yes }
+			AND = { exists = fleet fleet = { has_fleet_flag = has_kuat_disable_checkpoint } }
+		}
+	}
+	immediate = { 
+		if = {
+			limit = { ag_is_ancient_titan_alt = yes }
+			if = {
+				limit = {  exists = fleet fleet = { has_fleet_flag = has_kuat_disable_checkpoint } }
+				change_variable = { which = disable_time_checkpoint value = 1 }
+				if = { limit = { check_variable = { which = disable_time_checkpoint value > 6 } } ag_clear_disable_at_health = { ag_type = common } }
+			}
+			if = {
+				limit = { exists = this kuat_is_flagship_system_protection = yes }
+				if = {
+					limit = { 
+						NOT = { has_ship_flag = kuat_flagship_disable_system_pending } 
+						has_ship_flag = has_eternal_increase_executor_power 
+					}
+					repair_ship = yes set_disabled = no ag_subtract_disable_at_health = { ag_type = common }
+					set_timed_ship_flag = { flag = kuat_flagship_disable_system_pending days = 2 }
+				}
+				else = { repair_ship = yes set_disabled = no while = { count = 2 ag_subtract_disable_at_health = { ag_type = common } } }
+			}
 		}
 	}
 }
