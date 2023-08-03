@@ -5,10 +5,10 @@ event = {
 	hide_window = yes
 	is_triggered_only = yes
 	trigger = {
-		NOR = { 
-			any_country = { OR = { has_origin = origin_kuat_apocalyptic has_origin = origin_eternalthrone } } 
-			has_global_flag = will_be_upgrade_starforge
+		any_country = {
+			has_origin = origin_kuat_shadow
 		}
+		NOT = { has_global_flag = will_be_upgrade_starforge }
 		has_global_flag = kuat_spawned
 		NOR = {
 			has_global_flag = exe_invasion_seed
@@ -20,9 +20,7 @@ event = {
 		random_system = {
 			limit = { has_star_flag = Kuat_system }
 			every_playable_country = {
-				limit = {
-					intel_level = { level >= high system = prev }
-				}
+				limit = { intel_level = { level >= high system = prev } }
 				country_event = { id = exe_invasion.2 days = 1 random = 2 }
 			}
 		} 
@@ -52,10 +50,10 @@ event = {
 	hide_window = yes
 	is_triggered_only = yes
 	trigger = {
-		NOR = { 
-			any_country = { OR = { has_origin = origin_kuat_apocalyptic has_origin = origin_eternalthrone } } 
-			has_global_flag = will_be_upgrade_starforge
+		any_country = {
+			has_origin = origin_kuat_shadow
 		}
+		NOT = { has_global_flag = will_be_upgrade_starforge }
 		has_global_flag = exe_invasion_seed
 		NOT = { has_global_flag = exe_invasion_signs_cooldown }
 		NOT = { has_global_flag = exe_invasion_3_fired }
@@ -99,10 +97,10 @@ event = {
 	hide_window = yes
 	is_triggered_only = yes
 	trigger = {
-		NOR = { 
-			any_country = { OR = { has_origin = origin_kuat_apocalyptic has_origin = origin_eternalthrone } } 
-			has_global_flag = will_be_upgrade_starforge
+		any_country = {
+			has_origin = origin_kuat_shadow
 		}
+		NOT = { has_global_flag = will_be_upgrade_starforge }
 		has_global_flag = exe_invasion_3_fired
 		NOT = { has_global_flag = exe_invasion_signs_cooldown }
 		NOT = { has_global_flag = exe_invasion_5_fired }
@@ -151,10 +149,10 @@ event = {
 	hide_window = yes
 	is_triggered_only = yes
 	trigger = {
-		NOR = { 
-			any_country = { OR = { has_origin = origin_kuat_apocalyptic has_origin = origin_eternalthrone } } 
-			has_global_flag = will_be_upgrade_starforge
+		any_country = {
+			has_origin = origin_kuat_shadow
 		}
+		NOT = { has_global_flag = will_be_upgrade_starforge }
 		has_global_flag = exe_invasion_5_fired
 		NOT = { has_global_flag = exe_invasion_signs_cooldown }
 		NOT = { has_global_flag = exe_invasion_7_fired }
@@ -187,10 +185,10 @@ event = {
 	hide_window = yes
 	is_triggered_only = yes
 	trigger = {
-		NOR = { 
-			any_country = { OR = { has_origin = origin_kuat_apocalyptic has_origin = origin_eternalthrone } } 
-			has_global_flag = will_be_upgrade_starforge
+		any_country = {
+			has_origin = origin_kuat_shadow
 		}
+		NOT = { has_global_flag = will_be_upgrade_starforge }
 		has_global_flag = exe_invasion_7_fired
 		NOT = { has_global_flag = exe_invasion_signs_cooldown }
 		NOT = { has_global_flag = exe_invasion_begin }
@@ -981,7 +979,7 @@ country_event = {
 		name = "exe_invasion.33.a"
 		hidden_effect = {
 			if = {
-				limit = { NOT = { has_origin = origin_eternalthrone } }
+				limit = { has_origin = origin_kuat_shadow }
 				set_global_flag = fire_the_kuat_return
 			}
 			end_event_chain = ag_exe_invasion_chain
@@ -1108,6 +1106,11 @@ country_event = {
 	custom_gui = "kuat_mod_settings_window"
 	custom_gui_option = "kuat_mod_settings_option"
 	is_triggered_only = yes
+	trigger = { OR = {
+		has_origin = origin_kuat_shadow
+		has_origin = origin_kuat_apocalyptic
+		has_origin = origin_eternalthrone
+	} }
 	option = {
 		name = "exe_invasion.1000.a"
 		default_hide_option = yes
@@ -1141,6 +1144,30 @@ ship_event = {
 	option = { 
 		name = exe_invasion.1003.a 
 		hidden_effect = { owner.capital_scope = { planet_event = { id = kuat_situation.9999 } } }
+	}
+}
+
+country_event = {
+	id = exe_invasion.1004
+	hide_window = no
+	is_triggered_only = yes
+	title = executor_build.808.title
+	desc = exe_invasion.1004.desc
+	diplomatic = yes
+	picture_event_data = { room = fallen_empire_room }
+	custom_gui = "kuat_event_window"
+	custom_gui_option = "kuat_event_option"
+	trigger = { NOT = { has_country_flag = fire_once_setting } }
+	immediate = { every_playable_country = {
+		begin_event_chain = { event_chain = kuat_mission_6_chain target = this }
+	} }
+	option = {
+		name = exe_invasion.1004.A
+		hidden_effect = { country_event = { id = exe_invasion.1004 } }
+	}
+	option = {
+		name = exe_invasion.1004.B
+		hidden_effect = { set_country_flag = fire_once_setting }
 	}
 }
 

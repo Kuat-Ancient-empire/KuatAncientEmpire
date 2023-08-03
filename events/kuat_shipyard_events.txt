@@ -53,14 +53,23 @@ country_event = {
 				}
 			}
 		}
-		hidden_effect = { country_event = { id = executor_build.373 } }
+		hidden_effect = { country_event = { id = executor_build.802 } }
 	}
 	option = {
 		name = kuat_shipyard.1.a
 		allow = {
 			custom_tooltip = {
 				fail_text = kuat_shipyard.1.a.opinion.tooltip
-				event_target:fallen_empire_kuat = { opinion = { who = root value >= 50 } }
+				OR = {
+					AND = {
+						has_origin = origin_kuat_shadow
+						event_target:fallen_empire_kuat = { opinion = { who = root value >= 50 } }
+					}
+					AND = { 
+						NOT = { has_origin = origin_kuat_shadow }
+						has_technology = tech_destroyers
+					}
+				}
 			}
 		}
 		hidden_effect = { country_event = { id = kuat_shipyard.2 } }
@@ -105,7 +114,16 @@ country_event = {
 		allow = {
 			custom_tooltip = {
 				fail_text = kuat_shipyard.2.b.opinion.tooltip
-				event_target:fallen_empire_kuat = { opinion = { who = root value >= 100 } }
+				OR = {
+					AND = {
+						has_origin = origin_kuat_shadow
+						event_target:fallen_empire_kuat = { opinion = { who = root value >= 100 } }
+					}
+					AND = { 
+						NOT = { has_origin = origin_kuat_shadow }
+						has_technology = tech_cruisers
+					}
+				}
 			}
 		}
 		hidden_effect = { 
@@ -120,7 +138,16 @@ country_event = {
 		allow = {
 			custom_tooltip = {
 				fail_text = kuat_shipyard.2.c.opinion.tooltip
-				event_target:fallen_empire_kuat = { opinion = { who = root value >= 200 } }
+				OR = {
+					AND = {
+						has_origin = origin_kuat_shadow
+						event_target:fallen_empire_kuat = { opinion = { who = root value >= 200 } }
+					}
+					AND = { 
+						NOT = { has_origin = origin_kuat_shadow }
+						has_technology = tech_battleships
+					}
+				}
 			}
 		}
 		hidden_effect = { 
@@ -135,7 +162,16 @@ country_event = {
 		allow = {
 			custom_tooltip = {
 				fail_text = kuat_shipyard.2.d.opinion.tooltip
-				event_target:fallen_empire_kuat = { opinion = { who = root value >= 300 } }
+				OR = {
+					AND = {
+						has_origin = origin_kuat_shadow
+						event_target:fallen_empire_kuat = { opinion = { who = root value >= 300 } }
+					}
+					AND = { 
+						NOT = { has_origin = origin_kuat_shadow }
+						has_technology = tech_titans
+					}
+				}
 			}
 		}
 		hidden_effect = { 
@@ -150,7 +186,19 @@ country_event = {
 		allow = {
 			custom_tooltip = {
 				fail_text = kuat_shipyard.2.e.opinion.tooltip
-				event_target:fallen_empire_kuat = { opinion = { who = root value >= 350 } }
+				OR = {
+					AND = {
+						has_origin = origin_kuat_shadow
+						event_target:fallen_empire_kuat = { opinion = { who = root value >= 350 } }
+					}
+					AND = { 
+						NOT = { has_origin = origin_kuat_shadow }
+						has_technology = tech_titans
+					}
+				}
+			}
+			custom_tooltip = {
+				fail_text = kuat_shipyard.3.a.opinion.tooltip
 				count_owned_ship = { limit = { is_ship_size = nebula_dominance } count < 1 }
 				check_variable = { which = dominance_class_queue value < 1 }
 				check_variable = { which = dominance_check value < 1 }
@@ -174,7 +222,16 @@ country_event = {
 			}
 			custom_tooltip = {
 				fail_text = kuat_shipyard.2.a.opinion.tooltip
-				event_target:fallen_empire_kuat = { opinion = { who = root value >= 500 } }
+				OR = {
+					AND = {
+						has_origin = origin_kuat_shadow
+						event_target:fallen_empire_kuat = { opinion = { who = root value >= 500 } }
+					}
+					AND = { 
+						NOT = { has_origin = origin_kuat_shadow }
+						has_technology = tech_titans
+					}
+				}
 			}
 		}
 		hidden_effect = { 
@@ -195,7 +252,16 @@ country_event = {
 			}
 			custom_tooltip = {
 				fail_text = kuat_shipyard.2.a.opinion.tooltip
-				event_target:fallen_empire_kuat = { opinion = { who = root value >= 500 } }
+				OR = {
+					AND = {
+						has_origin = origin_kuat_shadow
+						event_target:fallen_empire_kuat = { opinion = { who = root value >= 500 } }
+					}
+					AND = { 
+						NOT = { has_origin = origin_kuat_shadow }
+						has_technology = tech_titans
+					}
+				}
 			}
 		}
 		hidden_effect = { 
@@ -331,7 +397,10 @@ country_event = {
 				limit = { check_variable = { which = fallen_empire_escort_queue value <= 0 } }
 				clear_variable = fallen_empire_escort_queue
 			}
-			event_target:fallen_empire_kuat = { add_opinion_modifier = { modifier = opinion_kuat_ship_built who = root } }
+			if = {
+				limit = { exists = event_target:fallen_empire_kuat }
+				event_target:fallen_empire_kuat = { add_opinion_modifier = { modifier = opinion_kuat_ship_built who = root } }
+			}
 		}
 		else = {
 			subtract_variable = { which = fallen_empire_escort_queue value = 1 }
@@ -339,7 +408,10 @@ country_event = {
 				limit = { check_variable = { which = fallen_empire_escort_queue value <= 0 } }
 				clear_variable = fallen_empire_escort_queue
 			}
-			event_target:fallen_empire_kuat = { add_opinion_modifier = { modifier = opinion_kuat_ship_built who = root } }
+			if = {
+				limit = { exists = event_target:fallen_empire_kuat }
+				event_target:fallen_empire_kuat = { add_opinion_modifier = { modifier = opinion_kuat_ship_built who = root } }
+			}
 		}
 	}
 }
@@ -532,7 +604,10 @@ country_event = {
 			limit = { check_variable = { which = fallen_empire_battlecruiser_queue value <= 0 } }
 			clear_variable = fallen_empire_battlecruiser_queue
 		}
-		event_target:fallen_empire_kuat = { add_opinion_modifier = { modifier = opinion_kuat_ship_built who = root } }
+		if = {
+			limit = { exists = event_target:fallen_empire_kuat }
+			event_target:fallen_empire_kuat = { add_opinion_modifier = { modifier = opinion_kuat_ship_built who = root } }
+		}
 	}
 }
 
@@ -766,7 +841,10 @@ country_event = {
 			limit = { check_variable = { which = fallen_empire_titan_queue value <= 0 } }
 			clear_variable = fallen_empire_titan_queue
 		}
-		event_target:fallen_empire_kuat = { add_opinion_modifier = { modifier = opinion_kuat_ship_built who = root } }
+		if = {
+			limit = { exists = event_target:fallen_empire_kuat }
+			event_target:fallen_empire_kuat = { add_opinion_modifier = { modifier = opinion_kuat_ship_built who = root } }
+		}
 	}
 }
 
@@ -1000,7 +1078,10 @@ country_event = {
 			limit = { check_variable = { which = resugrant_class_queue value <= 0 } }
 			clear_variable = resugrant_class_queue
 		}
-		event_target:fallen_empire_kuat = { add_opinion_modifier = { modifier = opinion_kuat_ship_built who = root } }
+		if = {
+			limit = { exists = event_target:fallen_empire_kuat }
+			event_target:fallen_empire_kuat = { add_opinion_modifier = { modifier = opinion_kuat_ship_built who = root } }
+		}
 	}
 }
 
@@ -1160,7 +1241,10 @@ country_event = {
 				limit = { check_variable = { which = dominance_class_queue value <= 0 } }
 				clear_variable = dominance_class_queue
 			}
-			event_target:fallen_empire_kuat = { add_opinion_modifier = { modifier = opinion_kuat_ship_built who = root } }
+			if = {
+				limit = { exists = event_target:fallen_empire_kuat }
+				event_target:fallen_empire_kuat = { add_opinion_modifier = { modifier = opinion_kuat_ship_built who = root } }
+			}
 		}
 		else = {
 			subtract_variable = { which = dominance_class_queue value = 1 }
@@ -1168,7 +1252,10 @@ country_event = {
 				limit = { check_variable = { which = dominance_class_queue value <= 0 } }
 				clear_variable = dominance_class_queue
 			}
-			event_target:fallen_empire_kuat = { add_opinion_modifier = { modifier = opinion_kuat_ship_built who = root } }
+			if = {
+				limit = { exists = event_target:fallen_empire_kuat }
+				event_target:fallen_empire_kuat = { add_opinion_modifier = { modifier = opinion_kuat_ship_built who = root } }
+			}
 		}
 	}
 }
@@ -1287,7 +1374,10 @@ country_event = {
 				limit = { check_variable = { which = eclipse_class_queue value <= 0 } }
 				clear_variable = eclipse_class_queue
 			}
-			event_target:fallen_empire_kuat = { add_opinion_modifier = { modifier = opinion_kuat_ship_built who = root } }
+			if = {
+				limit = { exists = event_target:fallen_empire_kuat }
+				event_target:fallen_empire_kuat = { add_opinion_modifier = { modifier = opinion_kuat_ship_built who = root } }
+			}
 		}
 		else = {
 			subtract_variable = { which = eclipse_class_queue value = 1 }
@@ -1295,7 +1385,10 @@ country_event = {
 				limit = { check_variable = { which = eclipse_class_queue value <= 0 } }
 				clear_variable = eclipse_class_queue
 			}
-			event_target:fallen_empire_kuat = { add_opinion_modifier = { modifier = opinion_kuat_ship_built who = root } }
+			if = {
+				limit = { exists = event_target:fallen_empire_kuat }
+				event_target:fallen_empire_kuat = { add_opinion_modifier = { modifier = opinion_kuat_ship_built who = root } }
+			}
 		}
 	}
 }
@@ -1317,10 +1410,19 @@ country_event = {
 	show_sound = event_default
 	location = event_target:fallen_empire_kuat.capital_scope
 	diplomatic = yes
-	mean_time_to_happen = { months = 1 }
+	is_triggered_only = yes
 	trigger = {
-		exists = event_target:fallen_empire_kuat
-		exists = event_target:kuat_shipyard_country
+		OR = {
+			AND = {
+				has_origin = origin_kuat_shadow
+				exists = event_target:fallen_empire_kuat
+				exists = event_target:kuat_shipyard_country
+			}
+			AND = {
+				NOT = { has_origin = origin_kuat_shadow }
+				exists = event_target:kuat_shipyard_country
+			}
+		}
 		OR = {
 			is_hostile = event_target:fallen_empire_kuat
 			is_hostile = event_target:kuat_shipyard_country
@@ -1351,6 +1453,7 @@ event = {
 	hide_window = yes
 	is_triggered_only = yes
 	trigger = {
+		has_origin = origin_kuat_shadow
 		NOT = { exists = event_target:fallen_empire_kuat }
 		exists = event_target:kuat_shipyard_country
 	}

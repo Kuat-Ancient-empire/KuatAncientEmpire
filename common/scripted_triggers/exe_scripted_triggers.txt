@@ -117,19 +117,26 @@ eternal_support_diplo_event_active = {
 }
 
 can_communicate_with_kuat = {
-	exists = event_target:fallen_empire_kuat
-	event_target:fallen_empire_kuat = {
-		NOT = { is_hostile = root }
-		event_target:fallen_empire_kuat = { opinion = { who = root value > -1000 } }
+	if = {
+		limit = { has_origin = origin_kuat_shadow }
+		exists = event_target:fallen_empire_kuat
+		exists = event_target:kuat_shipyard_country
+		event_target:fallen_empire_kuat = {
+			NOT = { is_hostile = root }
+			event_target:fallen_empire_kuat = { opinion = { who = root value > -1000 } }
+		}
+		event_target:kuat_shipyard_country = { NOT = { is_hostile = root } }
 	}
-	exists = event_target:kuat_shipyard_country
-	event_target:kuat_shipyard_country = { NOT = { is_hostile = root } }
+	else = {
+		exists = event_target:kuat_shipyard_country
+		event_target:kuat_shipyard_country = { NOT = { is_hostile = root } }
+	}
 }
 
 kuat_fleet_diplo_event_active = {
 	has_active_event = {
-		executor_build.373
-		executor_build.374
+		executor_build.802
+		executor_build.803
 	}
 }
 

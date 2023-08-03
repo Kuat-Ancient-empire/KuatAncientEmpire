@@ -23,19 +23,20 @@ country_event = {
 			save_global_event_target_as = kuat_warning_country
 		}
 		if = {
-			limit = {
-				NOT = { has_global_flag = wind_up_for_attack_fleet }
-			}
+			limit = { NOT = { has_global_flag = wind_up_for_attack_fleet } }
 			create_kuat_defender_and_attack_fleet = yes
 			set_timed_global_flag = { flag = wind_up_for_attack_fleet days = 360 }
 		}	
-		event_target:fallen_empire_kuat_fleet = {
-			every_system_within_border = { save_event_target_as = begin_kuat_fleet_system }
-			set_country_type = kuat_fleet_hostile
-			if = {
-				limit = { NOT = { has_global_flag = wind_up_for_kuat_fleet } }
-				create_kuat_millatery_defender_and_attack_fleet = yes
-				set_timed_global_flag = { flag = wind_up_for_kuat_fleet days = 360 }
+		if = {
+			limit = { exists = event_target:fallen_empire_kuat_fleet }
+			event_target:fallen_empire_kuat_fleet = {
+				every_system_within_border = { save_event_target_as = begin_kuat_fleet_system }
+				set_country_type = kuat_fleet_hostile
+				if = {
+					limit = { NOT = { has_global_flag = wind_up_for_kuat_fleet } }
+					create_kuat_millatery_defender_and_attack_fleet = yes
+					set_timed_global_flag = { flag = wind_up_for_kuat_fleet days = 360 }
+				}
 			}
 		}
 	}
