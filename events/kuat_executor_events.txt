@@ -71,35 +71,6 @@ event = {
 			limit = { is_ai = no }
 			save_global_event_target_as = kuat_player_target_country
 			owner_main_species = { save_global_event_target_as = kuat_player_target_species }
-			create_country = {
-				name = "Name_Kuat_Shipyard"
-				type = kuat_shipyard
-				flag = {
-					icon = {
-						category = "Kuat"
-						file = "Kuat_flags_01.dds"
-					}
-					background = {
-						category = "backgrounds"
-						file = "00_solid.dds"
-					}
-					colors = { "blue" "blue" "null" "null" }
-				}
-				effect = {
-					add_modifier = { modifier = Elternal_creating }
-					save_global_event_target_as = kuat_shipyard_country
-				}
-			}
-			random_system = {
-				limit = { is_capital_system = no }
-				spawn_megastructure = {
-					type = exe_outer_gate_disable
-					orbit_angle = 225
-					orbit_distance = 200
-					planet = system_star
-					owner = event_target:kuat_shipyard_country
-				}
-			}
 		}
 		if = {
 			limit = { any_country = { is_ai = no has_origin = origin_kuat_apocalyptic } }
@@ -123,17 +94,14 @@ event = {
 				if = {
 					limit = { is_ai = no has_origin = origin_kuat_shadow }
 					remove_country_flag = human_1 remove_country_flag = human_2 set_country_flag = custom_start_screen
-					set_country_flag = origin_kuat_shadow_flag
+					set_country_flag = origin_kuat_shadow_flag create_kuat_shipyard_country = yes
 				}
 				country_event = { id = executor_build.2 } 
 				country_event = { id = executor_build.3 days = 30 } 
 			}
 			set_global_flag = kuat_spawned
 		}
-		else = { random_country = {
-			limit = { is_ai = no }
-			establish_communications_no_message = event_target:kuat_shipyard_country
-		} }
+		else = { random_country = { limit = { is_ai = no } create_kuat_shipyard_country = yes } }
 		if = {
 			limit = { any_country = { OR = { has_origin = origin_kuat_apocalyptic has_origin = origin_eternalthrone } } }
 			every_megastructure = {

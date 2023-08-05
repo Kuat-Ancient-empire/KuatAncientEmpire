@@ -3284,3 +3284,37 @@ kuat_reset_auto_colony_variable = {
 	else = { multiply_variable = { which = planet_production_array value = 0.2 } }
 	floor_variable = planet_production_array
 }
+
+
+create_kuat_shipyard_country = {
+	create_country = {
+		name = "Name_Kuat_Shipyard"
+		type = kuat_shipyard
+		flag = {
+			icon = {
+				category = "Kuat"
+				file = "Kuat_flags_01.dds"
+			}
+			background = {
+				category = "backgrounds"
+				file = "00_solid.dds"
+			}
+			colors = { "blue" "blue" "null" "null" }
+		}
+		effect = {
+			add_modifier = { modifier = Elternal_creating }
+			save_global_event_target_as = kuat_shipyard_country
+		}
+	}
+	random_system = {
+		limit = { is_capital_system = no }
+		spawn_megastructure = {
+			type = exe_outer_gate_disable
+			orbit_angle = 225
+			orbit_distance = 200
+			planet = system_star
+			owner = event_target:kuat_shipyard_country
+		}
+	}
+	establish_communications_no_message = event_target:kuat_shipyard_country
+}
