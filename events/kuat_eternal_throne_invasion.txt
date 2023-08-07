@@ -749,9 +749,9 @@ country_event = {
 			limit = { has_origin = origin_eternalthrone NOT = { has_global_flag = ag_kae_ge_invasion_207_mutex } }
 			set_global_flag = ag_kae_ge_invasion_207_mutex
 			event_target:global_event_country = {
-				country_event = { id = ag_kae_ge_invasion.211 days = 30 random = 30 }
+				country_event = { id = ag_kae_ge_invasion.211 days = 30 }
 			}
-			country_event = { id = ag_kae_ge_invasion.209 days = 1 random = 1 }
+			country_event = { id = ag_kae_ge_invasion.209 days = 1 }
 		} }
 	}
 }
@@ -847,10 +847,7 @@ country_event = {
 			every_owned_fleet = {
 				limit = { NOT = { has_fleet_flag = eternal_support_country_starbase } }
 				set_fleet_flag = eternal_support_guadian_fleet
-				fleet_event = { id = ag_kae_ge_invasion.218 days = 7 }
-				prev = { change_variable = { which = fleet_id value = 1 } } 
-				set_variable = { which = fleet_id value = prev.fleet_id } 
-				solar_system = { set_variable = { which = kuat_fleet_id value = prev.fleet_id } }
+				fleet_event = { id = ag_kae_ge_invasion.218 days = 60 }
 			}
 		}
 	}
@@ -1218,7 +1215,16 @@ fleet_event = {
 						ROOT = { can_access_system = prev }
 					}
 					found_system = { move_to = this wait = 3 }
-					failed = { wait = 60 effect = { id = ag_kae_ge_invasion.218.e13 root = { set_fleet_flag = eternal_findout_path } } }
+					failed = { find_closest_system = {
+						trigger = {
+							id = ag_kae_ge_invasion.218.defender1
+							is_same_value = event_target:zakuul_system
+							distance = { source = root type = hyperlane max_jumps = 2 }
+							any_fleet_in_system = { exists = owner owner = { is_same_value = event_target:ag_kae_ge_invasion_country } }
+						}
+						found_system = { move_to = this wait = 3 }
+						failed = { wait = 60 effect = { id = ag_kae_ge_invasion.218.e13 root = { set_fleet_flag = eternal_findout_path } } }
+					} }
 				} }
 			}
 		} }
