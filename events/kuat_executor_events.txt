@@ -867,22 +867,19 @@ country_event = {
 	trigger = {
 		is_country_type = kuat_fallen_empire
 		is_at_war = no
-		any_country = { is_crisis_faction = yes }
+		any_country = { kuat_is_crisis_faction = yes }
 	}
 	mean_time_to_happen = {
 		years = 200000
 		modifier = {
 			factor = 0
-			any_country = { is_crisis_faction = yes }
+			any_country = { kuat_is_crisis_faction = yes }
 		}
 	}
 	immediate = {
-		if = {
-			limit = { has_global_flag = wg_crisis_insane }
-			every_playable_country = {
-				limit = { is_ai = no }
-				country_event = { id = ai_action.10 days = 5 }
-			}
+		every_playable_country = {
+			limit = { is_ai = no }
+			country_event = { id = ai_action.10 days = 5 }
 		}
 		country_event = { id = executor_build.402 }
 		country_event = { id = ai_action.7 days = 10 }
@@ -1001,7 +998,7 @@ country_event = {
 		is_kuat_fallen_empire = yes
 		is_at_war = no
 		NOT = { exists = event_target:fallen_empire_kuat_fleet }
-		NOT = { any_country = { is_kuat_battle_country = yes } }
+		NOT = { any_country = { kuat_is_crisis_faction = yes } }
 	}
 	immediate = {
 		if = {
@@ -1650,19 +1647,7 @@ country_event = {
 	fire_only_once = yes
 	immediate = {
 		create_kuat_fleet_country_type = yes
-		if = {
-			limit = { NOR = { 
-				has_global_flag = giga_has_host 
-				has_global_flag = love_between_us
-			} }
-			kuat_military_base_system_initial = yes
-		}
-		else = { random_system = {
-			limit = { has_owner = no }
-			set_spawn_system_batch = begin
-			spawn_system = { initializer = kuat_base_system } 
-			set_spawn_system_batch = end
-		} }
+		kuat_military_base_system_initial = yes
 		random_playable_country = {
 			limit = { is_ai = no }
 			country_event = { id = executor_build.801 }
@@ -1828,7 +1813,7 @@ country_event = {
 						is_at_war = yes
 						NOT = { is_at_war_with = event_target:fallen_empire_kuat }
 					}
-					kuat_is_defense_galaxy_fleet = yes
+					any_country = { kuat_is_crisis_faction = yes }
 				}
 			}
 			custom_tooltip = {

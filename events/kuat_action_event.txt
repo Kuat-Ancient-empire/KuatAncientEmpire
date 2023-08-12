@@ -213,11 +213,7 @@ country_event = {
 	hide_window = yes
 	is_triggered_only = yes
 	trigger = {
-		AND = {
-			exists = event_target:wg_crisis_country
-			has_global_flag = wg_crisis_insane
-			has_global_flag = activated_uf_hidden_diff
-		}
+		any_country = { kuat_is_crisis_faction = yes }
 		is_at_war = no
 		NOT = { any_owned_fleet = { has_fleet_flag = defensive_galaxy_fleet } }
 		has_country_flag = fallen_empire_kuat
@@ -267,7 +263,7 @@ country_event = {
 	custom_gui = "kuat_event_diplomacy_window"
 	custom_gui_option = "kuat_event_diplomacy_option"
 	is_triggered_only = yes
-	trigger = { has_global_flag = wg_crisis_insane }
+	trigger = { any_country = { kuat_is_crisis_faction = yes } }
 	option = { name = ai.7.title.a }
 }
 
@@ -277,14 +273,12 @@ country_event = {
 	is_triggered_only = yes
 	trigger = {
 		is_kuat_fallen_empire = yes
-		FROMFROM = { 
-			OR = {
-				has_fleet_flag = defensive_galaxy_fleet
-				has_fleet_flag = first_attack_fleet
-				has_fleet_flag = second_attack_fleet
-				has_fleet_flag = third_attack_fleet
-			}
-		}
+		FROMFROM = { OR = {
+			has_fleet_flag = defensive_galaxy_fleet
+			has_fleet_flag = first_attack_fleet
+			has_fleet_flag = second_attack_fleet
+			has_fleet_flag = third_attack_fleet
+		} }
 	}
 	immediate = {
 		FROMFROM = { save_event_target_as = destroyed_fleet }

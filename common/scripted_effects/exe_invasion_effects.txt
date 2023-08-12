@@ -1271,15 +1271,13 @@ fleet_execute_order_3 = {
 				if = {
 					limit = { has_fleet_flag = kuat_cannot_find_path }
 					if = {
-						limit = { kuat_is_defense_galaxy_fleet = yes }
+						limit = { any_country = { kuat_is_crisis_faction = yes } }
 						random_system = {
-							limit = { any_fleet_in_system = { owner = { is_kuat_battle_country = yes } } }
-							random_system_planet = { 
-								prevprev = { 
-									set_location = { target = PREV distance = 300 angle = random } 
-									every_owned_ship = { create_jump_particle_effect = yes }
-								} 
-							}
+							limit = { any_fleet_in_system = { owner = { kuat_is_crisis_faction = yes } } }
+							random_system_planet = { prevprev = { 
+								set_location = { target = PREV distance = 300 angle = random } 
+								every_owned_ship = { create_jump_particle_effect = yes }
+							}  }
 						}
 					}
 					else = {
@@ -1295,7 +1293,7 @@ fleet_execute_order_3 = {
 			find_closest_system = {
 				trigger = {
 					id = executor.20
-					any_fleet_in_system = { owner = { is_kuat_battle_country = yes } }
+					any_fleet_in_system = { owner = { kuat_is_crisis_faction = yes } }
 					prev = { can_access_system = prev }
 					check_variable = { which = kuat_fleet_id value < 1 }
 				}
@@ -1308,7 +1306,7 @@ fleet_execute_order_3 = {
 					repeat = {
 						while = {
 							id = executor.20.a
-							any_fleet_in_system = { owner = { is_kuat_battle_country = yes } }
+							any_fleet_in_system = { owner = { kuat_is_crisis_faction = yes } }
 						}
 						move_to = this wait = 5
 					} 
@@ -1318,7 +1316,7 @@ fleet_execute_order_3 = {
 					find_closest_system = {
 						trigger = {
 							id = executor.21
-							any_fleet_in_system = { owner = { is_kuat_battle_country = yes } }
+							any_fleet_in_system = { owner = { kuat_is_crisis_faction = yes } }
 							prev = { can_access_system = prev }
 							check_variable = { which = kuat_fleet_id value < 1 }
 						}
@@ -1331,7 +1329,7 @@ fleet_execute_order_3 = {
 							repeat = {
 								while = {
 									id = executor.21.a
-									any_fleet_in_system = { owner = { is_kuat_battle_country = yes } }
+									any_fleet_in_system = { owner = { kuat_is_crisis_faction = yes } }
 								}
 								move_to = this wait = 5
 							} 
