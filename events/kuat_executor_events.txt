@@ -997,7 +997,6 @@ country_event = {
 	trigger = {
 		is_kuat_fallen_empire = yes
 		is_at_war = no
-		NOT = { exists = event_target:fallen_empire_kuat_fleet }
 		NOT = { any_country = { kuat_is_crisis_faction = yes } }
 	}
 	immediate = {
@@ -2001,11 +2000,14 @@ country_event = {
 	custom_gui = "kuat_event_diplomacy_window"
 	custom_gui_option = "kuat_event_diplomacy_option"
 	is_triggered_only = yes
-	immediate = { save_event_target_as = target_for_kuat set_global_flag = kuat_shadow_war_prepare }
+	immediate = { 
+		save_event_target_as = target_for_kuat 
+		set_global_flag = kuat_shadow_war_prepare 
+	}
 	option = {
 		name = executor_build.8011.a
 		event_target:fallen_empire_kuat = { 
-			add_opinion_modifier = { who = prevprev modifier = opinion_mutual_threat_kuat_fleet } 
+			add_opinion_modifier = { who = event_target:target_for_kuat modifier = opinion_mutual_threat_kuat_fleet } 
 			country_event = { id = executor_build.6 days = 3 }
 		}
 		hidden_effect = {
