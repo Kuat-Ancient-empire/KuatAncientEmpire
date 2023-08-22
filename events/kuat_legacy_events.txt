@@ -2,37 +2,27 @@ namespace = kuat_legacy
 @standard_lower_days = 5
 @standard_event_days = 10
 @standard_random_days = 15
+country_event = {
+	id = kuat_legacy.0
+	hide_window = yes
+	is_triggered_only = yes
+	trigger = {
+		is_player_country = yes
+		has_origin = origin_kuat_shadow
+	}
+	immediate = { start_situation = { type = situation_legacy_pretext_action target = root } }
+}
+
 #GAIA ARCHITECT
 country_event = {
 	id = kuat_legacy.1
 	hide_window = yes
-	mean_time_to_happen = { 
-		years = 2  
-		modifier = { factor = 0.5 years_passed > 125 }
-		modifier = { factor = 0.25 years_passed > 175 }
-	}
-	fire_only_once = yes
-	trigger = { 
-		is_player_country = yes
-		has_technology = tech_sensors_4
-		OR = {
-			AND = {
-				has_origin = origin_kuat_shadow
-				exists = event_target:fallen_empire_kuat
-			}
-			AND = {
-				has_origin = origin_eternalthrone
-				exists = event_target:eternal_support_country
-			}
-		}
-		any_planet_within_border = { kuat_is_legacy_arc_planet = yes }
-	}
-	immediate = {
-		random_planet_within_border = {
-			limit = { kuat_is_legacy_arc_planet = yes }
-			planet_event = { id = kuat_legacy.2 days = @standard_event_days random = @standard_lower_days scopes = { from = root } }
-		}
-	}
+	is_triggered_only = yes
+	trigger = { any_planet_within_border = { kuat_is_legacy_arc_planet = yes } }
+	immediate = { random_planet_within_border = {
+		limit = { kuat_is_legacy_arc_planet = yes }
+		planet_event = { id = kuat_legacy.2 days = @standard_event_days random = @standard_lower_days }
+	} }
 }
 
 planet_event = {

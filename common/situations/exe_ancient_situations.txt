@@ -1120,3 +1120,180 @@ situation_find_infinite_system = {
 		target.owner = { NOT = { is_same_value = root.owner } }
 	} }
 }
+
+### Legacy event preface
+situation_legacy_pretext_action = {
+	picture = GFX_evt_ship_in_orbit
+	complete_icon_frame = GFX_situation_outcome_frame_blue
+	complete_icon = GFX_situation_outcome_unknown
+	fail_icon_frame = GFX_situation_outcome_frame_red
+	fail_icon = GFX_situation_outcome_meh
+	on_progress_complete = {
+		custom_tooltip = situation_unknown_outcome_approach
+		hidden_effect = { owner = { country_event = { id = kuat_legacy.1 } } }
+		destroy_situation = this
+	}
+	stages = {
+		stage_1 = {
+			icon = GFX_situation_stage_1
+			icon_background = GFX_situation_stage_frame_blue
+			end = 125
+			custom_tooltip = stage_unknown_effects
+		}
+		stage_2 = { #
+			icon = GFX_situation_stage_2
+			icon_background = GFX_situation_stage_frame_blue
+			end = 250
+			on_first_enter = {
+				situation_event = { id = kuat_situation.53 }
+			}
+			custom_tooltip = stage_unknown_effects
+		}
+		stage_3 = {
+			icon = GFX_situation_stage_3
+			icon_background = GFX_situation_stage_frame_blue
+			end = 375
+			on_first_enter = {
+				situation_event = { id = kuat_situation.54 }
+			}
+			custom_tooltip = stage_unknown_effects
+		}
+		stage_4 = {
+			icon = GFX_situation_stage_4
+			icon_background = GFX_situation_stage_frame_blue
+			end = 500
+			on_first_enter = {
+				situation_event = { id = kuat_situation.55 }
+			}
+			custom_tooltip = stage_unknown_effects
+		}
+		stage_5 = {
+			icon = GFX_situation_stage_5
+			icon_background = GFX_situation_stage_frame_blue
+			end = 625
+			on_first_enter = {
+				situation_event = { id = kuat_situation.56 }
+			}
+			custom_tooltip = stage_unknown_effects
+		}
+		stage_6 = {
+			icon = GFX_situation_stage_6
+			icon_background = GFX_situation_stage_frame_blue
+			end = 750
+			on_first_enter = {
+				situation_event = { id = kuat_situation.57 }
+			}
+			custom_tooltip = stage_unknown_effects
+		}
+		stage_7 = {
+			icon = GFX_situation_stage_7
+			icon_background = GFX_situation_stage_frame_blue
+			end = 875
+			on_first_enter = {
+				situation_event = { id = kuat_situation.58 }
+			}
+			custom_tooltip = stage_unknown_effects
+		}
+		stage_8 = {
+			icon = GFX_situation_stage_8
+			icon_background = GFX_situation_stage_frame_blue
+			end = 1000
+			on_first_enter = {
+				situation_event = { id = kuat_situation.59 }
+			}
+			custom_tooltip = stage_unknown_effects
+		}
+	}
+	#hositle
+	approach = {
+		name = "situation_hositile_altitude_station"
+		icon = GFX_situation_approach_research
+		icon_background = GFX_situation_approach_bg_red
+		resources = {
+			category = situations
+			upkeep = {
+				trigger = { NOT = { current_stage = stage_1 } }
+				physics_research = 0.25
+				society_research = 0.25
+				engineering_research = 0.25
+				multiplier = owner.trigger:num_pops
+			}
+		}
+		on_select = { custom_tooltip = approach_outcome_tooltip }
+	}
+	#neutral
+	approach = {
+		name = "situation_netural_altitude_station"
+		icon = GFX_situation_approach_research
+		icon_background = GFX_situation_approach_bg_yellow
+		resources = {
+			category = situations
+			produces = {
+				trigger = {
+					NOT = { current_stage = stage_1 }
+				}
+				alloys = 1
+				multiplier = owner.trigger:num_pops
+			}
+			upkeep = {
+				trigger = { NOT = { current_stage = stage_1 } }
+				physics_research = 0.25
+				society_research = 0.25
+				engineering_research = 0.25
+				multiplier = owner.trigger:num_pops
+			}
+		}
+		on_select = { custom_tooltip = approach_outcome_tooltip }
+	}
+	#friendly
+	approach = {
+		name = "situation_friendly_altitude_station"
+		icon = GFX_situation_approach_research
+		icon_background = GFX_situation_approach_bg_green
+		resources = {
+			category = situations
+			produces = {
+				trigger = { NOT = { current_stage = stage_1 } }
+				alloys = 2
+				multiplier = target.trigger:num_pops
+			}
+			upkeep = {
+				trigger = { NOT = { current_stage = stage_1 } }
+				physics_research = 0.25
+				society_research = 0.25
+				engineering_research = 0.25
+				multiplier = owner.trigger:num_pops
+			}
+		}
+		on_select = { custom_tooltip = approach_outcome_tooltip }
+	}
+	monthly_progress = {
+		base = 1
+		modifier = {
+			mult = 10
+			desc = "situation_facility_research_processing_faster_desc"
+			owner = { has_origin = origin_kuat_shadow exists = event_target:fallen_empire_kuat }
+		}
+		modifier = {
+			mult = 100
+			desc = "situation_facility_research_processing_faster_desc"
+			owner = { has_origin = origin_eternalthrone exists = event_target:eternal_support_country }
+		}
+		modifier = {
+			set = 0
+			desc = "situation_facility_research_processing_slower_desc"
+			current_stage = stage_8
+			owner = { NOR = {
+				AND = { has_origin = origin_kuat_shadow exists = event_target:fallen_empire_kuat }
+				AND = { has_origin = origin_eternalthrone exists = event_target:eternal_support_country }
+			} }
+		}
+		modifier = {
+			set = 0
+			desc = "situation_facility_legacy_progress_stop_noplanet_desc"
+			current_stage = stage_8
+			owner = { NOT = { any_planet_within_border = { kuat_is_legacy_arc_planet = yes } } }
+		}
+	}
+	abort_trigger = { NOT = { exists = owner } }
+}
