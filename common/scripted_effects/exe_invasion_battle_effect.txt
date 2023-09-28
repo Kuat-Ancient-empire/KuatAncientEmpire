@@ -1,26 +1,27 @@
 #scope check
-kuat_print_scope = {
-	log = "------------------------------"
-	log = "- Printing the current scopes (effect) -"
-	log = "- This: \\[This.GetName]"
-	log = "- Root: \\[Root.GetName]"
-	log = "- Prev: \\[Prev.GetName]"
-	log = "- PrevPrev: \\[PrevPrev.GetName]"
-	log = "- PrevPrevPrev: \\[PrevPrevPrev.GetName]"
-	log = "- PrevPrevPrevPrev: \\[PrevPrevPrevPrev.GetName]"
-	log = "- From: \\[From.GetName]"
-	log = "- FromFrom: \\[FromFrom.GetName]"
-	log = "- FromFromFrom: \\[FromFromFrom.GetName]"
-	log = "- FromFromFromFrom: \\[FromFromFromFrom.GetName]"
-	log = "- This's Solar System: \\[This.GetStarName]"
-	log = "- This's Planet: \\[This.Planet.GetName]"
-	log = "- This's Sector: \\[This.Sector.GetName]"
-	log = "- Root's Solar System: \\[Root.GetStarName]"
-	log = "- Root's Owner's Name: \\[Root.Owner.GetName]"
-	log = "- Root's Owner's Capital's Name: \\[Root.Owner.Capital.GetName]"
-	log = "- Owner: \\[Owner.GetName]"
-	log = "------------------------------"
-}
+# kuat_print_scope = {
+# 	optimize_memory
+# 	log = "------------------------------"
+# 	log = "- Printing the current scopes (effect) -"
+# 	log = "- This: \\[This.GetName]"
+# 	log = "- Root: \\[Root.GetName]"
+# 	log = "- Prev: \\[Prev.GetName]"
+# 	log = "- PrevPrev: \\[PrevPrev.GetName]"
+# 	log = "- PrevPrevPrev: \\[PrevPrevPrev.GetName]"
+# 	log = "- PrevPrevPrevPrev: \\[PrevPrevPrevPrev.GetName]"
+# 	log = "- From: \\[From.GetName]"
+# 	log = "- FromFrom: \\[FromFrom.GetName]"
+# 	log = "- FromFromFrom: \\[FromFromFrom.GetName]"
+# 	log = "- FromFromFromFrom: \\[FromFromFromFrom.GetName]"
+# 	log = "- This's Solar System: \\[This.GetStarName]"
+# 	log = "- This's Planet: \\[This.Planet.GetName]"
+# 	log = "- This's Sector: \\[This.Sector.GetName]"
+# 	log = "- Root's Solar System: \\[Root.GetStarName]"
+# 	log = "- Root's Owner's Name: \\[Root.Owner.GetName]"
+# 	log = "- Root's Owner's Capital's Name: \\[Root.Owner.Capital.GetName]"
+# 	log = "- Owner: \\[Owner.GetName]"
+# 	log = "------------------------------"
+# }
 
 # scope: ship
 @kuat_flagship_proection_mult = 0.1
@@ -30,7 +31,7 @@ eternal_increase_executor_power = {
 		limit = { NOT = { has_ship_flag = has_eternal_increase_executor_power } }
 		clear_ship_modifier = { modifier = ship_hull_mult DAYS = $DAYS$ subtract = @kuat_flagship_proection_mult }
 		clear_ship_modifier = { modifier = shipclass_military_hull_mult DAYS = $DAYS$ subtract = @kuat_flagship_proection_mult }
-		clear_ship_modifier = { modifier = ship_hull_regen_add_perc DAYS = $DAYS$ subtract = 1 }
+		clear_ship_modifier = { modifier = ship_hull_regen_add_perc DAYS = $DAYS$ subtract = @kuat_flagship_proection_mult }
 		if = { limit = { has_hp <= 20000000 } add_modifier = { modifier = increase_hp_T9 days = $DAYS$ } }
 		else_if = { limit = { has_hp <= 30000000 } add_modifier = { modifier = increase_hp_T8 days = $DAYS$ } }
 		else_if = { limit = { has_hp <= 40000000 } add_modifier = { modifier = increase_hp_T7 days = $DAYS$ } }
@@ -70,6 +71,7 @@ clear_ship_repeatable_modifier = {
 	clear_repeatable_modifier = { TYPE = explosive	 				multiply = $multiply$ DAYS = $DAYS$ }
 	clear_repeatable_modifier = { TYPE = kinetic  	 				multiply = $multiply$ DAYS = $DAYS$ }
 	clear_repeatable_modifier = { TYPE = energy 	 				multiply = $multiply$ DAYS = $DAYS$ }
+	clear_repeatable_modifier = { TYPE = strike_craft 	 			multiply = $multiply$ DAYS = $DAYS$ }
 	clear_repeatable_modifier = { TYPE = gravity 	 				multiply = $multiply$ DAYS = $DAYS$ }
 	clear_repeatable_modifier = { TYPE = psionic 	 				multiply = $multiply$ DAYS = $DAYS$ }
 	clear_repeatable_modifier = { TYPE = anti_psionic 				multiply = $multiply$ DAYS = $DAYS$ }
@@ -187,6 +189,7 @@ remove_executor_power = {
 	remove_repetable_modifier = { TITLE = iep_basic TYPE = explosive }
 	remove_repetable_modifier = { TITLE = iep_basic TYPE = kinetic }
 	remove_repetable_modifier = { TITLE = iep_basic TYPE = energy }
+	remove_repetable_modifier = { TITLE = iep_basic TYPE = strike_craft }
 	remove_repetable_modifier = { TITLE = iep_basic TYPE = gravity }
 	remove_repetable_modifier = { TITLE = iep_basic TYPE = psionic }
 	remove_repetable_modifier = { TITLE = iep_basic TYPE = anti_psionic }
@@ -287,6 +290,7 @@ random_list_eternal_fleet_rate = {
 	set_repeatable_eternal_fleet_mult_rate_to_damage = { TYPE = explosive }
 	set_repeatable_eternal_fleet_mult_rate_to_damage = { TYPE = kinetic }
 	set_repeatable_eternal_fleet_mult_rate_to_damage = { TYPE = energy }
+	set_repeatable_eternal_fleet_mult_rate_to_damage = { TYPE = strike_craft }
 	
 	set_repeatable_eternal_fleet_mult_damage_to_rate = { TYPE = arcane }
 	set_repeatable_eternal_fleet_mult_damage_to_rate = { TYPE = cosmic }
@@ -365,108 +369,109 @@ random_list_eternal_fleet_rate = {
 set_repeatable_eternal_fleet_mult_rate_to_damage = {
 	optimize_memory
 	if = {
-		limit = { check_modifier_value = { modifier = weapon_type_$TYPE$_weapon_fire_rate_mult value > 1 } }
-		if = {
-			limit = { check_modifier_value = { modifier = weapon_type_$TYPE$_weapon_fire_rate_mult value > 200 } }
-			set_standard_battle_repeatable_modifier = { PARAMATER1 = weapon_type_$TYPE$_weapon_fire_rate_mult PARAMATER2 = weapon_type_$TYPE$_weapon_damage_mult UNIT = origin RATE = -0.65 } 
-		}
-		else_if = {
-			limit = { check_modifier_value = { modifier = weapon_type_$TYPE$_weapon_fire_rate_mult value > 100 } }
-			set_standard_battle_repeatable_modifier = { PARAMATER1 = weapon_type_$TYPE$_weapon_fire_rate_mult PARAMATER2 = weapon_type_$TYPE$_weapon_damage_mult UNIT = origin RATE = -0.70 } 
-		}
-		else_if = {
-			limit = { check_modifier_value = { modifier = weapon_type_$TYPE$_weapon_fire_rate_mult value > 90 } }
-			set_standard_battle_repeatable_modifier = { PARAMATER1 = weapon_type_$TYPE$_weapon_fire_rate_mult PARAMATER2 = weapon_type_$TYPE$_weapon_damage_mult UNIT = origin RATE = -0.75 } 
-		}
-		else_if = {
-			limit = { check_modifier_value = { modifier = weapon_type_$TYPE$_weapon_fire_rate_mult value > 80 } }
-			set_standard_battle_repeatable_modifier = { PARAMATER1 = weapon_type_$TYPE$_weapon_fire_rate_mult PARAMATER2 = weapon_type_$TYPE$_weapon_damage_mult UNIT = origin RATE = -0.80 } 
-		}
-		else_if = {
-			limit = { check_modifier_value = { modifier = weapon_type_$TYPE$_weapon_fire_rate_mult value > 70 } }
-			set_standard_battle_repeatable_modifier = { PARAMATER1 = weapon_type_$TYPE$_weapon_fire_rate_mult PARAMATER2 = weapon_type_$TYPE$_weapon_damage_mult UNIT = origin RATE = -0.85 } 
-		}
-		else_if = {
-			limit = { check_modifier_value = { modifier = weapon_type_$TYPE$_weapon_fire_rate_mult value > 60 } }
-			set_standard_battle_repeatable_modifier = { PARAMATER1 = weapon_type_$TYPE$_weapon_fire_rate_mult PARAMATER2 = weapon_type_$TYPE$_weapon_damage_mult UNIT = origin RATE = -0.80 } 
-		}
-		else_if = {
-			limit = { check_modifier_value = { modifier = weapon_type_$TYPE$_weapon_fire_rate_mult value > 50 } }
-			set_standard_battle_repeatable_modifier = { PARAMATER1 = weapon_type_$TYPE$_weapon_fire_rate_mult PARAMATER2 = weapon_type_$TYPE$_weapon_damage_mult UNIT = origin RATE = -0.85 } 
-		}
-		else_if = {
-			limit = { check_modifier_value = { modifier = weapon_type_$TYPE$_weapon_fire_rate_mult value > 40 } }
-			set_standard_battle_repeatable_modifier = { PARAMATER1 = weapon_type_$TYPE$_weapon_fire_rate_mult PARAMATER2 = weapon_type_$TYPE$_weapon_damage_mult UNIT = origin RATE = -0.90 } 
-		}
-		else_if = {
-			limit = { check_modifier_value = { modifier = weapon_type_$TYPE$_weapon_fire_rate_mult value > 30 } }
-			set_standard_battle_repeatable_modifier = { PARAMATER1 = weapon_type_$TYPE$_weapon_fire_rate_mult PARAMATER2 = weapon_type_$TYPE$_weapon_damage_mult UNIT = origin RATE = -0.95 } 
-		}
-		else_if = {
-			limit = { check_modifier_value = { modifier = weapon_type_$TYPE$_weapon_fire_rate_mult value > 20 } }
-			set_standard_battle_repeatable_modifier = { PARAMATER1 = weapon_type_$TYPE$_weapon_fire_rate_mult PARAMATER2 = weapon_type_$TYPE$_weapon_damage_mult UNIT = origin RATE = -0.90 } 
-		}
-		else_if = {
-			limit = { check_modifier_value = { modifier = weapon_type_$TYPE$_weapon_fire_rate_mult value > 1 } }
-			set_standard_battle_repeatable_modifier = { PARAMATER1 = weapon_type_$TYPE$_weapon_fire_rate_mult PARAMATER2 = weapon_type_$TYPE$_weapon_damage_mult UNIT = origin RATE = -1 } 
-		}
+		limit = { check_modifier_value = { modifier = weapon_type_$TYPE$_weapon_fire_rate_mult value > 0 } }
+		set_standard_battle_repeatable_modifier = { PARAMATER1 = weapon_type_$TYPE$_weapon_fire_rate_mult PARAMATER2 = weapon_type_$TYPE$_weapon_damage_mult UNIT = initial RATE = -1 } 
+		# if = {
+		# 	limit = { check_modifier_value = { modifier = weapon_type_$TYPE$_weapon_fire_rate_mult value > 200 } }
+		# 	set_standard_battle_repeatable_modifier = { PARAMATER1 = weapon_type_$TYPE$_weapon_fire_rate_mult PARAMATER2 = weapon_type_$TYPE$_weapon_damage_mult UNIT = origin RATE = -0.65 } 
+		# }
+		# else_if = {
+		# 	limit = { check_modifier_value = { modifier = weapon_type_$TYPE$_weapon_fire_rate_mult value > 100 } }
+		# 	set_standard_battle_repeatable_modifier = { PARAMATER1 = weapon_type_$TYPE$_weapon_fire_rate_mult PARAMATER2 = weapon_type_$TYPE$_weapon_damage_mult UNIT = origin RATE = -0.70 } 
+		# }
+		# else_if = {
+		# 	limit = { check_modifier_value = { modifier = weapon_type_$TYPE$_weapon_fire_rate_mult value > 90 } }
+		# 	set_standard_battle_repeatable_modifier = { PARAMATER1 = weapon_type_$TYPE$_weapon_fire_rate_mult PARAMATER2 = weapon_type_$TYPE$_weapon_damage_mult UNIT = origin RATE = -0.75 } 
+		# }
+		# else_if = {
+		# 	limit = { check_modifier_value = { modifier = weapon_type_$TYPE$_weapon_fire_rate_mult value > 80 } }
+		# 	set_standard_battle_repeatable_modifier = { PARAMATER1 = weapon_type_$TYPE$_weapon_fire_rate_mult PARAMATER2 = weapon_type_$TYPE$_weapon_damage_mult UNIT = origin RATE = -0.80 } 
+		# }
+		# else_if = {
+		# 	limit = { check_modifier_value = { modifier = weapon_type_$TYPE$_weapon_fire_rate_mult value > 70 } }
+		# 	set_standard_battle_repeatable_modifier = { PARAMATER1 = weapon_type_$TYPE$_weapon_fire_rate_mult PARAMATER2 = weapon_type_$TYPE$_weapon_damage_mult UNIT = origin RATE = -0.85 } 
+		# }
+		# else_if = {
+		# 	limit = { check_modifier_value = { modifier = weapon_type_$TYPE$_weapon_fire_rate_mult value > 60 } }
+		# 	set_standard_battle_repeatable_modifier = { PARAMATER1 = weapon_type_$TYPE$_weapon_fire_rate_mult PARAMATER2 = weapon_type_$TYPE$_weapon_damage_mult UNIT = origin RATE = -0.80 } 
+		# }
+		# else_if = {
+		# 	limit = { check_modifier_value = { modifier = weapon_type_$TYPE$_weapon_fire_rate_mult value > 50 } }
+		# 	set_standard_battle_repeatable_modifier = { PARAMATER1 = weapon_type_$TYPE$_weapon_fire_rate_mult PARAMATER2 = weapon_type_$TYPE$_weapon_damage_mult UNIT = origin RATE = -0.85 } 
+		# }
+		# else_if = {
+		# 	limit = { check_modifier_value = { modifier = weapon_type_$TYPE$_weapon_fire_rate_mult value > 40 } }
+		# 	set_standard_battle_repeatable_modifier = { PARAMATER1 = weapon_type_$TYPE$_weapon_fire_rate_mult PARAMATER2 = weapon_type_$TYPE$_weapon_damage_mult UNIT = origin RATE = -0.90 } 
+		# }
+		# else_if = {
+		# 	limit = { check_modifier_value = { modifier = weapon_type_$TYPE$_weapon_fire_rate_mult value > 30 } }
+		# 	set_standard_battle_repeatable_modifier = { PARAMATER1 = weapon_type_$TYPE$_weapon_fire_rate_mult PARAMATER2 = weapon_type_$TYPE$_weapon_damage_mult UNIT = origin RATE = -0.95 } 
+		# }
+		# else_if = {
+		# 	limit = { check_modifier_value = { modifier = weapon_type_$TYPE$_weapon_fire_rate_mult value > 20 } }
+		# 	set_standard_battle_repeatable_modifier = { PARAMATER1 = weapon_type_$TYPE$_weapon_fire_rate_mult PARAMATER2 = weapon_type_$TYPE$_weapon_damage_mult UNIT = origin RATE = -0.90 } 
+		# }
+		# else_if = {
+		# 	limit = { check_modifier_value = { modifier = weapon_type_$TYPE$_weapon_fire_rate_mult value > 1 } }
+		# 	set_standard_battle_repeatable_modifier = { PARAMATER1 = weapon_type_$TYPE$_weapon_fire_rate_mult PARAMATER2 = weapon_type_$TYPE$_weapon_damage_mult UNIT = origin RATE = -1 } 
+		# }
 	}
 }
 set_repeatable_eternal_fleet_mult_damage_to_rate = {
 	optimize_memory
 	if = {
-		limit = { check_modifier_value = { modifier = weapon_type_$TYPE$_weapon_damage_mult value > 10 } }
-		if = {
-			limit = { check_modifier_value = { modifier = weapon_type_$TYPE$_weapon_damage_mult value > 200 } }
-			set_standard_battle_repeatable_modifier = { PARAMATER1 = weapon_type_$TYPE$_weapon_damage_mult PARAMATER2 = weapon_type_$TYPE$_weapon_fire_rate_mult UNIT = Tenth RATE = -0.01 } 
-		}
-		else_if = {
-			limit = { check_modifier_value = { modifier = weapon_type_$TYPE$_weapon_damage_mult value > 100 } }
-			set_standard_battle_repeatable_modifier = { PARAMATER1 = weapon_type_$TYPE$_weapon_damage_mult PARAMATER2 = weapon_type_$TYPE$_weapon_fire_rate_mult UNIT = Tenth RATE = -0.10 } 
-		}
-		else_if = {
-			limit = { check_modifier_value = { modifier = weapon_type_$TYPE$_weapon_damage_mult value > 90 } }
-			set_standard_battle_repeatable_modifier = { PARAMATER1 = weapon_type_$TYPE$_weapon_damage_mult PARAMATER2 = weapon_type_$TYPE$_weapon_fire_rate_mult UNIT = Tenth RATE = -0.20 } 
-		}
-		else_if = {
-			limit = { check_modifier_value = { modifier = weapon_type_$TYPE$_weapon_damage_mult value > 80 } }
-			set_standard_battle_repeatable_modifier = { PARAMATER1 = weapon_type_$TYPE$_weapon_damage_mult PARAMATER2 = weapon_type_$TYPE$_weapon_fire_rate_mult UNIT = Tenth RATE = -0.30 } 
-		}
-		else_if = {
-			limit = { check_modifier_value = { modifier = weapon_type_$TYPE$_weapon_damage_mult value > 70 } }
-			set_standard_battle_repeatable_modifier = { PARAMATER1 = weapon_type_$TYPE$_weapon_damage_mult PARAMATER2 = weapon_type_$TYPE$_weapon_fire_rate_mult UNIT = Tenth RATE = -0.40 } 
-		}
-		else_if = {
-			limit = { check_modifier_value = { modifier = weapon_type_$TYPE$_weapon_damage_mult value > 60 } }
-			set_standard_battle_repeatable_modifier = { PARAMATER1 = weapon_type_$TYPE$_weapon_damage_mult PARAMATER2 = weapon_type_$TYPE$_weapon_fire_rate_mult UNIT = Tenth RATE = -0.50 } 
-		}
-		else_if = {
-			limit = { check_modifier_value = { modifier = weapon_type_$TYPE$_weapon_damage_mult value > 50 } }
-			set_standard_battle_repeatable_modifier = { PARAMATER1 = weapon_type_$TYPE$_weapon_damage_mult PARAMATER2 = weapon_type_$TYPE$_weapon_fire_rate_mult UNIT = Tenth RATE = -0.60 } 
-		}
-		else_if = {
-			limit = { check_modifier_value = { modifier = weapon_type_$TYPE$_weapon_damage_mult value > 40 } }
-			set_standard_battle_repeatable_modifier = { PARAMATER1 = weapon_type_$TYPE$_weapon_damage_mult PARAMATER2 = weapon_type_$TYPE$_weapon_fire_rate_mult UNIT = Tenth RATE = -0.70 } 
-		}
-		else_if = {
-			limit = { check_modifier_value = { modifier = weapon_type_$TYPE$_weapon_damage_mult value > 30 } }
-			set_standard_battle_repeatable_modifier = { PARAMATER1 = weapon_type_$TYPE$_weapon_damage_mult PARAMATER2 = weapon_type_$TYPE$_weapon_fire_rate_mult UNIT = Tenth RATE = -0.80 } 
-		}
-		else_if = {
-			limit = { check_modifier_value = { modifier = weapon_type_$TYPE$_weapon_damage_mult value > 20 } }
-			set_standard_battle_repeatable_modifier = { PARAMATER1 = weapon_type_$TYPE$_weapon_damage_mult PARAMATER2 = weapon_type_$TYPE$_weapon_fire_rate_mult UNIT = Tenth RATE = -0.98 } 
-		}
-		else_if = {
-			limit = { check_modifier_value = { modifier = weapon_type_$TYPE$_weapon_damage_mult value > 10 } }
-			set_standard_battle_repeatable_modifier = { PARAMATER1 = weapon_type_$TYPE$_weapon_damage_mult PARAMATER2 = weapon_type_$TYPE$_weapon_fire_rate_mult UNIT = Tenth RATE = -0.99 } 
-		}
+		limit = { check_modifier_value = { modifier = weapon_type_$TYPE$_weapon_damage_mult value > 0 } }
+		set_standard_battle_repeatable_modifier = { PARAMATER1 = weapon_type_$TYPE$_weapon_damage_mult PARAMATER2 = weapon_type_$TYPE$_weapon_fire_rate_mult UNIT = initial RATE = 0 } 
+		# if = {
+		# 	limit = { check_modifier_value = { modifier = weapon_type_$TYPE$_weapon_damage_mult value > 200 } }
+		# 	set_standard_battle_repeatable_modifier = { PARAMATER1 = weapon_type_$TYPE$_weapon_damage_mult PARAMATER2 = weapon_type_$TYPE$_weapon_fire_rate_mult UNIT = Tenth RATE = -0.01 } 
+		# }
+		# else_if = {
+		# 	limit = { check_modifier_value = { modifier = weapon_type_$TYPE$_weapon_damage_mult value > 100 } }
+		# 	set_standard_battle_repeatable_modifier = { PARAMATER1 = weapon_type_$TYPE$_weapon_damage_mult PARAMATER2 = weapon_type_$TYPE$_weapon_fire_rate_mult UNIT = Tenth RATE = -0.10 } 
+		# }
+		# else_if = {
+		# 	limit = { check_modifier_value = { modifier = weapon_type_$TYPE$_weapon_damage_mult value > 90 } }
+		# 	set_standard_battle_repeatable_modifier = { PARAMATER1 = weapon_type_$TYPE$_weapon_damage_mult PARAMATER2 = weapon_type_$TYPE$_weapon_fire_rate_mult UNIT = Tenth RATE = -0.20 } 
+		# }
+		# else_if = {
+		# 	limit = { check_modifier_value = { modifier = weapon_type_$TYPE$_weapon_damage_mult value > 80 } }
+		# 	set_standard_battle_repeatable_modifier = { PARAMATER1 = weapon_type_$TYPE$_weapon_damage_mult PARAMATER2 = weapon_type_$TYPE$_weapon_fire_rate_mult UNIT = Tenth RATE = -0.30 } 
+		# }
+		# else_if = {
+		# 	limit = { check_modifier_value = { modifier = weapon_type_$TYPE$_weapon_damage_mult value > 70 } }
+		# 	set_standard_battle_repeatable_modifier = { PARAMATER1 = weapon_type_$TYPE$_weapon_damage_mult PARAMATER2 = weapon_type_$TYPE$_weapon_fire_rate_mult UNIT = Tenth RATE = -0.40 } 
+		# }
+		# else_if = {
+		# 	limit = { check_modifier_value = { modifier = weapon_type_$TYPE$_weapon_damage_mult value > 60 } }
+		# 	set_standard_battle_repeatable_modifier = { PARAMATER1 = weapon_type_$TYPE$_weapon_damage_mult PARAMATER2 = weapon_type_$TYPE$_weapon_fire_rate_mult UNIT = Tenth RATE = -0.50 } 
+		# }
+		# else_if = {
+		# 	limit = { check_modifier_value = { modifier = weapon_type_$TYPE$_weapon_damage_mult value > 50 } }
+		# 	set_standard_battle_repeatable_modifier = { PARAMATER1 = weapon_type_$TYPE$_weapon_damage_mult PARAMATER2 = weapon_type_$TYPE$_weapon_fire_rate_mult UNIT = Tenth RATE = -0.60 } 
+		# }
+		# else_if = {
+		# 	limit = { check_modifier_value = { modifier = weapon_type_$TYPE$_weapon_damage_mult value > 40 } }
+		# 	set_standard_battle_repeatable_modifier = { PARAMATER1 = weapon_type_$TYPE$_weapon_damage_mult PARAMATER2 = weapon_type_$TYPE$_weapon_fire_rate_mult UNIT = Tenth RATE = -0.70 } 
+		# }
+		# else_if = {
+		# 	limit = { check_modifier_value = { modifier = weapon_type_$TYPE$_weapon_damage_mult value > 30 } }
+		# 	set_standard_battle_repeatable_modifier = { PARAMATER1 = weapon_type_$TYPE$_weapon_damage_mult PARAMATER2 = weapon_type_$TYPE$_weapon_fire_rate_mult UNIT = Tenth RATE = -0.80 } 
+		# }
+		# else_if = {
+		# 	limit = { check_modifier_value = { modifier = weapon_type_$TYPE$_weapon_damage_mult value > 20 } }
+		# 	set_standard_battle_repeatable_modifier = { PARAMATER1 = weapon_type_$TYPE$_weapon_damage_mult PARAMATER2 = weapon_type_$TYPE$_weapon_fire_rate_mult UNIT = Tenth RATE = -0.98 } 
+		# }
+		# else_if = {
+		# 	limit = { check_modifier_value = { modifier = weapon_type_$TYPE$_weapon_damage_mult value > 10 } }
+		# 	set_standard_battle_repeatable_modifier = { PARAMATER1 = weapon_type_$TYPE$_weapon_damage_mult PARAMATER2 = weapon_type_$TYPE$_weapon_fire_rate_mult UNIT = Tenth RATE = -0.99 } 
+		# }
 	}
 }
 
 # THIS: SOLAR SYSTEM
 setup_invinciable_protection_pragram = {
 	optimize_memory
-	set_update_modifiers_batch = begin
 	if = {
 		limit = { is_in_combat = yes }
 		$KEY$ = {
@@ -502,11 +507,9 @@ setup_invinciable_protection_pragram = {
 		ship_event = { id = $ID$ days = 1 }
 	}
 	else = { clear_battleship_modifier_fixed_ship = yes }
-	set_update_modifiers_batch = end
 }
 setup_invinciable_attacketion_pragram = {
 	optimize_memory
-	set_update_modifiers_batch = begin
 	if = {
 		limit = { is_in_combat = yes }
 		if = { limit = { always = $RLEFR$ } random_list_eternal_fleet_rate = yes }
@@ -527,7 +530,6 @@ setup_invinciable_attacketion_pragram = {
 		ship_event = { id = $ID$ days = 1 }
 	}
 	else = { clear_battleship_modifier_fixed_ship = yes }
-	set_update_modifiers_batch = end
 }
 
 # initial = 0  min = 0.25  small = 0.5  medium = 0.75  large = 0.90  max = 0.99  origin = 1
@@ -1047,6 +1049,7 @@ clear_superlazer_system_fixed_ship = {
 
 # base modifier script
 set_invasion_fleet_basic_modifier = { 
+	optimize_memory
 	add_modifier = { modifier = $SUB$ multiplier = $FACTOR$ days = $DAYS|-1$ } 
 }
 
@@ -1139,6 +1142,7 @@ remove_all_ship_modifier_change_basic_variable = {
 	remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = explosive }
 	remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = kinetic }
 	remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = energy }
+	remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = strike_craft }
 	remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = arcane }
 	remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = cosmic }
 	remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = gravity }
@@ -1215,9 +1219,11 @@ remove_all_ship_modifier_change_basic_variable = {
 }
 
 remove_total_repeatable_modifier = {
+	optimize_memory
 	remove_repetable_modifier = { TITLE = change_basic TYPE = explosive }
 	remove_repetable_modifier = { TITLE = change_basic TYPE = kinetic }
 	remove_repetable_modifier = { TITLE = change_basic TYPE = energy }
+	remove_repetable_modifier = { TITLE = change_basic TYPE = strike_craft }
 	remove_repetable_modifier = { TITLE = change_basic TYPE = gravity }
 	remove_repetable_modifier = { TITLE = change_basic TYPE = psionic }
 	remove_repetable_modifier = { TITLE = change_basic TYPE = anti_psionic }
@@ -1295,6 +1301,7 @@ remove_total_repeatable_modifier = {
 	remove_repetable_modifier = { TITLE = basic TYPE = explosive }
 	remove_repetable_modifier = { TITLE = basic TYPE = kinetic }
 	remove_repetable_modifier = { TITLE = basic TYPE = energy }
+	remove_repetable_modifier = { TITLE = basic TYPE = strike_craft }
 	remove_repetable_modifier = { TITLE = basic TYPE = gravity }
 	remove_repetable_modifier = { TITLE = basic TYPE = psionic }
 	remove_repetable_modifier = { TITLE = basic TYPE = anti_psionic }
@@ -1385,15 +1392,18 @@ remove_ship_modifier_trigger_flag = {
 }
 
 remove_ship_modifier_change_basic_variable = {
+	optimize_memory
 	clear_variable = debug_change_$PARAMATER$_value
 }
 
 remove_repeatable_ship_modifier_change_basic_vairable = {
+	optimize_memory
 	clear_variable = debug_change_weapon_type_$TYPE$_weapon_fire_rate_mult_value
 	clear_variable = debug_change_weapon_type_$TYPE$_weapon_damage_mul_value
 }
 
 set_fleet_modifier = {
+	optimize_memory
 	add_modifier = { modifier = $SUB$ days = $DAYS|-1$ }
 	change_variable = { which = $SUB$_var value = 1 }
 }
@@ -1423,6 +1433,7 @@ kuat_set_epsilon_obelisk_code = {
 }
 
 kuat_invinciable_battle_random_effect = {
+	optimize_memory
 	random_list = {
 		100 = {
 			modifier = {
