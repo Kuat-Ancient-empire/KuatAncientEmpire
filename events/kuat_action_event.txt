@@ -33,7 +33,10 @@ country_event = {
 				every_system_within_border = { save_event_target_as = begin_kuat_fleet_system }
 				set_country_type = kuat_fleet_hostile
 				if = {
-					limit = { NOT = { has_global_flag = wind_up_for_kuat_fleet } }
+					limit = { 
+						NOT = { any_owned_fleet = { has_fleet_flag = second_attack_fleet } }
+						NOT = { has_global_flag = wind_up_for_kuat_fleet } 
+					}
 					create_kuat_millatery_defender_and_attack_fleet = yes
 					set_timed_global_flag = { flag = wind_up_for_kuat_fleet days = 360 }
 				}
@@ -296,7 +299,13 @@ fleet_event = {
 	trigger = {
 		exists = this
 		owner = { is_kuat_fallen_empire = yes }
-		owner = { is_at_war = yes }
+		OR = {
+			owner = { is_at_war = yes }
+			AND = {
+				exists = event_target:fallen_empire_kuat
+				event_target:fallen_empire_kuat = { is_at_war = yes }
+			}
+		}
 		OR = {
 			has_fleet_flag = first_attack_fleet
 			has_fleet_flag = second_attack_fleet

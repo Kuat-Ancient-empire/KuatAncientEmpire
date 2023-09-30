@@ -1125,7 +1125,7 @@ fleet_execute_order_1 = {
 						}
 						AND = {
 							exists = starbase
-							starbase = { controller = { is_at_war_with = $OWNER_TARGET$ } }
+							starbase = { controller = { is_hostile = $OWNER_TARGET$ } }
 						}
 					}
 					check_variable = { which = kuat_fleet_id value < 1 }
@@ -1198,7 +1198,7 @@ fleet_execute_order_1 = {
 								}
 								AND = {
 									exists = starbase
-									starbase = { owner = { is_at_war_with = $OWNER_TARGET$ } }
+									starbase = { owner = { is_hostile = $OWNER_TARGET$ } }
 								}
 							}
 							check_variable = { which = kuat_fleet_id value < 1 }
@@ -1622,68 +1622,77 @@ create_kuat_return_starbase = {
 #GW WAR FLEET
 create_kuat_millatery_defender_and_attack_fleet = {
 	optimize_memory
-	switch = {
-		trigger = has_global_flag
-		difficult_exe_invasion = { create_exe_invasion_fleet = {
-			NAME = Name_DFLEET
-			is_boss = yes  can_disband = no
-			Fleet_owner = event_target:fallen_empire_kuat_fleet
-			bombardment = indiscriminate
-			Balletor = @kuat_invasion_flagship_num_T1  Resugrant = @kuat_invasion_Battleship_num_T3  high_Imperial = @kuat_invasion_BattleCruser_num_T3  Harrower = 100  DIFF = 1
-			SAVE_TARGET = fallen_empire_kuat_fleet_attack
-			Location = event_target:begin_kuat_fleet_system.star
-			flag = second_attack_fleet
-			fleet_action = ai_action.12
-			VAR_TARGET = event_target:fallen_empire_kuat_fleet
-		} }
-		normal_exe_invasion = { create_exe_invasion_fleet = {
-			NAME = Name_DFLEET
-			is_boss = yes  can_disband = no
-			Fleet_owner = event_target:fallen_empire_kuat_fleet
-			bombardment = indiscriminate
-			Balletor = @kuat_invasion_flagship_num_T1  Resugrant = @kuat_invasion_Battleship_num_T3  high_Imperial = @kuat_invasion_BattleCruser_num_T3  Harrower = 100  DIFF = 2
-			SAVE_TARGET = fallen_empire_kuat_fleet_attack
-			Location = event_target:begin_kuat_fleet_system.star
-			flag = second_attack_fleet
-			fleet_action = ai_action.12
-			VAR_TARGET = event_target:fallen_empire_kuat_fleet
-		} }
-		easy_exe_invasion = { create_exe_invasion_fleet = {
-			NAME = Name_DFLEET
-			is_boss = yes  can_disband = no
-			Fleet_owner = event_target:fallen_empire_kuat_fleet
-			bombardment = indiscriminate
-			Balletor = @kuat_invasion_flagship_num_T1  Resugrant = @kuat_invasion_Battleship_num_T3  high_Imperial = @kuat_invasion_BattleCruser_num_T3  Harrower = 100  DIFF = 3
-			SAVE_TARGET = fallen_empire_kuat_fleet_attack
-			Location = event_target:begin_kuat_fleet_system.star
-			flag = second_attack_fleet
-			fleet_action = ai_action.12
-			VAR_TARGET = event_target:fallen_empire_kuat_fleet
-		} }
-		ban_exe_invasion = { create_exe_invasion_fleet = {
-			NAME = Name_DFLEET
-			is_boss = yes  can_disband = no
-			Fleet_owner = event_target:fallen_empire_kuat_fleet
-			bombardment = indiscriminate
-			Balletor = @kuat_invasion_flagship_num_T1  Resugrant = @kuat_invasion_Battleship_num_T3  high_Imperial = @kuat_invasion_BattleCruser_num_T3  Harrower = 100  DIFF = 1
-			SAVE_TARGET = fallen_empire_kuat_fleet_attack
-			Location = event_target:begin_kuat_fleet_system.star
-			flag = second_attack_fleet
-			fleet_action = ai_action.12
-			VAR_TARGET = event_target:fallen_empire_kuat_fleet
-		} }
-		default = { create_exe_invasion_fleet = {
-			NAME = Name_DFLEET
-			is_boss = yes  can_disband = no
-			Fleet_owner = event_target:fallen_empire_kuat_fleet
-			bombardment = indiscriminate
-			Balletor = @kuat_invasion_flagship_num_T1  Resugrant = @kuat_invasion_Battleship_num_T3  high_Imperial = @kuat_invasion_BattleCruser_num_T3  Harrower = 100  DIFF = 3
-			SAVE_TARGET = fallen_empire_kuat_fleet_attack
-			Location = event_target:begin_kuat_fleet_system.star
-			flag = second_attack_fleet
-			fleet_action = ai_action.12
-			VAR_TARGET = event_target:fallen_empire_kuat_fleet
-		} }
+	every_system_within_border = {
+		limit = {
+			exists = starbase
+			starbase = {
+				exists = controller
+				controller = { is_same_value = event_target:fallen_empire_kuat_fleet }
+			}
+		}
+		switch = {
+			trigger = has_global_flag
+			difficult_exe_invasion = { create_exe_invasion_fleet = {
+				NAME = Name_DFLEET
+				is_boss = yes  can_disband = no
+				Fleet_owner = event_target:fallen_empire_kuat_fleet
+				bombardment = indiscriminate
+				Balletor = @kuat_invasion_flagship_num_T1  Resugrant = @kuat_invasion_Battleship_num_T3  high_Imperial = @kuat_invasion_BattleCruser_num_T3  Harrower = 100  DIFF = 1
+				SAVE_TARGET = fallen_empire_kuat_fleet_attack
+				Location = event_target:begin_kuat_fleet_system.star
+				flag = second_attack_fleet
+				fleet_action = ai_action.12
+				VAR_TARGET = event_target:fallen_empire_kuat_fleet
+			} }
+			normal_exe_invasion = { create_exe_invasion_fleet = {
+				NAME = Name_DFLEET
+				is_boss = yes  can_disband = no
+				Fleet_owner = event_target:fallen_empire_kuat_fleet
+				bombardment = indiscriminate
+				Balletor = @kuat_invasion_flagship_num_T1  Resugrant = @kuat_invasion_Battleship_num_T3  high_Imperial = @kuat_invasion_BattleCruser_num_T3  Harrower = 100  DIFF = 2
+				SAVE_TARGET = fallen_empire_kuat_fleet_attack
+				Location = event_target:begin_kuat_fleet_system.star
+				flag = second_attack_fleet
+				fleet_action = ai_action.12
+				VAR_TARGET = event_target:fallen_empire_kuat_fleet
+			} }
+			easy_exe_invasion = { create_exe_invasion_fleet = {
+				NAME = Name_DFLEET
+				is_boss = yes  can_disband = no
+				Fleet_owner = event_target:fallen_empire_kuat_fleet
+				bombardment = indiscriminate
+				Balletor = @kuat_invasion_flagship_num_T1  Resugrant = @kuat_invasion_Battleship_num_T3  high_Imperial = @kuat_invasion_BattleCruser_num_T3  Harrower = 100  DIFF = 3
+				SAVE_TARGET = fallen_empire_kuat_fleet_attack
+				Location = event_target:begin_kuat_fleet_system.star
+				flag = second_attack_fleet
+				fleet_action = ai_action.12
+				VAR_TARGET = event_target:fallen_empire_kuat_fleet
+			} }
+			ban_exe_invasion = { create_exe_invasion_fleet = {
+				NAME = Name_DFLEET
+				is_boss = yes  can_disband = no
+				Fleet_owner = event_target:fallen_empire_kuat_fleet
+				bombardment = indiscriminate
+				Balletor = @kuat_invasion_flagship_num_T1  Resugrant = @kuat_invasion_Battleship_num_T3  high_Imperial = @kuat_invasion_BattleCruser_num_T3  Harrower = 100  DIFF = 1
+				SAVE_TARGET = fallen_empire_kuat_fleet_attack
+				Location = event_target:begin_kuat_fleet_system.star
+				flag = second_attack_fleet
+				fleet_action = ai_action.12
+				VAR_TARGET = event_target:fallen_empire_kuat_fleet
+			} }
+			default = { create_exe_invasion_fleet = {
+				NAME = Name_DFLEET
+				is_boss = yes  can_disband = no
+				Fleet_owner = event_target:fallen_empire_kuat_fleet
+				bombardment = indiscriminate
+				Balletor = @kuat_invasion_flagship_num_T1  Resugrant = @kuat_invasion_Battleship_num_T3  high_Imperial = @kuat_invasion_BattleCruser_num_T3  Harrower = 100  DIFF = 3
+				SAVE_TARGET = fallen_empire_kuat_fleet_attack
+				Location = event_target:begin_kuat_fleet_system.star
+				flag = second_attack_fleet
+				fleet_action = ai_action.12
+				VAR_TARGET = event_target:fallen_empire_kuat_fleet
+			} }
+		}
 	}
 }
 
