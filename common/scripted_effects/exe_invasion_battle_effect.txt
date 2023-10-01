@@ -175,6 +175,7 @@ remove_executor_power = {
 	remove_modifier = iep_basic_ship_armor_add								
 	remove_modifier = iep_basic_ship_shield_add
 	remove_modifier = iep_basic_shipclass_military_hull_mult
+	remove_modifier = iep_basic_ship_speed_mult
 	remove_modifier = iep_basic_ship_armor_hardening_add
 	remove_modifier = iep_basic_ship_shield_hardening_add
 	remove_modifier = increase_hp_T9
@@ -502,9 +503,13 @@ setup_invinciable_protection_pragram = {
 			hull_damage = ship_hull_damage_mult
 			shield_damage = ship_shield_damage_mult
 			armor_damage = ship_armor_damage_mult
+			ship_speed = ship_speed_mult
 		}
-		set_ship_flag = fire_ship_var
-		ship_event = { id = $ID$ days = 1 }
+		if = {
+			limit = { NOT = { has_ship_flag = fire_ship_var } }
+			ship_event = { id = $ID$ days = 1 } set_ship_flag = fire_ship_var
+		}
+		else = { ship_event = { id = $ID$ days = 3 } }
 	}
 	else = { clear_battleship_modifier_fixed_ship = yes }
 }
@@ -579,6 +584,7 @@ set_easy_eternal_fleet_mult_modifier = {
 	[[armor_add] set_eternal_fleet_protection_modifier 						= { PARAMATER = $armor_add$ 						RELATION = "<" UNIT = million 		UNIT1 = million }]  
 	[[shield_reduction] set_eternal_fleet_protection_modifier				= { PARAMATER = $shield_reduction$ 					RELATION = ">" UNIT = initial 		UNIT1 = initial }]  
 	[[armor_reduction] set_eternal_fleet_protection_modifier 				= { PARAMATER = $armor_reduction$ 					RELATION = ">" UNIT = initial 		UNIT1 = initial }]
+	[[ship_speed] set_eternal_fleet_protection_modifier 					= { PARAMATER = $ship_speed$ 						RELATION = "<" UNIT = initial 		UNIT1 = initial }]
 }
 
 # initial = 0  min = 0.25  small = 0.5  medium = 0.75  large = 0.90  max = 0.99  origin = 1
@@ -628,6 +634,7 @@ set_normal_eternal_fleet_mult_modifier = {
 	[[armor_add] set_eternal_fleet_protection_modifier 						= { PARAMATER = $armor_add$ 						RELATION = "<" UNIT = million 		UNIT1 = million }]  
 	[[shield_reduction] set_eternal_fleet_protection_modifier				= { PARAMATER = $shield_reduction$ 					RELATION = ">" UNIT = initial 		UNIT1 = initial }]  
 	[[armor_reduction] set_eternal_fleet_protection_modifier 				= { PARAMATER = $armor_reduction$ 					RELATION = ">" UNIT = initial 		UNIT1 = initial }]
+	[[ship_speed] set_eternal_fleet_protection_modifier 					= { PARAMATER = $ship_speed$ 						RELATION = "<" UNIT = initial 		UNIT1 = initial }]
 }
  
 # initial = 0  min = 0.25  small = 0.5  medium = 0.75  large = 0.90  max = 0.99  origin = 1
@@ -676,7 +683,8 @@ set_difiicult_eternal_fleet_mult_modifier = {
 	[[shield_add] set_eternal_fleet_protection_modifier 					= { PARAMATER = $shield_add$ 						RELATION = "<" UNIT = million 		UNIT1 = million }]  
 	[[armor_add] set_eternal_fleet_protection_modifier 						= { PARAMATER = $armor_add$ 						RELATION = "<" UNIT = million 		UNIT1 = million }]  
 	[[shield_reduction] set_eternal_fleet_protection_modifier				= { PARAMATER = $shield_reduction$ 					RELATION = ">" UNIT = initial 		UNIT1 = initial }]  
-	[[armor_reduction] set_eternal_fleet_protection_modifier 				= { PARAMATER = $armor_reduction$ 					RELATION = ">" UNIT = initial 		UNIT1 = initial }]  
+	[[armor_reduction] set_eternal_fleet_protection_modifier 				= { PARAMATER = $armor_reduction$ 					RELATION = ">" UNIT = initial 		UNIT1 = initial }]
+	[[ship_speed] set_eternal_fleet_protection_modifier 					= { PARAMATER = $ship_speed$ 						RELATION = "<" UNIT = initial 		UNIT1 = initial }]  
 }
 
 # initial = 0  min = 0.25  small = 0.5  medium = 0.75  large = 0.90  max = 0.99  origin = 1
@@ -725,7 +733,8 @@ set_ban_eternal_fleet_mult_modifier = {
 	[[shield_add] set_eternal_fleet_protection_modifier 					= { PARAMATER = $shield_add$ 						RELATION = "<" UNIT = million 		UNIT1 = million }]  
 	[[armor_add] set_eternal_fleet_protection_modifier 						= { PARAMATER = $armor_add$ 						RELATION = "<" UNIT = million 		UNIT1 = million }]  
 	[[shield_reduction] set_eternal_fleet_protection_modifier				= { PARAMATER = $shield_reduction$ 					RELATION = ">" UNIT = initial 		UNIT1 = initial }]  
-	[[armor_reduction] set_eternal_fleet_protection_modifier 				= { PARAMATER = $armor_reduction$ 					RELATION = ">" UNIT = initial 		UNIT1 = initial }]  
+	[[armor_reduction] set_eternal_fleet_protection_modifier 				= { PARAMATER = $armor_reduction$ 					RELATION = ">" UNIT = initial 		UNIT1 = initial }] 
+	[[ship_speed] set_eternal_fleet_protection_modifier 					= { PARAMATER = $ship_speed$ 						RELATION = "<" UNIT = initial 		UNIT1 = initial }] 
 }
 
 # tip:script scope available in penetration modifier, other will be error.
@@ -1056,6 +1065,8 @@ set_invasion_fleet_basic_modifier = {
 # reset all modifier
 clear_battleship_modifier_fixed_ship = {
 	optimize_memory
+	remove_modifier = basic_ship_speed_mult
+	remove_modifier = change_basic_ship_speed_mult
 	remove_modifier = basic_ship_shield_penetration_mult
 	remove_modifier = change_basic_ship_shield_penetration_mult
 	remove_modifier = basic_ship_armor_penetration_mult
@@ -1138,6 +1149,7 @@ remove_all_ship_modifier_change_basic_variable = {
 	remove_ship_modifier_change_basic_variable = { PARAMATER = ship_hull_damage_mult }
 	remove_ship_modifier_change_basic_variable = { PARAMATER = ship_shield_damage_mult }
 	remove_ship_modifier_change_basic_variable = { PARAMATER = ship_armor_damage_mult }
+	remove_ship_modifier_change_basic_variable = { PARAMATER = ship_speed_mult }
 
 	remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = explosive }
 	remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = kinetic }
@@ -1435,7 +1447,7 @@ kuat_set_epsilon_obelisk_code = {
 kuat_invinciable_battle_random_effect = {
 	optimize_memory
 	random_list = {
-		100 = {
+		50 = {
 			modifier = {
 				factor = 1.0
 				event_target:global_event_country = { check_variable = { which = eternal_fleet_return_index value = 1 } }
@@ -1478,18 +1490,7 @@ kuat_invinciable_battle_random_effect = {
 			}
 			modifier = { factor = 100 has_ship_flag = kuat_clear_ship_modifier_target }
 		}
-		# 200 Totally, 100 Available
-		5 = {
-			modifier = {
-				factor = 0
-				OR = {
-					has_ship_flag = kuat_clear_ship_modifier_target
-					owner = { is_invisable_faction = yes }
-				}
-			}
-			kuat_reduce_hp_percent = { value = 1 }
-			set_timed_ship_flag = { flag = kuat_clear_ship_modifier_target days = 1 }
-		}
+		# 150 Totally, 100 Available
 		5 = {
 			modifier = {
 				factor = 0
@@ -1501,7 +1502,7 @@ kuat_invinciable_battle_random_effect = {
 			kuat_reduce_hp_percent = { value = 5 }
 			set_timed_ship_flag = { flag = kuat_clear_ship_modifier_target days = 2 }
 		}
-		4 = {
+		5 = {
 			modifier = {
 				factor = 0
 				OR = {
@@ -1523,7 +1524,7 @@ kuat_invinciable_battle_random_effect = {
 			kuat_reduce_hp_percent = { value = 15 }
 			set_timed_ship_flag = { flag = kuat_clear_ship_modifier_target days = 4 }
 		}
-		3 = {
+		4 = {
 			modifier = {
 				factor = 0
 				OR = {
@@ -1545,7 +1546,7 @@ kuat_invinciable_battle_random_effect = {
 			kuat_reduce_hp_percent = { value = 25 }
 			set_timed_ship_flag = { flag = kuat_clear_ship_modifier_target days = 6 }
 		}
-		2 = {
+		3 = {
 			modifier = {
 				factor = 0
 				OR = {
@@ -1567,7 +1568,7 @@ kuat_invinciable_battle_random_effect = {
 			kuat_reduce_hp_percent = { value = 35 }
 			set_timed_ship_flag = { flag = kuat_clear_ship_modifier_target days = 8 }
 		}
-		1 = {
+		2 = {
 			modifier = {
 				factor = 0
 				OR = {
@@ -1588,6 +1589,17 @@ kuat_invinciable_battle_random_effect = {
 			}
 			kuat_reduce_hp_percent = { value = 45 }
 			set_timed_ship_flag = { flag = kuat_clear_ship_modifier_target days = 10 }
+		}
+		1 = {
+			modifier = {
+				factor = 0
+				OR = {
+					has_ship_flag = kuat_clear_ship_modifier_target
+					owner = { is_invisable_faction = yes }
+				}
+			}
+			kuat_reduce_hp_percent = { value = 50 }
+			set_timed_ship_flag = { flag = kuat_clear_ship_modifier_target days = 11 }
 		}
 	}
 	reroll_random = yes

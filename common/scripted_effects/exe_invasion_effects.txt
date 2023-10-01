@@ -1522,10 +1522,10 @@ create_kuat_return_fleet_defender = {
 
 create_kuat_return_fleet_attacker = {
 	optimize_memory
-	random_system = {
+	every_system = {
 		limit = { 
 			exists = starbase
-			starbase = { controller = { is_kuat_fallen_empire = yes } }
+			starbase = { exists = controller controller = { is_kuat_fallen_empire = yes } }
 			kuat_is_kuat_system = yes 
 		}
 		switch = {
@@ -1622,7 +1622,7 @@ create_kuat_return_starbase = {
 #GW WAR FLEET
 create_kuat_millatery_defender_and_attack_fleet = {
 	optimize_memory
-	every_system_within_border = {
+	every_system = {
 		limit = {
 			exists = starbase
 			starbase = {
@@ -1698,11 +1698,11 @@ create_kuat_millatery_defender_and_attack_fleet = {
 
 create_kuat_defender_and_attack_fleet = {
 	optimize_memory
-	random_system = {
+	every_system = {
 		limit = { 
 			kuat_is_kuat_system = yes 
 			exists = starbase
-			starbase = { controller = { is_kuat_fallen_empire = yes } }
+			starbase = { exists = controller controller = { is_kuat_fallen_empire = yes } }
 		}
 		switch = {
 			trigger = has_global_flag
@@ -1767,8 +1767,12 @@ create_kuat_defender_and_attack_fleet = {
 
 create_kuat_defender_and_attack_crisis_fleet = {
 	optimize_memory
-	random_system = {
-		limit = { kuat_is_kuat_system = yes }
+	every_system = {
+		limit = { 
+			exists = starbase 
+			starbase = { exists = controller controller = { is_kuat_fallen_empire = yes } }
+			kuat_is_kuat_system = yes 
+		}
 		create_fleet = {
 			name = "Name_DFLEET"
 			effect = {
