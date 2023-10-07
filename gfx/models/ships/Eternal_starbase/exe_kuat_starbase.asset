@@ -44,18 +44,38 @@ entity = {
 
 entity = {
 	name = "exe_megastructure_starbase_entity"
-	pdxmesh = "Annihilator_section_mesh"
-	
-	locator = { name = "root" position = { 0 -145 0 } }
-	scale = 1.0
+	pdxmesh = "ring_world_ration_mesh"
+	default_state = idle
+	scale = 40.0
+	state = { 
+		name = "idle" animation = "idle" animation_speed = 0.35 looping = yes 
+		event = { time = 0 node = "light_locator_01" particle = "ship_light_blue_effect" keep_particle = yes trigger_once = yes }
+		event = { time = 0 node = "light_locator_02" particle = "ship_light_blue_effect" keep_particle = yes trigger_once = yes }
+		event = { time = 0 node = "light_locator_03" particle = "ship_light_blue_effect" keep_particle = yes trigger_once = yes }
+		event = { time = 0 node = "light_locator_04" particle = "ship_light_blue_effect" keep_particle = yes trigger_once = yes }
+		event = { time = 0 node = "light_locator_05" particle = "ship_light_blue_effect" keep_particle = yes trigger_once = yes }
+		event = { time = 0 node = "light_locator_06" particle = "ship_light_blue_effect" keep_particle = yes trigger_once = yes }
+		event = { time = 0 node = "top_node" particle = "energy_core_effect" keep_particle = yes trigger_once = yes }	
+		event = { time = 0 node = "bottom_node" particle = "energy_core_effect" keep_particle = yes trigger_once = yes }	
+		start_event = { trigger_once = yes sound = { soundeffect = "fallen_empire_starbase_amb" } }
+		start_event = { trigger_once = yes sound = { soundeffect = "fallen_empire_starbase_energy_field" } }
+	}
+	state = { name = "death" animation = "idle" animation_speed = 0.35 looping = no }
 }
 
 entity = {
 	name = "exe_megastructure_starbase_section_entity"
+	pdxmesh = "eternal_citidel_locator_mesh"
+	locator = { name = "root" position = { 0 -145 0 } }
+	attach = { root = exe_megastructure_starbase_section_ship_entity }
+}
+
+entity = {
+	name = "exe_megastructure_starbase_section_ship_entity"
 	pdxmesh = "eternal_citidel_starbase_mesh"
 	
 	default_state = "idle"
-	state = { name = "idle"
+	state = { name = "idle"	
 		event = { time = 0 node = "light_locator_01" particle = "ship_light_blue_effect" keep_particle = yes trigger_once = yes }
 		event = { time = 0 node = "light_locator_02" particle = "ship_light_blue_effect" keep_particle = yes trigger_once = yes }
 		event = { time = 0 node = "light_locator_03" particle = "ship_light_blue_effect" keep_particle = yes trigger_once = yes }
@@ -68,9 +88,9 @@ entity = {
 		start_event = { trigger_once = yes sound = { soundeffect = "fallen_empire_starbase_energy_field" } }
 	}
 	state = { name = "death" animation_blend_time = 4 looping = no }
-	scale = 40.0
 }
 
+#megastructure
 entity = {
 	name = "exe_megastructure_starbase_section_mega_entity"
 	pdxmesh = "eternal_citidel_starbase_mesh"
