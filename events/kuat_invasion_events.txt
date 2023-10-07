@@ -1658,17 +1658,11 @@ country_event = {
 			else = { fromfromfrom = { every_owned_ship = { 
 				limit = { NOT = { has_ship_flag = random_list_eternal_fleet_rate_placeholder }  }
 				set_ship_flag = is_modifiering 
-				if = {
-					limit = { has_global_flag = kuat_impulse_mod_settings }
-					ship_event = { id = exe_invasion.136 }
-				}
-				else_if = {
-					limit = { NOT = { has_global_flag = kuat_impulse_mod_settings } }
-					if = {
-						limit = { has_global_flag = easy_exe_invasion }
-						ship_event = { id = exe_invasion.142 }
-					}
-					else = { ship_event = { id = exe_invasion.129 } }
+				switch = {
+					trigger = has_global_flag
+					kuat_impulse_mod_settings = { ship_event = { id = exe_invasion.136 } }
+					easy_exe_invasion = { ship_event = { id = exe_invasion.142 } }
+					default = { ship_event = { id = exe_invasion.129 } }
 				}
 				set_timed_ship_flag = { flag = random_list_eternal_fleet_rate_placeholder days = 1 }
 			} } }
