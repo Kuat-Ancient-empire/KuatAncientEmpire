@@ -1142,9 +1142,12 @@ country_event = {
 	title = executor_build.808.title
 	desc = exe_invasion.1004.desc
 	diplomatic = yes
-	picture_event_data = { room = fallen_empire_room }
-	custom_gui = "kuat_event_window"
-	custom_gui_option = "kuat_event_option"
+	picture_event_data = { 
+		room = fallen_empire_room 
+		portrait = root.ruler
+	}
+	custom_gui = "kuat_event_diplomacy_window"
+	custom_gui_option = "kuat_event_diplomacy_option"
 	trigger = { NOT = { has_country_flag = fire_once_setting } }
 	immediate = { every_playable_country = {
 		begin_event_chain = { event_chain = kuat_mission_6_chain target = this }
@@ -1207,7 +1210,10 @@ country_event = {
 	id = exe_invasion.116
 	hide_window = yes
 	is_triggered_only = yes
-	trigger = { from = { OR = { is_eternal_faction = yes is_infinite_faction = yes } } }
+	trigger = { 
+		is_kuat_fallen_empire = no
+		from = { OR = { is_eternal_faction = yes is_infinite_faction = yes } } 
+	}
 	immediate = {
 		set_update_modifiers_batch = begin
 		fromfrom = { if = {
@@ -1235,6 +1241,42 @@ country_event = {
 		set_update_modifiers_batch = end
 	}
 }
+country_event = {
+	id = exe_invasion.118
+	hide_window = yes
+	is_triggered_only = yes
+	trigger = { 
+		is_kuat_fallen_empire = yes 
+		from = { OR = { is_eternal_faction = yes is_infinite_faction = yes } } 
+	}
+	immediate = {
+		set_update_modifiers_batch = begin
+		fromfrom = { if = {
+			limit = {	
+				NOT = { has_fleet_flag = fire_only_once_temple }
+				has_enable_flag_ship_system_true = yes
+				has_enable_flag_ship_system_false = yes
+			}
+			every_owned_ship = {
+				if = {
+					limit = { kuat_is_flagship_system_protection = yes }
+					set_ship_flag = is_invisiable_trigger
+					eternal_increase_executor_power = { DAYS = -1 }
+					ship_event = { id = exe_invasion.114 }
+				}
+				else_if = {
+					limit = { kuat_is_flagship_system_protection = no }
+					set_timed_ship_flag = { flag = is_invisiable_trigger days = 10 }
+					eternal_increase_executor_power = { DAYS = 10 }
+					ship_event = { id = exe_invasion.114 }
+				}
+			}
+			set_timed_fleet_flag = { flag = fire_only_once_temple days = 1 }
+		} }
+		set_update_modifiers_batch = end
+	}
+}
+
 ship_event = {
 	id = exe_invasion.114
 	hide_window = yes
@@ -1686,10 +1728,10 @@ ship_event = { inline_script = { script = kuat_battle_event/kuat_exe_invasion_ba
 ship_event = { inline_script = { script = kuat_battle_event/kuat_exe_invasion_battle ID = exe_invasion.144 KEY = set_easy_eternal_fleet_mult_modifier } }
 
 #fromfromfrom
-ship_event = { inline_script = { script = kuat_battle_event/kuat_exe_invasion_attake ID = exe_invasion.136 KEY = set_ban_eternal_fleet_mult_modifier 		RLEFR = yes } }
-ship_event = { inline_script = { script = kuat_battle_event/kuat_exe_invasion_attake ID = exe_invasion.131 KEY = set_difiicult_eternal_fleet_mult_modifier  RLEFR = yes } }
-ship_event = { inline_script = { script = kuat_battle_event/kuat_exe_invasion_attake ID = exe_invasion.129 KEY = set_normal_eternal_fleet_mult_modifier 	RLEFR = yes } }
-ship_event = { inline_script = { script = kuat_battle_event/kuat_exe_invasion_attake ID = exe_invasion.142 KEY = set_easy_eternal_fleet_mult_modifier 		RLEFR = yes } }
+ship_event = { inline_script = { script = kuat_battle_event/kuat_exe_invasion_attake ID = exe_invasion.136 KEY = set_ban_eternal_fleet_mult_modifier 		} }
+ship_event = { inline_script = { script = kuat_battle_event/kuat_exe_invasion_attake ID = exe_invasion.131 KEY = set_difiicult_eternal_fleet_mult_modifier  } }
+ship_event = { inline_script = { script = kuat_battle_event/kuat_exe_invasion_attake ID = exe_invasion.129 KEY = set_normal_eternal_fleet_mult_modifier 	} }
+ship_event = { inline_script = { script = kuat_battle_event/kuat_exe_invasion_attake ID = exe_invasion.142 KEY = set_easy_eternal_fleet_mult_modifier 		} }
 
 #protector class star crusier system
 country_event = {
@@ -1714,7 +1756,7 @@ country_event = {
 		} }
 	}
 }
-ship_event = { inline_script = { script = kuat_battle_event/kuat_exe_invasion_attake ID = exe_invasion.132 KEY = set_easy_eternal_fleet_mult_modifier 		RLEFR = no } }
+ship_event = { inline_script = { script = kuat_battle_event/kuat_exe_invasion_attake ID = exe_invasion.132 KEY = set_easy_eternal_fleet_mult_modifier } }
 ship_event = { inline_script = { script = kuat_battle_event/kuat_exe_invasion_battle ID = exe_invasion.134 KEY = set_easy_eternal_fleet_mult_modifier } }
 
 #ORIGIN ETERNAL

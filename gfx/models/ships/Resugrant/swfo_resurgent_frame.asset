@@ -1,7 +1,39 @@
 entity = {
 	name = "swfo_resurgent_entity"
+	pdxmesh = "arthropoid_01_titan_frame_mesh" #arthropoid_01_titan_frame_mesh
+	locator = { name = root position = { 0 0 0 } rotation = { 0 0 0 } }
+	default_state = "idle" scale = 1.5
+	state = { name = "idle" animation = "idle" 
+	
+		start_event = { trigger_once = yes sound = { soundeffect = "amb_titan_ship_hum_01" } }
+		start_event = { trigger_once = yes sound = { soundeffect = "amb_titan_ship_hum_02" } }
+		start_event = { trigger_once = yes sound = { soundeffect = "amb_titan_ship_hum_03" } }
+	
+	}
+	state = { name = "moving" animation = "idle"
+		event =  { trigger_once = yes sound = { soundeffect = "moving_out_titan" } }
+	}
+	state = { name = "death" animation = "death" looping = no 
+		event = { time = 2.5 node = "explosion_locator_01" particle = "ship_explosion_particle" keep_particle = yes trigger_once = yes sound = { soundeffect = "ship_explosion" } }
+		event = { time = 3.5 node = "explosion_locator_02" particle = "ship_explosion_particle" keep_particle = yes trigger_once = yes sound = { soundeffect = "ship_explosion" } }
+		event = { time = 5.5 node = "explosion_locator_03" particle = "ship_explosion_particle" keep_particle = yes trigger_once = yes sound = { soundeffect = "ship_explosion" } }
+		event = { time = 7.5 node = "explosion_locator_04" particle = "ship_explosion_particle" keep_particle = yes trigger_once = yes sound = { soundeffect = "ship_explosion" } }
+		event = { time = 9.5 node = "explosion_locator_05" particle = "ship_explosion_particle" keep_particle = yes trigger_once = yes sound = { soundeffect = "ship_explosion" } }
+		event = { time = 12.5 node = "ship_main" particle = "dreadnought_explosion_particle" keep_particle = yes trigger_once = yes sound = { soundeffect = "amb_titan_ship_death" } }
+	}
+}
+
+entity = {
+	name = "swfo_resurgent_allinone_entity"
+	pdxmesh = "swfo_resurgent_allinone_mesh"
+	default_state = idle
+	state = { name = "idle"	}
+}
+
+entity = {
+	name = "swfo_resurgent_modelclone_entity"
 	pdxmesh = "swfo_resurgent_frame_mesh"
-	scale = 1.5
+	default_state = idle
 	state = { name = "idle" state_time = 5
 		event = { time = 0 node = "engine_medium_01" particle = "SG_01_8_100_ship_exhaust_moving_particle" trigger_once = yes keep_particle = yes }
 		event = { time = 0 node = "engine_medium_02" particle = "SG_01_8_100_ship_exhaust_moving_particle" trigger_once = yes keep_particle = yes }
@@ -28,23 +60,6 @@ entity = {
 		event = { time = 0 node = "engine_large_02" particle = "SG_01_8_100_ship_exhaust_moving_particle" trigger_once = yes keep_particle = yes }
 		event = { time = 0 node = "engine_large_03" particle = "SG_01_8_100_ship_exhaust_moving_particle" trigger_once = yes keep_particle = yes }
 	}
-	state = { name = "death" state_time = 5 looping = no
-		event = { time = 14 node = "target_locator_1" particle = "ship_explosion_particle" sound = { soundeffect = ship_destroyed } }
-		event = { time = 8 node = "target_locator_2" particle = "ship_explosion_particle" sound = { soundeffect = ship_destroyed } }
-		event = { time = 6 node = "target_locator_3" particle = "ship_explosion_particle" sound = { soundeffect = ship_destroyed } }
-		event = { time = 16.5 node = "target_locator_3" particle = "dreadnought_explosion_particle" sound = { soundeffect = ship_destroyed } }
-		event = { time = 16.5 node = "target_locator_3" particle = "ship_explosion_particle" sound = { soundeffect = ship_destroyed } }
-		event = { time = 4 node = "target_locator_4" particle = "ship_explosion_particle" sound = { soundeffect = ship_destroyed } }
-		event = { time = 5 node = "target_locator_4" particle = "ship_explosion_particle" sound = { soundeffect = ship_destroyed } }
-		event = { time = 2 node = "target_locator_5" particle = "ship_explosion_particle" sound = { soundeffect = ship_destroyed } }
-		event = { time = 16 node = "target_locator_5" particle = "ship_explosion_particle" sound = { soundeffect = ship_destroyed } }
-		event = { time = 15 node = "target_locator_6" particle = "ship_explosion_particle" sound = { soundeffect = ship_destroyed } }
-	}
-}
-
-entity = {
-	name = "swfo_resurgent_allinone_entity"
-	pdxmesh = "swfo_resurgent_allinone_mesh"
 }
 
 entity = {
