@@ -18,18 +18,21 @@
 kuat_set_forcetrigger_order_66_group = {
 	potential = { always = yes }
 	allow = { hidden_trigger = { is_scope_type = country } }
-	effect = { hidden_effect = { from = { 
-		if = {
-			limit = { check_variable = { which = order_66_games_value value < 66 } }
-			change_variable = { which = order_66_games_value value = 1 } 
-		}
-		else_if = {
-			limit = { check_variable = { which = order_66_games_value value = 66 } }
-			#set_global_flag = kuat_impulse_mod_settings
-			play_sound = swfo_starkillerbase_completed_speech
-			clear_variable = order_66_games_value
-		}
-	} } }
+	effect = {  
+		custom_tooltip = "kuat_set_forcetrigger_order_66_group_tip"
+		hidden_effect = { from = { 
+			if = {
+				limit = { check_variable = { which = order_66_games_value value < 66 } }
+				change_variable = { which = order_66_games_value value = 1 } 
+			}
+			else_if = {
+				limit = { check_variable = { which = order_66_games_value value = 66 } }
+				kuat_origin_give_all_ship_and_tech = yes
+				play_sound = swfo_starkillerbase_completed_speech
+				clear_variable = order_66_games_value
+			}
+		} }
+	}
 }
 
 #diffult
