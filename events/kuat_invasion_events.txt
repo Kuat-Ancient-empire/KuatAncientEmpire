@@ -5,9 +5,7 @@ event = {
 	hide_window = yes
 	is_triggered_only = yes
 	trigger = {
-		any_country = {
-			has_origin = origin_kuat_shadow
-		}
+		any_country = { has_origin = origin_kuat_shadow }
 		NOT = { has_global_flag = will_be_upgrade_starforge }
 		has_global_flag = kuat_spawned
 		NOR = {
@@ -50,9 +48,7 @@ event = {
 	hide_window = yes
 	is_triggered_only = yes
 	trigger = {
-		any_country = {
-			has_origin = origin_kuat_shadow
-		}
+		any_country = { has_origin = origin_kuat_shadow }
 		NOT = { has_global_flag = will_be_upgrade_starforge }
 		has_global_flag = exe_invasion_seed
 		NOT = { has_global_flag = exe_invasion_signs_cooldown }
@@ -97,9 +93,7 @@ event = {
 	hide_window = yes
 	is_triggered_only = yes
 	trigger = {
-		any_country = {
-			has_origin = origin_kuat_shadow
-		}
+		any_country = { has_origin = origin_kuat_shadow }
 		NOT = { has_global_flag = will_be_upgrade_starforge }
 		has_global_flag = exe_invasion_3_fired
 		NOT = { has_global_flag = exe_invasion_signs_cooldown }
@@ -149,9 +143,7 @@ event = {
 	hide_window = yes
 	is_triggered_only = yes
 	trigger = {
-		any_country = {
-			has_origin = origin_kuat_shadow
-		}
+		any_country = { has_origin = origin_kuat_shadow }
 		NOT = { has_global_flag = will_be_upgrade_starforge }
 		has_global_flag = exe_invasion_5_fired
 		NOT = { has_global_flag = exe_invasion_signs_cooldown }
@@ -185,9 +177,7 @@ event = {
 	hide_window = yes
 	is_triggered_only = yes
 	trigger = {
-		any_country = {
-			has_origin = origin_kuat_shadow
-		}
+		any_country = { has_origin = origin_kuat_shadow }
 		NOT = { has_global_flag = will_be_upgrade_starforge }
 		has_global_flag = exe_invasion_7_fired
 		NOT = { has_global_flag = exe_invasion_signs_cooldown }
@@ -240,27 +230,53 @@ event = {
 		random_system = {
 			limit = { has_star_flag = Kuat_system }
 			system_star = {
-				planet_event = { id = exe_invasion.11 days = 30 }
-				planet_event = { id = exe_invasion.11 days = 40 }
-				planet_event = { id = exe_invasion.11 days = 50 }
+				if = {
+					limit = { has_global_flag = exe_second_invasion_begin }
+					planet_event = { id = exe_invasion.11 days = 3 }
+					planet_event = { id = exe_invasion.11 days = 6 }
+					planet_event = { id = exe_invasion.11 days = 9 }
+	
+					planet_event = { id = exe_invasion.11 days = 12 }
+					planet_event = { id = exe_invasion.11 days = 15 }
+					planet_event = { id = exe_invasion.11 days = 18 }
+	
+					planet_event = { id = exe_invasion.11 days = 53 }
+					planet_event = { id = exe_invasion.11 days = 56 }
+					planet_event = { id = exe_invasion.11 days = 59 }
+	
+					planet_event = { id = exe_invasion.11 days = 62 }
+					planet_event = { id = exe_invasion.11 days = 65 }
+					planet_event = { id = exe_invasion.11 days = 68 }
+	
+					planet_event = { id = exe_invasion.11 days = 83 }
+					planet_event = { id = exe_invasion.11 days = 85 }
+					planet_event = { id = exe_invasion.11 days = 89 }
+					
+					planet_event = { id = exe_invasion.11 days = 95 }
+				}
+				else = {
+					planet_event = { id = exe_invasion.11 days = 30 }
+					planet_event = { id = exe_invasion.11 days = 40 }
+					planet_event = { id = exe_invasion.11 days = 50 }
 
-				planet_event = { id = exe_invasion.11 days = 70 }
-				planet_event = { id = exe_invasion.11 days = 80 }
-				planet_event = { id = exe_invasion.11 days = 90 }
+					planet_event = { id = exe_invasion.11 days = 70 }
+					planet_event = { id = exe_invasion.11 days = 80 }
+					planet_event = { id = exe_invasion.11 days = 90 }
 
-				planet_event = { id = exe_invasion.11 days = 110 }
-				planet_event = { id = exe_invasion.11 days = 120 }
-				planet_event = { id = exe_invasion.11 days = 130 }
+					planet_event = { id = exe_invasion.11 days = 110 }
+					planet_event = { id = exe_invasion.11 days = 120 }
+					planet_event = { id = exe_invasion.11 days = 130 }
 
-				planet_event = { id = exe_invasion.11 days = 150 }
-				planet_event = { id = exe_invasion.11 days = 160 }
-				planet_event = { id = exe_invasion.11 days = 170 }
+					planet_event = { id = exe_invasion.11 days = 150 }
+					planet_event = { id = exe_invasion.11 days = 160 }
+					planet_event = { id = exe_invasion.11 days = 170 }
 
-				planet_event = { id = exe_invasion.11 days = 190 }
-				planet_event = { id = exe_invasion.11 days = 200 }
-				planet_event = { id = exe_invasion.11 days = 210 }
-				
-				planet_event = { id = exe_invasion.11 days = 240 }
+					planet_event = { id = exe_invasion.11 days = 190 }
+					planet_event = { id = exe_invasion.11 days = 200 }
+					planet_event = { id = exe_invasion.11 days = 210 }
+					
+					planet_event = { id = exe_invasion.11 days = 240 }
+				}
 			}
 		}
 		every_country = {
@@ -396,26 +412,127 @@ country_event = {
 	}
 	option = {
 		name = "exe_invasion.10.a"
-		hidden_effect = { country_event = { id = exe_invasion.101 days = 1 } }
+		hidden_effect = { 
+			if = {
+				limit = { NOT = { has_global_flag = exe_second_invasion_begin } }
+				country_event = { id = exe_invasion.101 days = 1 }
+			}
+			else_if = {
+				limit = { has_global_flag = exe_second_invasion_begin }
+				country_event = { id = exe_invasion.102 days = 1 }
+			}
+		}
 	}
 }
 
 country_event = {
 	id = exe_invasion.101
-	title = "exe_invasion.10.name"
-	desc = "exe_invasion.101.desc"
+	title = "exe_invasion.101.name"
+	desc = { trigger = {
+		success_text = {
+			NOR = {
+				has_country_flag = fired_exe_invasion.101.b
+				has_country_flag = fired_exe_invasion.101.c
+			}
+			text = "exe_invasion.101.desc"
+		}
+		success_text = {
+			has_country_flag = fired_exe_invasion.101.b
+			text = "exe_invasion.101.b.desc"
+		}
+		success_text = {
+			has_country_flag = fired_exe_invasion.101.c
+			text = "exe_invasion.101.c.desc"
+		}
+	} }
 	diplomatic = yes
-	picture_event_data = { room = no_video_feed_room }
+	picture_event_data = { 
+		room = Eternal_Empire_room
+		portrait = event_target:UTS02_LEADER
+	}
 	custom_gui = "kuat_event_diplomacy_window"
 	custom_gui_option = "kuat_event_diplomacy_option"
 	show_sound = event_red_alert
 	location = root.capital_scope
 	is_triggered_only = yes
-	option = {
-		name = exe_invasion.101.a
-		ai_chance = { weight = 100 }
-		hidden_effect = { begin_event_chain = { event_chain = ag_exe_invasion_chain } }
+	immediate = {  
+		if = {
+			limit = { NOT = { has_event_chain = ag_exe_invasion_chain } }
+			begin_event_chain = { event_chain = ag_exe_invasion_chain }
+		}
 	}
+	option = {
+		name = exe_invasion.101.b
+		hidden_effect = { 
+			set_country_flag = fired_exe_invasion.101.b
+			remove_country_flag = fired_exe_invasion.101.c
+			country_event = { id = exe_invasion.101 } 
+		}
+	}
+	option = {
+		name = exe_invasion.101.c
+		hidden_effect = { 
+			set_country_flag = fired_exe_invasion.101.c
+			remove_country_flag = fired_exe_invasion.101.b
+			country_event = { id = exe_invasion.101 } 
+		}
+	}
+	option = { name = exe_invasion.101.a ai_chance = { weight = 100 } }
+}
+
+country_event = {
+	id = exe_invasion.102
+	title = "exe_invasion.102.name"
+	desc = { trigger = {
+		success_text = {
+			NOR = {
+				has_country_flag = fired_exe_invasion.102.b
+				has_country_flag = fired_exe_invasion.102.c
+			}
+			text = "exe_invasion.102.desc"
+		}
+		success_text = {
+			has_country_flag = fired_exe_invasion.102.b
+			text = "exe_invasion.102.b.desc"
+		}
+		success_text = {
+			has_country_flag = fired_exe_invasion.102.c
+			text = "exe_invasion.102.c.desc"
+		}
+	} }
+	diplomatic = yes
+	picture_event_data = { 
+		room = Eternal_Empire_room
+		portrait = event_target:UTS02_LEADER
+	}
+	custom_gui = "kuat_event_diplomacy_window"
+	custom_gui_option = "kuat_event_diplomacy_option"
+	show_sound = event_red_alert
+	location = root.capital_scope
+	is_triggered_only = yes
+	immediate = {  
+		if = {
+			limit = { NOT = { has_event_chain = ag_exe_invasion_chain } }
+			begin_event_chain = { event_chain = ag_exe_invasion_chain }
+		}
+	}
+	option = {
+		name = exe_invasion.102.b
+		hidden_effect = { 
+			set_country_flag = fired_exe_invasion.102.b
+			remove_country_flag = fired_exe_invasion.102.c
+			country_event = { id = exe_invasion.102 } 
+		}
+	}
+	option = {
+		name = exe_invasion.102.c
+		hidden_effect = { 
+			set_country_flag = fired_exe_invasion.102.c
+			remove_country_flag = fired_exe_invasion.102.b
+			country_event = { id = exe_invasion.102 } 
+		}
+	}
+	option = { name = exe_invasion.102.a ai_chance = { weight = 100 } }
 }
 
 fleet_event = {
