@@ -3418,7 +3418,7 @@ fleet_event = {
 	hide_window = no
 	title = "kuat_legacy.95.title"
 	desc = "kuat_legacy.95.desc"
-	picture = GFX_evt_em_war_7
+	picture = GFX_evt_city_ruins
 	show_sound = event_wind_ruins
 	is_triggered_only = yes
 	archaeology = yes
@@ -3433,8 +3433,8 @@ fleet_event = {
 	option = {
 		name = kuat_legacy.95.a
 		hidden_effect = {
-			from.planet = { 
-				change_pc = pc_gaia 
+			from.planet = { change_pc = pc_gaia }
+			owner = {
 				set_country_flag = discoveryancientkuat03_ALREADY
 				if = {
 					limit = { NOT = { has_event_chain = ag_legacy_stroy_chain } }
@@ -3447,6 +3447,7 @@ fleet_event = {
 					event_chain = ag_legacy_stroy_chain
 					location = root.from.planet
 				}
+				country_event = { id = kuat_legacy.97 days = 15 random = 8 }
 			}
 		}
 		large_artifact_reward = yes
@@ -3486,5 +3487,360 @@ country_event = {
 			}
 			create_archaeological_site = kuat_lagacy_1
 		} }
+	}
+}
+
+#s神秘飞船
+country_event = {
+	id = kuat_legacy.97
+	hide_window = no
+	title = "kuat_legacy.97.title"
+	desc = "kuat_legacy.97.desc"
+	custom_gui = "kuat_event_m_window"
+	custom_gui_option = "kuat_event_m_option"
+	diplomatic = yes
+	picture_event_data = { room = automated_dreadnought_room }
+	is_triggered_only = yes
+
+	option = {
+		name = "kuat_legacy.97.A"
+		hidden_effect = { country_event = { id = kuat_legacy.98 days = 15 random = 8 } }
+	}
+}
+
+#跨越千年的舰船
+country_event = {
+	id = kuat_legacy.98
+	hide_window = no
+	title = "kuat_legacy.98.title"
+	desc = "kuat_legacy.98.desc"
+	custom_gui = "kuat_event_window"
+	custom_gui_option = "kuat_event_option"
+	diplomatic = yes
+	picture_event_data = { room = automated_dreadnought_room }
+	is_triggered_only = yes
+
+	option = {
+		name = "kuat_legacy.98.A"
+		hidden_effect = { country_event = { id = kuat_legacy.99 days = 15 random = 8 } }
+	}
+	option = { 
+		name = "kuat_legacy.98.B"
+		add_resource = { alloys = 5000 }
+	}
+}
+
+#修复结果
+country_event = {
+	id = kuat_legacy.99
+	hide_window = no
+	title = "kuat_legacy.99.title"
+	desc = "kuat_legacy.99.desc"
+	custom_gui = "kuat_event_m_window"
+	custom_gui_option = "kuat_event_m_option"
+	diplomatic = yes
+	picture_event_data = { room = automated_dreadnought_room }
+	is_triggered_only = yes
+
+	option = {
+		name = "kuat_legacy.99.A"
+		hidden_effect = { country_event = { id = kuat_legacy.105 days = 15 random = 8 } }
+	}
+}
+
+#没剩下什么
+country_event = {
+	id = kuat_legacy.105
+	hide_window = no
+	title = "kuat_legacy.105.title"
+	desc = "kuat_legacy.105.desc"
+	custom_gui = "kuat_event_window"
+	custom_gui_option = "kuat_event_option"
+	diplomatic = yes
+	picture_event_data = { room = automated_dreadnought_room }
+	is_triggered_only = yes
+
+	option = {
+		name = "kuat_legacy.105.A"
+		hidden_effect = { country_event = { id = kuat_legacy.106 days = 15 random = 8 } }
+	}
+}
+
+#问何物可令君喜
+country_event = {
+	id = kuat_legacy.106
+	hide_window = no
+	title = "kuat_legacy.106.title"
+	desc = "kuat_legacy.106.desc"
+	custom_gui = "kuat_event_window"
+	custom_gui_option = "kuat_event_option"
+	diplomatic = yes
+	picture_event_data = { room = automated_dreadnought_room }
+	is_triggered_only = yes
+
+	option = {
+		name = "kuat_legacy.106.A"
+		hidden_effect = { set_country_flag = discoveryancientkuat04 }
+	}
+}
+
+#问何物可令君喜
+country_event = {
+	id = kuat_legacy.107
+	hide_window = no
+	title = "kuat_legacy.107.title"
+	desc = "kuat_legacy.107.desc"
+	custom_gui = "kuat_event_m_window"
+	custom_gui_option = "kuat_event_m_option"
+	diplomatic = yes
+	picture_event_data = { room = engineering_research_room }
+	fire_only_once = yes
+	mean_time_to_happen = { months = 6 }
+	trigger = {
+		has_country_flag = discoveryancientkuat04
+		NOT = { has_country_flag = discoveryancientkuat04_ALready }
+		any_planet_within_border = {
+			is_planet_class = pc_barren
+			NOT = { exists = archaeological_site }
+		}
+	}
+
+	immediate = {
+		set_country_flag = discoveryancientkuat04_ALready
+	}
+
+	option = {
+		name = "kuat_legacy.107.A"
+		hidden_effect = { random_planet_within_border = {
+			limit = {
+				is_planet_class = pc_barren
+				NOT = { exists = archaeological_site }
+			}
+			create_archaeological_site = kuat_lagacy_11
+			set_name = "NAME_KALIWA"
+		} }
+	}
+}
+
+fleet_event = {
+	id = kuat_legacy.108
+	hide_window = no
+	title = "kuat_legacy.108.title"
+	desc = "kuat_legacy.108.desc"
+	picture = GFX_evt_big_landing_ship
+	show_sound = event_wind_ruins
+	is_triggered_only = yes
+	archaeology = yes
+	immediate = {
+		from = { set_site_progress_locked = yes }
+	}
+
+	after = { 
+		from = { set_site_progress_locked = no } 
+	}
+	
+	option = {
+		name = kuat_legacy.108.a
+	}
+}
+
+fleet_event = {
+	id = kuat_legacy.109
+	hide_window = no
+	title = "kuat_legacy.109.title"
+	desc = "kuat_legacy.109.desc"
+	picture = GFX_evt_city_ruins
+	show_sound = event_wind_ruins
+	is_triggered_only = yes
+	archaeology = yes
+	immediate = {
+		from = { set_site_progress_locked = yes }
+	}
+
+	after = { 
+		from = { set_site_progress_locked = no } 
+	}
+	
+	option = {
+		name = kuat_legacy.109.a
+	}
+}
+
+fleet_event = {
+	id = kuat_legacy.110
+	hide_window = no
+	title = "kuat_legacy.110.title"
+	desc = "kuat_legacy.110.desc"
+	picture = GFX_evt_clones
+	show_sound = event_wind_ruins
+	is_triggered_only = yes
+	archaeology = yes
+	immediate = {
+		from = { set_site_progress_locked = yes }
+	}
+
+	after = { 
+		from = { set_site_progress_locked = no } 
+	}
+	
+	option = {
+		name = kuat_legacy.110.a
+		large_artifact_reward = yes
+	}
+}
+
+fleet_event = {
+	id = kuat_legacy.111
+	hide_window = no
+	title = "kuat_legacy.111.title"
+	desc = "kuat_legacy.111.desc"
+	picture = GFX_evt_bone_building
+	show_sound = event_wind_ruins
+	is_triggered_only = yes
+	archaeology = yes
+	immediate = {
+		from = { set_site_progress_locked = yes }
+	}
+
+	after = { 
+		from = { set_site_progress_locked = no } 
+	}
+	
+	option = {
+		name = kuat_legacy.111.a
+		large_artifact_reward = yes
+	}
+}
+
+fleet_event = {
+	id = kuat_legacy.112
+	hide_window = no
+	title = "kuat_legacy.112.title"
+	desc = "kuat_legacy.112.desc"
+	picture = GFX_evt_ancient_artifact
+	show_sound = event_wind_ruins
+	is_triggered_only = yes
+	archaeology = yes
+	immediate = {
+		from = { set_site_progress_locked = yes }
+	}
+
+	after = { 
+		from = { set_site_progress_locked = no } 
+	}
+	
+	option = {
+		name = kuat_legacy.112.a
+		large_artifact_reward = yes
+	}
+}
+
+fleet_event = {
+	id = kuat_legacy.113
+	hide_window = no
+	title = "kuat_legacy.113.title"
+	desc = "kuat_legacy.113.desc"
+	picture = GFX_evt_relic_world_building
+	show_sound = event_wind_ruins
+	is_triggered_only = yes
+	archaeology = yes
+	immediate = {
+		from = { set_site_progress_locked = yes }
+	}
+
+	after = { 
+		from = { set_site_progress_locked = no } 
+	}
+	
+	option = {
+		name = kuat_legacy.113.a
+		large_artifact_reward = yes
+	}
+}
+
+fleet_event = {
+	id = kuat_legacy.114
+	hide_window = no
+	title = "kuat_legacy.114.title"
+	desc = "kuat_legacy.114.desc"
+	picture = GFX_evt_ancient_artifact
+	show_sound = event_wind_ruins
+	is_triggered_only = yes
+	archaeology = yes
+	immediate = {
+		from = { set_site_progress_locked = yes }
+	}
+
+	after = { 
+		from = { set_site_progress_locked = no } 
+	}
+	
+	option = {
+		name = kuat_legacy.114.a
+		hidden_effect = {
+			owner = {
+				set_country_flag = discoveryancientkuat05
+				if = {
+					limit = { NOT = { has_event_chain = ag_legacy_stroy_chain } }
+					begin_event_chain = { event_chain = ag_legacy_stroy_chain }
+				} 
+				create_point_of_interest = {
+					id = ag_legacy_stroy.7
+					desc = ag_legacy_stroy.7.desc
+					name = ag_legacy_stroy.7
+					event_chain = ag_legacy_stroy_chain
+					location = root.from.planet
+				}
+				country_event = { id = kuat_legacy.115 days = 5 random = 8 }
+			}
+		}
+		large_artifact_reward = yes
+	}
+}
+
+country_event = {
+	id = kuat_legacy.115
+	title = "kuat_legacy.115.title"
+	desc = "kuat_legacy.115.desc"
+	diplomatic = yes
+	picture_event_data = { room = no_video_feed_room }
+	custom_gui = "kuat_event_diplomacy_window"
+	custom_gui_option = "kuat_event_diplomacy_option"
+	show_sound = event_wind_ruins
+	is_triggered_only = yes
+	option = { 
+		name = kuat_legacy.115.e
+		country_event = { id = kuat_legacy.116 }
+	}
+}
+
+country_event = {
+	id = kuat_legacy.116
+	title = "kuat_legacy.116.title"
+	desc = "kuat_legacy.116.desc"
+	diplomatic = yes
+	picture_event_data = { room = no_video_feed_room }
+	custom_gui = "kuat_event_diplomacy_window"
+	custom_gui_option = "kuat_event_diplomacy_option"
+	show_sound = event_wind_ruins
+	is_triggered_only = yes
+	option = { 
+		name = kuat_legacy.116.a 
+		is_dialog_only = yes
+		response_text = kuat_legacy.116.a.resp 
+	}
+	option = { 
+		name = kuat_legacy.116.b 
+		is_dialog_only = yes
+		response_text = kuat_legacy.116.b.resp 
+	}
+	option = { 
+		name = kuat_legacy.116.c
+		is_dialog_only = yes
+		response_text = kuat_legacy.116.c.resp 
+	}
+	option = { 
+		name = kuat_legacy.116.d
+		response_text = kuat_legacy.116.d.resp 
 	}
 }
