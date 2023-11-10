@@ -1412,10 +1412,10 @@ country_event = {
 	id = exe_invasion.117
 	hide_window = yes
 	is_triggered_only = yes
-	trigger = { 
-		is_eternal_faction = yes
-		fromfrom = { has_fleet_flag = ag_kuat_invasion_starbase }
-	}
+	trigger = { OR = {
+		AND = { is_player_country = yes fromfrom = { has_fleet_flag = ag_kuat_invasion_starbase_player_optimize } }
+		AND = { is_eternal_faction = yes fromfrom = { has_fleet_flag = ag_kuat_invasion_starbase } }
+	} }
 	immediate = {
 		fromfrom = { if = {
 			limit = { NOT = { has_fleet_flag = random_list_eternal_fleet_rate_placeholder } }
@@ -1423,7 +1423,7 @@ country_event = {
 				limit = { NOT = { has_fleet_flag = ag_kuat_invasion_starbase_disable } }
 				set_fleet_flag = ag_kuat_invasion_starbase_disable
 			}
-			increase_ship_hp_effect_change = { DAYS = 10 }
+			increase_ship_hp_effect_change = { DAYS = 5 }
 			set_timed_fleet_flag = { flag = random_list_eternal_fleet_rate_placeholder days = 1 }
 		} }
 	}
