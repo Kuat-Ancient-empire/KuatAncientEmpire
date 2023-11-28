@@ -5,7 +5,7 @@ event = {
 	hide_window = yes
 	is_triggered_only = yes
 	trigger = {
-		any_country = { has_origin = origin_kuat_shadow }
+		any_country = { kuat_is_enable_shadow_origin = yes }
 		NOT = { has_global_flag = will_be_upgrade_starforge }
 		has_global_flag = kuat_spawned
 		NOR = {
@@ -48,7 +48,7 @@ event = {
 	hide_window = yes
 	is_triggered_only = yes
 	trigger = {
-		any_country = { has_origin = origin_kuat_shadow }
+		any_country = { kuat_is_enable_shadow_origin = yes }
 		NOT = { has_global_flag = will_be_upgrade_starforge }
 		has_global_flag = exe_invasion_seed
 		NOT = { has_global_flag = exe_invasion_signs_cooldown }
@@ -93,7 +93,7 @@ event = {
 	hide_window = yes
 	is_triggered_only = yes
 	trigger = {
-		any_country = { has_origin = origin_kuat_shadow }
+		any_country = { kuat_is_enable_shadow_origin = yes }
 		NOT = { has_global_flag = will_be_upgrade_starforge }
 		has_global_flag = exe_invasion_3_fired
 		NOT = { has_global_flag = exe_invasion_signs_cooldown }
@@ -143,7 +143,7 @@ event = {
 	hide_window = yes
 	is_triggered_only = yes
 	trigger = {
-		any_country = { has_origin = origin_kuat_shadow }
+		any_country = { kuat_is_enable_shadow_origin = yes }
 		NOT = { has_global_flag = will_be_upgrade_starforge }
 		has_global_flag = exe_invasion_5_fired
 		NOT = { has_global_flag = exe_invasion_signs_cooldown }
@@ -177,7 +177,7 @@ event = {
 	hide_window = yes
 	is_triggered_only = yes
 	trigger = {
-		any_country = { has_origin = origin_kuat_shadow }
+		any_country = { kuat_is_enable_shadow_origin = yes }
 		NOT = { has_global_flag = will_be_upgrade_starforge }
 		has_global_flag = exe_invasion_7_fired
 		NOT = { has_global_flag = exe_invasion_signs_cooldown }
@@ -1089,7 +1089,7 @@ country_event = {
 		name = "exe_invasion.33.a"
 		hidden_effect = {
 			if = {
-				limit = { has_origin = origin_kuat_shadow }
+				limit = { kuat_is_enable_shadow_origin = yes }
 				set_global_flag = fire_the_kuat_return
 			}
 			end_event_chain = ag_exe_invasion_chain
@@ -1216,10 +1216,23 @@ country_event = {
 	custom_gui = "kuat_mod_settings_window"
 	custom_gui_option = "kuat_mod_settings_option"
 	is_triggered_only = yes
-	trigger = { always = yes }
+	trigger = { is_ai = no }
 	option = {
 		name = "exe_invasion.1000.a"
+		trigger = {
+			OR = {
+				AND = {
+					NOT = { has_global_flag = kuat_settings_first_fired }
+				}
+				has_global_flag = kuat_settings_first_fired
+			}
+		}
 		default_hide_option = yes
+		hidden_effect = { if = {
+			limit = { NOT = { has_global_flag = kuat_settings_first_fired } }
+			event_target:global_event_country = { country_event = { id = executor_build.0 } }
+			set_global_flag = kuat_settings_first_fired
+		} }
 	}
 }
 

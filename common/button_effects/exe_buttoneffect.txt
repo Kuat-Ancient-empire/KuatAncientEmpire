@@ -21,11 +21,8 @@ kuat_set_forcetrigger_order_66_group = {
 	effect = {  
 		custom_tooltip = "kuat_set_forcetrigger_order_66_group_tip"
 		hidden_effect = { from = { 
+			change_variable = { which = order_66_games_value value = 1 } 
 			if = {
-				limit = { check_variable = { which = order_66_games_value value < 66 } }
-				change_variable = { which = order_66_games_value value = 1 } 
-			}
-			else_if = {
 				limit = { check_variable = { which = order_66_games_value value = 66 } }
 				kuat_origin_give_all_ship_and_tech = yes
 				play_sound = swfo_starkillerbase_completed_speech
@@ -39,11 +36,32 @@ kuat_set_forcetrigger_order_66_group = {
 kuat_set_difficulty_group = {
 	potential = { always = yes }
 	allow = { always = yes }
-	effect = { }
+	effect = { 
+		custom_tooltip = "kuat_set_forcetrigger_order_6_group_tip"
+		hidden_effect = { from = {
+			if = {
+				limit = { NOR = { 
+					has_origin = origin_eternalthrone 
+					has_origin = origin_kuat_apocalyptic
+					has_origin = origin_kuat_shadow
+				} }
+				change_variable = { which = order_6_games_value value = 1 } 
+			}
+			if = {
+				limit = { 
+					NOT = { has_country_flag = has_origin_kuat_shadow }
+					check_variable = { which = order_6_games_value value = 2 } 
+				}
+				set_country_flag = has_origin_kuat_shadow
+				play_sound = event_construction
+				clear_variable = order_6_games_value
+			}
+		} }
+	}
 }
 kuat_set_difficulty_easy = {
 	potential = { hidden_trigger = { always = yes } }
-	allow = { hidden_trigger = { from = { has_origin = origin_kuat_shadow } } }
+	allow = { hidden_trigger = { from = { kuat_is_enable_shadow_origin = yes } } }
 	effect = {
 		custom_tooltip = "exe_invasion.1001.c"
 		custom_tooltip = "exe_invasion.1001.c.tooltip"
@@ -73,7 +91,7 @@ kuat_set_difficulty_easy_alt = {
 	potential = {
 		hidden_trigger = {  has_global_flag = easy_exe_invasion } 
 	}
-	allow = { hidden_trigger = { from = { has_origin = origin_kuat_shadow } } }
+	allow = { hidden_trigger = { from = { kuat_is_enable_shadow_origin = yes } } }
 	effect = {
 		custom_tooltip = "exe_invasion.1001.c"
 		custom_tooltip = "exe_invasion.1009.desc"
@@ -81,7 +99,7 @@ kuat_set_difficulty_easy_alt = {
 }
 kuat_set_difficulty_normal = {
 	potential = { hidden_trigger = { always = yes } }
-	allow = { hidden_trigger = { from = { has_origin = origin_kuat_shadow } } }
+	allow = { hidden_trigger = { from = { kuat_is_enable_shadow_origin = yes } } }
 	effect = {
 		custom_tooltip = "exe_invasion.1001.b"
 		custom_tooltip = "exe_invasion.1001.b.tooltip"
@@ -109,7 +127,7 @@ kuat_set_difficulty_normal = {
 }
 kuat_set_difficulty_normal_alt = {
 	potential = { hidden_trigger = { has_global_flag = normal_exe_invasion } }
-	allow = { hidden_trigger = { from = { has_origin = origin_kuat_shadow } } }
+	allow = { hidden_trigger = { from = { kuat_is_enable_shadow_origin = yes } } }
 	effect = {
 		custom_tooltip = "exe_invasion.1001.b"
 		custom_tooltip = "exe_invasion.1009.normal"
@@ -117,7 +135,7 @@ kuat_set_difficulty_normal_alt = {
 }
 kuat_set_difficulty_hard_1 = {
 	potential = { hidden_trigger = { always = yes } }
-	allow = { hidden_trigger = { from = { has_origin = origin_kuat_shadow } } }
+	allow = { hidden_trigger = { from = { kuat_is_enable_shadow_origin = yes } } }
 	effect = {
 		custom_tooltip = "exe_invasion.1001.d"
 		custom_tooltip = "exe_invasion.1001.d.tooltip"
@@ -144,7 +162,7 @@ kuat_set_difficulty_hard_1 = {
 }
 kuat_set_difficulty_hard_1_alt = {
 	potential = { hidden_trigger = { has_global_flag = difficult_exe_invasion } }
-	allow = { hidden_trigger = { from = { has_origin = origin_kuat_shadow } } }
+	allow = { hidden_trigger = { from = { kuat_is_enable_shadow_origin = yes } } }
 	effect = {
 		custom_tooltip = "exe_invasion.1001.d"
 		custom_tooltip = "exe_invasion.1009.difficult"
@@ -152,7 +170,7 @@ kuat_set_difficulty_hard_1_alt = {
 }
 kuat_set_difficulty_ban = {
 	potential = { hidden_trigger = { always = yes } }
-	allow = { hidden_trigger = { from = { has_origin = origin_kuat_shadow } } }
+	allow = { hidden_trigger = { from = { kuat_is_enable_shadow_origin = yes } } }
 	effect = {
 		custom_tooltip = "exe_invasion.1001.g"
 		custom_tooltip = "exe_invasion.1001.g.tooltip"
@@ -179,7 +197,7 @@ kuat_set_difficulty_ban = {
 }
 kuat_set_difficulty_ban_alt = {
 	potential = { hidden_trigger = { has_global_flag = ban_exe_invasion } }
-	allow = { hidden_trigger = { from = { has_origin = origin_kuat_shadow } } }
+	allow = { hidden_trigger = { from = { kuat_is_enable_shadow_origin = yes } } }
 	effect = {
 		custom_tooltip = "exe_invasion.1001.g"
 		custom_tooltip = "exe_invasion.1009.ban"
@@ -194,7 +212,7 @@ kuat_set_check_group = {
 }
 kuat_set_check_one = {
 	potential = { always = yes }
-	allow = { hidden_trigger = { has_global_flag = fire_diificult_option has_origin = origin_kuat_shadow } }
+	allow = { hidden_trigger = { has_global_flag = fire_diificult_option kuat_is_enable_shadow_origin = yes } }
 	effect = {
 		custom_tooltip = "exe_invasion.1112.e"
 		custom_tooltip = "exe_invasion.1112.e.tooltip"
@@ -209,7 +227,7 @@ kuat_set_check_one_alt = {
 	potential = { hidden_trigger = {
 		has_global_flag = enable_modifer_check
 	} }
-	allow = { hidden_trigger = { has_global_flag = fire_diificult_option has_origin = origin_kuat_shadow } }
+	allow = { hidden_trigger = { has_global_flag = fire_diificult_option kuat_is_enable_shadow_origin = yes } }
 	effect = {
 		custom_tooltip = "exe_invasion.1112.e"
 		custom_tooltip = "exe_invasion.1112.e.enable"
@@ -217,7 +235,7 @@ kuat_set_check_one_alt = {
 }
 kuat_set_check_two = {
 	potential = { always = yes }
-	allow = { hidden_trigger = { has_global_flag = fire_diificult_option has_origin = origin_kuat_shadow } }
+	allow = { hidden_trigger = { has_global_flag = fire_diificult_option kuat_is_enable_shadow_origin = yes } }
 	effect = {
 		custom_tooltip = "exe_invasion.1111.e"
 		custom_tooltip = "exe_invasion.1111.e.tooltip"
@@ -232,7 +250,7 @@ kuat_set_check_two_alt = {
 	potential = { hidden_trigger = {
 		has_global_flag = disable_modifer_check
 	} }
-	allow = { hidden_trigger = { has_global_flag = fire_diificult_option has_origin = origin_kuat_shadow } }
+	allow = { hidden_trigger = { has_global_flag = fire_diificult_option kuat_is_enable_shadow_origin = yes } }
 	effect = {
 		custom_tooltip = "exe_invasion.1111.e"
 		custom_tooltip = "exe_invasion.1111.e.disbale"
@@ -242,12 +260,12 @@ kuat_set_check_two_alt = {
 #animal trigger
 kuat_animal_trigger_group = {
 	potential = { always = yes }
-	allow = { hidden_trigger = { from = { OR = { has_origin = origin_eternalthrone has_origin = origin_kuat_shadow } } } }
+	allow = { hidden_trigger = { from = { OR = { has_origin = origin_eternalthrone kuat_is_enable_shadow_origin = yes } } } }
 	effect = { }
 }
 kuat_animal_trigger_enable = {
 	potential = { always = yes }
-	allow = { hidden_trigger = { from = { OR = { has_origin = origin_eternalthrone has_origin = origin_kuat_shadow } } } }
+	allow = { hidden_trigger = { from = { OR = { has_origin = origin_eternalthrone kuat_is_enable_shadow_origin = yes } } } }
 	effect = { hidden_effect = {
 		remove_global_flag = disable_animal_trigger
 		remove_global_flag = enable_animal_trigger
@@ -265,7 +283,7 @@ kuat_animal_trigger_enable = {
 			else = { ag_kae_create_faction_species = yes }
 		}
 		else_if = {
-			limit = { has_origin = origin_kuat_shadow }
+			limit = { kuat_is_enable_shadow_origin = yes }
 			if = {
 				limit = { exists = event_target:CHECK_UTS02_LEADER }
 				clear_global_event_target = UTS02_LEADER
@@ -280,12 +298,12 @@ kuat_animal_trigger_enable = {
 }
 kuat_animal_trigger_enable_alt = {
 	potential = { hidden_trigger = { has_global_flag = enable_animal_trigger } }
-	allow = { hidden_trigger = { from = { OR = { has_origin = origin_eternalthrone has_origin = origin_kuat_shadow } } } }
+	allow = { hidden_trigger = { from = { OR = { has_origin = origin_eternalthrone kuat_is_enable_shadow_origin = yes } } } }
 	effect = { }
 }
 kuat_animal_trigger_disable = {
 	potential = { always = yes }
-	allow = { hidden_trigger = { from = { OR = { has_origin = origin_eternalthrone has_origin = origin_kuat_shadow } } } }
+	allow = { hidden_trigger = { from = { OR = { has_origin = origin_eternalthrone kuat_is_enable_shadow_origin = yes } } } }
 	effect = { hidden_effect = {
 		remove_global_flag = disable_animal_trigger
 		remove_global_flag = enable_animal_trigger
@@ -296,7 +314,7 @@ kuat_animal_trigger_disable = {
 			from = { ruler = { save_global_event_target_as = ETERNAL_LEADER } }
 		}
 		else_if = {
-			limit = { has_origin = origin_kuat_shadow }
+			limit = { kuat_is_enable_shadow_origin = yes }
 			clear_global_event_target = UTS02_LEADER
 			from = { ruler = { save_global_event_target_as = UTS02_LEADER } }
 		}
@@ -304,7 +322,7 @@ kuat_animal_trigger_disable = {
 }
 kuat_animal_trigger_disable_alt = {
 	potential = { hidden_trigger = { has_global_flag = disable_animal_trigger } }
-	allow = { hidden_trigger = { from = { OR = { has_origin = origin_eternalthrone has_origin = origin_kuat_shadow } } } }
+	allow = { hidden_trigger = { from = { OR = { has_origin = origin_eternalthrone kuat_is_enable_shadow_origin = yes } } } }
 	effect = { }
 }
 

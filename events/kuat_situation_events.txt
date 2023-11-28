@@ -1733,7 +1733,7 @@ situation_event = {
 	desc = {
 		trigger = {
 			success_text = {
-				owner = { has_origin = origin_kuat_shadow }
+				owner = { kuat_is_enable_shadow_origin = yes }
 				text = kuat_situation.53.desc
 			}
 			success_text = {
@@ -1749,7 +1749,7 @@ situation_event = {
 
 	option = {
 		name = kuat_situation.53.A
-		trigger = { owner = { has_origin = origin_kuat_shadow } }
+		trigger = { owner = { kuat_is_enable_shadow_origin = yes } }
 		add_situation_progress = 0.25
 	}
 	option = {
@@ -1765,7 +1765,7 @@ situation_event = {
 	desc = {
 		trigger = {
 			success_text = {
-				owner = { has_origin = origin_kuat_shadow }
+				owner = { kuat_is_enable_shadow_origin = yes }
 				text = kuat_situation.54.desc
 			}
 			success_text = {
@@ -1781,7 +1781,7 @@ situation_event = {
 
 	option = {
 		name = kuat_situation.54.A
-		trigger = { owner = { has_origin = origin_kuat_shadow } }
+		trigger = { owner = { kuat_is_enable_shadow_origin = yes } }
 		add_situation_progress = 0.25
 	}
 	option = {
@@ -1797,7 +1797,7 @@ situation_event = {
 	desc = {
 		trigger = {
 			success_text = {
-				owner = { has_origin = origin_kuat_shadow }
+				owner = { kuat_is_enable_shadow_origin = yes }
 				text = kuat_situation.55.desc
 			}
 			success_text = {
@@ -1813,7 +1813,7 @@ situation_event = {
 
 	option = {
 		name = kuat_situation.55.A
-		trigger = { owner = { has_origin = origin_kuat_shadow } }
+		trigger = { owner = { kuat_is_enable_shadow_origin = yes } }
 		add_situation_progress = 0.25
 	}
 	option = {
@@ -1829,7 +1829,7 @@ situation_event = {
 	desc = {
 		trigger = {
 			success_text = {
-				owner = { has_origin = origin_kuat_shadow }
+				owner = { kuat_is_enable_shadow_origin = yes }
 				text = kuat_situation.56.desc
 			}
 			success_text = {
@@ -1845,7 +1845,7 @@ situation_event = {
 
 	option = {
 		name = kuat_situation.56.A
-		trigger = { owner = { has_origin = origin_kuat_shadow } }
+		trigger = { owner = { kuat_is_enable_shadow_origin = yes } }
 		add_situation_progress = 0.25
 	}
 	option = {
@@ -1861,7 +1861,7 @@ situation_event = {
 	desc = {
 		trigger = {
 			success_text = {
-				owner = { has_origin = origin_kuat_shadow }
+				owner = { kuat_is_enable_shadow_origin = yes }
 				text = kuat_situation.57.desc
 			}
 			success_text = {
@@ -1877,7 +1877,7 @@ situation_event = {
 
 	option = {
 		name = kuat_situation.57.A
-		trigger = { owner = { has_origin = origin_kuat_shadow } }
+		trigger = { owner = { kuat_is_enable_shadow_origin = yes } }
 		add_situation_progress = 0.25
 	}
 	option = {
@@ -1893,7 +1893,7 @@ situation_event = {
 	desc = {
 		trigger = {
 			success_text = {
-				owner = { has_origin = origin_kuat_shadow }
+				owner = { kuat_is_enable_shadow_origin = yes }
 				text = kuat_situation.58.desc
 			}
 			success_text = {
@@ -1909,7 +1909,7 @@ situation_event = {
 
 	option = {
 		name = kuat_situation.58.A
-		trigger = { owner = { has_origin = origin_kuat_shadow } }
+		trigger = { owner = { kuat_is_enable_shadow_origin = yes } }
 		add_situation_progress = 0.25
 	}
 	option = {
@@ -1925,7 +1925,7 @@ situation_event = {
 	desc = {
 		trigger = {
 			success_text = {
-				owner = { has_origin = origin_kuat_shadow }
+				owner = { kuat_is_enable_shadow_origin = yes }
 				text = kuat_situation.59.desc
 			}
 			success_text = {
@@ -1941,7 +1941,7 @@ situation_event = {
 
 	option = {
 		name = kuat_situation.59.A
-		trigger = { owner = { has_origin = origin_kuat_shadow } }
+		trigger = { owner = { kuat_is_enable_shadow_origin = yes } }
 		add_situation_progress = 0.25
 	}
 	option = {
@@ -2024,5 +2024,57 @@ situation_event = {
 	option = {
 		name = kuat_situation.62.B
 		add_situation_progress = 10
+	}
+}
+
+situation_event = {
+	id = kuat_situation.63
+	title = kuat_situation.63.name
+	desc = kuat_situation.63.desc
+	picture = GFX_evt_shattered_planet
+	show_sound = event_alien_nature
+	is_triggered_only = yes
+	location = target
+
+	trigger = { 
+		NOT = { has_situation_flag = fired_kuat_situation.63 }
+		current_situation_approach = situation_friendly_altitude_station
+	}
+
+	immediate = {
+		set_situation_flag = fired_kuat_situation.63
+		situation_event = { id = kuat_situation.64 days = 15 random = 15 }
+	}
+
+	option = {
+		name = kuat_situation.63.A
+		add_situation_progress = 10
+	}
+}
+
+situation_event = {
+	id = kuat_situation.64
+	title = kuat_situation.63.name
+	desc = kuat_situation.64.desc
+	picture = GFX_evt_medieval_alien_civilization
+	show_sound = event_alien_nature
+	is_triggered_only = yes
+	location = target
+
+	option = {
+		name = kuat_situation.64.A
+		add_situation_progress = 10
+	}
+	option = {
+		name = kuat_situation.64.B
+		trigger = { kuat_has_swgs_tech = { TRAT = swg_trait_ligth_side } }
+		add_situation_progress = 10
+		add_modifier = { modifier = second_tomb multiplier = 2 }
+	}
+	option = {
+		name = kuat_situation.64.C
+		trigger = { kuat_has_swgs_tech = { TRAT = swg_trait_dark_side } }
+		add_situation_progress = 10
+		add_modifier = { modifier = second_tomb multiplier = 3 }
 	}
 }

@@ -3,10 +3,11 @@ namespace = executor_build
 ##########################
 ####### 开局初始化 ########
 ##########################
-event = {
+country_event = {
 	id = executor_build.0
 	hide_window = yes
 	is_triggered_only = yes
+	trigger = { is_same_value = event_target:global_event_country }
 	immediate = { 
 		set_global_flag = install_kuat_mod 
 		set_global_flag = ag_spawnsystem_gatekeeper_mid_game
@@ -15,7 +16,7 @@ event = {
 				limit = { is_ai = yes OR = { 
 					has_origin = origin_kuat_apocalyptic 
 					has_origin = origin_eternalthrone 
-					has_origin = origin_kuat_shadow 
+					has_origin = origin_kuat_shadow
 				} }
 				set_origin = origin_default
 			}
@@ -88,11 +89,11 @@ event = {
 			}
 		}
 		else_if = {
-			limit = { any_country = { is_ai = no has_origin = origin_kuat_shadow } }
+			limit = { any_country = { is_ai = no kuat_is_enable_shadow_origin = yes } }
 			kuat_system_initial_creating = yes
 			every_playable_country = { 
 				if = {
-					limit = { is_ai = no has_origin = origin_kuat_shadow }
+					limit = { is_ai = no kuat_is_enable_shadow_origin = yes }
 					remove_country_flag = human_1 remove_country_flag = human_2 set_country_flag = custom_start_screen
 					set_country_flag = origin_kuat_shadow_flag create_kuat_shipyard_country = yes
 				}
@@ -114,6 +115,7 @@ event = {
 			}
 			every_megastructure = { limit = { is_megastructure_type = exe_outer_gate } activate_gateway = this }
 		}
+		every_country = { fire_on_action = { on_action = VOP_on_game_start_country } }
 	}
 }
 
@@ -122,7 +124,7 @@ country_event = {
 	hide_window = yes
 	is_triggered_only = yes
 	fire_only_once = yes
-	trigger = { is_ai = no has_origin = origin_kuat_shadow }
+	trigger = { is_ai = no kuat_is_enable_shadow_origin = yes }
 	immediate = { 
 		set_country_flag = executorbuilding
 		random_system = {
@@ -158,7 +160,7 @@ country_event = {
 	is_triggered_only = yes
 	trigger = {
 		is_ai = no
-		has_origin = origin_kuat_shadow
+		kuat_is_enable_shadow_origin = yes
 	}
 	immediate = {
 		every_owned_planet = {
@@ -185,7 +187,7 @@ country_event = {
 	trigger = {
 		is_ai = no
 		has_technology = tech_sensors_2
-		has_origin = origin_kuat_shadow 
+		kuat_is_enable_shadow_origin = yes 
 		NOT = { has_global_flag = kuat_outgate_enable }
 	}
 	mean_time_to_happen = { 
@@ -669,7 +671,7 @@ country_event = {
 		has_country_flag = finished_kuat_gateway_stage_final
 		has_country_flag = can_enable_kuat_gate
 		NOT = { has_country_flag = can_enable_kuat_gate_special_active }
-		has_origin = origin_kuat_shadow 
+		kuat_is_enable_shadow_origin = yes 
 		NOT = { has_global_flag = kuat_outgate_enable }
 		from = { has_star_flag = exe_outer_gate_disable_system }
 	}
@@ -755,7 +757,7 @@ country_event = {
 			}
 			has_global_flag = kuat_war_goal
 		}
-		has_origin = origin_kuat_shadow 
+		kuat_is_enable_shadow_origin = yes 
 		NOT = { has_global_flag = kuat_outgate_enable }
 		NOT = { has_country_flag = can_enable_kuat_gate_active }
 	}
@@ -1172,7 +1174,7 @@ ship_event = {
 	hide_window = yes
 	is_triggered_only = yes
 	trigger = {
-		owner = { has_origin = origin_kuat_shadow }
+		owner = { kuat_is_enable_shadow_origin = yes }
 		is_ship_size = knigjt_hammer_executor
 	}
 	immediate = {
@@ -1280,7 +1282,7 @@ country_event = { #水晶信标D设施结束
 	custom_gui_option = "kuat_event_diplomacy_option"
 	trigger = {
 		exists = event_target:fallen_empire_kuat
-		has_origin = origin_kuat_shadow
+		kuat_is_enable_shadow_origin = yes
 	}
 	option = {
 		name = executor_build_op_a.a
@@ -1307,7 +1309,7 @@ country_event = { #水晶信标结束
 	trigger = {
 		is_ai = no
 		exists = event_target:fallen_empire_kuat
-		has_origin = origin_kuat_shadow
+		kuat_is_enable_shadow_origin = yes
 	}
 	option = {
 		name = "executor_build.1101.a"
@@ -1336,7 +1338,7 @@ country_event = { #水晶信标C设施结束
 	trigger = {
 		is_ai = no
 		exists = event_target:fallen_empire_kuat
-		has_origin = origin_kuat_shadow
+		kuat_is_enable_shadow_origin = yes
 	}
 	option = {
 		name = "executor_build.1107.a"
@@ -1366,7 +1368,7 @@ country_event = { #水晶信标B设施结束
 	trigger = {
 		is_ai = no
 		exists = event_target:fallen_empire_kuat
-		has_origin = origin_kuat_shadow
+		kuat_is_enable_shadow_origin = yes
 	}
 	option = { name = "executor_build.1108.a"
 		hidden_effect = { event_target:fallen_empire_kuat = { add_opinion_modifier = { who = root modifier = opinion_kuat_new_parit_finish } } }
@@ -1392,7 +1394,7 @@ country_event = { #水晶信标A设施结束
 	trigger = {
 		is_ai = no
 		exists = event_target:fallen_empire_kuat
-		has_origin = origin_kuat_shadow
+		kuat_is_enable_shadow_origin = yes
 	}
 	option = { name = "executor_build.1109.a"
 		hidden_effect = { event_target:fallen_empire_kuat = { add_opinion_modifier = { who = root modifier = opinion_kuat_new_parit_finish } } }
@@ -1405,13 +1407,13 @@ event = {
 	is_triggered_only = yes
 	trigger = {
 		exists = event_target:fallen_empire_kuat
-		any_country = { is_ai = no has_origin = origin_kuat_shadow }
+		any_country = { is_ai = no kuat_is_enable_shadow_origin = yes }
 		mid_game_years_passed > 0
 	}
 	immediate = {
 		every_playable_country = {
 			limit = {
-				is_ai = no has_origin = origin_kuat_shadow
+				is_ai = no kuat_is_enable_shadow_origin = yes
 				has_communications = event_target:fallen_empire_kuat
 			}
 			random_list = {
@@ -1457,7 +1459,7 @@ country_event = {
 	is_triggered_only = yes
 	trigger = {
 		is_ai = no
-		has_origin = origin_kuat_shadow
+		kuat_is_enable_shadow_origin = yes
 		has_communications = event_target:fallen_empire_kuat
 		NOT = { is_hostile = event_target:fallen_empire_kuat }
 	}
