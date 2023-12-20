@@ -3337,3 +3337,66 @@ create_kuat_shipyard_country = {
 	}
 	establish_communications_no_message = event_target:kuat_shipyard_country
 }
+
+kuat_rift_award = {
+	add_monthly_resource_mult = {
+		resource = engineering_research
+		value = @tier3researchreward
+		min = @tier3researchmin
+		max = @tier3researchmax
+	}
+	add_monthly_resource_mult = {
+		resource = physics_research
+		value = @tier3researchreward
+		min = @tier3researchmin
+		max = @tier3researchmax
+	}
+	add_monthly_resource_mult = {
+		resource = society_research
+		value = @tier3researchreward
+		min = @tier3researchmin
+		max = @tier3researchmax
+	}
+	add_monthly_resource_mult = {
+		resource = unity
+		value = @tier1unityreward
+		min = @tier1unitymin
+		max = @tier1unitymax
+	}
+}
+
+kuat_astral_thread_small_reward = {
+	kuat_astral_thread_reward = { ADD = 0 }
+}
+
+kuat_astral_thread_medium_reward = {
+	kuat_astral_thread_reward = { ADD = 50 }
+}
+
+kuat_astral_thread_large_reward = {
+	kuat_astral_thread_reward = { ADD = 100 }
+}
+
+kuat_astral_thread_reward = {
+	custom_tooltip = astral_threads_found
+	locked_random_list = {
+		1 = { kuat_add_resource_astral_threads = { VALUE = 60 ADD = $ADD$ } }
+		1 = { kuat_add_resource_astral_threads = { VALUE = 80 ADD = $ADD$ } }
+		1 = { kuat_add_resource_astral_threads = { VALUE = 100 ADD = $ADD$ } }
+	}
+}
+
+kuat_add_resource_astral_threads = {
+	if = {
+		limit = { check_variable = { which = astral_threads_scripted_rewards_mult value < 1 } }
+		set_variable = {
+			which = astral_threads_scripted_rewards_mult
+			value = 1
+		}
+	}
+	add_resource = {
+		astral_threads =  @\[( $VALUE$ * $MULT|1$ + $ADD|0$ )]
+		mult = astral_threads_scripted_rewards_mult
+	}
+	hidden_effect = { country_event = { id = tutorial.1340 days = 5 } }
+}
