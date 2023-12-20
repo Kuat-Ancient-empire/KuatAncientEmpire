@@ -13,9 +13,9 @@ ag_kae_ge_invasion_relic = {
 	
 	triggered_country_modifier = {
 		potential = { always = yes }
-		ship_weapon_damage = 0.50
-		ship_weapon_range_mult = 0.50
-		ship_hull_mult = 0.50
+		ship_weapon_damage = 1
+		ship_shield_hardening_add = 1
+		ship_armor_hardening_add = 1
 	}
 
 	possible = {
@@ -32,18 +32,22 @@ ag_kae_ge_invasion_relic = {
 				modifier = "relic_activation_cooldown"
 				days = 3600
 			} 
-			capital_scope = {
-				solar_system = {
-					spawn_astral_rift = {
-						relative_to = prev
-						orbit_distance = 60
-						orbit_angle = 340
-						tolerance = 360
-						id = infinite_rakata
-						spawn_sound = no
+			if = {
+				limit = { NOT = { has_global_flag = fire_kuat_rift_rakata_infinite } }
+				capital_scope = {
+					solar_system = {
+						spawn_astral_rift = {
+							relative_to = prev
+							orbit_distance = 60
+							orbit_angle = 340
+							tolerance = 360
+							id = infinite_rakata
+							spawn_sound = no
+						}
+						astral_rift = { create_research_station = { owner = root } }
 					}
-					astral_rift = { create_research_station = { owner = root } }
 				}
+				set_global_flag = fire_kuat_rift_rakata_infinite
 			}
 		}
 	}
