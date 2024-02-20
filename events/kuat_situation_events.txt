@@ -509,7 +509,7 @@ situation_event = {
 	}
 	after = { 
 		destroy_situation = this 
-		event_target:ag_kuat_invasion_country = {
+		event_target:eternal_fleet_country = {
 			if = {
 				limit = { NOT = { any_owned_fleet = { has_fleet_flag = ag_kuat_invasion_fleet } } }
 				random_system_within_border = {
@@ -564,7 +564,7 @@ situation_event = {
 	}
 	after = { 
 		destroy_situation = this 
-		event_target:ag_kuat_invasion_country = {
+		event_target:eternal_fleet_country = {
 			if = {
 				limit = { NOT = { any_owned_fleet = { has_fleet_flag = ag_kuat_invasion_fleet } } }
 				random_system_within_border = {
@@ -619,7 +619,7 @@ situation_event = {
 	}
 	after = { 
 		destroy_situation = this 
-		event_target:ag_kuat_invasion_country = {
+		event_target:eternal_fleet_country = {
 			if = {
 				limit = { NOT = { any_owned_fleet = { has_fleet_flag = ag_kuat_invasion_fleet } } }
 				random_system_within_border = {
@@ -2090,7 +2090,7 @@ situation_event = {
 
 	trigger = { 
 		exists = owner
-		owner = { has_origin = origin_kuat_shadow }
+		owner = { kuat_is_enable_shadow_origin = yes }
 		NOT = { has_situation_flag = fired_kuat_situation.65 }
 		current_situation_approach = situation_friendly_altitude_station
 	}
@@ -2193,4 +2193,250 @@ situation_event = {
 		name = kuat_situation.69.A
 		add_situation_progress = 10
 	}
+}
+
+#ghost signal（奇特信号）
+situation_event = {
+	id = kuat_situation.70
+	title = kuat_situation.70.name
+	desc = kuat_situation.70.desc
+	picture = GFX_evt_worrying_signal
+	show_sound = event_yellow_alert
+	is_triggered_only = yes
+	location = target
+
+	option = {
+		name = kuat_situation.70.A
+		custom_tooltip = approach_outcome_tooltip
+		set_situation_approach = "situation_plague_siton_altitude_station"
+		icon = {
+			icon = GFX_situation_approach_research
+			icon_background = GFX_situation_approach_bg_red
+			text = set_situation_approach_icon_text
+		}
+	}
+	option = {
+		name = kuat_situation.70.B
+		custom_tooltip = approach_outcome_tooltip
+		set_situation_approach = "situation_plague_handon_altitude_station"
+		icon = {
+			icon = GFX_situation_approach_research
+			icon_background = GFX_situation_approach_bg_green
+			text = set_situation_approach_icon_text
+		}
+	}
+}
+
+#ghost exist (星球恐慌)
+situation_event = {
+	id = kuat_situation.71
+	title = kuat_situation.71.name
+	desc = kuat_situation.71.desc
+	picture = GFX_evt_disease_outbreak
+	show_sound = event_yellow_alert
+	is_triggered_only = yes
+	location = target
+
+	immediate = {
+		target = { every_owned_planet = { 
+			add_modifier = { modifier = kuat_situation_71_planet_horriwor days = 720 } 
+		} }
+	}
+
+	option = {
+		name = kuat_situation.70.A
+		custom_tooltip = approach_outcome_tooltip
+		set_situation_approach = "situation_plague_siton_altitude_station"
+		icon = {
+			icon = GFX_situation_approach_research
+			icon_background = GFX_situation_approach_bg_red
+			text = set_situation_approach_icon_text
+		}
+	}
+	option = {
+		name = kuat_situation.70.B
+		custom_tooltip = approach_outcome_tooltip
+		set_situation_approach = "situation_plague_handon_altitude_station"
+		icon = {
+			icon = GFX_situation_approach_research
+			icon_background = GFX_situation_approach_bg_green
+			text = set_situation_approach_icon_text
+		}
+	}
+}
+
+#ghost attack（舰队危机）
+situation_event = {
+	id = kuat_situation.72
+	title = kuat_situation.72.name
+	desc = kuat_situation.72.desc
+	picture = GFX_evt_ship_under_attack
+	show_sound = event_yellow_alert
+	is_triggered_only = yes
+	location = target
+
+	option = {
+		name = kuat_situation.70.A
+		custom_tooltip = kuat_situation.72.A.tooltip
+		set_situation_approach = "situation_plague_siton_altitude_station"
+		icon = {
+			icon = GFX_situation_approach_research
+			icon_background = GFX_situation_approach_bg_red
+			text = set_situation_approach_icon_text
+		}
+		hidden_effect = { target = { random_owned_fleet = { limit = { is_ship_class = shipclass_military } destroy_fleet = this } } }
+	}
+	option = {
+		name = kuat_situation.70.B
+		custom_tooltip = kuat_situation.72.B.tooltip
+		set_situation_approach = "situation_plague_handon_altitude_station"
+		icon = {
+			icon = GFX_situation_approach_research
+			icon_background = GFX_situation_approach_bg_green
+			text = set_situation_approach_icon_text
+		}
+		hidden_effect = { target = { while = { count = 7 random_owned_ship = { limit = { is_ship_class = shipclass_military } destroy_ship = this } } } }
+	}
+}
+
+#ghost talk（虚界意志）
+situation_event = {
+	id = kuat_situation.73
+	title = kuat_situation.73.name
+	desc = kuat_situation.73.desc
+	picture = GFX_evt_shrouded_planet
+	show_sound = event_yellow_alert
+	is_triggered_only = yes
+	location = target
+
+	option = {
+		name = kuat_situation.70.A
+		custom_tooltip = approach_outcome_tooltip
+		set_situation_approach = "situation_plague_siton_altitude_station"
+		icon = {
+			icon = GFX_situation_approach_research
+			icon_background = GFX_situation_approach_bg_red
+			text = set_situation_approach_icon_text
+		}
+	}
+	option = {
+		name = kuat_situation.70.B
+		custom_tooltip = approach_outcome_tooltip
+		set_situation_approach = "situation_plague_handon_altitude_station"
+		icon = {
+			icon = GFX_situation_approach_research
+			icon_background = GFX_situation_approach_bg_green
+			text = set_situation_approach_icon_text
+		}
+	}
+}
+
+#ghost betrayer (被背叛的虚界意志)
+situation_event = {
+	id = kuat_situation.74
+	title = kuat_situation.74.name
+	desc = kuat_situation.74.desc
+	picture = GFX_evt_psionic_battle
+	show_sound = event_yellow_alert
+	is_triggered_only = yes
+	location = target
+
+	option = {
+		name = kuat_situation.70.A
+		custom_tooltip = approach_outcome_tooltip
+		set_situation_approach = "situation_plague_siton_altitude_station"
+		icon = {
+			icon = GFX_situation_approach_research
+			icon_background = GFX_situation_approach_bg_red
+			text = set_situation_approach_icon_text
+		}
+	}
+	option = {
+		name = kuat_situation.70.B
+		custom_tooltip = approach_outcome_tooltip
+		set_situation_approach = "situation_plague_handon_altitude_station"
+		icon = {
+			icon = GFX_situation_approach_research
+			icon_background = GFX_situation_approach_bg_green
+			text = set_situation_approach_icon_text
+		}
+	}
+}
+
+#ghost business (与虚界意志的交易)
+situation_event = {
+	id = kuat_situation.75
+	title = kuat_situation.75.name
+	desc = kuat_situation.75.desc
+	picture = GFX_evt_galactic_community
+	show_sound = event_yellow_alert
+	is_triggered_only = yes
+	location = target
+
+	option = {
+		name = kuat_situation.70.A
+		custom_tooltip = approach_outcome_tooltip
+		set_situation_approach = "situation_plague_siton_altitude_station"
+		icon = {
+			icon = GFX_situation_approach_research
+			icon_background = GFX_situation_approach_bg_red
+			text = set_situation_approach_icon_text
+		}
+	}
+	option = {
+		name = kuat_situation.70.B
+		custom_tooltip = approach_outcome_tooltip
+		set_situation_approach = "situation_plague_handon_altitude_station"
+		icon = {
+			icon = GFX_situation_approach_research
+			icon_background = GFX_situation_approach_bg_green
+			text = set_situation_approach_icon_text
+		}
+	}
+}
+
+#ghost true(后裔的阴谋，真正的恩多迪亚)
+situation_event = {
+	id = kuat_situation.76
+	title = kuat_situation.76.name
+	desc = kuat_situation.76.desc
+	picture = GFX_evt_unknown_ships
+	show_sound = event_yellow_alert
+	is_triggered_only = yes
+	location = target
+
+	option = {
+		name = kuat_situation.70.A
+		custom_tooltip = approach_outcome_tooltip
+		set_situation_approach = "situation_plague_siton_altitude_station"
+		icon = {
+			icon = GFX_situation_approach_research
+			icon_background = GFX_situation_approach_bg_red
+			text = set_situation_approach_icon_text
+		}
+	}
+	option = {
+		name = kuat_situation.70.B
+		custom_tooltip = approach_outcome_tooltip
+		set_situation_approach = "situation_plague_handon_altitude_station"
+		icon = {
+			icon = GFX_situation_approach_research
+			icon_background = GFX_situation_approach_bg_green
+			text = set_situation_approach_icon_text
+		}
+	}
+}
+
+#ghost crisis(后裔的到来)
+country_event = {
+	id = kuat_situation.77
+	title = kuat_situation.77.name
+	desc = kuat_situation.77.desc
+	picture = GFX_evt_em_war_5
+	show_sound = event_red_alert
+	is_triggered_only = yes
+
+	immediate = { country_event = { id = kuat_extramonster.8 days = 30 random = 30 } }
+
+	option = { name = kuat_situation.77.A }
 }

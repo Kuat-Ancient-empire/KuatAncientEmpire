@@ -288,7 +288,7 @@ situation_unlocked_the_first_station = {
 	}
 	abort_trigger = { OR = {
 		NOT = { exists = target }
-		target = { NOT = { is_same_value = event_target:ag_kuat_invasion_country } }
+		target = { NOT = { is_same_value = event_target:eternal_fleet_country } }
 	} }
 }
 situation_unlocked_the_second_station = {
@@ -425,7 +425,7 @@ situation_unlocked_the_second_station = {
 	}
 	abort_trigger = { OR = {
 		NOT = { exists = target }
-		target = { NOT = { is_same_value = event_target:ag_kuat_invasion_country } }
+		target = { NOT = { is_same_value = event_target:eternal_fleet_country } }
 	} }
 }
 situation_unlocked_the_third_station = {
@@ -562,7 +562,7 @@ situation_unlocked_the_third_station = {
 	}
 	abort_trigger = { OR = {
 		NOT = { exists = target }
-		target = { NOT = { is_same_value = event_target:ag_kuat_invasion_country } }
+		target = { NOT = { is_same_value = event_target:eternal_fleet_country } }
 	} }
 }
 
@@ -1229,9 +1229,7 @@ situation_legacy_pretext_action = {
 		resources = {
 			category = situations
 			produces = {
-				trigger = {
-					NOT = { current_stage = stage_1 }
-				}
+				trigger = { NOT = { current_stage = stage_1 } }
 				alloys = 1
 				multiplier = owner.trigger:num_pops
 			}
@@ -1269,26 +1267,26 @@ situation_legacy_pretext_action = {
 	}
 	on_monthly = {
 		random_events = {
-			70 = 0
-			10 = kuat_situation.60
-			10 = kuat_situation.62
-			10 = kuat_situation.63
-			10 = kuat_situation.65
-			10 = kuat_situation.66
-			10 = kuat_situation.67
-			10 = kuat_situation.68
-			10 = kuat_situation.69
+			60 = 0
+			5 = kuat_situation.60
+			5 = kuat_situation.62
+			5 = kuat_situation.63
+			5 = kuat_situation.65
+			5 = kuat_situation.66
+			5 = kuat_situation.67
+			5 = kuat_situation.68
+			5 = kuat_situation.69
 		}
 	}
 	monthly_progress = {
 		base = 1
 		modifier = {
-			mult = 5
+			mult = 2
 			desc = "situation_facility_research_processing_faster_desc"
 			owner = { kuat_is_enable_shadow_origin = yes exists = event_target:fallen_empire_kuat has_technology = tech_sensors_4 }
 		}
 		modifier = {
-			mult = 20
+			mult = 10
 			desc = "situation_facility_research_processing_faster_desc"
 			owner = { has_origin = origin_eternalthrone exists = event_target:eternal_support_country }
 		}
@@ -1309,4 +1307,130 @@ situation_legacy_pretext_action = {
 		}
 	}
 	abort_trigger = { NOT = { exists = owner } }
+}
+
+#TO DO F设施瘟疫局势 虚界后裔入侵前兆
+situation_plague_pop_deficit = {
+	picture = GFX_evt_deficit
+	category = negative
+	fail_icon = GFX_situation_outcome_meh
+	fail_icon_frame = GFX_situation_outcome_frame_green
+	complete_icon = GFX_situation_outcome_bankrupcy
+	complete_icon_frame = GFX_situation_outcome_frame_red
+
+	stages = {
+		deficit_first = {
+			icon = GFX_situation_stage_1
+			icon_background = GFX_situation_stage_frame_red
+			end = 25
+			custom_tooltip = stage_unknown_effects
+		}
+		#ghost signal
+		deficit_second = {
+			icon = GFX_situation_stage_2
+			icon_background = GFX_situation_stage_frame_red
+			end = 50
+			on_first_enter = { situation_event = { id = kuat_situation.70 } }
+			custom_tooltip = stage_unknown_effects
+		}
+		#ghost exist
+		deficit_third = {
+			icon = GFX_situation_stage_3
+			icon_background = GFX_situation_stage_frame_red
+			end = 75
+			on_first_enter = { situation_event = { id = kuat_situation.71 } }
+			custom_tooltip = stage_unknown_effects
+		}
+		#ghost attack
+		deficit_fourth = {	
+			icon = GFX_situation_stage_4
+			icon_background = GFX_situation_stage_frame_red
+			end = 100
+			on_first_enter = { situation_event = { id = kuat_situation.72 } }
+			custom_tooltip = stage_unknown_effects
+		}
+		#ghost talk
+		deficit_fifth = {	
+			icon = GFX_situation_stage_5
+			icon_background = GFX_situation_stage_frame_red
+			end = 150
+			on_first_enter = { situation_event = { id = kuat_situation.73 } }
+			custom_tooltip = stage_unknown_effects
+		}
+		#ghost betrayer
+		deficit_sixth = {	
+			icon = GFX_situation_stage_6
+			icon_background = GFX_situation_stage_frame_red
+			end = 200
+			on_first_enter = { situation_event = { id = kuat_situation.74 } }
+			custom_tooltip = stage_unknown_effects
+		}
+		#ghost business
+		deficit_seventh = {	
+			icon = GFX_situation_stage_7
+			icon_background = GFX_situation_stage_frame_red
+			end = 300
+			on_first_enter = { situation_event = { id = kuat_situation.75 } }
+			custom_tooltip = stage_unknown_effects
+		}
+		#ghost true
+		deficit_eighth = {	
+			icon = GFX_situation_stage_8
+			icon_background = GFX_situation_stage_frame_red
+			end = 500
+			on_first_enter = { situation_event = { id = kuat_situation.76 } }
+			custom_tooltip = stage_unknown_effects
+		}
+	}
+
+	on_progress_complete = {
+		custom_tooltip = situation_unknown_outcome_approach
+		hidden_effect = { owner = { country_event = { id = kuat_situation.77 } } }
+		destroy_situation = this
+	}
+
+	monthly_progress = { 
+		base = 10
+		modifier = {
+			add = event_target:global_event_country.kuat_plague_pops_dead
+			event_target:global_event_country = { check_variable = { which = kuat_plague_pops_dead value > 0 } }
+			desc = "situation_facility_plague_desc"
+		}
+		modifier = {
+			factor = 2.5
+			current_situation_approach = situation_plague_siton_altitude_station
+			desc = "situation_facility_plague_desc"
+		}
+		modifier = {
+			factor = 0.5 
+			current_situation_approach = situation_plague_handon_altitude_station
+			desc = "situation_facility_plague_desc"
+		}
+		modifier = {
+			set = 0
+			target = { NOT = { has_country_flag = fire_once_contact } }
+			desc = "situation_facility_plague_desc"
+		} 
+	}
+
+	#放任
+	approach = {
+		name = situation_plague_siton_altitude_station
+		icon = GFX_situation_approach_research
+		icon_background = GFX_situation_approach_bg_red
+		on_select = { 
+			custom_tooltip = approach_outcome_tooltip 
+			set_situation_flag = situation_plague_siton_altitude_station
+		}
+	}
+	#处理
+	approach = {
+		name = situation_plague_handon_altitude_station
+		icon = GFX_situation_approach_research
+		icon_background = GFX_situation_approach_bg_green
+		on_select = { 
+			custom_tooltip = approach_outcome_tooltip 
+			set_situation_flag = situation_plague_handon_altitude_station
+		}
+	}
 }

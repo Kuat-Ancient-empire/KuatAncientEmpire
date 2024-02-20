@@ -12,6 +12,11 @@ country_event = {
 	immediate = {
 		set_update_modifiers_batch = begin
 		set_global_flag = kuat_plague_started
+		# #TODO
+		# start_situation = {
+		# 	type = situation_plague_pop_deficit
+		# 	target = root
+		# }
 		create_species = {
 			name = "Name_Endoria_death"
 			class = random
@@ -113,7 +118,7 @@ planet_event = {
 		# kill pop
 		planet_event = { id = kuat_plague.2 days = 180 random = 180 }
 		# send plague
-		planet_event = { id = kuat_plague.3 days = 360 random = 360 }
+		planet_event = { id = kuat_plague.3 days = 90 random = 90 }
 		# check planet after 10 years
 		planet_event = { id = kuat_plague.4 days = 3651 }
 		set_update_modifiers_batch = end
@@ -152,29 +157,14 @@ planet_event = {
 						modifier = { factor = 4 has_building = building_hospital }
 						modifier = { factor = 2 has_building = building_psi_corps }
 						# good planet type
-						modifier = {
-							factor = 2
-							OR = { is_planet_class = pc_gaia habitable_structure = yes }
-						}
+						modifier = { factor = 2 OR = { is_planet_class = pc_gaia habitable_structure = yes } }
 						# edict
-						modifier = {
-							factor = 2
-							owner = { has_edict = kuat_plague_quarantine }
-						}
+						modifier = { factor = 2 owner = { has_edict = kuat_plague_quarantine } }
 						# ai bonus
-						modifier = {
-							factor = 2
-							owner = { is_ai = yes }
-						}
+						modifier = { factor = 2 owner = { is_ai = yes } }
 						# tech
-						modifier = {
-							factor = 2
-							owner = { has_technology = kuat_tech_plague_immune }
-						}
-						modifier = {
-							factor = 2
-							owner = { has_technology = kuat_tech_plague_immune_2 }
-						}
+						modifier = { factor = 2 owner = { has_technology = kuat_tech_plague_immune } }
+						modifier = { factor = 2 owner = { has_technology = kuat_tech_plague_immune_2 } }
 						random_list = {
 							90 = {
 								modifier = {
@@ -297,10 +287,8 @@ planet_event = {
 								modifier = { factor = 2 is_enslaved = yes }
 							}
 							random_list = {
-								2 = {
-									modifier = { factor = 0 kuat_trigger_plague_is_resist = no }
-								}
-								8 = {
+								1 = { modifier = { factor = 0 kuat_trigger_plague_is_resist = no } }
+								9 = {
 									owner = {
 										country_event = { id = kuat_plague.56 days = 1 }
 										if = {
@@ -357,6 +345,7 @@ planet_event = {
 										}
 									}
 									kill_pop = yes
+									event_target:global_event_country = { change_variable = { which = kuat_plague_pops_dead value = 1 } }
 								}
 							}
 						}
@@ -411,14 +400,8 @@ planet_event = {
 							# ai bonus
 							modifier = { factor = 2 owner = { is_ai = yes } }
 							# tech
-							modifier = {
-								factor = 2
-								owner = { has_technology = kuat_tech_plague_immune }
-							}
-							modifier = {
-								factor = 2
-								owner = { has_technology = kuat_tech_plague_immune_2 }
-							}
+							modifier = { factor = 2 owner = { has_technology = kuat_tech_plague_immune } }
+							modifier = { factor = 2 owner = { has_technology = kuat_tech_plague_immune_2 } }
 							# lvl 3 have worse spread
 							modifier = { factor = 2 has_global_flag = kuat_plague_lvl_3 }
 							# fallens have extra resist
@@ -426,10 +409,7 @@ planet_event = {
 							# cross boarding also gives resist
 							modifier = { factor = 2 owner = { NOT = { is_country = root.owner } } }
 							# purifers have boost
-							modifier = {
-								factor = 10
-								owner = { NOT = { is_country = root.owner } is_homicidal = yes }
-							}
+							modifier = { factor = 10 owner = { NOT = { is_country = root.owner } is_homicidal = yes } }
 						}
 						# send plague
 						40 = {
@@ -518,7 +498,7 @@ planet_event = {
 									count > 10
 								}
 							}
-							planet_event = { id = kuat_plague.1 days = 360 random = 360 }
+							planet_event = { id = kuat_plague.1 days = 90 random = 90 }
 						}
 					}
 				}
@@ -1243,7 +1223,6 @@ ship_event = {
 	is_triggered_only = yes
 	immediate = {
 		event_target:kuat_project_plague_planet_bombardment_target = {
-			#log = "Plague. Bombard plague planet [this.GetName] owner [owner.GetName]"
 			set_timed_planet_flag = {
 				flag = kuat_plague_bombardment_planet
 				days = 3650
@@ -1285,7 +1264,6 @@ ship_event = {
 				days = 36500
 			}
 		}
-		# ???????? ?????? ????????
 		owner = { country_event = { id = kuat_plague.152 } }
 	}
 }
@@ -1354,11 +1332,10 @@ planet_event = {
 		exists = owner
 		exists = from
 		has_orbital_bombardment_stance = kuat_stance_plague_spread
-		# should it be 50+ ?
+
 		planet_devastation > 20
 	}
 	immediate = {
-		#log = "Plague. Plague bombarding type on [root.GetName] in [solar_system.GetName]"
 		planet_event = { id = kuat_plague.1 }
 	}
 }

@@ -82,6 +82,17 @@ kuat_set_difficulty_easy = {
 				remove_global_flag = fire_diificult_option
 			}
 			set_global_flag = easy_exe_invasion
+			event_target:global_event_country = { 
+				set_variable = { which = exe_invasion_difficult_global_var value = 1 } 
+				if = {
+					limit = { has_global_flag = enable_modifer_check }
+					multiply_variable = { which = exe_invasion_difficult_global_var value = 1 }
+				}
+				if = {
+					limit = { has_global_flag = kuat_impulse_mod_settings }
+					multiply_variable = { which = exe_invasion_difficult_global_var value = 1 }
+				}
+			}
 			from = { end_event_chain = kuat_mission_6_chain }
 			set_global_flag = fire_diificult_option
 			from = { country_event = { id = exe_invasion.1004 } }
@@ -119,6 +130,17 @@ kuat_set_difficulty_normal = {
 				remove_global_flag = difficult_exe_invasion
 				remove_global_flag = fire_diificult_option
 			}
+			event_target:global_event_country = { 
+				set_variable = { which = exe_invasion_difficult_global_var value = 2 } 
+				if = {
+					limit = { has_global_flag = enable_modifer_check }
+					multiply_variable = { which = exe_invasion_difficult_global_var value = 1.5 }
+				}
+				if = {
+					limit = { has_global_flag = kuat_impulse_mod_settings }
+					multiply_variable = { which = exe_invasion_difficult_global_var value = 2 }
+				}
+			}
 			set_global_flag = normal_exe_invasion
 			from = { end_event_chain = kuat_mission_6_chain }
 			set_global_flag = fire_diificult_option
@@ -155,6 +177,17 @@ kuat_set_difficulty_hard_1 = {
 				remove_global_flag = easy_exe_invasion
 				remove_global_flag = fire_diificult_option
 			}
+			event_target:global_event_country = { 
+				set_variable = { which = exe_invasion_difficult_global_var value = 3 } 
+				if = {
+					limit = { has_global_flag = enable_modifer_check }
+					multiply_variable = { which = exe_invasion_difficult_global_var value = 2 }
+				}
+				if = {
+					limit = { has_global_flag = kuat_impulse_mod_settings }
+					multiply_variable = { which = exe_invasion_difficult_global_var value = 3 }
+				}
+			}
 			set_global_flag = difficult_exe_invasion
 			set_global_flag = fire_diificult_option
 			from = { country_event = { id = exe_invasion.1004 } }
@@ -190,6 +223,17 @@ kuat_set_difficulty_ban = {
 				remove_global_flag = difficult_exe_invasion
 				remove_global_flag = fire_diificult_option
 			}
+			event_target:global_event_country = { 
+				set_variable = { which = exe_invasion_difficult_global_var value = 4 }
+				if = {
+					limit = { has_global_flag = enable_modifer_check }
+					multiply_variable = { which = exe_invasion_difficult_global_var value = 2.5 }
+				}
+				if = {
+					limit = { has_global_flag = kuat_impulse_mod_settings }
+					multiply_variable = { which = exe_invasion_difficult_global_var value = 4 }
+				}
+			}
 			set_global_flag = ban_exe_invasion
 			set_global_flag = fire_diificult_option
 			from = { country_event = { id = exe_invasion.1004 } }
@@ -221,6 +265,41 @@ kuat_set_check_one = {
 		hidden_effect = {
 			remove_global_flag = disable_modifer_check
 			set_global_flag = enable_modifer_check
+			switch = {
+				trigger = has_global_flag
+				easy_exe_invasion = { event_target:global_event_country = {
+					set_variable = { which = exe_invasion_difficult_global_var value = 1 } 
+					multiply_variable = { which = exe_invasion_difficult_global_var value = 1 }
+					if = {
+						limit = { has_global_flag = kuat_impulse_mod_settings }
+						multiply_variable = { which = exe_invasion_difficult_global_var value = 1 }
+					}
+				} }
+				normal_exe_invasion = { event_target:global_event_country = {
+					set_variable = { which = exe_invasion_difficult_global_var value = 2 } 
+					multiply_variable = { which = exe_invasion_difficult_global_var value = 1.5 }
+					if = {
+						limit = { has_global_flag = kuat_impulse_mod_settings }
+						multiply_variable = { which = exe_invasion_difficult_global_var value = 2 }
+					}
+				} }
+				difficult_exe_invasion = { event_target:global_event_country = {
+					set_variable = { which = exe_invasion_difficult_global_var value = 3 } 
+					multiply_variable = { which = exe_invasion_difficult_global_var value = 2 }
+					if = {
+						limit = { has_global_flag = kuat_impulse_mod_settings }
+						multiply_variable = { which = exe_invasion_difficult_global_var value = 3 }
+					}
+				} }
+				ban_exe_invasion = { event_target:global_event_country = {
+					set_variable = { which = exe_invasion_difficult_global_var value = 4 } 
+					multiply_variable = { which = exe_invasion_difficult_global_var value = 2.5 }
+					if = {
+						limit = { has_global_flag = kuat_impulse_mod_settings }
+						multiply_variable = { which = exe_invasion_difficult_global_var value = 4 }
+					}
+				} }
+			}
 		}
 	}
 }
@@ -244,6 +323,21 @@ kuat_set_check_two = {
 		hidden_effect = {
 			remove_global_flag = enable_modifer_check
 			set_global_flag = disable_modifer_check
+			switch = {
+				trigger = has_global_flag
+				easy_exe_invasion = { event_target:global_event_country = {
+					divide_variable = { which = exe_invasion_difficult_global_var value = 1 }
+				} }
+				normal_exe_invasion = { event_target:global_event_country = {
+					divide_variable = { which = exe_invasion_difficult_global_var value = 1.5 }
+				} }
+				difficult_exe_invasion = { event_target:global_event_country = {
+					divide_variable = { which = exe_invasion_difficult_global_var value = 2 }
+				} }
+				ban_exe_invasion = { event_target:global_event_country = {
+					divide_variable = { which = exe_invasion_difficult_global_var value = 2.5 }
+				} }
+			}
 		}
 	}
 }
@@ -281,7 +375,7 @@ kuat_animal_trigger_enable = {
 					save_global_event_target_as = ETERNAL_LEADER
 				}
 			}
-			else = { ag_kae_create_faction_species = yes }
+			else = { kuat_kae_create_faction_species = yes }
 		}
 		else_if = {
 			limit = { kuat_is_enable_shadow_origin = yes }
@@ -293,7 +387,7 @@ kuat_animal_trigger_enable = {
 					save_global_event_target_as = UTS02_LEADER
 				}
 			}
-			else = { ag_Uts02_create_faction_species = yes }
+			else = { kuat_Uts02_create_faction_species = yes }
 		}
 	} }
 }
@@ -379,6 +473,41 @@ kuat_set_return_one = {
 			remove_global_flag = kuat_impulse_mod_settings
 			remove_global_flag = kuat_impulse_mod_settings_disable
 			set_global_flag = kuat_impulse_mod_settings
+			switch = {
+				trigger = has_global_flag
+				easy_exe_invasion = { event_target:global_event_country = {
+					set_variable = { which = exe_invasion_difficult_global_var value = 1 } 
+					if = {
+						limit = { has_global_flag = enable_modifer_check }
+						multiply_variable = { which = exe_invasion_difficult_global_var value = 1 }
+					}
+					multiply_variable = { which = exe_invasion_difficult_global_var value = 1 }
+				} }
+				normal_exe_invasion = { event_target:global_event_country = {
+					set_variable = { which = exe_invasion_difficult_global_var value = 2 } 
+					if = {
+						limit = { has_global_flag = enable_modifer_check }
+						multiply_variable = { which = exe_invasion_difficult_global_var value = 1.5 }
+					}
+					multiply_variable = { which = exe_invasion_difficult_global_var value = 2 }
+				} }
+				difficult_exe_invasion = { event_target:global_event_country = {
+					set_variable = { which = exe_invasion_difficult_global_var value = 3 } 
+					if = {
+						limit = { has_global_flag = enable_modifer_check }
+						multiply_variable = { which = exe_invasion_difficult_global_var value = 2 }
+					}
+					multiply_variable = { which = exe_invasion_difficult_global_var value = 3 }
+				} }
+				ban_exe_invasion = { event_target:global_event_country = {
+					set_variable = { which = exe_invasion_difficult_global_var value = 4 } 
+					if = {
+						limit = { has_global_flag = enable_modifer_check }
+						multiply_variable = { which = exe_invasion_difficult_global_var value = 2.5 }
+					}
+					multiply_variable = { which = exe_invasion_difficult_global_var value = 4 }
+				} }
+			}
 		}
 		from = { country_event = { id = exe_invasion.1004 } }
 	}
@@ -401,6 +530,21 @@ kuat_set_return_two = {
 			remove_global_flag = kuat_impulse_mod_settings
 			remove_global_flag = kuat_impulse_mod_settings_disable
 			set_global_flag = kuat_impulse_mod_settings_disable
+			switch = {
+				trigger = has_global_flag
+				easy_exe_invasion = { event_target:global_event_country = {
+					divide_variable = { which = exe_invasion_difficult_global_var value = 1 }
+				} }
+				normal_exe_invasion = { event_target:global_event_country = {
+					divide_variable = { which = exe_invasion_difficult_global_var value = 2 }
+				} }
+				difficult_exe_invasion = { event_target:global_event_country = {
+					divide_variable = { which = exe_invasion_difficult_global_var value = 3 }
+				} }
+				ban_exe_invasion = { event_target:global_event_country = {
+					divide_variable = { which = exe_invasion_difficult_global_var value = 4 }
+				} }
+			}
 		}
 	}
 }

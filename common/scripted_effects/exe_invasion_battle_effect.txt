@@ -32,15 +32,27 @@ eternal_increase_executor_power = {
 		clear_ship_modifier = { modifier = ship_hull_mult DAYS = $DAYS$ subtract = @kuat_flagship_proection_mult }
 		clear_ship_modifier = { modifier = shipclass_military_hull_mult DAYS = $DAYS$ subtract = @kuat_flagship_proection_mult }
 		clear_ship_modifier = { modifier = ship_hull_regen_add_perc DAYS = $DAYS$ subtract = @kuat_flagship_proection_mult }
-		if = { limit = { has_hp <= 20000000 } add_modifier = { modifier = increase_hp_T9 days = $DAYS$ } }
-		else_if = { limit = { has_hp <= 30000000 } add_modifier = { modifier = increase_hp_T8 days = $DAYS$ } }
-		else_if = { limit = { has_hp <= 40000000 } add_modifier = { modifier = increase_hp_T7 days = $DAYS$ } }
-		else_if = { limit = { has_hp <= 50000000 } add_modifier = { modifier = increase_hp_T6 days = $DAYS$ } }
-		else_if = { limit = { has_hp <= 60000000 } add_modifier = { modifier = increase_hp_T5 days = $DAYS$ } }
-		else_if = { limit = { has_hp <= 70000000 } add_modifier = { modifier = increase_hp_T4 days = $DAYS$ } }
-		else_if = { limit = { has_hp <= 80000000 } add_modifier = { modifier = increase_hp_T3 days = $DAYS$ } }
-		else_if = { limit = { has_hp <= 90000000 } add_modifier = { modifier = increase_hp_T2 days = $DAYS$ } }
-		else_if = { limit = { has_hp <= 100000000 } add_modifier = { modifier = increase_hp_T1 days = $DAYS$ } }
+
+		[[TYPE] if = { limit = { has_hp <= 20000000 } add_modifier = { modifier = $TYPE$_increase_hp_T9 days = $DAYS$ } }
+		else_if = { limit = { has_hp <= 30000000 } add_modifier = { modifier = $TYPE$_increase_hp_T8 days = $DAYS$ } }
+		else_if = { limit = { has_hp <= 40000000 } add_modifier = { modifier = $TYPE$_increase_hp_T7 days = $DAYS$ } }
+		else_if = { limit = { has_hp <= 50000000 } add_modifier = { modifier = $TYPE$_increase_hp_T6 days = $DAYS$ } }
+		else_if = { limit = { has_hp <= 60000000 } add_modifier = { modifier = $TYPE$_increase_hp_T5 days = $DAYS$ } }
+		else_if = { limit = { has_hp <= 70000000 } add_modifier = { modifier = $TYPE$_increase_hp_T4 days = $DAYS$ } }
+		else_if = { limit = { has_hp <= 80000000 } add_modifier = { modifier = $TYPE$_increase_hp_T3 days = $DAYS$ } }
+		else_if = { limit = { has_hp <= 90000000 } add_modifier = { modifier = $TYPE$_increase_hp_T2 days = $DAYS$ } }
+		else_if = { limit = { has_hp <= 100000000 } add_modifier = { modifier = $TYPE$_increase_hp_T1 days = $DAYS$ } }]
+
+		[[TYPE1] if = { limit = { has_hp <= 2000000 } add_modifier = { modifier = $TYPE1$_increase_hp_T9 days = $DAYS$ } }
+		else_if = { limit = { has_hp <= 3000000 } add_modifier = { modifier = $TYPE1$_increase_hp_T8 days = $DAYS$ } }
+		else_if = { limit = { has_hp <= 4000000 } add_modifier = { modifier = $TYPE1$_increase_hp_T7 days = $DAYS$ } }
+		else_if = { limit = { has_hp <= 5000000 } add_modifier = { modifier = $TYPE1$_increase_hp_T6 days = $DAYS$ } }
+		else_if = { limit = { has_hp <= 6000000 } add_modifier = { modifier = $TYPE1$_increase_hp_T5 days = $DAYS$ } }
+		else_if = { limit = { has_hp <= 7000000 } add_modifier = { modifier = $TYPE1$_increase_hp_T4 days = $DAYS$ } }
+		else_if = { limit = { has_hp <= 8000000 } add_modifier = { modifier = $TYPE1$_increase_hp_T3 days = $DAYS$ } }
+		else_if = { limit = { has_hp <= 9000000 } add_modifier = { modifier = $TYPE1$_increase_hp_T2 days = $DAYS$ } }
+		else_if = { limit = { has_hp <= 10000000 } add_modifier = { modifier = $TYPE1$_increase_hp_T1 days = $DAYS$ } }]
+
 		if = { limit = { kuat_is_flagship_system_protection = yes } set_disable_at_health = 0.01 }
 		set_timed_ship_flag = { flag = has_eternal_increase_executor_power days = $DAYS$ }
 	}
@@ -50,7 +62,7 @@ increase_ship_hp_effect_change = {
 	optimize_memory
 	every_owned_ship = {
 		set_timed_ship_flag = { flag = is_invisiable_trigger days = $DAYS$ }
-		eternal_increase_executor_power = { DAYS = $DAYS$ }
+		eternal_increase_executor_power = { DAYS = $DAYS$ TYPE = kt }
 		ship_event = { id = exe_invasion.119 }
 	}
 	#set_fleet_modifier = { SUB = Eternal_submit DAYS = $DAYS$ }
@@ -147,18 +159,23 @@ clear_ship_repeatable_modifier = {
 	clear_repeatable_modifier = { TYPE = fgosw_skill_berserker 		multiply = $multiply$ DAYS = $DAYS$ }
 }
 
+remove_increase_hp_modifier = {
+	remove_modifier = $TYPE$_increase_hp_T9
+	remove_modifier = $TYPE$_increase_hp_T8
+	remove_modifier = $TYPE$_increase_hp_T7
+	remove_modifier = $TYPE$_increase_hp_T6
+	remove_modifier = $TYPE$_increase_hp_T5
+	remove_modifier = $TYPE$_increase_hp_T4
+	remove_modifier = $TYPE$_increase_hp_T3
+	remove_modifier = $TYPE$_increase_hp_T2
+	remove_modifier = $TYPE$_increase_hp_T1
+}
+
 remove_executor_power = {
 	optimize_memory
 	remove_ship_flag = has_eternal_increase_executor_power
-	remove_modifier = increase_hp_T9
-	remove_modifier = increase_hp_T8
-	remove_modifier = increase_hp_T7
-	remove_modifier = increase_hp_T6
-	remove_modifier = increase_hp_T5
-	remove_modifier = increase_hp_T4
-	remove_modifier = increase_hp_T3
-	remove_modifier = increase_hp_T2
-	remove_modifier = increase_hp_T1
+	remove_increase_hp_modifier = { TYPE = kt }
+	remove_increase_hp_modifier = { TYPE = ee }
 	remove_standard_modifier_system = { TITLE = iep_basic }
 	remove_repetable_modifier = { TITLE = iep_basic TYPE = explosive }
 	remove_repetable_modifier = { TITLE = iep_basic TYPE = kinetic }
@@ -272,11 +289,11 @@ remove_standard_modifier_system = {
 clear_repeatable_modifier = {
 	optimize_memory
 	if = {
-		limit = { check_modifier_value = { modifier = weapon_type_$TYPE$_weapon_damage_mult value > 10 } }
+		limit = { check_modifier_value = { modifier = weapon_type_$TYPE$_weapon_damage_mult value > 1 } }
 		clear_ship_modifier = { modifier = weapon_type_$TYPE$_weapon_damage_mult multiply = $multiply$ DAYS = $DAYS$ }
 	}
 	if = {
-		limit = { check_modifier_value = { modifier = weapon_type_$TYPE$_weapon_fire_rate_mult value > 10 } }
+		limit = { check_modifier_value = { modifier = weapon_type_$TYPE$_weapon_fire_rate_mult value > 1 } }
 		clear_ship_modifier = { modifier = weapon_type_$TYPE$_weapon_fire_rate_mult multiply = $multiply$ DAYS = $DAYS$ }
 	}
 }
@@ -1628,7 +1645,13 @@ kuat_copy_leader_learning_system = {
 		limit = { 
 			fromfromfrom = { 
 				exists = leader
-				leader = { leader_class = commander NOT = { has_leader_flag = eternal_learned_leader } }
+				leader = { 
+					leader_class = commander 
+					NOR = { 
+						has_leader_flag = eternal_learned_leader 
+						has_leader_flag = SOP_eddy
+					} 
+				}
 				NOT = { has_fleet_flag = eternal_learned_leader } 
 			} 
 			from = { is_ai = no }

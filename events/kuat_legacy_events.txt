@@ -35,7 +35,8 @@ planet_event = {
 	picture_event_data = { room = gaia_planet_room }
 	is_triggered_only = yes
 	immediate = {
-		change_pc = pc_gaia create_archaeological_site = kuat_lagacy
+		reroll_planet = yes change_pc = pc_gaia 
+		create_archaeological_site = kuat_lagacy
 		# solar_system = { owner = { country_event = { id = kuat_legacy.42 } } }
 	}
 	option = { name = "kuat_legacy.2.a" }
@@ -734,7 +735,6 @@ ship_event = {
 				}
 				add_modifier = { modifier = "exe_megastructure_starbase_in_system" }
 			}
-			create_ambient_object = { type = "contingency_1" location = this }
 			add_modifier = { modifier = "kuat_starbase_megastructure_around_system" }
 			every_system = {
 				limit = {
@@ -749,7 +749,6 @@ ship_event = {
 				}
 				set_star_flag = kuat_starbase_megastructure_around_system
 				add_modifier = { modifier = "kuat_starbase_megastructure_around_system" }
-				create_ambient_object = { type = "contingency_1" location = this }
 			}
 			every_system = {
 				limit = {
@@ -772,7 +771,6 @@ ship_event = {
 					}
 					set_star_class = sc_black_hole
 				}
-				every_system_ambient_object = { limit = { is_ambient_object_type = contingency_1 } destroy_ambient_object = this }
 				closest_system = {
 					limit = {
 						distance = {
@@ -785,7 +783,6 @@ ship_event = {
 					}
 					remove_star_flag = kuat_starbase_megastructure_around_system
 					remove_modifier = "kuat_starbase_megastructure_around_system"
-					every_system_ambient_object = { limit = { is_ambient_object_type = contingency_1 } destroy_ambient_object = this }
 				}
 			}
 		}
@@ -822,7 +819,6 @@ country_event = {
 				limit = { is_ship_class = shipclass_military exists = owner owner = { is_hostile = root } }
 				every_owned_ship = { kuat_reduce_hp_percent = { value = 75 } }
 			}
-			every_system_ambient_object = { limit = { is_ambient_object_type = contingency_1 } destroy_ambient_object = this }
 			closest_system = {
 				limit = {
 					distance = {
@@ -835,7 +831,6 @@ country_event = {
 				}
 				remove_star_flag = kuat_starbase_megastructure_around_system
 				remove_modifier = "kuat_starbase_megastructure_around_system"
-				every_system_ambient_object = { limit = { is_ambient_object_type = contingency_1 } destroy_ambient_object = this }
 			}
 		}
 	}
@@ -3433,7 +3428,7 @@ fleet_event = {
 	option = {
 		name = kuat_legacy.95.a
 		hidden_effect = {
-			from.planet = { change_pc = pc_gaia }
+			from.planet = { reroll_planet = yes change_pc = pc_gaia }
 			owner = {
 				set_country_flag = discoveryancientkuat03_ALREADY
 				if = {

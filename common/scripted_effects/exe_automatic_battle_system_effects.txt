@@ -40,7 +40,14 @@ fleet_execute_order_transport_automatic_action = {
 					exists = controller controller = { is_at_war_with = $FRIENDLY_TARGET$ }
 					any_fleet_in_orbit = { exists = controller controller = { is_same_value = $FRIENDLY_TARGET$ } }
 				}
-				found_planet = { orbit_planet = this wait = { duration = 75 random = 25 } }
+				found_planet = { 
+					orbit_planet = this 
+					effect = {
+						id = transport_automatic_action.0.found_planet
+						Root = { set_fleet_stance = aggressive }
+					}
+					wait = { duration = 75 random = 25 } 
+				}
 			}
 		}
 		failed = { wait = 75 effect = { 
