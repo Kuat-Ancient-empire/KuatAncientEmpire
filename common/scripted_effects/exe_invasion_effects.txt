@@ -1522,19 +1522,32 @@ create_kuat_return_fleet_defender = {
 
 create_kuat_return_fleet_attacker = {
 	optimize_memory
-	every_system = {
-		limit = { 
-			exists = starbase
-			starbase = { exists = controller controller = { is_kuat_fallen_empire = yes } }
-			kuat_is_kuat_system = yes 
-		}
-		switch = {
-			trigger = has_global_flag
-			difficult_exe_invasion = { create_random_list_return_kuat_fleet = { DIFF = 1 } }
-			normal_exe_invasion = { create_random_list_return_kuat_fleet = { DIFF = 2 } }
-			easy_exe_invasion = { create_random_list_return_kuat_fleet = { DIFF = 3 } }
-			ban_exe_invasion = { create_random_list_return_kuat_fleet = { DIFF = 1 } }
-			default = { create_random_list_return_kuat_fleet = { DIFF = 3 } }
+	while = {
+		count = $NUM$
+		random_rim_system = {
+			limit = { 
+				kuat_is_kuat_system = no 
+				NOT = { has_star_flag = has_create_random_list_return_kuat_fleet }
+			}
+			weights = {
+				base = 1
+				modifier = {
+					factor = 100
+					NOT = { exists = space_owner }
+				}
+			}
+			set_timed_star_flag = {
+				flag = has_create_random_list_return_kuat_fleet
+				days = 1
+			}
+			switch = {
+				trigger = has_global_flag
+				difficult_exe_invasion = { create_random_list_return_kuat_fleet = { DIFF = 1 } }
+				normal_exe_invasion = { create_random_list_return_kuat_fleet = { DIFF = 2 } }
+				easy_exe_invasion = { create_random_list_return_kuat_fleet = { DIFF = 3 } }
+				ban_exe_invasion = { create_random_list_return_kuat_fleet = { DIFF = 1 } }
+				default = { create_random_list_return_kuat_fleet = { DIFF = 3 } }
+			}
 		}
 	}
 }
@@ -1698,7 +1711,7 @@ create_kuat_millatery_defender_and_attack_fleet = {
 
 create_kuat_defender_and_attack_fleet = {
 	optimize_memory
-	every_system = {
+	random_system = {
 		limit = { 
 			kuat_is_kuat_system = yes 
 			exists = starbase
