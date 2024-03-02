@@ -1325,24 +1325,23 @@ country_event = {
 	hide_window = yes
 	is_triggered_only = yes
 	trigger = {
+		OR = { is_player_country = yes is_kuat_fallen_empire = yes }
 		fromfrom = {
 			has_enable_flag_ship_system_true = yes
 			has_enable_flag_ship_system_false = yes
 		} 
-		from = { OR = { is_eternal_faction = yes is_infinite_faction = yes } } 
+		from = { OR = { is_invisable_faction = yes is_player_country = yes } } 
 	}
 	immediate = {
-		set_update_modifiers_batch = begin
 		fromfrom = { if = {
 			limit = { NOT = { has_fleet_flag = fire_only_once_temple } }
 			every_owned_ship = {
 				set_ship_flag = is_invisiable_trigger
-				eternal_increase_executor_power = { DAYS = -1 TYPE1 = ee }
+				eternal_increase_executor_power = { DAYS = -1 TYPE = ee }
 				ship_event = { id = exe_invasion.114 }
 			}
 			set_timed_fleet_flag = { flag = fire_only_once_temple days = 1 }
 		} }
-		set_update_modifiers_batch = end
 	}
 }
 
@@ -1374,7 +1373,7 @@ country_event = {
 				limit = { NOT = { has_fleet_flag = ag_kuat_invasion_starbase_disable } }
 				set_fleet_flag = ag_kuat_invasion_starbase_disable
 			}
-			increase_ship_hp_effect_change = { DAYS = 5 }
+			increase_ship_hp_effect_change = { DAYS = 5 TYPE = kt }
 			set_timed_fleet_flag = { flag = random_list_eternal_fleet_rate_placeholder days = 1 }
 		} }
 	}
@@ -1402,24 +1401,24 @@ country_event = {
 	is_triggered_only = yes
 	trigger = {
 		exists = fromfrom
-		OR = { is_player_country = yes is_kuat_fallen_empire = yes  }
-		from = { NOR = { is_eternal_faction = yes is_infinite_faction = yes } }
+		OR = { is_player_country = yes is_kuat_fallen_empire = yes }
+		from = { NOR = { is_invisable_faction = yes is_player_country = yes } }
 		fromfrom = { has_enable_flag_ship_system_true = yes }
 	}
 	immediate = {
 		FROMFROM = { if = {
 			limit = { has_enable_flag_ship_system_true = yes }
-			if = { limit = { kuat_is_flagship_size = { size = eclipse } } increase_ship_hp_effect_change = { DAYS = 5 } }
-			else_if = { limit = { kuat_is_flagship_size = { size = Annihilator } } increase_ship_hp_effect_change = { DAYS = 5 } }
-			else_if = { limit = { kuat_is_flagship_size = { size = kuat_sector } } increase_ship_hp_effect_change = { DAYS = 4 } }
-			else_if = { limit = { kuat_is_flagship_size = { size = Vengeance } } increase_ship_hp_effect_change = { DAYS = 4 } }
-			else_if = { limit = { kuat_is_flagship_size = { size = nebula_executor } } increase_ship_hp_effect_change = { DAYS = 4 } }
-			else_if = { limit = { kuat_is_flagship_size = { size = knigjt_hammer_executor } } increase_ship_hp_effect_change = { DAYS = 4 } }
-			else_if = { limit = { kuat_is_flagship_size = { size = nebula_dominance } } increase_ship_hp_effect_change = { DAYS = 3 } }
-			else_if = { limit = { kuat_is_flagship_size = { size = eternal_flagship } } increase_ship_hp_effect_change = { DAYS = 3 } }
-			else_if = { limit = { kuat_is_flagship_size = { size = X308_Balletor } } increase_ship_hp_effect_change = { DAYS = 2 } }
-			else_if = { limit = { kuat_is_flagship_size = { size = X308_Titan } } increase_ship_hp_effect_change = { DAYS = 2 } } 
-			else_if = { limit = { kuat_has_ship_flag = { flag = has_ag_flagship } } increase_ship_hp_effect_change = { DAYS = 2 } } 
+			if = { limit = { kuat_is_flagship_size = { size = eclipse } } increase_ship_hp_effect_change = { DAYS = 5 TYPE = kt } }
+			else_if = { limit = { kuat_is_flagship_size = { size = Annihilator } } increase_ship_hp_effect_change = { DAYS = 5 TYPE = kt } }
+			else_if = { limit = { kuat_is_flagship_size = { size = kuat_sector } } increase_ship_hp_effect_change = { DAYS = 4 TYPE = kt } }
+			else_if = { limit = { kuat_is_flagship_size = { size = Vengeance } } increase_ship_hp_effect_change = { DAYS = 4 TYPE = kt } }
+			else_if = { limit = { kuat_is_flagship_size = { size = nebula_executor } } increase_ship_hp_effect_change = { DAYS = 4 TYPE = kt } }
+			else_if = { limit = { kuat_is_flagship_size = { size = knigjt_hammer_executor } } increase_ship_hp_effect_change = { DAYS = 4 TYPE = kt } }
+			else_if = { limit = { kuat_is_flagship_size = { size = nebula_dominance } } increase_ship_hp_effect_change = { DAYS = 3 TYPE = kt } }
+			else_if = { limit = { kuat_is_flagship_size = { size = eternal_flagship } } increase_ship_hp_effect_change = { DAYS = 3 TYPE = kt } }
+			else_if = { limit = { kuat_is_flagship_size = { size = X308_Balletor } } increase_ship_hp_effect_change = { DAYS = 2 TYPE = kt } }
+			else_if = { limit = { kuat_is_flagship_size = { size = X308_Titan } } increase_ship_hp_effect_change = { DAYS = 2 TYPE = kt } } 
+			else_if = { limit = { kuat_has_ship_flag = { flag = has_ag_flagship } } increase_ship_hp_effect_change = { DAYS = 2 TYPE = kt } } 
 		} }
 	}
 }
@@ -1854,7 +1853,7 @@ fleet_event = {
 	hide_window = yes
 	is_triggered_only = yes
 	trigger = { owner = { is_eternal_faction = yes } }
-	immediate = { increase_ship_hp_effect_change = { DAYS = 1 } }
+	immediate = { increase_ship_hp_effect_change = { DAYS = 1 TYPE = kt } }
 }
 
 # message about leader clone
@@ -1988,13 +1987,13 @@ country_event = {
 					has_enable_flag_ship_system_true = no
 				}
 				random_list = {
-					1 = { increase_ship_hp_effect_change = { DAYS = 1 } }
-					3 = { increase_ship_hp_effect_change = { DAYS = 7 } }
-					9 = { increase_ship_hp_effect_change = { DAYS = 6 } }
-					18 = { increase_ship_hp_effect_change = { DAYS = 5 } }
-					27 = { increase_ship_hp_effect_change = { DAYS = 4 } }
-					36 = { increase_ship_hp_effect_change = { DAYS = 3 } }
-					54 = { increase_ship_hp_effect_change = { DAYS = 2 } }
+					1 = { increase_ship_hp_effect_change = { DAYS = 1 TYPE = kt } }
+					3 = { increase_ship_hp_effect_change = { DAYS = 7 TYPE = kt } }
+					9 = { increase_ship_hp_effect_change = { DAYS = 6 TYPE = kt } }
+					18 = { increase_ship_hp_effect_change = { DAYS = 5 TYPE = kt } }
+					27 = { increase_ship_hp_effect_change = { DAYS = 4 TYPE = kt } }
+					36 = { increase_ship_hp_effect_change = { DAYS = 3 TYPE = kt } }
+					54 = { increase_ship_hp_effect_change = { DAYS = 2 TYPE = kt } }
 				}
 			}
 			if = {
