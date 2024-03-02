@@ -1518,7 +1518,7 @@ ship_event = {
 			has_ship_flag = enable_disable_starbase
 		} }
 		AND = { exists = this kuat_is_flagship_system_protection = yes ag_is_ancient_titan_alt = no }
-		AND = { exists = fleet fleet = { has_fleet_flag = has_kuat_disable_checkpoint } ag_is_ancient_titan_alt = no }
+		# AND = { exists = fleet fleet = { has_fleet_flag = has_kuat_disable_checkpoint } ag_is_ancient_titan_alt = no }
 		AND = { exists = owner owner = { OR = { is_eternal_faction = yes is_infinite_faction = yes } } is_ship_class = shipclass_military }
 	} }
 	immediate = { 
@@ -1533,11 +1533,11 @@ ship_event = {
 		}
 		if = {
 			limit = { ag_is_ancient_titan_alt = no }
-			if = {
-				limit = { exists = fleet fleet = { has_fleet_flag = has_kuat_disable_checkpoint } }
-				change_variable = { which = disable_time_checkpoint value = 1 }
-				if = { limit = { check_variable = { which = disable_time_checkpoint value > 6 } } set_disable_at_health = -1 }
-			}
+			# if = {
+			# 	limit = { exists = fleet fleet = { has_fleet_flag = has_kuat_disable_checkpoint } }
+			# 	change_variable = { which = disable_time_checkpoint value = 1 }
+			# 	if = { limit = { check_variable = { which = disable_time_checkpoint value > 6 } } set_disable_at_health = -1 }
+			# }
 			if = {
 				limit = { exists = this kuat_is_flagship_system_protection = yes }
 				if = {
@@ -1570,19 +1570,20 @@ ship_event = {
 	is_triggered_only = yes
 	trigger = { 
 		ag_is_ancient_titan_alt = yes
-		OR = {
-			AND = { exists = this kuat_is_flagship_system_protection = yes }
-			AND = { exists = fleet fleet = { has_fleet_flag = has_kuat_disable_checkpoint } }
-		}
+		AND = { exists = this kuat_is_flagship_system_protection = yes }
+		# OR = {
+		# 	AND = { exists = this kuat_is_flagship_system_protection = yes }
+		# 	AND = { exists = fleet fleet = { has_fleet_flag = has_kuat_disable_checkpoint } }
+		# }
 	}
 	immediate = { 
 		if = {
 			limit = { ag_is_ancient_titan_alt = yes }
-			if = {
-				limit = {  exists = fleet fleet = { has_fleet_flag = has_kuat_disable_checkpoint } }
-				change_variable = { which = disable_time_checkpoint value = 1 }
-				if = { limit = { check_variable = { which = disable_time_checkpoint value > 6 } } ag_clear_disable_at_health = { ag_type = common } }
-			}
+			# if = {
+			# 	limit = {  exists = fleet fleet = { has_fleet_flag = has_kuat_disable_checkpoint } }
+			# 	change_variable = { which = disable_time_checkpoint value = 1 }
+			# 	if = { limit = { check_variable = { which = disable_time_checkpoint value > 6 } } ag_clear_disable_at_health = { ag_type = common } }
+			# }
 			if = {
 				limit = { exists = this kuat_is_flagship_system_protection = yes }
 				if = {
@@ -1607,18 +1608,7 @@ fleet_event = {
 		if = {
 			limit = { is_in_combat = yes }
 			if = {
-				limit = { OR = {
-					AND = {
-						has_global_flag = enable_modifer_check
-						OR = { has_global_flag = difficult_exe_invasion has_global_flag = ban_exe_invasion }
-						owner = { is_eternal_guardian = no } 
-						count_owned_ship = {
-							count >= kuat_fleet_count_check_half
-							limit = { check_variable = { which = disable_time value > 1 } check_variable = { which = combat_days value < 4 } }
-						}
-					}
-					AND = { exists = solar_system solar_system = { kuat_is_repair_system = yes } }
-				} }
+				limit = { exists = solar_system solar_system = { kuat_is_repair_system = yes } }
 				every_owned_ship = { set_variable = { which = combat_days value = 0 } set_variable = { which = disable_time value = 0 } }
 			}
 			else = { every_owned_ship = { limit = { check_variable = { which = combat_days value > 3 } } set_disable_at_health = -1 } }
@@ -1671,7 +1661,6 @@ country_event = {
 					owner = { OR = { is_eternal_faction = yes is_infinite_faction = yes } } NOT = {
 					has_fleet_flag = random_list_eternal_fleet_rate_placeholder
 				} }
-				mult_half_variable = { WHICH = kuat_fleet_count_check VALUE = 0.95 }
 				every_owned_ship = { 
 					limit = { NOT = { is_variable_set = combat_days } is_ship_class = shipclass_military } 
 					change_variable = { which = combat_days value = 1 } 
@@ -1711,11 +1700,11 @@ country_event = {
 					}
 					set_fleet_flag = has_kuat_flagship_system
 				} 
-				if = {
-					limit = { NOT = { has_fleet_flag = has_kuat_disable_checkpoint } }
-					every_owned_ship = { clear_variable = disable_time_checkpoint }
-					set_fleet_flag = has_kuat_disable_checkpoint
-				}
+				# if = {
+				# 	limit = { NOT = { has_fleet_flag = has_kuat_disable_checkpoint } }
+				# 	every_owned_ship = { clear_variable = disable_time_checkpoint }
+				# 	set_fleet_flag = has_kuat_disable_checkpoint
+				# }
 			}
 			if = {
 				limit = { ROOT = { is_eternal_faction = yes } }
