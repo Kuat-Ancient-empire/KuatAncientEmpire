@@ -2050,7 +2050,18 @@ country_event = {
 					starbase = { has_starbase_size >= starbase_citadel }
 				}
 				set_timed_star_flag = { flag = kuat_starbase_megastructure_conbine_system days = 360 }
-				add_modifier = { modifier = "kuat_starbase_megastructure_around_system" days = 360 }
+				if = {
+					limit = { NOT = { has_modifier = "kuat_starbase_megastructure_around_system" } }
+					add_modifier = { modifier = "kuat_starbase_megastructure_around_system" days = 360 }
+				}
+			}
+			if = {
+				limit = { has_star_flag = kuat_starbase_megastructure_in_system }
+				set_timed_star_flag = { flag = kuat_starbase_megastructure_around_system days = 360 }
+				if = {
+					limit = { NOT = { has_modifier = "kuat_starbase_megastructure_around_system" } }
+					add_modifier = { modifier = "kuat_starbase_megastructure_around_system" days = 360 }
+				}
 			}
 		}
 		every_country = {

@@ -716,8 +716,10 @@ ship_event = {
 	} }
 	immediate = {
 		solar_system = {
+			remove_star_flag = kuat_starbase_megastructure_around_system
+			remove_modifier = kuat_starbase_megastructure_around_system
+			set_timed_star_flag = { flag = kuat_starbase_megastructure_around_system days = 360 }
 			set_star_flag = kuat_starbase_megastructure_in_system
-			set_star_flag = kuat_starbase_megastructure_around_system
 			if = {
 				limit = { root = { is_ship_size = exe_megastructure_starbase } }
 				random_system_planet = {
@@ -735,7 +737,7 @@ ship_event = {
 				}
 				add_modifier = { modifier = "exe_megastructure_starbase_in_system" }
 			}
-			add_modifier = { modifier = "kuat_starbase_megastructure_around_system" }
+			add_modifier = { modifier = "kuat_starbase_megastructure_around_system" days = 360 }
 			every_system = {
 				limit = {
 					NOT = { is_same_value = prev }
@@ -743,12 +745,13 @@ ship_event = {
 						source = prev 
 						type = euclidean
 						min_distance >= 0
-						max_distance <= 25
+						max_distance <= 75
 					}
-					NOT = { has_star_flag = kuat_starbase_megastructure_around_system }
 				}
-				set_star_flag = kuat_starbase_megastructure_around_system
-				add_modifier = { modifier = "kuat_starbase_megastructure_around_system" }
+				remove_star_flag = kuat_starbase_megastructure_around_system
+				remove_modifier = kuat_starbase_megastructure_around_system
+				set_timed_star_flag = { flag = kuat_starbase_megastructure_around_system days = 360 }
+				add_modifier = { modifier = "kuat_starbase_megastructure_around_system" days = 360 }
 			}
 			every_system = {
 				limit = {
@@ -756,8 +759,6 @@ ship_event = {
 					NOT = { any_fleet_in_system = { has_fleet_flag = kuat_station_player } }
 				}
 				remove_star_flag = kuat_starbase_megastructure_in_system
-				remove_star_flag = kuat_starbase_megastructure_around_system
-				remove_modifier = "kuat_starbase_megastructure_around_system"
 				every_system_planet = {
 					limit = { has_modifier = "exe_megastructure_starbase_in_system" }
 					remove_modifier = "exe_megastructure_starbase_in_system"
@@ -766,23 +767,9 @@ ship_event = {
 					limit = { root = { is_ship_size = exe_megastructure_starbase } }
 					random_system_planet = {
 						limit = { is_primary_star = yes }
-						change_pc = pc_black_hole
-						set_planet_size = 18
+						change_pc = pc_black_hole set_planet_size = 18
 					}
 					set_star_class = sc_black_hole
-				}
-				closest_system = {
-					limit = {
-						distance = {
-							source = prev 
-							type = euclidean
-							min_distance >= 0
-							max_distance <= 25
-						}
-						has_star_flag = kuat_starbase_megastructure_around_system
-					}
-					remove_star_flag = kuat_starbase_megastructure_around_system
-					remove_modifier = "kuat_starbase_megastructure_around_system"
 				}
 			}
 		}
@@ -800,8 +787,6 @@ country_event = {
 	immediate = {
 		fromfrom.solar_system = {
 			remove_star_flag = kuat_starbase_megastructure_in_system
-			remove_star_flag = kuat_starbase_megastructure_around_system
-			remove_modifier = "kuat_starbase_megastructure_around_system"
 			every_system_planet = {
 				limit = { has_modifier = "exe_megastructure_starbase_in_system" }
 				remove_modifier = "exe_megastructure_starbase_in_system"
@@ -817,20 +802,7 @@ country_event = {
 			}
 			every_fleet_in_system = {
 				limit = { is_ship_class = shipclass_military exists = owner owner = { is_hostile = root } }
-				every_owned_ship = { kuat_reduce_hp_percent = { value = 75 } }
-			}
-			closest_system = {
-				limit = {
-					distance = {
-						source = prev 
-						type = euclidean
-						min_distance >= 0
-						max_distance <= 25
-					}
-					has_star_flag = kuat_starbase_megastructure_around_system
-				}
-				remove_star_flag = kuat_starbase_megastructure_around_system
-				remove_modifier = "kuat_starbase_megastructure_around_system"
+				every_owned_ship = { kuat_reduce_hp_percent = { value = 99 } }
 			}
 		}
 	}

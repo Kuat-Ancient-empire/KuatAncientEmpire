@@ -248,7 +248,9 @@ exe_megastructure_starbase = {
 			set_planet_size = -1
 			set_planet_entity = { entity = starforge_avoid_entity }
 			solar_system = {
-				set_star_flag = kuat_starbase_megastructure_around_system
+				remove_star_flag = kuat_starbase_megastructure_around_system
+				remove_modifier = kuat_starbase_megastructure_around_system
+				set_timed_star_flag = { flag = kuat_starbase_megastructure_around_system days = 360 }
 				set_star_flag = kuat_starbase_megastructure_in_system
 				every_system_planet = {
 					limit = {
@@ -257,7 +259,7 @@ exe_megastructure_starbase = {
 					}
 					add_modifier = { modifier = "exe_megastructure_starbase_in_system" }
 				}
-				add_modifier = { modifier = "kuat_starbase_megastructure_around_system" }
+				add_modifier = { modifier = "kuat_starbase_megastructure_around_system" days = 360 }
 			}
 		}
 		every_system = {
@@ -267,12 +269,13 @@ exe_megastructure_starbase = {
 					source = prev 
 					type = euclidean
 					min_distance >= 0
-					max_distance <= 25
+					max_distance <= 75
 				}
-				NOT = { has_star_flag = kuat_starbase_megastructure_around_system }
 			}
-			set_star_flag = kuat_starbase_megastructure_around_system
-			add_modifier = { modifier = "kuat_starbase_megastructure_around_system" }
+			remove_star_flag = kuat_starbase_megastructure_around_system
+			remove_modifier = kuat_starbase_megastructure_around_system
+			set_timed_star_flag = { flag = kuat_starbase_megastructure_around_system days = 360 }
+			add_modifier = { modifier = "kuat_starbase_megastructure_around_system" days = 360 }
 		}
 		add_threat = { who = from amount = 50 }
 		create_fleet = {
