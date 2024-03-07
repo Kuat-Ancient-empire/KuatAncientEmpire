@@ -1281,9 +1281,16 @@ country_event = {
 	id = exe_invasion.110
 	hide_window = yes
 	is_triggered_only = yes
-	trigger = { fromfrom = { 
-		any_owned_ship = { OR = { is_ship_size = eclipse is_ship_size = eternal_flagship } } 
-	} }
+	trigger = { 
+		fromfrom = { any_owned_ship = { OR = { 
+			is_ship_size = eclipse 
+			is_ship_size = eternal_flagship 
+		} } }
+		if = {
+			limit = { has_global_flag = enable_modifer_check }
+			from = { is_invisable_faction = no }
+		}
+	}
 	immediate = {
 		FROMFROM = { if = {
 			limit = { NOT = { has_fleet_flag = fire_only_once_temple_eclipse } }
