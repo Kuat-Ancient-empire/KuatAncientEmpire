@@ -1091,12 +1091,10 @@ fleet_execute_order_1 = {
 									any_system_planet = { is_colony = yes owner = { is_at_war_with = $OWNER_TARGET$ } }
 								}
 							}
-							random_system_planet = { 
-								ROOT = { 
-									set_location = { target = PREV distance = 300 angle = random } 
-									every_owned_ship = { create_jump_particle_effect = yes }
-								} 
-							}
+							random_system_planet = { ROOT = { 
+								set_location = { target = PREV distance = 300 angle = random } 
+								every_owned_ship = { create_jump_particle_effect = yes }
+							} }
 						}
 					}
 					else = {
@@ -1115,18 +1113,10 @@ fleet_execute_order_1 = {
 					ROOT = { can_access_system = prev }
 					OR = {
 						any_system_planet = {
+							exists = controller
 							controller = { is_at_war_with = $OWNER_TARGET$ }
-							is_colony = yes
-							NOT = { any_fleet_in_orbit = {
-								exists = controller
-								is_ship_class = shipclass_military
-								controller = { is_same_value = $OWNER_TARGET$ }
-							} }
 						}
-						AND = {
-							exists = starbase
-							starbase = { controller = { is_hostile = $OWNER_TARGET$ } }
-						}
+						AND = { exists = starbase starbase = { controller = { is_hostile = $OWNER_TARGET$ } } }
 					}
 					check_variable = { which = kuat_fleet_id value < 1 }
 				}
@@ -1140,25 +1130,15 @@ fleet_execute_order_1 = {
 						while = {
 							id = executor.2.t0
 							any_system_planet = {
+								exists = controller
 								controller = { is_at_war_with = $OWNER_TARGET$ }
-								is_colony = yes
-								NOT = { any_fleet_in_orbit = {
-									exists = controller
-									is_ship_class = shipclass_military
-									controller = { is_same_value = $OWNER_TARGET$ }
-								} }
 							}
 						}
 						find_closest_planet = {
 							trigger = {
 								id = executor.2
-								is_colony = yes
+								exists = controller
 								controller = { is_at_war_with = $OWNER_TARGET$ }
-								NOT = { any_fleet_in_orbit = {
-									exists = controller
-									is_ship_class = shipclass_military
-									controller = { is_same_value = $OWNER_TARGET$ }
-								} }
 							}
 							found_planet = {
 								orbit_planet = this
@@ -1178,7 +1158,7 @@ fleet_execute_order_1 = {
 							}
 						}
 						move_to = this wait = 5
-					} 
+					}
 					wait = 15
 				}
 				failed = {
@@ -1188,13 +1168,8 @@ fleet_execute_order_1 = {
 							ROOT = { can_access_system = prev }
 							OR = {
 								any_system_planet = {
-									owner = { is_at_war_with = $OWNER_TARGET$ }
-									is_colony = yes
-									NOT = { any_fleet_in_orbit = {
-										exists = controller
-										is_ship_class = shipclass_military
-										controller = { is_same_value = $OWNER_TARGET$ }
-									} }
+									exists = controller
+									controller = { is_at_war_with = $OWNER_TARGET$ }
 								}
 								AND = {
 									exists = starbase
@@ -1213,25 +1188,15 @@ fleet_execute_order_1 = {
 								while = {
 									id = executor.5.t0
 									any_system_planet = {
+										exists = controller
 										controller = { is_at_war_with = $OWNER_TARGET$ }
-										is_colony = yes
-										NOT = { any_fleet_in_orbit = {
-											exists = controller
-											is_ship_class = shipclass_military
-											controller = { is_same_value = $OWNER_TARGET$ }
-										} }
 									}
 								}
 								find_closest_planet = {
 									trigger = {
 										id = executor.5.t5
-										is_colony = yes
+										exists = controller
 										controller = { is_at_war_with = $OWNER_TARGET$ }
-										NOT = { any_fleet_in_orbit = {
-											exists = controller
-											is_ship_class = shipclass_military
-											controller = { is_same_value = $OWNER_TARGET$ }
-										} }
 									}
 									found_planet = {
 										orbit_planet = this
@@ -1245,13 +1210,13 @@ fleet_execute_order_1 = {
 											effect = {
 												id = executor.5.t1
 												if = { limit = { is_colony = no } ROOT = { remove_fleet_flag = kuat_fallen_bombaring_fleet } }
-											} 
+											}
 											wait = 5
 										}
 									}
 								}
 								move_to = this wait = 5
-							} 
+							}
 							wait = 15
 						}
 						failed = { effect = { id = executor.1.b ROOT = { set_fleet_flag = kuat_cannot_find_path } } wait = 60 }
@@ -1259,7 +1224,7 @@ fleet_execute_order_1 = {
 				}
 			}
 		}
-	} 
+	}
 }
 
 fleet_execute_order_3 = {
