@@ -1084,13 +1084,10 @@ fleet_execute_order_1 = {
 					if = {
 						limit = { any_country = { is_at_war_with = $OWNER_TARGET$ } }
 						random_system = {
-							limit = {
-								any_system_planet = { is_colony = no }
-								closest_system = {
-									min_steps = 1
-									any_system_planet = { is_colony = yes owner = { is_at_war_with = $OWNER_TARGET$ } }
-								}
-							}
+							limit = { any_system_planet = { 
+								exists = controller
+								controller = { is_at_war_with = $OWNER_TARGET$ } 
+							} }
 							random_system_planet = { ROOT = { 
 								set_location = { target = PREV distance = 300 angle = random } 
 								every_owned_ship = { create_jump_particle_effect = yes }
@@ -1157,7 +1154,7 @@ fleet_execute_order_1 = {
 								}
 							}
 						}
-						move_to = this wait = 5
+						wait = 5
 					}
 					wait = 15
 				}
@@ -1176,13 +1173,8 @@ fleet_execute_order_1 = {
 									starbase = { owner = { is_hostile = $OWNER_TARGET$ } }
 								}
 							}
-							check_variable = { which = kuat_fleet_id value < 1 }
 						}
 						found_system = {
-							effect = {
-								id = executor.2.t91
-								set_variable = { which = kuat_fleet_id value = root.fleet_id }
-							}
 							move_to = this
 							repeat = {
 								while = {
@@ -1215,7 +1207,7 @@ fleet_execute_order_1 = {
 										}
 									}
 								}
-								move_to = this wait = 5
+								wait = 5
 							}
 							wait = 15
 						}
@@ -1283,13 +1275,8 @@ fleet_execute_order_3 = {
 							id = executor.21
 							any_fleet_in_system = { owner = { kuat_is_crisis_faction = yes } }
 							prev = { can_access_system = prev }
-							check_variable = { which = kuat_fleet_id value < 1 }
 						}
 						found_system = { 
-							effect = {
-								id = executor.21.a1
-								set_variable = { which = kuat_fleet_id value = prev.fleet_id }
-							}
 							move_to = this
 							repeat = {
 								while = {
