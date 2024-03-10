@@ -28,7 +28,7 @@
 eternal_increase_executor_power = {
 	optimize_memory
 	if = {
-		limit = { NOT = { has_ship_flag = has_eternal_increase_executor_power } }
+		limit = { NOT = { has_ship_flag = kuat_has_eternal_increase_executor_power_temple } }
 		clear_ship_modifier = { modifier = ship_hull_mult DAYS = $DAYS$ subtract = @kuat_flagship_proection_mult }
 		clear_ship_modifier = { modifier = shipclass_military_hull_mult DAYS = $DAYS$ subtract = @kuat_flagship_proection_mult }
 		clear_ship_modifier = { modifier = ship_hull_regen_add_perc DAYS = $DAYS$ subtract = @kuat_flagship_proection_mult }
@@ -44,14 +44,14 @@ eternal_increase_executor_power = {
 		else_if = { limit = { has_hp <= @$TYPE$_increase_hp_T1 } add_modifier = { modifier = $TYPE$_increase_hp_T1 days = $DAYS$ } }]
 
 		if = { limit = { kuat_is_flagship_system_protection = yes } set_disable_at_health = 0.01 }
-		set_timed_ship_flag = { flag = has_eternal_increase_executor_power days = $DAYS$ }
+		set_timed_ship_flag = { flag = kuat_has_eternal_increase_executor_power_temple days = $DAYS$ }
 	}
 }
 
 increase_ship_hp_effect_change = {
 	optimize_memory
 	every_owned_ship = {
-		set_timed_ship_flag = { flag = is_invisiable_trigger days = $DAYS$ }
+		set_ship_flag = { flag = kuat_executor_checkpoint days = $DAYS$ }
 		eternal_increase_executor_power = { DAYS = $DAYS$ TYPE = $TYPE$ }
 		ship_event = { id = exe_invasion.119 }
 	}
@@ -163,7 +163,7 @@ remove_increase_hp_modifier = {
 
 remove_executor_power = {
 	optimize_memory
-	remove_ship_flag = has_eternal_increase_executor_power
+	remove_ship_flag = kuat_has_eternal_increase_executor_power_temple
 	remove_increase_hp_modifier = { TYPE = kt }
 	remove_increase_hp_modifier = { TYPE = ee }
 	remove_standard_modifier_system = { TITLE = iep_basic }

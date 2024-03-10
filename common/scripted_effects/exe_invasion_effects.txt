@@ -256,7 +256,7 @@ ag_exe_invasion_fleet_action = {
 		limit = {
 			solar_system = { kuat_is_kuat_system = yes }
 			any_system = {
-				has_star_flag = ag_exe_invasion_gate_system
+				has_star_flag = kuat_military_base_local_home
 				any_system_megastructure = { is_megastructure_type = exe_outer_gate }
 			}
 		}
@@ -329,11 +329,37 @@ ag_exe_invasion_fleet_action = {
 			}
 			random_system = {
 				limit = {
-					has_star_flag = ag_exe_invasion_gate_system
+					has_star_flag = kuat_military_base_local_home
 					any_system_megastructure = { is_megastructure_type = exe_outer_gate }
 				}
 				system_star = { prevprev = { auto_move_to_planet = { target = prev clear_auto_move_on_arrival = yes } } }
 			}
+		}
+	}
+	else_if = {
+		limit = { 
+			solar_system = { has_star_flag = kuat_military_base_local_home }
+			any_system = {
+				has_star_flag = kuat_military_sublocal_home
+				NOT = { any_fleet_in_system = { NOT = { is_same_value = root } has_fleet_flag = ag_kuat_invasion_fleet } }
+			}
+		}
+		random_system = {
+			limit = {
+				has_star_flag = kuat_military_sublocal_home
+				NOT = { any_fleet_in_system = { NOT = { is_same_value = root } has_fleet_flag = ag_kuat_invasion_fleet } }
+			}
+			system_star = { prevprev = { auto_move_to_planet = { target = prev clear_auto_move_on_arrival = yes } } }
+		}
+	}
+	else_if = {
+		limit = {  
+			solar_system = { has_star_flag = kuat_military_sublocal_home }
+			any_system = { has_star_flag = kuat_outlander_exe_center_rim_gate }
+		}
+		random_system = {
+			limit = { has_star_flag = kuat_outlander_exe_center_rim_gate }
+			system_star = { prevprev = { auto_move_to_planet = { target = prev clear_auto_move_on_arrival = yes } } }
 		}
 	}
 	else = {
