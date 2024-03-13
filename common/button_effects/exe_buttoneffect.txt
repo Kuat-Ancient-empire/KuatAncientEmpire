@@ -16,29 +16,20 @@
 # 	}
 # }
 kuat_set_forcetrigger_order_66_group = {
-	potential = { always = yes }
-	allow = { hidden_trigger = { is_scope_type = country } }
+	potential = { NOT = { has_global_flag = kuat_set_forcetrigger_order_66_group_enable } }
+	allow = { hidden_trigger = { is_scope_type = country NOT = { has_global_flag = kuat_set_forcetrigger_order_66_group_disable } } }
 	effect = {  
 		custom_tooltip = "kuat_set_forcetrigger_order_66_group_tip"
-		hidden_effect = { from = { 
-			change_variable = { which = order_66_games_value value = 1 } 
-			if = {
-				limit = { check_variable = { which = order_66_games_value value = 66 } }
-				kuat_origin_give_all_ship_and_tech = yes
-				play_sound = swfo_starkillerbase_completed_speech
-				clear_variable = order_66_games_value
-			}
-		} }
+		hidden_effect = { from = { set_global_flag = kuat_set_forcetrigger_order_66_group_enable } }
 	}
 }
 
-#diffult
-kuat_set_difficulty_group = {
-	potential = { always = yes }
-	allow = { always = yes }
-	effect = { 
-		custom_tooltip = "kuat_set_forcetrigger_order_6_group_tip"
-		hidden_effect = { from = {
+kuat_set_forcetrigger_order_alt_66_group = {
+	potential = { has_global_flag = kuat_set_forcetrigger_order_66_group_enable }
+	allow = { hidden_trigger = { is_scope_type = country NOT = { has_global_flag = kuat_set_forcetrigger_order_66_group_disable } } }
+	effect = {  
+		custom_tooltip = "kuat_set_forcetrigger_order_alt_66_group_tip"
+		hidden_effect = { from = { 
 			if = {
 				limit = { NOR = { 
 					has_origin = origin_eternalthrone 
@@ -57,8 +48,23 @@ kuat_set_difficulty_group = {
 				play_sound = event_construction
 				clear_variable = order_6_games_value
 			}
+			change_variable = { which = order_66_games_value value = 1 } 
+			if = {
+				limit = { check_variable = { which = order_66_games_value value = 66 } }
+				kuat_origin_give_all_ship_and_tech = yes
+				play_sound = swfo_starkillerbase_completed_speech
+				clear_variable = order_66_games_value
+				set_global_flag = kuat_set_forcetrigger_order_66_group_disable
+			}
 		} }
 	}
+}
+
+#diffult
+kuat_set_difficulty_group = {
+	potential = { always = yes }
+	allow = { always = yes }
+	effect = { }
 }
 kuat_set_difficulty_easy = {
 	potential = { hidden_trigger = { always = yes } }
