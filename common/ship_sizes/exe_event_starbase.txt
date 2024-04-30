@@ -226,6 +226,7 @@ swfo_supremacy = {
 	required_component_set = "ship_aura_components"
 }
 
+#Eternal ship
 eternal_battleship = {
 	formation_priority = @titan_formation_priority
 	max_speed = 150
@@ -324,6 +325,7 @@ eternal_flagship = {
 	}
 }
 
+#Infinite ship
 Infinite_Mothership = {
 	formation_priority = @battleship_formation_priority
 	max_speed = 100
@@ -479,4 +481,163 @@ Infinite_crusier = {
 			alloys = @juggernaut_upkeep_alloys
 		}
 	}
+}
+
+#Drift ship
+Drift_Battleship = {
+	formation_priority = @battler_crusier_famation_priority
+	max_speed = 300
+	acceleration = 0.2
+	rotation_speed = 0.15
+	collision_radius = 6
+	max_hitpoints = 3000000
+	entity = Drift_Battleship_entity
+	modifier = { 
+		ship_evasion_add = @battleship_evasion 
+		ship_armor_add = 3000000
+		ship_shield_add = 3000000
+		ship_cloaking_strength_add = 10
+	}
+	ship_modifier = {
+		ship_shield_regen_add_perc = 1
+		ship_armor_regen_add_perc = 1
+		ship_hull_regen_add_perc = 1
+		ship_shield_damage_mult = 1
+		ship_armor_damage_mult = 1
+		ship_hull_damage_mult = 1
+		ship_starting_experience_add = 11100
+	}
+	size_multiplier = 64
+	combat_size_multiplier = 32
+	fleet_slot_size = 16
+	section_slots = { "bow" = { locator = "part2" } }
+	num_target_locators = 6
+	is_space_station = no
+	icon = kuat_ship_size_military_3
+	ship_class_icon_frame = 26
+	is_designable = no
+	base_buildtime = 1000
+	can_have_federation_design = no
+	enable_default_design = no	#if yes, countries will have an auto-generated design at start
+	default_behavior = EXE_Battleship
+	class = shipclass_military
+	construction_type = starbase_shipyard
+	can_be_inspected = yes
+	possible_construction = {
+		custom_tooltip = {
+			fail_text = "kuat_need_ancient_construction_facilities"
+			has_trigger_shipyard = yes
+		}
+	}
+	resources = {
+		category = ships
+		cost = { alloys = 2000 }
+		upkeep = {
+			energy = @juggernaut_upkeep_energy
+			alloys = @juggernaut_upkeep_alloys
+		}
+	}
+}
+
+Drift_Crusier = {
+	formation_priority = @titan_formation_priority
+	max_speed = 375
+	acceleration = 0.2
+	rotation_speed = 0.15
+	collision_radius = 6
+	max_hitpoints = 1500000
+	entity = Drift_Crusier_entity
+	modifier = { 
+		ship_evasion_add = @battleship_evasion 
+		ship_armor_add = 1500000
+		ship_shield_add = 1500000
+		ship_cloaking_strength_add = 10
+	}
+	ship_modifier = {
+		ship_shield_regen_add_perc = 1
+		ship_armor_regen_add_perc = 1
+		ship_hull_regen_add_perc = 1
+		ship_shield_damage_mult = 1
+		ship_armor_damage_mult = 1
+		ship_hull_damage_mult = 1
+		ship_starting_experience_add = 11100
+	}
+	size_multiplier = 32
+	combat_size_multiplier = 32
+	fleet_slot_size = 16
+	section_slots = { "bow" = { locator = "part2" } }
+	num_target_locators = 5
+	is_space_station = no
+	icon = kuat_ship_size_military_3
+	ship_class_icon_frame = 26
+	is_designable = no
+	base_buildtime = 1000
+	can_have_federation_design = no
+	enable_default_design = no	#if yes, countries will have an auto-generated design at start
+	default_behavior = EXE_Battleship
+	class = shipclass_military
+	construction_type = starbase_shipyard
+	can_be_inspected = yes
+	possible_construction = {
+		custom_tooltip = {
+			fail_text = "kuat_need_ancient_construction_facilities"
+			has_trigger_shipyard = yes
+		}
+	}
+	resources = {
+		category = ships
+		cost = { alloys = 2000 }
+		upkeep = {
+			energy = @juggernaut_upkeep_energy
+			alloys = @juggernaut_upkeep_alloys
+		}
+	}
+}
+
+Drift_megastructure_starbase = {
+	graphical_culture = no
+	is_space_object = yes
+	max_speed = 0
+	rotation_speed = 0
+	acceleration = 0
+	modifier = {
+		ship_shield_add = 5000000
+		ship_armor_add = 5000000
+		ship_evasion_mult = -1
+		ship_piracy_suppression_add = 1000
+		starbase_shipyard_capacity_add = 300
+		starbase_building_capacity_add = 3
+	}
+	ship_modifier = {
+		ship_shield_regen_add_perc = 1
+		ship_armor_regen_add_perc = 1
+		ship_hull_regen_add_perc = 1
+		#ship_fire_rate_mult = 1
+		ship_weapon_range_mult = 1
+		ship_starting_experience_add = 11100
+	}
+	entity = exe_megastructure_starbase_entity #TODO
+	can_be_inspected = yes
+	default_behavior = EXE_STATIONARY
+	max_hitpoints = 100000000
+	combat_size_multiplier = 8
+	size_multiplier = 64
+	fleet_slot_size = 8
+	section_slots = { "mid" = { locator = "root" } }
+	num_target_locators = 4
+	can_disable = yes
+	uses_name_prefix = no
+	enable_3dview_in_ship_browser = no #if yes, ship design will have a 3d view in the ship browser
+	icon_frame = 7
+	ship_class_icon_frame = 35
+	takes_name_from_ship_design = yes
+	class = shipclass_starbase
+	construction_type = starbase_shipyard
+	is_designable = no
+	enable_default_design = no
+	required_component_set = "power_core"
+	required_component_set = "ftl_components"
+	required_component_set = "sensor_components"
+	required_component_set = "combat_computers"
+	required_component_set = "ship_aura_components"
 }

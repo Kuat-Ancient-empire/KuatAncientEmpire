@@ -486,3 +486,45 @@ animation = {
 	name = "ring_world_ration_back_idle_animation"
 	file = "ring_world_ration_back_idle.anim"
 }
+
+#white_hole
+entity = {
+	name = "kuat_white_hole_entity"
+	pdxmesh = "star_mesh"
+
+	scale = 2
+	default_state = "idle"
+	state = { name = "idle" animation = "idle"
+		event = { time = 0.0 node = "planet" particle = "f_class_star_particle"  keep_particle = no trigger_once = yes sound = { soundeffect = "pulsar_star_idle_hum" } }
+		event = { trigger_once = yes sound = { soundeffect = "space_ambient" } }
+	 }
+	locator = { name = "planet" }
+	attach = { "planet" = "black_hole_rings_entity" }
+	attach = { "planet" = "black_hole_grav_lens_entity" }
+	attach = { "planet" = "black_hole_grav_animation_entity" }
+
+	game_data = {
+		size = 1.0
+		bloom_factor = 5
+	}
+}
+
+
+entity = {
+	name = "kuat_psi_storm_1_entity"
+	locator = { name = "core" position = { 0 -5 0 }}
+	scale = 45.5
+
+	default_state = "idle"
+	state = { name = "idle" 		state_time = 5
+		event = { time = 0 node = "core" particle = "psi_storm_1_effect" keep_particle = yes trigger_once = yes }
+		start_event = { 
+			trigger_once = yes 
+			sound = { soundeffect = "sfx_amb_psi_storm_1" } 
+            }
+        }
+	
+	attach = { core = "psi_storm_core_entity" }
+
+	cull_radius = 20000
+}

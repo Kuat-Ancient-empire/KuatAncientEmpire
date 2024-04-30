@@ -23,25 +23,54 @@ country_event = {
 			if = {
 				limit = { has_origin = origin_eternalthrone kuat_is_forbidden_ee_production_var = no }
 				every_owned_planet = {
-					if = {
-						limit = { 
+					limit = {
+						if = {
+							limit = { NOT = { has_planet_flag = PR_flg_plnt_VALID } }
 							OR = {
 								NOT = { is_variable_set = building_producation_index }
+								NOT = { is_variable_set = planet_free_houses_average_int }
 								NOT = { check_variable = { which = building_producation_index value = trigger:num_pops } }
+								NOT = { check_variable = { which = planet_free_houses_average_int value = trigger:free_jobs } }
 							}
-							NOT = { has_planet_flag = PR_flg_plnt_VALID }
 						}
-						set_variable = { which = building_producation_index value = trigger:num_pops }
+						else = { OR = {
+							NOT = { is_variable_set = building_producation_index }
+							NOT = { is_variable_set = planet_free_houses_average_int }
+							NOT = { check_variable = { which = building_producation_index value = value:PR_sv_plnt_HC } } 
+							NOT = { check_variable = { which = planet_free_houses_average_int value = trigger:free_housing } }
+						} }
 					}
-					else_if = {
-						limit = { 
-							has_planet_flag = PR_flg_plnt_VALID 
-							OR = {
-								NOT = { is_variable_set = building_producation_index }
-								NOT = { check_variable = { which = building_producation_index value = value:PR_sv_plnt_HC } }
-							}
+					if = {
+						limit = { NOT = { has_planet_flag = PR_flg_plnt_VALID } }
+						set_variable = { which = building_producation_index value = trigger:num_pops }
+						if = {
+							limit = { free_jobs < 50 num_pops < 50 }
+							set_variable = { which = planet_free_houses_average_int value = trigger:free_housing }
 						}
-						set_variable = { which = building_producation_index value = value:PR_sv_plnt_HC }
+						else = { set_variable = { which = planet_free_houses_average_int value = trigger:free_jobs } }
+					}
+					else = { 
+						set_variable = { which = building_producation_index value = value:PR_sv_plnt_HC } 
+						set_variable = { which = planet_free_houses_average_int value = trigger:free_housing }
+					}
+					multiply_variable = { which = planet_free_houses_average_int value = 0.1 }
+					set_variable = { which = planet_house_average_int value = planet_free_houses_average_int }
+					if = { limit = { check_variable = { which = planet_house_average_int value > 0 } } set_variable = { which = planet_pop_assembly_average_int value = planet_house_average_int } }
+					else = { set_variable = { which = planet_pop_assembly_average_int value = 0 } }
+				}
+				every_owned_planet = {
+					limit = { is_colony = yes }
+					if = {
+						limit = { check_modifier_value = { modifier = planet_pop_assembly_organic_mult value > 1 } }
+						clear_ship_modifier = { modifier = planet_pop_assembly_organic_mult subtract = 1 DAYS = 30 }
+					}
+					if = {
+						limit = { check_modifier_value = { modifier = planet_pop_assembly_mult value > 1 } }
+						clear_ship_modifier = { modifier = planet_pop_assembly_mult subtract = 1 DAYS = 30 }
+					}
+					if = {
+						limit = { check_modifier_value = { modifier = planet_pop_assembly_add value > 0 } }
+						clear_ship_modifier = { modifier = planet_pop_assembly_mult DAYS = 30 }
 					}
 				}
 			}
@@ -1072,11 +1101,20 @@ country_event = {
 	trigger = { exists = event_target:fallen_empire_kuat }
 	option = {
 		name = executor_build.601.a
-		hidden_effect = { event_target:fallen_empire_kuat = { declare_war = {
-			target = event_target:target_for_kuat
-			name = "Name_kuat_war"
-			attacker_war_goal = Kuat_total_war
-		} } }
+		hidden_effect = { event_target:fallen_empire_kuat = { 
+			declare_war = {
+				target = event_target:target_for_kuat
+				name = "Name_kuat_war"
+				attacker_war_goal = Kuat_total_war
+			} }
+			if = {
+				limit = { any_owned_fleet = { has_fleet_flag = defensive_galaxy_fleet } }
+				every_owned_fleet = {
+					limit  = { has_fleet_flag = defensive_galaxy_fleet }
+					destroy_fleet = { destroy_template = yes target = this }
+				}
+			}
+		}
 	}
 }
 
@@ -1177,7 +1215,7 @@ ship_event = {
 	is_triggered_only = yes
 	trigger = {
 		owner = { kuat_is_enable_shadow_origin = yes }
-		is_ship_size = knigjt_hammer_executor
+		is_ship_size = knight_hammer_executor
 	}
 	immediate = {
 		set_ship_flag = executor
@@ -2145,27 +2183,56 @@ country_event = {
 	}
 	immediate = { 
 		every_owned_planet = {
-			if = {
-				limit = { 
+			limit = {
+				if = {
+					limit = { NOT = { has_planet_flag = PR_flg_plnt_VALID } }
 					OR = {
 						NOT = { is_variable_set = building_producation_index }
+						NOT = { is_variable_set = planet_free_houses_average_int }
 						NOT = { check_variable = { which = building_producation_index value = trigger:num_pops } }
+						NOT = { check_variable = { which = planet_free_houses_average_int value = trigger:free_jobs } }
 					}
-					NOT = { has_planet_flag = PR_flg_plnt_VALID }
 				}
+				else = { OR = {
+					NOT = { is_variable_set = building_producation_index }
+					NOT = { is_variable_set = planet_free_houses_average_int }
+					NOT = { check_variable = { which = building_producation_index value = value:PR_sv_plnt_HC } } 
+					NOT = { check_variable = { which = planet_free_houses_average_int value = trigger:free_housing } }
+				} }
+			}
+			if = {
+				limit = { NOT = { has_planet_flag = PR_flg_plnt_VALID } }
 				set_variable = { which = building_producation_index value = trigger:num_pops }
-			}
-			else_if = {
-				limit = { 
-					has_planet_flag = PR_flg_plnt_VALID 
-					OR = {
-						NOT = { is_variable_set = building_producation_index }
-						NOT = { check_variable = { which = building_producation_index value = value:PR_sv_plnt_HC } }
-					}
+				if = {
+					limit = { free_jobs < 50 num_pops < 50 }
+					set_variable = { which = planet_free_houses_average_int value = trigger:free_housing }
 				}
-				set_variable = { which = building_producation_index value = value:PR_sv_plnt_HC }
+				else = { set_variable = { which = planet_free_houses_average_int value = trigger:free_jobs } }
 			}
+			else = { 
+				set_variable = { which = building_producation_index value = value:PR_sv_plnt_HC } 
+				set_variable = { which = planet_free_houses_average_int value = trigger:free_housing }
+			}
+			multiply_variable = { which = planet_free_houses_average_int value = 0.1 }
+			set_variable = { which = planet_house_average_int value = planet_free_houses_average_int }
+			if = { limit = { check_variable = { which = planet_house_average_int value > 0 } } set_variable = { which = planet_pop_assembly_average_int value = planet_house_average_int } }
+			else = { set_variable = { which = planet_pop_assembly_average_int value = 0 } }
 		} 
+		every_owned_planet = {
+			limit = { is_colony = yes }
+			if = {
+				limit = { check_modifier_value = { modifier = planet_pop_assembly_organic_mult value > 1 } }
+				clear_ship_modifier = { modifier = planet_pop_assembly_organic_mult subtract = 1 DAYS = 30 }
+			}
+			if = {
+				limit = { check_modifier_value = { modifier = planet_pop_assembly_mult value > 1 } }
+				clear_ship_modifier = { modifier = planet_pop_assembly_mult subtract = 1 DAYS = 30 }
+			}
+			if = {
+				limit = { check_modifier_value = { modifier = planet_pop_assembly_add value > 0 } }
+				clear_ship_modifier = { modifier = planet_pop_assembly_mult DAYS = 30 }
+			}
+		}
 	}
 }
 
@@ -2201,7 +2268,7 @@ planet_event = {
 		name = executor_build.1004.a
 		hidden_effect = { 
 			while = { limit = { free_district_slots > 0 } add_district = district_arcology_kuat_housing } 
-			if = { limit = { free_building_slots > 0 owner = { has_origin = origin_eternalthrone } } add_building = building_eternal_pop_assembly }
+			if = { limit = { free_building_slots > 0 owner = { has_origin = origin_eternalthrone NOT = { has_authority = auth_starshipgirls } } } add_building = building_eternal_pop_assembly }
 			if = { limit = { free_building_slots > 0 owner = { is_nirvana_empire_council = yes } } add_building = building_cloud_castle }
 			if = { limit = { free_building_slots > 0 owner = { is_nirvana_empire_dragon = yes } } add_building = building_aurora_shrine }
 			if = { limit = { free_building_slots > 0 owner = { has_technology = tr_eternal_building_alloys_Forge } } add_building = building_eternal_alloys_Forge add_building = building_foundry_1 }
@@ -2219,7 +2286,7 @@ planet_event = {
 		name = executor_build.1004.c
 		hidden_effect = { 
 			while = { limit = { free_district_slots > 0 } add_district = district_arcology_kuat_science } 
-			if = { limit = { free_building_slots > 0 owner = { has_origin = origin_eternalthrone } } add_building = building_eternal_pop_assembly }
+			if = { limit = { free_building_slots > 0 owner = { has_origin = origin_eternalthrone NOT = { has_authority = auth_starshipgirls } } } add_building = building_eternal_pop_assembly }
 			if = { limit = { free_building_slots > 0 owner = { is_nirvana_empire_council = yes } } add_building = building_cloud_castle }
 			if = { limit = { free_building_slots > 0 owner = { is_nirvana_empire_dragon = yes } } add_building = building_aurora_shrine }
 			if = { limit = { free_building_slots > 0 owner = { has_technology = tr_eternal_building_business_complex } } add_building = building_eternal_business_complex }
@@ -2233,7 +2300,7 @@ planet_event = {
 		name = executor_build.1004.b
 		hidden_effect = { 
 			while = { limit = { free_district_slots > 0 } add_district = district_arcology_kuat_Military }
-			if = { limit = { free_building_slots > 0 owner = { has_origin = origin_eternalthrone } } add_building = building_eternal_pop_assembly }
+			if = { limit = { free_building_slots > 0 owner = { has_origin = origin_eternalthrone NOT = { has_authority = auth_starshipgirls } } } add_building = building_eternal_pop_assembly }
 			if = { limit = { free_building_slots > 0 owner = { is_nirvana_empire_council = yes } } add_building = building_cloud_castle }
 			if = { limit = { free_building_slots > 0 owner = { is_nirvana_empire_dragon = yes } } add_building = building_aurora_shrine }
 			if = { limit = { free_building_slots > 0 owner = { has_technology = tr_eternal_building_alloys_Forge } } add_building = building_eternal_alloys_Forge add_building = building_foundry_1 }
@@ -2249,7 +2316,7 @@ planet_event = {
 		name = executor_build.1004.d
 		hidden_effect = { 
 			while = { limit = { free_district_slots > 0 } add_district = district_arcology_kuat_Khaydarin } 
-			if = { limit = { free_building_slots > 0 owner = { has_origin = origin_eternalthrone } } add_building = building_eternal_pop_assembly }
+			if = { limit = { free_building_slots > 0 owner = { has_origin = origin_eternalthrone NOT = { has_authority = auth_starshipgirls } } } add_building = building_eternal_pop_assembly }
 			if = { limit = { free_building_slots > 0 owner = { is_nirvana_empire_council = yes } } add_building = building_cloud_castle }
 			if = { limit = { free_building_slots > 0 owner = { is_nirvana_empire_dragon = yes } } add_building = building_aurora_shrine }
 			if = { limit = { free_building_slots > 0 owner = { has_technology = tr_eternal_building_alloys_Forge } } add_building = building_eternal_alloys_Forge add_building = building_foundry_1 }
@@ -2265,7 +2332,7 @@ planet_event = {
 		name = executor_build.1004.e
 		hidden_effect = { 
 			while = { limit = { free_district_slots > 0 } add_district = district_arcology_Kuat_civilian_industry }
-			if = { limit = { free_building_slots > 0 owner = { has_origin = origin_eternalthrone } } add_building = building_eternal_pop_assembly }
+			if = { limit = { free_building_slots > 0 owner = { has_origin = origin_eternalthrone NOT = { has_authority = auth_starshipgirls } } } add_building = building_eternal_pop_assembly }
 			if = { limit = { free_building_slots > 0 owner = { is_nirvana_empire_council = yes } } add_building = building_cloud_castle }
 			if = { limit = { free_building_slots > 0 owner = { is_nirvana_empire_dragon = yes } } add_building = building_aurora_shrine }
 			if = { limit = { free_building_slots > 0 owner = { has_technology = tr_eternal_building_alloys_Forge } } add_building = building_eternal_alloys_Forge add_building = building_foundry_1 }
@@ -2281,7 +2348,7 @@ planet_event = {
 		name = executor_build.1004.f
 		hidden_effect = { 
 			while = { limit = { free_district_slots > 0 } add_district = district_arcology_eternal_Khaydarin } 
-			if = { limit = { free_building_slots > 0 owner = { has_origin = origin_eternalthrone } } add_building = building_eternal_pop_assembly }
+			if = { limit = { free_building_slots > 0 owner = { has_origin = origin_eternalthrone NOT = { has_authority = auth_starshipgirls } } } add_building = building_eternal_pop_assembly }
 			if = { limit = { free_building_slots > 0 owner = { is_nirvana_empire_council = yes } } add_building = building_cloud_castle }
 			if = { limit = { free_building_slots > 0 owner = { is_nirvana_empire_dragon = yes } } add_building = building_aurora_shrine }
 			if = { limit = { free_building_slots > 0 owner = { has_technology = tr_eternal_building_alloys_Forge } } add_building = building_eternal_alloys_Forge add_building = building_foundry_1 }

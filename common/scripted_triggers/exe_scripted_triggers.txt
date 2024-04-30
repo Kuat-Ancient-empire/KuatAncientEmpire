@@ -61,8 +61,13 @@ is_infinite_faction = {
 	is_country_type = Infinite_empire
 }
 
+is_kuat_contractor_faction = {
+	is_country_type = kuat_contractor_hostile
+}
+
 is_invisable_faction = {
 	OR = {
+		is_kuat_contractor_faction = yes
 		is_infinite_faction = yes
 		is_kuat_fallen_empire = yes
 		is_eternal_faction = yes
@@ -253,7 +258,7 @@ kuat_is_holy_world_planet = {
 #flagship system
 kuat_is_kuat_ship = {
 	OR = {
-		kuat_is_flagship_system_protection = yes
+		kuat_is_flagship = yes
 		is_ship_size = Venator_modifier
 		is_ship_size = horrizone
 		is_ship_size = Imperial_star_destroyer
@@ -266,18 +271,13 @@ kuat_is_kuat_ship = {
 		is_ship_size = Infinite_Mothership
 	}
 }
-# kuat_is_flagship = {
-# 	OR = {
-# 		kuat_is_flagship_system_protection = yes
-# 		kuat_is_addiction_flagship = yes
-# 	}
-# }
+
 kuat_is_addiction_flagship = {
 	OR = {
+		is_ship_size = SWGS_Mc158
 		is_ship_size = SWGS_EclipseII
 		is_ship_size = SWGS_Lusankya
 		is_ship_size = SWGS_Nemesis
-		is_ship_size = Ge_Ragnarok
 		is_ship_size = UNSC_Infinity
 		is_ship_size = UNSC_Punic
 	}
@@ -288,12 +288,23 @@ kuat_is_flagship_system_protection = {
 		is_ship_size = eclipse
 		is_ship_size = Annihilator
 		is_ship_size = Vengeance
-		is_ship_size = knigjt_hammer_executor
+		is_ship_size = knight_hammer_executor
 		is_ship_size = nebula_executor
 		is_ship_size = nebula_dominance
+		has_ship_flag = has_ag_flagship
+	}
+}
+kuat_is_sub_flagship_system_protection = {
+	OR = {
 		is_ship_size = X308_Balletor
 		is_ship_size = X308_Titan
-		has_ship_flag = has_ag_flagship
+		is_ship_size = X308_Tyrant
+	}
+}
+kuat_is_flagship = {
+	OR = {
+		kuat_is_flagship_system_protection = yes
+		kuat_is_sub_flagship_system_protection = yes
 	}
 }
 
@@ -348,12 +359,34 @@ has_enable_ai_battle_system = {
 	has_global_flag = ai_fighting_with_player_against_eternal
 }
 
+has_enable_total_flagship_system_true = {
+	any_owned_ship = { OR = {
+		kuat_is_flagship_system_protection = yes
+		kuat_is_sub_flagship_system_protection = yes
+	} }
+}
+
+has_enable_total_flagship_system_false = {
+	any_owned_ship = { NOR = {
+		kuat_is_flagship_system_protection = yes
+		kuat_is_sub_flagship_system_protection = yes
+	} }
+}
+
 has_enable_flag_ship_system_true = {
 	any_owned_ship = { kuat_is_flagship_system_protection = yes }
 }
 
 has_enable_flag_ship_system_false = {
 	any_owned_ship = { kuat_is_flagship_system_protection = no }
+}
+
+has_enable_sub_flag_ship_system_true = {
+	any_owned_ship = { kuat_is_sub_flagship_system_protection = yes }
+}
+
+has_enable_sub_flag_ship_system_false = {
+	any_owned_ship = { kuat_is_sub_flagship_system_protection = no }
 }
 
 kuat_is_flagship_size = {
@@ -386,102 +419,6 @@ kuat_is_habitat = {
 	}
 }
 
-# is_quasi_stellar_obliterator = {
-# 	OR = {
-# 		is_megastructure_type = quasi_stellar_obliterator_6
-# 		is_megastructure_type = quasi_stellar_obliterator_5
-# 		is_megastructure_type = quasi_stellar_obliterator_4
-# 		is_megastructure_type = quasi_stellar_obliterator_3
-# 		is_megastructure_type = quasi_stellar_obliterator_2
-# 		is_megastructure_type = quasi_stellar_obliterator_1
-# 		is_megastructure_type = quasi_stellar_obliterator_0
-# 		is_megastructure_type = quasi_stellar_gateway_off
-# 		is_megastructure_type = quasi_stellar_gateway_on
-# 		is_megastructure_type = quasi_stellar_marker_planet
-# 		is_megastructure_type = quasi_stellar_marker_planet_open
-# 		is_megastructure_type = quasi_stellar_marker_planet_firing
-# 		is_megastructure_type = quasi_stellar_marker_cluster
-# 		is_megastructure_type = quasi_stellar_marker_cluster_open
-# 		is_megastructure_type = quasi_stellar_marker_cluster_firing
-# 		is_megastructure_type = quasi_stellar_marker_star
-# 		is_megastructure_type = quasi_stellar_marker_star_open
-# 		is_megastructure_type = quasi_stellar_marker_star_firing
-# 	}
-# }
-
-# is_penrose_sphere = {
-# 	OR = {
-# 		is_megastructure_type = penrose_sphere_0
-# 		is_megastructure_type = penrose_sphere_1
-# 		is_megastructure_type = penrose_sphere_2
-# 		is_megastructure_type = penrose_sphere_a2
-# 		is_megastructure_type = penrose_sphere_a3
-# 		is_megastructure_type = penrose_sphere_a4
-# 		is_megastructure_type = penrose_sphere_a41
-# 		is_megastructure_type = penrose_sphere_a42
-# 		is_megastructure_type = penrose_sphere_b2
-# 		is_megastructure_type = penrose_sphere_b3
-# 		is_megastructure_type = penrose_sphere_b4
-# 		is_megastructure_type = gigablackhole_ring_world_2
-# 		is_megastructure_type = gigablackhole_ring_world_3
-# 	}
-# }
-
-# is_nicoll_beam = {
-# 	OR = {
-# 		is_megastructure_type = nicoll_beam_0
-# 		is_megastructure_type = nicoll_beam_1
-# 		is_megastructure_type = nicoll_beam_2
-# 		is_megastructure_type = nicoll_beam_3
-# 		is_megastructure_type = nicoll_beam_4
-# 		is_megastructure_type = nicoll_beam_5
-# 		is_megastructure_type = nicoll_beam_6
-# 		is_megastructure_type = nicoll_beam_side_gate
-# 		is_megastructure_type = nicoll_beam_side_gate_1
-# 		is_megastructure_type = nicoll_beam_gate
-# 		is_megastructure_type = nicoll_beam_gate_2
-# 		is_megastructure_type = nicoll_beam_gate_1
-# 		is_megastructure_type = nicoll_beam_target_marker_1
-# 		is_megastructure_type = nicoll_beam_target_marker_2
-# 		is_megastructure_type = nicoll_beam_target_marker_3
-# 		is_megastructure_type = nicoll_beam_target_marker_4
-# 		is_megastructure_type = nicoll_beam_target_marker_6
-# 		is_megastructure_type = nicoll_beam_target_marker_5
-# 	}
-# }
-
-# is_ehof_megastructure = {
-# 	OR = {
-# 		is_megastructure_type = ehof_megastructure_phase0
-# 		is_megastructure_type = ehof_megastructure_phase1_idle
-# 		is_megastructure_type = ehof_megastructure_phase2_idle
-# 		is_megastructure_type = ehof_megastructure_phase3_idle
-# 		is_megastructure_type = ehof_megastructure_phase4_idle
-# 		is_megastructure_type = ehof_megastructure_phase5_idle
-# 		is_megastructure_type = ehof_megastructure_ruined
-# 		is_megastructure_type = ehof_megastructure_restored
-# 		is_megastructure_type = ehof_megastructure_phase1_activating
-# 		is_megastructure_type = ehof_megastructure_phase2_activating
-# 		is_megastructure_type = ehof_megastructure_phase3_activating
-# 		is_megastructure_type = ehof_megastructure_phase4_activating
-# 		is_megastructure_type = ehof_megastructure_phase5_activating
-# 		is_megastructure_type = ehof_megastructure_phase1_active
-# 		is_megastructure_type = ehof_megastructure_phase2_active
-# 		is_megastructure_type = ehof_megastructure_phase3_active
-# 		is_megastructure_type = ehof_megastructure_phase4_active
-# 		is_megastructure_type = ehof_megastructure_phase5_active
-# 		is_megastructure_type = ehof_megastructure_phase1_decommissioned
-# 		is_megastructure_type = ehof_megastructure_phase2_decommissioned
-# 		is_megastructure_type = ehof_megastructure_phase4_decommissioned
-# 		is_megastructure_type = ehof_megastructure_phase3_decommissioned
-# 		is_megastructure_type = ehof_megastructure_phase5_decommissioned
-# 		is_megastructure_type = ehof_compound_phase1
-# 		is_megastructure_type = ehof_compound_phase2
-# 		is_megastructure_type = ehof_compound_phase3
-# 		is_megastructure_type = ehof_compound_phase4
-# 	}
-# }
-
 #eternal check
 retrun_first_station_check = {
 	optimize_memory
@@ -490,85 +427,8 @@ retrun_first_station_check = {
 			has_origin = origin_kuat_apocalyptic
 			has_origin = origin_eternalthrone
 		} } }
-		if = {
-			limit = { event_target:global_event_country = {
-				check_variable = { which = eternal_fleet_return_index value <= 1 }
-			} }
-			event_target:global_event_country = {
-				check_variable = { which = count_destroy_eternal_fleet value > 2 }
-			}
-		}
-		else_if = {
-			limit = { event_target:global_event_country = {
-				check_variable = { which = eternal_fleet_return_index value = 2 }
-			} }
-			event_target:global_event_country = {
-				check_variable = { which = count_destroy_eternal_fleet value > 4 }
-			}
-		}
-		else_if = {
-			limit = { event_target:global_event_country = {
-				check_variable = { which = eternal_fleet_return_index value = 3 }
-			} }
-			event_target:global_event_country = {
-				check_variable = { which = count_destroy_eternal_fleet value > 6 }
-			}
-		}
-		else_if = {
-			limit = { event_target:global_event_country = {
-				check_variable = { which = eternal_fleet_return_index value = 4 }
-			} }
-			event_target:global_event_country = {
-				check_variable = { which = count_destroy_eternal_fleet value > 8 }
-			}
-		}
-		else_if = {
-			limit = { event_target:global_event_country = {
-				check_variable = { which = eternal_fleet_return_index value = 5 }
-			} }
-			event_target:global_event_country = {
-				check_variable = { which = count_destroy_eternal_fleet value > 10 }
-			}
-		}
-		else_if = {
-			limit = { event_target:global_event_country = {
-				check_variable = { which = eternal_fleet_return_index value = 6 }
-			} }
-			event_target:global_event_country = {
-				check_variable = { which = count_destroy_eternal_fleet value > 12 }
-			}
-		}
-		else_if = {
-			limit = { event_target:global_event_country = {
-				check_variable = { which = eternal_fleet_return_index value = 7 }
-			} }
-			event_target:global_event_country = {
-				check_variable = { which = count_destroy_eternal_fleet value > 14 }
-			}
-		}
-		else_if = {
-			limit = { event_target:global_event_country = {
-				check_variable = { which = eternal_fleet_return_index value = 8 }
-			} }
-			event_target:global_event_country = {
-				check_variable = { which = count_destroy_eternal_fleet value > 16 }
-			}
-		}
-		else_if = {
-			limit = { event_target:global_event_country = {
-				check_variable = { which = eternal_fleet_return_index value = 9 }
-			} }
-			event_target:global_event_country = {
-				check_variable = { which = count_destroy_eternal_fleet value > 18 }
-			}
-		}
-		else_if = {
-			limit = { event_target:global_event_country = {
-				check_variable = { which = eternal_fleet_return_index value >= 10 }
-			} }
-			event_target:global_event_country = {
-				check_variable = { which = count_destroy_eternal_fleet value > 20 }
-			}
+		event_target:global_event_country = {
+			check_variable_arithmetic = { which = count_destroy_eternal_fleet value > eternal_fleet_return_index multiply = 2 }
 		}
 	}
 	else = {
@@ -585,85 +445,8 @@ retrun_second_station_check = {
 			has_origin = origin_kuat_apocalyptic
 			has_origin = origin_eternalthrone
 		} } }
-		if = {
-			limit = { event_target:global_event_country = {
-				check_variable = { which = eternal_fleet_return_index value <= 1 }
-			} }
-			event_target:global_event_country = {
-				check_variable = { which = count_destroy_eternal_fleet value > 4 }
-			}
-		}
-		else_if = {
-			limit = { event_target:global_event_country = {
-				check_variable = { which = eternal_fleet_return_index value = 2 }
-			} }
-			event_target:global_event_country = {
-				check_variable = { which = count_destroy_eternal_fleet value > 8 }
-			}
-		}
-		else_if = {
-			limit = { event_target:global_event_country = {
-				check_variable = { which = eternal_fleet_return_index value = 3 }
-			} }
-			event_target:global_event_country = {
-				check_variable = { which = count_destroy_eternal_fleet value > 12 }
-			}
-		}
-		else_if = {
-			limit = { event_target:global_event_country = {
-				check_variable = { which = eternal_fleet_return_index value = 4 }
-			} }
-			event_target:global_event_country = {
-				check_variable = { which = count_destroy_eternal_fleet value > 16 }
-			}
-		}
-		else_if = {
-			limit = { event_target:global_event_country = {
-				check_variable = { which = eternal_fleet_return_index value = 5 }
-			} }
-			event_target:global_event_country = {
-				check_variable = { which = count_destroy_eternal_fleet value > 20 }
-			}
-		}
-		else_if = {
-			limit = { event_target:global_event_country = {
-				check_variable = { which = eternal_fleet_return_index value = 6 }
-			} }
-			event_target:global_event_country = {
-				check_variable = { which = count_destroy_eternal_fleet value > 24 }
-			}
-		}
-		else_if = {
-			limit = { event_target:global_event_country = {
-				check_variable = { which = eternal_fleet_return_index value = 7 }
-			} }
-			event_target:global_event_country = {
-				check_variable = { which = count_destroy_eternal_fleet value > 28 }
-			}
-		}
-		else_if = {
-			limit = { event_target:global_event_country = {
-				check_variable = { which = eternal_fleet_return_index value = 8 }
-			} }
-			event_target:global_event_country = {
-				check_variable = { which = count_destroy_eternal_fleet value > 32 }
-			}
-		}
-		else_if = {
-			limit = { event_target:global_event_country = {
-				check_variable = { which = eternal_fleet_return_index value = 9 }
-			} }
-			event_target:global_event_country = {
-				check_variable = { which = count_destroy_eternal_fleet value > 36 }
-			}
-		}
-		else_if = {
-			limit = { event_target:global_event_country = {
-				check_variable = { which = eternal_fleet_return_index value >= 10 }
-			} }
-			event_target:global_event_country = {
-				check_variable = { which = count_destroy_eternal_fleet value > 40 }
-			}
+		event_target:global_event_country = {
+			check_variable_arithmetic = { which = count_destroy_eternal_fleet value > eternal_fleet_return_index multiply = 4 }
 		}
 	}
 	else = {
@@ -680,85 +463,8 @@ retrun_third_station_check = {
 			has_origin = origin_kuat_apocalyptic
 			has_origin = origin_eternalthrone
 		} } }
-		if = {
-			limit = { event_target:global_event_country = {
-				check_variable = { which = eternal_fleet_return_index value <= 1 }
-			} }
-			event_target:global_event_country = {
-				check_variable = { which = count_destroy_eternal_fleet value > 8 }
-			}
-		}
-		else_if = {
-			limit = { event_target:global_event_country = {
-				check_variable = { which = eternal_fleet_return_index value = 2 }
-			} }
-			event_target:global_event_country = {
-				check_variable = { which = count_destroy_eternal_fleet value > 16 }
-			}
-		}
-		else_if = {
-			limit = { event_target:global_event_country = {
-				check_variable = { which = eternal_fleet_return_index value = 3 }
-			} }
-			event_target:global_event_country = {
-				check_variable = { which = count_destroy_eternal_fleet value > 24 }
-			}
-		}
-		else_if = {
-			limit = { event_target:global_event_country = {
-				check_variable = { which = eternal_fleet_return_index value = 4 }
-			} }
-			event_target:global_event_country = {
-				check_variable = { which = count_destroy_eternal_fleet value > 32 }
-			}
-		}
-		else_if = {
-			limit = { event_target:global_event_country = {
-				check_variable = { which = eternal_fleet_return_index value = 5 }
-			} }
-			event_target:global_event_country = {
-				check_variable = { which = count_destroy_eternal_fleet value > 40 }
-			}
-		}
-		else_if = {
-			limit = { event_target:global_event_country = {
-				check_variable = { which = eternal_fleet_return_index value = 6 }
-			} }
-			event_target:global_event_country = {
-				check_variable = { which = count_destroy_eternal_fleet value > 48 }
-			}
-		}
-		else_if = {
-			limit = { event_target:global_event_country = {
-				check_variable = { which = eternal_fleet_return_index value = 7 }
-			} }
-			event_target:global_event_country = {
-				check_variable = { which = count_destroy_eternal_fleet value > 56 }
-			}
-		}
-		else_if = {
-			limit = { event_target:global_event_country = {
-				check_variable = { which = eternal_fleet_return_index value = 8 }
-			} }
-			event_target:global_event_country = {
-				check_variable = { which = count_destroy_eternal_fleet value > 64 }
-			}
-		}
-		else_if = {
-			limit = { event_target:global_event_country = {
-				check_variable = { which = eternal_fleet_return_index value = 9 }
-			} }
-			event_target:global_event_country = {
-				check_variable = { which = count_destroy_eternal_fleet value > 72 }
-			}
-		}
-		else_if = {
-			limit = { event_target:global_event_country = {
-				check_variable = { which = eternal_fleet_return_index value >= 10 }
-			} }
-			event_target:global_event_country = {
-				check_variable = { which = count_destroy_eternal_fleet value > 80 }
-			}
+		event_target:global_event_country = {
+			check_variable_arithmetic = { which = count_destroy_eternal_fleet value > eternal_fleet_return_index multiply = 4 }
 		}
 	}
 	else = {
@@ -802,6 +508,7 @@ has_trigger_shipyard = {
 			has_starbase_size = ag_gamma_station_1
 			has_starbase_size = swfo_supremacy
 			has_starbase_size = exe_megastructure_starbase
+			has_starbase_size = Drift_megastructure_starbase
 			owner = { has_origin = origin_kuat_apocalyptic }
 		} }
 		AND = { is_scope_type = megastructure OR = {
@@ -829,6 +536,8 @@ kuat_is_legacy_arc_planet = {
 #bomborment country
 kuat_can_do_bombarment_country = {
 	OR = {
+		is_country_type = eternal_support
+		is_country_type = eternal_support_guadian
 		is_country_type = kuat_fleet
 		is_country_type = kuat_fleet_hostile
 		is_country_type = kuat_fallen_empire				

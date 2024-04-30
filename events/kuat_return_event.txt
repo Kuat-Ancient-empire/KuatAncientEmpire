@@ -812,7 +812,7 @@ country_event = {
 		name = exe_kuat_return.162.e
 		response_text = exe_kuat_return.162.e.resp 
 		play_sound = swfo_starkillerbase_fire
-		hidden_effect = { country_event = { id = exe_kuat_return.163 days = 1 } }
+		hidden_effect = { remove_country_flag = fire_once_contact country_event = { id = exe_kuat_return.163 days = 1 } }
 	}
 }
 
@@ -1362,6 +1362,7 @@ country_event = {
 		#殖民
 		every_system = {
 			limit = { kuat_is_kuat_system = yes }
+			event_target:return_kuat_awakening_country = { change_variable = { which = Count_control_kuat_system value = 1 } }
 			every_system_planet = {
 				if = {
 					limit = { is_colonizable = yes }
@@ -1701,16 +1702,31 @@ country_event = {
 		}
 	}
 	immediate = { 
-		event_target:global_event_country = { set_variable = { which = count_destroy_eternal_fleet value = 0 } }
+		event_target:global_event_country = { 
+			set_variable = { which = count_destroy_eternal_fleet value = 0 } 
+			set_variable = { which = eternal_fleet_return_index_x4 value = 0 }
+		}
 		if = {
 			limit = { has_global_flag = eternal_support_country_channal }
-			event_target:global_event_country = { set_variable = { which = eternal_fleet_return_index value = 6 } }
+			event_target:global_event_country = { 
+				set_variable = { which = eternal_fleet_return_index value = 6 } 
+				set_variable = { which = eternal_fleet_return_index_x4 value = eternal_fleet_return_index }
+				multiply_variable = { which = eternal_fleet_return_index_x4 value = 4 }
+			}
 		} 
 		else_if = {
 			limit = { has_global_flag = infinite_empire_channal }
-			event_target:global_event_country = { set_variable = { which = eternal_fleet_return_index value = 7 } }
+			event_target:global_event_country = { 
+				set_variable = { which = eternal_fleet_return_index value = 7 } 
+				set_variable = { which = eternal_fleet_return_index_x4 value = eternal_fleet_return_index }
+				multiply_variable = { which = eternal_fleet_return_index_x4 value = 4 }
+			}
 		}
-		else = { event_target:global_event_country = { set_variable = { which = eternal_fleet_return_index value = 8 } } }
+		else = { event_target:global_event_country = { 
+			set_variable = { which = eternal_fleet_return_index value = 8 } }
+			set_variable = { which = eternal_fleet_return_index_x4 value = eternal_fleet_return_index }
+			multiply_variable = { which = eternal_fleet_return_index_x4 value = 4 }
+		}
 	}
 	after = { country_event = { id = kuat_facility_return_invasion.20 days = 1 random = 2 } set_global_flag = exe_return_invasion_7_fired }
 }
@@ -1744,15 +1760,28 @@ country_event = {
 			limit = { OR = {
 				count_owned_ship = {
 					limit = { kuat_is_flagship_system_protection = yes }
-					count > 32
+					count > 16
 				}
 				exists = event_target:eternal_fleet_country
+				event_target:return_kuat_awakening_country = { check_variable = { which = Count_control_kuat_system value < 2 } }
 			} }
 			country_event = { id = kuat_facility_return_invasion.19 days = 120 random = 240 }
 		}
 		else = {
 			country_event = { id = kuat_facility_return_invasion.18 days = 1 random = 7 }
-			country_event = { id = kuat_facility_return_invasion.19 days = 120 random = 240 }
+			country_event = { id = kuat_facility_return_invasion.19 days = 360 random = 360 }
+		}
+		event_target:return_kuat_awakening_country = {
+			set_variable = { which = Count_control_kuat_system value = 0 }
+			export_trigger_value_to_variable = {
+				trigger = count_system
+				parameters = { limit = {
+					kuat_is_kuat_system = yes
+					exists = starbase
+					starbase = { controller = { is_same_value = event_target:return_kuat_awakening_country } }	
+				} }
+				variable = Count_control_kuat_system
+			}
 		}
 	}
 }

@@ -1,105 +1,139 @@
 #任务清单
-#// 后裔危机 //
-#// 0.虚化（恶魔化本mod舰船实体）
-#// 1.完成后裔危机的对应配置，将本文件内的TODO基本配置完毕（星系，特殊计划，局势，计数事件组，星系，模型（虚空化shader的三大阵营舰队）等）
-#// 2.完成后裔危机的对应文本资料（局势的前奏，与危机的过程文案）后裔将具备四种形态
-#//（被吞噬的夸特舰队，被吞噬的永恒舰队，被吞噬的无限帝国，以及后裔实体）
-#// 3.制作后裔危机的独特机制，每个回归结点之前应当面对不同的形态敌人
-#// 4.第一阶段为被吞噬的虚空化的夸特舰队
-#// 5.第二阶段为被吞噬和虚空化的无限帝国舰队
-#// 6.第三阶段为拯救正在被侵入的永恒舰队
-#// 7.第三阶段过后会允许在主线启用新的永恒舰队智能
-#// 8.最终阶段封锁后裔实体，封印虚界入口，虚界意志留下来自虚界的武器
-#// 9.组件1：敌人每死亡一个舰船有10%的概率掠夺其舰船船体属性的95%赋予到自身
-#// 10.组件2：每作战1天增加10点灵能，每天按所获的灵能作为百分比摧毁敌人灵能点/5的敌人舰船
-#// 10.组件3：每击杀一艘舰船，都有2.5%的概率摧毁敌人基于你的击杀数量的舰船数
+#// 流浪者危机 //
+#// 0.流浪者舰船当前进度：10/10
+
+#// 1.完成流浪者（流浪者）危机的对应配置，将本文件内的TODO基本配置完毕（星系√，恒星√，特殊计划√，星系特效√，局势√，刷兵脚本配置√，舰船行为脚本配置√等）√
+#// 2.完成流浪者危机（流浪者）的对应文本资料（局势的前奏√，危机的过程文案）√
+
+#// 3.危机刷新机制 √
+#// 4.危机初始化 √
+
+#// 5.危机结算机制 √
+#// 6.危机流程 √
+
+#// 7.危机机制1：采用无限帝国设计，享有无限帝国机制使用权 √
+#// 8.危机机制2：每轰炸毁一个星球，刷新一个舰队√
+#// 9.危机机制3：流浪者舰船均拥有多次复活次数 √
+#// 10.危机机制4：防卫舰队在交战时将会复制玩家进攻舰队的10%-30%,概率均为1/10,且必定复制1艘√
 
 
 
 namespace = kuat_extramonster
-#Notification: Approaching rim system. 
-country_event = {
+#Notification: Approaching rim system. #通知：危机前奏，通知后危机生成
+country_event = { 
 	id = kuat_extramonster.8
 	title = "kuat_extramonster.8.name"
 	desc = "kuat_extramonster.8.desc"
 	diplomatic = yes
 	picture_event_data = { room = Eternal_Empire5_room }
-	custom_gui = "kuat_event_m_window"
-	custom_gui_option = "kuat_event_m_option"
+	custom_gui = "kuat_event_window"
+	custom_gui_option = "kuat_event_option"
 	show_sound = event_yellow_alert
 	location = root.capital_scope
 	is_triggered_only = yes
-	immediate = { set_global_flag = kuat_extramonster_7_fired }
+	immediate = { 
+		set_global_flag = kuat_extramonster_7_fired 
+		set_update_modifiers_batch = begin
+		random_system = {
+			limit = { has_star_flag = myst_system_5 }
+			star = {
+				create_ambient_object = { type = "star_explosion" play_animation_once = yes location = this }
+				last_created_ambient_object = { set_location = { target = prev distance = 0 angle = random } }
+				create_ambient_object = { type = "destroyed_system" location = this }
+				last_created_ambient_object = { set_ambient_object_flag = destroyed_system_effect set_location = { target = prev  distance = 0  angle = random  } }
+				set_planet_entity = { entity = starforge_avoid_entity }
+				set_planet_size = -1
+			}
+			every_system_planet = {
+				limit = { is_star = no }
+				destroy_colony = yes
+				remove_planet = yes
+			}
+			isolate_system = yes
+			every_fleet_in_system = { destroy_fleet = this }
+			set_star_flag = ag_no_jump_in_system
+			add_modifier = { modifier = Kuat_contractor_F_faclitlty_Forbidden }
+			star = { create_ambient_object = { type = "kuat_plague_storm_1" location = this } }
+		}
+		set_update_modifiers_batch = end
+	}
 	option = { name = "kuat_extramonster.8.a" }
 }
 
-#Invasion begin. (所到之处，灵能漩涡)
+#Invasion begin.  on_monthly
 event = {
 	id = kuat_extramonster.9
 	hide_window = yes
 	is_triggered_only = yes
 	trigger = {
 		has_global_flag = kuat_extramonster_7_fired
-		NOT = { has_global_flag = exe_invasion_signs_cooldown }
 		NOT = { has_global_flag = kuat_extramonster_begin }
 	}
 	immediate = {
 		set_update_modifiers_batch = begin
-		set_global_flag = extramonster_spawned
 		set_global_flag = kuat_extramonster_begin
 		create_country = {
 			name = "Name_Kuat_Contractor"
 			name_list = Eternal_Fleet
 			type = kuat_contractor_hostile
-			flag = event_target:kuat_player_target_country
+			flag = {
+				icon = {
+					category = "Drft"
+					file = "Logo_faction_drifters.dds"
+				}
+				background = {
+					category = "backgrounds"
+					file = "00_solid.dds"
+				}
+				colors = { "green" "black" "null" "null" }
+			}
 			ignore_initial_colony_error = yes
 		}
 		last_created_country = {
 			save_global_event_target_as = kuat_contractor_hostile
-			set_country_flag = kuat_contractor_hostile
-			remove_global_flag = has_kuat_contractor_hostile
-			set_global_flag = has_kuat_contractor_hostile
-			set_graphical_culture = fallen_empire_kuat_01
-			create_ship_design = { design = "NAME_EXE_Starbase" }
-			add_ship_design = last_created_design
-			create_ship_design = { design = "NAME_EXE_Starbase_Construction" }
 			add_ship_design = last_created_design
 			add_modifier = { modifier = Elternal_creating }
 		}
-		while = { count = 4 random_rim_system = { #TODO
+		while = { count = 6 random_system = {
 			limit = {
-				kuat_is_kuat_system = no
-				NOT = { has_star_flag = eternal_starbase_megastructure_in_system }
+				is_star_class = sc_kuat_white_hole
+				NOT = { has_star_flag = kuat_white_hole_star_in_system }
 			}
-			create_eternal_defensive_fleet = yes
-			create_elternal_system_warbase = { LOCK = yes }
-			system_star = {
+			kuat_contractor_create_elternal_system_warbase = yes
+			system_star = { 
 				planet_event = { id = kuat_extramonster.11 days = 10 }
 				planet_event = { id = kuat_extramonster.11 days = 20 }
 				planet_event = { id = kuat_extramonster.11 days = 30 }
 				planet_event = { id = kuat_extramonster.11 days = 40 }
 				planet_event = { id = kuat_extramonster.11 days = 50 }
 			}
+			event_target:global_event_country = { change_variable = { which = kuat_white_hole_var value = 1 } }
+			system_event = { id = kuat_extramonster.24 days = 180 }
+			set_star_flag = kuat_white_hole_star
+			set_timed_star_flag = { flag = kuat_white_hole_star_in_system days = 30 }
 		} }
-		event_target:kuat_contractor_hostile = { country_event = { id = kuat_extramonster.19 days = 100 } }
 		every_country = {
-			limit = { NOT = { is_country_type = kuat_contractor_hostile } }
+			limit = { NOT = { is_kuat_contractor_faction = yes } }
 			establish_communications_no_message = event_target:kuat_contractor_hostile
 			country_event = { id = kuat_extramonster.10 }
+		}
+		every_country = {
+			limit = { is_ai = no }
+			country_event = { id = kuat_extramonster.25 days = 5 }
 		}
 		set_update_modifiers_batch = end
 	}
 }
 
-#Notification: Extra crisis begin. 
+#Notification: Extra crisis begin.#通知：危机向银河宣告发生（通知事件）
 country_event = {
 	id = kuat_extramonster.10
 	title = "kuat_extramonster.10.name"
 	desc = "kuat_extramonster.10.a.desc"
 	diplomatic = yes
 	picture_event_data = { room = Eternal_Empire4_room }
-	custom_gui = "kuat_event_m_window"
-	custom_gui_option = "kuat_event_m_option"
+	custom_gui = "kuat_event_window"
+	custom_gui_option = "kuat_event_option"
 	show_sound = event_red_alert
 	location = root.capital_scope
 	is_triggered_only = yes
@@ -109,7 +143,7 @@ country_event = {
 	}
 }
 
-#Notification: Extra crisis talking. 
+#Notification: Extra crisis talking. #外交：流浪者发表通告
 country_event = {
 	id = kuat_extramonster.102
 	title = "kuat_extramonster.102.name"
@@ -131,22 +165,14 @@ country_event = {
 		}
 	} }
 	diplomatic = yes
-	picture_event_data = { 
-		room = Eternal_Empire_room
-		portrait = event_target:UTS02_LEADER
-	}
+	picture_event_data = { room = no_video_feed_room }
 	custom_gui = "kuat_event_diplomacy_window"
 	custom_gui_option = "kuat_event_diplomacy_option"
 	show_sound = event_red_alert
 	location = root.capital_scope
 	is_triggered_only = yes
 	immediate = {  
-		#TODO
-		begin_event_chain = { event_chain = ag_exe_invasion_chain }
-		if = {
-			limit = { has_event_chain = ag_return_eternal_chain }
-			add_event_chain_counter = { event_chain = ag_return_eternal_chain counter = ag_return_eternal_amount amount = 1 }
-		}
+		begin_event_chain = { event_chain = kuat_contractor_exe_invasion_chain }
 	}
 	option = {
 		name = kuat_extramonster.102.b
@@ -167,427 +193,8 @@ country_event = {
 	option = { name = kuat_extramonster.102.a ai_chance = { weight = 100 } }
 }
 
-#contact within EXTRA fleet
-country_event = {
-	id = kuat_extramonster.20
-	title = "kuat_extramonster.20.name"
-	desc = "kuat_extramonster.20.desc"
-	diplomatic = yes
-	picture_event_data = { room = no_video_feed_room }
-	custom_gui = "kuat_event_diplomacy_window"
-	custom_gui_option = "kuat_event_diplomacy_option"
-	show_sound = event_red_alert
-	location = root.capital_scope
-	fire_only_once = yes
-	trigger = { has_global_flag = kuat_extramonster_begin }
-	mean_time_to_happen = { 
-		years = 1
-		modifier = { factor = 0.20 event_target:global_event_country = { check_variable = { which = count_destroy_exm_kuat_fleet value > 10 } } }
-		modifier = { factor = 0.15 event_target:global_event_country = { check_variable = { which = count_destroy_exm_kuat_fleet value > 20 } } }
-		modifier = { factor = 0.10 event_target:global_event_country = { check_variable = { which = count_destroy_exm_kuat_fleet value > 30 } } }
-	}
-	option = {
-		name = "kuat_extramonster.20.a"
-		hidden_effect = { add_modifier = { modifier = final_eternal_fleet days = -1 } }
-	}
-}
-
-#find FIRST LOCATOR
-country_event = {
-	id = kuat_extramonster.24
-	title = "kuat_extramonster.24.name"
-	desc = "kuat_extramonster.24.desc"
-	diplomatic = yes
-	picture_event_data = { room = ancient_databank_room }
-	custom_gui = "kuat_event_window"
-	custom_gui_option = "kuat_event_option"
-	show_sound = event_red_alert
-	location = root.capital_scope
-	trigger = {
-		has_global_flag = kuat_extramonster_begin
-		is_player_country = yes
-		event_target:global_event_country = { check_variable = { which = count_destroy_exm_kuat_fleet value > 10 } } #TODO
-		NOT = { any_country = { has_country_flag = fire_first_find_extramonster } }
-	}
-	mean_time_to_happen = { months = 3 }
-	immediate = { 
-		set_country_flag = fire_first_find_extramonster 
-		begin_event_chain = { event_chain = ag_find_invasion_chain }
-		save_global_event_target_as = return_instersting_country
-	}
-	option = {
-		name = "kuat_extramonster.24.a"
-		enable_special_project = { #TODO
-			name = kuat_extramonster_project
-			owner = root location = root.capital_star
-		}
-	}
-}
-
-country_event = {
-	id = kuat_extramonster.25
-	title = "kuat_extramonster.24.name"
-	desc = "kuat_extramonster.25.desc"
-	diplomatic = yes
-	picture_event_data = { room = ancient_databank_room }
-	custom_gui = "kuat_event_window"
-	custom_gui_option = "kuat_event_option"
-	show_sound = event_red_alert
-	location = root.capital_scope
-	trigger = {
-		has_global_flag = kuat_extramonster_begin
-		is_player_country = yes
-		event_target:global_event_country = { check_variable = { which = count_destroy_exm_kuat_fleet value > 20 } } #TODO
-		NOT = { has_country_flag = second_first_find_extramonster }
-		check_variable = { which = num_finish value = 1 } 
-	}
-	mean_time_to_happen = { months = 3 }
-	immediate = { set_country_flag = second_first_find_extramonster }
-	option = {
-		name = "kuat_extramonster.24.a"
-		enable_special_project = { #TODO
-			name = kuat_extramonster_project
-			owner = root location = root.capital_star
-		}
-	}
-}
-
-country_event = {
-	id = kuat_extramonster.26
-	title = "kuat_extramonster.24.name"
-	desc = "kuat_extramonster.26.desc"
-	diplomatic = yes
-	picture_event_data = { room = ancient_databank_room }
-	custom_gui = "kuat_event_window"
-	custom_gui_option = "kuat_event_option"
-	show_sound = event_red_alert
-	location = root.capital_scope
-	trigger = {
-		has_global_flag = kuat_extramonster_begin
-		is_player_country = yes
-		event_target:global_event_country = { check_variable = { which = count_destroy_exm_kuat_fleet value > 30 } } #TODO
-		NOT = { has_country_flag = third_first_find_extramonster }
-		check_variable = { which = num_finish value = 2 } 
-	}
-	mean_time_to_happen = { months = 3 }
-	immediate = { set_country_flag = third_first_find_extramonster }
-	option = {
-		name = "kuat_extramonster.24.a"
-		enable_special_project = {
-			name = kuat_extramonster_project
-			owner = root location = root.capital_star
-		}
-	}
-}
-
-ship_event = {
-	id = kuat_extramonster.27
-	title = "kuat_extramonster.27.name"
-	desc = "kuat_extramonster.27.desc"
-	diplomatic = yes
-	picture_event_data = { room = ancient_databank_room }
-	custom_gui = "kuat_event_m_window"
-	custom_gui_option = "kuat_event_m_option"
-	is_triggered_only = yes
-	immediate = { 
-		owner = {  #TODO
-			change_variable = { which = num_vaild_system value = 1 } 
-			abort_special_project = { type = kuat_extramonster_project }
-		} 
-	}
-	option = {
-		name = kuat_extramonster.27.a
-		trigger = { owner = { check_variable = { which = num_vaild_system value = 1 } } }
-		hidden_effect = {
-			set_spawn_system_batch = begin
-			owner = {
-				random_system = {
-					limit = { 
-						is_capital_system = no
-						kuat_is_kuat_system = no 
-						NOR = {
-							has_star_flag = final_1_system #TODO
-							has_star_flag = final_2_system #TODO
-							has_star_flag = final_3_system #TODO
-						}
-					}
-					spawn_system = { initializer = exe_first_invasion_exm_system hyperlane = no } #TODO
-				}
-			}
-			set_spawn_system_batch = end
-		}
-	}
-	option = {
-		name = kuat_extramonster.27.b
-		trigger = { owner = { check_variable = { which = num_vaild_system value = 2 } } }
-		hidden_effect = {
-			set_spawn_system_batch = begin
-			owner = {
-				random_system = {
-					limit = { 
-						is_capital_system = no
-						kuat_is_kuat_system = no 
-						NOR = {
-							has_star_flag = final_1_system #TODO
-							has_star_flag = final_2_system #TODO
-							has_star_flag = final_3_system #TODO
-						}
-					}
-					spawn_system = { initializer = exe_second_invasion_exm_system hyperlane = no } #TODO
-				}
-			}
-			set_spawn_system_batch = end
-		}
-	}
-	option = {
-		name = kuat_extramonster.27.c
-		trigger = { owner = { check_variable = { which = num_vaild_system value >= 3 } } }
-		hidden_effect = {
-			set_spawn_system_batch = begin
-			owner = {
-				random_system = {
-					limit = { 
-						is_capital_system = no
-						kuat_is_kuat_system = no 
-						NOR = {
-							has_star_flag = final_1_system #TODO
-							has_star_flag = final_2_system #TODO
-							has_star_flag = final_3_system #TODO
-						}
-					}
-					spawn_system = { initializer = exe_third_invasion_exm_system hyperlane = no } #TODO
-				}
-			}
-			set_spawn_system_batch = end
-		}
-	}
-}
-
-ship_event = {
-	id = kuat_extramonster.28
-	title = "kuat_extramonster.28.name"
-	desc = "kuat_extramonster.28.desc"
-	diplomatic = yes
-	picture_event_data = { room = star_neutron_room }
-	custom_gui = "kuat_event_window"
-	custom_gui_option = "kuat_event_option"
-	is_triggered_only = yes
-	trigger = {
-		owner = { is_variable_set = num_vaild_system }
-		from = { OR = {
-			has_star_flag = final_1_system
-			has_star_flag = final_2_system
-			has_star_flag = final_3_system
-		} }
-	}
-	immediate = {
-		from = { system_star = { enable_special_project = { #TODO
-			name = kuat_extramonster_exploring_project
-			owner = root.owner
-			location = this
-		} } }
-	}
-	option = { name = kuat_extramonster.28.a }
-}
-
-ship_event = { #TODO
-	id = kuat_extramonster.29
-	title = "kuat_extramonster.27.name"
-	desc = "kuat_extramonster.29.desc"
-	diplomatic = yes
-	picture_event_data = { room = star_neutron_room }
-	custom_gui = "kuat_event_m_window"
-	custom_gui_option = "kuat_event_m_option"
-	is_triggered_only = yes
-	immediate = { owner = { abort_special_project = { type = kuat_extramonster_exploring_project } } }
-	option = {
-		name = kuat_extramonster.29.a
-		trigger = { owner = { check_variable = { which = num_vaild_system value = 1 } } }
-		solar_system = { every_system_ambient_object = {
-			limit = { is_ambient_object_type = kuat_gateway_entity_object }
-			destroy_ambient_object = this
-			prev.star = { create_ambient_object = {
-				type = kuat_gateway_disbale_entity_object
-				location = this
-				use_3d_location = yes
-				entity_offset = { min = 0 max = 0 }
-				entity_offset_angle = { min = 0 max = 0 }
-				entity_offset_height = { min = 0 max = 0 }
-				scale = 1
-			} }
-		} }
-		if = {
-			limit = { owner = { has_origin = origin_kuat_apocalyptic } }
-			owner = { 
-				add_random_research_option = { add_progress = 1 } 
-				hidden_effect = { change_variable = { which = num_finish value = 1 } }
-				add_event_chain_counter = { event_chain = ag_find_invasion_chain counter = ag_legacy_system_amount amount = 1 }
-			}
-		}
-		else = { owner = { start_situation = {
-			type = situation_unlocked_the_first_station
-			target = event_target:kuat_contractor_hostile
-		} } }
-	}
-	option = {
-		name = kuat_extramonster.29.a
-		trigger = { owner = { check_variable = { which = num_vaild_system value = 2 } } }
-		solar_system = { every_system_ambient_object = {
-			limit = { is_ambient_object_type = kuat_gateway_entity_object }
-			destroy_ambient_object = this
-			prev.star = { create_ambient_object = {
-				type = kuat_gateway_disbale_entity_object
-				location = this
-				use_3d_location = yes
-				entity_offset = { min = 0 max = 0 }
-				entity_offset_angle = { min = 0 max = 0 }
-				entity_offset_height = { min = 0 max = 0 }
-				scale = 1
-			} }
-		} }
-		if = {
-			limit = { owner = { has_origin = origin_kuat_apocalyptic } }
-			owner = { 
-				add_random_research_option = { add_progress = 1 } 
-				hidden_effect = { change_variable = { which = num_finish value = 1 } }
-				add_event_chain_counter = { event_chain = ag_find_invasion_chain counter = ag_legacy_system_amount amount = 1 }
-			}
-		}
-		else = { owner = { start_situation = {
-			type = situation_unlocked_the_second_station
-			target = event_target:kuat_contractor_hostile
-		} } }
-	}
-	option = {
-		name = kuat_extramonster.29.a
-		trigger = { owner = { check_variable = { which = num_vaild_system value >= 3 } } }
-		set_update_modifiers_batch = begin
-		solar_system = { every_system_ambient_object = {
-			limit = { is_ambient_object_type = kuat_gateway_entity_object }
-			destroy_ambient_object = this
-			prev.star = { create_ambient_object = {
-				type = kuat_gateway_disbale_entity_object
-				location = this
-				use_3d_location = yes
-				entity_offset = { min = 0 max = 0 }
-				entity_offset_angle = { min = 0 max = 0 }
-				entity_offset_height = { min = 0 max = 0 }
-				scale = 1
-			} }
-		} }
-		if = {
-			limit = { owner = { has_origin = origin_kuat_apocalyptic } }
-			owner = { 
-				add_random_research_option = { add_progress = 1 } 
-				hidden_effect = { change_variable = { which = num_finish value = 1 } }
-				add_event_chain_counter = { event_chain = ag_find_invasion_chain counter = ag_legacy_system_amount amount = 1 }
-			}
-			event_target:kuat_contractor_hostile = {
-				if = {
-					limit = { NOT = { any_owned_fleet = { has_fleet_flag = exm_kuat_invasion_fleet } } }
-					random_system_within_border = {
-						limit = { has_star_flag = eternal_starbase_megastructure_in_system }
-						system_star = { create_exe_retrun_invasion_fleet_detail = yes }
-					}
-				}
-			}
-			every_playable_country = { country_event = { id = kuat_extramonster.33 } }
-		}
-		else = { owner = { start_situation = {
-			type = situation_unlocked_the_third_station
-			target = event_target:kuat_contractor_hostile
-		} } }
-		set_update_modifiers_batch = end
-	}
-}
-
-country_event = {
-	id = kuat_extramonster.33
-	title = "kuat_extramonster.33.name"
-	desc = "kuat_extramonster.33.desc"
-	diplomatic = yes
-	picture_event_data = { room = star_neutron_room }
-	custom_gui = "kuat_event_m_window"
-	custom_gui_option = "kuat_event_m_option"
-	is_triggered_only = yes
-	trigger = { check_variable = { which = num_vaild_system value >= 3 } }
-	option = {
-		name = kuat_extramonster.33.a
-		custom_tooltip = kuat_extramonster.33.tooltip
-		end_event_chain = ag_find_invasion_chain
-		hidden_effect = { 
-			set_global_flag = can_win_the_fleet 
-			event_target:kuat_contractor_hostile = { country_event = { id = kuat_extramonster.37 days = 30 } }
-		}
-	}
-	after = { if = { limit = { has_origin = origin_eternalthrone has_country_flag = eternal_fleet_ennded_A } country_event = { id = kuat_facility_return_invasion.22 days = 2 random = 3 } } }
-}
-
-#Eternal starbase destroy
-country_event = {
-	id = kuat_extramonster.17
-	hide_window = yes
-	is_triggered_only = yes
-	trigger = { 
-		has_global_flag = kuat_extramonster_begin
-		has_global_flag = can_win_the_fleet
-		fromfromfrom = { 
-			has_fleet_flag = ag_kuat_invasion_starbase 
-			NOT = { has_fleet_flag = ag_kuat_invasion_starbase_disable }
-		}
-		from = { is_country_type = kuat_contractor_hostile }
-	}
-	immediate = { 
-		set_update_modifiers_batch = begin
-		fromfromfrom = { solar_system = {
-			remove_star_flag = eternal_starbase_megastructure_in_system
-			set_star_class = sc_black_hole
-			star = {
-				create_ambient_object = { type = "star_explosion" play_animation_once = yes location = this }
-				last_created_ambient_object = { set_location = { target = prev distance = 0 angle = random } }
-				create_ambient_object = { type = "destroyed_system" location = this }
-				last_created_ambient_object = { set_ambient_object_flag = destroyed_system_effect set_location = { target = prev  distance = 0  angle = random  } }
-				change_pc = pc_black_hole
-				set_planet_size = 18
-			}
-			every_fleet_in_system = {
-				limit = { exists = owner owner = { NOT = { is_country_type = kuat_contractor_hostile }  } }
-				every_owned_ship = { kuat_reduce_hp_percent = { value = 75 } }
-			}
-			random_ambient_object = {
-				limit = { has_ambient_object_flag = space_storm_object }
-				destroy_ambient_object = this
-			}
-			if = {
-				limit = { NOT = { has_star_flag = fire_only_once_temple } }
-				set_timed_star_flag = { flag = fire_only_once_temple days = 1 }
-				event_target:kuat_contractor_hostile = { change_variable = { which = ag_kuat_invasion_starbase_arrived value = 1 } }
-			}
-		} }
-		every_playable_country = { 
-			limit = { NOT = { has_country_flag = fire_only_once_temple } } 
-			country_event = { id = kuat_extramonster.18 } set_timed_country_flag = { flag = fire_only_once_temple days = 1 }
-		}
-		set_update_modifiers_batch = end
-	}
-}
-
-#notice everyone starbase destroy
-country_event = {
-	id = kuat_extramonster.18
-	title = "kuat_extramonster.18.name"
-	desc = "kuat_extramonster.18.desc"
-	diplomatic = yes
-	picture_event_data = { room = black_hole_room }
-	custom_gui = "kuat_event_m_window"
-	custom_gui_option = "kuat_event_m_option"
-	show_sound = event_sensor_ping
-	is_triggered_only = yes
-	option = { name = kuat_extramonster.29.a }
-}
-
 #Invasion fleet arrived. 
-planet_event = { #TODO
+planet_event = {
 	id = kuat_extramonster.11
 	hide_window = yes
 	is_triggered_only = yes
@@ -597,69 +204,86 @@ planet_event = { #TODO
 	}
 	immediate = {
 		set_update_modifiers_batch = begin
-		event_target:kuat_contractor_hostile = { change_variable = { which = exm_kuat_invasion_fleet_arrived value = 1 } }
-		create_exe_retrun_invasion_fleet_detail = yes
+		kuat_contractor_create_retrun_invasion_fleet_detail = yes
 		every_country = {
-			limit = { has_event_chain = ag_exe_invasion_chain }
-			add_event_chain_counter = { event_chain = ag_exe_invasion_chain counter = ag_exe_invasion_fleet amount = 1 }
-		}
-		event_target:kuat_contractor_hostile = {
-			if = {
-				limit = { check_variable = { which = exm_kuat_invasion_fleet_arrived value = 20 } }
-				every_owned_fleet = { limit = { has_fleet_flag = exm_kuat_invasion_fleet } fleet_event = { id = kuat_extramonster.12 days = 1 random = 2 } }
-				set_global_flag = can_win_the_fleet_stage_1
+			limit = { has_event_chain = kuat_contractor_exe_invasion_chain }
+			add_event_chain_counter = { 
+				event_chain = kuat_contractor_exe_invasion_chain 
+				counter = kuat_contractor_exe_invasion_fleet amount = 1 
 			}
 		}
+		event_target:kuat_contractor_hostile = { every_owned_fleet = {
+			limit = { has_fleet_flag = kuat_contractor_invasion_fleet is_fleet_idle = yes }
+			fleet_event = { id = kuat_extramonster.12 days = 1 random = 2 }
+		} }
 		set_update_modifiers_batch = end
 	}
 }
 
-#recycle reinforcement
-country_event = {
-	id = kuat_extramonster.19
+#white hole convertion rainforcement
+system_event = {
+	id = kuat_extramonster.24
 	hide_window = yes
 	is_triggered_only = yes
-	trigger = { #TODO
+	trigger = {
 		exists = event_target:kuat_contractor_hostile
-		is_country_type = kuat_contractor_hostile
-		NOT = { has_global_flag = can_win_the_fleet }
-		has_global_flag = can_win_the_fleet_stage_1
+
+		NOT = { has_star_flag = kuat_white_hole_rainforce_disable }
 	}
-	immediate = { #TODO
-		set_update_modifiers_batch = begin
-		if = {
-			limit = { count_owned_fleet = { limit = { has_fleet_flag = exm_kuat_invasion_fleet } count < 20 } }
-			every_rim_system = {
-				limit = { has_star_flag = eternal_starbase_megastructure_in_system }
-				system_star = { create_exe_retrun_invasion_fleet_detail = yes }
-			}
-			every_country = {
-				limit = { has_event_chain = ag_exe_invasion_chain }
-				add_event_chain_counter = { event_chain = ag_exe_invasion_chain counter = ag_exe_invasion_fleet amount = 4 }
+	immediate = {
+		system_star = { while = {
+			count = 5
+			kuat_contractor_create_retrun_invasion_fleet_detail = yes
+		} }
+		every_country = {
+			limit = { has_event_chain = kuat_contractor_exe_invasion_chain }
+			add_event_chain_counter = { 
+				event_chain = kuat_contractor_exe_invasion_chain 
+				counter = kuat_contractor_exe_invasion_fleet amount = 5 
 			}
 		}
-		country_event = { id = kuat_extramonster.19 days = 180 }
-		set_update_modifiers_batch = end
+		system_event = { id = kuat_extramonster.24 days = 360 random = 360 }
 	}
 }
 
-#Invasion fleet action. 
+#Notification: white hole convertion #流浪者开始建设恒星那什么器
+country_event = {
+	id = kuat_extramonster.25
+	title = "kuat_extramonster.25.title"
+	desc = "kuat_extramonster.25.desc"
+	diplomatic = yes
+	picture_event_data = { room = ancient_AI_room }
+	custom_gui = "kuat_event_window"
+	custom_gui_option = "kuat_event_option"
+	show_sound = event_wind_ruins
+	is_triggered_only = yes
+	trigger = { NOT = { has_event_chain = kuat_contractor_exe_invasion_chain } }
+	option = { name = kuat_extramonster.25.a }
+}
+
+#Invasion fleet action.  attack player
 fleet_event = {
 	id = kuat_extramonster.12
 	hide_window = yes
 	is_triggered_only = yes
-	trigger = { exists = this }
-	immediate = { ag_exe_invasion_fleet_action = yes } #TODO
+	trigger = { 
+		exists = this 
+		has_global_flag = kuat_extramonster_begin
+		NOT = { has_global_flag = kuat_extramonster_ended }
+	}
+	immediate = { kuat_contractor_exe_invasion_fleet_action = yes } 
 }
 
 #Invasion fleet action on win a space battle. 
-country_event = { #TODO
+country_event = { 
 	id = kuat_extramonster.13
 	hide_window = yes
 	is_triggered_only = yes
 	trigger = {
-		is_country_type = kuat_contractor_hostile
-		fromfrom = { fleet = { has_fleet_flag = exm_kuat_invasion_fleet } }
+		has_global_flag = kuat_extramonster_begin
+		NOT = { has_global_flag = kuat_extramonster_ended }
+		is_kuat_contractor_faction = yes
+		fromfrom = { fleet = { has_fleet_flag = kuat_contractor_invasion_fleet } }
 		fromfromfrom = { OR = {
 			is_ship_class = shipclass_starbase
 			is_ship_class = shipclass_military
@@ -671,8 +295,8 @@ country_event = { #TODO
 				every_fleet_in_system = {
 					limit = {
 						exists = owner
-						owner = { is_country_type = kuat_contractor_hostile }
-						has_fleet_flag = exm_kuat_invasion_fleet
+						owner = { is_kuat_contractor_faction = yes }
+						has_fleet_flag = kuat_contractor_invasion_fleet
 					}
 					clear_orders = yes
 					clear_fleet_actions = this
@@ -684,13 +308,15 @@ country_event = { #TODO
 }
 
 #Invasion fleet action on orbit planet. 
-country_event = { #TODO
+country_event = { 
 	id = kuat_extramonster.14
 	hide_window = yes
 	is_triggered_only = yes
 	trigger = {
-		is_country_type = kuat_contractor_hostile
-		from = { has_fleet_flag = exm_kuat_invasion_fleet }
+		has_global_flag = kuat_extramonster_begin
+		NOT = { has_global_flag = kuat_extramonster_ended }
+		is_kuat_contractor_faction = yes
+		from = { has_fleet_flag = kuat_contractor_invasion_fleet }
 		fromfrom = { OR = {
 			is_star = yes
 			NOT = { exists = owner }
@@ -711,7 +337,9 @@ fleet_event = {
 	hide_window = yes
 	is_triggered_only = yes
 	trigger = {
-		has_fleet_flag = exm_kuat_invasion_fleet
+		has_global_flag = kuat_extramonster_begin
+		NOT = { has_global_flag = kuat_extramonster_ended }
+		has_fleet_flag = kuat_contractor_invasion_fleet
 		from = {
 			NOR = {
 				kuat_is_kuat_system = yes
@@ -720,7 +348,7 @@ fleet_event = {
 			}
 			any_fleet_in_system = {
 				NOT = { is_same_value = root }
-				has_fleet_flag = exm_kuat_invasion_fleet
+				has_fleet_flag = kuat_contractor_invasion_fleet
 			}
 		}
 	}
@@ -748,7 +376,7 @@ event = {
 			any_owned_fleet = {
 				exists = this
 				is_fleet_idle = yes
-				has_fleet_flag = exm_kuat_invasion_fleet
+				has_fleet_flag = kuat_contractor_invasion_fleet
 				NAND = {
 					exists = orbit
 					orbit = {
@@ -768,7 +396,7 @@ event = {
 				limit = {
 					exists = this
 					is_fleet_idle = yes
-					has_fleet_flag = exm_kuat_invasion_fleet
+					has_fleet_flag = kuat_contractor_invasion_fleet
 					NAND = {
 						exists = orbit
 						orbit = {
@@ -788,7 +416,7 @@ event = {
 	}
 }
 
-#Invasion fleet bombard a planet. 
+#Invasion fleet bombard a planet. counter
 planet_event = {
 	id = kuat_extramonster.21
 	hide_window = yes
@@ -798,47 +426,30 @@ planet_event = {
 		has_global_flag = kuat_extramonster_begin
 		NOT = { has_global_flag = kuat_extramonster_ended }
 		planet_devastation = 100
-		from = { is_country_type = kuat_contractor_hostile }
+		from = { is_kuat_contractor_faction = yes }
 	}
 	immediate = { 
 		reset_planet = yes
 		destroy_colony = yes
 		owner = { country_event = { id = kuat_extramonster.34 } } 
-		if = {
-			limit = { kuat_is_ringworld = yes }
-			spawn_ringworld_cracker_effect = yes
-			change_pc = pc_ringworld_habitable_damaged
-			set_planet_entity = { entity = ringworld_habitable_damaged_entity }
-		}
-		else_if = {
-			limit = { kuat_is_habitat = yes }
-			spawn_habitat_cracker_effect = yes
-			remove_planet = yes
-		}
-		else_if = {
-			limit = { has_modifier = "holy_planet" }
-			change_pc = pc_shattered
-			remove_modifier = "holy_planet"
-			add_modifier = { modifier = "ag_shattered_holy_planet" }
-		}
-		else = { change_pc = pc_shrouded }
 		every_country = {
 			limit = {
 				NOT = { is_same_value = event_target:kuat_contractor_hostile }
-				has_event_chain = ag_exe_invasion_chain
+				has_event_chain = kuat_contractor_exe_invasion_chain
 			}
-			add_event_chain_counter = { event_chain = ag_exe_invasion_chain counter = ag_exe_invasion_planet_destroyed amount = 1 }
+			add_event_chain_counter = { event_chain = kuat_contractor_exe_invasion_chain counter = kuat_contractor_exe_invasion_planet_destroyed amount = 1 }
 			if = {
-				limit = { has_event_chain = ag_return_eternal_chain }
-				add_event_chain_counter = { event_chain = ag_return_eternal_chain counter = ag_exe_invasion_planet_destroyed amount = 1 }
+				limit = { has_event_chain = kuat_contractor_exe_invasion_chain }
+				add_event_chain_counter = { event_chain = kuat_contractor_exe_invasion_chain counter = kuat_contractor_exe_invasion_planet_destroyed amount = 1 }
 			}
 		}
+		planet_event = { id = kuat_extramonster.11 }
 		solar_system = {
 			every_fleet_in_system = {
 				limit = {
 					exists = owner
-					owner = { is_country_type = kuat_contractor_hostile }
-					has_fleet_flag = exm_kuat_invasion_fleet
+					owner = { is_kuat_contractor_faction = yes }
+					has_fleet_flag = kuat_contractor_invasion_fleet
 					OR = {
 						AND = { exists = orbit orbit = { is_same_value = root } }
 						AND = {
@@ -862,115 +473,563 @@ planet_event = {
 	}
 }
 
+#Notification: bombarment #星球被轰炸转化为舰队
 country_event = {
 	id = kuat_extramonster.34
-	title = "exe_invasion.21.name"
-	desc = {
-		trigger = { from = { kuat_is_event_borderment_ringworld = no } }
-		text = "exe_invasion.21.a.desc"
-	}
-	desc = {
-		trigger = { from = { kuat_is_ringworld = yes } }
-		text = "exe_invasion.21.b.desc"
-	}
-	desc = {
-		trigger = { from = { is_planet_class = pc_habitat } }
-		text = "exe_invasion.21.c.desc"
-	}
-	desc = {
-		trigger = { from = { kuat_is_holy_world_planet = yes } }
-		text = "exe_invasion.21.d.desc"
-	}
+	title = "kuat_extramonster.21.name"
+	desc = "kuat_extramonster.21.a.desc"
 	diplomatic = yes
 	picture_event_data = { room = nuclear_explosion_room }
 	custom_gui = "kuat_event_m_window"
 	custom_gui_option = "kuat_event_m_option"
 	show_sound = event_super_explosion
 	is_triggered_only = yes
-	option = { name = "exe_invasion.21.a" ai_chance = { weight = 100 } }
+	option = { name = "kuat_extramonster.21.a" ai_chance = { weight = 100 } }
 }
 
-#Invasion fleet killed counter.  #TODO
+#Invasion fleet killed counter. 
 country_event = {
 	id = kuat_extramonster.22
 	hide_window = yes
 	is_triggered_only = yes
 	trigger = {
 		has_global_flag = kuat_extramonster_begin
-		is_country_type = kuat_contractor_hostile
+		is_kuat_contractor_faction = yes
 	}
 	immediate = {
 		from = {
-			add_event_chain_counter = { event_chain = ag_exe_invasion_chain counter = ag_exe_invasion_ship_kill_by_us amount = 1 }
+			add_event_chain_counter = { event_chain = kuat_contractor_exe_invasion_chain counter = kuat_contractor_exe_invasion_ship_kill_by_us amount = 1 }
 			if = {
-				limit = { has_event_chain = ag_return_eternal_chain }
-				add_event_chain_counter = { event_chain = ag_return_eternal_chain counter = ag_exe_invasion_ship_kill_by_us amount = 1 }
+				limit = { has_event_chain = kuat_contractor_exe_invasion_chain }
+				add_event_chain_counter = { event_chain = kuat_contractor_exe_invasion_chain counter = kuat_contractor_exe_invasion_ship_kill_by_us amount = 1 }
 			}
 		}
 		every_country = {
 			limit = {
-				has_event_chain = ag_exe_invasion_chain
+				has_event_chain = kuat_contractor_exe_invasion_chain
 				NOT = { is_same_value = from }
 			}
-			add_event_chain_counter = { event_chain = ag_exe_invasion_chain counter = ag_exe_invasion_ship_kill_by_other amount = 1 }
+			add_event_chain_counter = { event_chain = kuat_contractor_exe_invasion_chain counter = kuat_contractor_exe_invasion_ship_kill_by_other amount = 1 }
 			if = {
-				limit = { has_event_chain = ag_return_eternal_chain }
-				add_event_chain_counter = { event_chain = ag_return_eternal_chain counter = ag_exe_invasion_ship_kill_by_other amount = 1 }
+				limit = { has_event_chain = kuat_contractor_exe_invasion_chain }
+				add_event_chain_counter = { event_chain = kuat_contractor_exe_invasion_chain counter = kuat_contractor_exe_invasion_ship_kill_by_other amount = 1 }
 			}
 		}
 	}
 }
 
-#Invasion fleet victim counter. #TODO
+#Invasion fleet victim counter. 
 country_event = {
 	id = kuat_extramonster.23
 	hide_window = yes
 	is_triggered_only = yes
 	trigger = {
 		has_global_flag = kuat_extramonster_begin
-		is_country_type = kuat_contractor_hostile
-		from = { NOT = { is_country_type = kuat_contractor_hostile } }
+		is_kuat_contractor_faction = yes
+		from = { NOT = { is_kuat_contractor_faction = yes } }
 	}
 	immediate = {
 		every_country = {
 			limit = {
 				NOT = { is_same_value = event_target:kuat_contractor_hostile }
-				has_event_chain = ag_exe_invasion_chain
+				has_event_chain = kuat_contractor_exe_invasion_chain
 			}
-			add_event_chain_counter = { event_chain = ag_exe_invasion_chain counter = ag_exe_invasion_victim amount = 1 }
+			add_event_chain_counter = { event_chain = kuat_contractor_exe_invasion_chain counter = kuat_contractor_exe_invasion_victim amount = 1 }
 			if = {
-				limit = { has_event_chain = ag_return_eternal_chain }
-				add_event_chain_counter = { event_chain = ag_return_eternal_chain counter = ag_exe_invasion_victim amount = 1 }
+				limit = { has_event_chain = kuat_contractor_exe_invasion_chain }
+				add_event_chain_counter = { event_chain = kuat_contractor_exe_invasion_chain counter = kuat_contractor_exe_invasion_victim amount = 1 }
 			}
 		}
 		from = { change_variable = { which = eternal_bornus_var value = 1 } }
 	}
 }
 
-#An invasion fleet has been destroyed.  #TODO
+#An invasion fleet has been destroyed.  counter
 country_event = {
 	id = kuat_extramonster.31
 	hide_window = yes
 	is_triggered_only = yes
 	trigger = {
 		has_global_flag = kuat_extramonster_begin
-		from = { is_country_type = kuat_contractor_hostile }
-		fromfromfrom = { has_fleet_flag = exm_kuat_invasion_fleet }
+		from = { is_kuat_contractor_faction = yes }
+		fromfromfrom = { has_fleet_flag = kuat_contractor_invasion_fleet }
 	}
 	immediate = {
 		fromfromfrom = { if = {
 			limit = { NOT = { has_fleet_flag = fire_only_once_temple } }
 			set_timed_fleet_flag = { flag = fire_only_once_temple days = 1 }
 			every_country = {
-				limit = { has_event_chain = ag_exe_invasion_chain }
-				add_event_chain_counter = { event_chain = ag_exe_invasion_chain counter = ag_exe_invasion_fleet amount = -1 }
+				limit = { has_event_chain = kuat_contractor_exe_invasion_chain }
+				add_event_chain_counter = { event_chain = kuat_contractor_exe_invasion_chain counter = kuat_contractor_exe_invasion_fleet amount = -1 }
 			}
 			event_target:global_event_country = { change_variable = { which = count_destroy_exm_kuat_fleet value = 1 } }
 		} }
 	}
 }
 
-#All invasion fleet destroyed, invasion end.  #TODO
+#第一个白洞设施可以进行研究的通知事件，尽量写多点这个
+country_event = {
+	id = kuat_extramonster.33
+	title = "kuat_extramonster.33.name"
+	desc = "kuat_extramonster.33.desc"
+	diplomatic = yes
+	picture_event_data = { room = ancient_databank_room }
+	custom_gui = "kuat_event_window"
+	custom_gui_option = "kuat_event_option"
+	show_sound = event_red_alert
+	location = event_target:kuat_white_hole_star
+	trigger = {
+		has_global_flag = kuat_extramonster_begin
+		NOT = { has_global_flag = kuat_extramonster_ended }
+		exists = event_target:kuat_contractor_hostile
+		any_system_within_border = {
+			has_star_flag = kuat_white_hole_star
+			has_star_flag = kuat_white_hole_rainforce_attack_active
+			NOT = { has_star_flag = kuat_white_hole_rainforce_disable }
+		}
+		event_target:global_event_country = { 
+			check_variable = { which = kuat_white_hole_var value > 0 }
+			check_variable = { which = count_destroy_exm_kuat_fleet value > 30 } 
+		}
+		NOT = { is_variable_set = kuat_white_hole_star_enable }
+		NOT = { has_global_flag = kuat_white_hole_star_unlock_temple }
+	}
+	mean_time_to_happen = { months = 3 }
+	immediate = { 
+		set_global_flag = kuat_white_hole_star_unlock_temple 
+		random_system_within_border = {
+			limit = {
+				has_star_flag = kuat_white_hole_star
+				has_star_flag = kuat_white_hole_rainforce_attack_active
+				NOT = { has_star_flag = kuat_white_hole_rainforce_disable }
+			}
+			save_event_target_as = kuat_white_hole_star
+		}
+	}
+	option = {
+		name = "kuat_extramonster.33.a"
+		enable_special_project = {
+			name = exe_rebuild_control_whitehole_facility
+			owner = root location = event_target:kuat_white_hole_star
+		}
+	}
+}
+
+#第二个白洞设施可以进行研究的通知事件，尽量写多点这个
+country_event = {
+	id = kuat_extramonster.331
+	title = "kuat_extramonster.331.name"
+	desc = "kuat_extramonster.331.desc"
+	diplomatic = yes
+	picture_event_data = { room = ancient_databank_room }
+	custom_gui = "kuat_event_m_window"
+	custom_gui_option = "kuat_event_m_option"
+	show_sound = event_red_alert
+	location = event_target:kuat_white_hole_star
+	trigger = {
+		has_global_flag = kuat_extramonster_begin
+		NOT = { has_global_flag = kuat_extramonster_ended }
+		exists = event_target:kuat_contractor_hostile
+		any_system_within_border = {
+			has_star_flag = kuat_white_hole_star
+			has_star_flag = kuat_white_hole_rainforce_attack_active
+			NOT = { has_star_flag = kuat_white_hole_rainforce_disable }
+		}
+		event_target:global_event_country = { 
+			check_variable = { which = kuat_white_hole_var value > 0 }
+			check_variable = { which = count_destroy_exm_kuat_fleet value > 40 } 
+		}
+		check_variable = { which = kuat_white_hole_star_enable value = 1 }
+		NOT = { has_global_flag = kuat_white_hole_star_unlock_temple }
+	}
+	mean_time_to_happen = { months = 3 }
+	immediate = { 
+		set_global_flag = kuat_white_hole_star_unlock_temple 
+		random_system_within_border = {
+			limit = {
+				has_star_flag = kuat_white_hole_star
+				has_star_flag = kuat_white_hole_rainforce_attack_active
+				NOT = { has_star_flag = kuat_white_hole_rainforce_disable }
+			}
+			save_event_target_as = kuat_white_hole_star
+		}
+	}
+	option = {
+		name = "kuat_extramonster.331.a"
+		enable_special_project = {
+			name = exe_rebuild_control_whitehole_facility
+			owner = root location = event_target:kuat_white_hole_star
+		}
+	}
+}
+
+##第三个白洞设施可以进行研究的通知事件，尽量写多点这个
+country_event = {
+	id = kuat_extramonster.332
+	title = "kuat_extramonster.332.name"
+	desc = "kuat_extramonster.332.desc"
+	diplomatic = yes
+	picture_event_data = { room = ancient_databank_room }
+	custom_gui = "kuat_event_window"
+	custom_gui_option = "kuat_event_option"
+	show_sound = event_red_alert
+	location = event_target:kuat_white_hole_star
+	trigger = {
+		has_global_flag = kuat_extramonster_begin
+		NOT = { has_global_flag = kuat_extramonster_ended }
+		exists = event_target:kuat_contractor_hostile
+		any_system_within_border = {
+			has_star_flag = kuat_white_hole_star
+			has_star_flag = kuat_white_hole_rainforce_attack_active
+			NOT = { has_star_flag = kuat_white_hole_rainforce_disable }
+		}
+		event_target:global_event_country = { 
+			check_variable = { which = kuat_white_hole_var value > 0 }
+			check_variable = { which = count_destroy_exm_kuat_fleet value > 50 } 
+		}
+		check_variable = { which = kuat_white_hole_star_enable value = 2 }
+		NOT = { has_global_flag = kuat_white_hole_star_unlock_temple }
+	}
+	mean_time_to_happen = { months = 3 }
+	immediate = { 
+		set_global_flag = kuat_white_hole_star_unlock_temple 
+		random_system_within_border = {
+			limit = {
+				has_star_flag = kuat_white_hole_star
+				has_star_flag = kuat_white_hole_rainforce_attack_active
+				NOT = { has_star_flag = kuat_white_hole_rainforce_disable }
+			}
+			save_event_target_as = kuat_white_hole_star
+		}
+	}
+	option = {
+		name = "kuat_extramonster.332.a"
+		enable_special_project = {
+			name = exe_rebuild_control_whitehole_facility
+			owner = root location = event_target:kuat_white_hole_star
+		}
+	}
+}
+
+##第四个白洞设施可以进行研究的通知事件，尽量写多点这个
+country_event = {
+	id = kuat_extramonster.333
+	title = "kuat_extramonster.333.name"
+	desc = "kuat_extramonster.333.desc"
+	diplomatic = yes
+	picture_event_data = { room = ancient_databank_room }
+	custom_gui = "kuat_event_m_window"
+	custom_gui_option = "kuat_event_m_option"
+	show_sound = event_red_alert
+	location = event_target:kuat_white_hole_star
+	trigger = {
+		has_global_flag = kuat_extramonster_begin
+		NOT = { has_global_flag = kuat_extramonster_ended }
+		exists = event_target:kuat_contractor_hostile
+		any_system_within_border = {
+			has_star_flag = kuat_white_hole_star
+			has_star_flag = kuat_white_hole_rainforce_attack_active
+			NOT = { has_star_flag = kuat_white_hole_rainforce_disable }
+		}
+		event_target:global_event_country = { 
+			check_variable = { which = kuat_white_hole_var value > 0 }
+			check_variable = { which = count_destroy_exm_kuat_fleet value > 30 } 
+		}
+		check_variable = { which = kuat_white_hole_star_enable value = 3 }
+		NOT = { has_global_flag = kuat_white_hole_star_unlock_temple }
+	}
+	mean_time_to_happen = { months = 3 }
+	immediate = { 
+		set_global_flag = kuat_white_hole_star_unlock_temple 
+		random_system_within_border = {
+			limit = {
+				has_star_flag = kuat_white_hole_star
+				has_star_flag = kuat_white_hole_rainforce_attack_active
+				NOT = { has_star_flag = kuat_white_hole_rainforce_disable }
+			}
+			save_event_target_as = kuat_white_hole_star
+		}
+	}
+	option = {
+		name = "kuat_extramonster.333.a"
+		enable_special_project = {
+			name = exe_rebuild_control_whitehole_facility
+			owner = root location = event_target:kuat_white_hole_star
+		}
+	}
+}
+
+##第五个白洞设施可以进行研究的通知事件，尽量写多点这个
+country_event = {
+	id = kuat_extramonster.334
+	title = "kuat_extramonster.334.name"
+	desc = "kuat_extramonster.334.desc"
+	diplomatic = yes
+	picture_event_data = { room = ancient_databank_room }
+	custom_gui = "kuat_event_window"
+	custom_gui_option = "kuat_event_option"
+	show_sound = event_red_alert
+	location = event_target:kuat_white_hole_star
+	trigger = {
+		has_global_flag = kuat_extramonster_begin
+		NOT = { has_global_flag = kuat_extramonster_ended }
+		exists = event_target:kuat_contractor_hostile
+		any_system_within_border = {
+			has_star_flag = kuat_white_hole_star
+			has_star_flag = kuat_white_hole_rainforce_attack_active
+			NOT = { has_star_flag = kuat_white_hole_rainforce_disable }
+		}
+		event_target:global_event_country = { 
+			check_variable = { which = kuat_white_hole_var value > 0 }
+			check_variable = { which = count_destroy_exm_kuat_fleet value > 70 } 
+		}
+		check_variable = { which = kuat_white_hole_star_enable value = 4 }
+		NOT = { has_global_flag = kuat_white_hole_star_unlock_temple }
+	}
+	mean_time_to_happen = { months = 3 }
+	immediate = { 
+		set_global_flag = kuat_white_hole_star_unlock_temple 
+		random_system_within_border = {
+			limit = {
+				has_star_flag = kuat_white_hole_star
+				has_star_flag = kuat_white_hole_rainforce_attack_active
+				NOT = { has_star_flag = kuat_white_hole_rainforce_disable }
+			}
+			save_event_target_as = kuat_white_hole_star
+		}
+	}
+	option = {
+		name = "kuat_extramonster.334.a"
+		enable_special_project = {
+			name = exe_rebuild_control_whitehole_facility
+			owner = root location = event_target:kuat_white_hole_star
+		}
+	}
+}
+
+##最后一个白洞设施可以进行研究的通知事件，尽量写多点这个
+country_event = {
+	id = kuat_extramonster.335
+	title = "kuat_extramonster.335.name"
+	desc = "kuat_extramonster.335.desc"
+	diplomatic = yes
+	picture_event_data = { room = ancient_databank_room }
+	custom_gui = "kuat_event_m_window"
+	custom_gui_option = "kuat_event_m_option"
+	show_sound = event_red_alert
+	location = event_target:kuat_white_hole_star
+	trigger = {
+		has_global_flag = kuat_extramonster_begin
+		NOT = { has_global_flag = kuat_extramonster_ended }
+		exists = event_target:kuat_contractor_hostile
+		any_system_within_border = {
+			has_star_flag = kuat_white_hole_star
+			has_star_flag = kuat_white_hole_rainforce_attack_active
+			NOT = { has_star_flag = kuat_white_hole_rainforce_disable }
+		}
+		event_target:global_event_country = { 
+			check_variable = { which = kuat_white_hole_var value > 0 }
+			check_variable = { which = count_destroy_exm_kuat_fleet value > 80 } 
+		}
+		check_variable = { which = kuat_white_hole_star_enable value = 5 }
+		NOT = { has_global_flag = kuat_white_hole_star_unlock_temple }
+	}
+	mean_time_to_happen = { months = 3 }
+	immediate = { 
+		set_global_flag = kuat_white_hole_star_unlock_temple 
+		random_system_within_border = {
+			limit = {
+				has_star_flag = kuat_white_hole_star
+				has_star_flag = kuat_white_hole_rainforce_attack_active
+				NOT = { has_star_flag = kuat_white_hole_rainforce_disable }
+			}
+			save_event_target_as = kuat_white_hole_star
+		}
+	}
+	option = {
+		name = "kuat_extramonster.335.a"
+		enable_special_project = {
+			name = exe_rebuild_control_whitehole_facility
+			owner = root location = event_target:kuat_white_hole_star
+		}
+	}
+}
+
+#special project finished
+ship_event = {
+	id = kuat_extramonster.37
+	hide_window = yes
+	is_triggered_only = yes
+	trigger = {
+		exists = owner
+		owner = { is_player_country = yes }
+		has_global_flag = kuat_extramonster_begin
+		NOT = { has_global_flag = kuat_extramonster_ended }
+		exists = solar_system
+		solar_system = {
+			has_star_flag = kuat_white_hole_star
+			NOT = { has_star_flag = kuat_white_hole_rainforce_disable }
+		}
+	}
+	immediate = {
+		solar_system = {
+			set_star_class = sc_black_hole
+			star = {
+				create_ambient_object = { type = "star_explosion" play_animation_once = yes location = this }
+				last_created_ambient_object = { set_location = { target = prev distance = 0 angle = random } }
+				create_ambient_object = { type = "destroyed_system" location = this }
+				last_created_ambient_object = { set_ambient_object_flag = destroyed_system_effect set_location = { target = prev  distance = 0  angle = random  } }
+				change_pc = pc_black_hole
+			}
+			set_star_flag = kuat_white_hole_rainforce_disable
+		}
+		owner = {
+			change_variable = { which = kuat_white_hole_star_enable value = 1 }
+			country_event = { id = kuat_extramonster.39 }
+		}
+	}
+}
+
+#Notificaton: White hole is eliminate 通知：白洞被关闭转化的集成外交事件
+country_event = {
+	id = kuat_extramonster.39
+	title = "kuat_extramonster.39.title"
+	desc = {
+		trigger = { check_variable = { which = kuat_white_hole_star_enable value = 1 } }
+		text = "kuat_extramonster.39.a.desc"
+	}
+	desc = {
+		trigger = { check_variable = { which = kuat_white_hole_star_enable value = 2 } }
+		text = "kuat_extramonster.39.b.desc"
+	}
+	desc = {
+		trigger = { check_variable = { which = kuat_white_hole_star_enable value = 3 } }
+		text = "kuat_extramonster.39.c.desc"
+	}
+	desc = {
+		trigger = { check_variable = { which = kuat_white_hole_star_enable value = 4 } }
+		text = "kuat_extramonster.39.d.desc"
+	}
+	desc = {
+		trigger = { check_variable = { which = kuat_white_hole_star_enable value = 5 } }
+		text = "kuat_extramonster.39.e.desc"
+	}
+	desc = {
+		trigger = { check_variable = { which = kuat_white_hole_star_enable value = 6 } }
+		text = "kuat_extramonster.39.f.desc"
+	}
+	diplomatic = yes
+	picture_event_data = { room = no_video_feed_room }
+	custom_gui = "kuat_event_diplomacy_window"
+	custom_gui_option = "kuat_event_diplomacy_option"
+	show_sound = event_wind_ruins
+	is_triggered_only = yes
+	trigger = { 
+		is_player_country = yes
+		has_global_flag = kuat_extramonster_begin
+		NOT = { has_global_flag = kuat_extramonster_ended }
+	}
+
+	#1
+	option = { 
+		name = kuat_extramonster.39.a.1 
+		trigger = { check_variable = { which = kuat_white_hole_star_enable value = 1 } }
+		response_text = kuat_extramonster.39.a.1.resp
+	}
+
+	#2
+	option = { 
+		name = kuat_extramonster.39.b.1
+		trigger = { check_variable = { which = kuat_white_hole_star_enable value = 2 } } 
+		response_text = kuat_extramonster.39.b.1.resp
+	}
+
+	#3
+	option = { 
+		name = kuat_extramonster.39.c.1 
+		trigger = { check_variable = { which = kuat_white_hole_star_enable value = 3 } }
+		response_text = kuat_extramonster.39.c.1.resp
+	}
+
+	#4
+	option = { 
+		name = kuat_extramonster.39.d.1 
+		trigger = { check_variable = { which = kuat_white_hole_star_enable value = 4 } }
+		response_text = kuat_extramonster.39.d.1.resp 
+	}
+
+	#5
+	option = { 
+		name = kuat_extramonster.39.e.1
+		trigger = { check_variable = { which = kuat_white_hole_star_enable value = 5 } }
+		response_text = kuat_extramonster.39.e.1.resp 
+	}
+
+	#6
+	option = { 
+		name = kuat_extramonster.39.f.1
+		trigger = { check_variable = { which = kuat_white_hole_star_enable value = 6 } }
+		response_text = kuat_extramonster.39.f.1.resp 
+	}
+
+	after = {
+		remove_global_flag = kuat_white_hole_star_unlock_temple
+	}
+}
+
+#A defense fleet destroyed, white hole research enable.  
+country_event = {
+	id = kuat_extramonster.301
+	hide_window = yes
+	is_triggered_only = yes
+	trigger = {
+		has_global_flag = kuat_extramonster_begin
+		from = { is_kuat_contractor_faction = yes }
+		fromfromfrom = { 
+			has_fleet_flag = kuat_contractor_defenced_fleet
+			exists = solar_system
+			solar_system = {
+				has_star_flag = kuat_white_hole_star
+				NOR = { 
+					has_star_flag = kuat_white_hole_rainforce_disable 
+					has_star_flag = kuat_white_hole_rainforce_attack_active
+				}
+			}
+		}
+	}
+	immediate = {
+		every_country = {
+			limit = { NOR = { 
+				is_same_value = event_target:kuat_contractor_hostile 
+				has_country_flag = trigger_ended_event_temple
+			} }
+			set_timed_country_flag = { flag = trigger_ended_event_temple days = 1 }
+			country_event = { id = kuat_extramonster.302 }
+		}
+		fromfromfrom.solar_system = {
+			set_star_flag = kuat_white_hole_rainforce_attack_active
+		}
+	}
+}
+
+#Notification: Invasion end.  白洞星系被攻破，白洞允许进行转化研究
+country_event = {
+	id = kuat_extramonster.302
+	title = "kuat_extramonster.302.name"
+	desc = "kuat_extramonster.302.desc"
+	diplomatic = yes
+	picture_event_data = { room = huge_monument_room }
+	custom_gui = "kuat_event_m_indow"
+	custom_gui_option = "kuat_event_m_option"
+	show_sound = event_wind_ruins
+	is_triggered_only = yes
+	option = { 
+		name = "kuat_extramonster.302.b" 
+		ai_chance = { weight = 5 }
+	}
+}
+
+#All invasion fleet destroyed, invasion end.  
 country_event = {
 	id = kuat_extramonster.30
 	hide_window = yes
@@ -978,68 +1037,17 @@ country_event = {
 	trigger = {
 		has_global_flag = kuat_extramonster_begin
 		from = {
-			is_country_type = kuat_contractor_hostile
+			is_kuat_contractor_faction = yes
 			count_owned_fleet = {
-				count = 0
-				limit = { has_fleet_flag = exm_kuat_invasion_fleet NOT = { is_same_value = root.fromfromfrom } }
-			}
-		}
-		fromfromfrom = { has_fleet_flag = exm_kuat_invasion_fleet }
-		has_global_flag = can_win_the_fleet
-	}
-	immediate = {
-		set_global_flag = enable_the_eternal_starbase
-		from = { every_owned_fleet = { limit = { has_fleet_flag = ag_kuat_invasion_starbase } set_event_locked = no } }
-	}
-}
-
-country_event = {
-	id = kuat_extramonster.37
-	hide_window = yes
-	is_triggered_only = yes
-	trigger = {
-		has_global_flag = can_win_the_fleet
-		any_owned_fleet = { has_fleet_flag = ag_kuat_invasion_starbase }
-	}
-	immediate = {
-		if = {
-			limit = { NOT = {
-				any_owned_fleet = { has_fleet_flag = exm_kuat_invasion_fleet }
-			} }
-			set_global_flag = enable_the_eternal_starbase
-			every_owned_fleet = {
-				limit = { has_fleet_flag = ag_kuat_invasion_starbase }
-				set_event_locked = no
-			}
-		}
-		else = { country_event = { id = kuat_extramonster.37 days = 30 } }
-	}
-}
-
-#All invasion starbase destroyed, invasion end.  #TODO
-country_event = {
-	id = kuat_extramonster.32
-	hide_window = yes
-	is_triggered_only = yes
-	trigger = {
-		has_global_flag = kuat_extramonster_begin
-		from = {
-			is_country_type = kuat_contractor_hostile
-			count_owned_fleet = {
-				count = 0
 				limit = { 
-					has_fleet_flag = ag_kuat_invasion_starbase 
-					NOT = { has_fleet_flag = ag_kuat_invasion_starbase_disable }
+					has_fleet_flag = kuat_contractor_invasion_fleet 
 					NOT = { is_same_value = root.fromfromfrom } 
 				}
+				count = 0
 			}
 		}
-		has_global_flag = enable_the_eternal_starbase
-		fromfromfrom = { 
-			has_fleet_flag = ag_kuat_invasion_starbase 
-			NOT = { has_fleet_flag = ag_kuat_invasion_starbase_disable }
-		}
-		event_target:kuat_contractor_hostile = { check_variable = { which = ag_kuat_invasion_starbase_arrived value = 4 } }
+		fromfromfrom = { has_fleet_flag = kuat_contractor_invasion_fleet }
+		has_global_flag = kuat_extra_contractor_wined_target
 	}
 	immediate = {
 		every_country = {
@@ -1056,22 +1064,11 @@ country_event = {
 	}
 }
 
-#Notification: Invasion end.  #TODO
+#Notification: Invasion end create award.  #白洞设施完全关闭，允许关闭F设施星门，获得奖品
 country_event = {
 	id = kuat_extramonster.35
 	title = "kuat_extramonster.35.name"
-	desc = {
-		trigger = { kuat_is_enable_shadow_origin = yes }
-		text = "kuat_extramonster.35.desc"
-	}
-	desc = {
-		trigger = { has_origin = origin_kuat_apocalyptic }
-		text = "kuat_extramonster.36.desc"
-	}
-	desc = {
-		trigger = { has_origin = origin_eternalthrone }
-		text = "kuat_facility_return_invasion.36.desc"
-	}
+	desc = "kuat_extramonster.35.desc"
 	diplomatic = yes
 	picture_event_data = { room = Eternal_Empire_room }
 	custom_gui = "kuat_event_window"
@@ -1081,36 +1078,14 @@ country_event = {
 	option = { 
 		name = "kuat_extramonster.35.b" 
 		ai_chance = { weight = 5 }
-		end_event_chain = ag_exe_invasion_chain
-	}
-}
-
-#Spawn starbase #TODO
-fleet_event = {
-	id = kuat_extramonster.36
-	hide_window = yes
-	is_triggered_only = yes
-	trigger = {
-		exists = this
-		exists = owner
-		owner = { is_country_type = kuat_contractor_hostile }
-		from = { NOT = { exists = starbase } }
-	}
-	immediate = {
-		if = {
-			limit = { exists = from from = {
-				NOR = {
-					exists = starbase
-					any_fleet_in_system = { exists = owner owner = { is_hostile = root.owner } }
-					any_system_planet = { exists = owner owner = { is_hostile = root.owner } }
-				}
-			} }
-			from = { create_starbase = { size = exe_starbase owner = root.owner } }
+		enable_special_project = {
+			name = kuat_contractor_return_invasion_reward_project
+			owner = root location = capital_star
 		}
 	}
 }
 
-#after crisis #TODO
+#after crisis #TODO #关闭F星域以后，流浪者外交事件
 country_event = {
 	id = kuat_extramonster.38
 	title = "kuat_extramonster.38.title"
@@ -1123,15 +1098,12 @@ country_event = {
 		text = "kuat_extramonster.38.desc"
 	}
 	diplomatic = yes
-	picture_event_data = {
-		portrait = event_target:kuat_player_target_species
-		room = kuat_mega_shipyard_room
-	}
+	picture_event_data = { room = no_video_feed_room }
 	custom_gui = "kuat_event_diplomacy_window"
 	custom_gui_option = "kuat_event_diplomacy_option"
 	show_sound = event_wind_ruins
 	is_triggered_only = yes
-	trigger = { NOT = { has_event_chain = ag_exe_invasion_chain } }
+	trigger = { NOT = { has_event_chain = kuat_contractor_exe_invasion_chain } }
 	option = { 
 		name = kuat_extramonster.38.a 
 		is_dialog_only = yes
@@ -1158,6 +1130,30 @@ country_event = {
 	}
 	option = { 
 		name = kuat_extramonster.38.e
-		response_text = kuat_extramonster.38.e.resp 
+		hidden_effect = { 
+			remove_country_flag = fire_once_contact 
+			end_event_chain = kuat_contractor_exe_invasion_chain
+			set_update_modifiers_batch = begin
+			random_system = {
+				limit = { has_star_flag = myst_system_5 }
+				every_system_megastructure = { remove_megastructure = this }
+				star = {
+					create_ambient_object = { type = "star_explosion" play_animation_once = yes location = this }
+					last_created_ambient_object = { set_location = { target = prev distance = 0 angle = random } }
+					create_ambient_object = { type = "destroyed_system" location = this }
+					last_created_ambient_object = { set_ambient_object_flag = destroyed_system_effect set_location = { target = prev  distance = 0  angle = random  } }
+					set_planet_entity = { entity = starforge_avoid_entity }
+					set_planet_size = -1
+				}
+				remove_modifier = Kuat_contractor_F_faclitlty_Forbidden
+				every_system_ambient_object = { destroy_ambient_object = this }
+			}
+			create_ship_design = { design = Name_boss_crisis_DB_3 }
+			add_ship_design = last_created_design
+			create_ship_design = { design = Name_boss_crisis_DC_3 }
+			add_ship_design = last_created_design
+			set_update_modifiers_batch = end
+		}
 	}
+	after = { win = yes }
 }

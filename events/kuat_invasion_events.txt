@@ -648,7 +648,7 @@ planet_event = {
 		event_target:eternal_fleet_country = { if = {
 			limit = { check_variable = { which = ag_kuat_invasion_fleet_arrived value = 16 } }
 			every_owned_fleet = {
-				limit = { has_fleet_flag = ag_kuat_invasion_fleet }
+				limit = { has_fleet_flag = ag_kuat_invasion_fleet is_fleet_idle = yes }
 				fleet_event = { id = exe_invasion.12 days = 1 random = 2 }
 			}
 			country_event = { id = exe_invasion.111 days = 30 }
@@ -1429,11 +1429,12 @@ country_event = {
 			else_if = { limit = { kuat_is_flagship_size = { size = kuat_sector } } increase_ship_hp_effect_change = { DAYS = 4 TYPE = kt } }
 			else_if = { limit = { kuat_is_flagship_size = { size = Vengeance } } increase_ship_hp_effect_change = { DAYS = 4 TYPE = kt } }
 			else_if = { limit = { kuat_is_flagship_size = { size = nebula_executor } } increase_ship_hp_effect_change = { DAYS = 4 TYPE = kt } }
-			else_if = { limit = { kuat_is_flagship_size = { size = knigjt_hammer_executor } } increase_ship_hp_effect_change = { DAYS = 4 TYPE = kt } }
+			else_if = { limit = { kuat_is_flagship_size = { size = knight_hammer_executor } } increase_ship_hp_effect_change = { DAYS = 4 TYPE = kt } }
 			else_if = { limit = { kuat_is_flagship_size = { size = nebula_dominance } } increase_ship_hp_effect_change = { DAYS = 3 TYPE = kt } }
 			else_if = { limit = { kuat_is_flagship_size = { size = eternal_flagship } } increase_ship_hp_effect_change = { DAYS = 3 TYPE = kt } }
-			else_if = { limit = { kuat_is_flagship_size = { size = X308_Balletor } } increase_ship_hp_effect_change = { DAYS = 2 TYPE = kt } }
-			else_if = { limit = { kuat_is_flagship_size = { size = X308_Titan } } increase_ship_hp_effect_change = { DAYS = 2 TYPE = kt } } 
+			# else_if = { limit = { kuat_is_flagship_size = { size = X308_Balletor } } increase_ship_hp_effect_change = { DAYS = 1 TYPE = kt } }
+			# else_if = { limit = { kuat_is_flagship_size = { size = X308_Titan } } increase_ship_hp_effect_change = { DAYS = 1 TYPE = kt } } 
+			# else_if = { limit = { kuat_is_flagship_size = { size = X308_Tyrant } } increase_ship_hp_effect_change = { DAYS = 1 TYPE = kt } } 
 			else_if = { limit = { kuat_has_ship_flag = { flag = has_ag_flagship } } increase_ship_hp_effect_change = { DAYS = 2 TYPE = kt } } 
 		} }
 	}
@@ -1446,7 +1447,10 @@ country_event = {
 	hide_window = yes
 	is_triggered_only = yes
 	trigger = {
-		is_infinite_faction = yes
+		OR = {
+			is_infinite_faction = yes
+			is_kuat_contractor_faction = yes
+		}
 		from = { is_invisable_faction = no is_ai = no }
 	}
 	immediate = { if = {
@@ -1528,13 +1532,11 @@ ship_event = {
 	hide_window = yes
 	is_triggered_only = yes
 	trigger = { OR = {
-		AND = { exists = this OR = {
-			has_ship_flag = ag_kae_ge_primary_portal
-			has_ship_flag = ag_kae_ge_secondary_portal
-			has_ship_flag = enable_disable_starbase
-		} }
-		AND = { kuat_is_flagship_system_protection = yes ag_is_ancient_titan_alt = no }
-		# AND = { exists = fleet fleet = { has_fleet_flag = has_kuat_disable_checkpoint } ag_is_ancient_titan_alt = no }
+		has_ship_flag = ag_kae_ge_primary_portal
+		has_ship_flag = ag_kae_ge_secondary_portal
+		has_ship_flag = enable_disable_starbase
+		has_ship_flag = enable_drft_ship_inital
+		AND = { kuat_is_flagship = yes ag_is_ancient_titan_alt = no }
 		AND = { exists = owner owner = { OR = { is_eternal_faction = yes is_infinite_faction = yes } } is_ship_class = shipclass_military }
 	} }
 	immediate = { 
@@ -1543,12 +1545,28 @@ ship_event = {
 			repair_ship = yes set_disabled = no change_variable = { which = disable_time value = 1 }
 		}
 		if = {
-			limit = { exists = this has_ship_flag = enable_disable_starbase }
+			limit = { has_ship_flag = enable_disable_starbase }
 			if = { limit = { has_ship_flag = kuat_executor_checkpoint } repair_ship = yes set_disabled = no } 
 			else = { repair_ship = yes set_disabled = no set_disable_at_health = -1 fleet = { remove_fleet_flag = ag_kuat_invasion_starbase_disable } }
 		}
 		if = {
-			limit = { kuat_is_flagship_system_protection = yes ag_is_ancient_titan_alt = no }
+			limit = { has_ship_flag = enable_drft_ship_inital }
+			if = { limit = { check_variable = { which = DRFT_SHIP_HEALTH_VAR value > 0 } } repair_ship = yes set_disabled = no subtract_variable = { which = DRFT_SHIP_HEALTH_VAR value = 1 } } 
+			else = { repair_ship = yes set_disabled = no set_disable_at_health = -1 }
+		}
+		if = {
+			limit = { OR = { has_ship_flag = ag_kae_ge_primary_portal has_ship_flag = ag_kae_ge_secondary_portal } }
+			if = {
+				limit = { solar_system = { any_fleet_in_system = { OR = {
+					has_fleet_flag = ag_kae_ge_secondary_portal_guradian
+					has_fleet_flag = ag_kae_ge_primary_portal_guradian
+				} } } }
+				repair_ship = yes set_disabled = no
+			} 
+			else = { repair_ship = yes set_disabled = no set_disable_at_health = -1 }
+		}
+		if = {
+			limit = { kuat_is_flagship = yes ag_is_ancient_titan_alt = no }
 			if = {
 				limit = { 
 					NOT = { has_ship_flag = kuat_flagship_disable_system_pending } 
@@ -1559,17 +1577,6 @@ ship_event = {
 			}
 			else = { repair_ship = yes set_disabled = no set_disable_at_health = -1 }
 		}
-		if = {
-			limit = { exists = this OR = { has_ship_flag = ag_kae_ge_primary_portal has_ship_flag = ag_kae_ge_secondary_portal } }
-			if = {
-				limit = { solar_system = { any_fleet_in_system = { OR = {
-					has_fleet_flag = ag_kae_ge_secondary_portal_guradian
-					has_fleet_flag = ag_kae_ge_primary_portal_guradian
-				} } } }
-				repair_ship = yes set_disabled = no
-			} 
-			else = { repair_ship = yes set_disabled = no set_disable_at_health = -1 }
-		}
 	}
 }
 ship_event = {
@@ -1578,15 +1585,11 @@ ship_event = {
 	is_triggered_only = yes
 	trigger = { 
 		ag_is_ancient_titan_alt = yes
-		kuat_is_flagship_system_protection = yes
-		# OR = {
-		# 	AND = { exists = this kuat_is_flagship_system_protection = yes }
-		# 	AND = { exists = fleet fleet = { has_fleet_flag = has_kuat_disable_checkpoint } }
-		# }
+		kuat_is_flagship = yes
 	}
 	immediate = { 
 		if = {
-			limit = { exists = this ag_is_ancient_titan_alt = yes kuat_is_flagship_system_protection = yes }
+			limit = { exists = this ag_is_ancient_titan_alt = yes kuat_is_flagship = yes }
 			if = {
 				limit = { 
 					NOT = { has_ship_flag = kuat_flagship_disable_system_pending } 
@@ -1603,7 +1606,7 @@ fleet_event = {
 	id = exe_invasion.145
 	hide_window = yes
 	is_triggered_only = yes
-	trigger = { owner = { OR = { is_eternal_faction = yes is_infinite_faction = yes } } }
+	trigger = { owner = { OR = { is_eternal_faction = yes is_infinite_faction = yes is_kuat_contractor_faction = yes } } }
 	immediate = {
 		if = {
 			limit = { is_in_combat = yes }
@@ -1624,11 +1627,18 @@ fleet_event = {
 					limit = { exists = controller controller = { is_infinite_faction = yes } }
 					add_modifier = { modifier = random_modifier_addon_effect_infinite days = 1 multiplier = event_target:global_event_country.exe_invasion_difficult_global_var }
 				}
+				if = {
+					limit = { exists = controller controller = { is_kuat_contractor_faction = yes } }
+					add_modifier = { modifier = random_modifier_addon_effect_kuat_contractor days = 1 multiplier = event_target:global_event_country.exe_invasion_difficult_global_var }
+				}
 				subtract_variable = { which = weapon_fired_combat_days value = 3 }
 			}
 			fleet_event = { id = exe_invasion.145 days = 1 }
 		}
-		else = { clear_variable = weapon_fired_combat_days every_owned_ship = { clear_variable = combat_days clear_variable = disable_time set_disable_at_health = 0.01 } }
+		else = { clear_variable = weapon_fired_combat_days every_owned_ship = { 
+			clear_variable = combat_days clear_variable = disable_time 
+			if = { limit = { owner = { OR = { is_eternal_faction = yes is_infinite_faction = yes } } } set_disable_at_health = 0.01 }
+		} }
 	}
 }
 
@@ -1654,11 +1664,19 @@ country_event = {
 			} }
 			if = { limit = { is_eternal_crisis = yes } kuat_copy_leader_learning_system = yes }
 		}
+		if = {
+			limit = { 
+				is_kuat_contractor_faction = yes 
+				from = { is_invisable_faction = no }
+				fromfrom = { has_fleet_flag = kuat_contractor_defenced_fleet }
+			}
+			kuat_contractor_randomlist_battle_duplcate_ship = yes
+		}
 		fromfrom = { 
 			if = {
 				limit = { 
 					is_ship_class = shipclass_military
-					owner = { OR = { is_eternal_faction = yes is_infinite_faction = yes } } NOT = {
+					owner = { OR = { is_eternal_faction = yes is_infinite_faction = yes is_kuat_contractor_faction = yes } } NOT = {
 					has_fleet_flag = random_list_eternal_fleet_rate_placeholder
 				} }
 				every_owned_ship = { 
@@ -1683,6 +1701,7 @@ country_event = {
 				set_timed_ship_flag = { flag = random_list_eternal_fleet_rate_placeholder days = 1 }
 			}
 			set_fleet_flag = has_kuat_flagship_system
+			set_fleet_flag = has_kuat_subflagship_system
 		}
 		if = {
 			limit = { 
@@ -1699,12 +1718,18 @@ country_event = {
 						}
 					}
 					set_fleet_flag = has_kuat_flagship_system
-				} 
-				# if = {
-				# 	limit = { NOT = { has_fleet_flag = has_kuat_disable_checkpoint } }
-				# 	every_owned_ship = { clear_variable = disable_time_checkpoint }
-				# 	set_fleet_flag = has_kuat_disable_checkpoint
-				# }
+				}
+				if = {
+					limit = { 
+						NOT = { has_fleet_flag = has_kuat_subflagship_system }
+						OR = {
+							has_enable_flag_ship_system_true = yes
+							kuat_exist_fleet_leader = { TRAIT = leader_trait_commander_SOP_eddy_3 }
+						}
+						has_enable_sub_flag_ship_system_true = yes
+					}
+					set_fleet_flag = has_kuat_subflagship_system
+				}
 			}
 			if = {
 				limit = { ROOT = { is_eternal_faction = yes } }
@@ -1723,7 +1748,7 @@ country_event = {
 				} }
 			}
 			else_if = {  
-				limit = { ROOT = { is_infinite_faction = yes } }
+				limit = { ROOT = { OR = { is_infinite_faction = yes is_kuat_contractor_faction = yes } } }
 				fromfromfrom = { every_owned_ship = { 
 					limit = { NOT = { has_ship_flag = random_list_eternal_fleet_rate_placeholder }  }
 					set_ship_flag = is_modifiering ship_event = { id = exe_invasion.136 } 
@@ -1750,8 +1775,17 @@ country_event = {
 	id = exe_invasion.146
 	hide_window = yes
 	is_triggered_only = yes
-	trigger = { fromfrom = { kuat_is_flagship_system_protection = yes } }
-	immediate = { fromfrom = { fleet = { remove_fleet_flag = has_kuat_flagship_system } } }
+	trigger = { fromfrom = { kuat_is_flagship = yes } }
+	immediate = { fromfrom = { 
+		if = {
+			limit = { kuat_is_flagship_system_protection = yes }
+			fleet = { remove_fleet_flag = has_kuat_flagship_system } 
+		}
+		else_if = {
+			limit = { kuat_is_sub_flagship_system_protection = yes }
+			fleet = { remove_fleet_flag = has_kuat_subflagship_system }
+		}
+	} }
 }
 
 #fromfrom
@@ -1806,7 +1840,7 @@ country_event = {
 		fromfromfrom = { every_owned_ship = {
 			limit = { 
 				NOT = { has_ship_flag = enable_random_list_effect }
-				kuat_is_flagship_system_protection = no
+				kuat_is_flagship = no
 				is_disabled = no is_in_combat = yes has_hp > 0
 			}
 			set_timed_ship_flag = { flag = enable_random_list_effect days = 1 }
@@ -1827,7 +1861,7 @@ country_event = {
 		set_update_modifiers_batch = begin
 		fromfromfrom.fleet = { every_owned_ship = {
 			limit = { 
-				kuat_is_flagship_system_protection = no
+				kuat_is_flagship = no
 				is_disabled = no is_in_combat = yes has_hp > 0
 			}
 			kuat_invinciable_battle_random_effect = yes
@@ -1911,6 +1945,10 @@ event = {
 	trigger = { always = yes }
 	immediate = { 
 		set_update_modifiers_batch = begin
+		if = {
+			limit = { is_same_value = event_target:solarpunk_country }
+			event_target:solarpunk_country = { destroy_country = yes }
+		}
 		every_galaxy_planet = {
 			limit = { has_planet_flag = has_building_kuat_command_center_auto }
 			kuat_reset_auto_colony_variable = yes
@@ -1926,62 +1964,6 @@ event = {
 				}
 			}
 			country_event = { id = exe_invasion.1000 }
-		}
-		every_system = {
-			limit = {
-				OR = {
-					AND = {
-						has_star_flag = ag_exe_invasion_gate_system 
-						NOT = { has_star_flag = kuat_exe_invasion_gate_system }
-					}
-					AND = {
-						NOT = { has_star_flag = ag_no_jump_in_system }
-						any_system_megastructure = { is_megastructure_type = exe_center_rim_gate }
-						NOT = { has_star_flag = kuat_outlander_exe_center_rim_gate }
-					}
-					AND = {
-						has_star_flag = ag_exe_invasion_gate_system
-						has_star_flag = kuat_military_base_system_home
-						NOT = { has_star_flag = kuat_military_base_local_home }
-					}
-					AND = {
-						has_star_flag = kuat_military_base_system_home
-						NOT = { has_star_flag = ag_exe_invasion_gate_system }
-						NOT = { has_star_flag = kuat_military_sublocal_home }
-					}
-				}
-			}
-			if = {
-				limit = { 
-					has_star_flag = ag_exe_invasion_gate_system 
-					NOT = { has_star_flag = kuat_exe_invasion_gate_system }
-				}
-				set_star_flag = kuat_exe_invasion_gate_system
-			}
-			if = {
-				limit = { 
-					NOT = { has_star_flag = ag_no_jump_in_system }
-					any_system_megastructure = { is_megastructure_type = exe_center_rim_gate }
-					NOT = { has_star_flag = kuat_outlander_exe_center_rim_gate }
-				}
-				set_star_flag = kuat_outlander_exe_center_rim_gate
-			}
-			if = {
-				limit = { 
-					has_star_flag = ag_exe_invasion_gate_system
-					has_star_flag = kuat_military_base_system_home
-					NOT = { has_star_flag = kuat_military_base_local_home }
-				}
-				set_star_flag = kuat_military_base_local_home
-			}
-			if = {
-				limit = { 
-					has_star_flag = kuat_military_base_system_home
-					NOT = { has_star_flag = ag_exe_invasion_gate_system }
-					NOT = { has_star_flag = kuat_military_sublocal_home }
-				}
-				set_star_flag = kuat_military_sublocal_home
-			}
 		}
 		set_update_modifiers_batch = end
 	}
