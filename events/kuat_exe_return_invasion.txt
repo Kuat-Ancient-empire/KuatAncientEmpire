@@ -1221,6 +1221,7 @@ country_event = {
 	hide_window = yes
 	is_triggered_only = yes
 	trigger = {
+		NOT = { has_global_flag = enable_the_eternal_starbase }
 		has_global_flag = can_win_the_fleet
 		any_owned_fleet = { has_fleet_flag = ag_kuat_invasion_starbase }
 	}
@@ -1251,9 +1252,11 @@ country_event = {
 			count_owned_fleet = {
 				count = 0
 				limit = { 
-					has_fleet_flag = ag_kuat_invasion_starbase 
-					NOT = { has_fleet_flag = ag_kuat_invasion_starbase_disable }
-					NOT = { is_same_value = root.fromfromfrom } 
+					has_fleet_flag = ag_kuat_invasion_starbase
+					NOR = {
+						has_fleet_flag = ag_kuat_invasion_starbase_disable
+						is_same_value = root.fromfromfrom
+					} 
 				}
 			}
 		}
@@ -1462,6 +1465,7 @@ event = {
 			remove_star_flag = final_2_system
 			remove_star_flag = final_3_system
 		}
+		remove_global_flag = enable_the_eternal_starbase
 		remove_global_flag = can_win_the_fleet_stage_1
 		remove_global_flag = can_win_the_fleet
 		remove_global_flag = exe_return_invasion_begin
