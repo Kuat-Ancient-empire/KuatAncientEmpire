@@ -1296,7 +1296,11 @@ kuat_contractor_plague_kill_people = {
 						}
 					}
 				}
-				kill_pop = yes
+				if = {
+					limit = { exists = planet planet = { has_building = building_kuat_command_center_auto } }
+					planet = { subtract_variable = { which = planet_production_array value = 5 } }
+				}
+				else = { kill_pop = yes }
 				event_target:global_event_country = { change_variable = { which = kuat_plague_pops_dead value = 1 } }
 			}
 		}
@@ -1308,130 +1312,15 @@ kuat_contractor_plague_random_list_effect = {
 		# NOT die
 		10 = {
 			# crime
-			modifier = { factor = 1.25 planet_crime < 10 }
-			# amenities
-			modifier = { factor = 1.25 free_amenities > 0 }
-			modifier = { factor = 1.25 free_amenities > 10 }
-			modifier = { factor = 1.25 free_amenities > 20 }
-			# buildings
-			modifier = { factor = 2 has_building = building_clinic }
-			modifier = { factor = 4 has_building = building_hospital }
-			modifier = { factor = 2 has_building = building_psi_corps }
-			# good planet type
-			modifier = { factor = 2 OR = { is_planet_class = pc_gaia habitable_structure = yes } }
-			# edict
-			modifier = { factor = 2 owner = { has_edict = kuat_plague_quarantine } }
-			# ai bonus
-			modifier = { factor = 2 owner = { is_ai = yes } }
-			# tech
-			modifier = { factor = 2 owner = { has_technology = kuat_tech_plague_immune } }
-			modifier = { factor = 2 owner = { has_technology = kuat_tech_plague_immune_2 } }
-			[[IMMUNE] random_list = {
-				90 = {
-					modifier = { factor = 0 owner = { has_technology = kuat_tech_plague_immune_2 } }
-					modifier = { factor = 0.1 owner = { has_technology = kuat_tech_plague_immune } }
-				}
-				# get immune
-				10 = {
-					owner = { country_event = { id = kuat_plague.58 days = 1 } }
-					random_owned_pop = { limit = { kuat_trigger_plague_is_immune = no } set_pop_flag = kuat_plague_pop_immune }
-				}
-			}]
-			[[!IMMUNE] modifier = { factor = 2 has_global_flag = kuat_plague_lvl_3 }
-				modifier = { factor = 10 owner = { is_fallen_empire = yes } }
-				modifier = { factor = 2 owner = { NOT = { is_country = root.owner } } }
-				modifier = { factor = 10 owner = { NOT = { is_country = root.owner } is_homicidal = yes 
-			}]
+			inline_script = kuat_plague_modifier/kuat_plague_sample
+			[[IMMUNE] inline_script = kuat_plague_modifier/kuat_plafgue_trigger/kuat_plague_yes_immunes ]
+			[[!IMMUNE] inline_script = kuat_plague_modifier/kuat_plafgue_trigger/kuat_plague_no_immunes ]
 		}
 		# die
 		40 = {
-			# amenities
-			modifier = { factor = 1.25 free_amenities < 0 }
-			modifier = { factor = 1.25 free_amenities < -10 }
-			modifier = { factor = 1.25 free_amenities < -20 }
-			# crime
-			modifier = { factor = 1.25 planet_crime > 10 }
-			modifier = { factor = 1.25 planet_crime > 20 }
-			modifier = { factor = 1.25 planet_crime > 30 }
-			modifier = { factor = 1.25 planet_crime > 40 }
-			modifier = { factor = 1.25 planet_crime > 50 }
-			modifier = { factor = 1.25 planet_crime > 60 }
-			modifier = { factor = 1.25 planet_crime > 70 }
-			modifier = { factor = 1.25 planet_crime > 80 }
-			modifier = { factor = 1.25 planet_crime > 90 }
-			# pop ammount scale
-			modifier = {
-				factor = 2
-				count_owned_pop = {
-					limit = { kuat_trigger_plague_is_immune = no }
-					count > 100
-				}
-			}
-			modifier = {
-				factor = 2
-				count_owned_pop = {
-					limit = { kuat_trigger_plague_is_immune = no }
-					count > 90
-				}
-			}
-			modifier = {
-				factor = 2
-				count_owned_pop = {
-					limit = { kuat_trigger_plague_is_immune = no }
-					count > 80
-				}
-			}
-			modifier = {
-				factor = 2
-				count_owned_pop = {
-					limit = { kuat_trigger_plague_is_immune = no }
-					count > 70
-				}
-			}
-			modifier = {
-				factor = 2
-				count_owned_pop = {
-					limit = { kuat_trigger_plague_is_immune = no }
-					count > 60
-				}
-			}
-			modifier = {
-				factor = 2
-				count_owned_pop = {
-					limit = { kuat_trigger_plague_is_immune = no }
-					count > 50
-				}
-			}
-			modifier = {
-				factor = 2
-				count_owned_pop = {
-					limit = { kuat_trigger_plague_is_immune = no }
-					count > 40
-				}
-			}
-			modifier = {
-				factor = 2
-				count_owned_pop = {
-					limit = { kuat_trigger_plague_is_immune = no }
-					count > 30
-				}
-			}
-			modifier = {
-				factor = 2
-				count_owned_pop = {
-					limit = { kuat_trigger_plague_is_immune = no }
-					count > 20
-				}
-			}
-			modifier = {
-				factor = 2
-				count_owned_pop = {
-					limit = { kuat_trigger_plague_is_immune = no }
-					count > 10
-				}
-			}
+			inline_script = kuat_plague_modifier/kuat_plague_sample_a
 			[[IMMUNE] kuat_contractor_plague_kill_people = yes ]
-			[[!IMMUNE] planet_event = { id = kuat_plague.1 days = 90 random = 90 } }]
+			[[!IMMUNE] planet_event = { id = kuat_plague.1 days = 90 random = 90 }]
 		}
 	}
 }
