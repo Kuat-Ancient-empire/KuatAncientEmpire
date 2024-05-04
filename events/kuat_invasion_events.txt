@@ -1471,17 +1471,27 @@ country_event = {
 						}
 					}
 				}
-				root.fromfromfrom = { if = {
-					limit = { kuat_is_kuat_ship = no is_ship_class = shipclass_military }
-					save_event_target_as = infinite_faction_battle_duplicate_ship 
-				} }
 				if = {
-					limit = { exists = event_target:infinite_faction_battle_duplicate_ship }
-					fleet = { 
-						create_ship = { design = event_target:infinite_faction_battle_duplicate_ship } 
-						change_variable = { which = count_infinite_faction_battle_duplicate_ship value = 1 }
+					limit = { ROOT = { is_infinite_faction = yes } }
+					root.fromfromfrom = { if = {
+						limit = { kuat_is_kuat_ship = no is_ship_class = shipclass_military }
+						save_event_target_as = infinite_faction_battle_duplicate_ship 
+					} }
+					if = {
+						limit = { exists = event_target:infinite_faction_battle_duplicate_ship }
+						fleet = { 
+							create_ship = { design = event_target:infinite_faction_battle_duplicate_ship } 
+							change_variable = { which = count_infinite_faction_battle_duplicate_ship value = 1 }
+						}
 					}
 				}
+				else = { fleet = { 
+					random_list = {
+						1 = { create_ship = { design = Name_boss_crisis_DB_0 } }
+						2 = { create_ship = { design = Name_boss_crisis_DC_0 } }
+					}
+					change_variable = { which = count_infinite_faction_battle_duplicate_ship value = 1 }
+				} }
 			}
 			1 = {
 				modifier = {
@@ -1750,7 +1760,7 @@ country_event = {
 				} }
 			}
 			else_if = {  
-				limit = { ROOT = { OR = { is_infinite_faction = yes is_kuat_contractor_faction = yes } } }
+				limit = { ROOT = { is_infinite_faction = yes } }
 				fromfromfrom = { every_owned_ship = { 
 					limit = { NOT = { has_ship_flag = random_list_eternal_fleet_rate_placeholder }  }
 					set_ship_flag = is_modifiering ship_event = { id = exe_invasion.136 } 
