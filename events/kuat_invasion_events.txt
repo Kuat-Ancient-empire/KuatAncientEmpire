@@ -1744,7 +1744,7 @@ country_event = {
 				}
 			}
 			if = {
-				limit = { ROOT = { OR = { is_eternal_faction = yes is_kuat_contractor_faction = yes } } }
+				limit = { ROOT = { is_eternal_faction = yes } }
 				fromfromfrom = { every_owned_ship = { 
 					limit = { NOT = { has_ship_flag = random_list_eternal_fleet_rate_placeholder }  }
 					set_ship_flag = is_modifiering  
@@ -1754,6 +1754,21 @@ country_event = {
 						difficult_exe_invasion = { ship_event = { id = exe_invasion.131 } }
 						normal_exe_invasion = { ship_event = { id = exe_invasion.129 } }
 						easy_exe_invasion = { ship_event = { id = exe_invasion.142 } }
+						default = { ship_event = { id = exe_invasion.142 } }
+					}
+					set_timed_ship_flag = { flag = random_list_eternal_fleet_rate_placeholder days = 1 }
+				} }
+			}
+			else_if = {
+				limit = { ROOT = { is_kuat_contractor_faction = yes } }
+				fromfromfrom = { every_owned_ship = { 
+					limit = { NOT = { has_ship_flag = random_list_eternal_fleet_rate_placeholder }  }
+					set_ship_flag = is_modifiering  
+					switch = {
+						trigger = has_global_flag
+						ban_exe_invasion = { ship_event = { id = exe_invasion.131 } }
+						difficult_exe_invasion = { ship_event = { id = exe_invasion.129 } }
+						normal_exe_invasion = { ship_event = { id = exe_invasion.142 } }
 						default = { ship_event = { id = exe_invasion.142 } }
 					}
 					set_timed_ship_flag = { flag = random_list_eternal_fleet_rate_placeholder days = 1 }
