@@ -1477,3 +1477,36 @@ situation_plague_pop_deficit = {
 		}
 	}
 }
+
+#抑制白洞计数
+situation_white_hole_system_disable = {
+	picture = GFX_evt_astral_rift_tower
+	complete_icon_frame = GFX_situation_outcome_frame_blue
+	complete_icon = GFX_situation_outcome_unknown
+	fail_icon_frame = GFX_situation_outcome_frame_red
+	fail_icon = GFX_situation_outcome_meh
+	on_start = { save_global_event_target_as = situation_white_hole_system_disable }
+	on_progress_complete = {
+		custom_tooltip = situation_unknown_outcome_approach
+		hidden_effect = { situation_event = { id = kuat_extramonster.32 } }
+		clear_global_event_target = situation_white_hole_system_disable
+		destroy_situation = this
+	}
+	stages = {
+		stage_1 = {
+			icon = GFX_situation_stage_1
+			icon_background = GFX_situation_stage_frame_blue
+			end = 100
+			custom_tooltip = situation_unknown_outcome_approach
+		}
+	}
+	#hositle
+	approach = {
+		name = "situation_plague_handon_altitude_station"
+		icon = GFX_situation_approach_research
+		icon_background = GFX_situation_approach_bg_green
+		on_select = { custom_tooltip = approach_outcome_tooltip }
+	}
+	monthly_progress = { base = 0 }
+	abort_trigger = { NOT = { exists = owner } }
+}
