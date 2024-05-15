@@ -27,18 +27,6 @@ country_event = {
 			from = { is_country_type = kuat_fleet }
 		}
 	}
-	#TODO
-	# option = {
-	# 	name = kuat_shipyard.1.c
-	# 	trigger = { exists = event_target:fallen_empire_kuat_fleet always = no }
-	# 	allow = {
-	# 		custom_tooltip = {
-	# 			fail_text = kuat_shipyard.1.a.opinion.tooltip
-	# 			event_target:fallen_empire_kuat = { opinion = { who = root value >= 500 } }
-	# 		}
-	# 	}
-	# 	hidden_effect = { country_event = { id = kuat_shipyard.5 } }
-	# }
 	option = {
 		name = kuat_shipyard.1.b
 		trigger = { exists = event_target:fallen_empire_kuat_fleet }
@@ -63,7 +51,7 @@ country_event = {
 				OR = {
 					AND = {
 						kuat_is_enable_shadow_origin = yes
-						event_target:fallen_empire_kuat = { opinion = { who = root value >= 50 } }
+						event_target:fallen_empire_kuat = { opinion = { who = root value >= -500 } }
 					}
 					AND = { 
 						NOT = { kuat_is_enable_shadow_origin = yes }
@@ -117,7 +105,7 @@ country_event = {
 				OR = {
 					AND = {
 						kuat_is_enable_shadow_origin = yes
-						event_target:fallen_empire_kuat = { opinion = { who = root value >= 100 } }
+						event_target:fallen_empire_kuat = { opinion = { who = root value >= -500 } }
 					}
 					AND = { 
 						NOT = { kuat_is_enable_shadow_origin = yes }
@@ -141,7 +129,7 @@ country_event = {
 				OR = {
 					AND = {
 						kuat_is_enable_shadow_origin = yes
-						event_target:fallen_empire_kuat = { opinion = { who = root value >= 200 } }
+						event_target:fallen_empire_kuat = { opinion = { who = root value >= -500 } }
 					}
 					AND = { 
 						NOT = { kuat_is_enable_shadow_origin = yes }
@@ -165,7 +153,7 @@ country_event = {
 				OR = {
 					AND = {
 						kuat_is_enable_shadow_origin = yes
-						event_target:fallen_empire_kuat = { opinion = { who = root value >= 300 } }
+						event_target:fallen_empire_kuat = { opinion = { who = root value >= -500 } }
 					}
 					AND = { 
 						NOT = { kuat_is_enable_shadow_origin = yes }
@@ -189,7 +177,7 @@ country_event = {
 				OR = {
 					AND = {
 						kuat_is_enable_shadow_origin = yes
-						event_target:fallen_empire_kuat = { opinion = { who = root value >= 350 } }
+						event_target:fallen_empire_kuat = { opinion = { who = root value >= 500 } }
 					}
 					AND = { 
 						NOT = { kuat_is_enable_shadow_origin = yes }
@@ -1458,199 +1446,4 @@ event = {
 		exists = event_target:kuat_shipyard_country
 	}
 	immediate = { event_target:kuat_shipyard_country = { destroy_country = yes } }
-}
-
-#TODO 4.6 抽奖
-country_event = {
-	id = kuat_shipyard.5
-	title = kuat_shipyard.title
-	desc = kuat_shipyard.5.desc
-	picture_event_data = {
-		portrait = event_target:kuat_player_target_species
-		room = kuat_mega_shipyard_room
-	}
-	custom_gui = "kuat_event_diplomacy_shipyard_window"
-	custom_gui_option = "kuat_event_diplomacy_shipyard_option"
-	location = event_target:fallen_empire_kuat.capital_scope
-	is_triggered_only = yes
-	diplomatic = yes
-	trigger = {
-		is_ai = no
-		can_communicate_with_kuat = yes
-	}
-	immediate = {
-		if = {
-			limit = { NOT = { is_variable_set = kuat_cash_event_variable } }
-			set_variable = { which = kuat_cash_event_variable value = 0 }
-		}
-	}
-	#兑换代币
-	option = {
-		name = kuat_shipyard.5.b
-		allow = { 
-			custom_tooltip_fail = {
-				text = kuat_not_have_enought_resource
-				resource_stockpile_compare = { resource = alloys value >= 1000 } 
-			}
-		}
-		hidden_effect = { country_event = { id = kuat_shipyard.6 } }
-	}
-	#一连抽
-	option = {
-		name = kuat_shipyard.5.c
-		allow = {
-			custom_tooltip_fail = {
-				text = kuat_not_have_enought_cash
-				check_variable = { which = kuat_cash_event_variable value > 0 }
-			}
-		}
-		hidden_effect = {
-			subtract_variable = { which = kuat_cash_event_variable value = 1 }
-			country_event = { id = kuat_shipyard.5 } 
-		}
-	}
-	#五连抽
-	option = {
-		name = kuat_shipyard.5.d
-		allow = {
-			custom_tooltip_fail = {
-				text = kuat_not_have_enought_cash
-				check_variable = { which = kuat_cash_event_variable value > 4 }
-			}
-		}
-		hidden_effect = {
-			subtract_variable = { which = kuat_cash_event_variable value = 5 }
-			country_event = { id = kuat_shipyard.5 } 
-		}
-	}
-	#十连抽
-	option = {
-		name = kuat_shipyard.5.e
-		allow = {
-			custom_tooltip_fail = {
-				text = kuat_not_have_enought_cash
-				check_variable = { which = kuat_cash_event_variable value > 9 }
-			}
-		}
-		hidden_effect = {
-			subtract_variable = { which = kuat_cash_event_variable value = 10 }
-			country_event = { id = kuat_shipyard.5 } 
-		}
-	}
-	option = {
-		name = kuat_shipyard.return
-		hidden_effect = { country_event = { id = kuat_shipyard.1 } }
-	}
-	option = {
-		name = kuat_shipyard.exit
-		default_hide_option = yes
-	}
-}
-
-country_event = {
-	id = kuat_shipyard.6
-	title = kuat_shipyard.title
-	desc = kuat_shipyard.6.desc
-	picture_event_data = {
-		portrait = event_target:kuat_player_target_species
-		room = kuat_mega_shipyard_room
-	}
-	custom_gui = "kuat_event_diplomacy_shipyard_window"
-	custom_gui_option = "kuat_event_diplomacy_shipyard_option"
-	location = event_target:fallen_empire_kuat.capital_scope
-	is_triggered_only = yes
-	diplomatic = yes
-	trigger = {
-		is_ai = no
-		can_communicate_with_kuat = yes
-	}
-	immediate = { }
-	option = {
-		name = kuat_shipyard.6.a
-		allow = { 
-			custom_tooltip_fail = {
-				text = kuat_not_have_enought_resource
-				resource_stockpile_compare = { resource = alloys value >= 1000 } 
-			}
-		}
-		hidden_effect = { 
-			export_resource_stockpile_to_variable = {
-				resource = alloys
-				variable = kuat_player_certenly_alloys
-			}
-			divide_variable = { which = kuat_player_certenly_alloys value = 1000 }
-			floor_variable = kuat_player_certenly_alloys
-			add_resource = { alloys = -1000 mult = kuat_player_certenly_alloys }
-			change_variable = { which = kuat_cash_event_variable value = kuat_player_certenly_alloys }
-			country_event = { id = kuat_shipyard.6 } 
-		}
-	}
-	#1
-	option = {
-		name = kuat_shipyard.6.b
-		allow = { 
-			custom_tooltip_fail = {
-				text = kuat_not_have_enought_resource
-				resource_stockpile_compare = { resource = alloys value >= 1000 } 
-			}
-		}
-		hidden_effect = { 
-			add_resource = { alloys = -1000 }
-			change_variable = { which = kuat_cash_event_variable value = 1 }
-			country_event = { id = kuat_shipyard.6 } 
-		}
-	}
-	#10
-	option = {
-		name = kuat_shipyard.6.c
-		allow = { 
-			custom_tooltip_fail = {
-				text = kuat_not_have_enought_resource
-				resource_stockpile_compare = { resource = alloys value >= 10000 } 
-			}
-		}
-		hidden_effect = { 
-			add_resource = { alloys = -10000 }
-			change_variable = { which = kuat_cash_event_variable value = 10 }
-			country_event = { id = kuat_shipyard.6 } 
-		}
-	}
-	#50
-	option = {
-		name = kuat_shipyard.6.d
-		allow = { 
-			custom_tooltip_fail = {
-				text = kuat_not_have_enought_resource
-				resource_stockpile_compare = { resource = alloys value >= 50000 } 
-			}
-		}
-		hidden_effect = { 
-			add_resource = { alloys = -50000 }
-			change_variable = { which = kuat_cash_event_variable value = 50 }
-			country_event = { id = kuat_shipyard.6 } 
-		}
-	}
-	#100
-	option = {
-		name = kuat_shipyard.6.e
-		allow = { 
-			custom_tooltip_fail = {
-				text = kuat_not_have_enought_resource
-				resource_stockpile_compare = { resource = alloys value >= 100000 } 
-			}
-		}
-		hidden_effect = { 
-			add_resource = { alloys = -100000 }
-			change_variable = { which = kuat_cash_event_variable value = 100 }
-			country_event = { id = kuat_shipyard.6 } 
-		}
-	}
-	option = {
-		name = kuat_shipyard.return
-		hidden_effect = { country_event = { id = kuat_shipyard.5 } }
-	}
-	option = {
-		name = kuat_shipyard.exit
-		default_hide_option = yes
-	}
 }

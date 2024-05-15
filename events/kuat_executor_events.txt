@@ -1244,6 +1244,7 @@ country_event = {
 	custom_gui_option = "kuat_event_diplomacy_option"
 	trigger = { any_country = { has_country_flag = fallen_empire_kuat } }
 	immediate = {
+		set_timed_country_flag = { flag = kuat_will_be_return_for_money years = 20 }
 		if = {
 			limit = { has_country_resource = { type = energy amount > 10000 } }
 			export_resource_stockpile_to_variable = { resource = energy variable = country_energy_tax_amount }
@@ -1275,7 +1276,7 @@ country_event = {
 	custom_gui_option = "kuat_event_m_option"
 	is_triggered_only = yes
 	trigger = {
-		mid_game_years_passed >= 20
+		has_country_flag = kuat_will_be_return_for_money
 		any_owned_ship = { has_ship_flag = executor }
 		exists = event_target:fallen_empire_kuat
 	}
@@ -1624,7 +1625,7 @@ country_event = {
 	trigger = {
 		exists = event_target:fallen_empire_kuat
 		NOT = { is_at_war_with = event_target:fallen_empire_kuat }
-		event_target:fallen_empire_kuat = { opinion = { who = root value >= 150 } }
+		event_target:fallen_empire_kuat = { opinion = { who = root value >= 0 } }
 	}
 	option = {
 		name = "executor_build.1105.a"

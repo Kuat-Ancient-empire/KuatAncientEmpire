@@ -3262,10 +3262,19 @@ country_event = {
 	custom_gui = "kuat_event_diplomacy_window"
 	custom_gui_option = "kuat_event_diplomacy_option"
 	is_triggered_only = yes
+	immediate = {
+		if = {
+			limit = { has_country_resource = { type = energy amount > 10000 } }
+			export_resource_stockpile_to_variable = { resource = energy variable = country_energy_tax_amount }
+			multiply_variable = { which = country_energy_tax_amount value = 0.5 }
+		}
+		else = { set_variable = { which = country_energy_tax_amount value = 5000 } }
+	}
 	option = {
 		#我们会和你们物理保护这个系统
 		name = "kuat_legacy.87.continue"
 		custom_tooltip = "kuat_legacy.87.warning"
+		trigger = { NOT = { has_global_flag = kuat_legacy_87_second_continue } }
 		hidden_effect = { 
 			every_system_within_border = {
 				limit = { is_capital_system = yes }
@@ -3301,9 +3310,193 @@ country_event = {
 		}
 	}
 	option = {
+		#10年贷款，每年还一半库存 #TODO
+		name = "kuat_legacy.87.second_continue"
+		trigger = { NOT = { has_global_flag = kuat_legacy_87_second_continue } }
+		allow = { has_country_resource = { type = energy amount >= country_energy_tax_amount } }
+		add_resource = { energy = -1 mult = country_energy_tax_amount }
+		hidden_effect = { 
+			set_global_flag = kuat_legacy_87_second_continue
+			event_target:kuat_firebase_country = {
+				destroy_country = yes
+				remove_global_flag = starkillerbase_not_passed
+				every_megastructure = {
+					limit = { is_megastructure_type = kuat_starkillerbase_1 }
+					remove_megastructure = this
+				}
+				every_galaxy_planet = {
+					limit = { has_planet_flag = buildingsoon }
+					remove_planet_flag = buildingsoon
+				}
+			}
+			set_country_flag = fighting_won_with_facility
+			event_target:sun_target_system = { spawn_megastructure = {
+				type = kuat_starkillerbase_1
+				coords_from = event_target:starkillerbase_location
+				owner = root
+			} }
+			remove_global_flag = kuat_system_selector_1_opened
+			clear_variable = country_energy_tax_amount 
+			change_variable = { which = kuat_legacy_87_second_continue value = 1 }
+			country_event = { id = kuat_legacy.871 days = 1800 } 
+		}
+		response_text = kuat_legacy.87.second_continue.RES
+	}
+	option = {
 		#我们聊聊其他话题
 		name = "kuat_legacy.79.back"
 		hidden_effect = { country_event = { id = kuat_legacy.78 } }
+	}
+}
+
+country_event = {
+	id = kuat_legacy.871
+	title = kuat_legacy.871.title
+	desc = kuat_legacy.871.desc
+	diplomatic = yes
+	picture_event_data = { room = clocks_room }
+	custom_gui = "kuat_event_m_window"
+	custom_gui_option = "kuat_event_m_option"
+	is_triggered_only = yes
+	trigger = { has_global_flag = kuat_legacy_87_second_continue }
+	immediate = {
+		if = {
+			limit = { has_country_resource = { type = energy amount > 10000 } }
+			export_resource_stockpile_to_variable = { resource = energy variable = country_energy_tax_amount }
+			multiply_variable = { which = country_energy_tax_amount value = 0.5 }
+		}
+		else = { set_variable = { which = country_energy_tax_amount value = 5000 } }
+	}
+	option = {
+		name = kuat_legacy.871.a
+		trigger = { check_variable = { which = kuat_legacy_87_second_continue value < 4 } }
+		allow = { has_country_resource = { type = energy amount >= country_energy_tax_amount } }
+		add_resource = { energy = -1 mult = country_energy_tax_amount }
+		hidden_effect = { 
+			country_event = { id = kuat_legacy.871 days = 1800 } 
+			clear_variable = country_energy_tax_amount 
+			change_variable = { which = kuat_legacy_87_second_continue value = 1 }
+		}
+	}
+	option = {
+		name = kuat_legacy.871.b
+		trigger = { NOT = { is_variable_set = kuat_legacy_87_second_stop } }
+		hidden_effect = { 
+			change_variable = { which = kuat_legacy_87_second_stop value = 1 }
+			country_event = { id = kuat_legacy.871 days = 1800 }
+			clear_variable = country_energy_tax_amount 
+		}
+	}
+	option = {
+		name = kuat_legacy.871.b1
+		trigger = { check_variable = { which = kuat_legacy_87_second_stop value > 0 } }
+		hidden_effect = { 
+			change_variable = { which = kuat_legacy_87_second_stop value = 1 }
+			clear_variable = country_energy_tax_amount 
+			random_list = {
+				10 = {
+					remove_global_flag = kuat_legacy_87_second_continue
+					set_global_flag = kuat_legacy_87_second_continue_failed
+					country_event = { id = kuat_legacy.872 days = 1 }
+				}
+				90 = {
+					modifier = {
+						factor = 0.75
+						check_variable = { which = kuat_legacy_87_second_stop value = 2 }
+					}
+					modifier = {
+						factor = 0.5
+						check_variable = { which = kuat_legacy_87_second_stop value = 3 }
+					}
+					modifier = {
+						factor = 0.25
+						check_variable = { which = kuat_legacy_87_second_stop value = 4 }
+					}
+					modifier = {
+						factor = 0.01
+						check_variable = { which = kuat_legacy_87_second_stop value = 5 }
+					}
+					country_event = { id = kuat_legacy.871 days = 1800 }
+				}
+			}
+		}
+	}
+	option = {
+		name = kuat_legacy.871.c
+		trigger = { check_variable = { which = kuat_legacy_87_second_continue value = 4 } }
+		allow = { has_country_resource = { type = energy amount >= country_energy_tax_amount } }
+		add_resource = { energy = -1 mult = country_energy_tax_amount }
+		hidden_effect = { 
+			set_global_flag = kuat_legacy_87_second_continue_trued
+			clear_variable = country_energy_tax_amount 
+			remove_global_flag = kuat_legacy_87_second_continue
+			country_event = { id = kuat_legacy.872 days = 15 random = 15 }
+		}
+	}
+}
+
+country_event = {
+	id = kuat_legacy.872
+	title = "kuat_legacy.78.title"
+	desc = {
+		trigger = {
+			success_text = {
+				has_global_flag = kuat_legacy_87_second_continue_failed 
+				is_variable_set = kuat_legacy_87_second_stop
+				text = "kuat_legacy.872.desc"
+			}
+			success_text = {
+				has_global_flag = kuat_legacy_87_second_continue_trued
+				text = "kuat_legacy.872.a.desc"
+			}
+		}
+	}
+	diplomatic = yes
+	picture_event_data = { 
+		portrait = event_target:kuat_player_target_species
+		room = galactic_custodian_room 
+	}
+	custom_gui = "kuat_event_diplomacy_window"
+	custom_gui_option = "kuat_event_diplomacy_option"
+	is_triggered_only = yes
+	option = {
+		name = "kuat_legacy.872.continue"
+		custom_tooltip = "kuat_legacy.872.warning"
+		trigger = { 
+			has_global_flag = kuat_legacy_87_second_continue_failed 
+			is_variable_set = kuat_legacy_87_second_stop
+		}
+		hidden_effect = { 
+			set_update_modifiers_batch = begin
+			if = {
+				limit = { check_variable = { which = kuat_legacy_87_second_stop value = 1 } }
+				destroy_system_everything_random = yes
+			}
+			if = {
+				limit = { check_variable = { which = kuat_legacy_87_second_stop value = 2 } }
+				while = { count = 2 destroy_system_everything_random = yes }
+			}
+			if = {
+				limit = { check_variable = { which = kuat_legacy_87_second_stop value = 3 } }
+				while = { count = 3 destroy_system_everything_random = yes }
+			}
+			if = {
+				limit = { check_variable = { which = kuat_legacy_87_second_stop value = 4 } }
+				while = { count = 4 destroy_system_everything_random = yes }
+			}
+			if = {
+				limit = { check_variable = { which = kuat_legacy_87_second_stop value = 5 } }
+				while = { count = 5 destroy_system_everything_random = yes }
+			}
+			else = { while = { count = 10 destroy_system_everything_random = yes } }
+			set_update_modifiers_batch = end
+		}
+	}
+	option = {
+		name = "kuat_legacy.872.second_continue"
+		trigger = { has_global_flag = kuat_legacy_87_second_continue_trued }
+		create_ship_design = { design = NAME_KUAT_COMPELLOR }
+		add_ship_design = last_created_design
 	}
 }
 
