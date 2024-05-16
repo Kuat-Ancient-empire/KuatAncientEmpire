@@ -1644,8 +1644,12 @@ fleet_event = {
 				every_owned_ship = { set_variable = { which = combat_days value = 0 } }
 			}
 			else_if = {
-				limit = { owner = { OR = { is_eternal_faction = yes is_infinite_faction = yes } } } 
+				limit = { owner = { is_eternal_faction = yes } } 
 				every_owned_ship = { limit = { check_variable = { which = combat_days value > 3 } } set_disable_at_health = -1 } 
+			}
+			else_if = {
+				limit = { owner = { is_infinite_faction = yes } } 
+				every_owned_ship = { limit = { check_variable = { which = combat_days value > 2 } } set_disable_at_health = -1 } 
 			}
 			every_owned_ship = { change_variable = { which = combat_days value = 1 } }
 			change_variable = { which = weapon_fired_combat_days value = 1 }
@@ -1673,10 +1677,7 @@ fleet_event = {
 		else = { 
 			every_owned_ship = { 
 				clear_variable = combat_days
-				if = { 
-					limit = { owner = { OR = { is_eternal_faction = yes is_infinite_faction = yes } }  } 
-					set_disable_at_health = 0.01 
-				}
+				if = { limit = { owner = { OR = { is_eternal_faction = yes is_infinite_faction = yes } } } set_disable_at_health = 0.01 }
 			} 
 			clear_variable = weapon_fired_combat_days 
 		}
