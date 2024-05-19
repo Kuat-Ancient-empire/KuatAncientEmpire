@@ -1500,46 +1500,6 @@ country_event = {
 					change_variable = { which = count_infinite_faction_battle_duplicate_ship value = 1 }
 				} }
 			}
-			1 = {
-				modifier = {
-					factor = 0
-					root = { fromfromfrom.fleet = { OR = {
-						has_fleet_flag = eternal_learned_leader 
-						NOT = { exists = leader }
-						AND = { exists = leader leader = { NOT = { leader_class = commander } } }
-					} } }
-				}
-				root = { fromfromfrom.fleet = {
-					set_fleet_flag = eternal_learned_leader
-					leader = { 
-						set_timed_leader_flag = { flag = eternal_learned_leader days = 180 } 
-						save_event_target_as = eternal_learned_leader
-					}
-					prev = {
-						clone_leader = { 
-							class = commander target = event_target:eternal_learned_leader
-							effect = { 
-								save_event_target_as = eternal_learned_leader_copy 
-								copy_flags_and_variables_from = event_target:eternal_learned_leader
-							} 
-						}
-						fromfrom.fleet = {
-							if = {
-								limit = { NOT = { has_fleet_flag = have_learned_leader } }
-								if = { limit = { exists = leader } leader = { kill_leader = { show_notification = no } } }
-								assign_leader = event_target:eternal_learned_leader_copy
-								set_timed_fleet_flag = { flag = have_learned_leader days = 180 }
-							}
-							else = { owner = { random_owned_fleet = {
-								limit = { NOT = { has_fleet_flag = have_learned_leader } }
-								if = { limit = { exists = leader } leader = { kill_leader = { show_notification = no } } }
-								assign_leader = event_target:eternal_learned_leader_copy
-								set_timed_fleet_flag = { flag = have_learned_leader days = 180 }
-							} } }
-						}
-					}
-				} }
-			}
 			1 = { no_events = yes }
 		} }
 	} }
@@ -1710,7 +1670,7 @@ country_event = {
 				if = { limit = { check_modifier_value = { modifier = shipclass_military_hull_mult value > 0.1 } } 
 				clear_ship_modifier = { modifier = shipclass_military_hull_mult subtract = 0.1 DAYS = -1 } } 
 			} }
-			if = { limit = { is_eternal_crisis = yes } kuat_copy_leader_learning_system = yes }
+			# if = { limit = { is_eternal_crisis = yes } kuat_copy_leader_learning_system = yes }
 		}
 		if = {
 			limit = { 
@@ -1813,9 +1773,9 @@ country_event = {
 					set_ship_flag = is_modifiering  
 					switch = {
 						trigger = has_global_flag
-						ban_exe_invasion = { ship_event = { id = exe_invasion.136 } }
-						difficult_exe_invasion = { ship_event = { id = exe_invasion.131 } }
-						normal_exe_invasion = { ship_event = { id = exe_invasion.129 } }
+						ban_exe_invasion = { ship_event = { id = exe_invasion.131 } }
+						difficult_exe_invasion = { ship_event = { id = exe_invasion.129 } }
+						normal_exe_invasion = { ship_event = { id = exe_invasion.142 } }
 						easy_exe_invasion = { ship_event = { id = exe_invasion.142 } }
 						default = { ship_event = { id = exe_invasion.142 } }
 					}
