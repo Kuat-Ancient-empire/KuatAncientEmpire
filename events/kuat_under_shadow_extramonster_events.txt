@@ -1487,7 +1487,7 @@ country_event = {
 	}
 }
 
-#A defense fleet destroyed, white hole research enable.  
+#A defense fleet destroyed, white hole research enable.   #TODO
 country_event = {
 	id = kuat_extramonster.301
 	hide_window = yes
@@ -1496,7 +1496,7 @@ country_event = {
 		has_global_flag = kuat_extramonster_begin
 		from = { is_kuat_contractor_faction = yes }
 		fromfromfrom = { 
-			has_fleet_flag = kuat_contractor_defenced_fleet
+			has_fleet_flag = kuat_contractor_capital_fleet
 			exists = solar_system
 			solar_system = {
 				has_star_flag = kuat_white_hole_star
@@ -1517,45 +1517,46 @@ country_event = {
 			country_event = { id = kuat_extramonster.302 }
 		}
 		fromfromfrom.solar_system = { set_star_flag = kuat_white_hole_rainforce_attack_active }
+		change_variable = { which = kuat_contractor_capital_fleet_destroyed value = 1 }
 		if = {
 			limit = { 
 				NOT = { exists = event_target:situation_white_hole_system_disable } 
-				root = { NOT = { is_variable_set = kuat_white_hole_star_enable } }
+				check_variable = { which = kuat_contractor_capital_fleet_destroyed value = 1 }
 			}
 			start_situation = { type = situation_white_hole_system_disable }
 		}
-		else_if = {
+		if = {
 			limit = { 
 				NOT = { exists = event_target:situation_white_hole_system_disable_1 } 
-				root = { check_variable = { which = kuat_white_hole_star_enable value = 1 } }
+				check_variable = { which = kuat_contractor_capital_fleet_destroyed value = 2 }
 			}
 			start_situation = { type = situation_white_hole_system_disable_1 }
 		}
-		else_if = {
+		if = {
 			limit = { 
 				NOT = { exists = event_target:situation_white_hole_system_disable_2 } 
-				root = { check_variable = { which = kuat_white_hole_star_enable value = 2 } }
+				check_variable = { which = kuat_contractor_capital_fleet_destroyed value = 3 }
 			}
 			start_situation = { type = situation_white_hole_system_disable_2 }
 		}
-		else_if = {
+		if = {
 			limit = { 
 				NOT = { exists = event_target:situation_white_hole_system_disable_3 } 
-				root = { check_variable = { which = kuat_white_hole_star_enable value = 3 } }
+				check_variable = { which = kuat_contractor_capital_fleet_destroyed value = 4 }
 			}
 			start_situation = { type = situation_white_hole_system_disable_3 }
 		}
-		else_if = {
+		if = {
 			limit = { 
 				NOT = { exists = event_target:situation_white_hole_system_disable_4 } 
-				root = { check_variable = { which = kuat_white_hole_star_enable value = 4 } }
+				check_variable = { which = kuat_contractor_capital_fleet_destroyed value = 5 }
 			}
 			start_situation = { type = situation_white_hole_system_disable_4 }
 		}
-		else_if = {
+		if = {
 			limit = { 
 				NOT = { exists = event_target:situation_white_hole_system_disable_5 } 
-				root = { check_variable = { which = kuat_white_hole_star_enable value = 5 } }
+				check_variable = { which = kuat_contractor_capital_fleet_destroyed value = 6 }
 			}
 			start_situation = { type = situation_white_hole_system_disable_5 }
 		}
