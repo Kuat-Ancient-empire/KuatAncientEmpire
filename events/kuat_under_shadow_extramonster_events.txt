@@ -768,6 +768,26 @@ country_event = {
 			limit = { exists = event_target:situation_white_hole_system_disable }
 			event_target:situation_white_hole_system_disable = { add_situation_progress = 10 }
 		}
+		if = {
+			limit = { exists = event_target:situation_white_hole_system_disable_1 }
+			event_target:situation_white_hole_system_disable_1 = { add_situation_progress = 10 }
+		}
+		if = {
+			limit = { exists = event_target:situation_white_hole_system_disable_2 }
+			event_target:situation_white_hole_system_disable_2 = { add_situation_progress = 10 }
+		}
+		if = {
+			limit = { exists = event_target:situation_white_hole_system_disable_3 }
+			event_target:situation_white_hole_system_disable_3 = { add_situation_progress = 10 }
+		}
+		if = {
+			limit = { exists = event_target:situation_white_hole_system_disable_4 }
+			event_target:situation_white_hole_system_disable_4 = { add_situation_progress = 10 }
+		}
+		if = {
+			limit = { exists = event_target:situation_white_hole_system_disable_5 }
+			event_target:situation_white_hole_system_disable_5 = { add_situation_progress = 10 }
+		}
 	}
 }
 
@@ -878,7 +898,15 @@ country_event = {
 		NOT = { has_global_flag = kuat_white_hole_star_unlock_temple }
 		has_global_flag = kuat_white_hole_star_enable_1
 	}
-	mean_time_to_happen = { days = 1 }
+	mean_time_to_happen = { 
+		months = 1 
+		modifier = {
+			factor = 0
+			event_target:global_event_country = {
+				check_variable = { which = count_destroy_exm_kuat_fleet value > 24 } 
+			}
+		}
+	}
 	immediate = { 
 		set_global_flag = kuat_white_hole_star_unlock_temple 
 		random_system = {
@@ -929,7 +957,15 @@ country_event = {
 		NOT = { has_global_flag = kuat_white_hole_star_unlock_temple }
 		has_global_flag = kuat_white_hole_star_enable_2
 	}
-	mean_time_to_happen = { days = 1 }
+	mean_time_to_happen = { 
+		months = 1 
+		modifier = {
+			factor = 0
+			event_target:global_event_country = {
+				check_variable = { which = count_destroy_exm_kuat_fleet value > 30 } 
+			}
+		}
+	}
 	immediate = { 
 		set_global_flag = kuat_white_hole_star_unlock_temple 
 		random_system = {
@@ -980,7 +1016,15 @@ country_event = {
 		NOT = { has_global_flag = kuat_white_hole_star_unlock_temple }
 		has_global_flag = kuat_white_hole_star_enable_3
 	}
-	mean_time_to_happen = { days = 1 }
+	mean_time_to_happen = { 
+		months = 1 
+		modifier = {
+			factor = 0
+			event_target:global_event_country = {
+				check_variable = { which = count_destroy_exm_kuat_fleet value > 36 } 
+			}
+		}
+	}
 	immediate = { 
 		set_global_flag = kuat_white_hole_star_unlock_temple 
 		random_system = {
@@ -1031,7 +1075,15 @@ country_event = {
 		NOT = { has_global_flag = kuat_white_hole_star_unlock_temple }
 		has_global_flag = kuat_white_hole_star_enable_4
 	}
-	mean_time_to_happen = { days = 1 }
+	mean_time_to_happen = { 
+		months = 1 
+		modifier = {
+			factor = 0
+			event_target:global_event_country = {
+				check_variable = { which = count_destroy_exm_kuat_fleet value > 42 } 
+			}
+		}
+	}
 	immediate = { 
 		set_global_flag = kuat_white_hole_star_unlock_temple 
 		random_system = {
@@ -1082,7 +1134,15 @@ country_event = {
 		NOT = { has_global_flag = kuat_white_hole_star_unlock_temple }
 		has_global_flag = kuat_white_hole_star_enable_5
 	}
-	mean_time_to_happen = { days = 1 }
+	mean_time_to_happen = { 
+		months = 1 
+		modifier = {
+			factor = 0
+			event_target:global_event_country = {
+				check_variable = { which = count_destroy_exm_kuat_fleet value > 48 } 
+			}
+		}
+	}
 	immediate = { 
 		set_global_flag = kuat_white_hole_star_unlock_temple 
 		random_system = {
@@ -1136,7 +1196,15 @@ country_event = {
 			has_global_flag = kuat_white_hole_star_enable_infinite
 		}
 	}
-	mean_time_to_happen = { days = 1 }
+	mean_time_to_happen = { 
+		months = 1 
+		modifier = {
+			factor = 0
+			event_target:global_event_country = {
+				check_variable = { which = count_destroy_exm_kuat_fleet value > 54 } 
+			}
+		}
+	}
 	immediate = { 
 		set_global_flag = kuat_white_hole_star_unlock_temple 
 		random_system = {
@@ -1186,6 +1254,10 @@ ship_event = {
 			set_star_flag = kuat_white_hole_rainforce_disable
 		}
 		owner = {
+			change_variable = { which = kuat_white_hole_star_enable value = 1 }
+			country_event = { id = kuat_extramonster.39 }
+		}
+		owner = {
 			if = {
 				limit = { NOT = { is_variable_set = kuat_white_hole_star_enable } }
 				remove_point_of_interest = sc_kuat_white_hole.1
@@ -1211,10 +1283,6 @@ ship_event = {
 				remove_point_of_interest = sc_kuat_white_hole.6
 			}
 			else = { remove_point_of_interest = sc_kuat_white_hole.6 } #TODO
-		}
-		owner = {
-			change_variable = { which = kuat_white_hole_star_enable value = 1 }
-			country_event = { id = kuat_extramonster.39 }
 		}
 	}
 }
@@ -1409,8 +1477,46 @@ country_event = {
 		}
 		fromfromfrom.solar_system = { set_star_flag = kuat_white_hole_rainforce_attack_active }
 		if = {
-			limit = { NOT = { exists = event_target:situation_white_hole_system_disable } }
+			limit = { 
+				NOT = { exists = event_target:situation_white_hole_system_disable } 
+				root = { NOT = { is_variable_set = kuat_white_hole_star_enable } }
+			}
 			start_situation = { type = situation_white_hole_system_disable }
+		}
+		if = {
+			limit = { 
+				NOT = { exists = event_target:situation_white_hole_system_disable_1 } 
+				root = { check_variable = { which = kuat_white_hole_star_enable value = 1 } }
+			}
+			start_situation = { type = situation_white_hole_system_disable_1 }
+		}
+		if = {
+			limit = { 
+				NOT = { exists = event_target:situation_white_hole_system_disable_2 } 
+				root = { check_variable = { which = kuat_white_hole_star_enable value = 2 } }
+			}
+			start_situation = { type = situation_white_hole_system_disable_2 }
+		}
+		if = {
+			limit = { 
+				NOT = { exists = event_target:situation_white_hole_system_disable_3 } 
+				root = { check_variable = { which = kuat_white_hole_star_enable value = 3 } }
+			}
+			start_situation = { type = situation_white_hole_system_disable_3 }
+		}
+		if = {
+			limit = { 
+				NOT = { exists = event_target:situation_white_hole_system_disable_4 } 
+				root = { check_variable = { which = kuat_white_hole_star_enable value = 4 } }
+			}
+			start_situation = { type = situation_white_hole_system_disable_4 }
+		}
+		if = {
+			limit = { 
+				NOT = { exists = event_target:situation_white_hole_system_disable_5 } 
+				root = { check_variable = { which = kuat_white_hole_star_enable value = 5 } }
+			}
+			start_situation = { type = situation_white_hole_system_disable_5 }
 		}
 	}
 }

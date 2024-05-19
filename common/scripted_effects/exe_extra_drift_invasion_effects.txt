@@ -1169,6 +1169,25 @@ kuat_contractor_create_elternal_system_warbase = {
 	optimize_memory
 	set_star_flag = cannot_be_hit_by_aow_starfall_spear
 	system_star = {
+		create_fleet = {
+			name = "Name_Eternal_station_fleet"
+			settings = { spawn_debris = no can_disband = no }
+			effect = {
+				set_owner = event_target:kuat_contractor_hostile
+				create_ship = { design = "NAME_DRFT_STARBASE_MEGASTRUCTURE_SECTION" effect = { 
+					set_ship_flag = enable_drft_ship_inital set_disable_at_health = 0.01
+					set_variable = { which = DRFT_SHIP_HEALTH_VAR value = 30 }
+				} }
+				set_location = { target = prev distance = -1 angle = 0 }
+			}
+		}
+		create_ambient_object = { type = "kuat_plague_storm_1" location = this }
+		last_created_ambient_object = {
+			set_ambient_object_flag = space_storm_object
+			set_location = { target = prev distance = 0 angle = random }
+		}
+	}
+	system_star = {
 		set_variable = {
 			which = kuat_contractor_white_hole_create_ships
 			value = event_target:global_event_country.exe_invasion_difficult_global_var
@@ -1178,6 +1197,10 @@ kuat_contractor_create_elternal_system_warbase = {
 			value = 0.1
 		}
 		floor_variable = kuat_contractor_white_hole_create_ships
+		subtract_variable = {
+			which = kuat_contractor_white_hole_create_ships
+			value = 1
+		}
 		if = {
 			limit = { check_variable = {
 				which = kuat_contractor_white_hole_create_ships
