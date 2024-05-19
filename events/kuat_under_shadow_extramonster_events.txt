@@ -871,32 +871,33 @@ situation_event = {
 	show_sound = event_celebration
 	is_triggered_only = yes
 	immediate = {
+		change_variable = { which = situation_white_hole_system_disable_count value = 1 }
 		if = {
-			limit = { owner = { NOT = { is_variable_set = kuat_white_hole_star_enable } } }
+			limit = { check_variable = { which = kuat_white_hole_star_enable value = 1 } }
 			set_global_flag = kuat_white_hole_star_enable_1
 		}
 		else_if = {
-			limit = { owner = { check_variable = { which = kuat_white_hole_star_enable value = 1 } } }
+			limit = { check_variable = { which = kuat_white_hole_star_enable value = 2 } }
 			set_global_flag = kuat_white_hole_star_enable_2
 		}
 		else_if = {
-			limit = { owner = { check_variable = { which = kuat_white_hole_star_enable value = 2 } } }
+			limit = { check_variable = { which = kuat_white_hole_star_enable value = 3 } }
 			set_global_flag = kuat_white_hole_star_enable_3
 		}
 		else_if = {
-			limit = { owner = { check_variable = { which = kuat_white_hole_star_enable value = 3 } } }
+			limit = { check_variable = { which = kuat_white_hole_star_enable value = 4 } }
 			set_global_flag = kuat_white_hole_star_enable_4
 		}
 		else_if = {
-			limit = { owner = { check_variable = { which = kuat_white_hole_star_enable value = 4 } } }
+			limit = { check_variable = { which = kuat_white_hole_star_enable value = 5 } }
 			set_global_flag = kuat_white_hole_star_enable_5
 		}
 		else_if = {
-			limit = { owner = { check_variable = { which = kuat_white_hole_star_enable value = 5 } } }
+			limit = { check_variable = { which = kuat_white_hole_star_enable value = 6 } }
 			set_global_flag = kuat_white_hole_star_enable_6
 		}
 		else_if = {
-			limit = { owner = { check_variable = { which = kuat_white_hole_star_enable value > 5 } } }
+			limit = { check_variable = { which = kuat_white_hole_star_enable value > 6 } }
 			set_global_flag = kuat_white_hole_star_enable_infinite
 		}
 	}
@@ -904,9 +905,7 @@ situation_event = {
 		name = kuat_extramonster.32.A
 		custom_tooltip = approach_outcome_tooltip
 	}
-	after = {
-		destroy_situation = this
-	}
+	after = { if = { limit = { check_variable = { which = kuat_white_hole_star_enable value > 5 } } destroy_situation = this } }
 }
 
 #第一个白洞设施可以进行研究的通知事件，尽量写多点这个
@@ -1517,48 +1516,9 @@ country_event = {
 			country_event = { id = kuat_extramonster.302 }
 		}
 		fromfromfrom.solar_system = { set_star_flag = kuat_white_hole_rainforce_attack_active }
-		change_variable = { which = kuat_contractor_capital_fleet_destroyed value = 1 }
 		if = {
-			limit = { 
-				NOT = { exists = event_target:situation_white_hole_system_disable } 
-				check_variable = { which = kuat_contractor_capital_fleet_destroyed value = 1 }
-			}
+			limit = { NOT = { exists = event_target:situation_white_hole_system_disable } }
 			start_situation = { type = situation_white_hole_system_disable }
-		}
-		if = {
-			limit = { 
-				NOT = { exists = event_target:situation_white_hole_system_disable_1 } 
-				check_variable = { which = kuat_contractor_capital_fleet_destroyed value = 2 }
-			}
-			start_situation = { type = situation_white_hole_system_disable_1 }
-		}
-		if = {
-			limit = { 
-				NOT = { exists = event_target:situation_white_hole_system_disable_2 } 
-				check_variable = { which = kuat_contractor_capital_fleet_destroyed value = 3 }
-			}
-			start_situation = { type = situation_white_hole_system_disable_2 }
-		}
-		if = {
-			limit = { 
-				NOT = { exists = event_target:situation_white_hole_system_disable_3 } 
-				check_variable = { which = kuat_contractor_capital_fleet_destroyed value = 4 }
-			}
-			start_situation = { type = situation_white_hole_system_disable_3 }
-		}
-		if = {
-			limit = { 
-				NOT = { exists = event_target:situation_white_hole_system_disable_4 } 
-				check_variable = { which = kuat_contractor_capital_fleet_destroyed value = 5 }
-			}
-			start_situation = { type = situation_white_hole_system_disable_4 }
-		}
-		if = {
-			limit = { 
-				NOT = { exists = event_target:situation_white_hole_system_disable_5 } 
-				check_variable = { which = kuat_contractor_capital_fleet_destroyed value = 6 }
-			}
-			start_situation = { type = situation_white_hole_system_disable_5 }
 		}
 	}
 }
