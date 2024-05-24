@@ -1,0 +1,240 @@
+
+ag_kae_ge_invasion_crisis_portal = {
+	entity = "kuat_gateway_entity"
+	construction_entity = "construction_platform_entity"
+	portrait = "GFX_megastructure_construction_background"
+	place_entity_on_planet_plane = no
+	build_outside_gravity_well = no
+	show_in_outliner = no
+	show_galactic_map_icon = no
+	construction_blocks_and_blocked_by = self_type
+	potential = { always = no }
+	entity_offset = { x = 25 y = 25 }
+	bypass_type = ag_kae_ge_invasion_portal
+}
+
+#eternal starbase
+swfo_supermacy_platfrom = {
+	entity = "construction_platform_entity"
+	construction_entity = "construction_platform_entity"
+	portrait = "GFX_megastructure_construction_background"	
+	place_entity_on_planet_plane = no
+	show_galactic_map_icon = yes	
+	build_time = 2080	
+	upgrade_desc = hide	
+	entity_offset = { x = 0 y = 0 }
+	resources = {
+		category = megastructures
+		cost = { alloys = 3005000 }		
+	}
+	potential = { has_country_flag = can_build_supermacy }
+	possible = {
+		custom_tooltip = {
+			fail_text = "requires_inside_border"
+			is_inside_border = from
+		}		
+		custom_tooltip = {
+			fail_text = "requires_surveyed_system"
+			NOT = {
+				any_system_planet = {
+					is_surveyed = {
+						who = prev.from
+						status = no
+					}
+				}
+			}
+		}
+		custom_tooltip = {
+			fail_text = "requires_no_black_hole_neutron_star_pulsar"
+			NOR = {
+				is_star_class = sc_black_hole
+				is_star_class = sc_neutron_star
+				is_star_class = sc_pulsar
+			}
+		}
+		custom_tooltip = {
+			fail_text = "requires_no_binary_trinary"
+			NOR = {
+				is_star_class = sc_binary_1
+				is_star_class = sc_binary_2
+				is_star_class = sc_binary_3
+				is_star_class = sc_binary_4
+				is_star_class = sc_binary_5
+				is_star_class = sc_binary_6
+				is_star_class = sc_binary_7
+				is_star_class = sc_binary_8
+				is_star_class = sc_binary_9
+				is_star_class = sc_binary_10
+				is_star_class = sc_trinary_1
+				is_star_class = sc_trinary_2
+				is_star_class = sc_trinary_3
+				is_star_class = sc_trinary_4
+			}
+		}
+		custom_tooltip = {
+			fail_text = "kuat_requires_no_existing_station"
+			from = {
+				NOT = {
+					any_owned_megastructure = {
+						OR = {
+							is_megastructure_type = swfo_supermacy_skeletion
+							is_megastructure_type = swfo_supermacy_platfrom
+							is_megastructure_type = swfo_supermacy
+						}
+					}
+					any_owned_fleet = { is_ship_size = swfo_supremacy }
+				}
+			}
+		}
+	}
+	placement_rules = {
+		planet_possible = {
+			custom_tooltip = {
+				fail_text = "must_build_around_star"
+				is_star = yes
+			}
+			custom_tooltip = {
+				fail_text = "requires_no_anomaly"
+				has_anomaly = no
+			}
+			custom_tooltip = {
+				fail_text = "kuat_requires_exe_construction_section"
+				NOT = { has_planet_flag = has_supermacy }
+			}
+		}
+	}
+	
+	on_build_start = { }
+	on_build_cancel = { }
+	on_build_complete = {
+		fromfrom.planet = { set_planet_flag = has_supermacy }
+		fromfrom = { upgrade_megastructure_to = swfo_supermacy_skeletion }
+	}
+	construction_blocks_and_blocked_by = self_type
+	ai_weight = { weight = 0 }
+}
+
+swfo_supermacy_skeletion = {
+	entity = "supermacy_fixable_frame_entity"
+	construction_entity = "supermacy_fixable_frame_entity"
+	portrait = "GFX_megastructure_construction_background"	
+	place_entity_on_planet_plane = no
+	show_galactic_map_icon = yes	
+	build_time = 3090	
+	upgrade_desc = hide	
+	entity_offset = { x = 0 y = 0 }	
+	upgrade_from = { swfo_supermacy_platfrom }	
+	resources = {
+		category = megastructures
+		cost = { alloys = 0 }
+	}	
+	potential = { has_country_flag = can_build_supermacy }
+	possible = {
+		custom_tooltip = {
+			fail_text = "kuat_requires_no_existing_station"
+			from = { NOT  = {
+				any_owned_megastructure = { is_megastructure_type = swfo_supermacy }
+				any_owned_ship = { is_ship_size = swfo_supremacy }
+			} }
+		}
+	}	
+	placement_rules = {}	
+	on_build_start = {}
+	on_build_cancel = {}
+	on_build_complete = { fromfrom = { upgrade_megastructure_to = swfo_supermacy } }
+	construction_blocks_and_blocked_by = self_type	
+	ai_weight = { weight = 5000 }
+}
+
+swfo_supermacy = {
+	entity = "supermacy_fixable_frame_entity"
+	construction_entity = "supermacy_fixable_frame_entity"
+	portrait = "GFX_megastructure_construction_background"	
+	place_entity_on_planet_plane = no
+	show_galactic_map_icon = no	
+	show_in_outliner = no
+	build_time = 15	
+	upgrade_desc = hide	
+	entity_offset = { x = 0 y = 0 }	
+	upgrade_from = { swfo_supermacy_skeletion }	
+	resources = {
+		category = megastructures
+		cost = { alloys = 500000 }
+	}	
+	potential = { has_country_flag = can_build_supermacy }
+	possible = {
+		custom_tooltip = {
+			fail_text = "kuat_requires_no_existing_station"
+			from = { NOT  = {
+				any_owned_megastructure = { is_megastructure_type = swfo_supermacy }
+				any_owned_ship = { is_ship_size = swfo_supremacy }
+			} }
+		}
+	}	
+	placement_rules = {}	
+	on_build_start = {}
+	on_build_cancel = {}
+	on_build_complete = {
+		fromfrom.planet = {
+			remove_planet_flag = has_exe_starbase
+			solar_system = {
+				remove_star_flag = kuat_starbase_megastructure_around_system
+				remove_modifier = kuat_starbase_megastructure_around_system
+				set_timed_star_flag = { flag = kuat_starbase_megastructure_around_system days = 360 }
+				set_star_flag = kuat_starbase_megastructure_in_system
+				every_system_planet = {
+					limit = {
+						exists = owner
+						owner = { NOT = { is_same_value = from } }
+					}
+					add_modifier = { modifier = "exe_megastructure_starbase_in_system" }
+				}
+				add_modifier = { modifier = "kuat_starbase_megastructure_around_system" days = 360 }
+			}
+		}
+		every_system = {
+			limit = {
+				NOT = { is_same_value = prev }
+				distance = {
+					source = prev 
+					type = euclidean
+					min_distance >= 0
+					max_distance <= 75
+				}
+			}
+			remove_star_flag = kuat_starbase_megastructure_around_system
+			remove_modifier = kuat_starbase_megastructure_around_system
+			set_timed_star_flag = { flag = kuat_starbase_megastructure_around_system days = 360 }
+			add_modifier = { modifier = "kuat_starbase_megastructure_around_system" days = 360 }
+		}
+		add_threat = { who = from amount = 50 }
+		create_fleet = {
+			name = "NAME_EXE_SWFO_SUPERMACY"
+			settings = { spawn_debris = no can_disband = no }
+			effect = {
+				set_fleet_flag = kuat_station_player
+				set_owner = from
+				create_ship = { 
+					design = "NAME_EXE_SWFO_SUPERMACY" 
+					effect = { 
+						set_ship_flag = enable_disable_starbase 
+						set_disable_at_health = 0.01
+					}
+				}
+				set_location = { target = fromfrom distance = -1 angle = 0 }
+				set_fleet_flag = ag_kuat_invasion_starbase_disable
+				set_fleet_flag = ag_kuat_invasion_starbase_player_optimize
+			}
+		}
+		from = {
+			every_owned_starbase = {
+				limit = { has_starbase_size = swfo_supremacy }
+				set_starbase_building = { slot = 1 building = titan_yards }
+				set_starbase_building = { slot = 2 building = colossus_yards }
+			}
+		}
+		remove_megastructure = fromfrom
+	}
+	construction_blocks_and_blocked_by = self_type	
+	ai_weight = { weight = 5000 }
+}

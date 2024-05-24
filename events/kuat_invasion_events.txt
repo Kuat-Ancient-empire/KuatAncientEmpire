@@ -616,13 +616,34 @@ country_event = {
 				set_planet_size = 18
 			}
 			set_star_class = sc_black_hole
-			every_ship_in_system = {
-				limit = { owner = { NOR = {
-					is_same_value = root.from
-					is_invisable_faction = no
-				} } }
-				clear_ship_repeatable_modifier = { multiply = 0.25 DAYS = 360 }
+			random_list = {
+				1 = {
+					every_ship_in_system = {
+						limit = { owner = { NOR = {
+							is_same_value = root.from
+							is_invisable_faction = no
+						} } }
+						clear_ship_repeatable_modifier = { multiply = 0.25 DAYS = 360 }
+					}
+				}
+				1 = {
+					set_variable_to_random_value = {
+						which = exe_megastructure_starbase_explode
+						min = 15 max = 100 rounded = yes
+					}
+					while = {
+						count = exe_megastructure_starbase_explode
+						random_ship_in_system = {
+							limit = { owner = { NOR = {
+								is_same_value = root.from
+								is_invisable_faction = no
+							} } }
+							destroy_ship = this
+						}
+					}
+				}
 			}
+			reroll_random = yes
 			random_ambient_object = {
 				limit = { has_ambient_object_flag = space_storm_object }
 				destroy_ambient_object = this
