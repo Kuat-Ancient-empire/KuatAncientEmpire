@@ -1480,7 +1480,7 @@ country_event = {
 			is_infinite_faction = yes
 			is_kuat_contractor_faction = yes
 		}
-		from = { is_invisable_faction = no is_ai = no }
+		from = { is_invisable_faction = no is_player_country = yes }
 	}
 	immediate = { if = {
 		limit = { exists = fromfrom }
@@ -1862,9 +1862,16 @@ country_event = {
 	hide_window = yes
 	is_triggered_only = yes
 	trigger = {
-		is_invisable_faction = no
+		is_player_country = yes
 		from = { is_invisable_faction = no }
-		fromfrom = { any_owned_ship = { has_component = EXE_STARBASE_MEAGASTRUCTRUE_AUX_2 } }
+		fromfrom = { OR = {
+			any_owned_ship = { has_component = EXE_STARBASE_MEAGASTRUCTRUE_AUX_2 }
+			has_fleet_flag = kuat_station_drift_megasturcture
+			AND = {
+				exists = solar_system
+				solar_system = { has_star_flag = kuat_starbase_megastructure_buffer_system }
+			}
+		} }
 	}
 	immediate = {
 		fromfromfrom = { every_owned_ship = { 
@@ -2036,7 +2043,7 @@ country_event = {
 	hide_window = yes
 	is_triggered_only = yes
 	trigger = {
-		is_ai = no
+		is_player_country = yes
 		fromfrom = { kuat_exist_fleet_leader = { 
 			TRUE_FLAG = SOP_eddy
 			KEY = has_trait

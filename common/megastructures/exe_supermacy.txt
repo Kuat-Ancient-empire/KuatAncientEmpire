@@ -229,8 +229,14 @@ swfo_supermacy = {
 		from = {
 			every_owned_starbase = {
 				limit = { has_starbase_size = swfo_supremacy }
-				set_starbase_building = { slot = 1 building = titan_yards }
-				set_starbase_building = { slot = 2 building = colossus_yards }
+				if = {
+					limit = { NOT = { has_starbase_building = titan_yards } }
+					set_starbase_building = { slot = 1 building = titan_yards }
+				}
+				if = {
+					limit = { NOT = { has_starbase_building = colossus_yards } }
+					set_starbase_building = { slot = 2 building = colossus_yards }
+				}
 			}
 		}
 		remove_megastructure = fromfrom

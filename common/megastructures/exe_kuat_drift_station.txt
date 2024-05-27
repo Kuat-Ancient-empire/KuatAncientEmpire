@@ -160,8 +160,10 @@ Drift_megastructure_starbase = {
 			set_planet_size = 18
 			solar_system = {
 				remove_star_flag = kuat_starbase_megastructure_around_system
+				remove_star_flag = kuat_starbase_megastructure_buffer_system
 				remove_modifier = kuat_starbase_megastructure_around_system
 				set_timed_star_flag = { flag = kuat_starbase_megastructure_around_system days = 360 }
+				set_timed_star_flag = { flag = kuat_starbase_megastructure_buffer_system days = 360 }
 				set_star_flag = kuat_starbase_megastructure_in_system
 				every_system_planet = {
 					limit = {
@@ -184,8 +186,10 @@ Drift_megastructure_starbase = {
 				}
 			}
 			remove_star_flag = kuat_starbase_megastructure_around_system
+			remove_star_flag = kuat_starbase_megastructure_buffer_system
 			remove_modifier = kuat_starbase_megastructure_around_system
 			set_timed_star_flag = { flag = kuat_starbase_megastructure_around_system days = 360 }
+			set_timed_star_flag = { flag = kuat_starbase_megastructure_buffer_system days = 360 }
 			add_modifier = { modifier = "kuat_starbase_megastructure_around_system" days = 360 }
 		}
 		add_threat = { who = from amount = 50 }
@@ -194,6 +198,7 @@ Drift_megastructure_starbase = {
 			settings = { spawn_debris = no can_disband = no }
 			effect = {
 				set_fleet_flag = kuat_station_player
+				set_fleet_flag = kuat_station_drift_megasturcture
 				set_owner = from
 				create_ship = {
 					design = "NAME_DRFT_STARBASE_MEGASTRUCTURE_SECTION"
@@ -210,8 +215,14 @@ Drift_megastructure_starbase = {
 		from = {
 			every_owned_starbase = {
 				limit = { has_starbase_size = Drift_megastructure_starbase }
-				set_starbase_building = { slot = 1 building = titan_yards }
-				set_starbase_building = { slot = 2 building = colossus_yards }
+				if = {
+					limit = { NOT = { has_starbase_building = titan_yards } }
+					set_starbase_building = { slot = 1 building = titan_yards }
+				}
+				if = {
+					limit = { NOT = { has_starbase_building = colossus_yards } }
+					set_starbase_building = { slot = 2 building = colossus_yards }
+				}
 			}
 		}
 		remove_megastructure = fromfrom
