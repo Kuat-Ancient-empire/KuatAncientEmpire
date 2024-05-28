@@ -1371,7 +1371,10 @@ fleet_event = {
 		exists = this
 		exists = owner
 		owner = { is_eternal_crisis = yes }
-		from = { NOT = { exists = starbase } }
+		from = { OR = {
+			NOT = { exists = starbase }
+			any_ship_in_system = { is_ship_class = shipclass_habitat_station }
+		} }
 	}
 	immediate = {
 		if = {
@@ -1383,6 +1386,12 @@ fleet_event = {
 				}
 			} }
 			from = { create_starbase = { size = exe_starbase owner = root.owner } }
+		}
+		if = {
+			limit = { exists = from from = {
+				any_ship_in_system = { is_ship_class = shipclass_habitat_station }
+			} }
+			from = { every_ship_in_system = { limit = { is_ship_class = shipclass_habitat_station } delete_ship = this } }
 		}
 	}
 }
