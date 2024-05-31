@@ -544,7 +544,6 @@ fleet_event = {
 	is_triggered_only = yes
 	trigger = { exists = event_target:kuat_station_elternal }
 	immediate = { 
-		set_update_modifiers_batch = begin
 		destroy_fleet = { target = this destroy_template = yes kill_leader = yes }
 		solar_system = {
 			remove_star_flag = eternal_starbase_megastructure_in_system
@@ -567,7 +566,6 @@ fleet_event = {
 			}
 		}
 		every_playable_country = { country_event = { id = exe_invasion.126 } }
-		set_update_modifiers_batch = end
 	}
 }
 
@@ -604,7 +602,6 @@ country_event = {
 		}
 	}
 	immediate = {
-		set_update_modifiers_batch = begin
 		fromfromfrom.solar_system = {
 			remove_star_flag = eternal_starbase_megastructure_in_system
 			star = {
@@ -649,7 +646,6 @@ country_event = {
 				destroy_ambient_object = this
 			}
 		}
-		set_update_modifiers_batch = end
 	}
 	option = { name = exe_invasion.127.a }
 }
@@ -1698,7 +1694,6 @@ country_event = {
 		fromfrom = { has_fleet_flag = eternal_kuat_player_fleet }
 	} }
 	immediate = {
-		set_update_modifiers_batch = begin
 		if = {
 			limit = { 
 				is_invisable_faction = yes
@@ -1724,6 +1719,18 @@ country_event = {
 			}
 			kuat_contractor_randomlist_battle_duplcate_ship = yes
 		}
+		# disable ag system which will protect the system to normally
+		# if = {
+		# 	limit = { from = { OR = {
+		# 		ag_is_ancient_country = yes
+		# 		is_country_type = ag_zeta_crisis_country
+		# 		any_owned_ship = { OR = { has_ship_flag = ag_ancient_empire_mod_ship ag_has_special_aura = yes } }
+		# 	} } }
+		# 	fromfromfrom = { 
+		# 		set_fleet_flag = ag_ancient_2100_mutex_@root.fromfrom 
+		# 		fleet_event = { id = exe_invasion.138 days = 2 scopes = { from = root.fromfrom } }
+		# 	}
+		# }
 		fromfrom = { 
 			if = {
 				limit = { 
@@ -1846,9 +1853,16 @@ country_event = {
 				set_timed_ship_flag = { flag = random_list_eternal_fleet_rate_placeholder days = 1 }
 			} } }
 		}
-		set_update_modifiers_batch = end
 	}
 }
+
+# fleet_event = {
+# 	id = exe_invasion.138
+# 	hide_window = yes
+# 	is_triggered_only = yes
+# 	trigger = { has_fleet_flag = ag_ancient_2100_mutex_@from }
+# 	immediate = { remove_fleet_flag = ag_ancient_2100_mutex_@from } 
+# }
 
 country_event = {
 	id = exe_invasion.146
@@ -1922,7 +1936,6 @@ country_event = {
 		from = { is_invisable_faction = no }
 	}
 	immediate = {
-		set_update_modifiers_batch = begin
 		fromfromfrom = { every_owned_ship = {
 			limit = { 
 				NOT = { has_ship_flag = enable_random_list_effect }
@@ -1932,7 +1945,6 @@ country_event = {
 			set_timed_ship_flag = { flag = enable_random_list_effect days = 1 }
 			kuat_invinciable_battle_random_effect = yes
 		} }
-		set_update_modifiers_batch = end
 	}
 }
 country_event = {
@@ -1944,7 +1956,6 @@ country_event = {
 		from = { is_invisable_faction = no }
 	}
 	immediate = { 
-		set_update_modifiers_batch = begin
 		fromfromfrom.fleet = { every_owned_ship = {
 			limit = { 
 				kuat_is_flagship = no
@@ -1952,7 +1963,6 @@ country_event = {
 			}
 			kuat_invinciable_battle_random_effect = yes
 		} }
-		set_update_modifiers_batch = end
 	}
 }
 
@@ -2030,7 +2040,6 @@ event = {
 	is_triggered_only = yes
 	trigger = { always = yes }
 	immediate = { 
-		set_update_modifiers_batch = begin
 		if = {
 			limit = { is_same_value = event_target:solarpunk_country }
 			event_target:solarpunk_country = { destroy_country = yes }
@@ -2056,7 +2065,6 @@ event = {
 			} }
 			set_fleet_flag = kuat_contractor_capital_fleet
 		}
-		set_update_modifiers_batch = end
 	}
 }
 

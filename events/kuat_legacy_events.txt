@@ -1054,7 +1054,7 @@ ship_event = {
 	desc = "kuat_legacy.102.desc"
 	diplomatic = yes
 	fire_only_once = yes
-	picture_event_data = { room = star_neutron_room }
+	picture_event_data = { room = black_hole_room }
 	custom_gui = "kuat_event_window"
 	custom_gui_option = "kuat_event_option"
 	trigger = {
@@ -2272,7 +2272,7 @@ country_event = {
 			limit = { has_star_flag = Kuat_system_1 }
 			random_system_planet = {
 				limit = { is_planet_class = pc_ringworld_seam }
-				save_global_event_target_as = target_tomb_kuat
+				save_global_event_target_as = kuat_architect_facility_location
 			}
 		}
 	}	
@@ -2323,7 +2323,7 @@ country_event = {
 		name = kuat_legacy.27.a
 		trigger = { has_country_flag = regular_kuat_exist }
 		hidden_effect = {
-			event_target:target_tomb_kuat = {
+			event_target:kuat_architect_facility_location = {
 				create_archaeological_site = kuat_lagacy_5
 			}
 			create_point_of_interest = {
@@ -2331,7 +2331,7 @@ country_event = {
 				desc = kuat_legacy_key_world_7_desc
 				name = kuat_legacy_kuat
 				event_chain = ag_legacy_invasion_chain
-				location = event_target:target_tomb_kuat
+				location = event_target:kuat_architect_facility_location
 			}
 			country_event = { id = kuat_legacy.41 days = 5 }
 		}
@@ -2449,6 +2449,14 @@ country_event = {
 					system_star = { create_kuat_system_fleet = yes }
 				}
 			}
+			if = {
+				limit = { limit = { NOT = { has_global_flag = kuat_legacy_37_archetecture_finised } } }
+				if = {
+					limit = { event_target:kuat_architect_facility_location = { exists = archaeological_site } }
+					event_target:kuat_architect_facility_location = { archaeological_site = { set_site_progress_locked = yes } }
+				}
+				country_event = { id = kuat_legacy.412 days = 15 }
+			}
 		}
 		else_if = {
 			limit = { 
@@ -2460,6 +2468,31 @@ country_event = {
 		}
 	}
 	option = { name = kuat_legacy.411.a }
+}
+
+country_event = {
+	id = kuat_legacy.412
+	title = kuat_lagacy.412.title
+	desc = kuat_lagacy.412.desc
+	diplomatic = yes
+	picture_event_data = { room = habitable_dig_site_room }
+	custom_gui = "kuat_event_m_window"
+	custom_gui_option = "kuat_event_m_option"
+	is_triggered_only = yes
+	location = capital_scope
+	trigger = { NOT = { has_global_flag = kuat_legacy_37_archetecture_finised } }
+	immediate = {
+		set_global_flag = finish_five_stage_legacy_kuat
+		set_country_flag = choose_395
+		if = {
+			limit = { has_country_flag = finish_starkillerbase_event }
+			#end_event_chain = ag_legacy_invasion_chain
+			country_event = { id = executor_build.8010 days = 720 random = 720 }
+			country_event = { id = executor_build.1101 days = 3 }
+			set_global_flag = kuat_war_goal
+		}
+	}
+	option = { name = "kuat_legacy.412.a" }
 }
 
 ship_event = {
@@ -2509,13 +2542,13 @@ country_event = {
 
 	immediate = {
 		save_event_target_as = player_for_system
-		event_target:target_tomb_kuat = { create_archaeological_site = kuat_lagacy_5 }
+		event_target:kuat_architect_facility_location = { create_archaeological_site = kuat_lagacy_5 }
 		create_point_of_interest = {
 			id = kuat_legacy_kuat
 			desc = kuat_legacy_key_world_7_desc
 			name = kuat_legacy_kuat
 			event_chain = ag_legacy_invasion_chain
-			location = event_target:target_tomb_kuat
+			location = event_target:kuat_architect_facility_location
 		}
 	}
 
@@ -2684,7 +2717,10 @@ fleet_event = {
 	
 	option = {
 		name = kuat_legacy.36.a
-		hidden_effect = { owner = { country_event = { id = kuat_legacy.37 days = 30 random = 15 } } }
+		hidden_effect = { owner = { 
+			set_global_flag = kuat_legacy_37_archetecture_finised
+			country_event = { id = kuat_legacy.37 days = 30 random = 15 } 
+		} }
 		large_artifact_reward = yes
 	}
 }
