@@ -1456,7 +1456,7 @@ country_event = {
 			else_if = { limit = { kuat_is_flagship_size = { size = nebula_executor } } increase_ship_hp_effect_change = { DAYS = 4 TYPE = kt } }
 			else_if = { limit = { kuat_is_flagship_size = { size = knight_hammer_executor } } increase_ship_hp_effect_change = { DAYS = 4 TYPE = kt } }
 			else_if = { limit = { kuat_is_flagship_size = { size = nebula_dominance } } increase_ship_hp_effect_change = { DAYS = 3 TYPE = kt } }
-			else_if = { limit = { kuat_is_flagship_size = { size = eternal_flagship } } increase_ship_hp_effect_change = { DAYS = 3 TYPE = kt } }
+			else_if = { limit = { kuat_is_flagship_size = { size = Infinite_battleship } } increase_ship_hp_effect_change = { DAYS = 3 TYPE = kt } }
 			# else_if = { limit = { kuat_is_flagship_size = { size = X308_Balletor } } increase_ship_hp_effect_change = { DAYS = 1 TYPE = kt } }
 			# else_if = { limit = { kuat_is_flagship_size = { size = X308_Titan } } increase_ship_hp_effect_change = { DAYS = 1 TYPE = kt } } 
 			# else_if = { limit = { kuat_is_flagship_size = { size = X308_Tyrant } } increase_ship_hp_effect_change = { DAYS = 1 TYPE = kt } } 
@@ -1497,16 +1497,14 @@ country_event = {
 				}
 				if = {
 					limit = { ROOT = { is_infinite_faction = yes } }
-					root.fromfromfrom = { if = {
-						limit = { kuat_is_kuat_ship = no is_ship_class = shipclass_military }
-						save_event_target_as = infinite_faction_battle_duplicate_ship 
-					} }
-					if = {
-						limit = { exists = event_target:infinite_faction_battle_duplicate_ship }
-						fleet = { 
-							create_ship = { design = event_target:infinite_faction_battle_duplicate_ship } 
-							change_variable = { which = count_infinite_faction_battle_duplicate_ship value = 1 }
+					fleet = { 
+						random_list = {
+							1 = { create_ship = { design = Name_boss_crisis_IC_0 } }
+							2 = { create_ship = { design = Name_boss_crisis_IC_1 } }
+							3 = { create_ship = { design = Name_boss_crisis_IC_2 } }
+							4 = { create_ship = { design = Name_boss_crisis_IC_3 } }
 						}
+						change_variable = { which = count_infinite_faction_battle_duplicate_ship value = 1 }
 					}
 				}
 				else = { fleet = { 

@@ -1,0 +1,52 @@
+namespace = kuat_fleet_calling
+#on ship destroyed victim
+country_event = {
+	id = kuat_fleet_calling.9
+	title = "kuat_fleet_calling.9.title"
+	desc = "kuat_fleet_calling.9.desc"
+	diplomatic = yes
+	custom_gui = "kuat_event_m_window"
+	custom_gui_option = "kuat_event_m_option"
+	picture_event_data = { room = Eternal_Empire2_room }
+	is_triggered_only = yes
+	trigger = { fromfrom = { is_ship_size = kuat_target_signal_ship } }
+	immediate = { fromfrom = { create_random_invasion_battle_fleet = yes } }
+	option = { name = kuat_fleet_calling.9.a }
+}
+
+#on entering system fleet
+fleet_event = {
+	id = kuat_fleet_calling.11
+	hide_window = yes
+	is_triggered_only = yes
+
+	trigger = {
+		any_owned_ship = { kuat_is_kuat_ship = yes }
+		from = { any_fleet_in_system = {
+			is_ship_class = shipclass_military
+			exists = controller
+			controller = { is_hostile = root.owner }
+		} }
+	}
+
+	immediate = { from = { 
+		every_fleet_in_system = {
+			limit = { is_ship_class = shipclass_military }
+			set_event_locked = yes
+			set_fleet_flag = kuat_fleet_calling.12_event_lock
+		}
+		system_event = { id = kuat_fleet_calling.12 days = 15 }
+	} }
+}
+
+system_event = {
+	id = kuat_fleet_calling.12
+	hide_window = yes
+	is_triggered_only = yes
+	trigger = { exists = this }
+	immediate = { every_fleet_in_system = {
+		limit = { has_fleet_flag = kuat_fleet_calling.12_event_lock }
+		set_event_locked = no
+		remove_fleet_flag = kuat_fleet_calling.12_event_lock
+	} }
+}
