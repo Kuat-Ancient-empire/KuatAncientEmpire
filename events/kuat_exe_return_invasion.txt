@@ -175,6 +175,23 @@ event = {
 		set_update_modifiers_batch = begin
 		set_global_flag = eternal_spawnd
 		set_global_flag = exe_return_invasion_begin
+		event_target:global_event_country = { 
+			set_variable = { which = exe_invasion_difficult_global_var value = 3 } 
+			if = {
+				limit = { has_global_flag = enable_modifer_check }
+				multiply_variable = { which = exe_invasion_difficult_global_var value = 2 }
+			}
+			if = {
+				limit = { has_global_flag = kuat_impulse_mod_settings }
+				multiply_variable = { which = exe_invasion_difficult_global_var value = 3 }
+			}
+			if = {
+				limit = { NOT = { is_variable_set = eternal_fleet_return_index } }
+				set_variable = { which = eternal_fleet_return_index value = 1 } 
+				set_variable = { which = eternal_fleet_return_index_x4 value = eternal_fleet_return_index }
+				multiply_variable = { which = eternal_fleet_return_index_x4 value = 4 }
+			}
+		}
 		create_country = {
 			name = "Eternal Fleet"
 			name_list = Eternal_Fleet
