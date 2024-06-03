@@ -1,23 +1,3 @@
-#任务清单
-#// 流浪者危机 //
-#// 0.流浪者舰船当前进度：10/10
-
-#// 1.完成流浪者（流浪者）危机的对应配置，将本文件内的TODO基本配置完毕（星系√，恒星√，特殊计划√，星系特效√，局势√，刷兵脚本配置√，舰船行为脚本配置√等）√
-#// 2.完成流浪者危机（流浪者）的对应文本资料（局势的前奏√，危机的过程文案）√
-
-#// 3.危机刷新机制 √
-#// 4.危机初始化 √
-
-#// 5.危机结算机制 √
-#// 6.危机流程 √
-
-#// 7.危机机制1：采用无限帝国设计，享有无限帝国机制使用权 √
-#// 8.危机机制2：每轰炸毁一个星球，刷新一个舰队√
-#// 9.危机机制3：流浪者舰船均拥有多次复活次数 √
-#// 10.危机机制4：防卫舰队在交战时将会复制玩家进攻舰队的10%-30%,概率均为1/10,且必定复制1艘√
-
-
-
 namespace = kuat_extramonster
 #Notification: Approaching rim system. #通知：危机前奏，通知后危机生成
 country_event = { 
@@ -759,7 +739,10 @@ country_event = {
 			event_target:global_event_country = { change_variable = { which = count_destroy_exm_kuat_fleet value = 1 } }
 		} }
 		if = {
-			limit = { exists = event_target:situation_white_hole_system_disable }
+			limit = { 
+				exists = event_target:situation_white_hole_system_disable 
+				NOT = { has_global_flag = kuat_white_hole_star_unlock_temple }
+			}
 			event_target:situation_white_hole_system_disable = { add_situation_progress = 10 }
 		}
 	}
@@ -849,30 +832,37 @@ situation_event = {
 		if = {
 			limit = { check_variable = { which = situation_white_hole_system_disable_count value = 1 } }
 			set_global_flag = kuat_white_hole_star_enable_1
+			country_event = { id = kuat_extramonster.33 }
 		}
 		else_if = {
 			limit = { check_variable = { which = situation_white_hole_system_disable_count value = 2 } }
 			set_global_flag = kuat_white_hole_star_enable_2
+			country_event = { id = kuat_extramonster.331 }
 		}
 		else_if = {
 			limit = { check_variable = { which = situation_white_hole_system_disable_count value = 3 } }
 			set_global_flag = kuat_white_hole_star_enable_3
+			country_event = { id = kuat_extramonster.332 }
 		}
 		else_if = {
 			limit = { check_variable = { which = situation_white_hole_system_disable_count value = 4 } }
 			set_global_flag = kuat_white_hole_star_enable_4
+			country_event = { id = kuat_extramonster.333 }
 		}
 		else_if = {
 			limit = { check_variable = { which = situation_white_hole_system_disable_count value = 5 } }
 			set_global_flag = kuat_white_hole_star_enable_5
+			country_event = { id = kuat_extramonster.334 }
 		}
 		else_if = {
 			limit = { check_variable = { which = situation_white_hole_system_disable_count value = 6 } }
 			set_global_flag = kuat_white_hole_star_enable_6
+			country_event = { id = kuat_extramonster.335 }
 		}
 		else_if = {
 			limit = { check_variable = { which = situation_white_hole_system_disable_count value > 6 } }
 			set_global_flag = kuat_white_hole_star_enable_infinite
+			country_event = { id = kuat_extramonster.335 }
 		}
 	}
 	option = {
@@ -892,6 +882,7 @@ country_event = {
 	custom_gui = "kuat_event_window"
 	custom_gui_option = "kuat_event_option"
 	show_sound = event_red_alert
+	is_triggered_only = yes
 	fire_only_once = yes
 	location = event_target:kuat_white_hole_star
 	trigger = {
@@ -906,20 +897,9 @@ country_event = {
 		}
 		event_target:global_event_country = { 
 			check_variable = { which = kuat_white_hole_var value > 0 }
-			check_variable = { which = count_destroy_exm_kuat_fleet value > 24 } 
 		}
 		NOT = { is_variable_set = kuat_white_hole_star_enable }
 		NOT = { has_global_flag = kuat_white_hole_star_unlock_temple }
-		has_global_flag = kuat_white_hole_star_enable_1
-	}
-	mean_time_to_happen = { 
-		months = 1 
-		modifier = {
-			factor = 0
-			event_target:global_event_country = {
-				check_variable = { which = count_destroy_exm_kuat_fleet value > 24 } 
-			}
-		}
 	}
 	immediate = { 
 		set_global_flag = kuat_white_hole_star_unlock_temple 
@@ -948,6 +928,7 @@ country_event = {
 	desc = "kuat_extramonster.331.desc"
 	diplomatic = yes
 	fire_only_once = yes
+	is_triggered_only = yes
 	picture_event_data = { room = ancient_databank_room }
 	custom_gui = "kuat_event_m_window"
 	custom_gui_option = "kuat_event_m_option"
@@ -965,20 +946,9 @@ country_event = {
 		}
 		event_target:global_event_country = { 
 			check_variable = { which = kuat_white_hole_var value > 0 }
-			check_variable = { which = count_destroy_exm_kuat_fleet value > 30 } 
 		}
 		check_variable = { which = kuat_white_hole_star_enable value = 1 }
 		NOT = { has_global_flag = kuat_white_hole_star_unlock_temple }
-		has_global_flag = kuat_white_hole_star_enable_2
-	}
-	mean_time_to_happen = { 
-		months = 1 
-		modifier = {
-			factor = 0
-			event_target:global_event_country = {
-				check_variable = { which = count_destroy_exm_kuat_fleet value > 30 } 
-			}
-		}
 	}
 	immediate = { 
 		set_global_flag = kuat_white_hole_star_unlock_temple 
@@ -1011,6 +981,7 @@ country_event = {
 	custom_gui_option = "kuat_event_option"
 	show_sound = event_red_alert
 	fire_only_once = yes
+	is_triggered_only = yes
 	location = event_target:kuat_white_hole_star
 	trigger = {
 		is_ai = no
@@ -1024,20 +995,9 @@ country_event = {
 		}
 		event_target:global_event_country = { 
 			check_variable = { which = kuat_white_hole_var value > 0 }
-			check_variable = { which = count_destroy_exm_kuat_fleet value > 36 } 
 		}
 		check_variable = { which = kuat_white_hole_star_enable value = 2 }
 		NOT = { has_global_flag = kuat_white_hole_star_unlock_temple }
-		has_global_flag = kuat_white_hole_star_enable_3
-	}
-	mean_time_to_happen = { 
-		months = 1 
-		modifier = {
-			factor = 0
-			event_target:global_event_country = {
-				check_variable = { which = count_destroy_exm_kuat_fleet value > 36 } 
-			}
-		}
 	}
 	immediate = { 
 		set_global_flag = kuat_white_hole_star_unlock_temple 
@@ -1070,6 +1030,7 @@ country_event = {
 	custom_gui_option = "kuat_event_m_option"
 	show_sound = event_red_alert
 	fire_only_once = yes
+	is_triggered_only = yes
 	location = event_target:kuat_white_hole_star
 	trigger = {
 		is_ai = no
@@ -1083,20 +1044,9 @@ country_event = {
 		}
 		event_target:global_event_country = { 
 			check_variable = { which = kuat_white_hole_var value > 0 }
-			check_variable = { which = count_destroy_exm_kuat_fleet value > 42 } 
 		}
 		check_variable = { which = kuat_white_hole_star_enable value = 3 }
 		NOT = { has_global_flag = kuat_white_hole_star_unlock_temple }
-		has_global_flag = kuat_white_hole_star_enable_4
-	}
-	mean_time_to_happen = { 
-		months = 1 
-		modifier = {
-			factor = 0
-			event_target:global_event_country = {
-				check_variable = { which = count_destroy_exm_kuat_fleet value > 42 } 
-			}
-		}
 	}
 	immediate = { 
 		set_global_flag = kuat_white_hole_star_unlock_temple 
@@ -1129,6 +1079,7 @@ country_event = {
 	custom_gui_option = "kuat_event_option"
 	show_sound = event_red_alert
 	fire_only_once = yes
+	is_triggered_only = yes
 	location = event_target:kuat_white_hole_star
 	trigger = {
 		is_ai = no
@@ -1142,20 +1093,9 @@ country_event = {
 		}
 		event_target:global_event_country = { 
 			check_variable = { which = kuat_white_hole_var value > 0 }
-			check_variable = { which = count_destroy_exm_kuat_fleet value > 48 } 
 		}
 		check_variable = { which = kuat_white_hole_star_enable value = 4 }
 		NOT = { has_global_flag = kuat_white_hole_star_unlock_temple }
-		has_global_flag = kuat_white_hole_star_enable_5
-	}
-	mean_time_to_happen = { 
-		months = 1 
-		modifier = {
-			factor = 0
-			event_target:global_event_country = {
-				check_variable = { which = count_destroy_exm_kuat_fleet value > 48 } 
-			}
-		}
 	}
 	immediate = { 
 		set_global_flag = kuat_white_hole_star_unlock_temple 
@@ -1187,6 +1127,7 @@ country_event = {
 	custom_gui = "kuat_event_m_window"
 	custom_gui_option = "kuat_event_m_option"
 	show_sound = event_red_alert
+	is_triggered_only = yes
 	location = event_target:kuat_white_hole_star
 	trigger = {
 		is_ai = no
@@ -1200,24 +1141,10 @@ country_event = {
 		}
 		event_target:global_event_country = { 
 			check_variable = { which = kuat_white_hole_var value > 0 }
-			check_variable = { which = count_destroy_exm_kuat_fleet value > 54 } 
 		}
 		check_variable = { which = kuat_white_hole_star_enable value >= 5 }
 		check_variable = { which = kuat_white_hole_star_enable value <= 11 }
 		NOT = { has_global_flag = kuat_white_hole_star_unlock_temple }
-		OR = {
-			has_global_flag = kuat_white_hole_star_enable_6
-			has_global_flag = kuat_white_hole_star_enable_infinite
-		}
-	}
-	mean_time_to_happen = { 
-		months = 1 
-		modifier = {
-			factor = 0
-			event_target:global_event_country = {
-				check_variable = { which = count_destroy_exm_kuat_fleet value > 54 } 
-			}
-		}
 	}
 	immediate = { 
 		set_global_flag = kuat_white_hole_star_unlock_temple 
