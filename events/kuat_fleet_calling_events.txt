@@ -34,6 +34,17 @@ fleet_event = {
 			limit = { is_ship_class = shipclass_military }
 			set_event_locked = yes
 			set_fleet_flag = kuat_fleet_calling.12_event_lock
+			every_owned_ship = {
+				limit = { 
+					NOT = { has_ship_flag = kuat_fleet_jump_drive_support_temple } 
+					NOT = { check_modifier_value = { modifier = ship_speed_reduction value = 1 } }
+				}
+				set_variable = { which = kuat_fleet_jump_drive_support_temple value = modifier:ship_speed_reduction }
+				subtract_variable = { which = kuat_fleet_jump_drive_support_temple value = 1 }
+				add_modifier = { modifier = kuat_fleet_jump_drive_support multiplier = kuat_fleet_jump_drive_support_temple days = 15 }
+				clear_variable = kuat_fleet_jump_drive_support_temple
+				set_timed_ship_flag = { flag = kuat_fleet_jump_drive_support_temple days = 15 }
+			}
 		}
 		system_event = { id = kuat_fleet_calling.12 days = 15 }
 	} }
