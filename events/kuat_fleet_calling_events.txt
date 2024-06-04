@@ -21,20 +21,22 @@ fleet_event = {
 	is_triggered_only = yes
 
 	trigger = {
-		any_owned_ship = { kuat_is_kuat_ship = yes }
+		any_owned_ship = { kuat_is_animation_ftl_ship = yes }
 		from = { any_fleet_in_system = {
-			is_ship_class = shipclass_military
 			exists = controller
 			controller = { is_hostile = root.owner }
 		} }
 	}
 
-	immediate = { from = { 
-		every_fleet_in_system = {
-			limit = { is_ship_class = shipclass_military }
-			set_event_locked = yes
-			set_fleet_flag = kuat_fleet_calling.12_event_lock
-			every_owned_ship = {
+	immediate = {  
+		if = {
+			limit = { NOT = { has_fleet_flag = kuat_fleet_calling.12_event_lock } }
+			set_timed_fleet_flag = { flag = kuat_fleet_calling.12_event_lock_temple days = 15 }
+			set_event_locked = yes set_fleet_flag = kuat_fleet_calling.12_event_lock
+			fleet_event = { id = kuat_fleet_calling.12 days = 15 }
+		}
+		from = { 
+			every_ship_in_system = {
 				limit = { 
 					NOT = { has_ship_flag = kuat_fleet_jump_drive_support_temple } 
 					NOT = { check_modifier_value = { modifier = ship_speed_reduction value = 1 } }
@@ -46,18 +48,36 @@ fleet_event = {
 				set_timed_ship_flag = { flag = kuat_fleet_jump_drive_support_temple days = 15 }
 			}
 		}
-		system_event = { id = kuat_fleet_calling.12 days = 15 }
-	} }
+	}
 }
 
-system_event = {
+fleet_event = {
 	id = kuat_fleet_calling.12
 	hide_window = yes
 	is_triggered_only = yes
 	trigger = { exists = this }
-	immediate = { every_fleet_in_system = {
-		limit = { has_fleet_flag = kuat_fleet_calling.12_event_lock }
-		set_event_locked = no
-		remove_fleet_flag = kuat_fleet_calling.12_event_lock
-	} }
+	immediate = { set_event_locked = no remove_fleet_flag = kuat_fleet_calling.12_event_lock }
+}
+
+#ON MONTH FOR SAFETY
+country_event = {
+	id = kuat_fleet_calling.13
+	hide_window = yes
+	is_triggered_only = yes
+	trigger = {
+		any_owned_fleet = {
+			NOT = { has_fleet_flag = kuat_fleet_calling.12_event_lock_temple }
+			has_fleet_flag = kuat_fleet_calling.12_event_lock
+		}
+	}
+	immediate = {
+		every_owned_fleet = {
+			limit = {
+				NOT = { has_fleet_flag = kuat_fleet_calling.12_event_lock_temple }
+				has_fleet_flag = kuat_fleet_calling.12_event_lock
+			}
+			set_event_locked = no
+			remove_fleet_flag = kuat_fleet_calling.12_event_lock
+		}
+	}
 }
