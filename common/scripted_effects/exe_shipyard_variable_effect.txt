@@ -1,46 +1,66 @@
 ##GET KUAT SHIPYARD ALLOYS
 kuat_shipyard_add_resource = {
 	optimize_memory
-	add_resource = { alloys = @\[ $first_alloys$ * $basic$ * $MULT$ ] }
+	add_resource = { 
+		alloys = @\[ $first_alloys$ * $basic$ ] 
+		multiplier = $MULT$
+	}
+}
+
+kuat_shipyard_subtract_resource = {
+	optimize_memory
+	add_resource = { 
+		alloys = @\[ $first_alloys$ * $basic$ * -1 ] 
+		multiplier = $MULT$
+	}
 }
 
 get_ship_alloys_bounght = {
 	optimize_memory
 	if = {
 		limit = { has_country_flag = building_the_Vengeance }
-		kuat_shipyard_add_resource = { first_alloys = @building_the_Vengeance_cost basic = $basic$ MULT = -1 }
+		kuat_shipyard_subtract_resource = { first_alloys = @building_the_Vengeance_cost basic = $basic$ MULT = 1 }
 	}
 	else_if = {
 		limit = { has_country_flag = building_the_eclipse }
-		kuat_shipyard_add_resource = { first_alloys = @building_the_eclipse_cost basic = $basic$ MULT = -1 }
+		kuat_shipyard_subtract_resource = { first_alloys = @building_the_eclipse_cost basic = $basic$ MULT = 1 }
 	}
 	else_if = {
 		limit = { has_country_flag = building_the_donimance }
-		kuat_shipyard_add_resource = { first_alloys = @building_the_donimance_cost basic = $basic$ MULT = -1 }
+		kuat_shipyard_subtract_resource = { first_alloys = @building_the_donimance_cost basic = $basic$ MULT = 1 }
 	}
 	else_if = {
 		limit = { has_country_flag = building_the_resugrant }
 		if = {
 			limit = { has_country_flag = kuat_build_fifth_ships }
-			kuat_shipyard_add_resource = { first_alloys = @building_the_resugrant_cost basic = $basic$ MULT = -6 }
+			kuat_shipyard_subtract_resource = { 
+				first_alloys = @building_the_resugrant_cost basic = $basic$ 
+				MULT = event_target:global_event_country.kuat_shipyard_buillding_queue_selection 
+			}
 		} 
-		else = { kuat_shipyard_add_resource = { first_alloys = @building_the_resugrant_cost basic = $basic$ MULT = -1 } }
+		else = { kuat_shipyard_subtract_resource = { first_alloys = @building_the_resugrant_cost basic = $basic$ MULT = 1 } }
 	}
 	else_if = {
 		limit = { has_country_flag = building_the_empire }
 		if = {
 			limit = { has_country_flag = kuat_build_fifth_ships }
-			kuat_shipyard_add_resource = { first_alloys = @building_the_empire_cost basic = $basic$ MULT = -6 }
+			kuat_shipyard_subtract_resource = { 
+				first_alloys = @building_the_empire_cost basic = $basic$ 
+				MULT = event_target:global_event_country.kuat_shipyard_buillding_queue_selection 
+			}
 		} 
-		else = { kuat_shipyard_add_resource = { first_alloys = @building_the_empire_cost basic = $basic$ MULT = -1 } }
+		else = { kuat_shipyard_subtract_resource = { first_alloys = @building_the_empire_cost basic = $basic$ MULT = 1 } }
 	}
 	else_if = {
 		limit = { has_country_flag = building_the_horriwer }
 		if = {
 			limit = { has_country_flag = kuat_build_fifth_ships }
-			kuat_shipyard_add_resource = { first_alloys = @building_the_horriwer_cost basic = $basic$ MULT = -6 }
+			kuat_shipyard_subtract_resource = { 
+				first_alloys = @building_the_horriwer_cost basic = $basic$ 
+				MULT = event_target:global_event_country.kuat_shipyard_buillding_queue_selection 
+			}
 		} 
-		else = { kuat_shipyard_add_resource = { first_alloys = @building_the_horriwer_cost basic = $basic$ MULT = -1 } }
+		else = { kuat_shipyard_subtract_resource = { first_alloys = @building_the_horriwer_cost basic = $basic$ MULT = 1 } }
 	}
 }
 
@@ -62,7 +82,10 @@ get_ship_alloys = {
 		limit = { has_country_flag = building_the_resugrant }
 		if = {
 			limit = { has_country_flag = kuat_build_fifth_ships }
-			kuat_shipyard_add_resource = { first_alloys = @building_the_resugrant_cost basic = $basic$ MULT = 6 }
+			kuat_shipyard_add_resource = { 
+				first_alloys = @building_the_resugrant_cost basic = $basic$ 
+				MULT = event_target:global_event_country.kuat_shipyard_buillding_queue_selection 
+			}
 		} 
 		else = { kuat_shipyard_add_resource = { first_alloys = @building_the_resugrant_cost basic = $basic$ MULT = 1 } }
 	}
@@ -70,7 +93,10 @@ get_ship_alloys = {
 		limit = { has_country_flag = building_the_empire }
 		if = {
 			limit = { has_country_flag = kuat_build_fifth_ships }
-			kuat_shipyard_add_resource = { first_alloys = @building_the_empire_cost basic = $basic$ MULT = 6 }
+			kuat_shipyard_add_resource = { 
+				first_alloys = @building_the_empire_cost basic = $basic$ 
+				MULT = event_target:global_event_country.kuat_shipyard_buillding_queue_selection 
+			}
 		} 
 		else = { kuat_shipyard_add_resource = { first_alloys = @building_the_empire_cost basic = $basic$ MULT = 1 } }
 	}
@@ -78,7 +104,10 @@ get_ship_alloys = {
 		limit = { has_country_flag = building_the_horriwer }
 		if = {
 			limit = { has_country_flag = kuat_build_fifth_ships }
-			kuat_shipyard_add_resource = { first_alloys = @building_the_horriwer_cost basic = $basic$ MULT = 6 }
+			kuat_shipyard_add_resource = { 
+				first_alloys = @building_the_horriwer_cost basic = $basic$ 
+				MULT = event_target:global_event_country.kuat_shipyard_buillding_queue_selection 
+			}
 		}
 		else = { kuat_shipyard_add_resource = { first_alloys = @building_the_horriwer_cost basic = $basic$ MULT = 1 } }
 	}
@@ -132,7 +161,8 @@ get_screen_alloys_need = {
 	set_variable = { which = ship_alloys value = @\[ $second_alloys$ * $basic$ ] }
 	round_variable = ship_alloys
 
-	set_variable = { which = five_ship_alloys value = @\[ $second_alloys$ * $MULT$ * $basic$ ] }
+	set_variable = { which = five_ship_alloys value = ship_alloys }
+	multiply_variable = { which = five_ship_alloys value = $MULT$ }
 	round_variable = five_ship_alloys
 }
 
@@ -140,27 +170,45 @@ get_ship_screen_alloys = {
 	optimize_memory
 	if = {
 		limit = { has_country_flag = building_the_eclipse }
-		get_screen_alloys_need = { second_alloys = @building_the_eclipse_cost MULT = 6 basic = $basic$ }
+		get_screen_alloys_need = { 
+			second_alloys = @building_the_eclipse_cost 
+			MULT = event_target:global_event_country.kuat_shipyard_buillding_queue_selection basic = $basic$ 
+		}
 	}
 	else_if = {
 		limit = { has_country_flag = building_the_Vengeance }
-		get_screen_alloys_need = { second_alloys = @building_the_Vengeance_cost MULT = 6 basic = $basic$ }
+		get_screen_alloys_need = { 
+			second_alloys = @building_the_Vengeance_cost 
+			MULT = event_target:global_event_country.kuat_shipyard_buillding_queue_selection basic = $basic$ 
+		}
 	}
 	else_if = {
 		limit = { has_country_flag = building_the_donimance }
-		get_screen_alloys_need = { second_alloys = @building_the_donimance_cost MULT = 6 basic = $basic$ }
+		get_screen_alloys_need = { 
+			second_alloys = @building_the_donimance_cost 
+			MULT = event_target:global_event_country.kuat_shipyard_buillding_queue_selection basic = $basic$ 
+		}
 	}
 	else_if = {
 		limit = { has_country_flag = building_the_resugrant }
-		get_screen_alloys_need = { second_alloys = @building_the_resugrant_cost MULT = 6 basic = $basic$ }
+		get_screen_alloys_need = { 
+			second_alloys = @building_the_resugrant_cost 
+			MULT = event_target:global_event_country.kuat_shipyard_buillding_queue_selection basic = $basic$ 
+		}
 	}
 	else_if = {
 		limit = { has_country_flag = building_the_empire }
-		get_screen_alloys_need = { second_alloys = @building_the_empire_cost MULT = 6 basic = $basic$ }
+		get_screen_alloys_need = { 
+			second_alloys = @building_the_empire_cost 
+			MULT = event_target:global_event_country.kuat_shipyard_buillding_queue_selection basic = $basic$ 
+		}
 	}
 	else_if = {
 		limit = { has_country_flag = building_the_horriwer }
-		get_screen_alloys_need = { second_alloys = @building_the_horriwer_cost MULT = 6 basic = $basic$ }
+		get_screen_alloys_need = { 
+			second_alloys = @building_the_horriwer_cost 
+			MULT = event_target:global_event_country.kuat_shipyard_buillding_queue_selection basic = $basic$ 
+		}
 	}
 }
 
@@ -203,4 +251,60 @@ initial_kuat_shipyard = {
 			country_event = { id = kuat_origin.9 }
 		}
 	} 
+}
+
+initial_shipyard_output = {
+	optimize_memory
+	set_variable = { which = $TYPE$ value = $SLOT$ }
+	change_variable = { which = $SCREEN$ value = $SLOT$ }
+	country_event = { id = kuat_shipyard.$RETURN_ID$ }
+	while = {
+		count = $TYPE$
+		country_event = { id = kuat_shipyard.$OUTPUT_ID$ days = $DAYS$ } 
+	}
+	country_event = { id = kuat_shipyard.$CHECK_ID$ days = $DAYS_1$ }
+	remove_country_flag = $TEMPLE_FLAG$
+	remove_country_flag = $GENERAL_FLAG$ 
+	clear_variable = $SLOT$
+	clear_variable = $TYPE$
+}
+
+transformer_shipyard_output = {
+	optimize_memory
+	change_variable = { which = $TYPE$ value = 1 }
+	subtract_variable = { which = $SCREEN$ value = 1 }
+	if = {
+		limit = { exists = event_target:fallen_empire_kuat }
+		event_target:fallen_empire_kuat = { add_opinion_modifier = { 
+			who = root
+			modifier = opinion_kuat_ship_built 
+		}  }
+	}
+	if = {
+		limit = { check_variable = { which = $SCREEN$ value <= 0 } }
+		clear_variable = $SCREEN$
+	}
+}
+
+finisher_shipyard_output = {
+	optimize_memory
+	if = {
+		limit = { check_variable = { which = $TYPE$ value > 0 } }
+		capital_scope = {
+			create_fleet = {
+				settings = { spawn_debris = no }
+				effect = {
+					set_owner = root
+					while = {
+						count = root.$TYPE$
+						create_ship = { design = $DESIGN$ }
+					}
+					set_location = { target = prev distance = 20 angle = random }
+				}
+			}
+		}
+		clear_variable = $TYPE$
+		set_timed_country_flag = { flag = $FLAG$ days = 1 }
+		country_event = { id = kuat_shipyard.$ID$ }
+	}
 }

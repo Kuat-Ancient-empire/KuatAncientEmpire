@@ -4,7 +4,8 @@ kuat_shipyard_check_allow_resource = {
 	optimize_memory
 	resource_stockpile_compare = {
 		resource = alloys
-		value >= @\[ $second_alloys$ * $MULT$ * $basic$ ]
+		value >= @\[ $second_alloys$ * $basic$ ]
+		multiplier = $MULT$
 	}
 }
 
@@ -18,7 +19,10 @@ get_ship_alloys_allow = {
 		}
 		if = {
 			limit = { has_country_flag = kuat_build_fifth_ships }
-			kuat_shipyard_check_allow_resource = { second_alloys = @building_the_horriwer_cost basic = $basic$ MULT = 6 }
+			kuat_shipyard_check_allow_resource = { 
+				second_alloys = @building_the_horriwer_cost basic = $basic$ 
+				MULT = event_target:global_event_country.kuat_shipyard_buillding_queue_selection 
+			}
 		} 
 	}
 	else_if = {
@@ -29,7 +33,10 @@ get_ship_alloys_allow = {
 		}
 		if = {
 			limit = { has_country_flag = kuat_build_fifth_ships }
-			kuat_shipyard_check_allow_resource = { second_alloys = @building_the_empire_cost basic = $basic$ MULT = 6 }
+			kuat_shipyard_check_allow_resource = { 
+				second_alloys = @building_the_empire_cost basic = $basic$ 
+				MULT = event_target:global_event_country.kuat_shipyard_buillding_queue_selection 
+			}
 		}
 	}
 	else_if = {
@@ -40,7 +47,10 @@ get_ship_alloys_allow = {
 		}
 		if = {
 			limit = { has_country_flag = kuat_build_fifth_ships }
-			kuat_shipyard_check_allow_resource = { second_alloys = @building_the_resugrant_cost basic = $basic$ MULT = 6 }
+			kuat_shipyard_check_allow_resource = { 
+				second_alloys = @building_the_resugrant_cost basic = $basic$ 
+				MULT = event_target:global_event_country.kuat_shipyard_buillding_queue_selection 
+			}
 		} 
 	}
 	else_if = {

@@ -96,6 +96,34 @@ country_event = {
 			if = { limit = { is_ship_size = eclipse } prev = { change_variable = { which = eclipse_class_check value = 1 } } }
 		}
 	}
+	#SETTINGS
+	option = {
+		name = kuat_shipyard.shipbuilt_settings_change
+		allow = {
+			custom_tooltip = {
+				fail_text = kuat_shipyard.shipbuilt_settings_change_condition_true
+				event_target:global_event_country = { check_variable = { which = kuat_shipyard_buillding_queue_selection value < 41 } }
+			}
+		}
+		hidden_effect = { 
+			event_target:global_event_country = { change_variable = { which = kuat_shipyard_buillding_queue_selection value = 1 } } 
+			country_event = { id = kuat_shipyard.22 }
+		}
+	}
+	option = {
+		name = kuat_shipyard.shipbuilt_settings_subtract
+		allow = {
+			custom_tooltip = {
+				fail_text = kuat_shipyard.shipbuilt_settings_change_condition_false
+				event_target:global_event_country = { check_variable = { which = kuat_shipyard_buillding_queue_selection value > 0 } }
+			}
+		}
+		hidden_effect = { 
+			event_target:global_event_country = { subtract_variable = { which = kuat_shipyard_buillding_queue_selection value = 1 } } 
+			country_event = { id = kuat_shipyard.22 }
+		}
+	}
+
 	#折磨者
 	option = {
 		name = kuat_shipyard.2.b
@@ -410,22 +438,22 @@ country_event = {
 	title = kuat_shipyard.title
 	desc = {
 		trigger = {
-			check_variable = { which = fallen_empire_battlecruiser_queue value > 0 }
-			check_variable = { which = fallen_empire_battlecruiser_queue value <= 4 }
+			check_variable = { which = HSD_class_queue value > 0 }
+			check_variable = { which = HSD_class_queue value <= event_target:global_event_country.kuat_shipyard_buillding_queue_selection }
 		}
 		text = kuat_shipyard.22.a.desc
 	}
 	desc = {
 		trigger = {
-			check_variable = { which = fallen_empire_battlecruiser_queue value > 4 }
+			check_variable = { which = HSD_class_queue value > event_target:global_event_country.kuat_shipyard_buillding_queue_selection }
 		}
 		text = kuat_shipyard.22.a5.desc
 	}
 	desc = {
 		trigger = {
 			OR = {
-				NOT = { is_variable_set = fallen_empire_battlecruiser_queue }
-				check_variable = { which = fallen_empire_battlecruiser_queue value = 0 }
+				NOT = { is_variable_set = HSD_class_queue }
+				check_variable = { which = HSD_class_queue value = 0 }
 			}
 		}
 		text = kuat_shipyard.22.b.desc
@@ -451,9 +479,9 @@ country_event = {
 		custom_tooltip = kuat_shipyard.22.a.tooltip
 		hidden_effect = {
 			get_variable_alloys_bought = yes
-			change_variable = { which = fallen_empire_battlecruiser_queue value = 1 }
+			change_variable = { which = HSD_class_queue value = 1 }
 			country_event = { id = kuat_shipyard.22 }
-			country_event = { id = kuat_shipyard.222 days = @kuat_battlecruiser_build_time }
+			country_event = { id = kuat_shipyard.222 days = @kuat_horriwor_build_time }
 		}
 	}
 	option = {
@@ -461,13 +489,13 @@ country_event = {
 		allow = {
 			custom_tooltip = {
 				fail_text = kuat_shipyard.22.b.need_queue.tooltip
-				check_variable = { which = fallen_empire_battlecruiser_queue value > 0 }
+				check_variable = { which = HSD_class_queue value > 0 }
 			}
 		}
 		custom_tooltip = kuat_shipyard.22.b.tooltip
 		hidden_effect = { get_variable_alloys = yes }
 		hidden_effect = {
-			subtract_variable = { which = fallen_empire_battlecruiser_queue value = 1 }
+			subtract_variable = { which = HSD_class_queue value = 1 }
 			country_event = { id = kuat_shipyard.22 }
 		}
 	}
@@ -477,14 +505,14 @@ country_event = {
 		allow = {
 			custom_tooltip = {
 				fail_text = kuat_shipyard.22.b.need_queue.tooltip
-				check_variable = { which = fallen_empire_battlecruiser_queue value > 4 }
+				check_variable = { which = HSD_class_queue value >= event_target:global_event_country.kuat_shipyard_buillding_queue_selection }
 			}
 		}
 		custom_tooltip = kuat_shipyard.22.b.tooltip
 		hidden_effect = { get_variable_alloys = yes }
 		hidden_effect = {
 			remove_country_flag = kuat_build_fifth_ships
-			subtract_variable = { which = fallen_empire_battlecruiser_queue value = 5 }
+			subtract_variable = { which = HSD_class_queue value = event_target:global_event_country.kuat_shipyard_buillding_queue_selection }
 			country_event = { id = kuat_shipyard.22 }
 		}
 	}
@@ -496,7 +524,7 @@ country_event = {
 	}
 	option = {
 		name = kuat_shipyard.return
-		hidden_effect = { country_event = { id = kuat_shipyard.1 } remove_country_flag = building_the_horriwer }
+		hidden_effect = { country_event = { id = kuat_shipyard.2 } remove_country_flag = building_the_horriwer }
 	}
 	option = {
 		name = kuat_shipyard.exit
@@ -510,22 +538,22 @@ country_event = {
 	title = kuat_shipyard.title
 	desc = {
 		trigger = {
-			check_variable = { which = fallen_empire_battlecruiser_queue value > 0 }
-			check_variable = { which = fallen_empire_battlecruiser_queue value <= 4 }
+			check_variable = { which = HSD_class_queue value > 0 }
+			check_variable = { which = HSD_class_queue value <= event_target:global_event_country.kuat_shipyard_buillding_queue_selection }
 		}
 		text = kuat_shipyard.22.a.desc
 	}
 	desc = {
 		trigger = {
-			check_variable = { which = fallen_empire_battlecruiser_queue value > 4 }
+			check_variable = { which = HSD_class_queue value > event_target:global_event_country.kuat_shipyard_buillding_queue_selection }
 		}
 		text = kuat_shipyard.22.a5.desc
 	}
 	desc = {
 		trigger = {
 			OR = {
-				NOT = { is_variable_set = fallen_empire_battlecruiser_queue }
-				check_variable = { which = fallen_empire_battlecruiser_queue value = 0 }
+				NOT = { is_variable_set = HSD_class_queue }
+				check_variable = { which = HSD_class_queue value = 0 }
 			}
 		}
 		text = kuat_shipyard.22.b.desc
@@ -548,17 +576,15 @@ country_event = {
 			check_variable = { which = horriwer_queue value > 0 } 
 		} }
 		hidden_effect = { 
-			set_variable = { which = horriwer_true_numbers value = horriwer_queue }
-			change_variable = { which = fallen_empire_battlecruiser_queue value = horriwer_queue }
-			country_event = { id = kuat_shipyard.22 }
-			while = {
-				count = horriwer_true_numbers
-				country_event = { id = kuat_shipyard.222 days = @kuat_battlecruiser_build_time } 
+			initial_shipyard_output = {
+				TYPE = horriwer_true_numbers SLOT = horriwer_queue
+				SCREEN = HSD_class_queue RETURN_ID = 22
+				DAYS = @kuat_horriwor_build_time
+				DAYS_1 = @kuat_horriwor_build_time_1
+				OUTPUT_ID = 222 CHECK_ID = 223
+				TEMPLE_FLAG = fired_HSD
+				GENERAL_FLAG = kuat_build_fifth_ships
 			}
-			remove_country_flag = fired_horriwer
-			remove_country_flag = kuat_build_fifth_ships 
-			clear_variable = horriwer_queue
-			clear_variable = horriwer_true_numbers
 		}
 	}
 	option = {
@@ -566,7 +592,7 @@ country_event = {
 		default_hide_option = yes
 		hidden_effect = { 
 			country_event = { id = kuat_shipyard.22 } 
-			remove_country_flag = fired_horriwer
+			remove_country_flag = fired_HSD
 			remove_country_flag = kuat_build_fifth_ships
 		}
 	}
@@ -579,51 +605,22 @@ country_event = {
 	is_triggered_only = yes
 	trigger = {
 		can_communicate_with_kuat = yes
-		check_variable = { which = fallen_empire_battlecruiser_queue value > 0 }
+		check_variable = { which = HSD_class_queue value > 0 }
 	}
-	immediate = {
-		if = {
-			limit = { check_variable = { which = fallen_empire_battlecruiser_queue value > 0 } }
-			change_variable = { which = horriwer_fleet_queue value = 1 }
-			subtract_variable = { which = fallen_empire_battlecruiser_queue value = 1 }
-			country_event = { id = kuat_shipyard.223 days = 1 }
-		}
-		if = {
-			limit = { check_variable = { which = fallen_empire_battlecruiser_queue value <= 0 } }
-			clear_variable = fallen_empire_battlecruiser_queue
-		}
-		if = {
-			limit = { exists = event_target:fallen_empire_kuat }
-			event_target:fallen_empire_kuat = { add_opinion_modifier = { modifier = opinion_kuat_ship_built who = root } }
-		}
-	}
+	immediate = { transformer_shipyard_output = { TYPE = horriwer_fleet_queue SCREEN = HSD_class_queue } }
 }
 
 country_event = {
 	id = kuat_shipyard.223
 	hide_window = yes
 	is_triggered_only = yes
-	trigger = {
-		can_communicate_with_kuat = yes
-		check_variable = { which = horriwer_fleet_queue value > 0 }
-	}
+	trigger = { can_communicate_with_kuat = yes }
 	immediate = {
-		capital_scope = {
-			create_fleet = {
-				settings = { spawn_debris = no }
-				effect = {
-					set_owner = root
-					while = {
-						limit = { root = { check_variable = { which = horriwer_fleet_queue value > 0 } } }
-						create_ship = { design = "Name_boss_Horriwer" }
-						root = { subtract_variable = { which = horriwer_fleet_queue value = 1 } }
-					}
-					set_location = { target = prev distance = 20 angle = random }
-				}
-			}
+		finisher_shipyard_output = {
+			TYPE = horriwer_fleet_queue
+			DESIGN = Name_boss_Horriwer  ID = 2223
+			FLAG = horriwer_fleet_queue_notification_temple 
 		}
-		set_timed_country_flag = { flag = horriwer_fleet_queue_notification_temple days = 1 }
-		country_event = { id = kuat_shipyard.2223 }
 	}
 }
 
@@ -647,22 +644,22 @@ country_event = {
 	title = kuat_shipyard.title
 	desc = {
 		trigger = {
-			check_variable = { which = fallen_empire_titan_queue value > 0 }
-			check_variable = { which = fallen_empire_titan_queue value <= 4 }
+			check_variable = { which = ISD_class_queue value > 0 }
+			check_variable = { which = ISD_class_queue value <= event_target:global_event_country.kuat_shipyard_buillding_queue_selection }
 		}
 		text = kuat_shipyard.23.a.desc
 	}
 	desc = {
 		trigger = {
-			check_variable = { which = fallen_empire_titan_queue value > 4 }
+			check_variable = { which = ISD_class_queue value > event_target:global_event_country.kuat_shipyard_buillding_queue_selection }
 		}
 		text = kuat_shipyard.23.a5.desc
 	}
 	desc = {
 		trigger = {
 			OR = {
-				NOT = { is_variable_set = fallen_empire_titan_queue }
-				check_variable = { which = fallen_empire_titan_queue value = 0 }
+				NOT = { is_variable_set = ISD_class_queue }
+				check_variable = { which = ISD_class_queue value = 0 }
 			}
 		}
 		text = kuat_shipyard.23.b.desc
@@ -688,9 +685,9 @@ country_event = {
 		custom_tooltip = kuat_shipyard.23.a.tooltip
 		hidden_effect = { get_variable_alloys_bought = yes }
 		hidden_effect = {
-			change_variable = { which = fallen_empire_titan_queue value = 1 }
+			change_variable = { which = ISD_class_queue value = 1 }
 			country_event = { id = kuat_shipyard.23 }
-			country_event = { id = kuat_shipyard.231 days = @kuat_titan_build_time }
+			country_event = { id = kuat_shipyard.231 days = @kuat_ISD_build_time }
 		}
 	}
 	option = {
@@ -698,13 +695,13 @@ country_event = {
 		allow = {
 			custom_tooltip = {
 				fail_text = kuat_shipyard.23.b.need_queue.tooltip
-				check_variable = { which = fallen_empire_titan_queue value > 0 }
+				check_variable = { which = ISD_class_queue value > 0 }
 			}
 		}
 		custom_tooltip = kuat_shipyard.23.b.tooltip
 		hidden_effect = { get_variable_alloys = yes }
 		hidden_effect = {
-			subtract_variable = { which = fallen_empire_titan_queue value = 1 }
+			subtract_variable = { which = ISD_class_queue value = 1 }
 			country_event = { id = kuat_shipyard.23 }
 		}
 	}
@@ -714,14 +711,14 @@ country_event = {
 		allow = {
 			custom_tooltip = {
 				fail_text = kuat_shipyard.23.b.need_queue.tooltip
-				check_variable = { which = fallen_empire_titan_queue value > 4 }
+				check_variable = { which = ISD_class_queue value >= event_target:global_event_country.kuat_shipyard_buillding_queue_selection }
 			}
 		}
 		custom_tooltip = kuat_shipyard.23.b.tooltip
 		hidden_effect = { get_variable_alloys = yes }
 		hidden_effect = {
 			remove_country_flag = kuat_build_fifth_ships
-			subtract_variable = { which = fallen_empire_titan_queue value = 5 }
+			subtract_variable = { which = ISD_class_queue value = event_target:global_event_country.kuat_shipyard_buillding_queue_selection }
 			country_event = { id = kuat_shipyard.23 }
 		}
 	}
@@ -733,7 +730,7 @@ country_event = {
 	}
 	option = {
 		name = kuat_shipyard.return
-		hidden_effect = { country_event = { id = kuat_shipyard.1 } remove_country_flag = building_the_empire }
+		hidden_effect = { country_event = { id = kuat_shipyard.2 } remove_country_flag = building_the_empire }
 	}
 	option = {
 		name = kuat_shipyard.exit
@@ -747,22 +744,22 @@ country_event = {
 	title = kuat_shipyard.title
 	desc = {
 		trigger = {
-			check_variable = { which = fallen_empire_titan_queue value > 0 }
-			check_variable = { which = fallen_empire_titan_queue value <= 4 }
+			check_variable = { which = ISD_class_queue value > 0 }
+			check_variable = { which = ISD_class_queue value <= event_target:global_event_country.kuat_shipyard_buillding_queue_selection }
 		}
 		text = kuat_shipyard.23.a.desc
 	}
 	desc = {
 		trigger = {
-			check_variable = { which = fallen_empire_titan_queue value > 4 }
+			check_variable = { which = ISD_class_queue value > event_target:global_event_country.kuat_shipyard_buillding_queue_selection }
 		}
 		text = kuat_shipyard.23.a5.desc
 	}
 	desc = {
 		trigger = {
 			OR = {
-				NOT = { is_variable_set = fallen_empire_titan_queue }
-				check_variable = { which = fallen_empire_titan_queue value = 0 }
+				NOT = { is_variable_set = ISD_class_queue }
+				check_variable = { which = ISD_class_queue value = 0 }
 			}
 		}
 		text = kuat_shipyard.23.b.desc
@@ -782,20 +779,18 @@ country_event = {
 		custom_tooltip = kuat_shipyard.confirm.b.tooltip
 		allow = { custom_tooltip = {
 			fail_text = kuat_shipyard_queue
-			check_variable = { which = empire_queue value > 0 } 
+			check_variable = { which = Impeiral_SD_queue value > 0 } 
 		} }
 		hidden_effect = { 
-			set_variable = { which = empire_true_numbers value = empire_queue }
-			change_variable = { which = fallen_empire_titan_queue value = empire_queue }
-			country_event = { id = kuat_shipyard.23 }
-			while = {
-				count = empire_true_numbers
-				country_event = { id = kuat_shipyard.231 days = @kuat_titan_build_time } 
+			initial_shipyard_output = {
+				TYPE = Impeiral_SD_true_numbers SLOT = Impeiral_SD_queue
+				SCREEN = ISD_class_queue RETURN_ID = 23
+				DAYS = @kuat_ISD_build_time
+				DAYS_1 = @kuat_ISD_build_time_1
+				OUTPUT_ID = 231 CHECK_ID = 232
+				TEMPLE_FLAG = fired_ISD
+				GENERAL_FLAG = kuat_build_fifth_ships
 			}
-			remove_country_flag = fired_empire
-			remove_country_flag = kuat_build_fifth_ships 
-			clear_variable = empire_queue
-			clear_variable = empire_true_numbers
 		}
 	}
 	option = {
@@ -803,7 +798,7 @@ country_event = {
 		default_hide_option = yes
 		hidden_effect = { 
 			country_event = { id = kuat_shipyard.23 } 
-			remove_country_flag = fired_empire
+			remove_country_flag = fired_ISD
 			remove_country_flag = kuat_build_fifth_ships
 		}
 	}
@@ -816,51 +811,22 @@ country_event = {
 	is_triggered_only = yes
 	trigger = {
 		can_communicate_with_kuat = yes
-		check_variable = { which = fallen_empire_titan_queue value > 0 }
+		check_variable = { which = ISD_class_queue value > 0 }
 	}
-	immediate = {
-		if = {
-			limit = { check_variable = { which = fallen_empire_titan_queue value > 0 } }
-			change_variable = { which = empire_fleet_queue value = 1 }
-			subtract_variable = { which = fallen_empire_titan_queue value = 1 }
-			country_event = { id = kuat_shipyard.232 days = 1 }
-		}
-		if = {
-			limit = { check_variable = { which = fallen_empire_titan_queue value <= 0 } }
-			clear_variable = fallen_empire_titan_queue
-		}
-		if = {
-			limit = { exists = event_target:fallen_empire_kuat }
-			event_target:fallen_empire_kuat = { add_opinion_modifier = { modifier = opinion_kuat_ship_built who = root } }
-		}
-	}
+	immediate = { transformer_shipyard_output = { TYPE = Impeiral_SD_fleet_queue SCREEN = ISD_class_queue } }
 }
 
 country_event = {
 	id = kuat_shipyard.232
 	hide_window = yes
 	is_triggered_only = yes
-	trigger = {
-		can_communicate_with_kuat = yes
-		check_variable = { which = empire_fleet_queue value > 0 }
-	}
+	trigger = { can_communicate_with_kuat = yes }
 	immediate = {
-		capital_scope = {
-			create_fleet = {
-				settings = { spawn_debris = no }
-				effect = {
-					set_owner = root
-					while = {
-						limit = { root = { check_variable = { which = empire_fleet_queue value > 0 } } }
-						create_ship = { design = "Name_boss_EMPIRE" }
-						root = { subtract_variable = { which = empire_fleet_queue value = 1 } }
-					}
-					set_location = { target = prev distance = 20 angle = random }
-				}
-			}
+		finisher_shipyard_output = {
+			TYPE = Impeiral_SD_fleet_queue
+			DESIGN = Name_boss_EMPIRE  ID = 2322
+			FLAG = Impeiral_SD_fleet_queue_notification_temple 
 		}
-		set_timed_country_flag = { flag = empire_fleet_queue_notification_temple days = 1 }
-		country_event = { id = kuat_shipyard.2322 }
 	}
 }
 
@@ -868,7 +834,7 @@ country_event = {
 	id = kuat_shipyard.2322
 	hide_window = yes
 	is_triggered_only = yes
-	trigger = { NOT = { has_country_flag = empire_fleet_queue_notification_temple } }
+	trigger = { NOT = { has_country_flag = Impeiral_SD_fleet_queue_notification_temple } }
 	immediate = { create_message = {
 		type = "CONSTRUCTION_MESSAGE_TYPE"
 		localization = "kuat_titan_arrived_desc"
@@ -878,28 +844,28 @@ country_event = {
 	} }
 }
 
-#建造袭击者
+#建造复兴级
 country_event = {
 	id = kuat_shipyard.24
 	title = kuat_shipyard.title
 	desc = {
 		trigger = {
-			check_variable = { which = resugrant_class_queue value > 0 }
-			check_variable = { which = resugrant_class_queue value <= 4 }
+			check_variable = { which = RSD_class_queue value > 0 }
+			check_variable = { which = RSD_class_queue value <= event_target:global_event_country.kuat_shipyard_buillding_queue_selection }
 		}
 		text = kuat_shipyard.24.a.desc
 	}
 	desc = {
 		trigger = {
-			check_variable = { which = resugrant_class_queue value > 4 }
+			check_variable = { which = RSD_class_queue value > event_target:global_event_country.kuat_shipyard_buillding_queue_selection }
 		}
 		text = kuat_shipyard.24.a5.desc
 	}
 	desc = {
 		trigger = {
 			OR = {
-				NOT = { is_variable_set = resugrant_class_queue }
-				check_variable = { which = resugrant_class_queue value = 0 }
+				NOT = { is_variable_set = RSD_class_queue }
+				check_variable = { which = RSD_class_queue value = 0 }
 			}
 		}
 		text = kuat_shipyard.24.b.desc
@@ -925,9 +891,9 @@ country_event = {
 		custom_tooltip = kuat_shipyard.24.a.tooltip
 		hidden_effect = { get_variable_alloys_bought = yes }
 		hidden_effect = {
-			change_variable = { which = resugrant_class_queue value = 1 }
+			change_variable = { which = RSD_class_queue value = 1 }
 			country_event = { id = kuat_shipyard.24 }
-			country_event = { id = kuat_shipyard.241 days = @kuat_dreadnought_build_time }
+			country_event = { id = kuat_shipyard.241 days = @kuat_RSD_build_time }
 		}
 	}
 	option = {
@@ -935,13 +901,13 @@ country_event = {
 		allow = {
 			custom_tooltip = {
 				fail_text = kuat_shipyard.24.b.need_queue.tooltip
-				check_variable = { which = resugrant_class_queue value > 0 }
+				check_variable = { which = RSD_class_queue value > 0 }
 			}
 		}
 		custom_tooltip = kuat_shipyard.24.b.tooltip
 		hidden_effect = { get_variable_alloys = yes }
 		hidden_effect = {
-			subtract_variable = { which = resugrant_class_queue value = 1 }
+			subtract_variable = { which = RSD_class_queue value = 1 }
 			country_event = { id = kuat_shipyard.24 }
 		}
 	}
@@ -951,14 +917,14 @@ country_event = {
 		allow = {
 			custom_tooltip = {
 				fail_text = kuat_shipyard.24.b.need_queue.tooltip
-				check_variable = { which = resugrant_class_queue value > 4 }
+				check_variable = { which = RSD_class_queue value >= event_target:global_event_country.kuat_shipyard_buillding_queue_selection }
 			}
 		}
 		custom_tooltip = kuat_shipyard.24.b.tooltip
 		hidden_effect = { get_variable_alloys = yes }
 		hidden_effect = {
 			remove_country_flag = kuat_build_fifth_ships
-			subtract_variable = { which = resugrant_class_queue value = 5 }
+			subtract_variable = { which = RSD_class_queue value = event_target:global_event_country.kuat_shipyard_buillding_queue_selection }
 			country_event = { id = kuat_shipyard.24 }
 		}
 	}
@@ -970,7 +936,7 @@ country_event = {
 	}
 	option = {
 		name = kuat_shipyard.return
-		hidden_effect = { country_event = { id = kuat_shipyard.1 } remove_country_flag = building_the_resugrant }
+		hidden_effect = { country_event = { id = kuat_shipyard.2 } remove_country_flag = building_the_resugrant }
 	}
 	option = {
 		name = kuat_shipyard.exit
@@ -984,22 +950,22 @@ country_event = {
 	title = kuat_shipyard.title
 	desc = {
 		trigger = {
-			check_variable = { which = resugrant_class_queue value > 0 }
-			check_variable = { which = resugrant_class_queue value <= 4 }
+			check_variable = { which = RSD_class_queue value > 0 }
+			check_variable = { which = RSD_class_queue value <= event_target:global_event_country.kuat_shipyard_buillding_queue_selection }
 		}
 		text = kuat_shipyard.24.a.desc
 	}
 	desc = {
 		trigger = {
-			check_variable = { which = resugrant_class_queue value > 4 }
+			check_variable = { which = RSD_class_queue value > event_target:global_event_country.kuat_shipyard_buillding_queue_selection }
 		}
 		text = kuat_shipyard.24.a5.desc
 	}
 	desc = {
 		trigger = {
 			OR = {
-				NOT = { is_variable_set = resugrant_class_queue }
-				check_variable = { which = resugrant_class_queue value = 0 }
+				NOT = { is_variable_set = RSD_class_queue }
+				check_variable = { which = RSD_class_queue value = 0 }
 			}
 		}
 		text = kuat_shipyard.24.b.desc
@@ -1019,20 +985,18 @@ country_event = {
 		custom_tooltip = kuat_shipyard.confirm.c.tooltip
 		allow = { custom_tooltip = {
 			fail_text = kuat_shipyard_queue
-			check_variable = { which = resugrant_queue value > 0 } 
+			check_variable = { which = RSD_queue value > 0 } 
 		} }
 		hidden_effect = { 
-			set_variable = { which = Resugrant_true_numbers value = resugrant_queue }
-			change_variable = { which = resugrant_class_queue value = resugrant_queue }
-			country_event = { id = kuat_shipyard.24 }
-			while = {
-				count = Resugrant_true_numbers
-				country_event = { id = kuat_shipyard.241 days = @kuat_dreadnought_build_time } 
+			initial_shipyard_output = {
+				TYPE = RSD_true_numbers SLOT = RSD_queue
+				SCREEN = RSD_class_queue RETURN_ID = 24
+				DAYS = @kuat_RSD_build_time
+				DAYS_1 = @kuat_RSD_build_time_1
+				OUTPUT_ID = 241 CHECK_ID = 243
+				TEMPLE_FLAG = fired_RSD
+				GENERAL_FLAG = kuat_build_fifth_ships
 			}
-			remove_country_flag = fired_resugrant
-			remove_country_flag = kuat_build_fifth_ships 
-			clear_variable = resugrant_queue
-			clear_variable = Resugrant_true_numbers
 		}
 	}
 	option = {
@@ -1040,64 +1004,35 @@ country_event = {
 		default_hide_option = yes
 		hidden_effect = { 
 			country_event = { id = kuat_shipyard.24 } 
-			remove_country_flag = fired_resugrant
+			remove_country_flag = fired_RSD
 			remove_country_flag = kuat_build_fifth_ships
 		}
 	}
 }
 
-#袭击者到达
+#复兴级到达
 country_event = {
 	id = kuat_shipyard.241
 	hide_window = yes
 	is_triggered_only = yes
 	trigger = {
 		can_communicate_with_kuat = yes
-		check_variable = { which = resugrant_class_queue value > 0 }
+		check_variable = { which = RSD_class_queue value > 0 }
 	}
-	immediate = {
-		if = {
-			limit = { check_variable = { which = resugrant_class_queue value > 0 } }
-			change_variable = { which = resugrant_fleet_queue value = 1 }
-			subtract_variable = { which = resugrant_class_queue value = 1 }
-			country_event = { id = kuat_shipyard.243 days = 1 }
-		}
-		if = {
-			limit = { check_variable = { which = resugrant_class_queue value <= 0 } }
-			clear_variable = resugrant_class_queue
-		}
-		if = {
-			limit = { exists = event_target:fallen_empire_kuat }
-			event_target:fallen_empire_kuat = { add_opinion_modifier = { modifier = opinion_kuat_ship_built who = root } }
-		}
-	}
+	immediate = { transformer_shipyard_output = { TYPE = RSD_fleet_queue SCREEN = RSD_class_queue } }
 }
 
 country_event = {
 	id = kuat_shipyard.243
 	hide_window = yes
 	is_triggered_only = yes
-	trigger = {
-		can_communicate_with_kuat = yes
-		check_variable = { which = resugrant_fleet_queue value > 0 }
-	}
+	trigger = { can_communicate_with_kuat = yes }
 	immediate = {
-		capital_scope = {
-			create_fleet = {
-				settings = { spawn_debris = no }
-				effect = {
-					set_owner = root
-					while = {
-						limit = { root = { check_variable = { which = resugrant_fleet_queue value > 0 } } }
-						create_ship = { design = "Name_boss_Resugrant" }
-						root = { subtract_variable = { which = resugrant_fleet_queue value = 1 } }
-					}
-					set_location = { target = prev distance = 20 angle = random }
-				}
-			}
+		finisher_shipyard_output = {
+			TYPE = RSD_fleet_queue
+			DESIGN = Name_boss_Resugrant  ID = 2432
+			FLAG = RSD_fleet_queue_notification_temple 
 		}
-		set_timed_country_flag = { flag = resugrant_fleet_queue_notification_temple days = 1 }
-		country_event = { id = kuat_shipyard.2432 }
 	}
 }
 
@@ -1105,7 +1040,7 @@ country_event = {
 	id = kuat_shipyard.2432
 	hide_window = yes
 	is_triggered_only = yes
-	trigger = { NOT = { has_country_flag = resugrant_fleet_queue_notification_temple } }
+	trigger = { NOT = { has_country_flag = RSD_fleet_queue_notification_temple } }
 	immediate = { create_message = {
 		type = "CONSTRUCTION_MESSAGE_TYPE"
 		localization = "kuat_resugrant_class_arrived_desc"
@@ -1182,7 +1117,7 @@ country_event = {
 	}
 	option = {
 		name = kuat_shipyard.return
-		hidden_effect = { country_event = { id = kuat_shipyard.1 } remove_country_flag = building_the_donimance }
+		hidden_effect = { country_event = { id = kuat_shipyard.2 } remove_country_flag = building_the_donimance }
 	}
 	option = {
 		name = kuat_shipyard.exit
@@ -1315,7 +1250,7 @@ country_event = {
 	}
 	option = {
 		name = kuat_shipyard.return
-		hidden_effect = { country_event = { id = kuat_shipyard.1 } remove_country_flag = building_the_eclipse }
+		hidden_effect = { country_event = { id = kuat_shipyard.2 } remove_country_flag = building_the_eclipse }
 	}
 	option = {
 		name = kuat_shipyard.exit
@@ -1417,18 +1352,18 @@ country_event = {
 		}
 		OR = {
 			check_variable = { which = fallen_empire_escort_queue value > 0 }
-			check_variable = { which = fallen_empire_battlecruiser_queue value > 0 }
-			check_variable = { which = fallen_empire_titan_queue value > 0 }
-			check_variable = { which = resugrant_class_queue value > 0 }
+			check_variable = { which = HSD_class_queue value > 0 }
+			check_variable = { which = ISD_class_queue value > 0 }
+			check_variable = { which = RSD_class_queue value > 0 }
 			check_variable = { which = dominance_class_queue value > 0 }
 			check_variable = { which = eclipse_class_queue value > 0 }
 		}
 	}
 	immediate = {
 		clear_variable = fallen_empire_escort_queue
-		clear_variable = fallen_empire_battlecruiser_queue
-		clear_variable = fallen_empire_titan_queue
-		clear_variable = resugrant_class_queue
+		clear_variable = HSD_class_queue
+		clear_variable = ISD_class_queue
+		clear_variable = RSD_class_queue
 		clear_variable = dominance_class_queue
 		clear_variable = eclipse_class_queue
 	}
