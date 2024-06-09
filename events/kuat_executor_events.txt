@@ -1168,9 +1168,17 @@ country_event = {
 				create_ambient_object = { type = "destroyed_system" location = this }
 				last_created_ambient_object = { set_ambient_object_flag = destroyed_system_effect set_location = { target = prev  distance = 0  angle = random  } }
 			}
-			every_fleet_in_system = { 
-				limit = { exists = owner owner = { is_kuat_fallen_empire = no } }
-				kuat_reduce_hp_percent = { value = 10 }
+			every_ship_in_system = { 
+				limit = { 
+					exists = owner owner = { is_kuat_fallen_empire = no } 
+					NOT = { is_variable_set = ship_hp_clearing_random }
+				}
+				set_variable_to_random_value = {
+					which = ship_hp_clearing_random
+					min = 10 max = 99 rounded = yes
+				}
+				kuat_reduce_hp_percent = { value = ship_hp_clearing_random }
+				clear_variable = ship_hp_clearing_random
 			}
 		}
 		country_event = { id = executor_build.703 days = 30 }

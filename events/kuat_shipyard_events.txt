@@ -297,142 +297,6 @@ country_event = {
 	}
 }
 
-#建造守门人
-country_event = {
-	id = kuat_shipyard.21
-	title = kuat_shipyard.title
-	desc = {
-		trigger = {
-			check_variable = { which = fallen_empire_escort_queue value > 0 }
-		}
-		text = kuat_shipyard.21.a.desc
-	}
-	desc = {
-		trigger = {
-			OR = {
-				NOT = { is_variable_set = fallen_empire_escort_queue }
-				check_variable = { which = fallen_empire_escort_queue value = 0 }
-			}
-		}
-		text = kuat_shipyard.21.b.desc
-	}
-	picture_event_data = { room = Vengance_room }
-	custom_gui = "kuat_event_diplomacy_shipyard_window"
-	custom_gui_option = "kuat_event_diplomacy_shipyard_option"
-	location = event_target:fallen_empire_kuat.capital_scope
-	is_triggered_only = yes
-	diplomatic = yes
-	trigger = {
-		is_ai = no
-		can_communicate_with_kuat = yes
-	}
-	option = {
-		name = kuat_shipyard.21.a
-		allow = {
-			custom_tooltip = {
-				fail_text = kuat_shipyard.3.a.opinion.tooltip
-				count_owned_ship = { limit = { is_ship_size = Vengeance } count < 1 }
-				check_variable = { which = fallen_empire_escort_check value < 1 }
-				check_variable = { which = fallen_empire_escort_queue value < 1 }
-			}
-			custom_tooltip = {
-				fail_text = kuat_shipyard.check
-				get_variable_alloys_check_allow = yes
-			}
-		}
-		custom_tooltip = kuat_shipyard.21.a.tooltip
-		hidden_effect = { get_variable_alloys_bought = yes }
-		hidden_effect = {
-			change_variable = { which = fallen_empire_escort_queue value = 1 }
-			change_variable = { which = fallen_empire_escort_check value = 1 }
-			country_event = { id = kuat_shipyard.21 }
-			country_event = { id = kuat_shipyard.211 days = @kuat_escort_build_time }
-		}
-	}
-	option = {
-		name = kuat_shipyard.21.b
-		allow = {
-			custom_tooltip = {
-				fail_text = kuat_shipyard.21.b.need_queue.tooltip
-				check_variable = { which = fallen_empire_escort_queue value > 0 }
-			}
-		}
-		custom_tooltip = kuat_shipyard.21.b.tooltip
-		hidden_effect = { get_variable_alloys = yes }
-		hidden_effect = {
-			subtract_variable = { which = fallen_empire_escort_queue value = 1 }
-			subtract_variable = { which = fallen_empire_escort_check value = 1 }
-			country_event = { id = kuat_shipyard.21 }
-		}
-	}
-	option = {
-		name = kuat_shipyard.return
-		hidden_effect = { country_event = { id = kuat_shipyard.1 }	remove_country_flag = building_the_Vengeance }
-	}
-	option = {
-		name = kuat_shipyard.exit
-		hidden_effect = { remove_country_flag = building_the_Vengeance }
-		default_hide_option = yes
-	}
-}
-
-#守门人到达
-country_event = {
-	id = kuat_shipyard.211
-	hide_window = yes
-	is_triggered_only = yes
-	trigger = {
-		can_communicate_with_kuat = yes
-		check_variable = { which = fallen_empire_escort_queue value > 0 }
-	}
-	immediate = {
-		if = {
-			limit = { count_owned_ship = { limit = { is_ship_size = Vengeance } count < 1 } }
-			capital_scope = {
-				create_fleet = {
-					settings = { spawn_debris = no }
-					effect = {
-						set_owner = root
-						create_ship = { design = "Name_boss_Venganza" }
-						set_location = { target = prev distance = 20 angle = random }
-					}
-				}
-			}
-			create_message = {
-				type = "CONSTRUCTION_MESSAGE_TYPE"
-				localization = "kuat_escort_arrived_desc"
-				days = 30
-				target = from
-				variable = {
-					type = name
-					localization = "capital_planet"
-					scope = root.capital_scope
-				}
-			}
-			subtract_variable = { which = fallen_empire_escort_queue value = 1 }
-			if = {
-				limit = { check_variable = { which = fallen_empire_escort_queue value <= 0 } }
-				clear_variable = fallen_empire_escort_queue
-			}
-			if = {
-				limit = { exists = event_target:fallen_empire_kuat }
-				event_target:fallen_empire_kuat = { add_opinion_modifier = { modifier = opinion_kuat_ship_built who = root } }
-			}
-		}
-		else = {
-			subtract_variable = { which = fallen_empire_escort_queue value = 1 }
-			if = {
-				limit = { check_variable = { which = fallen_empire_escort_queue value <= 0 } }
-				clear_variable = fallen_empire_escort_queue
-			}
-			if = {
-				limit = { exists = event_target:fallen_empire_kuat }
-				event_target:fallen_empire_kuat = { add_opinion_modifier = { modifier = opinion_kuat_ship_built who = root } }
-			}
-		}
-	}
-}
-
 #建造折磨者
 country_event = {
 	id = kuat_shipyard.22
@@ -469,22 +333,22 @@ country_event = {
 		is_ai = no
 		can_communicate_with_kuat = yes
 	}
-	option = {
-		name = kuat_shipyard.22.a
-		allow = {
-			custom_tooltip = {
-				fail_text = kuat_shipyard.check
-				get_variable_alloys_check_allow = yes
-			}
-		}
-		custom_tooltip = kuat_shipyard.22.a.tooltip
-		hidden_effect = {
-			get_variable_alloys_bought = yes
-			change_variable = { which = HSD_class_queue value = 1 }
-			country_event = { id = kuat_shipyard.22 }
-			country_event = { id = kuat_shipyard.222 days = @kuat_horriwor_build_time }
-		}
-	}
+	# option = {
+	# 	name = kuat_shipyard.22.a
+	# 	allow = {
+	# 		custom_tooltip = {
+	# 			fail_text = kuat_shipyard.check
+	# 			get_variable_alloys_check_allow = yes
+	# 		}
+	# 	}
+	# 	custom_tooltip = kuat_shipyard.22.a.tooltip
+	# 	hidden_effect = {
+	# 		get_variable_alloys_bought = yes
+	# 		change_variable = { which = HSD_class_queue value = 1 }
+	# 		country_event = { id = kuat_shipyard.22 }
+	# 		country_event = { id = kuat_shipyard.222 days = @kuat_horriwor_build_time }
+	# 	}
+	# }
 	option = {
 		name = kuat_shipyard.22.b
 		allow = {
@@ -675,22 +539,22 @@ country_event = {
 		is_ai = no
 		can_communicate_with_kuat = yes
 	}
-	option = {
-		name = kuat_shipyard.23.a
-		allow = {
-			custom_tooltip = {
-				fail_text = kuat_shipyard.check
-				get_variable_alloys_check_allow = yes
-			}
-		}
-		custom_tooltip = kuat_shipyard.23.a.tooltip
-		hidden_effect = { get_variable_alloys_bought = yes }
-		hidden_effect = {
-			change_variable = { which = ISD_class_queue value = 1 }
-			country_event = { id = kuat_shipyard.23 }
-			country_event = { id = kuat_shipyard.231 days = @kuat_ISD_build_time }
-		}
-	}
+	# option = {
+	# 	name = kuat_shipyard.23.a
+	# 	allow = {
+	# 		custom_tooltip = {
+	# 			fail_text = kuat_shipyard.check
+	# 			get_variable_alloys_check_allow = yes
+	# 		}
+	# 	}
+	# 	custom_tooltip = kuat_shipyard.23.a.tooltip
+	# 	hidden_effect = { get_variable_alloys_bought = yes }
+	# 	hidden_effect = {
+	# 		change_variable = { which = ISD_class_queue value = 1 }
+	# 		country_event = { id = kuat_shipyard.23 }
+	# 		country_event = { id = kuat_shipyard.231 days = @kuat_ISD_build_time }
+	# 	}
+	# }
 	option = {
 		name = kuat_shipyard.23.b
 		allow = {
@@ -881,22 +745,22 @@ country_event = {
 		is_ai = no
 		can_communicate_with_kuat = yes
 	}
-	option = {
-		name = kuat_shipyard.24.a
-		allow = {
-			custom_tooltip = {
-				fail_text = kuat_shipyard.check
-				get_variable_alloys_check_allow = yes
-			}
-		}
-		custom_tooltip = kuat_shipyard.24.a.tooltip
-		hidden_effect = { get_variable_alloys_bought = yes }
-		hidden_effect = {
-			change_variable = { which = RSD_class_queue value = 1 }
-			country_event = { id = kuat_shipyard.24 }
-			country_event = { id = kuat_shipyard.241 days = @kuat_RSD_build_time }
-		}
-	}
+	# option = {
+	# 	name = kuat_shipyard.24.a
+	# 	allow = {
+	# 		custom_tooltip = {
+	# 			fail_text = kuat_shipyard.check
+	# 			get_variable_alloys_check_allow = yes
+	# 		}
+	# 	}
+	# 	custom_tooltip = kuat_shipyard.24.a.tooltip
+	# 	hidden_effect = { get_variable_alloys_bought = yes }
+	# 	hidden_effect = {
+	# 		change_variable = { which = RSD_class_queue value = 1 }
+	# 		country_event = { id = kuat_shipyard.24 }
+	# 		country_event = { id = kuat_shipyard.241 days = @kuat_RSD_build_time }
+	# 	}
+	# }
 	option = {
 		name = kuat_shipyard.24.b
 		allow = {
@@ -1308,6 +1172,142 @@ country_event = {
 			if = {
 				limit = { check_variable = { which = eclipse_class_queue value <= 0 } }
 				clear_variable = eclipse_class_queue
+			}
+			if = {
+				limit = { exists = event_target:fallen_empire_kuat }
+				event_target:fallen_empire_kuat = { add_opinion_modifier = { modifier = opinion_kuat_ship_built who = root } }
+			}
+		}
+	}
+}
+
+#建造守门人
+country_event = {
+	id = kuat_shipyard.21
+	title = kuat_shipyard.title
+	desc = {
+		trigger = {
+			check_variable = { which = fallen_empire_escort_queue value > 0 }
+		}
+		text = kuat_shipyard.21.a.desc
+	}
+	desc = {
+		trigger = {
+			OR = {
+				NOT = { is_variable_set = fallen_empire_escort_queue }
+				check_variable = { which = fallen_empire_escort_queue value = 0 }
+			}
+		}
+		text = kuat_shipyard.21.b.desc
+	}
+	picture_event_data = { room = Vengance_room }
+	custom_gui = "kuat_event_diplomacy_shipyard_window"
+	custom_gui_option = "kuat_event_diplomacy_shipyard_option"
+	location = event_target:fallen_empire_kuat.capital_scope
+	is_triggered_only = yes
+	diplomatic = yes
+	trigger = {
+		is_ai = no
+		can_communicate_with_kuat = yes
+	}
+	option = {
+		name = kuat_shipyard.21.a
+		allow = {
+			custom_tooltip = {
+				fail_text = kuat_shipyard.3.a.opinion.tooltip
+				count_owned_ship = { limit = { is_ship_size = Vengeance } count < 1 }
+				check_variable = { which = fallen_empire_escort_check value < 1 }
+				check_variable = { which = fallen_empire_escort_queue value < 1 }
+			}
+			custom_tooltip = {
+				fail_text = kuat_shipyard.check
+				get_variable_alloys_check_allow = yes
+			}
+		}
+		custom_tooltip = kuat_shipyard.21.a.tooltip
+		hidden_effect = { get_variable_alloys_bought = yes }
+		hidden_effect = {
+			change_variable = { which = fallen_empire_escort_queue value = 1 }
+			change_variable = { which = fallen_empire_escort_check value = 1 }
+			country_event = { id = kuat_shipyard.21 }
+			country_event = { id = kuat_shipyard.211 days = @kuat_escort_build_time }
+		}
+	}
+	option = {
+		name = kuat_shipyard.21.b
+		allow = {
+			custom_tooltip = {
+				fail_text = kuat_shipyard.21.b.need_queue.tooltip
+				check_variable = { which = fallen_empire_escort_queue value > 0 }
+			}
+		}
+		custom_tooltip = kuat_shipyard.21.b.tooltip
+		hidden_effect = { get_variable_alloys = yes }
+		hidden_effect = {
+			subtract_variable = { which = fallen_empire_escort_queue value = 1 }
+			subtract_variable = { which = fallen_empire_escort_check value = 1 }
+			country_event = { id = kuat_shipyard.21 }
+		}
+	}
+	option = {
+		name = kuat_shipyard.return
+		hidden_effect = { country_event = { id = kuat_shipyard.1 }	remove_country_flag = building_the_Vengeance }
+	}
+	option = {
+		name = kuat_shipyard.exit
+		hidden_effect = { remove_country_flag = building_the_Vengeance }
+		default_hide_option = yes
+	}
+}
+
+#守门人到达
+country_event = {
+	id = kuat_shipyard.211
+	hide_window = yes
+	is_triggered_only = yes
+	trigger = {
+		can_communicate_with_kuat = yes
+		check_variable = { which = fallen_empire_escort_queue value > 0 }
+	}
+	immediate = {
+		if = {
+			limit = { count_owned_ship = { limit = { is_ship_size = Vengeance } count < 1 } }
+			capital_scope = {
+				create_fleet = {
+					settings = { spawn_debris = no }
+					effect = {
+						set_owner = root
+						create_ship = { design = "Name_boss_Venganza" }
+						set_location = { target = prev distance = 20 angle = random }
+					}
+				}
+			}
+			create_message = {
+				type = "CONSTRUCTION_MESSAGE_TYPE"
+				localization = "kuat_escort_arrived_desc"
+				days = 30
+				target = from
+				variable = {
+					type = name
+					localization = "capital_planet"
+					scope = root.capital_scope
+				}
+			}
+			subtract_variable = { which = fallen_empire_escort_queue value = 1 }
+			if = {
+				limit = { check_variable = { which = fallen_empire_escort_queue value <= 0 } }
+				clear_variable = fallen_empire_escort_queue
+			}
+			if = {
+				limit = { exists = event_target:fallen_empire_kuat }
+				event_target:fallen_empire_kuat = { add_opinion_modifier = { modifier = opinion_kuat_ship_built who = root } }
+			}
+		}
+		else = {
+			subtract_variable = { which = fallen_empire_escort_queue value = 1 }
+			if = {
+				limit = { check_variable = { which = fallen_empire_escort_queue value <= 0 } }
+				clear_variable = fallen_empire_escort_queue
 			}
 			if = {
 				limit = { exists = event_target:fallen_empire_kuat }
