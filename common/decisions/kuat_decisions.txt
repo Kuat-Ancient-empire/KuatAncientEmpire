@@ -58,10 +58,29 @@ Building_The_Kuat_Command_Line_Auto_planet = {
 		cost = { unity = 100 }
 	}
 	potential = {
-		from = { OR = {
-			AND = { is_ai = yes any_playable_country = { OR = { has_technology = tech_kuat_command_center has_global_flag = kuat_get_commandline_tech } } }
-			AND = { is_ai = no OR = { has_technology = tech_kuat_command_center has_global_flag = kuat_get_commandline_tech } }
-		} }
+		from = {  
+			if = {
+				limit = { is_ai = no }
+				OR = { 
+					has_technology = tech_kuat_command_center 
+					has_global_flag = kuat_get_commandline_tech 
+				} 
+			}
+			else_if = {
+				limit = { is_ai = yes }
+				if = {
+					limit = { is_nirvana_empire = no }
+					any_playable_country = { OR = { 
+						has_technology = tech_kuat_command_center 
+						has_global_flag = kuat_get_commandline_tech 
+					} } 
+				}
+				else = { prev = { OR = { 
+					PR_prmt_trgr_HC = { MORE = 250 } 
+					num_unemployed > 25 
+				} } }
+			}
+		}
 		kuat_is_not_allow_to_build_auto_planet = no
 	}
 	allow = {

@@ -2003,28 +2003,27 @@ event = {
 		any_galaxy_planet = { 
 			exists = owner
 			kuat_is_not_allow_to_build_auto_planet = no 
-			owner = { is_ai = yes OR = { 
-				kuat_is_playable_country = yes 
-				AND = {
-					prev = { OR = { PR_prmt_trgr_HC = { MORE = 250 } num_unemployed > 50 } } 
-					kuat_is_playable_country = no
+			owner = { 
+				is_ai = yes 
+				if = {
+					limit = { kuat_is_playable_country = no }
+					prev = { OR = { PR_prmt_trgr_HC = { MORE = 250 } num_unemployed > 25 } } 
 				}
-			} } 
-		}
-		NOT = { has_global_flag = acot_activated } 
+			} 
+		} 
 	}
 	immediate = {
 		every_galaxy_planet = {
 			limit = { 
 				exists = owner
 				kuat_is_not_allow_to_build_auto_planet = no 
-				owner = { is_ai = yes OR = { 
-					kuat_is_playable_country = yes 
-					AND = {
-						prev = { OR = { PR_prmt_trgr_HC = { MORE = 250 } num_unemployed > 50 } } 
-						kuat_is_playable_country = no 
+				owner = { 
+					is_ai = yes 
+					if = {
+						limit = { kuat_is_playable_country = no }
+						prev = { OR = { PR_prmt_trgr_HC = { MORE = 250 } num_unemployed > 25 } } 
 					}
-				} } 
+				} 
 			}
 			kuat_automatic_ai_colony = yes
 		}
