@@ -1422,27 +1422,27 @@ country_event = {
 		hidden_effect = { set_country_flag = fire_once_contact }
 		response_text = exe_return_invasion.38.b.resp 
 	}
-	#你们面对永恒舰队有多久了
 	option = { 
 		name = exe_return_invasion.38.c 
 		is_dialog_only = yes
 		hidden_effect = { set_country_flag = fire_once_contact }
 		response_text = exe_return_invasion.38.c.resp 
 	}
-	#你们究竟要做什么
 	option = { 
 		name = exe_return_invasion.38.d 
 		is_dialog_only = yes
 		hidden_effect = { set_country_flag = fire_once_contact }
 		response_text = exe_return_invasion.38.d.resp 
 	}
-	#我们会记住这一切的
 	option = { 
 		name = exe_return_invasion.38.e
 		response_text = exe_return_invasion.38.e.resp 
 		hidden_effect = { 
 			remove_country_flag = fire_once_contact 
-			set_global_flag = enable_final_extramonster_crisis
+			if = {
+				limit = { kuat_is_enable_shadow_origin = yes }
+				country_event = { id = exe_return_invasion.40 days = 45 random = 45 }
+			}
 		}
 	}
 }
@@ -1484,4 +1484,18 @@ event = {
 		remove_global_flag = exe_invasion_signs_cooldown
 		set_global_flag = exe_return_invasion_7_fired
 	}
+}
+
+country_event = {
+	id = exe_return_invasion.40
+	title = "exe_return_invasion.40.name"
+	desc = "exe_return_invasion.40.desc"
+	diplomatic = yes
+	picture_event_data = { room = astral_rift_dimensional_dump_room }
+	custom_gui = "kuat_event_window"
+	custom_gui_option = "kuat_event_option"
+	show_sound = event_sensor_ping
+	is_triggered_only = yes
+	option = { name = exe_return_invasion.40.a }
+	after = { set_global_flag = enable_final_extramonster_crisis }
 }

@@ -2,16 +2,8 @@
 kuat_shipyard_add_resource = {
 	optimize_memory
 	add_resource = { 
-		alloys = @\[ $first_alloys$ * $basic$ ] 
-		multiplier = $MULT$
-	}
-}
-
-kuat_shipyard_subtract_resource = {
-	optimize_memory
-	add_resource = { 
-		alloys = @\[ $first_alloys$ * $basic$ * -1 ] 
-		multiplier = $MULT$
+		alloys = @\[ $first_alloys$ * $basic$ * $FACTOR|1$ ] 
+		multiplier = $MULT|1$
 	}
 }
 
@@ -19,48 +11,48 @@ get_ship_alloys_bounght = {
 	optimize_memory
 	if = {
 		limit = { has_country_flag = building_the_Vengeance }
-		kuat_shipyard_subtract_resource = { first_alloys = @building_the_Vengeance_cost basic = $basic$ MULT = 1 }
+		kuat_shipyard_add_resource = { first_alloys = @building_the_Vengeance_cost basic = $basic$ FACTOR = -1 }
 	}
 	else_if = {
 		limit = { has_country_flag = building_the_eclipse }
-		kuat_shipyard_subtract_resource = { first_alloys = @building_the_eclipse_cost basic = $basic$ MULT = 1 }
+		kuat_shipyard_add_resource = { first_alloys = @building_the_eclipse_cost basic = $basic$ FACTOR = -1 }
 	}
 	else_if = {
 		limit = { has_country_flag = building_the_donimance }
-		kuat_shipyard_subtract_resource = { first_alloys = @building_the_donimance_cost basic = $basic$ MULT = 1 }
+		kuat_shipyard_add_resource = { first_alloys = @building_the_donimance_cost basic = $basic$ FACTOR = -1 }
 	}
 	else_if = {
 		limit = { has_country_flag = building_the_resugrant }
 		if = {
 			limit = { has_country_flag = kuat_build_fifth_ships }
-			kuat_shipyard_subtract_resource = { 
-				first_alloys = @building_the_resugrant_cost basic = $basic$ 
+			kuat_shipyard_add_resource = { 
+				first_alloys = @building_the_resugrant_cost basic = $basic$ FACTOR = -1
 				MULT = event_target:global_event_country.kuat_shipyard_buillding_queue_selection 
 			}
 		} 
-		else = { kuat_shipyard_subtract_resource = { first_alloys = @building_the_resugrant_cost basic = $basic$ MULT = 1 } }
+		else = { kuat_shipyard_add_resource = { first_alloys = @building_the_resugrant_cost basic = $basic$ FACTOR = -1 } }
 	}
 	else_if = {
 		limit = { has_country_flag = building_the_empire }
 		if = {
 			limit = { has_country_flag = kuat_build_fifth_ships }
-			kuat_shipyard_subtract_resource = { 
-				first_alloys = @building_the_empire_cost basic = $basic$ 
+			kuat_shipyard_add_resource = { 
+				first_alloys = @building_the_empire_cost basic = $basic$ FACTOR = -1
 				MULT = event_target:global_event_country.kuat_shipyard_buillding_queue_selection 
 			}
 		} 
-		else = { kuat_shipyard_subtract_resource = { first_alloys = @building_the_empire_cost basic = $basic$ MULT = 1 } }
+		else = { kuat_shipyard_add_resource = { first_alloys = @building_the_empire_cost basic = $basic$ FACTOR = -1 } }
 	}
 	else_if = {
 		limit = { has_country_flag = building_the_horriwer }
 		if = {
 			limit = { has_country_flag = kuat_build_fifth_ships }
-			kuat_shipyard_subtract_resource = { 
-				first_alloys = @building_the_horriwer_cost basic = $basic$ 
+			kuat_shipyard_add_resource = { 
+				first_alloys = @building_the_horriwer_cost basic = $basic$ FACTOR = -1
 				MULT = event_target:global_event_country.kuat_shipyard_buillding_queue_selection 
 			}
 		} 
-		else = { kuat_shipyard_subtract_resource = { first_alloys = @building_the_horriwer_cost basic = $basic$ MULT = 1 } }
+		else = { kuat_shipyard_add_resource = { first_alloys = @building_the_horriwer_cost basic = $basic$ FACTOR = -1 } }
 	}
 }
 
@@ -68,15 +60,15 @@ get_ship_alloys = {
 	optimize_memory
 	if = {
 		limit = { has_country_flag = building_the_Vengeance }
-		kuat_shipyard_add_resource = { first_alloys = @building_the_Vengeance_cost basic = $basic$ MULT = 1 }
+		kuat_shipyard_add_resource = { first_alloys = @building_the_Vengeance_cost basic = $basic$ }
 	}
 	else_if = {
 		limit = { has_country_flag = building_the_eclipse }
-		kuat_shipyard_add_resource = { first_alloys = @building_the_eclipse_cost basic = $basic$ MULT = 1 }
+		kuat_shipyard_add_resource = { first_alloys = @building_the_eclipse_cost basic = $basic$ }
 	}
 	else_if = {
 		limit = { has_country_flag = building_the_donimance }
-		kuat_shipyard_add_resource = { first_alloys = @building_the_donimance_cost basic = $basic$ MULT = 1 }
+		kuat_shipyard_add_resource = { first_alloys = @building_the_donimance_cost basic = $basic$ }
 	}
 	else_if = {
 		limit = { has_country_flag = building_the_resugrant }
@@ -87,7 +79,7 @@ get_ship_alloys = {
 				MULT = event_target:global_event_country.kuat_shipyard_buillding_queue_selection 
 			}
 		} 
-		else = { kuat_shipyard_add_resource = { first_alloys = @building_the_resugrant_cost basic = $basic$ MULT = 1 } }
+		else = { kuat_shipyard_add_resource = { first_alloys = @building_the_resugrant_cost basic = $basic$ } }
 	}
 	else_if = {
 		limit = { has_country_flag = building_the_empire }
@@ -98,7 +90,7 @@ get_ship_alloys = {
 				MULT = event_target:global_event_country.kuat_shipyard_buillding_queue_selection 
 			}
 		} 
-		else = { kuat_shipyard_add_resource = { first_alloys = @building_the_empire_cost basic = $basic$ MULT = 1 } }
+		else = { kuat_shipyard_add_resource = { first_alloys = @building_the_empire_cost basic = $basic$ } }
 	}
 	else_if = {
 		limit = { has_country_flag = building_the_horriwer }
@@ -109,50 +101,8 @@ get_ship_alloys = {
 				MULT = event_target:global_event_country.kuat_shipyard_buillding_queue_selection 
 			}
 		}
-		else = { kuat_shipyard_add_resource = { first_alloys = @building_the_horriwer_cost basic = $basic$ MULT = 1 } }
+		else = { kuat_shipyard_add_resource = { first_alloys = @building_the_horriwer_cost basic = $basic$ } }
 	}
-}
-
-get_variable_alloys_bought = {
-	optimize_memory
-	if = {
-		limit = { kuat_is_enable_shadow_origin = yes }
-		if = { limit = { event_target:fallen_empire_kuat = { opinion = { who = root value > 999 } } } get_ship_alloys_bounght = { basic = 0.2 } } 
-		else_if = { limit = { event_target:fallen_empire_kuat = { opinion = { who = root value > 899 } } } get_ship_alloys_bounght = { basic = 0.3 } }
-		else_if = { limit = { event_target:fallen_empire_kuat = { opinion = { who = root value > 699 } } } get_ship_alloys_bounght = { basic = 0.4 } }
-		else_if = { limit = { event_target:fallen_empire_kuat = { opinion = { who = root value > 499 } } } get_ship_alloys_bounght = { basic = 0.5 } }
-		else_if = { limit = { event_target:fallen_empire_kuat = { opinion = { who = root value > 299 } } } get_ship_alloys_bounght = { basic = 0.6 } }
-		else_if = { limit = { event_target:fallen_empire_kuat = { opinion = { who = root value > 99 } } } get_ship_alloys_bounght = { basic = 0.7 } }
-		else_if = { limit = { event_target:fallen_empire_kuat = { opinion = { who = root value > 0 } } } get_ship_alloys_bounght = { basic = 1.0 } }
-		else_if = { limit = { event_target:fallen_empire_kuat = { opinion = { who = root value > -99 } } } get_ship_alloys_bounght = { basic = 1.5 } }
-		else_if = { limit = { event_target:fallen_empire_kuat = { opinion = { who = root value > -199 } } } get_ship_alloys_bounght = { basic = 2.0 } }
-		else_if = { limit = { event_target:fallen_empire_kuat = { opinion = { who = root value > -299 } } } get_ship_alloys_bounght = { basic = 2.5 } }
-		else_if = { limit = { event_target:fallen_empire_kuat = { opinion = { who = root value > -399 } } } get_ship_alloys_bounght = { basic = 3.0 } }
-		else_if = { limit = { event_target:fallen_empire_kuat = { opinion = { who = root value > -499 } } } get_ship_alloys_bounght = { basic = 3.5 } }
-		else_if = { limit = { event_target:fallen_empire_kuat = { opinion = { who = root value > -599 } } } get_ship_alloys_bounght = { basic = 4.0 } }
-	}
-	else_if = { limit = { NOT = { kuat_is_enable_shadow_origin = yes } } get_ship_alloys_bounght = { basic = 1 } }
-}
-
-get_variable_alloys = {
-	optimize_memory
-	if = {
-		limit = { kuat_is_enable_shadow_origin = yes }
-		if = { limit = { event_target:fallen_empire_kuat = { opinion = { who = root value > 999 } } } get_ship_alloys = { basic = 0.2 } } 
-		else_if = { limit = { event_target:fallen_empire_kuat = { opinion = { who = root value > 899 } } } get_ship_alloys = { basic = 0.3 } }
-		else_if = { limit = { event_target:fallen_empire_kuat = { opinion = { who = root value > 699 } } } get_ship_alloys = { basic = 0.4 } }
-		else_if = { limit = { event_target:fallen_empire_kuat = { opinion = { who = root value > 499 } } } get_ship_alloys = { basic = 0.5 } }
-		else_if = { limit = { event_target:fallen_empire_kuat = { opinion = { who = root value > 299 } } } get_ship_alloys = { basic = 0.6 } }
-		else_if = { limit = { event_target:fallen_empire_kuat = { opinion = { who = root value > 99 } } } get_ship_alloys = { basic = 0.7 } }
-		else_if = { limit = { event_target:fallen_empire_kuat = { opinion = { who = root value > 0 } } } get_ship_alloys = { basic = 1.0 } }
-		else_if = { limit = { event_target:fallen_empire_kuat = { opinion = { who = root value > -99 } } } get_ship_alloys = { basic = 1.5 } }
-		else_if = { limit = { event_target:fallen_empire_kuat = { opinion = { who = root value > -199 } } } get_ship_alloys = { basic = 2.0 } }
-		else_if = { limit = { event_target:fallen_empire_kuat = { opinion = { who = root value > -299 } } } get_ship_alloys = { basic = 2.5 } }
-		else_if = { limit = { event_target:fallen_empire_kuat = { opinion = { who = root value > -399 } } } get_ship_alloys = { basic = 3.0 } }
-		else_if = { limit = { event_target:fallen_empire_kuat = { opinion = { who = root value > -499 } } } get_ship_alloys = { basic = 3.5 } }
-		else_if = { limit = { event_target:fallen_empire_kuat = { opinion = { who = root value > -599 } } } get_ship_alloys = { basic = 4.0 } }
-	}
-	else_if = { limit = { NOT = { kuat_is_enable_shadow_origin = yes } } get_ship_alloys = { basic = 1 } }
 }
 
 #variable for tips
@@ -172,21 +122,21 @@ get_ship_screen_alloys = {
 		limit = { has_country_flag = building_the_eclipse }
 		get_screen_alloys_need = { 
 			second_alloys = @building_the_eclipse_cost 
-			MULT = event_target:global_event_country.kuat_shipyard_buillding_queue_selection basic = $basic$ 
+			MULT = 1 basic = $basic$ 
 		}
 	}
 	else_if = {
 		limit = { has_country_flag = building_the_Vengeance }
 		get_screen_alloys_need = { 
 			second_alloys = @building_the_Vengeance_cost 
-			MULT = event_target:global_event_country.kuat_shipyard_buillding_queue_selection basic = $basic$ 
+			MULT = 1 basic = $basic$ 
 		}
 	}
 	else_if = {
 		limit = { has_country_flag = building_the_donimance }
 		get_screen_alloys_need = { 
 			second_alloys = @building_the_donimance_cost 
-			MULT = event_target:global_event_country.kuat_shipyard_buillding_queue_selection basic = $basic$ 
+			MULT = 1 basic = $basic$ 
 		}
 	}
 	else_if = {
@@ -212,10 +162,41 @@ get_ship_screen_alloys = {
 	}
 }
 
-get_variable_screen_alloys = {
+get_alloys_variable = {
 	optimize_memory
-	if = {
-		limit = { kuat_is_enable_shadow_origin = yes }
+	[[BUY] if = { limit = { kuat_is_enable_shadow_origin = yes }
+		if = { limit = { event_target:fallen_empire_kuat = { opinion = { who = root value > 999 } } } get_ship_alloys_bounght = { basic = 0.2 } } 
+		else_if = { limit = { event_target:fallen_empire_kuat = { opinion = { who = root value > 899 } } } get_ship_alloys_bounght = { basic = 0.3 } }
+		else_if = { limit = { event_target:fallen_empire_kuat = { opinion = { who = root value > 699 } } } get_ship_alloys_bounght = { basic = 0.4 } }
+		else_if = { limit = { event_target:fallen_empire_kuat = { opinion = { who = root value > 499 } } } get_ship_alloys_bounght = { basic = 0.5 } }
+		else_if = { limit = { event_target:fallen_empire_kuat = { opinion = { who = root value > 299 } } } get_ship_alloys_bounght = { basic = 0.6 } }
+		else_if = { limit = { event_target:fallen_empire_kuat = { opinion = { who = root value > 99 } } } get_ship_alloys_bounght = { basic = 0.7 } }
+		else_if = { limit = { event_target:fallen_empire_kuat = { opinion = { who = root value > 0 } } } get_ship_alloys_bounght = { basic = 1.0 } }
+		else_if = { limit = { event_target:fallen_empire_kuat = { opinion = { who = root value > -99 } } } get_ship_alloys_bounght = { basic = 1.5 } }
+		else_if = { limit = { event_target:fallen_empire_kuat = { opinion = { who = root value > -199 } } } get_ship_alloys_bounght = { basic = 2.0 } }
+		else_if = { limit = { event_target:fallen_empire_kuat = { opinion = { who = root value > -299 } } } get_ship_alloys_bounght = { basic = 2.5 } }
+		else_if = { limit = { event_target:fallen_empire_kuat = { opinion = { who = root value > -399 } } } get_ship_alloys_bounght = { basic = 3.0 } }
+		else_if = { limit = { event_target:fallen_empire_kuat = { opinion = { who = root value > -499 } } } get_ship_alloys_bounght = { basic = 3.5 } }
+		else_if = { limit = { event_target:fallen_empire_kuat = { opinion = { who = root value > -599 } } } get_ship_alloys_bounght = { basic = 4.0 } }
+	} else_if = { limit = { NOT = { kuat_is_enable_shadow_origin = yes } } get_ship_alloys_bounght = { basic = 1 } }]
+
+	[[PAY] if = { limit = { kuat_is_enable_shadow_origin = yes }
+		if = { limit = { event_target:fallen_empire_kuat = { opinion = { who = root value > 999 } } } get_ship_alloys = { basic = 0.2 } } 
+		else_if = { limit = { event_target:fallen_empire_kuat = { opinion = { who = root value > 899 } } } get_ship_alloys = { basic = 0.3 } }
+		else_if = { limit = { event_target:fallen_empire_kuat = { opinion = { who = root value > 699 } } } get_ship_alloys = { basic = 0.4 } }
+		else_if = { limit = { event_target:fallen_empire_kuat = { opinion = { who = root value > 499 } } } get_ship_alloys = { basic = 0.5 } }
+		else_if = { limit = { event_target:fallen_empire_kuat = { opinion = { who = root value > 299 } } } get_ship_alloys = { basic = 0.6 } }
+		else_if = { limit = { event_target:fallen_empire_kuat = { opinion = { who = root value > 99 } } } get_ship_alloys = { basic = 0.7 } }
+		else_if = { limit = { event_target:fallen_empire_kuat = { opinion = { who = root value > 0 } } } get_ship_alloys = { basic = 1.0 } }
+		else_if = { limit = { event_target:fallen_empire_kuat = { opinion = { who = root value > -99 } } } get_ship_alloys = { basic = 1.5 } }
+		else_if = { limit = { event_target:fallen_empire_kuat = { opinion = { who = root value > -199 } } } get_ship_alloys = { basic = 2.0 } }
+		else_if = { limit = { event_target:fallen_empire_kuat = { opinion = { who = root value > -299 } } } get_ship_alloys = { basic = 2.5 } }
+		else_if = { limit = { event_target:fallen_empire_kuat = { opinion = { who = root value > -399 } } } get_ship_alloys = { basic = 3.0 } }
+		else_if = { limit = { event_target:fallen_empire_kuat = { opinion = { who = root value > -499 } } } get_ship_alloys = { basic = 3.5 } }
+		else_if = { limit = { event_target:fallen_empire_kuat = { opinion = { who = root value > -599 } } } get_ship_alloys = { basic = 4.0 } }
+	} else_if = { limit = { NOT = { kuat_is_enable_shadow_origin = yes } } get_ship_alloys = { basic = 1 } }]
+
+	[[SCREEN] if = { limit = { kuat_is_enable_shadow_origin = yes }
 		if = { limit = { event_target:fallen_empire_kuat = { opinion = { who = root value > 999 } } } get_ship_screen_alloys = { basic = 0.2 } } 
 		else_if = { limit = { event_target:fallen_empire_kuat = { opinion = { who = root value > 899 } } } get_ship_screen_alloys = { basic = 0.3 } }
 		else_if = { limit = { event_target:fallen_empire_kuat = { opinion = { who = root value > 699 } } } get_ship_screen_alloys = { basic = 0.4 } }
@@ -229,8 +210,7 @@ get_variable_screen_alloys = {
 		else_if = { limit = { event_target:fallen_empire_kuat = { opinion = { who = root value > -399 } } } get_ship_screen_alloys = { basic = 3.0 } }
 		else_if = { limit = { event_target:fallen_empire_kuat = { opinion = { who = root value > -499 } } } get_ship_screen_alloys = { basic = 3.5 } }
 		else_if = { limit = { event_target:fallen_empire_kuat = { opinion = { who = root value > -599 } } } get_ship_screen_alloys = { basic = 4.0 } }
-	}
-	else_if = { limit = { NOT = { kuat_is_enable_shadow_origin = yes } } get_ship_screen_alloys = { basic = 1 } }
+	} else_if = { limit = { NOT = { kuat_is_enable_shadow_origin = yes } } get_ship_screen_alloys = { basic = 1 } }]
 }
 
 initial_kuat_shipyard = { 
