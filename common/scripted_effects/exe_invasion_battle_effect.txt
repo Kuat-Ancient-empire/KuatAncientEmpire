@@ -51,11 +51,18 @@ eternal_increase_executor_power = {
 increase_ship_hp_effect_change = {
 	optimize_memory
 	every_owned_ship = {
-		set_timed_ship_flag = { flag = kuat_executor_checkpoint days = $DAYS$ }
-		eternal_increase_executor_power = { DAYS = $DAYS$ TYPE = $TYPE$ }
-		ship_event = { id = exe_invasion.119 }
+		if = {
+			limit = { kuat_is_kuat_ship = yes }
+			set_timed_ship_flag = { flag = kuat_executor_checkpoint days = $DAYS$ }
+			eternal_increase_executor_power = { DAYS = $DAYS$ TYPE = $TYPE$ }
+			ship_event = { id = exe_invasion.119 }
+		}
+		if = {
+			limit = { kuat_is_kuat_ship = no }
+			set_fleet_modifier = { SUB = Eternal_submit DAYS = $DAYS$ }
+			clear_ship_repeatable_modifier = { multiply = -1 DAYS = $DAYS$ }
+		}
 	}
-	#set_fleet_modifier = { SUB = Eternal_submit DAYS = $DAYS$ }
 }
 
 clear_ship_modifier = {

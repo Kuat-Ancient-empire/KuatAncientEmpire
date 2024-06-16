@@ -1288,7 +1288,35 @@ country_event = {
 	hide_window = no
 	is_triggered_only = yes
 	title = executor_build.808.title
-	desc = exe_invasion.1004.desc
+	desc = {
+		trigger = {
+			success_text = {
+				NOR = {
+					has_country_flag = exe_invasion.1004.A.1
+					has_country_flag = exe_invasion.1004.A.2
+					has_country_flag = exe_invasion.1004.A.3
+					has_country_flag = exe_invasion.1004.A.4
+				}
+				text = exe_invasion.1004.desc
+			}
+			success_text = {
+				has_country_flag = exe_invasion.1004.A.1
+				text = exe_invasion.1004.1.desc
+			}
+			success_text = {
+				has_country_flag = exe_invasion.1004.A.2
+				text = exe_invasion.1004.2.desc
+			}
+			success_text = {
+				has_country_flag = exe_invasion.1004.A.3
+				text = exe_invasion.1004.3.desc
+			}
+			success_text = {
+				has_country_flag = exe_invasion.1004.A.4
+				text = exe_invasion.1004.4.desc
+			}
+		}
+	}
 	diplomatic = yes
 	picture_event_data = { 
 		room = fallen_empire_room 
@@ -1297,12 +1325,59 @@ country_event = {
 	custom_gui = "kuat_event_diplomacy_window"
 	custom_gui_option = "kuat_event_diplomacy_option"
 	trigger = { NOT = { has_country_flag = fire_once_setting } }
-	immediate = { every_playable_country = {
+	immediate = { every_playable_country = { if = {
+		limit = { NOT = { has_event_chain = kuat_mission_6_chain } }
 		begin_event_chain = { event_chain = kuat_mission_6_chain target = this }
-	} }
+	} } }
 	option = {
 		name = exe_invasion.1004.A
-		hidden_effect = { country_event = { id = exe_invasion.1004 } }
+		hidden_effect = { 
+			remove_country_flag = exe_invasion.1004.A.1
+			remove_country_flag = exe_invasion.1004.A.2
+			remove_country_flag = exe_invasion.1004.A.3
+			remove_country_flag = exe_invasion.1004.A.4			
+			country_event = { id = exe_invasion.1004 } 
+		}
+	}
+	option = {
+		name = exe_invasion.1004.A.1
+		hidden_effect = { 
+			remove_country_flag = exe_invasion.1004.A.2
+			remove_country_flag = exe_invasion.1004.A.3
+			remove_country_flag = exe_invasion.1004.A.4
+			set_country_flag = exe_invasion.1004.A.1
+			country_event = { id = exe_invasion.1004 } 
+		}
+	}
+	option = {
+		name = exe_invasion.1004.A.2
+		hidden_effect = { 
+			remove_country_flag = exe_invasion.1004.A.1
+			remove_country_flag = exe_invasion.1004.A.3
+			remove_country_flag = exe_invasion.1004.A.4
+			set_country_flag = exe_invasion.1004.A.2
+			country_event = { id = exe_invasion.1004 } 
+		}
+	}
+	option = {
+		name = exe_invasion.1004.A.3
+		hidden_effect = { 
+			remove_country_flag = exe_invasion.1004.A.1
+			remove_country_flag = exe_invasion.1004.A.2
+			remove_country_flag = exe_invasion.1004.A.4
+			set_country_flag = exe_invasion.1004.A.3
+			country_event = { id = exe_invasion.1004 } 
+		}
+	}
+	option = {
+		name = exe_invasion.1004.A.4
+		hidden_effect = { 
+			remove_country_flag = exe_invasion.1004.A.1
+			remove_country_flag = exe_invasion.1004.A.2
+			remove_country_flag = exe_invasion.1004.A.3
+			set_country_flag = exe_invasion.1004.A.4
+			country_event = { id = exe_invasion.1004 } 
+		}
 	}
 	option = {
 		name = exe_invasion.1004.B
@@ -1873,7 +1948,13 @@ country_event = {
 			fleet = { remove_fleet_flag = has_kuat_flagship_system } 
 		}
 		else_if = {
-			limit = { kuat_is_sub_flagship_system_protection = yes }
+			limit = { 
+				kuat_is_sub_flagship_system_protection = yes 
+				fleet = { count_owned_ship = {
+					count = 0
+					limit = { NOT = { is_same_value = prevprev } kuat_is_sub_flagship_system_protection = yes }
+				} }
+			}
 			fleet = { remove_fleet_flag = has_kuat_subflagship_system }
 		}
 	} }
