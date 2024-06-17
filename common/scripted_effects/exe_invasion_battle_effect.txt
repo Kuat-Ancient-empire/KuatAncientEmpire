@@ -58,8 +58,8 @@ increase_ship_hp_effect_change = {
 			ship_event = { id = exe_invasion.119 }
 		}
 		if = {
-			limit = { kuat_is_kuat_ship = no }
-			set_fleet_modifier = { SUB = Eternal_submit DAYS = $DAYS$ }
+			limit = { kuat_is_kuat_ship = no NOT = { has_modifier = Eternal_submit } }
+			add_modifier = { modifier = Eternal_submit days = $DAYS$ }
 			clear_ship_repeatable_modifier = { multiply = -1 DAYS = $DAYS$ }
 		}
 	}
@@ -1413,12 +1413,6 @@ remove_repeatable_ship_modifier_change_basic_vairable = {
 	optimize_memory
 	clear_variable = debug_change_weapon_type_$TYPE$_weapon_fire_rate_mult_value
 	clear_variable = debug_change_weapon_type_$TYPE$_weapon_damage_mul_value
-}
-
-set_fleet_modifier = {
-	optimize_memory
-	add_modifier = { modifier = $SUB$ days = $DAYS|-1$ }
-	change_variable = { which = $SUB$_var value = 1 }
 }
 
 kuat_reduce_hp_percent = {
