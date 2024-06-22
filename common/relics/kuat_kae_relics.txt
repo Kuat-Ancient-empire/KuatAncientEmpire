@@ -33,14 +33,18 @@ ag_kae_ge_invasion_relic = {
 				days = 3600
 			} 
 			if = {
-				limit = { NOT = { has_global_flag = fire_kuat_rift_rakata_infinite } }
+				limit = { 
+					host_has_dlc = "Astral Planes"
+					NOT = { has_global_flag = fire_kuat_rift_rakata_infinite } 
+				}
 				capital_scope = {
 					solar_system = {
 						spawn_astral_rift = {
 							relative_to = prev
-							orbit_distance = 60
-							orbit_angle = 340
+							orbit_distance = 0
+							orbit_angle = 0
 							tolerance = 360
+							graphics_entity_name = kuat_psi_storm_1_entity
 							id = infinite_rakata
 							spawn_sound = no
 						}
@@ -48,6 +52,14 @@ ag_kae_ge_invasion_relic = {
 					}
 				}
 				set_global_flag = fire_kuat_rift_rakata_infinite
+			}
+			else_if = {
+				limit = { NOT = { host_has_dlc = "Astral Planes" } }
+				random_owned_leader = {
+					limit = { leader_class = scientist }
+					save_global_event_target_as = kuat_astral_rift_event_leader_rakata
+				}
+				country_event = { id = ag_kae_ge_invasion.245 }
 			}
 		}
 	}

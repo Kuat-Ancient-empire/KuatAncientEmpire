@@ -1,4 +1,5 @@
 @rakata_guradian_fleet_count = 1
+@rakata_heavy_guradian_fleet_count = 3
 #scope: swgs crisis
 create_Kuat_Rakata_crisis_fleet_and_admiral = {
     optimize_memory
@@ -61,6 +62,28 @@ spawn_rakata_fleets_insane_2 = {
     }
     while = { 
         count = @rakata_guradian_fleet_count
+        create_Kuat_Rakata_crisis_greater_fleet = yes
+        last_created_fleet = {
+            set_name = "Name_DFLEET_I"
+            set_timed_fleet_flag = { flag = Kuat_Rakata_defence_fleet days = 720 }
+            fleet_event = { id = kuat_final_crisis_events.401 days = 721 }
+        }
+    }
+}
+
+spawn_rakata_fleets_insane_total = {
+    optimize_memory
+    while = { 
+        count = @rakata_heavy_guradian_fleet_count
+        create_Kuat_Rakata_crisis_greater_fleet = yes
+        last_created_fleet = {
+            set_name = "Name_DFLEET_I"
+            set_timed_fleet_flag = { flag = Kuat_Rakata_defence_fleet days = 720 }
+            fleet_event = { id = kuat_final_crisis_events.401 days = 721 }
+        }
+    }
+    while = { 
+        count = @rakata_heavy_guradian_fleet_count
         create_Kuat_Rakata_crisis_greater_fleet = yes
         last_created_fleet = {
             set_name = "Name_DFLEET_I"
@@ -134,5 +157,27 @@ initialize_Kuat_Rakata_third_warp_portal_system_select = {
 			}
 		}
 		set_timed_star_flag = { flag = forbit_spawn_system days = 1 }
+	}
+}
+
+initialize_Kuat_Rakata_total_warp_portal_system_select = {
+    optimize_memory
+	every_system = {
+		limit = {
+			NOT = { has_star_flag = forbit_spawn_system }
+			closest_system = {
+				max_steps = 10
+                OR = {
+					has_star_flag = Kuat_Rakata_first_warp_portal_system
+					has_star_flag = Kuat_Rakata_second_warp_portal_system
+                    has_star_flag = Kuat_Rakata_third_warp_portal_system
+				}
+			}
+		}
+		set_timed_star_flag = { flag = forbit_spawn_system days = 1 }
+	}
+	random_system = {
+		limit = { NOT = { has_star_flag = forbit_spawn_system } }
+		spawn_system = { initializer = kuat_rakata_hole_system_1 }
 	}
 }
