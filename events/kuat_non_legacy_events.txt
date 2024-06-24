@@ -270,6 +270,38 @@ fleet_event = {
 		large_artifact_reward = yes
 		custom_tooltip = Kuat_non_legacy.11.tooltip
 		hidden_effect = {
+			set_global_flag = kuat_non_legacy_trigger_eternal_return
+			if = {
+				limit = {
+					OR = {
+						has_global_flag = ban_exe_invasion
+						has_global_flag = normal_exe_invasion
+						has_global_flag = difficult_exe_invasion
+						has_global_flag = fire_diificult_option
+					}
+				}
+				remove_global_flag = ban_exe_invasion
+				remove_global_flag = normal_exe_invasion
+				remove_global_flag = difficult_exe_invasion
+				remove_global_flag = fire_diificult_option
+			}
+			set_global_flag = easy_exe_invasion
+			remove_global_flag = disable_modifer_check
+			set_global_flag = enable_modifer_check
+			remove_global_flag = kuat_impulse_mod_settings
+			remove_global_flag = kuat_impulse_mod_settings_disable
+			set_global_flag = kuat_impulse_mod_settings_disable
+			event_target:global_event_country = { 
+				set_variable = { which = exe_invasion_difficult_global_var value = 1 } 
+				if = {
+					limit = { has_global_flag = enable_modifer_check }
+					multiply_variable = { which = exe_invasion_difficult_global_var value = 1 }
+				}
+				if = {
+					limit = { has_global_flag = kuat_impulse_mod_settings }
+					multiply_variable = { which = exe_invasion_difficult_global_var value = 1 }
+				}
+			}
 			from.planet = { 
 				add_modifier = { modifier = paradise_planet }
 				add_deposit = d_underwater_vent

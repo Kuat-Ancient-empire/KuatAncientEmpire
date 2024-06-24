@@ -5,8 +5,15 @@ event = {
 	hide_window = yes
 	is_triggered_only = yes
 	trigger = {
-		has_global_flag = enbale_last_invasion
-		NOT = { has_global_flag = exe_return_invasion_seed }
+		if = {
+			limit = { has_global_flag = kuat_non_legacy_trigger_eternal_return }
+			end_game_years_passed > 25
+			NOT = { has_global_flag = exe_return_invasion_seed }
+		}
+		else = {
+			has_global_flag = enbale_last_invasion
+			NOT = { has_global_flag = exe_return_invasion_seed }
+		}
 	}
 	immediate = {
 		event_target:global_event_country = { set_variable = { which = count_destroy_eternal_fleet value = 0 } }
@@ -1301,6 +1308,10 @@ country_event = {
 		trigger = { has_origin = origin_eternalthrone }
 		text = "kuat_facility_return_invasion.36.desc"
 	}
+	desc = {
+		trigger = { has_origin = origin_eternalthrone }
+		text = "Kuat_non_legacy.36.crisis.desc"
+	}
 	diplomatic = yes
 	picture_event_data = { room = Eternal_Empire_room }
 	custom_gui = "kuat_event_window"
@@ -1349,6 +1360,10 @@ country_event = {
 				}
 			}
 			set_country_flag = kuat_can_buid_kuat_building_T2
+			if = {
+				limit = { has_global_flag = kuat_non_legacy_trigger_eternal_return }
+				kuat_origin_give_all_ship_and_tech = yes
+			}
 		}
 		end_event_chain = ag_exe_invasion_chain
 	}
@@ -1439,10 +1454,7 @@ country_event = {
 		response_text = exe_return_invasion.38.e.resp 
 		hidden_effect = { 
 			remove_country_flag = fire_once_contact 
-			if = {
-				limit = { kuat_is_enable_shadow_origin = yes }
-				country_event = { id = exe_return_invasion.40 days = 45 random = 45 }
-			}
+			country_event = { id = exe_return_invasion.40 days = 45 random = 45 }
 		}
 	}
 }
