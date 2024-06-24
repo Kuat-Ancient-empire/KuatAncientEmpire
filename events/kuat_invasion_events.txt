@@ -1804,6 +1804,18 @@ country_event = {
 		# 		fleet_event = { id = exe_invasion.138 days = 2 scopes = { from = root.fromfrom } }
 		# 	}
 		# }
+		if = {
+			limit = { 
+				is_invisable_faction = yes
+				has_global_flag = kuat_non_legacy_trigger_eternal_return 
+			}
+			fromfromfrom = { every_owned_ship = {
+				limit = { NOT = { has_ship_flag = kuat_runing_kuat_non_legacy_trigger_eternal_return } }
+				set_ship_flag = kuat_runing_kuat_non_legacy_trigger_eternal_return
+				clear_ship_repeatable_modifier = { multiply = -2 DAYS = -1 }
+				ship_event = { id = exe_invasion.2501 }
+			}  }
+		}
 		fromfrom = { 
 			if = {
 				limit = { 
@@ -2232,19 +2244,36 @@ ship_event = {
 	id = exe_invasion.2501
 	hide_window = yes
 	is_triggered_only = yes
-	trigger = { has_ship_flag = kuat_runing_leader_trait_commander_SOP_eddy_1 }
+	trigger = { OR = {
+		has_ship_flag = kuat_runing_leader_trait_commander_SOP_eddy_1
+		has_ship_flag = kuat_runing_kuat_non_legacy_trigger_eternal_return
+	} }
 	immediate = {
 		if = {
-			limit = { fleet = {
-				exists = leader
-				leader = { has_leader_flag = SOP_eddy }
-				is_in_combat = yes
-			} }
-			ship_event = { id = exe_invasion.2501 days = 1 }
+			limit = { has_ship_flag = kuat_runing_leader_trait_commander_SOP_eddy_1 }
+			if = {
+				limit = { fleet = {
+					exists = leader
+					leader = { has_leader_flag = SOP_eddy }
+					is_in_combat = yes
+				} }
+				ship_event = { id = exe_invasion.2501 days = 1 }
+			}
+			else = {
+				remove_executor_power = yes
+				remove_ship_flag = kuat_runing_leader_trait_commander_SOP_eddy_1
+			}
 		}
-		else = {
-			remove_executor_power = yes
-			remove_ship_flag = kuat_runing_leader_trait_commander_SOP_eddy_1
+		else_if = {
+			limit = { has_ship_flag = kuat_runing_kuat_non_legacy_trigger_eternal_return }
+			if = {
+				limit = { is_in_combat = yes }
+				ship_event = { id = exe_invasion.2501 days = 1 }
+			}
+			else = {
+				remove_executor_power = yes
+				remove_ship_flag = kuat_runing_kuat_non_legacy_trigger_eternal_return
+			}
 		}
 	}
 }
