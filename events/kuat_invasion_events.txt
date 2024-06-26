@@ -1957,6 +1957,190 @@ country_event = {
 # 	immediate = { remove_fleet_flag = ag_ancient_2100_mutex_@from } 
 # }
 
+# on_fleet_combat_joined_attacker
+# FROM = Eternal fleet
+# FROM.OWNER = ETERNAL EMPIRE
+# THIS = PLAYER FLEET
+# THIS.OWNER = PLAYER COUNTRY
+# FROMFROM = PLAYER Additional FLEET
+# FROMFROMFROM = Eternal Additional FLEET
+fleet_event = {
+	id = exe_invasion.147
+	hide_window = yes
+	is_triggered_only = yes
+	trigger = {
+		OR = {
+			AND = {
+				exists = from.owner
+				from.owner = { is_invisable_faction = yes }
+			}
+			from = { has_fleet_flag = eternal_kuat_player_fleet }
+		}
+	}
+	immediate = {
+		FROM.owner = {
+			if = {
+				limit = { 
+					is_invisable_faction = yes
+					root.owner = { is_invisable_faction = no } 
+				}
+				if = { 
+					limit = { has_global_flag = kuat_impulse_mod_settings } 
+					root.from = { set_fleet_flag = has_kuat_flagship_system_addon_repeatable } 
+				}
+				root.FromFrom = { every_owned_ship = { 
+					if = { limit = { check_modifier_value = { modifier = ship_hull_mult value > 0.1 } } 
+					clear_ship_modifier = { modifier = ship_hull_mult subtract = 0.1 DAYS = -1 } } 
+					if = { limit = { check_modifier_value = { modifier = shipclass_military_hull_mult value > 0.1 } } 
+					clear_ship_modifier = { modifier = shipclass_military_hull_mult subtract = 0.1 DAYS = -1 } } 
+				} }
+			}
+			if = {
+				limit = { 
+					is_invisable_faction = yes
+					has_global_flag = kuat_non_legacy_trigger_eternal_return 
+				}
+				root.FromFrom = { every_owned_ship = {
+					limit = { NOT = { has_ship_flag = kuat_runing_kuat_non_legacy_trigger_eternal_return } }
+					set_ship_flag = kuat_runing_kuat_non_legacy_trigger_eternal_return
+					clear_ship_repeatable_modifier = { multiply = -2 DAYS = -1 }
+					ship_event = { id = exe_invasion.2501 }
+				}  }
+			}
+		}
+		FROM = {
+			if = {
+				limit = { owner = { is_invisable_faction = yes } }
+				every_owned_ship = {  
+					limit = { NOR = { 
+						has_ship_flag = is_modifiering
+						has_ship_flag = random_list_eternal_fleet_rate_placeholder 
+					} }
+					set_ship_flag = is_modifiering 
+					switch = {
+						trigger = has_global_flag
+						ban_exe_invasion = { ship_event = { id = exe_invasion.140 } }
+						difficult_exe_invasion = { ship_event = { id = exe_invasion.137 } }
+						normal_exe_invasion = { ship_event = { id = exe_invasion.143 } }
+						easy_exe_invasion = { ship_event = { id = exe_invasion.144 } }
+						default = { ship_event = { id = exe_invasion.144 } }
+					}
+					set_timed_ship_flag = { flag = random_list_eternal_fleet_rate_placeholder days = 1 }
+				}
+				if = {
+					limit = { NOT = { has_fleet_flag = has_kuat_flagship_system } }
+					set_fleet_flag = has_kuat_flagship_system
+				}
+				if = {
+					limit = { NOT = { has_fleet_flag = has_kuat_subflagship_system } }
+					set_fleet_flag = has_kuat_subflagship_system
+				}
+			}
+		}
+		if = {
+			limit = { 
+				owner = { is_invisable_faction = no }
+				from.owner = { is_invisable_faction = yes } 
+				has_global_flag = enable_modifer_check 
+			}
+			FromFrom = {
+				if = {
+					limit = { 
+						NOT = { has_fleet_flag = has_kuat_flagship_system }
+						OR = {
+							has_enable_flag_ship_system_true = yes
+							kuat_exist_fleet_leader = { TRAIT = leader_trait_commander_SOP_eddy_3 }
+						}
+					}
+					set_fleet_flag = has_kuat_flagship_system
+				}
+				if = {
+					limit = { 
+						NOT = { has_fleet_flag = has_kuat_subflagship_system }
+						OR = {
+							has_enable_flag_ship_system_true = yes
+							kuat_exist_fleet_leader = { TRAIT = leader_trait_commander_SOP_eddy_3 }
+						}
+						has_enable_sub_flag_ship_system_true = yes
+					}
+					set_fleet_flag = has_kuat_subflagship_system
+				}
+				if = {
+					limit = { root.from.owner = { is_eternal_faction = yes } }
+					every_owned_ship = { 
+						limit = { NOR = { 
+							has_ship_flag = is_modifiering
+							has_ship_flag = random_list_eternal_fleet_rate_placeholder 
+						} }
+						set_ship_flag = is_modifiering  
+						if = {
+							limit = { NOT = { has_global_flag = kuat_non_legacy_trigger_eternal_return } }
+							switch = {
+								trigger = has_global_flag
+								ban_exe_invasion = { ship_event = { id = exe_invasion.136 } }
+								difficult_exe_invasion = { ship_event = { id = exe_invasion.131 } }
+								normal_exe_invasion = { ship_event = { id = exe_invasion.129 } }
+								easy_exe_invasion = { ship_event = { id = exe_invasion.142 } }
+								default = { ship_event = { id = exe_invasion.142 } }
+							}
+						}
+						else = { ship_event = { id = exe_invasion.142 } }
+						set_timed_ship_flag = { flag = random_list_eternal_fleet_rate_placeholder days = 1 }
+					}
+				}
+				else_if = {
+					limit = { root.from.owner = { is_kuat_contractor_faction = yes } }
+					every_owned_ship = { 
+						limit = { NOR = { 
+							has_ship_flag = is_modifiering
+							has_ship_flag = random_list_eternal_fleet_rate_placeholder 
+						} }
+						set_ship_flag = is_modifiering  
+						if = {
+							limit = { NOT = { has_global_flag = kuat_non_legacy_trigger_eternal_return } }
+							switch = {
+								trigger = has_global_flag
+								ban_exe_invasion = { ship_event = { id = exe_invasion.131 } }
+								difficult_exe_invasion = { ship_event = { id = exe_invasion.129 } }
+								normal_exe_invasion = { ship_event = { id = exe_invasion.142 } }
+								easy_exe_invasion = { ship_event = { id = exe_invasion.142 } }
+								default = { ship_event = { id = exe_invasion.142 } }
+							}
+						}
+						else = { ship_event = { id = exe_invasion.142 } }
+						set_timed_ship_flag = { flag = random_list_eternal_fleet_rate_placeholder days = 1 }
+					}
+				}
+				else_if = {
+					limit = { root.from.owner = { is_infinite_faction = yes } }
+					every_owned_ship = { 
+						limit = { NOR = { 
+							has_ship_flag = is_modifiering
+							has_ship_flag = random_list_eternal_fleet_rate_placeholder 
+						} }
+						set_ship_flag = is_modifiering ship_event = { id = exe_invasion.136 } 
+						set_timed_ship_flag = { flag = random_list_eternal_fleet_rate_placeholder days = 1 }
+					}
+				}
+				else = { every_owned_ship = { 
+					limit = { NOR = { 
+						has_ship_flag = is_modifiering
+						has_ship_flag = random_list_eternal_fleet_rate_placeholder 
+					} }
+					set_ship_flag = is_modifiering 
+					switch = {
+						trigger = has_global_flag
+						kuat_impulse_mod_settings = { ship_event = { id = exe_invasion.136 } }
+						easy_exe_invasion = { ship_event = { id = exe_invasion.142 } }
+						default = { ship_event = { id = exe_invasion.129 } }
+					}
+					set_timed_ship_flag = { flag = random_list_eternal_fleet_rate_placeholder days = 1 }
+				} }
+			}
+		}
+	}
+}
+
 country_event = {
 	id = exe_invasion.146
 	hide_window = yes
