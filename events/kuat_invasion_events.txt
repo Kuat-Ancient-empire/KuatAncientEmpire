@@ -1827,30 +1827,30 @@ country_event = {
 				ship_event = { id = exe_invasion.2501 }
 			}  }
 		}
-		fromfrom = { 
-			if = {
-				limit = { 
-					is_ship_class = shipclass_military
-					OR = {  
-						owner = { OR = { 
-							is_eternal_faction = yes 
-							is_infinite_faction = yes 
-							is_kuat_contractor_faction = yes 
-						} } 
-						has_fleet_flag = eternal_kuat_player_fleet
+		if = {
+			limit = { is_invisable_faction = yes }
+			fromfrom = {
+				if = {
+					limit = { 
+						is_ship_class = shipclass_military
+						OR = {  
+							ROOT = { OR = { 
+								is_eternal_faction = yes 
+								is_infinite_faction = yes 
+								is_kuat_contractor_faction = yes 
+							} } 
+							has_fleet_flag = eternal_kuat_player_fleet
+						}
+						NOT = { has_fleet_flag = random_list_eternal_fleet_rate_placeholder } 
 					}
-					NOT = { has_fleet_flag = random_list_eternal_fleet_rate_placeholder } 
+					every_owned_ship = { 
+						limit = { NOT = { is_variable_set = combat_days } is_ship_class = shipclass_military } 
+						change_variable = { which = combat_days value = 1 } 
+					}
+					change_variable = { which = weapon_fired_combat_days value = 1 }
+					fleet_event = { id = exe_invasion.145 days = 1 }
+					set_timed_fleet_flag = { flag = random_list_eternal_fleet_rate_placeholder days = 1 }
 				}
-				every_owned_ship = { 
-					limit = { NOT = { is_variable_set = combat_days } is_ship_class = shipclass_military } 
-					change_variable = { which = combat_days value = 1 } 
-				}
-				change_variable = { which = weapon_fired_combat_days value = 1 }
-				fleet_event = { id = exe_invasion.145 days = 1 }
-				set_timed_fleet_flag = { flag = random_list_eternal_fleet_rate_placeholder days = 1 }
-			}
-			if = {
-				limit = { owner = { is_invisable_faction = yes } }
 				if = {  
 					limit = { NOT = { has_fleet_flag = random_list_eternal_fleet_rate_placeholder } }
 					set_fleet_flag = is_modifiering_fleet
@@ -1897,10 +1897,8 @@ country_event = {
 					}
 					set_fleet_flag = has_kuat_subflagship_system
 				}
-			}
-			if = {
-				limit = { ROOT = { is_eternal_faction = yes } }
-				fromfromfrom = {  
+				if = {
+					limit = { ROOT = { is_eternal_faction = yes } }
 					if = { 
 						limit = { NOT = { has_fleet_flag = random_list_eternal_fleet_rate_placeholder }  }
 						set_fleet_flag = is_modifiering_fleet  
@@ -1920,10 +1918,8 @@ country_event = {
 					}
 					set_fleet_flag = kuat_dynamic_system_fleet_checksum
 				}
-			}
-			else_if = {
-				limit = { ROOT = { is_kuat_contractor_faction = yes } }
-				fromfromfrom = {  
+				else_if = {
+					limit = { ROOT = { is_kuat_contractor_faction = yes } }
 					if = { 
 						limit = { NOT = { has_fleet_flag = random_list_eternal_fleet_rate_placeholder }  }
 						set_fleet_flag = is_modifiering_fleet  
@@ -1943,10 +1939,8 @@ country_event = {
 					}
 					set_fleet_flag = kuat_dynamic_system_fleet_checksum
 				}
-			}
-			else_if = {  
-				limit = { ROOT = { is_infinite_faction = yes } }
-				fromfromfrom = {  
+				else_if = {  
+					limit = { ROOT = { is_infinite_faction = yes } }
 					if = { 
 						limit = { NOT = { has_fleet_flag = random_list_eternal_fleet_rate_placeholder }  }
 						set_fleet_flag = is_modifiering_fleet fleet_event = { id = exe_invasion.136 } 
@@ -1954,21 +1948,22 @@ country_event = {
 					}
 					set_fleet_flag = kuat_dynamic_system_fleet_checksum
 				}
-			}
-			else = { fromfromfrom = { 
-				if = { 
-					limit = { NOT = { has_fleet_flag = random_list_eternal_fleet_rate_placeholder }  }
-					set_fleet_flag = is_modifiering_fleet 
-					switch = {
-						trigger = has_global_flag
-						kuat_impulse_mod_settings = { fleet_event = { id = exe_invasion.136 } }
-						easy_exe_invasion = { fleet_event = { id = exe_invasion.142 } }
-						default = { fleet_event = { id = exe_invasion.129 } }
+				else_if = {  
+					limit = { ROOT = { is_kuat_fallen_empire = yes } }
+					if = { 
+						limit = { NOT = { has_fleet_flag = random_list_eternal_fleet_rate_placeholder }  }
+						set_fleet_flag = is_modifiering_fleet 
+						switch = {
+							trigger = has_global_flag
+							kuat_impulse_mod_settings = { fleet_event = { id = exe_invasion.136 } }
+							easy_exe_invasion = { fleet_event = { id = exe_invasion.142 } }
+							default = { fleet_event = { id = exe_invasion.129 } }
+						}
+						set_timed_fleet_flag = { flag = random_list_eternal_fleet_rate_placeholder days = 1 }
 					}
-					set_timed_fleet_flag = { flag = random_list_eternal_fleet_rate_placeholder days = 1 }
+					set_fleet_flag = kuat_dynamic_system_fleet_checksum
 				}
-				set_fleet_flag = kuat_dynamic_system_fleet_checksum
-			} }
+			}
 		}
 	}
 }
