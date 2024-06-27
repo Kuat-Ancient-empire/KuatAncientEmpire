@@ -55,13 +55,14 @@ increase_ship_hp_effect_change = {
 			limit = { kuat_is_kuat_ship = yes }
 			set_timed_ship_flag = { flag = kuat_executor_checkpoint days = $DAYS$ }
 			eternal_increase_executor_power = { DAYS = $DAYS$ TYPE = $TYPE$ }
-			ship_event = { id = exe_invasion.119 }
 		}
 		if = {
 			limit = { kuat_is_kuat_ship = no NOT = { has_modifier = Eternal_submit } }
+			set_timed_ship_flag = { flag = kuat_submit_checkpoint days = $DAYS$ }
 			add_modifier = { modifier = Eternal_submit days = $DAYS$ }
 			clear_ship_repeatable_modifier = { multiply = -1 DAYS = $DAYS$ }
 		}
+		ship_event = { id = exe_invasion.119 }
 	}
 }
 
@@ -176,6 +177,14 @@ remove_executor_power = {
 	optimize_memory
 	remove_modifier = Eternal_submit
 	remove_ship_flag = kuat_has_eternal_increase_executor_power_temple
+	fleet = { remove_fleet_flag = kuat_dynamic_system_fleet_checksum }
+	if = {
+		limit = { exists = solar_system }
+		solar_system = { 
+			remove_star_flag = kuat_dynamic_system_fleet_checksum 
+			clear_variable = kuat_dynamic_system_fleet_checksum_var
+		}
+	}
 	remove_increase_hp_modifier = { TYPE = kt }
 	remove_increase_hp_modifier = { TYPE = ee }
 	remove_standard_modifier_system = { TITLE = iep_basic }
@@ -260,6 +269,105 @@ remove_executor_power = {
 	remove_repetable_modifier = { TITLE = iep_basic TYPE = fgosw_skill_assassin }
 	remove_repetable_modifier = { TITLE = iep_basic TYPE = fgosw_skill_berserker }
 	remove_repetable_modifier = { TITLE = iep_basic TYPE = blackash }
+}
+remove_executor_power_fleet = {
+	optimize_memory
+	if = {
+		limit = { exists = solar_system }
+		solar_system = { 
+			remove_star_flag = kuat_dynamic_system_fleet_checksum 
+			clear_variable = kuat_dynamic_system_fleet_checksum_var
+		}
+	}
+	remove_fleet_flag = kuat_dynamic_system_fleet_checksum
+	every_owned_ship = {
+		remove_modifier = Eternal_submit
+		remove_ship_flag = kuat_has_eternal_increase_executor_power_temple
+		remove_increase_hp_modifier = { TYPE = kt }
+		remove_increase_hp_modifier = { TYPE = ee }
+		remove_standard_modifier_system = { TITLE = iep_basic }
+		remove_repetable_modifier = { TITLE = iep_basic TYPE = explosive }
+		remove_repetable_modifier = { TITLE = iep_basic TYPE = kinetic }
+		remove_repetable_modifier = { TITLE = iep_basic TYPE = energy }
+		remove_repetable_modifier = { TITLE = iep_basic TYPE = strike_craft }
+		remove_repetable_modifier = { TITLE = iep_basic TYPE = gravity }
+		remove_repetable_modifier = { TITLE = iep_basic TYPE = psionic }
+		remove_repetable_modifier = { TITLE = iep_basic TYPE = anti_psionic }
+		remove_repetable_modifier = { TITLE = iep_basic TYPE = adv_kinetic }
+		remove_repetable_modifier = { TITLE = iep_basic TYPE = gravity_dummy }
+		remove_repetable_modifier = { TITLE = iep_basic TYPE = ag_ancient_weapon_buff_1 }
+		remove_repetable_modifier = { TITLE = iep_basic TYPE = ag_ancient_weapon_buff_2 }
+		remove_repetable_modifier = { TITLE = iep_basic TYPE = ag_ancient_weapon_buff_3 }
+		remove_repetable_modifier = { TITLE = iep_basic TYPE = instant_kill_effect }
+		remove_repetable_modifier = { TITLE = iep_basic TYPE = difficulty_scale }
+		remove_repetable_modifier = { TITLE = iep_basic TYPE = difficulty_scale_player }
+		remove_repetable_modifier = { TITLE = iep_basic TYPE = SRA_SRA }
+		remove_repetable_modifier = { TITLE = iep_basic TYPE = SRA_RE_Core }
+		remove_repetable_modifier = { TITLE = iep_basic TYPE = H.D.energy }
+		remove_repetable_modifier = { TITLE = iep_basic TYPE = HD.M.kinetic }
+		remove_repetable_modifier = { TITLE = iep_basic TYPE = PrimaMateria }
+		remove_repetable_modifier = { TITLE = iep_basic TYPE = magicia }
+		remove_repetable_modifier = { TITLE = iep_basic TYPE = rulerule }
+		remove_repetable_modifier = { TITLE = iep_basic TYPE = fake_madoka }
+		remove_repetable_modifier = { TITLE = iep_basic TYPE = arcane }
+		remove_repetable_modifier = { TITLE = iep_basic TYPE = cosmic }
+		remove_repetable_modifier = { TITLE = iep_basic TYPE = light_power }
+		remove_repetable_modifier = { TITLE = iep_basic TYPE = wsg_pantsu }
+		remove_repetable_modifier = { TITLE = iep_basic TYPE = tesla }
+		remove_repetable_modifier = { TITLE = iep_basic TYPE = sr_uf }
+		remove_repetable_modifier = { TITLE = iep_basic TYPE = gungnir }
+		remove_repetable_modifier = { TITLE = iep_basic TYPE = xianzhe }
+		remove_repetable_modifier = { TITLE = iep_basic TYPE = knife }
+		remove_repetable_modifier = { TITLE = iep_basic TYPE = lingli }
+		remove_repetable_modifier = { TITLE = iep_basic TYPE = magic }
+		remove_repetable_modifier = { TITLE = iep_basic TYPE = nytowith }
+		remove_repetable_modifier = { TITLE = iep_basic TYPE = light }
+		remove_repetable_modifier = { TITLE = iep_basic TYPE = keto }
+		remove_repetable_modifier = { TITLE = iep_basic TYPE = Akso }
+		remove_repetable_modifier = { TITLE = iep_basic TYPE = LsScepter }
+		remove_repetable_modifier = { TITLE = iep_basic TYPE = son }
+		remove_repetable_modifier = { TITLE = iep_basic TYPE = prism }
+		remove_repetable_modifier = { TITLE = iep_basic TYPE = Electronic }
+		remove_repetable_modifier = { TITLE = iep_basic TYPE = beacon }
+		remove_repetable_modifier = { TITLE = iep_basic TYPE = aoe }
+		remove_repetable_modifier = { TITLE = iep_basic TYPE = fireworks }
+		remove_repetable_modifier = { TITLE = iep_basic TYPE = kancolle }
+		remove_repetable_modifier = { TITLE = iep_basic TYPE = kancolle_shinkai }
+		remove_repetable_modifier = { TITLE = iep_basic TYPE = aon_rpg_attack }
+		remove_repetable_modifier = { TITLE = iep_basic TYPE = aon_rpg_magic }
+		remove_repetable_modifier = { TITLE = iep_basic TYPE = sfdoll }
+		remove_repetable_modifier = { TITLE = iep_basic TYPE = nano }
+		remove_repetable_modifier = { TITLE = iep_basic TYPE = KZ_VOY_magic }
+		remove_repetable_modifier = { TITLE = iep_basic TYPE = KZ_VOY_wind_magic }
+		remove_repetable_modifier = { TITLE = iep_basic TYPE = KZ_VOY_time_magic }
+		remove_repetable_modifier = { TITLE = iep_basic TYPE = KZ_VOY_earth_magic }
+		remove_repetable_modifier = { TITLE = iep_basic TYPE = KZ_VOY_pyromancy_magic }
+		remove_repetable_modifier = { TITLE = iep_basic TYPE = KZ_VOY_lightning_magic }
+		remove_repetable_modifier = { TITLE = iep_basic TYPE = KZ_VOY_bright_magic }
+		remove_repetable_modifier = { TITLE = iep_basic TYPE = KZ_VOY_dark_magic }
+		remove_repetable_modifier = { TITLE = iep_basic TYPE = KZ_VOY_space_magic }
+		remove_repetable_modifier = { TITLE = iep_basic TYPE = KZ_VOY_aqua_magic }
+		remove_repetable_modifier = { TITLE = iep_basic TYPE = KZ_VOY_life_magic }
+		remove_repetable_modifier = { TITLE = iep_basic TYPE = KZ_VOY_temporal }
+		remove_repetable_modifier = { TITLE = iep_basic TYPE = ge_void_energy }
+		remove_repetable_modifier = { TITLE = iep_basic TYPE = magi }
+		remove_repetable_modifier = { TITLE = iep_basic TYPE = charm }
+		remove_repetable_modifier = { TITLE = iep_basic TYPE = mystical }
+		remove_repetable_modifier = { TITLE = iep_basic TYPE = close_combat }
+		remove_repetable_modifier = { TITLE = iep_basic TYPE = critical }
+		remove_repetable_modifier = { TITLE = iep_basic TYPE = fgosw_block }
+		remove_repetable_modifier = { TITLE = iep_basic TYPE = fgosw_battle_continuation }
+		remove_repetable_modifier = { TITLE = iep_basic TYPE = fgosw_only_one }
+		remove_repetable_modifier = { TITLE = iep_basic TYPE = fgosw_multi_level }
+		remove_repetable_modifier = { TITLE = iep_basic TYPE = fgosw_skill_saber }
+		remove_repetable_modifier = { TITLE = iep_basic TYPE = fgosw_skill_archer }
+		remove_repetable_modifier = { TITLE = iep_basic TYPE = fgosw_skill_lancer }
+		remove_repetable_modifier = { TITLE = iep_basic TYPE = fgosw_skill_rider }
+		remove_repetable_modifier = { TITLE = iep_basic TYPE = fgosw_skill_caster }
+		remove_repetable_modifier = { TITLE = iep_basic TYPE = fgosw_skill_assassin }
+		remove_repetable_modifier = { TITLE = iep_basic TYPE = fgosw_skill_berserker }
+		remove_repetable_modifier = { TITLE = iep_basic TYPE = blackash }
+	}
 }
 
 remove_standard_modifier_system = {
@@ -507,42 +615,46 @@ setup_invinciable_protection_pragram = {
 	optimize_memory
 	if = {
 		limit = { is_in_combat = yes }
-		if = { 
-			limit = { NOT = { has_ship_flag = fire_ship_var } } 
-			random_list_eternal_fleet_rate = yes 
-		}
-		$KEY$ = {
-			armor_hardening = yes
-			shield_hardening = yes
-			fire_rate_mult = yes
-			hull_damage = yes
-			shield_damage = yes
-			armor_damage = yes
-
-			weapon_damage = yes
-			shield_penetration = yes
-			armor_penetration = yes
-			armor_regen_add_perc = yes
-			shield_regen_add_perc = yes
-			hull_mult = yes
-			armor_mult = yes
-			shield_mult = yes
-			tracking = yes
-			accuracy = yes
-			tracking_add = yes
-			accuracy_add = yes
-			shield_add = yes
-			armor_add = yes
-			shield_reduction = yes
-			armor_reduction = yes
-			ship_speed = yes
+		every_owned_ship = {
+			if = { 
+				limit = { NOT = { has_ship_flag = fire_ship_var } } 
+				random_list_eternal_fleet_rate = yes 
+				set_ship_flag = fire_ship_var
+			}
+			$KEY$ = {
+				armor_hardening = yes
+				shield_hardening = yes
+				fire_rate_mult = yes
+				hull_damage = yes
+				shield_damage = yes
+				armor_damage = yes
+	
+				weapon_damage = yes
+				shield_penetration = yes
+				armor_penetration = yes
+				armor_regen_add_perc = yes
+				shield_regen_add_perc = yes
+				hull_mult = yes
+				armor_mult = yes
+				shield_mult = yes
+				tracking = yes
+				accuracy = yes
+				tracking_add = yes
+				accuracy_add = yes
+				shield_add = yes
+				armor_add = yes
+				shield_reduction = yes
+				armor_reduction = yes
+				ship_speed = yes
+			}
+			set_ship_flag = is_modifiering 
 		}
 		if = {
-			limit = { NOT = { has_ship_flag = fire_ship_var } }
-			ship_event = { id = $ID$ days = 1 } 
-			set_ship_flag = fire_ship_var
+			limit = { NOT = { has_fleet_flag = fire_fleet_var } }
+			fleet_event = { id = $ID$ days = 1 } 
+			set_fleet_flag = fire_fleet_var
 		}
-		else = { ship_event = { id = $ID$ days = 3 } }
+		else = { fleet_event = { id = $ID$ days = 3 } }
 	}
 	else = { clear_battleship_modifier_fixed_ship = yes }
 }
@@ -550,31 +662,34 @@ setup_invinciable_attacketion_pragram = {
 	optimize_memory
 	if = {
 		limit = { is_in_combat = yes }
-		if = { 
-			limit = { NOT = { has_ship_flag = fire_ship_var } } 
-			random_list_eternal_fleet_rate = yes 
+		every_owned_ship = {
+			if = { 
+				limit = { NOT = { has_ship_flag = fire_ship_var } } 
+				random_list_eternal_fleet_rate = yes 
+				set_ship_flag = fire_ship_var
+			}
+			$KEY$ = {
+				armor_hardening = yes
+				shield_hardening = yes
+				fire_rate_mult = yes
+				hull_regen_add_static = yes
+				armor_regen_add_static = yes
+				shield_regen_add_static = yes
+	
+				hull_regen_add_perc_standard = yes
+				shield_regen_add_perc_standard = yes
+				disengage_reduction_standard = yes
+				armor_regen_add_perc_standard = yes
+				shield_penetration_standard = yes
+				armor_penetration_standard = yes
+				armor_damage_standard = yes
+				shield_damage_standard = yes
+				hull_damage_standard = yes
+				weapon_damage_standard = yes
+			}
+			set_ship_flag = is_modifiering 
 		}
-		$KEY$ = {
-			armor_hardening = yes
-			shield_hardening = yes
-			fire_rate_mult = yes
-			hull_regen_add_static = yes
-			armor_regen_add_static = yes
-			shield_regen_add_static = yes
-
-			hull_regen_add_perc_standard = yes
-			shield_regen_add_perc_standard = yes
-			disengage_reduction_standard = yes
-			armor_regen_add_perc_standard = yes
-			shield_penetration_standard = yes
-			armor_penetration_standard = yes
-			armor_damage_standard = yes
-			shield_damage_standard = yes
-			hull_damage_standard = yes
-			weapon_damage_standard = yes
-		}
-		set_ship_flag = fire_ship_var
-		ship_event = { id = $ID$ days = 1 }
+		fleet_event = { id = $ID$ days = 1 }
 	}
 	else = { clear_battleship_modifier_fixed_ship = yes }
 }
@@ -1091,6 +1206,7 @@ clear_superlazer_system_fixed_ship = {
 	clear_variable = final_super_lazer_ship_fire_rate_mult_var
 	remove_modifier = debug_super_lazer_ship_fire_rate_mult_modifier
 	remove_ship_flag = fire_ship_var
+	FLEET = { remove_fleet_flag = fire_fleet_var }
 }
 
 # base modifier script
@@ -1102,11 +1218,14 @@ set_invasion_fleet_basic_modifier = {
 # reset all modifier
 clear_battleship_modifier_fixed_ship = {
 	optimize_memory
-	remove_standard_modifier_system = { TITLE = basic }
-	remove_standard_modifier_system = { TITLE = change_basic }
-	remove_ship_modifier_trigger_flag = yes
-	remove_total_repeatable_modifier = yes
-	remove_all_ship_modifier_change_basic_variable = yes
+	every_owned_ship = {
+		remove_standard_modifier_system = { TITLE = basic }
+		remove_standard_modifier_system = { TITLE = change_basic }
+		remove_ship_modifier_trigger_flag = yes
+		remove_total_repeatable_modifier = yes
+		remove_all_ship_modifier_change_basic_variable = yes
+	}
+	remove_fleet_modifier_trigger_flag = yes
 }
 
 remove_all_ship_modifier_change_basic_variable = {
@@ -1392,6 +1511,11 @@ remove_total_repeatable_modifier = {
 
 remove_ship_modifier_trigger_flag = {
 	optimize_memory
+	remove_ship_flag = is_modifiering
+	remove_ship_flag = fire_ship_var
+}
+remove_fleet_modifier_trigger_flag = {
+	optimize_memory
 	fleet = {
 		remove_fleet_flag = eternal_learned_leader 
 		remove_fleet_flag = has_kuat_flagship_system
@@ -1399,9 +1523,8 @@ remove_ship_modifier_trigger_flag = {
 		remove_fleet_flag = has_kuat_disable_checkpoint
 		remove_fleet_flag = has_kuat_flagship_system_addon_repeatable
 		clear_variable = infinite_faction_battle_duplicate_ship
+		remove_fleet_flag = fire_fleet_var
 	}
-	remove_ship_flag = is_modifiering
-	remove_ship_flag = fire_ship_var
 }
 
 remove_ship_modifier_change_basic_variable = {
