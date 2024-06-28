@@ -189,7 +189,7 @@ event = {
 		set_global_flag = exe_invasion_begin
 		create_country = {
 			name = "Eternal Fleet"
-			name_list = Eternal_Fleet
+			name_list = Eternal_Fleet_1
 			type = eternal_fleet_country
 			flag = {
 				icon = {
@@ -1452,7 +1452,15 @@ country_event = {
 		fromfrom = { if = {
 			limit = { NOT = { has_fleet_flag = fire_only_once_temple } }
 			every_owned_ship = {
-				eternal_increase_executor_power = { DAYS = -1 TYPE = ee }
+				if = {
+					limit = { kuat_is_kuat_ship = yes }
+					eternal_increase_executor_power = { DAYS = -1 TYPE = ee }
+				}
+				else_if = {
+					limit = { kuat_is_kuat_ship = no NOT = { has_modifier = Eternal_submit } }
+					add_modifier = { modifier = Eternal_submit days = 60 }
+					clear_ship_repeatable_modifier = { multiply = -1 DAYS = 60 }
+				}
 			}
 			set_fleet_flag = kuat_executor_checkpoint
 			fleet_event = { id = exe_invasion.114 }
@@ -1469,6 +1477,7 @@ fleet_event = {
 	immediate = {
 		if = {
 			limit = { 
+				has_enable_flag_ship_system_true = yes
 				has_enable_flag_ship_system_false = yes 
 				is_in_combat = yes 
 				has_fleet_flag = kuat_executor_checkpoint
