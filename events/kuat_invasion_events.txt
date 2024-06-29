@@ -1455,6 +1455,7 @@ country_event = {
 				if = {
 					limit = { kuat_is_kuat_ship = yes }
 					eternal_increase_executor_power = { DAYS = -1 TYPE = ee }
+					set_ship_flag = kuat_executor_checkpoint
 				}
 				else_if = {
 					limit = { kuat_is_kuat_ship = no NOT = { has_modifier = Eternal_submit } }
@@ -1482,9 +1483,20 @@ fleet_event = {
 				is_in_combat = yes 
 				has_fleet_flag = kuat_executor_checkpoint
 			}
-			every_owned_ship = { repair_ship = yes } fleet_event = { id = exe_invasion.114 days = 1 }
+			every_owned_ship = { 
+				limit = { kuat_is_kuat_ship = yes }
+				repair_ship = yes 
+			} 
+			fleet_event = { id = exe_invasion.114 days = 1 }
 		}
-		else = { remove_executor_power_fleet = yes remove_fleet_flag = kuat_executor_checkpoint }
+		else = { 
+			remove_executor_power_fleet = yes 
+			remove_fleet_flag = kuat_executor_checkpoint 
+			every_owned_ship = { 
+				limit = { has_ship_flag = kuat_executor_checkpoint }
+				remove_ship_flag = kuat_executor_checkpoint 
+			} 
+		}
 	}
 }
 country_event = {
@@ -1679,10 +1691,7 @@ ship_event = {
 			if = {
 				limit = { 
 					NOT = { has_ship_flag = kuat_flagship_disable_system_pending } 
-					OR = {
-						has_ship_flag = kuat_executor_checkpoint 
-						fleet = { has_fleet_flag = kuat_executor_checkpoint }
-					}
+					has_ship_flag = kuat_executor_checkpoint 
 				}
 				repair_ship = yes set_disabled = no 
 				set_timed_ship_flag = { flag = kuat_flagship_disable_system_pending days = 1 }
