@@ -1463,7 +1463,7 @@ country_event = {
 					clear_ship_repeatable_modifier = { multiply = -1 DAYS = 60 }
 				}
 			}
-			set_fleet_flag = kuat_executor_checkpoint
+			set_fleet_flag = kuat_fleet_checkpoint
 			fleet_event = { id = exe_invasion.114 }
 			set_timed_fleet_flag = { flag = fire_only_once_temple days = 1 }
 		} }
@@ -1474,24 +1474,23 @@ fleet_event = {
 	id = exe_invasion.114
 	hide_window = yes
 	is_triggered_only = yes
-	trigger = { exists = this }
+	trigger = { has_fleet_flag = kuat_fleet_checkpoint }
 	immediate = {
 		if = {
 			limit = { 
 				has_enable_flag_ship_system_true = yes
 				has_enable_flag_ship_system_false = yes 
 				is_in_combat = yes 
-				has_fleet_flag = kuat_executor_checkpoint
 			}
 			every_owned_ship = { 
-				limit = { kuat_is_kuat_ship = yes }
+				limit = { has_ship_flag = kuat_executor_checkpoint }
 				repair_ship = yes 
 			} 
 			fleet_event = { id = exe_invasion.114 days = 1 }
 		}
 		else = { 
 			remove_executor_power_fleet = yes 
-			remove_fleet_flag = kuat_executor_checkpoint 
+			remove_fleet_flag = kuat_fleet_checkpoint 
 			every_owned_ship = { 
 				limit = { has_ship_flag = kuat_executor_checkpoint }
 				remove_ship_flag = kuat_executor_checkpoint 
@@ -1561,6 +1560,7 @@ country_event = {
 			else_if = { limit = { kuat_is_flagship_size = { size = knight_hammer_executor } } increase_ship_hp_effect_change = { DAYS = 4 TYPE = kt } }
 			else_if = { limit = { kuat_is_flagship_size = { size = nebula_dominance } } increase_ship_hp_effect_change = { DAYS = 3 TYPE = kt } }
 			else_if = { limit = { kuat_is_flagship_size = { size = Infinite_battleship } } increase_ship_hp_effect_change = { DAYS = 3 TYPE = kt } }
+			else_if = { limit = { kuat_is_flagship_size = { size = eternal_flagship } } increase_ship_hp_effect_change = { DAYS = 3 TYPE = kt } }
 			# else_if = { limit = { kuat_is_flagship_size = { size = X308_Balletor } } increase_ship_hp_effect_change = { DAYS = 1 TYPE = kt } }
 			# else_if = { limit = { kuat_is_flagship_size = { size = X308_Titan } } increase_ship_hp_effect_change = { DAYS = 1 TYPE = kt } } 
 			# else_if = { limit = { kuat_is_flagship_size = { size = X308_Tyrant } } increase_ship_hp_effect_change = { DAYS = 1 TYPE = kt } } 
@@ -1727,14 +1727,11 @@ fleet_event = {
 	id = exe_invasion.145
 	hide_window = yes
 	is_triggered_only = yes
-	trigger = { OR = {
-		owner = { OR = { 
-			is_eternal_faction = yes 
-			is_infinite_faction = yes 
-			is_kuat_contractor_faction = yes 
-		} } 
-		has_fleet_flag = eternal_kuat_player_fleet
-	} }
+	trigger = { owner = { OR = { 
+		is_eternal_faction = yes 
+		is_infinite_faction = yes 
+		is_kuat_contractor_faction = yes 
+	} }  }
 	immediate = {
 		if = {
 			limit = { is_in_combat = yes }
@@ -1758,10 +1755,7 @@ fleet_event = {
 			if = {
 				limit = { check_variable = { which = weapon_fired_combat_days value = 3 } }
 				if = {
-					limit = { OR = {
-						AND = { exists = controller controller = { is_eternal_faction = yes } }
-						has_fleet_flag = eternal_kuat_player_fleet
-					} }
+					limit = { exists = controller controller = { is_eternal_faction = yes } }
 					add_modifier = { modifier = random_modifier_addon_effect_eternal days = 1 multiplier = event_target:global_event_country.exe_invasion_difficult_global_var }
 				}
 				if = {
@@ -1791,10 +1785,7 @@ country_event = {
 	id = exe_invasion.130
 	hide_window = yes
 	is_triggered_only = yes
-	trigger = { OR = {
-		is_invisable_faction = yes
-		fromfrom = { has_fleet_flag = eternal_kuat_player_fleet }
-	} }
+	trigger = { is_invisable_faction = yes }
 	immediate = {
 		if = {
 			limit = { 
@@ -1851,14 +1842,11 @@ country_event = {
 				if = {
 					limit = { 
 						is_ship_class = shipclass_military
-						OR = {  
-							ROOT = { OR = { 
-								is_eternal_faction = yes 
-								is_infinite_faction = yes 
-								is_kuat_contractor_faction = yes 
-							} } 
-							has_fleet_flag = eternal_kuat_player_fleet
-						}
+						ROOT = { OR = { 
+							is_eternal_faction = yes 
+							is_infinite_faction = yes 
+							is_kuat_contractor_faction = yes 
+						} } 
 						NOT = { has_fleet_flag = random_list_eternal_fleet_rate_placeholder } 
 					}
 					every_owned_ship = { 
