@@ -1390,29 +1390,42 @@ country_event = {
 	id = exe_invasion.110
 	hide_window = yes
 	is_triggered_only = yes
-	trigger = { 
-		fromfrom = { any_owned_ship = { OR = { 
-			is_ship_size = eclipse 
-			is_ship_size = eternal_flagship 
-		} } }
-		if = {
-			limit = { has_global_flag = enable_modifer_check }
-			from = { is_invisable_faction = no }
-		}
-	}
+	trigger = { fromfrom = { any_owned_ship = { OR = { 
+		is_ship_size = eclipse 
+		is_ship_size = eternal_flagship 
+	} } } }
 	immediate = {
+		if = {
+			limit = { 
+				has_global_flag = enable_modifer_check
+				from = { is_invisable_faction = no }
+			}
+			FROMFROM = { if = {
+				limit = { NOT = { has_fleet_flag = fire_only_once_temple_eclipse } }
+				every_owned_ship = {
+					limit = { 
+						NOT = { has_ship_flag = random_list_superlazer_rate_placeholder }
+						OR = { has_component = EE_SUPERLASER has_component = EXE_SUPERLASER } 
+					}
+					set_ship_flag = is_modifiering_superlazer
+					ship_event = { id = exe_invasion.112 }
+					set_timed_ship_flag = { flag = random_list_superlazer_rate_placeholder days = 1 }
+				}
+				set_timed_fleet_flag = { flag = fire_only_once_temple_eclipse days = 1 }
+			} }
+		}
 		FROMFROM = { if = {
-			limit = { NOT = { has_fleet_flag = fire_only_once_temple_eclipse } }
+			limit = { NOT = { has_fleet_flag = fire_only_once_temple_eclipse_power } }
 			every_owned_ship = {
 				limit = { 
-					NOT = { has_ship_flag = random_list_superlazer_rate_placeholder }
-					OR = { is_ship_size = eclipse is_ship_size = eternal_flagship } 
+					NOT = { has_modifier = superlazier_super_power_enhance }
+					OR = { has_component = EE_SUPERLASER has_component = EXE_SUPERLASER } 
 				}
-				set_ship_flag = is_modifiering_superlazer
-				ship_event = { id = exe_invasion.112 }
-				set_timed_ship_flag = { flag = random_list_superlazer_rate_placeholder days = 1 }
+				add_modifier = { modifier = superlazier_super_power_enhance }
+				set_ship_flag = is_modifiering_power_superlazer
+				ship_event = { id = exe_invasion.113 }
 			}
-			set_timed_fleet_flag = { flag = fire_only_once_temple_eclipse days = 1 }
+			set_timed_fleet_flag = { flag = fire_only_once_temple_eclipse_power days = 1 }
 		} }
 	}
 }
@@ -1431,6 +1444,19 @@ ship_event = {
 			}
 			set_ship_flag = fire_ship_var
 			ship_event = { id = exe_invasion.112 days = 1 }
+		}
+		else = { clear_superlazer_system_fixed_ship = yes }
+	}
+}
+ship_event = {
+	id = exe_invasion.113
+	hide_window = yes
+	is_triggered_only = yes
+	trigger = { has_ship_flag = is_modifiering_power_superlazer }
+	immediate = {
+		if = {
+			limit = { is_in_combat = yes }
+			ship_event = { id = exe_invasion.112 days = 3 }
 		}
 		else = { clear_superlazer_system_fixed_ship = yes }
 	}
