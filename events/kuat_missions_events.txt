@@ -351,6 +351,7 @@ country_event = {
 				has_communications = root
 			}
 			save_event_target_as = kuat_mission_2_target_country
+			save_global_event_target_as = kuat_mission_2_target_country_commnication
 		}
 		country_event = {
 			id = kuat_missions.21
@@ -395,6 +396,10 @@ country_event = {
 				target = root
 			}
 			remove_global_flag = kuat_mission_2_locked
+			random_list = {
+				1 = { country_event = { id = kuat_fallen_mission_reaction.1 random = 15 } }
+				1 = { no_events = yes }
+			}
 		}
 	}
 	option = {
@@ -508,7 +513,7 @@ country_event = {
 		has_country_flag = kuat_mission_2_accepted
 		has_country_flag = kuat_mission_2_timer
 		has_country_flag = kuat_mission_outpost_timer_flag
-		check_variable = { which = kuat_mission_outpost_timer value >= 5 }
+		check_variable = { which = kuat_mission_outpost_timer value = 1 }
 	}
 	immediate = {
 		remove_global_flag = kuat_mission_2_actived
@@ -521,6 +526,13 @@ country_event = {
 				has_country_flag = kuat_mission_2_target_country
 			}
 			remove_country_flag = kuat_mission_2_target_country
+		}
+		if = {
+			limit = { 
+				is_at_war = no
+				has_country_flag = kuat_fallen_mission_reaction.1.accept 
+			}
+			country_event = { id = kuat_fallen_mission_reaction.2 days = 15 }
 		}
 		set_country_flag = kuat_mission_2_finished
 	}
@@ -720,6 +732,7 @@ country_event = {
 				is_planet_class = pc_gaia
 			}
 			save_event_target_as = kuat_mission_3_target_planet
+			save_global_event_target_as = kuat_mission_3_target_planet_communication
 		}
 		country_event = {
 			id = kuat_missions.31
@@ -768,6 +781,10 @@ country_event = {
 				name = kuat_mission.3
 				event_chain = kuat_mission_3_chain
 				location = event_target:kuat_mission_3_target_planet
+			}
+			random_list = {
+				1 = { country_event = { id = kuat_fallen_mission_reaction.3 random = 15 } }
+				1 = { no_events = yes }
 			}
 			remove_global_flag = kuat_mission_3_locked
 		}
@@ -832,6 +849,13 @@ country_event = {
 			remove_planet_flag = kuat_mission_3_target_planet
 		}
 		set_country_flag = kuat_mission_3_finished
+		if = {
+			limit = { 
+				is_at_war = no
+				has_country_flag = kuat_fallen_mission_reaction.3.accept 
+			}
+			country_event = { id = kuat_fallen_mission_reaction.4 days = 15 }
+		}
 	}
 	option = {
 		name = kuat_missions.finish
