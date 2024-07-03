@@ -3231,16 +3231,32 @@ eternal_player_fleet_order_1 = {
 			find_closest_planet = {
 				trigger = {
 					id = executing_eternal_fleet.1
-					is_colony = yes exists = owner
-					owner = { is_hostile = event_target:eternal_support_country }
+					OR = {
+						AND = {
+							is_colony = yes exists = owner
+							owner = { is_hostile = event_target:eternal_support_country }
+						}
+						AND = {
+							is_star = yes
+							solar_system = {
+								any_fleet_in_system = {
+									exists = owner
+									owner = { is_hostile = event_target:eternal_support_country }
+								}
+							}
+						}
+					}
 					solar_system = { is_same_value = prevprevprevprev }
 				}
 				found_planet = {
 					orbit_planet = this
 					effect = {
 						id = executing_eternal_fleet.2
-						set_planet_flag = ruins_planet
-						root = { set_fleet_flag = eternal_fallen_bombaring_fleet }
+						if = {
+							limit = { is_colony = yes }
+							set_planet_flag = ruins_planet
+							root = { set_fleet_flag = eternal_fallen_bombaring_fleet }
+						}
 					}
 					repeat = {
 						while = { 
