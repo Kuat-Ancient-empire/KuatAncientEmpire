@@ -1,4 +1,31 @@
 namespace = kuat_final_crisis_events
+
+#kuat_final_crisis_events.5 6 7 8 				NOTIFIACTION FOR CRISIS ARRIVED												（危机抵达）
+#kuat_final_crisis_events.10      				BOMBARMENT COLONY EVENT														（轰炸殖民地）
+#kuat_final_crisis_events.14 141 142 143 		COMMON LOOPING RAINFORCEMENT 												（循环刷进攻部队）
+#kuat_final_crisis_events.102 103 104 105		DEFENCED FLEET GENRAL LOOPING TRIGGER EVENT 								（循环刷新防御舰队的总控制）
+#kuat_final_crisis_events.400 500 600 700		DEFENCED FLEET GENERAL EVENT 												（循环刷新防御舰队效果）
+#kuat_final_crisis_events.4 41 42 43 			INITIAL COMMON ATTACK FLEET GENERAL EVENT									（预设舰队生成）
+#kuat_final_crisis_events.401					DEFENCED FLEET BEEN ATTACK FLEET LONG TIME AGO								（在很久以后将防御舰队转化为进攻舰队离开星系）
+#kuat_final_crisis_events.11					RAKATA CRISIS BASE DESTROYED TRIGGER 										（拉卡塔据点被摧毁的控制事件）
+#kuat_final_crisis_events.101					ALL RAKATA BASE BEEN DESTROYED EFFECT 										（所有的拉卡塔据点被摧毁以后的效果）
+#kuat_final_crisis_events.12					ALL RAKATA BASE BEEN DESTROYED NOTIFICATION 								（所有的拉卡塔据点被摧毁以后的通知）
+#kuat_final_crisis_events.13					DEBUG CHECK WHEN ALL BASE BEEN DESTROYED BUT CRISIS NOT END 				（DEBUG检测，防止所有单位被消灭了但危机没有结束）
+#kuat_final_crisis_events.3						GENERAL INFINITE FIRST BASE													 (第一行动基地)
+#kuat_final_crisis_events.15					GENERAL INFINITE SHIPYARD SYSTEM 											 (无限构筑厂)
+#kuat_final_crisis_events.16					GENERAL INFINITE SECOND BASE												 (第二行动基地)
+#kuat_final_crisis_events.17					GENERAL THE LAST BASE 														 (最后一个星门/第三行动基地)
+#kuat_final_crisis_events.20					DIPLOMAY TO INFINITE EMPIRE 												（玩家联系拉卡塔帝国，外交）
+#kuat_final_crisis_events.40					ATTACK FLEET QUEUE ACTION 													（舰队脚本）
+#kuat_final_crisis_events.46					RESET FLEET ACTION AND VARIABLE 											（脚本变量清理）
+#kuat_final_crisis_events.47					BOMBARMENT NON_COLONY EVENT 												（轰炸非殖民，实际表现不明）
+#kuat_final_crisis_events.44 45					EVENTCHAIN COUNT KILLED AND KILL 											（事件链内计数）
+#kuat_final_crisis_events.50 51	53				ENDED AND CRISIS OVER 														（危机结束）
+#kuat_final_crisis_events.54 55 56				CREATE 3 15 16 17 SYSTEM INTERESTING POI 									（据点刷新的时候得兴趣点）
+#kuat_final_crisis_events.57 58 61				LINK TO 54 55 56 FOR INFINITE DIPLOMACY										（兴趣点出现以后无限帝国叫嚣）
+#kuat_final_crisis_events.998					TRUE ENDED NOW EVERYTHING WILL FINISH 										（危机完全结束）
+#kuat_final_crisis_events.59 60 				INFINITE STARBASE PROTECTION												 (事件机制)
+
 @rakata_guradian_fleet_count = 2
 # rakata invasion begin
 country_event = {
@@ -673,7 +700,7 @@ planet_event = {
 	immediate = {
 		event_target:Kuat_Rakata_total_warp_portal_system = {
 			random_system_planet = {
-				create_Kuat_Rakata_crisis_greater_fleet = yes
+				create_Kuat_Worldship_Rakata_crisis_greater_fleet = yes
 				last_created_fleet = {
 					set_name = "Name_DFLEET"
 					set_timed_fleet_flag = { flag = Kuat_Rakata_defence_fleet days = 720 }
@@ -712,11 +739,11 @@ country_event = {
 		FROMFROM = { is_ship_size = exe_starbase }
 	}
 	immediate = {
-		FROM = { save_event_target_as = Kuat_Rakata_portal_killer }
 		FROMFROM.FLEET = {
 			if = {
 				# 第一节点被破坏
 				limit = {
+					solar_system = { is_same_value = event_target:Kuat_Rakata_total_warp_portal_system_for_door }
 					event_target:Kuat_Rakata_first_warp_portal_system_for_door = { has_star_flag = Kuat_Rakata_first_warp_portal }
 				}
 				set_global_flag = Kuat_Rakata_first_warp_portal_destroyed
@@ -739,7 +766,7 @@ country_event = {
 						has_global_flag = Kuat_Rakata_total_warp_portal_destroyed
 					}
 					event_target:Kuat_Rakata_first_warp_portal_system = { save_event_target_as = Rakat_last_warp_portal_system }
-					event_target:Kuat_Rakata_portal_killer = { country_event = { id = kuat_final_crisis_events.101 } }
+					ROOT.FROM = { country_event = { id = kuat_final_crisis_events.101 } }
 				} 
 				else = {
 					# 尚有其他节点
@@ -750,6 +777,7 @@ country_event = {
 			else_if = {
 				# 第二节点被破坏
 				limit = {
+					solar_system = { is_same_value = event_target:Kuat_Rakata_total_warp_portal_system_for_door }
 					event_target:Kuat_Rakata_second_warp_portal_system_for_door = { has_star_flag = Kuat_Rakata_second_warp_portal }
 				}
 				set_global_flag = Kuat_Rakata_second_warp_portal_destroyed
@@ -775,7 +803,7 @@ country_event = {
 						has_global_flag = Kuat_Rakata_total_warp_portal_destroyed
 					}
 					event_target:Kuat_Rakata_second_warp_portal_system = { save_event_target_as = Rakat_last_warp_portal_system }
-					event_target:Kuat_Rakata_portal_killer = { country_event = { id = kuat_final_crisis_events.101 } }
+					ROOT.FROM = { country_event = { id = kuat_final_crisis_events.101 } }
 				} 
 				else = {
 					# 尚有其他节点
@@ -786,6 +814,7 @@ country_event = {
 			else_if = {
 				# 特殊节点被破坏
 				limit = {
+					solar_system = { is_same_value = event_target:Kuat_Rakata_total_warp_portal_system_for_door }
 					event_target:Kuat_Rakata_total_warp_portal_system_for_door = { has_star_flag = Kuat_Rakata_total_warp_portal }
 				}
 				set_global_flag = Kuat_Rakata_total_warp_portal_destroyed
@@ -812,7 +841,7 @@ country_event = {
 						has_global_flag = Kuat_Rakata_third_warp_portal_destroyed
 					}
 					event_target:Kuat_Rakata_total_warp_portal_system = { save_event_target_as = Rakat_last_warp_portal_system }
-					event_target:Kuat_Rakata_portal_killer = { country_event = { id = kuat_final_crisis_events.101 } }
+					ROOT.FROM = { country_event = { id = kuat_final_crisis_events.101 } }
 				} 
 				else = {
 					# 尚有其他节点
@@ -823,6 +852,7 @@ country_event = {
 			else_if = {
 				# 第三节点被破坏
 				limit = {
+					solar_system = { is_same_value = event_target:Kuat_Rakata_total_warp_portal_system_for_door }
 					event_target:Kuat_Rakata_third_warp_portal_system_for_door = { has_star_flag = Kuat_Rakata_third_warp_portal }
 				}
 				set_global_flag = Kuat_Rakata_third_warp_portal_destroyed
@@ -839,7 +869,7 @@ country_event = {
 						has_global_flag = Kuat_Rakata_second_warp_portal_destroyed
 					}
 					event_target:Kuat_Rakata_third_warp_portal_system = { save_event_target_as = Rakat_last_warp_portal_system }
-					event_target:Kuat_Rakata_portal_killer = {
+					ROOT.FROM = {
 						save_event_target_as = Kuat_Rakata_portal_killer
 						country_event = { id = kuat_final_crisis_events.101 }
 					}
@@ -902,6 +932,7 @@ event = {
 		has_global_flag = Kuat_Rakata_first_warp_portal_destroyed
 		has_global_flag = Kuat_Rakata_second_warp_portal_destroyed
 		has_global_flag = Kuat_Rakata_third_warp_portal_destroyed
+		has_global_flag = Kuat_Rakata_total_warp_portal_destroyed
 	}
 	immediate = {
 		if = {
