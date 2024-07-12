@@ -5,7 +5,7 @@ kuat_shipyard_check_allow_resource = {
 	resource_stockpile_compare = {
 		resource = alloys
 		value >= @\[ $second_alloys$ * $basic$ ]
-		multiplier = $MULT$
+		multiplier = value:kuat_shipyard_value
 	}
 }
 
@@ -15,74 +15,49 @@ get_ship_alloys_allow = {
 		limit = { has_country_flag = building_the_horriwer }
 		if = {
 			limit = { NOT = { has_country_flag = kuat_build_fifth_ships } }
-			kuat_shipyard_check_allow_resource = { second_alloys = @building_the_horriwer_cost basic = $basic$ MULT = 1 }
+			kuat_shipyard_check_allow_resource = { second_alloys = @building_the_horriwer_cost basic = $basic$ }
 		}
 		if = {
 			limit = { has_country_flag = kuat_build_fifth_ships }
-			kuat_shipyard_check_allow_resource = { 
-				second_alloys = @building_the_horriwer_cost basic = $basic$ 
-				MULT = event_target:global_event_country.kuat_shipyard_buillding_queue_selection 
-			}
+			kuat_shipyard_check_allow_resource = { second_alloys = @building_the_horriwer_cost basic = $basic$ }
 		} 
 	}
 	else_if = {
 		limit = { has_country_flag = building_the_empire } 
 		if = {
 			limit = { NOT = { has_country_flag = kuat_build_fifth_ships } }
-			kuat_shipyard_check_allow_resource = { second_alloys = @building_the_empire_cost basic = $basic$ MULT = 1 }
+			kuat_shipyard_check_allow_resource = { second_alloys = @building_the_empire_cost basic = $basic$ }
 		}
 		if = {
 			limit = { has_country_flag = kuat_build_fifth_ships }
-			kuat_shipyard_check_allow_resource = { 
-				second_alloys = @building_the_empire_cost basic = $basic$ 
-				MULT = event_target:global_event_country.kuat_shipyard_buillding_queue_selection 
-			}
+			kuat_shipyard_check_allow_resource = { second_alloys = @building_the_empire_cost basic = $basic$ }
 		}
 	}
 	else_if = {
 		limit = { has_country_flag = building_the_resugrant }
 		if = {
 			limit = { NOT = { has_country_flag = kuat_build_fifth_ships } }
-			kuat_shipyard_check_allow_resource = { second_alloys = @building_the_resugrant_cost basic = $basic$ MULT = 1 }
+			kuat_shipyard_check_allow_resource = { second_alloys = @building_the_resugrant_cost basic = $basic$ }
 		}
 		if = {
 			limit = { has_country_flag = kuat_build_fifth_ships }
-			kuat_shipyard_check_allow_resource = { 
-				second_alloys = @building_the_resugrant_cost basic = $basic$ 
-				MULT = event_target:global_event_country.kuat_shipyard_buillding_queue_selection 
-			}
+			kuat_shipyard_check_allow_resource = { second_alloys = @building_the_resugrant_cost basic = $basic$ }
 		} 
 	}
 	else_if = {
 		limit = { has_country_flag = building_the_donimance }
-		kuat_shipyard_check_allow_resource = { second_alloys = @building_the_donimance_cost basic = $basic$ MULT = 1 }
+		kuat_shipyard_check_allow_resource = { second_alloys = @building_the_donimance_cost basic = $basic$ }
 	}
 	else_if = {
 		limit = { has_country_flag = building_the_eclipse }
-		kuat_shipyard_check_allow_resource = { second_alloys = @building_the_eclipse_cost basic = $basic$ MULT = 1 }
+		kuat_shipyard_check_allow_resource = { second_alloys = @building_the_eclipse_cost basic = $basic$ }
 	}
 	else_if = {
 		limit = { has_country_flag = building_the_Vengeance }
-		kuat_shipyard_check_allow_resource = { second_alloys = @building_the_Vengeance_cost basic = $basic$ MULT = 1 }
+		kuat_shipyard_check_allow_resource = { second_alloys = @building_the_Vengeance_cost basic = $basic$ }
 	}
 }
 
 get_variable_alloys_check_allow = {
-	if = {
-		limit = { kuat_is_enable_shadow_origin = yes }
-		if = { limit = { event_target:fallen_empire_kuat = { opinion = { who = root value > 999 } } } get_ship_alloys_allow = { basic = 0.2 } } 
-		else_if = { limit = { event_target:fallen_empire_kuat = { opinion = { who = root value > 899 } } } get_ship_alloys_allow = { basic = 0.3 } }
-		else_if = { limit = { event_target:fallen_empire_kuat = { opinion = { who = root value > 699 } } } get_ship_alloys_allow = { basic = 0.4 } }
-		else_if = { limit = { event_target:fallen_empire_kuat = { opinion = { who = root value > 499 } } } get_ship_alloys_allow = { basic = 0.5 } }
-		else_if = { limit = { event_target:fallen_empire_kuat = { opinion = { who = root value > 299 } } } get_ship_alloys_allow = { basic = 0.6 } }
-		else_if = { limit = { event_target:fallen_empire_kuat = { opinion = { who = root value > 99 } } } get_ship_alloys_allow = { basic = 0.7 } }
-		else_if = { limit = { event_target:fallen_empire_kuat = { opinion = { who = root value > 0 } } } get_ship_alloys_allow = { basic = 1.0 } }
-		else_if = { limit = { event_target:fallen_empire_kuat = { opinion = { who = root value > -99 } } } get_ship_alloys_allow = { basic = 1.5 } }
-		else_if = { limit = { event_target:fallen_empire_kuat = { opinion = { who = root value > -199 } } } get_ship_alloys_allow = { basic = 2.0 } }
-		else_if = { limit = { event_target:fallen_empire_kuat = { opinion = { who = root value > -299 } } } get_ship_alloys_allow = { basic = 2.5 } }
-		else_if = { limit = { event_target:fallen_empire_kuat = { opinion = { who = root value > -399 } } } get_ship_alloys_allow = { basic = 3.0 } }
-		else_if = { limit = { event_target:fallen_empire_kuat = { opinion = { who = root value > -499 } } } get_ship_alloys_allow = { basic = 3.5 } }
-		else_if = { limit = { event_target:fallen_empire_kuat = { opinion = { who = root value > -599 } } } get_ship_alloys_allow = { basic = 4.0 } }
-	}
-	else_if = { limit = { NOT = { kuat_is_enable_shadow_origin = yes } } get_ship_alloys_allow = { basic = 1 } }
+	get_ship_alloys_allow = { basic = 1 }
 }
