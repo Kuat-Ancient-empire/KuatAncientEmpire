@@ -979,7 +979,10 @@ country_event = {
 	id = executor_build.5
 	hide_window = yes
 	is_triggered_only = yes
-	trigger = { has_country_flag = fallen_empire_kuat }
+	trigger = { 
+		NOT = { has_global_flag = kuat_fallen_mission_reaction.20.fired }
+		has_country_flag = fallen_empire_kuat 
+	}
 	immediate = {
 		every_country = {
 			limit = {
@@ -2048,7 +2051,29 @@ country_event = {
 	is_triggered_only = yes
 	option = {
 		name = executor_build.8010.a
-		hidden_effect = { country_event = { id = executor_build.8011 days = 360 random = 360 } }
+		hidden_effect = { 
+			end_event_chain = kuat_mission_0_chain
+			country_event = { id = executor_build.8011 days = 360 random = 360 } 
+		}
+	}
+	option = {
+		name = executor_build.8010.b
+		trigger = {
+			has_event_chain = kuat_mission_0_chain
+			has_completed_event_chain_counter = {
+				event_chain = kuat_mission_0_chain
+				counter = kuat_mission_0_chain_amount
+			}
+			any_country = {
+				OR = {
+					is_country_type = fallen_empire
+					is_country_type = awakened_fallen_empire
+				}
+				is_at_war = no
+				has_communications = root
+			}
+		}
+		hidden_effect = { country_event = { id = executor_build.8012 days = 360 random = 360 } }
 	}
 }
 
@@ -2091,6 +2116,93 @@ country_event = {
 		limit = { has_special_project = exe_enable_kuat_stargate }
 		abort_special_project = { type = exe_enable_kuat_stargate location = event_target:exe_outer_gate_disable }
 	} }
+}
+
+#最后的挑战，毁灭堕落帝国
+country_event = {
+	id = executor_build.8012
+	diplomatic = yes
+	title = executor_build.8012.title
+	desc = executor_build.8012.desc
+	picture_event_data = {
+		portrait = event_target:kuat_player_target_species
+		room = kuat_mega_shipyard_room
+	}
+	custom_gui = "kuat_event_diplomacy_window"
+	custom_gui_option = "kuat_event_diplomacy_option"
+	is_triggered_only = yes
+	immediate = {
+		set_global_flag = executor_build.8012.fired
+	}
+	option = {
+		name = executor_build.8012.a
+		hidden_effect = {
+			every_system = {
+				limit = { OR = {
+					has_star_flag = myst_system_1
+					has_star_flag = myst_system_2
+					has_star_flag = myst_system_3
+					has_star_flag = myst_system_4
+				} }
+				if = {
+					limit = { 
+						exists = space_owner 
+						space_owner = { NOT = { is_same_value = event_target:fallen_empire_kuat } }
+					}
+					every_system_planet = {
+						limit = { is_colony = yes }
+						set_owner = event_target:fallen_empire_kuat
+					}
+					every_fleet_in_system = { set_owner = event_target:fallen_empire_kuat }
+				}
+				else_if = {
+					limit = { NOT = { exists = space_owner } }
+					create_starbase = {
+						size = "starbase_citadel"
+						owner = event_target:fallen_empire_kuat
+						module = "shipyard"
+						module = "gun_battery"
+						module = "gun_battery"
+						module = "gun_battery"
+						module = "gun_battery"
+						module = "gun_battery"
+						building = "target_uplink_computer"
+						building = "defense_grid"
+						building = "colossus_yards"
+						building = "titan_yards"
+					}
+					system_star = { create_kuat_system_fleet = yes }
+				}
+			}
+			end_event_chain = kuat_mission_0_chain
+			country_event = { id = kuat_missions.4 days = 1 random = 2 }
+		}
+	}
+}
+
+#成功完成任务 开启科研任务
+country_event = {
+	id = executor_build.8013
+	diplomatic = yes
+	title = executor_build.8013.title
+	desc = executor_build.8013.desc
+	picture_event_data = {
+		portrait = event_target:kuat_player_target_species
+		room = kuat_mega_shipyard_room
+	}
+	custom_gui = "kuat_event_diplomacy_window"
+	custom_gui_option = "kuat_event_diplomacy_option"
+	is_triggered_only = yes
+	trigger = {
+		has_country_flag = kuat_mission_4_finished
+	}
+	option = {
+		name = executor_build.8013.a
+		hidden_effect = { 
+			begin_event_chain = { event_chain = kuat_mission_total_chain }
+			country_event = { id = kuat_fallen_mission_reaction.6 days = 15 random = 30 } 
+		}
+	}
 }
 
 ##########################

@@ -11,7 +11,10 @@ event = {
 			NOT = { has_global_flag = exe_return_invasion_seed }
 		}
 		else = {
-			has_global_flag = enbale_last_invasion
+			OR = {
+				has_global_flag = enbale_last_invasion
+				has_global_flag = enbale_recycle_last_invasion
+			}
 			NOT = { has_global_flag = exe_return_invasion_seed }
 		}
 	}
@@ -1326,7 +1329,11 @@ country_event = {
 		ai_chance = { weight = 5 }
 		hidden_effect = {
 			if = {
-				limit = { is_ai = no kuat_is_enable_shadow_origin = yes }
+				limit = { 
+					is_ai = no 
+					kuat_is_enable_shadow_origin = yes 
+					NOT = { has_global_flag = enbale_recycle_last_invasion }
+				}
 				set_country_flag = kuat_can_buid_kuat_building
 				set_country_flag = kuat_debug_give_all_tech_flag
 				add_research_option = tech_kuat_ground_yards
@@ -1336,13 +1343,16 @@ country_event = {
 				country_event = { id = exe_return_invasion.38 days = 30 random = 2 }
 			}
 			if = {
-				limit = { is_ai = no has_origin = origin_kuat_apocalyptic }
-				event_target:global_event_country = { 
-					change_variable = { which = eternal_fleet_return_index value = 1 } 
-					set_variable = { which = eternal_fleet_return_index_x4 value = eternal_fleet_return_index }
-					multiply_variable = { which = eternal_fleet_return_index_x4 value = 4 }
+				limit = { is_ai = no OR = { has_global_flag = enbale_recycle_last_invasion has_origin = origin_kuat_apocalyptic } }
+				if = {
+					limit = { has_origin = origin_kuat_apocalyptic }
+					event_target:global_event_country = { 
+						change_variable = { which = eternal_fleet_return_index value = 1 } 
+						set_variable = { which = eternal_fleet_return_index_x4 value = eternal_fleet_return_index }
+						multiply_variable = { which = eternal_fleet_return_index_x4 value = 4 }
+					}
+					change_variable = { which = eternal_bornus_var value = 12000 }
 				}
-				change_variable = { which = eternal_bornus_var value = 12000 }
 				reset_return_eternal_fleet = yes
 			}
 			if = {

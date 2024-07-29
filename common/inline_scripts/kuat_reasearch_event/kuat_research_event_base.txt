@@ -1,0 +1,104 @@
+id = kuat_fallen_mission_reaction.$ID$
+title = kuat_missions.title
+desc = kuat_fallen_mission_reaction.$ID$.desc
+picture_event_data = {
+	portrait = event_target:kuat_player_target_species
+	room = kuat_mega_shipyard_room
+}
+custom_gui = "kuat_event_diplomacy_window"
+custom_gui_option = "kuat_event_diplomacy_option"
+show_sound = event_default
+location = capital_star
+is_triggered_only = yes
+diplomatic = yes
+trigger = { exists = event_target:fallen_empire_kuat }
+option = { 
+	name = kuat_fallen_mission_reaction.accept 
+	response_text = kuat_fallen_mission_reaction.accept.response
+	trigger = { NOR = {
+		check_variable = { which = kuat_fallen_mission_reaction_tech value = 3 }
+		check_variable = { which = kuat_fallen_mission_reaction_tech value = 6 }
+	} }
+	hidden_effect = {
+		enable_special_project = {
+			name = kuat_fallen_mission_reaction_$ID$_project
+			location = capital_star
+			owner = root
+		}
+		if = {
+			limit = { check_variable = { which = kuat_fallen_mission_reaction_tech value = 2 } }
+			country_event = { id = kuat_fallen_mission_reaction.18 days = 1 }
+		}
+	}
+}
+option = { #给星系
+	name = kuat_fallen_mission_reaction.area_d_option
+	response_text = kuat_fallen_mission_reaction.area_d_option.response
+	trigger = { check_variable = { which = kuat_fallen_mission_reaction_tech value = 3 } }
+	hidden_effect = {
+		every_system = {
+			limit = { has_star_flag = myst_system_4 }
+			if = {
+				limit = { 
+					exists = space_owner 
+					space_owner = { NOT = { is_same_value = root } }
+				}
+				every_system_planet = {
+					limit = { is_colony = yes }
+					set_owner = root
+				}
+				every_fleet_in_system = { set_owner = root }
+			}
+			else_if = {
+				limit = { NOT = { exists = space_owner } }
+				create_starbase = {
+					size = "starbase_citadel"
+					owner = root
+					module = "shipyard"
+					module = "gun_battery"
+					module = "gun_battery"
+					module = "gun_battery"
+					module = "gun_battery"
+					module = "gun_battery"
+					building = "target_uplink_computer"
+					building = "defense_grid"
+					building = "colossus_yards"
+					building = "titan_yards"
+				}
+			}
+		}
+		enable_special_project = {
+			name = kuat_fallen_mission_reaction_$ID$_project
+			location = capital_star
+			owner = root
+		}
+	}
+}
+option = { #给量产科技
+	name = kuat_fallen_mission_reaction.ship_option
+	response_text = kuat_fallen_mission_reaction.ship_option.respon
+	trigger = { check_variable = { which = kuat_fallen_mission_reaction_tech value = 6 } }
+	hidden_effect = {
+		give_technology = { tech = tech_kuat_noway }
+		if = {
+			limit = { NOT = { has_existing_ship_design = swfo_resurgent } }
+			create_ship_design = { design = "Name_boss_Resugrant" }
+			add_ship_design = last_created_design
+		}
+		if = {
+			limit = { NOT = { has_existing_ship_design = horrizone } }
+			create_ship_design = { design = "Name_boss_Horriwer" }
+			add_ship_design = last_created_design
+		}
+		if = {
+			limit = { NOT = { has_existing_ship_design = high_Imperial_star_destroyer } }
+			create_ship_design = { design = "Name_boss_HIGH_EMPIRE" }
+			add_ship_design = last_created_design
+		}
+		enable_special_project = {
+			name = kuat_fallen_mission_reaction_$ID$_project
+			location = capital_star
+			owner = root
+		}
+	}
+}
