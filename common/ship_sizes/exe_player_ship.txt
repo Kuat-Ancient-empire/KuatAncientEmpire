@@ -12,54 +12,53 @@
 # upkeep mult
 # for other modifiers, use ship_modifier = { }
 ####################
-@corvette_collision_radius = 2.0
-@corvette_formation_priority = 20
-@corvette_evasion = 60
-@cruiser_collision_radius = 3.5
-@cruiser_formation_priority = 30
-@cruiser_evasion = 10
-@battleship_collision_radius = 6
-@battleship_formation_priority = 50
-@battleship_evasion = 5
-@titan_collision_radius = 12
-@titan_formation_priority = 40
-@titan_evasion = 5
-@battler_crusier_famation_priority = 45
+@cruiser_formation_priority = 40
+@cruiser_collision_radius = 4
+@cruiser_speed = 200
+@cruiser_acceleration = 0.2
+@cruiser_rotation_speed = 0.1
+@cruiser_max_hitpoints = 50000
+@cruiser_ship_evasion_add = 80
+@cruiser_size_multiplier = 16
+@cruiser_fleet_slot_size = 8
+@cruiser_combat_size_multiplier = 16
+@cruiser_base_buildtime = 300
 ############
-# Normal ###
+# Crusier ##
 ############
 Venator_modifier = {
-	formation_priority = @corvette_formation_priority
-	max_speed = 200
-	acceleration = 0.2
-	rotation_speed = 0.2
+	formation_priority = @cruiser_formation_priority
+	max_speed = @cruiser_speed
+	acceleration = @cruiser_acceleration
+	rotation_speed = @cruiser_rotation_speed
 	collision_radius = @cruiser_collision_radius
-	max_hitpoints = 40000
+	max_hitpoints = @cruiser_max_hitpoints
 	modifier = {
-		ship_evasion_add = 80
-		ship_armor_add = 40000
-		ship_shield_add = 40000
+		ship_evasion_add = @cruiser_ship_evasion_add
+		ship_armor_add = @cruiser_max_hitpoints
+		ship_shield_add = @cruiser_max_hitpoints
 		ship_cloaking_strength_add = 10
 	}
 	ship_modifier = {
 		ship_shield_regen_add_perc = 1
 		ship_armor_regen_add_perc = 1
 		ship_hull_regen_add_perc = 1
+		ship_starting_experience_add = 11100
 	}
-	size_multiplier = 16
-	fleet_slot_size = 8
-	combat_size_multiplier = 16
+	size_multiplier = @cruiser_size_multiplier
+	fleet_slot_size = @cruiser_fleet_slot_size
+	combat_size_multiplier = @cruiser_combat_size_multiplier
 	section_slots = { "bow" = { locator = "part2" } }
 	num_target_locators = 6
 	is_space_station = no
 	is_designable = no
-	icon = kuat_ship_size_military_1
-	ship_class_icon_frame = 3
-	base_buildtime = 200
+	icon = kuat_ship_size_military_2
+	ship_class_icon_frame = 26
+	base_buildtime = @cruiser_base_buildtime
 	can_have_federation_design = no
 	enable_default_design = no	#if yes, countries will have an auto-generated design at start
 	can_be_inspected = yes
-	default_behavior = EXE_Battleship
+	default_behavior = EXE_flagship
 	class = shipclass_military
 	construction_type = starbase_shipyard
 	required_component_set = "power_core"
@@ -83,35 +82,37 @@ Venator_modifier = {
 
 horrizone = {
 	formation_priority = @cruiser_formation_priority
-	max_speed = 200
-	acceleration = 0.2
-	rotation_speed = 0.2
-	collision_radius = @battleship_collision_radius
-	max_hitpoints = 50000
+	max_speed = @cruiser_speed
+	acceleration = @cruiser_acceleration
+	rotation_speed = @cruiser_rotation_speed
+	collision_radius = @cruiser_collision_radius
+	max_hitpoints = @cruiser_max_hitpoints
 	modifier = {
-		ship_evasion_add = 80
-		ship_armor_add = 50000
-		ship_shield_add = 50000
+		ship_evasion_add = @cruiser_ship_evasion_add
+		ship_armor_add = @cruiser_max_hitpoints
+		ship_shield_add = @cruiser_max_hitpoints
 		ship_cloaking_strength_add = 10
 	}
 	ship_modifier = {
 		ship_shield_regen_add_perc = 1
 		ship_armor_regen_add_perc = 1
 		ship_hull_regen_add_perc = 1
+		ship_starting_experience_add = 11100
 	}
-	size_multiplier = 16
-	fleet_slot_size = 4
-	combat_size_multiplier = 16
+	size_multiplier = @cruiser_size_multiplier
+	fleet_slot_size = @cruiser_fleet_slot_size
+	combat_size_multiplier = @cruiser_combat_size_multiplier
 	section_slots = { "bow" = { locator = "root" } }
 	num_target_locators = 6
 	is_space_station = no
 	is_designable = no
 	icon = kuat_ship_size_military_2
-	base_buildtime = 200
+	ship_class_icon_frame = 26
+	base_buildtime = @cruiser_base_buildtime
 	can_have_federation_design = no
 	enable_default_design = no	#if yes, countries will have an auto-generated design at start
 	can_be_inspected = yes
-	default_behavior = EXE_Battleship
+	default_behavior = EXE_flagship
 
 	prerequisites = { tech_kuat_noway }
 
@@ -143,15 +144,15 @@ horrizone = {
 Aggressor = {
 	entity = Aggressor_entity
 	formation_priority = @cruiser_formation_priority
-	max_speed = 150
-	acceleration = 0.2
-	rotation_speed = 0.2
-	collision_radius = @battleship_collision_radius
-	max_hitpoints = 100000
-	modifier = { 
-		ship_evasion_add = 70
-		ship_armor_add = 100000
-		ship_shield_add = 100000
+	max_speed = @cruiser_speed
+	acceleration = @cruiser_acceleration
+	rotation_speed = @cruiser_rotation_speed
+	collision_radius = @cruiser_collision_radius
+	max_hitpoints = @cruiser_max_hitpoints
+	modifier = {
+		ship_evasion_add = @cruiser_ship_evasion_add
+		ship_armor_add = @cruiser_max_hitpoints
+		ship_shield_add = @cruiser_max_hitpoints
 		ship_cloaking_strength_add = 10
 	}
 	ship_modifier = {
@@ -160,15 +161,15 @@ Aggressor = {
 		ship_hull_regen_add_perc = 1
 		ship_starting_experience_add = 11100
 	}
-	size_multiplier = 32
-	fleet_slot_size = 8
-	combat_size_multiplier = 16
+	size_multiplier = @cruiser_size_multiplier
+	fleet_slot_size = @cruiser_fleet_slot_size
+	combat_size_multiplier = @cruiser_combat_size_multiplier
 	section_slots = { "bow" = { locator = "root" } }
 	num_target_locators = 8
 	is_space_station = no
-	icon = kuat_ship_size_military_3
+	icon = kuat_ship_size_military_2
 	ship_class_icon_frame = 26
-	base_buildtime = 600
+	base_buildtime = @cruiser_base_buildtime
 	can_have_federation_design = no
 	enable_default_design = yes	#if yes, countries will have an auto-generated design at start
 	prerequisites = { tech_exe_jump_drive }
@@ -194,27 +195,45 @@ Aggressor = {
 	min_upgrade_cost = { alloys = 10 }
 }
 
+@battleship_collision_radius = 8
+@heavy_battleship_formation_priority = 20
+@battleship_formation_priority = 25
+@battleship_speed = 150
+@battleship_acceleration = 0.15
+@battleship_rotation_speed = 0.15
+@battleship_max_hitpoints = 100000
+@heavy_battleship_max_hitpoints = 200000
+@battleship_ship_evasion_add = 60
+@battleship_size_multiplier = 32
+@heavy_battleship_size_multiplier = 48
+@battleship_fleet_slot_size = 8
+@battleship_combat_size_multiplier = 32
+@battleship_base_buildtime = 600
+###############
+# Battleship ##
+###############
 Imperial_star_destroyer = {
-	formation_priority = @titan_formation_priority
-	max_speed = 150
-	acceleration = 0.2
-	rotation_speed = 0.2
-	collision_radius = @titan_collision_radius
-	max_hitpoints = 100000
+	formation_priority = @battleship_formation_priority
+	max_speed = @battleship_speed
+	acceleration = @battleship_acceleration
+	rotation_speed = @battleship_rotation_speed
+	collision_radius = @battleship_collision_radius
+	max_hitpoints = @battleship_max_hitpoints
 	modifier = { 
-		ship_evasion_add = 70
-		ship_armor_add = 100000
-		ship_shield_add = 100000
+		ship_evasion_add = @battleship_ship_evasion_add
+		ship_armor_add = @battleship_max_hitpoints
+		ship_shield_add = @battleship_max_hitpoints
 		ship_cloaking_strength_add = 10
 	}
 	ship_modifier = {
 		ship_shield_regen_add_perc = 1
 		ship_armor_regen_add_perc = 1
 		ship_hull_regen_add_perc = 1
+		ship_starting_experience_add = 11100
 	}
-	size_multiplier = 32
-	fleet_slot_size = 8
-	combat_size_multiplier = 32
+	size_multiplier = @battleship_size_multiplier
+	fleet_slot_size = @battleship_fleet_slot_size
+	combat_size_multiplier = @battleship_combat_size_multiplier
 	section_slots = { 
 		"bow" = { locator = "root" } 
 		"stern" = { locator = "root" } 
@@ -224,7 +243,7 @@ Imperial_star_destroyer = {
 	is_designable = no
 	icon = kuat_ship_size_military_3
 	ship_class_icon_frame = 26
-	base_buildtime = 600
+	base_buildtime = @battleship_base_buildtime
 	can_have_federation_design = no
 	enable_default_design = no	#if yes, countries will have an auto-generated design at start
 	can_be_inspected = yes
@@ -258,26 +277,27 @@ Imperial_star_destroyer = {
 }
 
 high_Imperial_star_destroyer = {
-	formation_priority = @titan_formation_priority
-	max_speed = 150
-	acceleration = 0.2
-	rotation_speed = 0.2
-	collision_radius = @titan_collision_radius
-	max_hitpoints = 150000
+	formation_priority = @battleship_formation_priority
+	max_speed = @battleship_speed
+	acceleration = @battleship_acceleration
+	rotation_speed = @battleship_rotation_speed
+	collision_radius = @battleship_collision_radius
+	max_hitpoints = @battleship_max_hitpoints
 	modifier = { 
-		ship_evasion_add = 70
-		ship_armor_add = 150000
-		ship_shield_add = 150000
+		ship_evasion_add = @battleship_ship_evasion_add
+		ship_armor_add = @battleship_max_hitpoints
+		ship_shield_add = @battleship_max_hitpoints
 		ship_cloaking_strength_add = 10
 	}
 	ship_modifier = {
 		ship_shield_regen_add_perc = 1
 		ship_armor_regen_add_perc = 1
 		ship_hull_regen_add_perc = 1
+		ship_starting_experience_add = 11100
 	}
-	size_multiplier = 32
-	fleet_slot_size = 8
-	combat_size_multiplier = 32
+	size_multiplier = @battleship_size_multiplier
+	fleet_slot_size = @battleship_fleet_slot_size
+	combat_size_multiplier = @battleship_combat_size_multiplier
 	section_slots = { 
 		"bow" = { locator = "root" } 
 		"stern" = { locator = "root" } 
@@ -319,26 +339,27 @@ high_Imperial_star_destroyer = {
 }
 
 swfo_resurgent = {
-	formation_priority = @battler_crusier_famation_priority
-	max_speed = 150
-	acceleration = 0.2
-	rotation_speed = 0.2
-	collision_radius = @titan_collision_radius
-	max_hitpoints = 300000
+	formation_priority = @heavy_battleship_formation_priority
+	max_speed = @battleship_speed
+	acceleration = @battleship_acceleration
+	rotation_speed = @battleship_rotation_speed
+	collision_radius = @battleship_collision_radius
+	max_hitpoints = @heavy_battleship_max_hitpoints
 	modifier = { 
-		ship_evasion_add = 70
-		ship_armor_add = 300000
-		ship_shield_add = 300000
+		ship_evasion_add = @battleship_ship_evasion_add
+		ship_armor_add = @heavy_battleship_max_hitpoints
+		ship_shield_add = @heavy_battleship_max_hitpoints
 		ship_cloaking_strength_add = 10
 	}
 	ship_modifier = {
 		ship_shield_regen_add_perc = 1
 		ship_armor_regen_add_perc = 1
 		ship_hull_regen_add_perc = 1
+		ship_starting_experience_add = 11100
 	}
-	size_multiplier = 48
-	fleet_slot_size = 16
-	combat_size_multiplier = 32
+	size_multiplier = @heavy_battleship_size_multiplier
+	fleet_slot_size = @battleship_fleet_slot_size
+	combat_size_multiplier = @battleship_combat_size_multiplier
 	section_slots = { 
 		"bow" = { locator = "root" } 
 		"stern" = { locator = "root" } 
@@ -348,7 +369,7 @@ swfo_resurgent = {
 	is_designable = no
 	icon = kuat_ship_size_military_3
 	ship_class_icon_frame = 26
-	base_buildtime = 600
+	base_buildtime = @battleship_base_buildtime
 	can_have_federation_design = no
 	enable_default_design = no	#if yes, countries will have an auto-generated design at start
 	can_be_inspected = yes
@@ -379,19 +400,33 @@ swfo_resurgent = {
 	min_upgrade_cost = { alloys = 10 }
 }
 
-#subflagship
+
+@battler_crusier_collision_radius = 16
+@battler_crusier_formation_priority = 35
+@battler_crusier_speed = 100
+@battler_crusier_acceleration = 0.1
+@battler_crusier_rotation_speed = 0.2
+@battler_crusier_max_hitpoints = 250000
+@battler_crusier_ship_evasion_add = 30
+@battler_crusier_size_multiplier = 32
+@battler_crusier_fleet_slot_size = 16
+@battler_crusier_combat_size_multiplier = 32
+@battler_crusier_base_buildtime = 1200
+##################
+# heavy Crusier ##
+##################
 X308_Balletor = {
 	entity = X307_Balletor_entity
-	formation_priority = @battleship_formation_priority
-	max_speed = 100
-	acceleration = 0.2
-	rotation_speed = 0.15
-	collision_radius = 24
-	max_hitpoints = 250000
+	formation_priority = @battler_crusier_formation_priority
+	max_speed = @battler_crusier_speed
+	acceleration = @battler_crusier_acceleration
+	rotation_speed = @battler_crusier_rotation_speed
+	collision_radius = @battler_crusier_collision_radius
+	max_hitpoints = @battler_crusier_max_hitpoints
 	modifier = { 
-		ship_evasion_add = 60
-		ship_armor_add = 250000
-		ship_shield_add = 250000
+		ship_evasion_add = @battler_crusier_ship_evasion_add
+		ship_armor_add = @battler_crusier_max_hitpoints
+		ship_shield_add = @battler_crusier_max_hitpoints
 		ship_cloaking_strength_add = 10
 	}
 	ship_modifier = {
@@ -400,9 +435,9 @@ X308_Balletor = {
 		ship_hull_regen_add_perc = 1
 		ship_starting_experience_add = 11100
 	}
-	size_multiplier = 32
-	fleet_slot_size = 16
-	combat_size_multiplier = 16
+	size_multiplier = @battler_crusier_size_multiplier
+	fleet_slot_size = @battler_crusier_fleet_slot_size
+	combat_size_multiplier = @battler_crusier_combat_size_multiplier
 	section_slots = { 
 		"bow" = { locator = "root" } 
 		"mid" = { locator = "root" } 
@@ -414,7 +449,7 @@ X308_Balletor = {
 	is_space_station = no
 	icon = kuat_ship_size_military_4
 	ship_class_icon_frame = 37
-	base_buildtime = 1000
+	base_buildtime = @battler_crusier_base_buildtime
 	can_have_federation_design = no
 	is_designable = no
 	enable_default_design = no	#if yes, countries will have an auto-generated design at start
@@ -437,16 +472,16 @@ X308_Balletor = {
 
 X308_Titan = {
 	entity = X308_Titan_entity
-	formation_priority = @battleship_formation_priority
-	max_speed = 100
-	acceleration = 0.2
-	rotation_speed = 0.15
-	collision_radius = 24
-	max_hitpoints = 250000
+	formation_priority = @battler_crusier_formation_priority
+	max_speed = @battler_crusier_speed
+	acceleration = @battler_crusier_acceleration
+	rotation_speed = @battler_crusier_rotation_speed
+	collision_radius = @battler_crusier_collision_radius
+	max_hitpoints = @battler_crusier_max_hitpoints
 	modifier = { 
-		ship_evasion_add = 60
-		ship_armor_add = 250000
-		ship_shield_add = 250000
+		ship_evasion_add = @battler_crusier_ship_evasion_add
+		ship_armor_add = @battler_crusier_max_hitpoints
+		ship_shield_add = @battler_crusier_max_hitpoints
 		ship_cloaking_strength_add = 10
 	}
 	ship_modifier = {
@@ -455,9 +490,9 @@ X308_Titan = {
 		ship_hull_regen_add_perc = 1
 		ship_starting_experience_add = 11100
 	}
-	size_multiplier = 32
-	fleet_slot_size = 16
-	combat_size_multiplier = 16
+	size_multiplier = @battler_crusier_size_multiplier
+	fleet_slot_size = @battler_crusier_fleet_slot_size
+	combat_size_multiplier = @battler_crusier_combat_size_multiplier
 	section_slots = { 
 		"bow" = { locator = "root" } 
 		"mid" = { locator = "root" } 
@@ -469,7 +504,7 @@ X308_Titan = {
 	is_space_station = no
 	icon = kuat_ship_size_military_4
 	ship_class_icon_frame = 37
-	base_buildtime = 1000
+	base_buildtime = @battler_crusier_base_buildtime
 	can_have_federation_design = no
 	is_designable = no
 	enable_default_design = no	#if yes, countries will have an auto-generated design at start
@@ -492,16 +527,16 @@ X308_Titan = {
 
 X308_Tyrant = {
 	entity = X308_Tyrant_entity
-	formation_priority = @battleship_formation_priority
-	max_speed = 100
-	acceleration = 0.2
-	rotation_speed = 0.15
-	collision_radius = 24
-	max_hitpoints = 250000
+	formation_priority = @battler_crusier_formation_priority
+	max_speed = @battler_crusier_speed
+	acceleration = @battler_crusier_acceleration
+	rotation_speed = @battler_crusier_rotation_speed
+	collision_radius = @battler_crusier_collision_radius
+	max_hitpoints = @battler_crusier_max_hitpoints
 	modifier = { 
-		ship_evasion_add = 60
-		ship_armor_add = 250000
-		ship_shield_add = 250000
+		ship_evasion_add = @battler_crusier_ship_evasion_add
+		ship_armor_add = @battler_crusier_max_hitpoints
+		ship_shield_add = @battler_crusier_max_hitpoints
 		ship_cloaking_strength_add = 10
 	}
 	ship_modifier = {
@@ -510,15 +545,15 @@ X308_Tyrant = {
 		ship_hull_regen_add_perc = 1
 		ship_starting_experience_add = 11100
 	}
-	size_multiplier = 32
-	fleet_slot_size = 16
-	combat_size_multiplier = 16
+	size_multiplier = @battler_crusier_size_multiplier
+	fleet_slot_size = @battler_crusier_fleet_slot_size
+	combat_size_multiplier = @battler_crusier_combat_size_multiplier
 	section_slots = { "mid" = { locator = "root" } }
 	num_target_locators = 8
 	is_space_station = no
 	icon = kuat_ship_size_military_4
 	ship_class_icon_frame = 37
-	base_buildtime = 1000
+	base_buildtime = @battler_crusier_base_buildtime
 	can_have_federation_design = no
 	is_designable = no
 	enable_default_design = no	#if yes, countries will have an auto-generated design at start
@@ -539,18 +574,35 @@ X308_Tyrant = {
 	min_upgrade_cost = { alloys = 10 }
 }
 
-#Flagship
+
+@titan_collision_radius = 32
+@titan_formation_priority = 30
+@titan_speed = 100
+@titan_acceleration = 0.1
+@titan_rotation_speed = 0.2
+@titan_max_hitpoints_1 = 250000
+@titan_max_hitpoints_2 = 500000
+@titan_max_hitpoints_3 = 1000000
+@titan_max_hitpoints_4 = 2000000
+@titan_ship_evasion_add = 10
+@titan_size_multiplier = 64
+@titan_fleet_slot_size = 16
+@titan_combat_size_multiplier = 16
+@titan_base_buildtime = 2400
+##################
+# Flagship Drea ##
+##################
 nebula_dominance = {
-	formation_priority = @battleship_formation_priority
-	max_speed = 100
-	acceleration = 0.2
-	rotation_speed = 0.15
-	collision_radius = 24
-	max_hitpoints = 500000
+	formation_priority = @titan_formation_priority
+	max_speed = @titan_speed
+	acceleration = @titan_acceleration
+	rotation_speed = @titan_rotation_speed
+	collision_radius = @titan_collision_radius
+	max_hitpoints = @titan_max_hitpoints_2
 	modifier = { 
-		ship_evasion_add = 50
-		ship_armor_add = 500000
-		ship_shield_add = 500000
+		ship_evasion_add = @titan_ship_evasion_add
+		ship_armor_add = @titan_max_hitpoints_2
+		ship_shield_add = @titan_max_hitpoints_2
 		ship_cloaking_strength_add = 10
 	}
 	ship_modifier = {
@@ -559,9 +611,9 @@ nebula_dominance = {
 		ship_hull_regen_add_perc = 1
 		ship_starting_experience_add = 11100
 	}
-	size_multiplier = 64
-	fleet_slot_size = 10
-	combat_size_multiplier = 16
+	size_multiplier = @titan_size_multiplier
+	fleet_slot_size = @titan_fleet_slot_size 
+	combat_size_multiplier = @titan_combat_size_multiplier
 	section_slots = { 
 		"bow" = { locator = "root" } 
 		"mid" = { locator = "root" } 
@@ -574,7 +626,7 @@ nebula_dominance = {
 	is_space_station = no
 	icon = kuat_ship_size_military_4
 	ship_class_icon_frame = 37
-	base_buildtime = 1000
+	base_buildtime = @titan_base_buildtime
 	can_have_federation_design = no
 	enable_default_design = no	#if yes, countries will have an auto-generated design at start
 	is_designable = no
@@ -595,37 +647,33 @@ nebula_dominance = {
 }
 
 Vengeance = {
-	formation_priority = @battleship_formation_priority
-	max_speed = 100
-	acceleration = 0.2
-	rotation_speed = 0.15
-	collision_radius = 24
-	max_hitpoints = 500000
+	formation_priority = @titan_formation_priority
+	max_speed = @titan_speed
+	acceleration = @titan_acceleration
+	rotation_speed = @titan_rotation_speed
+	collision_radius = @titan_collision_radius
+	max_hitpoints = @titan_max_hitpoints_2
 	modifier = { 
-		ship_evasion_add = 40
-		ship_armor_add = 500000
-		ship_shield_add = 500000
+		ship_evasion_add = @titan_ship_evasion_add
+		ship_armor_add = @titan_max_hitpoints_2
+		ship_shield_add = @titan_max_hitpoints_2
 		ship_cloaking_strength_add = 10
 	}
 	ship_modifier = {
 		ship_shield_regen_add_perc = 1
 		ship_armor_regen_add_perc = 1
 		ship_hull_regen_add_perc = 1
-		ship_weapon_damage = 1
-		ship_shield_damage_mult = 1
-		ship_armor_damage_mult = 1
-		ship_hull_damage_mult = 1
 		ship_starting_experience_add = 11100
 	}
-	size_multiplier = 64
-	fleet_slot_size = 10
-	combat_size_multiplier = 16
+	size_multiplier = @titan_size_multiplier
+	fleet_slot_size = @titan_fleet_slot_size 
+	combat_size_multiplier = @titan_combat_size_multiplier
 	section_slots = { "bow" = { locator = "root" } }
 	num_target_locators = 8
 	is_space_station = no
 	icon = kuat_ship_size_military_4
 	ship_class_icon_frame = 37
-	base_buildtime = 3000
+	base_buildtime = @titan_base_buildtime
 	can_have_federation_design = no
 	enable_default_design = no	#if yes, countries will have an auto-generated design at start
 	default_behavior = EXE_flagship
@@ -647,31 +695,27 @@ Vengeance = {
 }
 
 knight_hammer_executor = {
-	formation_priority = @battleship_formation_priority
-	max_speed = 100
-	acceleration = 0.2
-	rotation_speed = 0.15
-	collision_radius = 24
-	max_hitpoints = 500000
+	formation_priority = @titan_formation_priority
+	max_speed = @titan_speed
+	acceleration = @titan_acceleration
+	rotation_speed = @titan_rotation_speed
+	collision_radius = @titan_collision_radius
+	max_hitpoints = @titan_max_hitpoints_2
 	modifier = { 
-		ship_evasion_add = 50
-		ship_armor_add = 500000
-		ship_shield_add = 500000
+		ship_evasion_add = @titan_ship_evasion_add
+		ship_armor_add = @titan_max_hitpoints_2
+		ship_shield_add = @titan_max_hitpoints_2
 		ship_cloaking_strength_add = 10
 	}
 	ship_modifier = {
 		ship_shield_regen_add_perc = 1
 		ship_armor_regen_add_perc = 1
 		ship_hull_regen_add_perc = 1
-		ship_weapon_damage = 1
-		ship_shield_damage_mult = 1
-		ship_armor_damage_mult = 1
-		ship_hull_damage_mult = 1
 		ship_starting_experience_add = 11100
 	}
-	size_multiplier = 64
-	fleet_slot_size = 10
-	combat_size_multiplier = 16
+	size_multiplier = @titan_size_multiplier
+	fleet_slot_size = @titan_fleet_slot_size 
+	combat_size_multiplier = @titan_combat_size_multiplier
 	section_slots = { 
 		"bow" = { locator = "root" } 
 		"mid" = { locator = "root" } 
@@ -683,7 +727,7 @@ knight_hammer_executor = {
 	is_space_station = no
 	icon = kuat_ship_size_military_4
 	ship_class_icon_frame = 37
-	base_buildtime = 3000
+	base_buildtime = @titan_base_buildtime
 	can_have_federation_design = no
 	enable_default_design = yes	#if yes, countries will have an auto-generated design at start
 	default_behavior = EXE_flagship
@@ -709,16 +753,16 @@ knight_hammer_executor = {
 }
 
 nebula_executor = {
-	formation_priority = @battleship_formation_priority
-	max_speed = 100
-	acceleration = 0.2
-	rotation_speed = 0.15
-	collision_radius = 24
-	max_hitpoints = 1000000
+	formation_priority = @titan_formation_priority
+	max_speed = @titan_speed
+	acceleration = @titan_acceleration
+	rotation_speed = @titan_rotation_speed
+	collision_radius = @titan_collision_radius
+	max_hitpoints = @titan_max_hitpoints_3
 	modifier = { 
-		ship_evasion_add = 50
-		ship_armor_add = 1000000
-		ship_shield_add = 1000000
+		ship_evasion_add = @titan_ship_evasion_add
+		ship_armor_add = @titan_max_hitpoints_3
+		ship_shield_add = @titan_max_hitpoints_3
 		ship_cloaking_strength_add = 10
 	}
 	ship_modifier = {
@@ -727,9 +771,9 @@ nebula_executor = {
 		ship_hull_regen_add_perc = 1
 		ship_starting_experience_add = 11100
 	}
-	size_multiplier = 64
-	fleet_slot_size = 10
-	combat_size_multiplier = 16
+	size_multiplier = @titan_size_multiplier
+	fleet_slot_size = @titan_fleet_slot_size 
+	combat_size_multiplier = @titan_combat_size_multiplier
 	section_slots = { 
 		"bow" = { locator = "root" } 
 		"mid" = { locator = "root" } 
@@ -741,7 +785,7 @@ nebula_executor = {
 	is_space_station = no
 	icon = kuat_ship_size_military_4
 	ship_class_icon_frame = 37
-	base_buildtime = 2000
+	base_buildtime = @titan_base_buildtime
 	can_have_federation_design = no
 	enable_default_design = yes	#if yes, countries will have an auto-generated design at start
 	prerequisites = { tech_kuat_noway }
@@ -767,16 +811,16 @@ nebula_executor = {
 }
 
 kuat_legator = {
-	formation_priority = @battleship_formation_priority
-	max_speed = 100
-	acceleration = 0.2
-	rotation_speed = 0.15
-	collision_radius = 24
-	max_hitpoints = 1000000
+	formation_priority = @titan_formation_priority
+	max_speed = @titan_speed
+	acceleration = @titan_acceleration
+	rotation_speed = @titan_rotation_speed
+	collision_radius = @titan_collision_radius
+	max_hitpoints = @titan_max_hitpoints_4
 	modifier = { 
-		ship_evasion_add = 50
-		ship_armor_add = 2000000
-		ship_shield_add = 2000000
+		ship_evasion_add = @titan_ship_evasion_add
+		ship_armor_add = @titan_max_hitpoints_4
+		ship_shield_add = @titan_max_hitpoints_4
 		ship_cloaking_strength_add = 10
 	}
 	ship_modifier = {
@@ -785,16 +829,16 @@ kuat_legator = {
 		ship_hull_regen_add_perc = 1
 		ship_starting_experience_add = 11100
 	}
-	entity = nebula_Legator_entity
-	size_multiplier = 64
-	fleet_slot_size = 10
-	combat_size_multiplier = 16
+	size_multiplier = @titan_size_multiplier
+	fleet_slot_size = @titan_fleet_slot_size 
+	combat_size_multiplier = @titan_combat_size_multiplier
 	section_slots = { "bow" = { locator = "root" } }
+	entity = nebula_Legator_entity
 	num_target_locators = 8
 	is_space_station = no
 	icon = kuat_ship_size_military_5
 	ship_class_icon_frame = 37
-	base_buildtime = 4000
+	base_buildtime = @titan_base_buildtime
 	can_have_federation_design = no
 	is_designable = no
 	enable_default_design = no	#if yes, countries will have an auto-generated design at start
@@ -815,31 +859,27 @@ kuat_legator = {
 }
 
 eclipse = {
-	formation_priority = @battleship_formation_priority
-	max_speed = 100
-	acceleration = 0.2
-	rotation_speed = 0.15
-	collision_radius = 24
-	max_hitpoints = 2000000
+	formation_priority = @titan_formation_priority
+	max_speed = @titan_speed
+	acceleration = @titan_acceleration
+	rotation_speed = @titan_rotation_speed
+	collision_radius = @titan_collision_radius
+	max_hitpoints = @titan_max_hitpoints_4
 	modifier = { 
-		ship_evasion_add = 30
-		ship_armor_add = 2000000
-		ship_shield_add = 2000000
+		ship_evasion_add = @titan_ship_evasion_add
+		ship_armor_add = @titan_max_hitpoints_4
+		ship_shield_add = @titan_max_hitpoints_4
 		ship_cloaking_strength_add = 10
 	}
 	ship_modifier = {
 		ship_shield_regen_add_perc = 1
 		ship_armor_regen_add_perc = 1
 		ship_hull_regen_add_perc = 1
-		ship_weapon_damage = 1
-		ship_shield_damage_mult = 1
-		ship_armor_damage_mult = 1
-		ship_hull_damage_mult = 1
 		ship_starting_experience_add = 11100
 	}
-	size_multiplier = 64
-	fleet_slot_size = 10
-	combat_size_multiplier = 16
+	size_multiplier = @titan_size_multiplier
+	fleet_slot_size = @titan_fleet_slot_size 
+	combat_size_multiplier = @titan_combat_size_multiplier
 	can_be_inspected = yes
 	section_slots = {
 		"mid" = { locator = "root" }
@@ -853,7 +893,7 @@ eclipse = {
 	is_space_station = no
 	icon = kuat_ship_size_military_5
 	ship_class_icon_frame = 37
-	base_buildtime = 3000
+	base_buildtime = @titan_base_buildtime
 	can_have_federation_design = no
 	enable_default_design = no	#if yes, countries will have an auto-generated design at start
 	default_behavior = EXE_flagship
@@ -873,31 +913,27 @@ eclipse = {
 }
 
 Annihilator = {
-	formation_priority = @battleship_formation_priority
-	max_speed = 100
-	acceleration = 0.2
-	rotation_speed = 0.15
-	collision_radius = 24
-	max_hitpoints = 2000000
+	formation_priority = @titan_formation_priority
+	max_speed = @titan_speed
+	acceleration = @titan_acceleration
+	rotation_speed = @titan_rotation_speed
+	collision_radius = @titan_collision_radius
+	max_hitpoints = @titan_max_hitpoints_4
 	modifier = { 
-		ship_evasion_add = 30 
-		ship_armor_add = 2000000
-		ship_shield_add = 2000000
+		ship_evasion_add = @titan_ship_evasion_add
+		ship_armor_add = @titan_max_hitpoints_4
+		ship_shield_add = @titan_max_hitpoints_4
 		ship_cloaking_strength_add = 10
 	}
 	ship_modifier = {
 		ship_shield_regen_add_perc = 1
 		ship_armor_regen_add_perc = 1
 		ship_hull_regen_add_perc = 1
-		ship_weapon_damage = 1
-		ship_shield_damage_mult = 1
-		ship_armor_damage_mult = 1
-		ship_hull_damage_mult = 1
 		ship_starting_experience_add = 11100
 	}
-	size_multiplier = 64
-	fleet_slot_size = 10
-	combat_size_multiplier = 16
+	size_multiplier = @titan_size_multiplier
+	fleet_slot_size = @titan_fleet_slot_size 
+	combat_size_multiplier = @titan_combat_size_multiplier
 	section_slots = { 
 		"bow" = { locator = "root" } 
 		"mid" = { locator = "root" } 
@@ -909,7 +945,7 @@ Annihilator = {
 	icon = kuat_ship_size_military_5
 	ship_class_icon_frame = 37
 	is_designable = no
-	base_buildtime = 4000
+	base_buildtime = @titan_base_buildtime
 	can_have_federation_design = no
 	enable_default_design = no	#if yes, countries will have an auto-generated design at start
 	default_behavior = EXE_flagship
@@ -929,16 +965,16 @@ Annihilator = {
 }
 
 kuat_sector = {
-	formation_priority = @battleship_formation_priority
-	max_speed = 100
-	acceleration = 0.2
-	rotation_speed = 0.15
-	collision_radius = 24
-	max_hitpoints = 2000000
+	formation_priority = @titan_formation_priority
+	max_speed = @titan_speed
+	acceleration = @titan_acceleration
+	rotation_speed = @titan_rotation_speed
+	collision_radius = @titan_collision_radius
+	max_hitpoints = @titan_max_hitpoints_4
 	modifier = { 
-		ship_evasion_add = 50
-		ship_armor_add = 2000000
-		ship_shield_add = 2000000
+		ship_evasion_add = @titan_ship_evasion_add
+		ship_armor_add = @titan_max_hitpoints_4
+		ship_shield_add = @titan_max_hitpoints_4
 		ship_cloaking_strength_add = 10
 	}
 	ship_modifier = {
@@ -947,18 +983,18 @@ kuat_sector = {
 		ship_hull_regen_add_perc = 1
 		ship_starting_experience_add = 11100
 	}
-	entity = sector_entity
-	size_multiplier = 64
-	fleet_slot_size = 10
-	combat_size_multiplier = 16
+	size_multiplier = @titan_size_multiplier
+	fleet_slot_size = @titan_fleet_slot_size 
+	combat_size_multiplier = @titan_combat_size_multiplier
 	section_slots = { 
 		"bow" = { locator = "root" } 
 	}
+	entity = sector_entity
 	num_target_locators = 8
 	is_space_station = no
 	icon = kuat_ship_size_military_5
 	ship_class_icon_frame = 37
-	base_buildtime = 4000
+	base_buildtime = @titan_base_buildtime
 	can_have_federation_design = no
 	is_designable = no
 	enable_default_design = no	#if yes, countries will have an auto-generated design at start
@@ -979,16 +1015,16 @@ kuat_sector = {
 }
 
 kuat_compellor = {
-	formation_priority = @battleship_formation_priority
-	max_speed = 100
-	acceleration = 0.2
-	rotation_speed = 0.15
-	collision_radius = 24
-	max_hitpoints = 2000000
+	formation_priority = @titan_formation_priority
+	max_speed = @titan_speed
+	acceleration = @titan_acceleration
+	rotation_speed = @titan_rotation_speed
+	collision_radius = @titan_collision_radius
+	max_hitpoints = @titan_max_hitpoints_4
 	modifier = { 
-		ship_evasion_add = 50
-		ship_armor_add = 2000000
-		ship_shield_add = 2000000
+		ship_evasion_add = @titan_ship_evasion_add
+		ship_armor_add = @titan_max_hitpoints_4
+		ship_shield_add = @titan_max_hitpoints_4
 		ship_cloaking_strength_add = 10
 	}
 	ship_modifier = {
@@ -997,16 +1033,16 @@ kuat_compellor = {
 		ship_hull_regen_add_perc = 1
 		ship_starting_experience_add = 11100
 	}
-	entity = nebula_Compellor_entity
-	size_multiplier = 64
-	fleet_slot_size = 10
-	combat_size_multiplier = 16
+	size_multiplier = @titan_size_multiplier
+	fleet_slot_size = @titan_fleet_slot_size 
+	combat_size_multiplier = @titan_combat_size_multiplier
 	section_slots = { "bow" = { locator = "root" } }
+	entity = nebula_Compellor_entity
 	num_target_locators = 8
 	is_space_station = no
 	icon = kuat_ship_size_military_5
 	ship_class_icon_frame = 37
-	base_buildtime = 4000
+	base_buildtime = @titan_base_buildtime
 	can_have_federation_design = no
 	is_designable = no
 	enable_default_design = no	#if yes, countries will have an auto-generated design at start
