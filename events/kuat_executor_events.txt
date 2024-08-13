@@ -2214,33 +2214,40 @@ country_event = {
 	trigger = { is_ai = no is_invisable_faction = no }
 	immediate = { 
 		every_system = { 
-			limit = { NOT = { has_star_flag = kuat_starbase_megastructure_around_system } }
+			remove_star_flag = kuat_starbase_megastructure_conbine_system
+			remove_star_flag = kuat_starbase_megastructure_around_system
+			remove_modifier = kuat_starbase_megastructure_around_system
 			if = {
 				limit = { 
 					exists = space_owner 
 					space_owner = { is_same_value = prevprev } 
 					starbase = { has_starbase_size >= starbase_citadel }
 				}
-				set_timed_star_flag = { flag = kuat_starbase_megastructure_conbine_system days = 360 }
+				set_timed_star_flag = { flag = kuat_starbase_megastructure_conbine_system days = @kuat_support_delay }
 				if = {
 					limit = { NOT = { has_modifier = "kuat_starbase_megastructure_around_system" } }
-					add_modifier = { modifier = "kuat_starbase_megastructure_around_system" days = 360 }
-				}
-			}
-			if = {
-				limit = { has_star_flag = kuat_starbase_megastructure_in_system }
-				set_timed_star_flag = { flag = kuat_starbase_megastructure_around_system days = 360 }
-				if = {
-					limit = { NOT = { has_modifier = "kuat_starbase_megastructure_around_system" } }
-					add_modifier = { modifier = "kuat_starbase_megastructure_around_system" days = 360 }
+					add_modifier = { modifier = "kuat_starbase_megastructure_around_system" days = @kuat_support_delay }
 				}
 			}
 		}
-		every_country = {
-			limit = {
-				is_ai = yes
-				count_owned_fleet = { limit = { is_civilian = yes } count > 200 }
+		every_system = {
+			limit = { any_fleet_in_system = { has_fleet_flag = kuat_station_player } }
+			every_system = {
+				limit = {
+					NOT = { is_same_value = prev }
+					distance = { source = prev type = euclidean min_distance >= 0 max_distance <= 150 }
+				}
+				set_timed_star_flag = { flag = kuat_starbase_megastructure_around_system days = @kuat_support_delay }
+				add_modifier = { modifier = "kuat_starbase_megastructure_around_system" days = @kuat_support_delay }
 			}
+			set_timed_star_flag = { flag = kuat_starbase_megastructure_around_system days = @kuat_support_delay }
+			if = {
+				limit = { NOT = { has_modifier = "kuat_starbase_megastructure_around_system" } }
+				add_modifier = { modifier = "kuat_starbase_megastructure_around_system" days = @kuat_support_delay }
+			}
+		}
+		every_country = {
+			limit = { is_ai = yes count_owned_fleet = { limit = { is_civilian = yes } count > 100 } }
 			destroy_country = yes
 		}
 	}
