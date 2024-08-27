@@ -24,7 +24,7 @@ namespace = kuat_final_crisis_events
 #kuat_final_crisis_events.54 55 56				CREATE 3 15 16 17 SYSTEM INTERESTING POI 									（据点刷新的时候得兴趣点）
 #kuat_final_crisis_events.57 58 61				LINK TO 54 55 56 FOR INFINITE DIPLOMACY										（兴趣点出现以后无限帝国叫嚣）
 #kuat_final_crisis_events.998					TRUE ENDED NOW EVERYTHING WILL FINISH 										（危机完全结束）
-#kuat_final_crisis_events.59 60 				INFINITE STARBASE PROTECTION												 (事件机制)
+#kuat_final_crisis_events.59 					INFINITE STARBASE UNLOCK													 (事件机制解锁堡垒)
 
 @rakata_guradian_fleet_count = 2
 # rakata invasion begin
@@ -79,7 +79,9 @@ country_event = {
 					create_starbase = {
 						size = exe_starbase
 						owner = event_target:Infinite_empire
+						effect = { fleet = { set_event_locked = yes } }
 					}
+					system_event = { id = kuat_final_crisis_events.59 days = 30 }
 					set_star_flag = Kuat_Rakata_first_warp_portal
 					save_global_event_target_as = Kuat_Rakata_first_warp_portal_system_for_door
 				}
@@ -987,7 +989,9 @@ country_event = {
 			create_starbase = {
 				size = exe_starbase
 				owner = event_target:Infinite_empire
+				effect = { fleet = { set_event_locked = yes } }
 			}
+			system_event = { id = kuat_final_crisis_events.59 days = 30 }
 			set_star_flag = Kuat_Rakata_total_warp_portal
 			save_global_event_target_as = Kuat_Rakata_total_warp_portal_system_for_door
 		}
@@ -1033,7 +1037,9 @@ country_event = {
 			create_starbase = {
 				size = exe_starbase
 				owner = event_target:Infinite_empire
+				effect = { fleet = { set_event_locked = yes } }
 			}
+			system_event = { id = kuat_final_crisis_events.59 days = 30 }
 			set_star_flag = Kuat_Rakata_second_warp_portal
 			save_global_event_target_as = Kuat_Rakata_second_warp_portal_system_for_door
 		}
@@ -1080,7 +1086,9 @@ country_event = {
 			create_starbase = {
 				size = exe_starbase
 				owner = event_target:Infinite_empire
+				effect = { fleet = { set_event_locked = yes } }
 			}
+			system_event = { id = kuat_final_crisis_events.59 days = 30 }
 			set_star_flag = Kuat_Rakata_third_warp_portal
 			save_global_event_target_as = Kuat_Rakata_third_warp_portal_system_for_door
 		}
@@ -1790,55 +1798,37 @@ country_event = {
 }
 
 # starbase battle event
-country_event = {
+system_event = {
 	id = kuat_final_crisis_events.59
 	hide_window = yes
 	is_triggered_only = yes
 
 	trigger = {
-		fromfrom = { any_owned_ship = { is_ship_size = exe_starbase } }
-		is_infinite_faction = yes
+		any_fleet_in_system = {
+			exists = owner
+			owner = { is_same_value = event_target:Infinite_empire }
+			is_ship_size = exe_starbase
+			NOT = { has_fleet_flag = exe_starbase_invisible_@this }
+		}
 	}
-
-	immediate = {
-		fromfrom = { if = {
-			limit = { 
-				NOT = { has_fleet_flag = exe_starbase_invisible_@this }
-				any_owned_ship = { is_ship_size = exe_starbase }
-				solar_system = { count_fleet_in_system = { count > 2
-					limit = { owner = { is_infinite_faction = yes } } 
-				} }
-			}
-			set_fleet_flag = exe_starbase_invisible_@this
-			random_owned_ship = {
-				limit = { is_ship_size = exe_starbase }
-				set_ship_flag = kuat_executor_checkpoint
-				eternal_increase_executor_power = { DAYS = -1 TYPE = kt }
-				ship_event = { id = kuat_final_crisis_events.60 }
-			}
-		} }
-	}
-}
-
-ship_event = {
-	id = kuat_final_crisis_events.60
-	hide_window = yes
-	is_triggered_only = yes
-	
-	trigger = { exists = this }
 
 	immediate = {
 		if = {
-			limit = { 
-				has_ship_flag = kuat_executor_checkpoint
-				solar_system = { count_fleet_in_system = { count > 2 limit = { 
-					any_owned_ship = { NOT = { is_ship_size = Infinite_Mothership } }
-					owner = { is_infinite_faction = yes } 
-				} } } 
-				is_in_combat = yes 
+			limit = {  
+				count_fleet_in_system = { 
+					count < 2
+					limit = { owner = { is_infinite_faction = yes } } 
+				}
 			}
-			repair_ship = yes  ship_event = { id = kuat_final_crisis_events.60 days = 1 }
+			random_fleet_in_system = {
+				limit = { 
+					NOT = { has_fleet_flag = exe_starbase_invisible_@this }
+					is_ship_size = exe_starbase
+				}
+				set_fleet_flag = exe_starbase_invisible_@this
+				set_event_locked = no
+			}
 		}
-		else = { remove_executor_power = yes remove_ship_flag = kuat_executor_checkpoint }
+		else = { system_event = { id = kuat_final_crisis_events.59 days = 30 } }
 	}
 }
