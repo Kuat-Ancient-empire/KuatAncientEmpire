@@ -4072,3 +4072,57 @@ starkiller_destroyed_system_everything_random = {
 		else = { remove_megastructure = this }
 	}
 }
+
+kuat_unlock_all_gateway = {
+	set_global_flag = kuat_shadow_war_prepare 
+	every_megastructure = {
+		limit = { is_megastructure_type = exe_outer_gate_disable }
+		upgrade_megastructure_to = exe_outer_gate
+		finish_upgrade = yes
+	}
+	every_playable_country = {
+		limit = { is_ai = no }
+		set_country_flag = can_pass_by set_country_flag = can_pass_inner_by country_event = { id = executor_build.46 }
+	}
+	every_megastructure = { limit = { is_megastructure_type = exe_outer_gate } activate_gateway = this }
+}
+
+kuat_change_country_owner = {
+	every_system = {
+		limit = {
+			exists = owner
+			owner = { OR = {
+				is_same_value = event_target:fallen_empire_kuat
+				is_same_value = event_target:fallen_empire_kuat_fleet
+			} }
+		}
+		every_system_planet = {
+			limit = {
+				exists = owner
+				owner = { OR = {
+					is_same_value = event_target:fallen_empire_kuat
+					is_same_value = event_target:fallen_empire_kuat_fleet
+				} }
+				is_colony = yes
+			}
+			set_owner = $TARGET$
+		}
+		every_fleet_in_system = {
+			limit = {
+				exists = owner
+				owner = { OR = {
+					is_same_value = event_target:fallen_empire_kuat
+					is_same_value = event_target:fallen_empire_kuat_fleet
+				} }
+			}
+			set_owner = $TARGET$
+		}
+	}
+	every_country = {
+		limit = { OR = {
+			is_same_value = event_target:fallen_empire_kuat
+			is_same_value = event_target:fallen_empire_kuat_fleet
+		} }
+		destroy_country = yes
+	}
+}
