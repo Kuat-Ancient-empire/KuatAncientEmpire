@@ -1796,18 +1796,44 @@ fleet_event = {
 					owner = { is_eternal_faction = yes } 
 					exists = solar_system solar_system = { kuat_is_repair_system = yes }
 				}
-				every_owned_ship = { set_variable = { which = combat_days value = 0 } }
+				set_variable = { which = fleet_combat_days value = 0 }
 			}
 			else_if = {
-				limit = { owner = { is_eternal_faction = yes } } 
-				every_owned_ship = { limit = { check_variable = { which = combat_days value > 3 } } set_disable_at_health = -1 } 
+				limit = { 
+					owner = { is_eternal_faction = yes } 
+					check_variable = { which = fleet_combat_days value > 2 } 
+				} 
+				every_owned_ship = { set_disable_at_health = -1 }
 			}
 			else_if = {
-				limit = { owner = { is_infinite_faction = yes } } 
-				every_owned_ship = { limit = { check_variable = { which = combat_days value > 2 } } set_disable_at_health = -1 } 
+				limit = { 
+					owner = { is_infinite_faction = yes } 
+					check_variable = { which = fleet_combat_days value > 2 } 
+				} 
+				every_owned_ship = { set_disable_at_health = -1 }
 			}
-			every_owned_ship = { change_variable = { which = combat_days value = 1 } }
+			else_if = {
+				limit = { 
+					has_global_flag = ban_exe_invasion has_global_flag = enable_modifer_check
+					check_variable = { which = kuat_fleet_invisiable_checkpoint value > 40 }
+					check_variable = { which = fleet_combat_days value <= 4 }
+					count_owned_ship = { count < kuat_fleet_invisiable_checkpoint_half }
+				}
+				random_combatant_fleet = {
+					limit = { 
+						owner = { is_invisable_faction = no }
+						has_enable_total_flagship_system_false = yes
+						NOT = { has_fleet_flag = kuat_fleet_invisiable_checkpoint_half_temple }
+					}
+					while = {
+						count = kuat_fleet_invisiable_checkpoint_half
+						random_owned_ship = { limit = { kuat_is_flagship = no } destroy_ship = this }
+					}
+					set_timed_fleet_flag = { flag = kuat_fleet_invisiable_checkpoint_half_temple days = 1 }
+				}
+			}
 			change_variable = { which = weapon_fired_combat_days value = 1 }
+			change_variable = { which = fleet_combat_days value = 1 }
 			if = {
 				limit = { check_variable = { which = weapon_fired_combat_days value = 3 } }
 				if = {
@@ -1827,11 +1853,12 @@ fleet_event = {
 			fleet_event = { id = exe_invasion.145 days = 1 }
 		}
 		else = { 
-			every_owned_ship = { 
-				clear_variable = combat_days
-				if = { limit = { owner = { OR = { is_eternal_faction = yes is_infinite_faction = yes } } } set_disable_at_health = 0.01 }
-			} 
-			clear_variable = weapon_fired_combat_days 
+			if = { 
+				limit = { owner = { OR = { is_eternal_faction = yes is_infinite_faction = yes } } } 
+				every_owned_ship = { set_disable_at_health = 0.01 } 
+			}
+			clear_variable = weapon_fired_combat_days
+			clear_variable = fleet_combat_days
 		}
 	}
 }
@@ -1905,12 +1932,8 @@ country_event = {
 						} } 
 						NOT = { has_fleet_flag = random_list_eternal_fleet_rate_placeholder } 
 					}
-					every_owned_ship = { 
-						limit = { NOT = { is_variable_set = combat_days } is_ship_class = shipclass_military } 
-						change_variable = { which = combat_days value = 1 } 
-					}
-					change_variable = { which = weapon_fired_combat_days value = 1 }
-					fleet_event = { id = exe_invasion.145 days = 1 }
+					mult_half_variable = { WHICH = kuat_fleet_invisiable_checkpoint VALUE = 0.50 }
+					fleet_event = { id = exe_invasion.145 }
 					set_timed_fleet_flag = { flag = random_list_eternal_fleet_rate_placeholder days = 1 }
 				}
 				if = {  

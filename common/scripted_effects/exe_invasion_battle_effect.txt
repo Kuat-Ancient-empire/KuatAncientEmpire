@@ -1682,13 +1682,14 @@ kuat_copy_leader_learning_system = {
 	}
 }
 
-# #scope: fleet
-# mult_half_variable = {
-# 	optimize_memory
-# 	set_variable = { which = $WHICH$_half value = $WHICH$ }
-# 	multiply_variable = { which = $WHICH$_half value = $VALUE$ }
-# 	floor_variable = $WHICH$_half
-# }
+#scope: fleet
+mult_half_variable = {
+	optimize_memory
+	export_trigger_value_to_variable = { trigger = count_owned_ship variable = $WHICH$ } #总
+	set_variable = { which = $WHICH$_half value = $WHICH$ } #检查总
+	multiply_variable = { which = $WHICH$_half value = $VALUE$ }
+	round_variable = $WHICH$_half
+}
 
 kuat_star_flagship_checksum = {
 	if = {
