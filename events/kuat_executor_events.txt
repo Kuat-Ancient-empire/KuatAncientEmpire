@@ -775,7 +775,6 @@ country_event = {
 	custom_gui_option = "kuat_event_option"
 	mean_time_to_happen = { 
 		years = 10 
-		modifier = { factor = 0.75 exists = event_target:fallen_empire_kuat_fleet }
 		modifier = { factor = 0.5 exists = event_target:exe_outer_gate_disable }
 		modifier = { factor = 0.25 is_at_war_with = event_target:fallen_empire_kuat }
 	}
@@ -787,7 +786,6 @@ country_event = {
 			any_system_within_border = { has_star_flag = exe_outer_gate_disable_system } 
 			AND = {
 				NOT = { exists = event_target:exe_outer_gate_disable }
-				NOT = { exists = event_target:fallen_empire_kuat_fleet }
 				is_at_war_with = event_target:fallen_empire_kuat
 				any_system = { has_star_flag = kuat_exe_invasion_gate_system } 
 			}
@@ -804,7 +802,6 @@ country_event = {
 			limit = { OR = {
 				AND = {
 					NOT = { exists = event_target:exe_outer_gate_disable }
-					NOT = { exists = event_target:fallen_empire_kuat_fleet }
 					is_at_war_with = event_target:fallen_empire_kuat
 					any_system = { has_star_flag = kuat_exe_invasion_gate_system } 
 				}
@@ -1063,33 +1060,6 @@ country_event = {
 		}
 		else = {
 			save_event_target_as = fallen_empire_humiliator
-			create_kuat_fleet_country_type = yes
-			every_system = {
-				limit = { has_star_flag = kuat_military_base_system_home }
-				every_fleet_in_system = { 
-					limit = { exists = owner owner = { is_kuat_fallen_empire = no } }
-					set_location =  owner.capital_scope 
-				}
-				create_starbase = {
-					owner = event_target:fallen_empire_kuat_fleet
-					size = exe_starbase
-					module = "gun_battery"
-					module = "gun_battery"
-					module = "gun_battery"
-					module = "gun_battery"
-					module = "gun_battery"
-					module = "gun_battery"
-					building = "target_uplink_computer"
-					building = "defense_grid"
-					building = "colossus_yards"
-					building = "titan_yards"
-				}
-				random_system_planet = {
-					limit = { has_planet_flag = create_defender_fleet_location }
-					create_kuat_fleet_country_type_defend_army = yes
-				}
-			}
-			event_target:target_for_kuat = { establish_communications_no_message = event_target:fallen_empire_kuat_fleet }
 			event_target:target_for_kuat = { fallen_empire_humiliate_effect = yes country_event = { id = ai_action.5 days = 1 } }
 		}
 	}
