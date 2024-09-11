@@ -163,11 +163,6 @@ Drift_megastructure_starbase = {
 			remove_planet_flag = has_exe_starbase
 			set_planet_size = 18
 			solar_system = {
-				remove_star_flag = kuat_starbase_megastructure_around_system
-				remove_star_flag = kuat_starbase_megastructure_buffer_system
-				remove_modifier = kuat_starbase_megastructure_around_system
-				set_timed_star_flag = { flag = kuat_starbase_megastructure_around_system days = @kuat_support_delay }
-				set_timed_star_flag = { flag = kuat_starbase_megastructure_buffer_system days = @kuat_support_delay }
 				every_system_planet = {
 					limit = {
 						exists = owner
@@ -175,21 +170,10 @@ Drift_megastructure_starbase = {
 					}
 					add_modifier = { modifier = "exe_megastructure_starbase_in_system" }
 				}
-				add_modifier = { modifier = "kuat_starbase_megastructure_around_system" days = @kuat_support_delay }
 			}
 		}
-		every_system = {
-			limit = {
-				NOT = { is_same_value = prev }
-				distance = { source = prev type = euclidean min_distance >= 0 max_distance <= 150 }
-			}
-			remove_star_flag = kuat_starbase_megastructure_around_system
-			remove_star_flag = kuat_starbase_megastructure_buffer_system
-			remove_modifier = kuat_starbase_megastructure_around_system
-			set_timed_star_flag = { flag = kuat_starbase_megastructure_around_system days = @kuat_support_delay }
-			set_timed_star_flag = { flag = kuat_starbase_megastructure_buffer_system days = @kuat_support_delay }
-			add_modifier = { modifier = "kuat_starbase_megastructure_around_system" days = @kuat_support_delay }
-		}
+		spawn_random_storm = { type = "kuat_support_nexus_storm" cosmic_storm_start_position = this immediate = yes }
+		last_created_cosmic_storm = { set_storm_flag = storm_kuat_support_nexus_storm_Drift_megastructure_starbase }
 		add_threat = { who = from amount = 50 }
 		create_fleet = {
 			name = "Name_Eternal_station_fleet"

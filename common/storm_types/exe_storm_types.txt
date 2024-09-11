@@ -1,0 +1,71 @@
+# Nexus Storm Type
+kuat_support_nexus_storm = {
+	inline_script = {
+		script = "kuat_reasearch_event/kuat_StormConfig"
+		MIN_RADIUS = 75
+		MAX_RADIUS = 75
+		MIN_RANGE = 75
+		MAX_RANGE = 75
+		STORM_SPEED = 0
+		ACTIVATION_PERIOD_IN_MONTHS = 12
+		MONTHLY_ADDED_DEVASTATION = 0
+	}
+	affect_hp_regen = no
+	affect_armor_regen = no
+	affect_shield_regen = no
+
+	spawn_weight = 0
+	description = kuat_support_nexus_storm_lore_description
+
+	triggered_fleet_modifier = {
+		potential = {
+			always = yes
+		}
+		weapon_type_energy_weapon_damage_mult = 1
+		weapon_type_explosive_weapon_damage_mult = 1
+		weapon_type_kinetic_weapon_damage_mult = 1
+	}
+
+	on_start = {
+		every_system_within_storm = {
+			kuat_added_to_storm_base_effect = yes
+			kuat_nexus_storm_add = yes
+		}
+	}
+
+	on_finished = {
+		every_system_within_storm = {
+			kuat_removed_from_storm_base_effect = yes
+			kuat_nexus_storm_remove = yes
+		}
+	}
+
+	on_moved = {
+		every_system_added_to_storm = {
+			kuat_added_to_storm_base_effect = yes
+			kuat_nexus_storm_add = yes
+		}
+
+		every_system_removed_from_storm = {
+			kuat_removed_from_storm_base_effect = yes
+			kuat_nexus_storm_remove = yes
+		}
+	}
+
+	cosmic_storm_texture_path = "gfx/map/storms/NebulaOpacity.dds"
+	cosmic_storm_texture_color_path = "gfx/map/storms/celestial_storm_color.dds"
+	cosmic_storm_event_sprite = "GFX_particle_storm"
+	icon = GFX_planetview_storm_particle_modifier_frame
+
+	cosmic_storm_texture_lightning_paths = {
+		"gfx/map/storms/lightning/lightning_big_storm_01.dds"
+		"gfx/map/storms/lightning/lightning_big_storm_02.dds"
+		"gfx/map/storms/lightning/lightning_mid_storm_01.dds"
+		"gfx/map/storms/lightning/lightning_mid_storm_02.dds"
+	}
+
+	cosmic_storm_galaxy_lightning_time = 5.0
+	cosmic_storm_galaxy_max_opacity = 0.4
+
+	show_notification = { always = no }
+}

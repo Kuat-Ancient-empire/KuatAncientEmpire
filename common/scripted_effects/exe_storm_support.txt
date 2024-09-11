@@ -1,0 +1,82 @@
+### Nexus storm behaviour ###
+
+kuat_nexus_storm_add = {
+	add_modifier = { modifier = "kuat_starbase_megastructure_around_system" }
+	set_star_flag = kuat_starbase_megastructure_around_system
+	if = {
+		limit = { any_ship_in_system = { is_ship_size = Drift_megastructure_starbase } }
+		set_star_flag = kuat_starbase_megastructure_buffer_system
+	}
+
+	set_star_flag = kuat_storm_system
+	set_global_flag = cosmic_storm_has_occurred
+
+	star = {
+		create_ambient_object = {
+			type = celestial_storm
+			location = this
+		}
+		last_created_ambient_object = {
+			set_ambient_object_flag = kuat_space_storm_object
+			set_location = {
+				target = prev
+				distance = 0
+				angle = random
+			}
+		}
+	}
+}
+
+kuat_nexus_storm_remove = {
+	if = {
+		limit = { has_star_flag = kuat_starbase_megastructure_buffer_system }
+		remove_star_flag = kuat_starbase_megastructure_buffer_system
+	}
+	remove_star_flag = kuat_starbase_megastructure_around_system
+	remove_modifier = kuat_starbase_megastructure_around_system
+	kuat_remove_storm_visuals_effect = yes
+	remove_star_flag = kuat_storm_system
+}
+
+kuat_added_to_storm_base_effect = {
+	set_cosmic_storm = { cosmic_storm = prev }
+}
+
+kuat_removed_from_storm_base_effect = {
+	unset_cosmic_storm = yes
+}
+
+kuat_remove_storm_visuals_effect = {
+	random_system_ambient_object = {
+		limit = {
+			has_ambient_object_flag = kuat_space_storm_object
+		}
+		destroy_ambient_object = this
+	}
+}
+
+#空投补给
+kuat_storming_placing_selector = {
+	start_storm_area_placing = {
+		sacrifice_leader_with_ui = yes
+		cosmic_storm = kuat_support_nexus_storm
+		immediate = yes
+
+		reticle_radius = {
+			base = 100
+		}
+
+		max_range = {
+			base = 3000
+		}
+
+		on_confirm = {
+			add_resource = { energy = -50000 }
+			hidden_effect = { set_timed_country_flag = { flag = kuat_storming_placing_selector_temple days = 360 } }
+			last_created_cosmic_storm = { set_storm_flag = storm_kuat_support_nexus_storm_special_deployed }
+			country_event = { id = executor_build.1009 days = 360 }
+		}
+
+		on_cancel = { }
+	}
+}

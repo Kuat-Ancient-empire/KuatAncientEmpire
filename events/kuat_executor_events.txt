@@ -2190,8 +2190,6 @@ country_event = {
 	immediate = { 
 		every_system = { 
 			remove_star_flag = kuat_starbase_megastructure_conbine_system
-			remove_star_flag = kuat_starbase_megastructure_around_system
-			remove_modifier = kuat_starbase_megastructure_around_system
 			if = {
 				limit = { 
 					exists = space_owner 
@@ -2203,22 +2201,6 @@ country_event = {
 					limit = { NOT = { has_modifier = "kuat_starbase_megastructure_around_system" } }
 					add_modifier = { modifier = "kuat_starbase_megastructure_around_system" days = @kuat_support_delay }
 				}
-			}
-		}
-		every_system = {
-			limit = { any_fleet_in_system = { has_fleet_flag = kuat_station_player } }
-			every_system = {
-				limit = {
-					NOT = { is_same_value = prev }
-					distance = { source = prev type = euclidean min_distance >= 0 max_distance <= 150 }
-				}
-				set_timed_star_flag = { flag = kuat_starbase_megastructure_around_system days = @kuat_support_delay }
-				add_modifier = { modifier = "kuat_starbase_megastructure_around_system" days = @kuat_support_delay }
-			}
-			set_timed_star_flag = { flag = kuat_starbase_megastructure_around_system days = @kuat_support_delay }
-			if = {
-				limit = { NOT = { has_modifier = "kuat_starbase_megastructure_around_system" } }
-				add_modifier = { modifier = "kuat_starbase_megastructure_around_system" days = @kuat_support_delay }
 			}
 		}
 		every_country = {
@@ -2531,4 +2513,106 @@ country_event = {
 	is_triggered_only = yes
 	trigger = { NOT = { has_active_event = { executor_build.1007 } } }
 	option = { name = "executor_build.1007.a" }
+}
+
+country_event = {
+	id = executor_build.1008
+	title = "executor_build.1008.title"
+	desc = "executor_build.1008.desc"
+	diplomatic = yes
+	picture_event_data = { 
+		portrait = root
+		room = root 
+	}
+	custom_gui = "kuat_event_diplomacy_window"
+	custom_gui_option = "kuat_event_diplomacy_option"
+	is_triggered_only = yes
+	trigger = { NOT = { has_active_event = { executor_build.1007 } } }
+	option = { 
+		name = "executor_build.1008.a" 
+		hidden_effect = {
+			if = {
+				limit = { 
+					has_global_flag = install_kuat_mod 
+					NOR = { has_origin = origin_kuat_apocalyptic has_origin = origin_eternalthrone }
+				}
+				country_event = { id = kuat_shipyard.1 }
+			}
+			else_if = {
+				limit = { 
+					has_global_flag = install_kuat_mod 
+					has_origin = origin_kuat_apocalyptic
+				}
+				country_event = { id = kuat_origin.9 }
+			}
+		} 
+	}
+	option = { 
+		name = "executor_build.1008.b" 
+		trigger = { has_technology = tech_kuat_starbase }
+		allow = {
+			custom_tooltip = { 
+				fail_text = executor_build.1008.check.resource
+				resource_stockpile_compare = { resource = energy value > 50000 }
+			}
+			custom_tooltip = { 
+				fail_text = executor_build.1008.check.flag
+				NOT = { has_country_flag = kuat_storming_placing_selector_temple }
+			}
+		}
+		hidden_effect = { kuat_storming_placing_selector = yes }
+	}
+	option = { 
+		name = "executor_build.1008.c" 
+		allow = {
+			custom_tooltip = { 
+				fail_text = executor_build.1008.check.planet
+				any_owned_planet = {
+					owner = {  
+						is_ai = no
+						OR = { 
+							has_technology = tech_kuat_command_center 
+							has_global_flag = kuat_get_commandline_tech 
+						}
+					}
+					is_capital = no
+					PR_prmt_trgr_HC = { MORE = 19 }
+					kuat_is_not_allow_to_build_auto_planet = no
+				}
+			}
+		}
+		hidden_effect = {
+			every_owned_planet = {
+				limit = {
+					owner = {  
+						is_ai = no
+						OR = { 
+							has_technology = tech_kuat_command_center 
+							has_global_flag = kuat_get_commandline_tech 
+						}
+					}
+					is_capital = no
+					PR_prmt_trgr_HC = { MORE = 19 }
+					kuat_is_not_allow_to_build_auto_planet = no
+				}
+				select_decision = { name = Building_The_Kuat_Command_Line_Auto_planet }
+			}
+		}
+	}
+	option = {
+		name = "executor_build.1008.d" 
+	}
+}
+
+
+country_event = {
+	id = executor_build.1009
+	hide_window = yes
+	is_triggered_only = yes
+	immediate = {
+		every_cosmic_storm = { 
+			limit = { has_storm_flag = storm_kuat_support_nexus_storm_special_deployed } 
+			destroy_cosmic_storm = yes 
+		}
+	}
 }

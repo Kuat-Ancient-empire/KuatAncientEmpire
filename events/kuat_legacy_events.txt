@@ -761,63 +761,6 @@ ship_event = {
 	} }
 	immediate = {
 		solar_system = {
-			remove_star_flag = kuat_starbase_megastructure_around_system
-			remove_modifier = kuat_starbase_megastructure_around_system
-			set_timed_star_flag = { flag = kuat_starbase_megastructure_around_system days = @kuat_support_delay }
-			if = {
-				limit = { root = { is_ship_size = exe_megastructure_starbase } }
-				random_system_planet = {
-					limit = { is_primary_star = yes }
-					set_planet_size = 1
-					set_planet_entity = { entity = starforge_avoid_entity }
-					root.fleet = { set_location = { target = prev distance = -1 angle = 0 } }
-				}
-				every_system = {
-					limit = {
-						NOT = { is_same_value = prev }
-						distance = { source = prev type = euclidean min_distance >= 0 max_distance <= 150 }
-					}
-					remove_star_flag = kuat_starbase_megastructure_around_system
-					remove_modifier = kuat_starbase_megastructure_around_system
-					set_timed_star_flag = { flag = kuat_starbase_megastructure_around_system days = @kuat_support_delay }
-					add_modifier = { modifier = "kuat_starbase_megastructure_around_system" days = @kuat_support_delay }
-				}
-			}
-			if = {
-				limit = { root = { is_ship_size = swfo_supremacy } }
-				every_system = {
-					limit = {
-						NOT = { is_same_value = prev }
-						distance = { source = prev type = euclidean min_distance >= 0 max_distance <= 150 }
-					}
-					remove_star_flag = kuat_starbase_megastructure_around_system
-					remove_modifier = kuat_starbase_megastructure_around_system
-					set_timed_star_flag = { flag = kuat_starbase_megastructure_around_system days = @kuat_support_delay }
-					add_modifier = { modifier = "kuat_starbase_megastructure_around_system" days = @kuat_support_delay }
-				}
-			}
-			if = {
-				limit = { root = { is_ship_size = Drift_megastructure_starbase } }
-				remove_star_flag = kuat_starbase_megastructure_buffer_system
-				set_timed_star_flag = { flag = kuat_starbase_megastructure_buffer_system days = @kuat_support_delay }
-				random_system_planet = {
-					limit = { is_primary_star = yes }
-					set_planet_size = 18
-					root.fleet = { set_location = { target = prev distance = -1 angle = 0 } }
-				}
-				every_system = {
-					limit = {
-						NOT = { is_same_value = prev }
-						distance = { source = prev type = euclidean min_distance >= 0 max_distance <= 150 }
-					}
-					remove_star_flag = kuat_starbase_megastructure_buffer_system
-					remove_star_flag = kuat_starbase_megastructure_around_system
-					remove_modifier = kuat_starbase_megastructure_around_system
-					set_timed_star_flag = { flag = kuat_starbase_megastructure_around_system days = @kuat_support_delay }
-					set_timed_star_flag = { flag = kuat_starbase_megastructure_buffer_system days = @kuat_support_delay }
-					add_modifier = { modifier = "kuat_starbase_megastructure_around_system" days = @kuat_support_delay }
-				}
-			}
 			every_system_planet = {
 				limit = {
 					is_colony = yes
@@ -826,9 +769,8 @@ ship_event = {
 				}
 				add_modifier = { modifier = "exe_megastructure_starbase_in_system" }
 			}
-			add_modifier = { modifier = "kuat_starbase_megastructure_around_system" days = @kuat_support_delay }
 			every_system = {
-				limit = { any_fleet_in_system = { has_fleet_flag = kuat_station_player } }
+				limit = { has_star_flag = has_starforge_avoid_entity }
 				every_system_planet = {
 					limit = { has_modifier = "exe_megastructure_starbase_in_system" }
 					remove_modifier = "exe_megastructure_starbase_in_system"
@@ -838,6 +780,46 @@ ship_event = {
 					random_system_planet = { limit = { is_primary_star = yes } change_pc = pc_black_hole set_planet_size = 18 }
 					set_star_class = sc_black_hole
 				}
+				remove_star_flag = has_starforge_avoid_entity
+			}
+			if = {
+				limit = { root = { is_ship_size = exe_megastructure_starbase } }
+				every_cosmic_storm = { 
+					limit = { has_storm_flag = storm_kuat_support_nexus_storm_exe_megastructure_starbase } 
+					destroy_cosmic_storm = yes 
+				}
+				random_system_planet = {
+					limit = { is_primary_star = yes }
+					set_planet_size = 1
+					set_planet_entity = { entity = starforge_avoid_entity }
+					root.fleet = { set_location = { target = prev distance = -1 angle = 0 } }
+				}
+				set_star_flag = has_starforge_avoid_entity
+				spawn_random_storm = { type = "kuat_support_nexus_storm" cosmic_storm_start_position = this immediate = yes }
+				last_created_cosmic_storm = { set_storm_flag = storm_kuat_support_nexus_storm_exe_megastructure_starbase }
+			}
+			if = {
+				limit = { root = { is_ship_size = swfo_supremacy } }
+				every_cosmic_storm = { 
+					limit = { has_storm_flag = storm_kuat_support_nexus_storm_swfo_supremacy } 
+					destroy_cosmic_storm = yes 
+				}
+				spawn_random_storm = { type = "kuat_support_nexus_storm" cosmic_storm_start_position = this immediate = yes }
+				last_created_cosmic_storm = { set_storm_flag = storm_kuat_support_nexus_storm_swfo_supremacy }
+			}
+			if = {
+				limit = { root = { is_ship_size = Drift_megastructure_starbase } }
+				every_cosmic_storm = { 
+					limit = { has_storm_flag = storm_kuat_support_nexus_storm_Drift_megastructure_starbase } 
+					destroy_cosmic_storm = yes 
+				}
+				random_system_planet = {
+					limit = { is_primary_star = yes }
+					set_planet_size = 18
+					root.fleet = { set_location = { target = prev distance = -1 angle = 0 } }
+				}
+				spawn_random_storm = { type = "kuat_support_nexus_storm" cosmic_storm_start_position = this immediate = yes }
+				last_created_cosmic_storm = { set_storm_flag = storm_kuat_support_nexus_storm_Drift_megastructure_starbase }
 			}
 		}
 	}
