@@ -52,7 +52,7 @@ fleet_execute_order_transport_automatic_action = {
 		}
 		failed = { wait = 75 effect = { 
 			id = colossus_automatic_action.99.ftl 
-			if = { limit = { $FRIENDLY_TARGET$ = { is_at_war = no } } ROOT = { remove_automatic_fleet_avaliable = yes } }
+			if = { limit = { controller = { NOT = { is_at_war_with = $FRIENDLY_TARGET$ } } } ROOT = { remove_automatic_fleet_avaliable = yes } }
 		} }
 	} } }
 }
@@ -91,7 +91,7 @@ fleet_execute_order_colossus_automatic_action = {
 		}
 		failed = { wait = 75 effect = { 
 			id = colossus_automatic_action.99.ftl 
-			if = { limit = { $FRIENDLY_TARGET$ = { is_at_war = no } } ROOT = { remove_automatic_fleet_avaliable = yes } }
+			if = { limit = { controller = { NOT = { is_at_war_with = $FRIENDLY_TARGET$ } } } ROOT = { remove_automatic_fleet_avaliable = yes } }
 		} }
 	} } } 
 }
@@ -107,10 +107,7 @@ fleet_execute_order_millatry_automatic_action = {
 				id = millatry_automatic_action.0.effect
 				if = {
 					limit = { has_fleet_flag = kuat_auto_cannot_find_path }
-					if = { 
-						limit = { $FRIENDLY_TARGET$ = { is_at_war = no } } 
-						remove_automatic_fleet_avaliable = yes 
-					}
+					remove_automatic_fleet_avaliable = yes 
 					every_system = { clear_variable = kuat_fleet_id }
 					remove_fleet_flag = kuat_auto_cannot_find_path
 				}
@@ -157,11 +154,14 @@ fleet_execute_order_millatry_automatic_action = {
 							any_system_planet = {
 								controller = { is_at_war_with = $FRIENDLY_TARGET$ }
 								is_colony = yes
-								NOT = { any_fleet_in_orbit = {
-									exists = controller
-									is_ship_class = shipclass_military
-									controller = { is_same_value = $FRIENDLY_TARGET$ }
-								} }
+								count_fleet_in_orbit = {
+									count = 0
+									limit = {
+										exists = controller
+										is_ship_class = shipclass_military
+										controller = { is_same_value = $FRIENDLY_TARGET$ }
+									}
+								}
 							}
 							check_variable = { which = kuat_fleet_id value < 1 }
 						}
@@ -177,11 +177,14 @@ fleet_execute_order_millatry_automatic_action = {
 									any_system_planet = {
 										controller = { is_at_war_with = $FRIENDLY_TARGET$ }
 										is_colony = yes
-										NOT = { any_fleet_in_orbit = {
-											exists = controller
-											is_ship_class = shipclass_military
-											controller = { is_same_value = $FRIENDLY_TARGET$ }
-										} }
+										count_fleet_in_orbit = {
+											count = 0
+											limit = {
+												exists = controller
+												is_ship_class = shipclass_military
+												controller = { is_same_value = $FRIENDLY_TARGET$ }
+											}
+										}
 									}
 								}
 								find_closest_planet = {
@@ -189,11 +192,14 @@ fleet_execute_order_millatry_automatic_action = {
 										id = millatry_automatic_action.2.find_closest_planet
 										is_colony = yes
 										controller = { is_at_war_with = $FRIENDLY_TARGET$ }
-										NOT = { any_fleet_in_orbit = {
-											exists = controller
-											is_ship_class = shipclass_military
-											controller = { is_same_value = $FRIENDLY_TARGET$ }
-										} }
+										count_fleet_in_orbit = {
+											count = 0
+											limit = {
+												exists = controller
+												is_ship_class = shipclass_military
+												controller = { is_same_value = $FRIENDLY_TARGET$ }
+											}
+										}
 									}
 									found_planet = {
 										orbit_planet = this
@@ -230,11 +236,14 @@ fleet_execute_order_millatry_automatic_action = {
 								any_system_planet = {
 									controller = { is_at_war_with = $FRIENDLY_TARGET$ }
 									is_colony = yes
-									NOT = { any_fleet_in_orbit = {
-										exists = controller
-										is_ship_class = shipclass_military
-										controller = { is_same_value = $FRIENDLY_TARGET$ }
-									} }
+									count_fleet_in_orbit = {
+										count = 0
+										limit = {
+											exists = controller
+											is_ship_class = shipclass_military
+											controller = { is_same_value = $FRIENDLY_TARGET$ }
+										}
+									}
 								}
 							}
 							found_system = {
@@ -245,11 +254,14 @@ fleet_execute_order_millatry_automatic_action = {
 										any_system_planet = {
 											controller = { is_at_war_with = $FRIENDLY_TARGET$ }
 											is_colony = yes
-											NOT = { any_fleet_in_orbit = {
-												exists = controller
-												is_ship_class = shipclass_military
-												controller = { is_same_value = $FRIENDLY_TARGET$ }
-											} }
+											count_fleet_in_orbit = {
+												count = 0
+												limit = {
+													exists = controller
+													is_ship_class = shipclass_military
+													controller = { is_same_value = $FRIENDLY_TARGET$ }
+												}
+											}
 										}
 									}
 									find_closest_planet = {
@@ -257,11 +269,14 @@ fleet_execute_order_millatry_automatic_action = {
 											id = millatry_automatic_action.4.find_closest_planet
 											is_colony = yes
 											controller = { is_at_war_with = $FRIENDLY_TARGET$ }
-											NOT = { any_fleet_in_orbit = {
-												exists = controller
-												is_ship_class = shipclass_military
-												controller = { is_same_value = $FRIENDLY_TARGET$ }
-											} }
+											count_fleet_in_orbit = {
+												count = 0
+												limit = {
+													exists = controller
+													is_ship_class = shipclass_military
+													controller = { is_same_value = $FRIENDLY_TARGET$ }
+												}
+											}
 										}
 										found_planet = {
 											orbit_planet = this
