@@ -724,18 +724,58 @@ fleet_event = {
 
 	option = {
 		name = "exe_return_invasion.333.a"
-		hidden_effect = { owner = { every_owned_fleet = {
-			limit = { exists = solar_system solar_system = { is_same_value = root.from } }
-			set_location = prev.capital_scope
-		} } }
+		hidden_effect = {  
+			owner = { every_owned_fleet = {
+				limit = { exists = solar_system solar_system = { is_same_value = root.from } }
+				set_location = prev.capital_scope
+			} }
+			set_global_flag = exe_return_invasion.333.a.back
+		}
+		ai_chance = { weight = 100 }
 		default_hide_option = yes
 	}
 	option = { 
 		name = "exe_return_invasion.333.b" 
-		hidden_effect = { from = { every_fleet_in_system = {
-			limit = { owner = { is_same_value = event_target:eternal_fleet_country } }
-			set_fleet_flag = has_kuat_flagship_system_addon_repeatable
-		} } }
+		hidden_effect = {  
+			from = { every_fleet_in_system = {
+				limit = { owner = { is_same_value = event_target:eternal_fleet_country } }
+				set_fleet_flag = has_kuat_flagship_system_addon_repeatable
+			} }
+			set_global_flag = exe_return_invasion.333.b.battle
+		}
+	}
+}
+
+fleet_event = {
+	id = exe_return_invasion.334
+	hide_window = yes
+	is_triggered_only = yes
+	fire_only_once = yes
+	trigger = { 
+		NOT = { has_global_flag = enable_the_eternal_starbase } 
+		has_global_flag = exe_return_invasion_begin
+		from = { any_fleet_in_system = { has_fleet_flag = ag_kuat_invasion_starbase } }
+		exists = owner owner = { is_ai = no }
+		OR = {
+			has_global_flag = exe_return_invasion.333.a.back
+			has_global_flag = exe_return_invasion.333.b.battle
+		}
+	}
+	immediate = {
+		if = {
+			limit = { has_global_flag = exe_return_invasion.333.a.back }
+			owner = { every_owned_fleet = {
+				limit = { exists = solar_system solar_system = { is_same_value = root.from } }
+				set_location = prev.capital_scope
+			} }
+		}
+		else_if = {
+			limit = { has_global_flag = exe_return_invasion.333.b.battle }
+			from = { every_fleet_in_system = {
+				limit = { owner = { is_same_value = event_target:eternal_fleet_country } }
+				set_fleet_flag = has_kuat_flagship_system_addon_repeatable
+			} }
+		}
 	}
 }
 
