@@ -40,6 +40,34 @@ building_kuat_command_center_auto = {
 	convert_to = {
 		building_kuat_command_center_auto
 	}
+	triggered_planet_modifier = {
+		potential = { has_cosmic_storms_dlc = yes }
+		planet_storm_devastation_mult = -1
+	}
+
+	inline_script = {
+		script = cosmic_storms/StormBuildingModifiers
+	}
+
+	on_built = {
+		if = {
+			limit = { has_cosmic_storms_dlc = yes }
+			solar_system = {
+				set_star_flag = storm_no_negative_effects
+				remove_modifier = storm_base_modifier
+			}
+		}
+	}
+
+	on_destroy = {
+		if = {
+			limit = { has_cosmic_storms_dlc = yes }
+			owner = { set_country_flag = shield_on_destroy } #an action when destroyed
+			solar_system = {
+				remove_star_flag = storm_no_negative_effects
+			}
+		}
+	}
 	country_modifier = {
 		country_naval_cap_add = 100
 		country_admin_cap_add = 100
