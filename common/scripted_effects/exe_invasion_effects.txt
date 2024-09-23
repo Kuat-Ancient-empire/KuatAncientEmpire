@@ -3538,6 +3538,33 @@ kuat_reset_auto_colony_variable = {
 	floor_variable = planet_production_array
 }
 
+kuat_move_auto_colony_data = {
+	owner = {
+		every_owned_planet = {
+			limit = {
+				has_planet_flag = kuat_auto_planet_moving_target
+				has_planet_flag = has_building_kuat_command_center_auto
+			}
+			change_variable = { which = planet_production_array value = prevprev.planet_production_array }
+		}
+	}
+	clear_variable = planet_production_array_base
+	clear_variable = planet_production_array_growpop_speed_base
+	clear_variable = planet_production_array_organicpop_speed_base
+	clear_variable = planet_production_array_pop_speed_base
+	clear_variable = planet_production_array_pop_speed_total
+	clear_variable = planet_production_array_pop_speed_total_dynamic
+	clear_variable = planet_production_array
+	every_owned_pop = { kill_pop = yes }
+	remove_all_buildings = yes
+	remove_planet_flag = has_building_kuat_command_center_auto
+	remove_all_districts = yes
+	reroll_planet = yes
+	clear_planet_modifiers = yes
+	destroy_colony = yes
+	remove_global_flag = Building_kuat_auto_planet_migrant_data_temple
+}
+
 create_kuat_shipyard_country = {
 	create_country = {
 		name = "Name_Kuat_Shipyard"

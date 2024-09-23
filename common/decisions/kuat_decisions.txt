@@ -103,11 +103,97 @@ Building_The_Kuat_Command_Line_Auto_planet = {
 	}
 }
 
+#设置焦点
+Bulding_kuat_auto_planet_focus_target = {
+	owned_planets_only = yes
+	sound = event_air_raid_siren
+	icon = decision_enact_population_control
+	resources = { 
+		category = decisions 
+		cost = { unity = 100 }
+	}
+	potential = {
+		from = {
+			is_ai = no
+			NOT = { any_owned_planet = {
+				has_planet_flag = kuat_auto_planet_moving_target
+			} }
+			OR = { 
+				has_technology = tech_kuat_command_center 
+				has_global_flag = kuat_get_commandline_tech 
+			}
+		}
+		has_planet_flag = has_building_kuat_command_center_auto
+	}
+	effect = {
+		custom_tooltip = "building_kuat_command_center_target_desc"
+		hidden_effect = { set_planet_flag = kuat_auto_planet_moving_target }
+	}
+	ai_weight = { weight = 0 }
+}
+
+#移除焦点
+Bulding_kuat_auto_planet_focus_remove_target = {
+	owned_planets_only = yes
+	sound = event_air_raid_siren
+	icon = decision_end_population_control
+	resources = { 
+		category = decisions 
+		cost = { unity = 100 }
+	}
+	potential = {
+		has_planet_flag = kuat_auto_planet_moving_target
+	}
+	effect = {
+		custom_tooltip = "building_kuat_command_center_remove_target_desc"
+		hidden_effect = { remove_planet_flag = kuat_auto_planet_moving_target }
+	}
+	ai_weight = { weight = 0 }
+}
+
+#迁移数据
+Building_kuat_auto_planet_migrant_data = {
+	owned_planets_only = yes
+	sound = event_air_raid_siren
+	icon = decision_machine_oracle
+	enactment_time = 30
+	resources = { 
+		category = decisions 
+		cost = { unity = 100 }
+	}
+	potential = {
+		has_planet_flag = has_building_kuat_command_center_auto
+		from = {
+			is_ai = no
+			any_owned_planet = {
+				has_planet_flag = kuat_auto_planet_moving_target
+				has_planet_flag = has_building_kuat_command_center_auto
+			}
+		}
+		NOT = { has_planet_flag = kuat_auto_planet_moving_target }
+	}
+	allow = {
+		custom_tooltip_fail = {
+			text = "Building_kuat_auto_planet_migrant_data_failed"
+			NOT = { has_global_flag = Building_kuat_auto_planet_migrant_data_temple }
+		}
+	}
+	on_queued = {
+		set_global_flag = Building_kuat_auto_planet_migrant_data_temple
+	}
+	on_unqueued = {
+		remove_global_flag = Building_kuat_auto_planet_migrant_data_temple
+	}
+	effect = {
+		custom_tooltip = "building_kuat_command_center_migrant_data_desc"
+		hidden_effect = { kuat_move_auto_colony_data = yes }
+	}
+}
+
 Building_The_Kuat_Shield = {
 	owned_planets_only = yes
 	sound = event_air_raid_siren
 	icon = decision_planet_beam
-	enactment_time = 30
 	resources = {
 		category = decisions
 		cost = { energy = 100 }
@@ -146,7 +232,6 @@ Destroy_The_Kuat_Shield = {
 	owned_planets_only = yes
 	sound = event_air_raid_siren
 	icon = decision_planet_beam
-	enactment_time = 30
 	resources = {
 		category = decisions
 		cost = { energy = 100 }
