@@ -3537,17 +3537,20 @@ kuat_reset_auto_colony_variable = {
 	if = { limit = { owner = { is_ai = yes is_nirvana_empire = no } } multiply_variable = { which = planet_production_array value = 0.25 } }
 	if = { limit = { owner = { is_ai = yes is_nirvana_empire = yes } } multiply_variable = { which = planet_production_array value = 0.50 } }
 	floor_variable = planet_production_array
+	if = {
+		limit = { is_variable_set = planet_production_array_migrant }
+		change_variable = { which = planet_production_array value = planet_production_array_migrant }
+		clear_variable = planet_production_array_migrant
+	}
 }
 
 kuat_move_auto_colony_data = {
-	owner = {
-		every_owned_planet = {
-			limit = {
-				has_planet_flag = kuat_auto_planet_moving_target
-				has_planet_flag = has_building_kuat_command_center_auto
-			}
-			change_variable = { which = planet_production_array value = prevprev.planet_production_array }
+	event_target:kuat_auto_planet_moving_target = {
+		change_variable = { 
+			which = planet_production_array_migrant 
+			value = prev.planet_production_array 
 		}
+		kuat_reset_auto_colony_variable = yes
 	}
 	clear_variable = planet_production_array_base
 	clear_variable = planet_production_array_growpop_speed_base
