@@ -794,31 +794,40 @@ country_event = {
 		from = { is_eternal_faction = yes }
 	}
 	immediate = { 
-		fromfromfrom = { solar_system = {
-			remove_star_flag = eternal_starbase_megastructure_in_system
-			set_star_class = sc_black_hole
-			star = {
-				create_ambient_object = { type = "star_explosion" play_animation_once = yes location = this }
-				last_created_ambient_object = { set_location = { target = prev distance = 0 angle = random } }
-				create_ambient_object = { type = "destroyed_system" location = this }
-				last_created_ambient_object = { set_ambient_object_flag = destroyed_system_effect set_location = { target = prev  distance = 0  angle = random  } }
-				change_pc = pc_black_hole
-				set_planet_size = 18
+		fromfromfrom = {  
+			solar_system = {
+				remove_star_flag = eternal_starbase_megastructure_in_system
+				set_star_class = sc_black_hole
+				star = {
+					create_ambient_object = { type = "star_explosion" play_animation_once = yes location = this }
+					last_created_ambient_object = { set_location = { target = prev distance = 0 angle = random } }
+					create_ambient_object = { type = "destroyed_system" location = this }
+					last_created_ambient_object = { set_ambient_object_flag = destroyed_system_effect set_location = { target = prev  distance = 0  angle = random  } }
+					change_pc = pc_black_hole
+					set_planet_size = 18
+				}
+				every_fleet_in_system = {
+					limit = { exists = owner owner = { is_eternal_faction = no } }
+					every_owned_ship = { kuat_reduce_hp_percent = { value = 75 } }
+				}
+				random_ambient_object = {
+					limit = { has_ambient_object_flag = space_storm_object }
+					destroy_ambient_object = this
+				}
+				if = {
+					limit = { NOT = { has_star_flag = fire_only_once_temple } }
+					set_timed_star_flag = { flag = fire_only_once_temple days = 1 }
+					event_target:eternal_fleet_country = { change_variable = { which = ag_kuat_invasion_starbase_arrived value = 1 } }
+				}
 			}
-			every_fleet_in_system = {
-				limit = { exists = owner owner = { is_eternal_faction = no } }
-				every_owned_ship = { kuat_reduce_hp_percent = { value = 75 } }
+			random_owned_ship = {
+				limit = { is_ship_class = shipclass_starbase }
+				every_cosmic_storm = { 
+					limit = { has_storm_flag = storm_kuat_support_nexus_storm_exe_megastructure_starbase_@prev } 
+					destroy_cosmic_storm = yes 
+				}
 			}
-			random_ambient_object = {
-				limit = { has_ambient_object_flag = space_storm_object }
-				destroy_ambient_object = this
-			}
-			if = {
-				limit = { NOT = { has_star_flag = fire_only_once_temple } }
-				set_timed_star_flag = { flag = fire_only_once_temple days = 1 }
-				event_target:eternal_fleet_country = { change_variable = { which = ag_kuat_invasion_starbase_arrived value = 1 } }
-			}
-		} }
+		}
 		every_playable_country = { 
 			limit = { NOT = { has_country_flag = fire_only_once_temple } } 
 			country_event = { id = exe_return_invasion.18 } set_timed_country_flag = { flag = fire_only_once_temple days = 1 }
