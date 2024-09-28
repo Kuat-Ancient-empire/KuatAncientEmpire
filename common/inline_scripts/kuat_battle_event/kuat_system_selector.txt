@@ -1,0 +1,55 @@
+option = {
+	name = kuat_system_selector.2.$kuat_system_seq$
+	custom_gui = "kuat_system_selector_option"
+	is_dialog_only = yes
+	response_text = "kuat_system_selector.2.response"
+	allow = {
+		kuat_epsilon_planet_killer_weapon_selector_trigger = { kuat_system_seq = $kuat_system_seq$ }
+	}
+	custom_tooltip = kuat_system_selector.detail
+	custom_tooltip = kuat_system_selector.$kuat_system_seq$.star_class
+	event_target:kuat_system_selector_marked_system_$kuat_system_seq$ = {
+		if = { limit = { exists = space_owner } custom_tooltip = kuat_system_selector.$kuat_system_seq$.space_owner }
+		else = { custom_tooltip = kuat_system_selector.$kuat_system_seq$.space_owner_alt }
+		if = { limit = { is_capital_system = yes } custom_tooltip = "kuat_system_selector.is_capital" }
+		if = { limit = { any_system_planet = { is_colony = yes } } custom_tooltip = "kuat_system_selector.is_colony" }
+		if = { limit = { has_natural_wormhole = yes } custom_tooltip = "kuat_system_selector.wormhole" }
+		if = {
+			limit = { has_any_megastructure = yes }
+			if = {
+				limit = { any_system_megastructure = { OR = {
+					is_megastructure_type = gateway_0
+					is_megastructure_type = gateway_final
+					is_megastructure_type = gateway_ruined
+					is_megastructure_type = gateway_restored
+				} } }
+				custom_tooltip = "kuat_system_selector.gateway"
+			}
+			if = {
+				limit = { any_system_megastructure = { is_megastructure_type = lgate_base } }
+				custom_tooltip = "kuat_system_selector.lgate"
+			}
+			if = {
+				limit = { any_system_megastructure = { NOR = {
+					is_megastructure_type = gateway_0
+					is_megastructure_type = gateway_final
+					is_megastructure_type = gateway_ruined
+					is_megastructure_type = gateway_restored
+					is_megastructure_type = lgate_base
+				} } }
+				custom_tooltip = "kuat_system_selector.megastructure"
+			}
+		}
+		if = { limit = { kuat_is_sc_eternal_fleet = yes } custom_tooltip = "kuat_system_selector.eternal_fleet" }
+	}
+	trigger = { exists = event_target:kuat_system_selector_marked_system_$kuat_system_seq$ }
+	hidden_effect = { kuat_selected_system_effect = { kuat_system_seq = $kuat_system_seq$ } }
+}
+option = {
+	name = ""
+	custom_gui = "kuat_system_selector_option_dummy"
+	is_dialog_only = yes
+	response_text = "kuat_system_selector.2.response"
+	trigger = { NOT = { exists = event_target:kuat_system_selector_marked_system_$kuat_system_seq$ } }
+	allow = { always = no }
+}
