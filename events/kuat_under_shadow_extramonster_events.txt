@@ -1312,7 +1312,7 @@ country_event = {
 	#6
 	option = { 
 		name = kuat_extramonster.39.f.1
-		trigger = { check_variable = { which = kuat_white_hole_star_enable value >= 6 } }
+		trigger = { check_variable = { which = kuat_white_hole_star_enable value > 5 } }
 		hidden_effect = { 
 			set_global_flag = kuat_extra_contractor_wined_target 
 			if = {
@@ -1479,6 +1479,33 @@ country_event = {
 		add_threat = { who = root amount = 50 }
 		set_global_flag = kuat_extramonster_ended
 		from = { destroy_country = yes }
+	}
+}
+
+country_event = {
+	id = kuat_extramonster.303
+	hide_window = yes
+	is_triggered_only = yes
+	trigger = {
+		has_global_flag = kuat_extramonster_begin
+		is_same_value = event_target:kuat_contractor_hostile
+		count_owned_fleet = {
+			limit = { has_fleet_flag = kuat_contractor_invasion_fleet }
+			count = 0
+		}
+		has_global_flag = kuat_extra_contractor_wined_target
+	}
+	immediate = {
+		every_country = {
+			limit = { NOR = { 
+				is_same_value = event_target:kuat_contractor_hostile 
+				has_country_flag = trigger_ended_event_temple
+			} }
+			set_timed_country_flag = { flag = trigger_ended_event_temple days = 1 }
+			country_event = { id = kuat_extramonster.35 }
+		}
+		set_global_flag = kuat_extramonster_ended
+		destroy_country = yes
 	}
 }
 
