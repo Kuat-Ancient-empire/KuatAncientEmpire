@@ -571,44 +571,6 @@ kuat_set_return_two_alt = {
 	}
 }
 
-#shipyard
-kuat_set_shipyard_add = {
-	potential = { from = { is_scope_type = country has_country_flag = kuat_build_fifth_ships } }
-	allow = { from = {
-		hidden_trigger = { is_scope_type = country }
-		custom_tooltip = { fail_text = kuat_shipyard.check get_ship_alloys_allow = yes }
-	} }
-	effect = {
-		custom_tooltip = "exe_shipyard.a"
-		hidden_effect = { from = { switch = {
-			trigger = has_country_flag
-			building_the_horriwer = { set_country_flag = fired_HSD change_variable = { which = horriwer_queue value = event_target:global_event_country.kuat_shipyard_buillding_queue_selection } get_alloys_variable = { BUY = yes } }
-			building_the_empire = { set_country_flag = fired_ISD change_variable = { which = Impeiral_SD_queue value = event_target:global_event_country.kuat_shipyard_buillding_queue_selection } get_alloys_variable = { BUY = yes } }
-			building_the_resugrant = { set_country_flag = fired_RSD change_variable = { which = RSD_queue value = event_target:global_event_country.kuat_shipyard_buillding_queue_selection } get_alloys_variable = { BUY = yes } }
-		} } }
-	}
-}
-kuat_set_shipyard_dicrease = {
-	potential = { from = { is_scope_type = country has_country_flag = kuat_build_fifth_ships } }
-	allow = { 
-		hidden_trigger = { from = { is_scope_type = country switch = {
-			trigger = has_country_flag
-			building_the_horriwer = { check_variable = { which = horriwer_queue value > 0 } }
-			building_the_empire = { check_variable = { which = Impeiral_SD_queue value > 0 } }
-			building_the_resugrant = { check_variable = { which = RSD_queue value > 0 } }
-		} } } 
-	}
-	effect = {
-		custom_tooltip = "exe_shipyard.b"
-		hidden_effect = { from = { switch = {
-			trigger = has_country_flag
-			building_the_horriwer = { set_country_flag = fired_HSD subtract_variable = { which = horriwer_queue value = event_target:global_event_country.kuat_shipyard_buillding_queue_selection } get_alloys_variable = { PAY = yes } }
-			building_the_empire = { set_country_flag = fired_ISD subtract_variable = { which = Impeiral_SD_queue value = event_target:global_event_country.kuat_shipyard_buillding_queue_selection } get_alloys_variable = { PAY = yes } }
-			building_the_resugrant = { set_country_flag = fired_RSD subtract_variable = { which = RSD_queue value = event_target:global_event_country.kuat_shipyard_buillding_queue_selection } get_alloys_variable = { PAY = yes } }
-		} } }
-	}
-}
-
 kuat_set_cash_code_group = {
 	potential = { always = yes }
 	allow = { always = yes }
