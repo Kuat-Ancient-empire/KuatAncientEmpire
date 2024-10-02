@@ -71,7 +71,7 @@ kuat_set_fleet_shipyard_add_horriwor = {
 	allow = { from = {
 		hidden_trigger = { is_scope_type = country }
 		custom_tooltip = { fail_text = kuat_shipyard.check get_ship_alloys_allow = yes }
-		custom_tooltip = { fail_text = kuat_shipyard.uppon_fleet check_variable = { which = kuat_shipyard_exist_commandline_UI value < 4000 } }
+		custom_tooltip = { fail_text = kuat_shipyard.uppon_fleet check_variable_arithmetic = { which = value:kuat_shipyard_exist_commandline value < 3872 } }
 	} }
 	effect = {
 		custom_tooltip = "exe_shipyard.a"
@@ -80,7 +80,6 @@ kuat_set_fleet_shipyard_add_horriwor = {
 			change_variable = { which = HSD_queue value = event_target:global_event_country.kuat_shipyard_buillding_queue_selection } 
 			set_variable = { which = mulf_HSD_queue value = HSD_queue }
 			multiply_variable = { which = mulf_HSD_queue value = 16 }
-			set_variable = { which = kuat_shipyard_exist_commandline_UI value = value:kuat_shipyard_exist_commandline }
 			get_alloys_variable = { BUY = yes } 
 		} }
 	}
@@ -98,7 +97,6 @@ kuat_set_fleet_shipyard_dicrease_horriwor = {
 			subtract_variable = { which = HSD_queue value = event_target:global_event_country.kuat_shipyard_buillding_queue_selection } 
 			set_variable = { which = mulf_HSD_queue value = HSD_queue }
 			multiply_variable = { which = mulf_HSD_queue value = 16 }
-			set_variable = { which = kuat_shipyard_exist_commandline_UI value = value:kuat_shipyard_exist_commandline }
 			get_alloys_variable = { PAY = yes } 
 		} }
 	}
@@ -108,7 +106,7 @@ kuat_set_fleet_shipyard_add_Imperial = {
 	allow = { from = {
 		hidden_trigger = { is_scope_type = country }
 		custom_tooltip = { fail_text = kuat_shipyard.check get_ship_alloys_allow = yes }
-		custom_tooltip = { fail_text = kuat_shipyard.uppon_fleet check_variable = { which = kuat_shipyard_exist_commandline_UI value < 4000 } }
+		custom_tooltip = { fail_text = kuat_shipyard.uppon_fleet check_variable_arithmetic = { which = value:kuat_shipyard_exist_commandline value < 3872 } }
 	} }
 	effect = {
 		custom_tooltip = "exe_shipyard.a"
@@ -117,7 +115,6 @@ kuat_set_fleet_shipyard_add_Imperial = {
 			change_variable = { which = ISD_queue value = event_target:global_event_country.kuat_shipyard_buillding_queue_selection } 
 			set_variable = { which = mulf_ISD_queue value = ISD_queue }
 			multiply_variable = { which = mulf_ISD_queue value = 32 }
-			set_variable = { which = kuat_shipyard_exist_commandline_UI value = value:kuat_shipyard_exist_commandline }
 			get_alloys_variable = { BUY = yes } 
 		} }
 	}
@@ -135,7 +132,6 @@ kuat_set_fleet_shipyard_dicrease_Imperial = {
 			subtract_variable = { which = ISD_queue value = event_target:global_event_country.kuat_shipyard_buillding_queue_selection } 
 			set_variable = { which = mulf_ISD_queue value = ISD_queue }
 			multiply_variable = { which = mulf_ISD_queue value = 32 }
-			set_variable = { which = kuat_shipyard_exist_commandline_UI value = value:kuat_shipyard_exist_commandline }
 			get_alloys_variable = { PAY = yes } 
 		} }
 	}
@@ -145,7 +141,7 @@ kuat_set_fleet_shipyard_add_Resugrant = {
 	allow = { from = {
 		hidden_trigger = { is_scope_type = country }
 		custom_tooltip = { fail_text = kuat_shipyard.check get_ship_alloys_allow = yes }
-		custom_tooltip = { fail_text = kuat_shipyard.uppon_fleet check_variable = { which = kuat_shipyard_exist_commandline_UI value < 4000 } }
+		custom_tooltip = { fail_text = kuat_shipyard.uppon_fleet check_variable_arithmetic = { which = value:kuat_shipyard_exist_commandline value < 3872 } }
 	} }
 	effect = {
 		custom_tooltip = "exe_shipyard.a"
@@ -154,7 +150,6 @@ kuat_set_fleet_shipyard_add_Resugrant = {
 			change_variable = { which = RSD_queue value = event_target:global_event_country.kuat_shipyard_buillding_queue_selection } 
 			set_variable = { which = mulf_RSD_queue value = RSD_queue }
 			multiply_variable = { which = mulf_RSD_queue value = 48 }
-			set_variable = { which = kuat_shipyard_exist_commandline_UI value = value:kuat_shipyard_exist_commandline }
 			get_alloys_variable = { BUY = yes } 
 		} }
 	}
@@ -172,8 +167,72 @@ kuat_set_fleet_shipyard_dicrease_Resugrant = {
 			subtract_variable = { which = RSD_queue value = event_target:global_event_country.kuat_shipyard_buillding_queue_selection } 
 			set_variable = { which = mulf_RSD_queue value = RSD_queue }
 			multiply_variable = { which = mulf_RSD_queue value = 48 }
-			set_variable = { which = kuat_shipyard_exist_commandline_UI value = value:kuat_shipyard_exist_commandline }
 			get_alloys_variable = { PAY = yes } 
 		} }
 	}
+}
+
+
+#CONFIRE
+kuat_confirm_shipyard_order_hsd = {
+	potential = { from = { is_scope_type = country has_country_flag = kuat_build_fifth_ships has_country_flag = building_the_horriwer has_country_flag = build_all_sell_ship_for_design_fleet } }
+	allow = { from = {
+		hidden_trigger = { is_scope_type = country }
+		custom_tooltip = { fail_text = kuat_shipyard_queue check_variable = { which = HSD_queue value > 0 } }
+	} }
+	effect = {
+		custom_tooltip = kuat_shipyard.confirm.a.tooltip
+		hidden_effect = { FROM = { initial_shipyard_output = {
+			TYPE = HSD_true_numbers SLOT = HSD_queue
+			SCREEN = HSD_class_queue
+			DAYS = @kuat_RSD_build_time
+			DAYS_1 = @kuat_RSD_build_time_1
+			OUTPUT_ID = 222 CHECK_ID = 223
+			TEMPLE_FLAG = fired_HSD
+		} } }
+	}
+}
+
+kuat_confirm_shipyard_order_Isd = {
+	potential = { from = { is_scope_type = country has_country_flag = kuat_build_fifth_ships has_country_flag = building_the_empire has_country_flag = build_all_sell_ship_for_design_fleet } }
+	allow = { from = {
+		hidden_trigger = { is_scope_type = country }
+		custom_tooltip = { fail_text = kuat_shipyard_queue check_variable = { which = ISD_queue value > 0 } }
+	} }
+	effect = {
+		custom_tooltip = kuat_shipyard.confirm.b.tooltip
+		hidden_effect = { FROM = { initial_shipyard_output = {
+			TYPE = ISD_true_numbers SLOT = ISD_queue
+			SCREEN = ISD_class_queue
+			DAYS = @kuat_RSD_build_time
+			DAYS_1 = @kuat_RSD_build_time_1
+			OUTPUT_ID = 231 CHECK_ID = 232
+			TEMPLE_FLAG = fired_ISD
+		} } }
+	}
+}
+
+kuat_confirm_shipyard_order_Rsd = {
+	potential = { from = { is_scope_type = country has_country_flag = kuat_build_fifth_ships has_country_flag = building_the_resugrant has_country_flag = build_all_sell_ship_for_design_fleet } }
+	allow = { from = {
+		hidden_trigger = { is_scope_type = country }
+		custom_tooltip = { fail_text = kuat_shipyard_queue check_variable = { which = RSD_queue value > 0 }  }
+	} }
+	effect = {
+		custom_tooltip = kuat_shipyard.confirm.c.tooltip
+		hidden_effect = { FROM = { initial_shipyard_output = {
+			TYPE = RSD_true_numbers SLOT = RSD_queue
+			SCREEN = RSD_class_queue
+			DAYS = @kuat_RSD_build_time
+			DAYS_1 = @kuat_RSD_build_time_1
+			OUTPUT_ID = 241 CHECK_ID = 243
+			TEMPLE_FLAG = fired_RSD
+		} } }
+	}
+}
+
+kuat_confirm_shipyard_order_group = {
+	potential = { from = { is_scope_type = country has_country_flag = build_all_sell_ship_for_design_fleet } }
+	allow = { always = yes }
+	effect = { }
 }
