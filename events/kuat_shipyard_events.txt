@@ -168,7 +168,12 @@ country_event = {
 			set_country_flag = building_the_horriwer 
 			set_country_flag = building_the_empire
 			set_country_flag = building_the_resugrant
-			country_event = { id = kuat_shipyard.31 }
+			random_list = {
+				1 = { country_event = { id = kuat_shipyard.31 } }
+				1 = { country_event = { id = kuat_shipyard.32 } }
+				1 = { country_event = { id = kuat_shipyard.33 } }
+			}
+			reroll_random = yes
 			get_alloys_variable = { SCREEN = yes }
 		}
 	}
@@ -1385,7 +1390,187 @@ country_event = {
 	}
 	custom_gui = "kuat_exe_shipyard_common_intro_window"
 	custom_gui_option = "kuat_exe_shipyard_common_intro_option"
-	picture_event_data = { room = astral_rift_genesis_3_room }
+	picture_event_data = { room = horriwow_room }
+	location = event_target:fallen_empire_kuat.capital_scope
+	is_triggered_only = yes
+	diplomatic = yes
+	trigger = {
+		is_ai = no
+		can_communicate_with_kuat = yes
+	}
+	option = {
+		name = kuat_shipyard.return
+		hidden_effect = { 
+			country_event = { id = kuat_shipyard.2 } 
+			remove_country_flag = build_all_sell_ship_for_design_fleet
+			remove_country_flag = kuat_build_fifth_ships
+			remove_country_flag = building_the_horriwer 
+			remove_country_flag = building_the_empire
+			remove_country_flag = building_the_resugrant
+		}
+	}
+	option = {
+		name = kuat_shipyard.exit
+		hidden_effect = {
+			remove_country_flag = build_all_sell_ship_for_design_fleet
+			remove_country_flag = kuat_build_fifth_ships
+			remove_country_flag = building_the_horriwer 
+			remove_country_flag = building_the_empire
+			remove_country_flag = building_the_resugrant
+		}
+		default_hide_option = yes
+	}
+}
+country_event = {
+	id = kuat_shipyard.32
+	title = kuat_shipyard.title
+	desc = {
+		trigger = {
+			success_text = {
+				check_variable = { which = HSD_class_queue value > 0 }
+				check_variable = { which = HSD_class_queue value <= event_target:global_event_country.kuat_shipyard_buillding_queue_selection }
+				text = kuat_shipyard.22.b.desc
+			}
+			success_text = {
+				check_variable = { which = HSD_class_queue value > event_target:global_event_country.kuat_shipyard_buillding_queue_selection }
+				text = kuat_shipyard.22.a5.desc
+			}
+			success_text = {
+				OR = {
+					NOT = { is_variable_set = HSD_class_queue }
+					check_variable = { which = HSD_class_queue value = 0 }
+				}
+				text = kuat_shipyard.22.a.desc
+			}
+
+			success_text = {
+				check_variable = { which = ISD_class_queue value > 0 }
+				check_variable = { which = ISD_class_queue value <= event_target:global_event_country.kuat_shipyard_buillding_queue_selection }
+				text = kuat_shipyard.23.b.desc
+			}
+			success_text = {
+				check_variable = { which = ISD_class_queue value > event_target:global_event_country.kuat_shipyard_buillding_queue_selection }
+				text = kuat_shipyard.23.a5.desc
+			}
+			success_text = {
+				OR = {
+					NOT = { is_variable_set = ISD_class_queue }
+					check_variable = { which = ISD_class_queue value = 0 }
+				}
+				text = kuat_shipyard.23.a.desc
+			}
+
+			success_text = {
+				check_variable = { which = RSD_class_queue value > 0 }
+				check_variable = { which = RSD_class_queue value <= event_target:global_event_country.kuat_shipyard_buillding_queue_selection }
+				text = kuat_shipyard.24.b.desc
+			}
+			success_text = {
+				check_variable = { which = RSD_class_queue value > event_target:global_event_country.kuat_shipyard_buillding_queue_selection }
+				text = kuat_shipyard.24.a5.desc
+			}
+			success_text = {
+				OR = {
+					NOT = { is_variable_set = RSD_class_queue }
+					check_variable = { which = RSD_class_queue value = 0 }
+				}
+				text = kuat_shipyard.24.a.desc
+			}
+		}
+	}
+	custom_gui = "kuat_exe_shipyard_common_intro_window"
+	custom_gui_option = "kuat_exe_shipyard_common_intro_option"
+	picture_event_data = { room = Imeprial_room }
+	location = event_target:fallen_empire_kuat.capital_scope
+	is_triggered_only = yes
+	diplomatic = yes
+	trigger = {
+		is_ai = no
+		can_communicate_with_kuat = yes
+	}
+	option = {
+		name = kuat_shipyard.return
+		hidden_effect = { 
+			country_event = { id = kuat_shipyard.2 } 
+			remove_country_flag = build_all_sell_ship_for_design_fleet
+			remove_country_flag = kuat_build_fifth_ships
+			remove_country_flag = building_the_horriwer 
+			remove_country_flag = building_the_empire
+			remove_country_flag = building_the_resugrant
+		}
+	}
+	option = {
+		name = kuat_shipyard.exit
+		hidden_effect = {
+			remove_country_flag = build_all_sell_ship_for_design_fleet
+			remove_country_flag = kuat_build_fifth_ships
+			remove_country_flag = building_the_horriwer 
+			remove_country_flag = building_the_empire
+			remove_country_flag = building_the_resugrant
+		}
+		default_hide_option = yes
+	}
+}
+country_event = {
+	id = kuat_shipyard.33
+	title = kuat_shipyard.title
+	desc = {
+		trigger = {
+			success_text = {
+				check_variable = { which = HSD_class_queue value > 0 }
+				check_variable = { which = HSD_class_queue value <= event_target:global_event_country.kuat_shipyard_buillding_queue_selection }
+				text = kuat_shipyard.22.b.desc
+			}
+			success_text = {
+				check_variable = { which = HSD_class_queue value > event_target:global_event_country.kuat_shipyard_buillding_queue_selection }
+				text = kuat_shipyard.22.a5.desc
+			}
+			success_text = {
+				OR = {
+					NOT = { is_variable_set = HSD_class_queue }
+					check_variable = { which = HSD_class_queue value = 0 }
+				}
+				text = kuat_shipyard.22.a.desc
+			}
+
+			success_text = {
+				check_variable = { which = ISD_class_queue value > 0 }
+				check_variable = { which = ISD_class_queue value <= event_target:global_event_country.kuat_shipyard_buillding_queue_selection }
+				text = kuat_shipyard.23.b.desc
+			}
+			success_text = {
+				check_variable = { which = ISD_class_queue value > event_target:global_event_country.kuat_shipyard_buillding_queue_selection }
+				text = kuat_shipyard.23.a5.desc
+			}
+			success_text = {
+				OR = {
+					NOT = { is_variable_set = ISD_class_queue }
+					check_variable = { which = ISD_class_queue value = 0 }
+				}
+				text = kuat_shipyard.23.a.desc
+			}
+
+			success_text = {
+				check_variable = { which = RSD_class_queue value > 0 }
+				check_variable = { which = RSD_class_queue value <= event_target:global_event_country.kuat_shipyard_buillding_queue_selection }
+				text = kuat_shipyard.24.b.desc
+			}
+			success_text = {
+				check_variable = { which = RSD_class_queue value > event_target:global_event_country.kuat_shipyard_buillding_queue_selection }
+				text = kuat_shipyard.24.a5.desc
+			}
+			success_text = {
+				OR = {
+					NOT = { is_variable_set = RSD_class_queue }
+					check_variable = { which = RSD_class_queue value = 0 }
+				}
+				text = kuat_shipyard.24.a.desc
+			}
+		}
+	}
+	custom_gui = "kuat_exe_shipyard_common_intro_window"
+	custom_gui_option = "kuat_exe_shipyard_common_intro_option"
+	picture_event_data = { room = resurange_room }
 	location = event_target:fallen_empire_kuat.capital_scope
 	is_triggered_only = yes
 	diplomatic = yes
