@@ -1036,28 +1036,12 @@ fleet_event = {
 			add_monthly_resource_mult = { resource = physics_research value = 12 min = 1000 }
 			add_monthly_resource_mult = { resource = society_research value = 12 min = 1000 }
 			add_monthly_resource_mult = { resource = engineering_research value = 12 min = 1000 }
-			hidden_effect = { 
-				country_event = { id = kuat_eternal_legacy.9 days = @standard_event_days random = @standard_random_days } 
-				set_country_flag = discoveryancienteternal01
-			}
+			hidden_effect = { set_country_flag = discoveryancienteternal01 }
 		}
 	}
 }
 
 # 古代智能系统残骸
-country_event = {
-	id = kuat_eternal_legacy.9
-	hide_window = yes
-	is_triggered_only = yes
-	fire_only_once = yes
-	trigger = {
-		is_ai = no
-		has_country_flag = discoveryancienteternal01
-	}
-	immediate = {
-		country_event = { id = kuat_eternal_legacy.10 days = @standard_event_days random = @standard_lower_days }
-	}
-}
 #start 轨道信号 
 country_event = {
 	id = kuat_eternal_legacy.10
@@ -1068,15 +1052,26 @@ country_event = {
 	custom_gui_option = "kuat_event_option"
 	show_sound = event_power_down
 	diplomatic = yes
-	is_triggered_only = yes
+	mean_time_to_happen = { days = @standard_event_days }
 
-	option = {
-		name = kuat_eternal_legacy.10.a
+	trigger = {
+		is_ai = no
+		has_country_flag = discoveryancienteternal01
+		any_planet_within_border = { has_planet_flag = planet_Scyva }
+		NOT = { has_country_flag = discoveryancienteternal01_ALREADY }
+	}
+
+	immediate = {
+		set_country_flag = discoveryancienteternal01_ALREADY
 		random_planet_within_border = {
 			limit = { has_planet_flag = planet_Scyva }
 			create_archaeological_site = site_Eternal_legacysatellite
 			save_global_event_target_as = planet_Scyva 
 		}
+	}
+
+	option = {
+		name = kuat_eternal_legacy.10.a
 		create_point_of_interest = {
 			id = Eternal_legacyancient_poi.2
 			name = "Eternal_legacyancient_2_poi"
@@ -1260,20 +1255,6 @@ fleet_event = {
 	}
 }
 
-# # 永恒舰队
-# country_event = {
-# 	id = kuat_eternal_legacy.17
-# 	hide_window = yes
-# 	is_triggered_only = yes
-# 	fire_only_once = yes
-# 	trigger = {
-# 		is_ai = no
-# 		has_country_flag = discoveryancienteternal02
-# 	}
-# 	immediate = {
-# 		country_event = { id = kuat_eternal_legacy.18 days = @standard_event_days random = @standard_lower_days }
-# 	}
-# }
 #start 不寻常的地表
 country_event = {
 	id = kuat_eternal_legacy.18
@@ -1288,6 +1269,7 @@ country_event = {
 	mean_time_to_happen = { days = @standard_event_days }
 	
 	trigger = {
+		is_ai = no
 		has_country_flag = discoveryancienteternal02
 		NOT = { has_country_flag = discoveryancienteternal02_ALREADY }
 		any_planet_within_border = { eternal_archaeological_limit = yes }
@@ -1515,6 +1497,7 @@ country_event = {
 	mean_time_to_happen = { days = @standard_event_days }
 	
 	trigger = {
+		is_ai = no
 		has_country_flag = discoveryancienteternal03
 		NOT = { has_country_flag = discoveryancienteternal03_ALREADY }
 		any_planet_within_border = { eternal_archaeological_limit = yes }
@@ -1716,20 +1699,6 @@ fleet_event = {
 	}
 }
 
-# 神秘技术
-# country_event = {
-# 	id = kuat_eternal_legacy.33
-# 	hide_window = yes
-# 	is_triggered_only = yes
-# 	fire_only_once = yes
-# 	trigger = {
-# 		is_ai = no
-# 		has_country_flag = discoveryancienteternal04
-# 	}
-# 	immediate = {
-# 		country_event = { id = kuat_eternal_legacy.340 days = @standard_event_days random = @standard_lower_days }
-# 	}
-# }
 #start 帝国的蛛丝马迹
 country_event = {
 	id = kuat_eternal_legacy.340
@@ -1744,6 +1713,7 @@ country_event = {
 	mean_time_to_happen = { days = @standard_event_days }
 	
 	trigger = {
+		is_ai = no
 		has_country_flag = discoveryancienteternal04
 		NOT = { has_country_flag = discoveryancienteternal04_ALREADY }
 		any_planet_within_border = { eternal_archaeological_limit = yes }
@@ -1946,19 +1916,6 @@ fleet_event = {
 }
 
 # 先祖遗迹
-# country_event = {
-# 	id = kuat_eternal_legacy.40
-# 	hide_window = yes
-# 	is_triggered_only = yes
-# 	fire_only_once = yes
-# 	trigger = {
-# 		is_ai = no
-# 		has_country_flag = discoveryancienteternal05
-# 	}
-# 	immediate = {
-# 		country_event = { id = kuat_eternal_legacy.41 days = @standard_event_days random = @standard_lower_days }
-# 	}
-# }
 #start 黑暗战争
 country_event = {
 	id = kuat_eternal_legacy.41
@@ -1973,6 +1930,7 @@ country_event = {
 	mean_time_to_happen = { days = @standard_event_days }
 	
 	trigger = {
+		is_ai = no
 		has_country_flag = discoveryancienteternal05
 		NOT = { has_country_flag = discoveryancienteternal05_ALREADY }
 		any_planet_within_border = { eternal_archaeological_limit = yes }
@@ -2170,7 +2128,7 @@ fleet_event = {
 			add_monthly_resource_mult = { resource = physics_research value = 12 min = 1000 }
 			add_monthly_resource_mult = { resource = society_research value = 12 min = 1000 }
 			add_monthly_resource_mult = { resource = engineering_research value = 12 min = 1000 }
-			hidden_effect = { country_event = { id = kuat_eternal_legacy.48 days = @standard_event_days random = @standard_random_days } set_country_flag = discoveryancienteternal06 }
+			hidden_effect = { set_country_flag = discoveryancienteternal06 }
 		}
 	}
 }
@@ -2185,24 +2143,25 @@ country_event = {
 	custom_gui_option = "kuat_event_m_option"
 	show_sound = event_power_down
 	diplomatic = yes
-	is_triggered_only = yes
-
+	mean_time_to_happen = { days = @standard_event_days }
+	
 	trigger = {
 		is_ai = no
 		has_country_flag = discoveryancienteternal06
-		NOT = { has_country_flag = discovereternalpopck }
-		has_event_chain = "Eternal_legacyancient_chain"
+		NOT = { has_country_flag = discoveryancienteternal06_ALREADY }
+		any_planet_within_border = { has_planet_flag = planet_Zildrog }
 	}
 
-	option = {
-		name = "kuat_eternal_legacy.48.a"
+	immediate = {
+		set_country_flag = discoveryancienteternal06_ALREADY
 		random_planet_within_border = {
 			limit = { has_planet_flag = planet_Zildrog }
 			create_archaeological_site = site_Eternal_systeam
 			save_global_event_target_as = planet_Zildrog 
 		}
-		hidden_effect = { set_country_flag = discovereternalpopck }
 	}
+
+	option = { name = "kuat_eternal_legacy.48.a" }
 }
 # Stage 1 - 时空扭曲信号
 fleet_event = {
