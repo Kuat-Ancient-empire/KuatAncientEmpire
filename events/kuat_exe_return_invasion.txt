@@ -807,14 +807,11 @@ country_event = {
 			}
 			set_variable_to_random_value = {
 				which = exe_megastructure_starbase_explode
-				min = 15 max = 100 rounded = yes
+				min = 15 max = 99 rounded = yes
 			}
-			while = {
-				count = exe_megastructure_starbase_explode
-				random_ship_in_system = {
-					limit = { owner = { is_eternal_faction = no } }
-					destroy_ship = this
-				}
+			every_ship_in_system = {
+				limit = { owner = { is_eternal_faction = no } }
+				kuat_reduce_hp_percent = { value = prev.exe_megastructure_starbase_explode }
 			}
 			reroll_random = yes
 			random_ambient_object = {
@@ -826,6 +823,7 @@ country_event = {
 				set_timed_star_flag = { flag = fire_only_once_temple days = 1 }
 				event_target:eternal_fleet_country = { change_variable = { which = ag_kuat_invasion_starbase_arrived value = 1 } }
 			}
+			clear_variable = exe_megastructure_starbase_explode
 		}
 		every_playable_country = { 
 			limit = { NOT = { has_country_flag = fire_only_once_temple } } 
