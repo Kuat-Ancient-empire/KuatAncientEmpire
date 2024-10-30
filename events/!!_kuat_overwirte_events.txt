@@ -275,3 +275,70 @@ country_event = { # Thesis effect randomizer
 		}
 	}
 }
+
+namespace = grand_archive
+# Catalytic Bladder unique mutation damage upon death
+country_event = {
+	id = grand_archive.10090
+	hide_window = yes
+	is_triggered_only = yes
+
+	trigger = {
+		always = no
+	}
+
+	immediate = {
+		set_variable = {
+			which = local_damage_percentage
+			value = fromfrom.value:scripted_modifier_add|MODIFIER|damage_random_nearby_enemy_on_death|
+		}
+		if = {
+			limit = {
+				check_variable = { which = local_damage_percentage value > 0 }
+			}
+			fromfrom.solar_system = {
+				random_ship_in_system = {
+					limit = {
+						owner = {
+							is_same_value = root.from
+						}
+						distance = {
+							source = root.fromfrom
+							max_distance <= 30
+							same_solar_system = yes
+						}
+					}
+
+					root.fromfrom = {
+						export_trigger_value_to_variable = {
+							trigger = has_max_hp
+							variable = local_max_hp
+						}
+						export_trigger_value_to_variable = {
+							trigger = has_max_armor_hp
+							variable = local_max_armor_hp
+						}
+					}
+					change_variable = {
+						which = local_damage_value
+						value = local_max_hp
+					}
+					change_variable = {
+						which = local_damage_value
+						value = local_max_armor_hp
+					}
+					multiply_variable = {
+						which = local_damage_value
+						value = local_damage_percentage
+					}
+					damage_ship = local_damage_value
+				}
+			}
+
+			play_sound = { # Sound played on ship explosion
+				sound = ga_weapon_catalytic_bladder
+				location = fromfrom
+			}
+		}
+	}
+}

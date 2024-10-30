@@ -189,6 +189,7 @@ remove_executor_power_fleet = {
 	every_owned_ship = { remove_executor_power = yes }
 }
 
+#移除基本脚本
 remove_standard_modifier_system = {
 	remove_modifier = $TITLE$_ship_shield_penetration_mult
 	remove_modifier = $TITLE$_ship_armor_penetration_mult			
@@ -220,6 +221,9 @@ remove_standard_modifier_system = {
 	remove_modifier = $TITLE$_ship_armor_hardening_add
 	remove_modifier = $TITLE$_ship_shield_hardening_add
 	remove_modifier = $TITLE$_ship_disengage_chance_reduction
+	remove_modifier = $TITLE$_component_lifesteal_add
+	remove_modifier = $TITLE$_ship_steal_defeated_ship_chance
+	remove_modifier = $TITLE$_fleet_capture_defeated_leader_chance
 }
 
 clear_repeatable_modifier = {
@@ -480,6 +484,8 @@ set_easy_eternal_fleet_mult_modifier = {
 		set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_hull_regen_add_perc 			RELATION = "!=" OUTPUT_VALUE = 0 	UNIT_VALUE = 0 }
 		set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_armor_regen_add_perc 			RELATION = "!=" OUTPUT_VALUE = 0 	UNIT_VALUE = 0 }
 		set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_shield_regen_add_perc 			RELATION = "!=" OUTPUT_VALUE = 0 	UNIT_VALUE = 0 }
+		set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_steal_defeated_ship_chance 	RELATION = "!=" OUTPUT_VALUE = 0 		UNIT_VALUE = 0 }
+		set_eternal_fleet_standard_modifier 				= { PARAMATER = fleet_capture_defeated_leader_chance RELATION = "!=" OUTPUT_VALUE = 0 		UNIT_VALUE = 0 }
 	]
 
 	[[hostile] 
@@ -490,6 +496,7 @@ set_easy_eternal_fleet_mult_modifier = {
 		set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_shield_damage_mult 			RELATION = "!=" OUTPUT_VALUE = 3 		UNIT_VALUE = -3 }
 		set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_hull_damage_mult				RELATION = "!=" OUTPUT_VALUE = 3 		UNIT_VALUE = -3 } 
 		set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_weapon_damage 					RELATION = "!=" OUTPUT_VALUE = 3 		UNIT_VALUE = -3 }
+		set_eternal_fleet_standard_modifier 				= { PARAMATER = component_lifesteal_add 			RELATION = "!=" OUTPUT_VALUE = 0 		UNIT_VALUE = 0 }
 	]
 
 	[[frendly] 
@@ -527,6 +534,8 @@ set_normal_eternal_fleet_mult_modifier = {
 		set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_hull_regen_add_perc 			RELATION = "!=" OUTPUT_VALUE = 0 		UNIT_VALUE = 0 }
 		set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_armor_regen_add_perc 			RELATION = "!=" OUTPUT_VALUE = 0 		UNIT_VALUE = 0 }
 		set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_shield_regen_add_perc 			RELATION = "!=" OUTPUT_VALUE = 0 		UNIT_VALUE = 0 }
+		set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_steal_defeated_ship_chance 	RELATION = "!=" OUTPUT_VALUE = 0 		UNIT_VALUE = 0 }
+		set_eternal_fleet_standard_modifier 				= { PARAMATER = fleet_capture_defeated_leader_chance RELATION = "!=" OUTPUT_VALUE = 0 		UNIT_VALUE = 0 }
 	]
 
 	[[hostile] 
@@ -537,6 +546,7 @@ set_normal_eternal_fleet_mult_modifier = {
 		set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_shield_damage_mult 			RELATION = "!=" OUTPUT_VALUE = -0.25 		UNIT_VALUE = 0.25 }
 		set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_hull_damage_mult				RELATION = "!=" OUTPUT_VALUE = -0.25 		UNIT_VALUE = 0.25 } 
 		set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_weapon_damage 					RELATION = "!=" OUTPUT_VALUE = -0.25 		UNIT_VALUE = 0.25 }
+		set_eternal_fleet_standard_modifier 				= { PARAMATER = component_lifesteal_add 			RELATION = "!=" OUTPUT_VALUE = 0 			UNIT_VALUE = 0 }
 	]
 
 	[[frendly] 
@@ -574,9 +584,12 @@ set_difiicult_eternal_fleet_mult_modifier = {
 		set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_hull_regen_add_perc 			RELATION = "!=" OUTPUT_VALUE = 0 	UNIT_VALUE = 0 }
 		set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_armor_regen_add_perc 			RELATION = "!=" OUTPUT_VALUE = 0 	UNIT_VALUE = 0 }
 		set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_shield_regen_add_perc 			RELATION = "!=" OUTPUT_VALUE = 0 	UNIT_VALUE = 0 }
+		set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_steal_defeated_ship_chance 	RELATION = "!=" OUTPUT_VALUE = 0 	UNIT_VALUE = 0 }
+		set_eternal_fleet_standard_modifier 				= { PARAMATER = fleet_capture_defeated_leader_chance RELATION = "!=" OUTPUT_VALUE = 0 	UNIT_VALUE = 0 }
 	]
 	
 	[[hostile] 
+		set_eternal_fleet_standard_modifier 			= { PARAMATER = component_lifesteal_add 			RELATION = "!=" OUTPUT_VALUE = 0 	UNIT_VALUE = 0 }
 		set_eternal_fleet_standard_modifier 			= { PARAMATER = ship_shield_penetration_mult 		RELATION = "!=" OUTPUT_VALUE = -1 	UNIT_VALUE = 1 }
 		set_eternal_fleet_standard_modifier 			= { PARAMATER = ship_armor_penetration_mult 		RELATION = "!=" OUTPUT_VALUE = -1 	UNIT_VALUE = 1 }
 		set_eternal_fleet_standard_modifier 			= { PARAMATER = ship_disengage_chance_reduction 	RELATION = "!=" OUTPUT_VALUE = 1 	UNIT_VALUE = -1 }
@@ -621,9 +634,12 @@ set_ban_eternal_fleet_mult_modifier = {
 		set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_hull_regen_add_perc 			RELATION = "!=" OUTPUT_VALUE = 0 	UNIT_VALUE = 0 }
 		set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_armor_regen_add_perc 			RELATION = "!=" OUTPUT_VALUE = 0 	UNIT_VALUE = 0 }
 		set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_shield_regen_add_perc 			RELATION = "!=" OUTPUT_VALUE = 0 	UNIT_VALUE = 0 }
+		set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_steal_defeated_ship_chance 	RELATION = "!=" OUTPUT_VALUE = 0 	UNIT_VALUE = 0 }
+		set_eternal_fleet_standard_modifier 				= { PARAMATER = fleet_capture_defeated_leader_chance RELATION = "!=" OUTPUT_VALUE = 0 	UNIT_VALUE = 0 }
 	] 
 	
 	[[hostile] 
+		set_eternal_fleet_standard_modifier 				= { PARAMATER = component_lifesteal_add 			RELATION = "!=" OUTPUT_VALUE = 0 	UNIT_VALUE = 0 }
 		set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_shield_penetration_mult 		RELATION = "!=" OUTPUT_VALUE = -1 	UNIT_VALUE = 1 }
 		set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_armor_penetration_mult 		RELATION = "!=" OUTPUT_VALUE = -1 	UNIT_VALUE = 1 }
 		set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_disengage_chance_reduction 	RELATION = "!=" OUTPUT_VALUE = 1 	UNIT_VALUE = -1 }
@@ -976,6 +992,9 @@ remove_all_ship_modifier_change_basic_variable = {
 	remove_ship_modifier_change_basic_variable = { PARAMATER = ship_shield_damage_mult }
 	remove_ship_modifier_change_basic_variable = { PARAMATER = ship_armor_damage_mult }
 	remove_ship_modifier_change_basic_variable = { PARAMATER = ship_speed_mult }
+	remove_ship_modifier_change_basic_variable = { PARAMATER = component_lifesteal_add }
+	remove_ship_modifier_change_basic_variable = { PARAMATER = ship_steal_defeated_ship_chance }
+	remove_ship_modifier_change_basic_variable = { PARAMATER = fleet_capture_defeated_leader_chance }
 
 	remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = explosive }
 	remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = kinetic }
