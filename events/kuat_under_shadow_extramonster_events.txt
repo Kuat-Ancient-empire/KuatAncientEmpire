@@ -1314,26 +1314,18 @@ country_event = {
 		name = kuat_extramonster.39.f.1
 		trigger = { check_variable = { which = kuat_white_hole_star_enable value > 5 } }
 		hidden_effect = { 
-			set_global_flag = kuat_extra_contractor_wined_target 
-			if = {
-				limit = { event_target:kuat_contractor_hostile = {
-					count_owned_fleet = { count = 0 limit = { OR = { 
-						has_fleet_flag = kuat_contractor_defenced_fleet 
-						has_fleet_flag = kuat_contractor_invasion_fleet 
-					} } }
-				} }
-				every_country = {
-					limit = { NOR = { 
-						is_same_value = event_target:kuat_contractor_hostile 
-						has_country_flag = trigger_ended_event_temple
-					} }
-					set_timed_country_flag = { flag = trigger_ended_event_temple days = 1 }
-					country_event = { id = kuat_extramonster.35 }
-				}
-				add_threat = { who = root amount = 50 }
-				set_global_flag = kuat_extramonster_ended
-				event_target:kuat_contractor_hostile  = { destroy_country = yes }
+			set_spawn_system_batch = begin
+			root.capital_scope = { solar_system = {
+				spawn_system = { initializer = kuat_white_hole_system_7 min_distance >= 45 max_distance <= 15 }
+			}}
+			event_target:kuat_white_hole_system_7 = {
+				kuat_contractor_create_elternal_system_warbase = yes
+				system_event = { id = kuat_extramonster.24 days = 30 }
+				set_star_flag = kuat_white_hole_star_final
+				set_timed_star_flag = { flag = kuat_white_hole_star_in_system days = 30 }
 			}
+			country_event = { id = kuat_extramonster.391 days = 1 }
+			set_spawn_system_batch = end
 			# TODO
 			# if = {
 			# 	limit = { 
@@ -1391,6 +1383,92 @@ country_event = {
 	after = {
 		remove_global_flag = kuat_white_hole_star_unlock_temple
 	}
+}
+
+#通知最终要塞出现
+country_event = {
+	id = kuat_extramonster.391
+	title = "kuat_extramonster.391.title"
+	desc = "kuat_extramonster.391.desc"
+	diplomatic = yes
+	picture_event_data = { room = astral_rift_siege_on_paradise_grunur_room }
+	custom_gui = "kuat_event_m_window"
+	custom_gui_option = "kuat_event_m_option"
+	is_triggered_only = yes
+	trigger = {
+		is_player_country = yes
+		has_global_flag = kuat_extramonster_begin
+		NOT = { has_global_flag = kuat_extramonster_ended }
+	}
+	option = { name = "kuat_extramonster.391.a" }
+}
+
+#摧毁最终要塞，允许进入
+country_event = {
+	id = kuat_extramonster.392
+	hide_window = yes
+	is_triggered_only = yes
+	trigger = {
+		has_global_flag = kuat_extramonster_begin
+		from = { is_kuat_contractor_faction = yes }
+		fromfromfrom = {
+			has_fleet_flag = kuat_contractor_capital_fleet
+			exists = solar_system
+			solar_system = { is_same_value = event_target:kuat_white_hole_system_7 }
+		}
+	}
+	immediate = {
+		set_global_flag = kuat_extra_contractor_wined_target 
+		event_target:kuat_white_hole_system_7 = {
+			set_star_class = sc_black_hole
+			star = {
+				create_ambient_object = { type = "star_explosion" play_animation_once = yes location = this }
+				last_created_ambient_object = { set_location = { target = prev distance = 0 angle = random } }
+				create_ambient_object = { type = "destroyed_system" location = this }
+				last_created_ambient_object = { set_ambient_object_flag = destroyed_system_effect set_location = { target = prev  distance = 0  angle = random  } }
+				change_pc = pc_black_hole
+			}
+			set_star_flag = kuat_white_hole_rainforce_disable
+		}
+		if = {
+			limit = { event_target:kuat_contractor_hostile = {
+				count_owned_fleet = { count = 0 limit = { OR = { 
+					has_fleet_flag = kuat_contractor_defenced_fleet 
+					has_fleet_flag = kuat_contractor_invasion_fleet 
+				} } }
+			} }
+			every_country = {
+				limit = { NOR = { 
+					is_same_value = event_target:kuat_contractor_hostile 
+					has_country_flag = trigger_ended_event_temple
+				} }
+				set_timed_country_flag = { flag = trigger_ended_event_temple days = 1 }
+				country_event = { id = kuat_extramonster.35 }
+			}
+			add_threat = { who = root amount = 50 }
+			set_global_flag = kuat_extramonster_ended
+			event_target:kuat_contractor_hostile  = { destroy_country = yes }
+		}
+		else = { country_event = { id = kuat_extramonster.393 days = 2 } }
+	}
+}
+
+#乘胜追击！
+country_event = {
+	id = kuat_extramonster.393
+	title = "kuat_extramonster.393.title"
+	desc = "kuat_extramonster.393.desc"
+	diplomatic = yes
+	picture_event_data = { room = astral_rift_crystal_2_room }
+	custom_gui = "kuat_event_m_window"
+	custom_gui_option = "kuat_event_m_option"
+	is_triggered_only = yes
+	trigger = {
+		is_player_country = yes
+		has_global_flag = kuat_extramonster_begin
+		NOT = { has_global_flag = kuat_extramonster_ended }
+	}
+	option = { name = "kuat_extramonster.393.a" }
 }
 
 #A defense fleet destroyed, white hole research enable.   

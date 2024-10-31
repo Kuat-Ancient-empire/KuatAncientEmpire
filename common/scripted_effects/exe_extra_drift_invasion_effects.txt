@@ -1175,7 +1175,13 @@ kuat_contractor_create_elternal_system_warbase = {
 				set_owner = event_target:kuat_contractor_hostile
 				create_ship = { design = "NAME_DRFT_STARBASE_MEGASTRUCTURE_SECTION" effect = { 
 					set_ship_flag = enable_drft_ship_inital set_disable_at_health = 0.01
-					set_variable = { which = DRFT_SHIP_HEALTH_VAR value = 30 }
+					if = {
+						limit = { solar_system = {
+							is_same_value = event_target:kuat_white_hole_system_7
+						} }
+						set_variable = { which = DRFT_SHIP_HEALTH_VAR value = 30 }
+					}
+					else = { set_variable = { which = DRFT_SHIP_HEALTH_VAR value = 15 } }
 				} }
 				set_fleet_flag = kuat_contractor_capital_fleet
 				set_location = { target = prev distance = -1 angle = 0 }
