@@ -253,7 +253,7 @@ country_event = {
 		FROMFROM = { save_event_target_as = destroyed_fleet }
 		random_system = {
 			limit = { check_variable = { which = kuat_fleet_id value = event_target:destroyed_fleet.fleet_id } }
-			set_variable = { which = kuat_fleet_id value = 0 } clear_variable = kuat_fleet_id 
+			clear_variable = kuat_fleet_id 
 		}
 	}
 }
@@ -264,13 +264,9 @@ fleet_event = {
 	is_triggered_only = yes
 	trigger = {
 		exists = owner
-		owner = { is_kuat_fallen_empire = yes }
-		OR = {
-			owner = { is_at_war = yes }
-			AND = {
-				exists = event_target:fallen_empire_kuat
-				event_target:fallen_empire_kuat = { is_at_war = yes }
-			}
+		owner = { 
+			is_kuat_fallen_empire = yes 
+			is_at_war = yes
 		}
 		OR = {
 			has_fleet_flag = base_kuat_attack_fleet
