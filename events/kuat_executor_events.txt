@@ -2297,9 +2297,6 @@ country_event = {
 			every_owned_ship = {
 				limit = { check_modifier_value = { modifier = ship_steal_defeated_ship_chance value != 0 } }
 				clear_ship_modifier = { modifier = ship_steal_defeated_ship_chance DAYS = 30 }
-				export_modifier_to_variable = { modifier = ship_steal_defeated_ship_chance variable = ship_steal_defeated_ship_chance_value }
-				set_invasion_fleet_basic_modifier = { SUB = basic_ship_steal_defeated_ship_chance FACTOR = ship_steal_defeated_ship_chance_value DAYS = 30 }
-				if = { limit = { is_variable_set = ship_steal_defeated_ship_chance_value } clear_variable = ship_steal_defeated_ship_chance_value }
 			}
 		}
 		if = {
@@ -2307,32 +2304,12 @@ country_event = {
 			every_owned_ship = {
 				limit = { check_modifier_value = { modifier = fleet_capture_defeated_leader_chance value != 0 } }
 				clear_ship_modifier = { modifier = fleet_capture_defeated_leader_chance DAYS = 30 }
-				export_modifier_to_variable = { modifier = fleet_capture_defeated_leader_chance variable = fleet_capture_defeated_leader_chance_value }
-				set_invasion_fleet_basic_modifier = { SUB = basic_fleet_capture_defeated_leader_chance FACTOR = fleet_capture_defeated_leader_chance_value DAYS = 30 }
-				if = { limit = { is_variable_set = fleet_capture_defeated_leader_chance_value } clear_variable = fleet_capture_defeated_leader_chance_value }
 			}
 		}
 		if = {
 			limit = { is_ai = yes is_country_type = default check_modifier_value = { modifier = country_resource_max_add value > 1000000 } }
-			clear_ship_modifier = { modifier = country_resource_max_add DAYS = 30 }
-			export_modifier_to_variable = { modifier = country_resource_max_add variable = country_resource_max_add_value }
-			subtract_variable = { which = country_resource_max_add_value value = 1000000 } 
-			set_invasion_fleet_basic_modifier = { SUB = basic_country_resource_max_add FACTOR = country_resource_max_add DAYS = 30 }
-			if = { limit = { is_variable_set = country_resource_max_add_value } clear_variable = country_resource_max_add }
+			clear_ship_modifier = { modifier = country_resource_max_add subtract = 1000000 DAYS = 30 }
 		}
-		# else_if = {
-		# 	limit = { 
-		# 		has_global_flag = ban_exe_invasion 
-		# 		OR = { command_limit > 4000 has_country_flag = kuat_command_limit_always_temple_4000 }
-		# 	}
-		# 	remove_country_flag = kuat_command_limit_always_temple_800
-		# 	set_country_flag = kuat_command_limit_always_temple_4000
-		# 	clear_ship_modifier = { modifier = command_limit_mult DAYS = 30 }
-		# 	export_modifier_to_variable = { modifier = command_limit_add variable = command_limit_add_value }
-		# 	subtract_variable = { which = command_limit_add_value value = 3980 }
-		# 	set_invasion_fleet_basic_modifier = { SUB = basic_command_limit_add FACTOR = command_limit_add_value DAYS = 30 }
-		# 	if = { limit = { is_variable_set = command_limit_add_value } clear_variable = command_limit_add_value }
-		# }
 	}
 }
 
