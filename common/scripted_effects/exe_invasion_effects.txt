@@ -3543,7 +3543,7 @@ kuat_reset_auto_colony_variable = {
 	else_if = { limit = { years_passed >= 20 } multiply_variable = { which = planet_production_array value = 0.2 } }
 	else = { multiply_variable = { which = planet_production_array value = 0.1 } }
 	if = { limit = { owner = { is_ai = yes is_nirvana_empire = no } } multiply_variable = { which = planet_production_array value = 0.1 } }
-	if = { limit = { owner = { is_ai = yes is_nirvana_empire = yes } } multiply_variable = { which = planet_production_array value = 0.25 } }
+	if = { limit = { owner = { is_ai = yes is_nirvana_empire = yes } } multiply_variable = { which = planet_production_array value = 0.2 } }
 	floor_variable = planet_production_array
 	if = {
 		limit = { is_variable_set = planet_production_array_migrant }
@@ -4044,5 +4044,18 @@ kuat_change_country_owner = {
 	every_country = {
 		limit = { is_same_value = event_target:fallen_empire_kuat }
 		destroy_country = yes
+	}
+}
+
+Kuat_auto_colony_reserve = {
+	if = {
+		limit = { resource_stockpile_compare = { resource = $TYPE$ value > modifier:country_resource_max_add } }
+		export_resource_stockpile_to_variable = { 
+			resource = $TYPE$
+			variable = Vop_resource_stockpile_compare_$TYPE$
+		}
+		multiply_variable = { which = Vop_resource_stockpile_compare_$TYPE$ value = $MULT$ }
+		add_resource = { $TYPE$ = -1 mult = Vop_resource_stockpile_compare_$TYPE$ }
+		clear_variable = Vop_resource_stockpile_compare_$TYPE$
 	}
 }
