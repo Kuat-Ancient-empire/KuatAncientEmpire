@@ -4049,7 +4049,10 @@ kuat_change_country_owner = {
 
 Kuat_auto_colony_reserve = {
 	if = {
-		limit = { resource_stockpile_compare = { resource = $TYPE$ value > modifier:country_resource_max_add } }
+		limit = { 
+			check_variable_arithmetic = { which = modifier:country_resource_max_add value >= 100000 }
+			resource_stockpile_compare = { resource = $TYPE$ value > modifier:country_resource_max_add } 
+		}
 		export_resource_stockpile_to_variable = { 
 			resource = $TYPE$
 			variable = Vop_resource_stockpile_compare_$TYPE$
