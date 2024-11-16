@@ -620,7 +620,8 @@ kuat_fleet_attack_action = {
 	}
 	effect = {  
 		custom_tooltip = "kuat_fleet_attack_action"
-		hidden_effect = {
+		hidden_effect = { if = {
+			limit = { is_scope_type = fleet }
 			set_fleet_flag = fire_kuat_fleet_attack_action
 			owner = { save_global_event_target_as = kuat_friendly_faction }
 			switch = {
@@ -638,7 +639,7 @@ kuat_fleet_attack_action = {
 					FRIENDLY_TARGET = event_target:kuat_friendly_faction 
 				} }
 			}
-		}
+		} }
 	}
 }
 
@@ -667,14 +668,15 @@ kuat_fleet_defence_action = {
 	allow = { always = yes }
 	effect = {  
 		custom_tooltip = kuat_fleet_defense_action
-		hidden_effect = {
+		hidden_effect = { if = {
+			limit = { is_scope_type = fleet }
 			set_fleet_flag = fire_kuat_fleet_defense_action
 			owner = { save_global_event_target_as = kuat_friendly_faction }
 			set_automatic_fleet_avaliable = { 
 				TYPE = defender_automatic_action  
 				FRIENDLY_TARGET = event_target:kuat_friendly_faction 
 			}
-		}
+		}}
 	}
 }
 

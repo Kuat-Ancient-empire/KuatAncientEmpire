@@ -2296,13 +2296,13 @@ event = {
 	is_triggered_only = yes
 	trigger = { always = yes }
 	immediate = { 
-		if = {
-			limit = { is_same_value = event_target:solarpunk_country }
-			event_target:solarpunk_country = { destroy_country = yes }
-		}
 		every_galaxy_planet = {
 			limit = { has_planet_flag = has_building_kuat_command_center_auto }
 			kuat_reset_auto_colony_variable = yes
+		}
+		every_country = {
+			limit = { has_country_flag = solarpunk_country }
+			destroy_country = yes
 		}
 		random_country = {
 			limit = { 
@@ -2314,27 +2314,6 @@ event = {
 				}
 			}
 			country_event = { id = exe_invasion.1000 }
-		}
-		every_galaxy_fleet = {
-			limit = { any_owned_ship = {
-				is_ship_size = Drift_megastructure_starbase
-			} }
-			set_fleet_flag = kuat_contractor_capital_fleet
-		}
-		if = {
-			limit = { any_cosmic_storm = { OR = {
-				has_storm_flag = storm_kuat_support_nexus_storm_exe_megastructure_starbase
-				has_storm_flag = storm_kuat_support_celestic_storm_Drift_megastructure_starbase 
-				has_storm_flag = storm_kuat_support_particle_storm_swfo_supermacy 
-			} } }
-			every_cosmic_storm = {
-				limit = { OR = {
-					has_storm_flag = storm_kuat_support_nexus_storm_exe_megastructure_starbase
-					has_storm_flag = storm_kuat_support_celestic_storm_Drift_megastructure_starbase 
-					has_storm_flag = storm_kuat_support_particle_storm_swfo_supermacy 
-				} }
-				destroy_cosmic_storm = yes 
-			}
 		}
 	}
 }
