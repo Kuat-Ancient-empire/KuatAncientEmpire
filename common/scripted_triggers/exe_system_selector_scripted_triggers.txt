@@ -123,6 +123,14 @@ kuat_star_classes_list_selected_trigger = {
 			check_variable = { which = kuat_system_selector_star_classes_page value = 4 }
 			has_country_flag = kuat_star_classes_list_selected_4_$kuat_sc_seq$
 		}
+		# AND = {
+		# 	check_variable = { which = kuat_system_selector_star_classes_page value = 5 }
+		# 	has_country_flag = kuat_star_classes_list_selected_5_$kuat_sc_seq$
+		# }
+		# AND = {
+		# 	check_variable = { which = kuat_system_selector_star_classes_page value = 6 }
+		# 	has_country_flag = kuat_star_classes_list_selected_6_$kuat_sc_seq$
+		# }
 	}
 }
 
@@ -489,6 +497,10 @@ kuat_is_sc_eternal_fleet = {
 	any_fleet_in_system = { has_fleet_flag = ag_kuat_invasion_fleet }
 }
 
+kuat_is_sc_drift_fleet = {
+	any_fleet_in_system = { has_fleet_flag = kuat_contractor_invasion_fleet }
+}
+
 kuat_star_classes_check = {
 	optimize_memory
 	OR = {
@@ -505,7 +517,7 @@ kuat_star_classes_check = {
 			kuat_is_sc_w = no kuat_is_sc_nova = no kuat_is_sc_collapsar = no
 			kuat_is_sc_protostar = no kuat_is_sc_lbv = no kuat_is_sc_tt = no
 			kuat_is_sc_ae = no kuat_is_sc_pn = no kuat_is_sc_magnetar = no
-			kuat_is_sc_microquasar = no kuat_is_sc_fu = no kuat_is_sc_eternal_fleet = no
+			kuat_is_sc_microquasar = no kuat_is_sc_fu = no kuat_is_sc_eternal_fleet = no kuat_is_sc_drift_fleet = no
 		}
 		AND = {
 			prev = { has_country_flag = kuat_star_classes_list_selected_1_2 }
@@ -565,7 +577,7 @@ kuat_star_classes_check = {
 		}
 		AND = {
 			prev = { has_country_flag = kuat_star_classes_list_selected_2_7 }
-			kuat_is_sc_o = yes
+			kuat_is_sc_drift_fleet = yes
 		}
 		AND = {
 			prev = { has_country_flag = kuat_star_classes_list_selected_2_8 }
@@ -634,6 +646,10 @@ kuat_star_classes_check = {
 		AND = {
 			prev = { has_country_flag = kuat_star_classes_list_selected_4_6 }
 			kuat_is_sc_paired = yes
+		}
+		AND = {
+			prev = { has_country_flag = kuat_star_classes_list_selected_4_7 }
+			kuat_is_sc_o = yes
 		}
 	}
 }
@@ -852,7 +868,7 @@ kuat_epsilon_planet_killer_weapon_selector_trigger = {
 			AND = {
 				custom_tooltip = {
 					fail_text = "kuat_requires_a_star_star_killer" 
-					event_target:kuat_system_selector_marked_system_[[kuat_system_seq]$kuat_system_seq$] = { NOR = { is_star_class = sc_kuat has_star_flag = kuat_military_base_system_home } }
+					event_target:kuat_system_selector_marked_system_[[kuat_system_seq]$kuat_system_seq$] = { NOR = { is_star_class = sc_kuat } }
 				}
 				custom_tooltip = {
 					fail_text = "kuat_requires_outside_border_star_killer"
@@ -860,64 +876,13 @@ kuat_epsilon_planet_killer_weapon_selector_trigger = {
 				}
 				custom_tooltip = {
 					fail_text = "kuat_requires_no_kuat_system" 
-					event_target:kuat_system_selector_marked_system_[[kuat_system_seq]$kuat_system_seq$] = { 
-						kuat_is_kuat_system = no 
-						NOR = { 
-							has_star_flag = ag_kae_e_area_system
-							has_star_flag = monolith_crisis_systems
-							has_star_flag = monolith_crisis_shield_system
-							has_star_flag = eternal_starbase_megastructure_in_system 
-						}
-					}
-				}
-				custom_tooltip = {
-					fail_text = "kuat_requires_no_ancient_system" 
-					event_target:kuat_system_selector_marked_system_[[kuat_system_seq]$kuat_system_seq$] = { 
-						ag_is_ancient_system = no 
-						NOT = { any_ship_in_system = { OR = {
-							is_ship_size = ag_gamma_station_hostile
-							is_ship_size = ag_gamma_station_small_hostile
-							is_ship_size = ag_gamma_station_small_moving_hostile
-						} } }
-					}
-				}
-				custom_tooltip = {
-					fail_text = "kuat_requires_no_zeta_crisis_system" 
-					event_target:kuat_system_selector_marked_system_[[kuat_system_seq]$kuat_system_seq$] = {
-						NOT = { any_ship_in_system = { OR = {
-								is_ship_size = ag_zeta_crisis_portal
-								is_ship_size = ag_zeta_crisis_psionic_storm
-								is_ship_size = ag_zeta_crisis_psionic_singularity
-						} } }
-					}
-				}
-				custom_tooltip = {
-					fail_text = "kuat_requires_no_exd_system" 
-					event_target:kuat_system_selector_marked_system_[[kuat_system_seq]$kuat_system_seq$] = { NOT = {
-						any_ship_in_system = { is_ship_size = dimensional_portal_ed }
-					} }
-				}
-				custom_tooltip = {
-					fail_text = "kuat_requires_no_contingency_system" 
-					event_target:kuat_system_selector_marked_system_[[kuat_system_seq]$kuat_system_seq$] = { NOT = {
-						any_system_planet = {
-							is_planet_class = pc_ai
-							exists = owner
-							owner = { is_country_type = ai_empire }
-						}
-					} }
+					event_target:kuat_system_selector_marked_system_[[kuat_system_seq]$kuat_system_seq$] = { NOT = { has_star_flag = kuat_cannot_be_hit_by_starkillerbase } }
 				}
 				custom_tooltip = {
 					fail_text = "kuat_requires_no_too_many_targets" 
 					OR = {
-						root = {
-							exists = event_target:eternal_fleet_country
-							has_global_flag = ban_exe_invasion
-							has_global_flag = enable_modifer_check
-							check_variable = { which = kuat_num_system_selector_selected_systems value < 10 }
-						}
+						root = { check_variable = { which = kuat_num_system_selector_selected_systems value < value:kuat_eternal_starkiller_base_target } }
 						kuat_system_selector_system_selected_trigger = { kuat_system_seq = $kuat_system_seq$ }
-						root = { check_variable = { which = kuat_num_system_selector_selected_systems value < 5 } }
 					}
 				}
 			}
