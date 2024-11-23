@@ -448,7 +448,7 @@ fleet_event = {
 		has_global_flag = kuat_extramonster_begin
 		NOT = { has_global_flag = kuat_extramonster_ended }
 	}
-	immediate = { kuat_contractor_exe_invasion_fleet_action = yes } 
+	immediate = { kuat_exe_invasion_fleet_wandering_action = { ID = kuat_extramonster TYPE = kuat_contractor OWNER = kuat_contractor_hostile } } 
 }
 
 #Invasion fleet action on win a space battle. 
@@ -1319,9 +1319,9 @@ country_event = {
 				spawn_system = { initializer = kuat_white_hole_system_7 min_distance >= 45 max_distance <= 15 }
 			}}
 			event_target:kuat_white_hole_system_7 = {
-				kuat_contractor_create_elternal_system_warbase = yes
-				system_event = { id = kuat_extramonster.24 days = 30 }
 				set_star_flag = kuat_white_hole_star_final
+				kuat_contractor_super_create_elternal_system_warbase = yes
+				system_event = { id = kuat_extramonster.24 days = 30 }
 				set_timed_star_flag = { flag = kuat_white_hole_star_in_system days = 30 }
 			}
 			country_event = { id = kuat_extramonster.391 days = 1 }
@@ -1489,6 +1489,7 @@ country_event = {
 			solar_system = {
 				has_star_flag = kuat_white_hole_star
 				NOR = { 
+					has_star_flag = kuat_white_hole_star_final
 					has_star_flag = kuat_white_hole_rainforce_disable 
 					has_star_flag = kuat_white_hole_rainforce_attack_active
 				}
@@ -1608,9 +1609,7 @@ country_event = {
 			set_fleet_flag = kuat_enable_bossbar
 			random_owned_ship = {
 				limit = { is_ship_size = Drift_megastructure_starbase }
-				prevprev = {
-					country_event = { id =  kuat_extramonster.400 scopes = { from = prev } }
-				}
+				prevprev = { country_event = { id =  kuat_extramonster.400 scopes = { from = prev } } }
 			}
 		}
 	}
@@ -1725,12 +1724,10 @@ country_event = {
 	diplomatic = yes
 	custom_gui = kuat_bossbar
 	diplomatic_title = kuat_get_boss_name
-	abort_trigger = {
-		OR = {
-			NOT = { exists = event_target:is_kuat_boss }
-			event_target:is_kuat_boss = { OR = { is_in_combat = no has_hp = 0 } }
-		}
-	}
+	abort_trigger = { OR = {
+		NOT = { exists = event_target:is_kuat_boss }
+		event_target:is_kuat_boss = { OR = { is_in_combat = no has_hp = 0 } }
+	} }
 	abort_effect = {
 		if = {
 			limit = { exists = from }

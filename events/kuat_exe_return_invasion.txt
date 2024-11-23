@@ -669,7 +669,7 @@ ship_event = {
 					limit = { NOT = { any_owned_fleet = { has_fleet_flag = ag_kuat_invasion_fleet } } }
 					random_system_within_border = {
 						limit = { has_star_flag = eternal_starbase_megastructure_in_system }
-						system_star = { create_exe_retrun_invasion_fleet_detail = yes }
+						system_star = { planet_event = { id = exe_return_invasion.11 } }
 					}
 				}
 			}
@@ -871,20 +871,26 @@ planet_event = {
 				if = {
 					limit = { check_variable = { 
 						which = ag_kuat_invasion_fleet_arrived 
-						value = event_target:global_event_country.eternal_fleet_return_index_x4
+						value >= event_target:global_event_country.eternal_fleet_return_index_x4
 					} }
 					every_owned_fleet = {
 						limit = { has_fleet_flag = ag_kuat_invasion_fleet is_fleet_idle = yes }
 						fleet_event = { id = exe_return_invasion.12 days = 1 random = 2 }
 					}
-					set_global_flag = can_win_the_fleet_stage_1
+					if = {
+						limit = { NOT = { has_global_flag = can_win_the_fleet_stage_1 } }
+						set_global_flag = can_win_the_fleet_stage_1
+					}
 				}
 			}
-			else = { if = {
-				limit = { check_variable = { which = ag_kuat_invasion_fleet_arrived value = 20 } }
-				every_owned_fleet = { limit = { has_fleet_flag = ag_kuat_invasion_fleet } fleet_event = { id = exe_return_invasion.12 days = 1 random = 2 } }
-				set_global_flag = can_win_the_fleet_stage_1
-			} } 
+			else_if = {
+				limit = { check_variable = { which = ag_kuat_invasion_fleet_arrived value >= 20 } }
+				every_owned_fleet = { 
+					limit = { has_fleet_flag = ag_kuat_invasion_fleet is_fleet_idle = yes } 
+					fleet_event = { id = exe_return_invasion.12 days = 1 random = 2 } 
+				}
+				if = { limit = { NOT = { has_global_flag = can_win_the_fleet_stage_1 } } set_global_flag = can_win_the_fleet_stage_1 }
+			} 
 		}
 	}
 }
@@ -934,7 +940,7 @@ fleet_event = {
 	hide_window = yes
 	is_triggered_only = yes
 	trigger = { exists = this }
-	immediate = { ag_exe_invasion_fleet_action = yes }
+	immediate = { kuat_exe_invasion_fleet_action = { ID = exe_return_invasion TYPE = ag_kuat OWNER = eternal_fleet_country } }
 }
 
 #Invasion fleet action on win a space battle. 
@@ -1038,8 +1044,6 @@ event = {
 					exists = orbit
 					orbit = {
 						NOT = { is_star = yes }
-						exists = owner
-						owner = { is_hostile = event_target:eternal_fleet_country }
 						exists = controller
 						controller = { is_hostile = event_target:eternal_fleet_country }
 					}
@@ -1058,8 +1062,6 @@ event = {
 						exists = orbit
 						orbit = {
 							NOT = { is_star = yes }
-							exists = owner
-							owner = { is_hostile = event_target:eternal_fleet_country }
 							exists = controller
 							controller = { is_hostile = event_target:eternal_fleet_country }
 						}
