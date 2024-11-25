@@ -1257,19 +1257,39 @@ country_event = {
 	immediate = { if = {
 		limit = { NOT = { has_global_flag = kuat_settings_first_fired } }
 		set_global_flag = easy_exe_invasion 
-		set_global_flag = disable_modifer_check 
 		set_global_flag = enable_animal_trigger
+		if = {
+			limit = { has_origin = origin_eternalthrone }
+			if = {
+				limit = { exists = event_target:CHECK_ETERNAL_LEADER }
+				clear_global_event_target = ETERNAL_LEADER
+				random_galaxy_species = {
+					limit = { is_same_value = event_target:CHECK_ETERNAL_LEADER }
+					save_global_event_target_as = ETERNAL_LEADER
+				}
+			}
+			else = { kuat_kae_create_faction_species = yes }
+		}
+		else_if = {
+			limit = { kuat_is_enable_shadow_origin = yes }
+			if = {
+				limit = { exists = event_target:CHECK_UTS02_LEADER }
+				clear_global_event_target = UTS02_LEADER
+				random_galaxy_species = {
+					limit = { is_same_value = event_target:CHECK_UTS02_LEADER }
+					save_global_event_target_as = UTS02_LEADER
+				}
+			}
+			else = { kuat_Uts02_create_faction_species = yes }
+		}
 		set_global_flag = kuat_impulse_mod_settings_disable
 		event_target:global_event_country = { 
 			set_variable = { which = exe_invasion_difficult_global_var value = 1 } 
 			if = {
-				limit = { has_global_flag = enable_modifer_check }
-				multiply_variable = { which = exe_invasion_difficult_global_var value = 1 }
-			}
-			if = {
 				limit = { has_global_flag = kuat_impulse_mod_settings }
 				multiply_variable = { which = exe_invasion_difficult_global_var value = 1 }
 			}
+			set_variable = { which = kuat_dynamic_modifier_var value = 1 }
 		}
 	} }
 	option = {
@@ -1426,10 +1446,7 @@ country_event = {
 	} } } }
 	immediate = {
 		if = {
-			limit = { 
-				has_global_flag = enable_modifer_check
-				from = { is_invisable_faction = no }
-			}
+			limit = { from = { is_invisable_faction = no } }
 			FROMFROM = { if = {
 				limit = { NOT = { has_fleet_flag = fire_only_once_temple_eclipse } }
 				every_owned_ship = {
@@ -1793,7 +1810,7 @@ fleet_event = {
 			}
 			else_if = {
 				limit = { 
-					has_global_flag = ban_exe_invasion has_global_flag = enable_modifer_check
+					has_global_flag = ban_exe_invasion
 					check_variable = { which = kuat_fleet_invisiable_checkpoint value > 40 }
 					check_variable = { which = fleet_combat_days value <= 4 }
 					count_owned_ship = { count < kuat_fleet_invisiable_checkpoint_half }
@@ -1936,7 +1953,6 @@ country_event = {
 			limit = {
 				is_invisable_faction = yes 
 				from = { is_invisable_faction = no } 
-				has_global_flag = enable_modifer_check 
 			}
 			fromfromfrom = { 
 				if = {
@@ -2029,12 +2045,14 @@ country_event = {
 		#补给区
 		if = {
 			limit = { 
-				is_eternal_crisis = yes
+				OR = {
+					is_kuat_contractor_faction = yes
+					is_eternal_crisis = yes
+				}
 				OR = {
 					has_global_flag = difficult_exe_invasion
 					has_global_flag = ban_exe_invasion
 				}
-				has_global_flag = enable_modifer_check 
 			}
 			country_event = {
 				id = exe_invasion.132 days = 1 
@@ -2048,9 +2066,7 @@ country_event = {
 	id = exe_invasion.132
 	hide_window = yes
 	is_triggered_only = yes
-	trigger = { from = { 
-		is_ai = no  NOT = { has_origin = origin_kuat_apocalyptic } 
-	} }
+	trigger = { from = { is_ai = no } }
 	immediate = {
 		fromfromfrom = { if = {
 			limit = { NOT = { has_fleet_flag = random_list_flagship_checksum_placeholder } }
@@ -2063,14 +2079,11 @@ country_event = {
 				#初始化检查
 				solar_system = { if = {
 					limit = { NOT = { is_variable_set = kuat_support_battle_add_variable } }
-					set_variable = { which = kuat_support_battle_add_variable value = modifier:kuat_support_battle_add } 
+					set_variable = { which = kuat_support_battle_add_variable value = value:kuat_system_support_variable } 
 					prev = { 
-						remove_fleet_flag = kuat_super_flagship_3_enough_support_@prev 
-						remove_fleet_flag = kuat_super_flagship_2_enough_support_@prev 
-						remove_fleet_flag = kuat_super_flagship_1_enough_support_@prev 
-						remove_fleet_flag = kuat_super_flagship_1_enough_support
-						remove_fleet_flag = kuat_super_flagship_2_enough_support
-						remove_fleet_flag = kuat_super_flagship_3_enough_support
+						kuat_star_flagship_base_fleet_clear_calculation = { ID = 1 }
+						kuat_star_flagship_base_fleet_clear_calculation = { ID = 1.5 }
+						kuat_star_flagship_base_fleet_clear_calculation = { ID = 3 }
 					}
 					system_event = { id = exe_invasion.2502 days = 3 }
 				} }
@@ -2403,10 +2416,7 @@ system_event = {
 			limit = { 
 				any_fleet_in_system = {
 					exists = owner
-					owner = { 
-						is_ai = no 
-						NOT = { has_origin = origin_kuat_apocalyptic } 
-					}
+					owner = { is_ai = no }
 					is_in_combat = yes
 					has_enable_flag_ship_system_true = yes 
 				}
@@ -2415,27 +2425,11 @@ system_event = {
 			switch = {
 				trigger = has_star_flag
 				kuat_super_flagship_3_enough_support = { kuat_star_flagship_checksum = { ID = 3 } }
-				kuat_super_flagship_2_enough_support = { kuat_star_flagship_checksum = { ID = 1.5 } }
+				kuat_super_flagship_1.5_enough_support = { kuat_star_flagship_checksum = { ID = 1.5 } }
 				kuat_super_flagship_1_enough_support = { kuat_star_flagship_checksum = { ID = 1 } }
 			}
 		}
-		else = { 
-			clear_variable = kuat_support_battle_add_variable 
-			clear_variable = kuat_super_flagship_1_enough_support_var
-			clear_variable = kuat_super_flagship_2_enough_support_var
-			clear_variable = kuat_super_flagship_3_enough_support_var
-			every_fleet_in_system = {
-				remove_fleet_flag = kuat_super_flagship_1_enough_support
-				remove_fleet_flag = kuat_super_flagship_2_enough_support
-				remove_fleet_flag = kuat_super_flagship_3_enough_support
-				remove_fleet_flag = kuat_super_flagship_1_enough_support_@prev
-				remove_fleet_flag = kuat_super_flagship_2_enough_support_@prev
-				remove_fleet_flag = kuat_super_flagship_3_enough_support_@prev
-			}
-			remove_star_flag = kuat_super_flagship_3_enough_support
-			remove_star_flag = kuat_super_flagship_2_enough_support
-			remove_star_flag = kuat_super_flagship_1_enough_support
-		}
+		else = { kuat_star_flagship_clear_all_caculation = yes }
 	}
 }
 
