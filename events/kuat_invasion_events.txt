@@ -629,7 +629,6 @@ country_event = {
 		fromfromfrom = {
 			is_ship_size = exe_megastructure_starbase
 			solar_system = { has_star_flag = eternal_starbase_megastructure_in_system }
-			fleet = { NOT = { has_fleet_flag = ag_kuat_invasion_starbase_disable } }
 		}
 	}
 	immediate = {
@@ -1554,24 +1553,6 @@ fleet_event = {
 		}
 	}
 }
-country_event = {
-	id = exe_invasion.117
-	hide_window = yes
-	is_triggered_only = yes
-	trigger = { OR = {
-		AND = { is_player_country = yes fromfrom = { has_fleet_flag = ag_kuat_invasion_starbase_player_optimize } }
-		AND = { is_eternal_faction = yes fromfrom = { has_fleet_flag = ag_kuat_invasion_starbase } }
-	} }
-	immediate = {
-		fromfrom = { if = {
-			limit = { NOT = { has_fleet_flag = random_list_eternal_fleet_rate_placeholder } }
-			increase_ship_hp_effect_change = { DAYS = 5 TYPE = kt }
-			set_timed_fleet_flag = { flag = random_list_eternal_fleet_rate_placeholder days = 1 }
-		} }
-	}
-} 
-
-#exe_invasion.118
 
 #FLEET INVISIABLE WITHOUT SPECIAL
 ship_event = {
@@ -1618,7 +1599,7 @@ country_event = {
 			else_if = { limit = { kuat_is_flagship_size = { size = nebula_dominance } } increase_ship_hp_effect_change = { DAYS = 3 TYPE = kt } }
 			else_if = { limit = { kuat_is_flagship_size = { size = Infinite_battleship } } increase_ship_hp_effect_change = { DAYS = 3 TYPE = kt } }
 			else_if = { limit = { kuat_is_flagship_size = { size = eternal_flagship } } increase_ship_hp_effect_change = { DAYS = 3 TYPE = kt } }
-			else_if = { limit = { kuat_has_ship_flag = { flag = has_ag_flagship } } increase_ship_hp_effect_change = { DAYS = 2 TYPE = kt } } 
+			else = { increase_ship_hp_effect_change = { DAYS = 2 TYPE = kt } }
 		} }
 	}
 }
@@ -1721,8 +1702,8 @@ ship_event = {
 		}
 		if = {
 			limit = { has_ship_flag = enable_disable_starbase }
-			if = { limit = { has_ship_flag = kuat_executor_checkpoint } repair_ship = yes set_disabled = no } 
-			else = { repair_ship = yes set_disabled = no set_disable_at_health = -1 fleet = { remove_fleet_flag = ag_kuat_invasion_starbase_disable } }
+			if = { limit = { check_variable = { which = STARBASE_HEALTH_VAR value > 0 } } repair_ship = yes set_disabled = no subtract_variable = { which = STARBASE_HEALTH_VAR value = 1 } } 
+			else = { repair_ship = yes set_disabled = no set_disable_at_health = -1 }
 		}
 		if = {
 			limit = { has_ship_flag = enable_drft_ship_inital }
@@ -1962,6 +1943,7 @@ country_event = {
 					limit = { 
 						NOT = { has_fleet_flag = has_kuat_flagship_system }
 						OR = {
+							kuat_is_mega_starbase = yes
 							has_enable_flag_ship_system_true = yes
 							kuat_exist_fleet_leader = { TRAIT = leader_trait_commander_SOP_eddy_3 }
 						}
@@ -1972,6 +1954,7 @@ country_event = {
 					limit = { 
 						NOT = { has_fleet_flag = has_kuat_subflagship_system }
 						OR = {
+							kuat_is_mega_starbase = yes
 							has_enable_flag_ship_system_true = yes
 							kuat_exist_fleet_leader = { TRAIT = leader_trait_commander_SOP_eddy_3 }
 						}

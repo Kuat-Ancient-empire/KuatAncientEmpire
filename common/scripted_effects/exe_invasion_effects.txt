@@ -739,7 +739,10 @@ create_elternal_system_warbase = {
 		set_planet_size = -1
 		set_planet_entity = { entity = starforge_avoid_entity }
 		if = {
-			limit = { has_global_flag = difficult_exe_invasion }
+			limit = { OR = {
+				has_global_flag = difficult_exe_invasion
+				has_global_flag = ban_exe_invasion
+			} }
 			create_fleet = {
 				name = "Name_Eternal_station_fleet"
 				settings = { spawn_debris = no can_disband = no }
@@ -749,16 +752,17 @@ create_elternal_system_warbase = {
 					create_ship = { design = "NAME_EXE_STARBASE_MEGASTRUCTURE_1" effect = { 
 						set_disable_at_health = 0.01 
 						set_ship_flag = enable_disable_starbase 
+						set_variable = { which = STARBASE_HEALTH_VAR value = 30 }
 					} }
 					set_location = { target = prev distance = -1 angle = 0 }
 					[[DAYS] fleet_event = { id = exe_invasion.125 days = $DAYS$ }]
 					set_fleet_flag = ag_kuat_invasion_starbase
-					set_fleet_flag = ag_kuat_invasion_starbase_disable
 					[[LOCK] set_event_locked = $LOCK$ ]
 					add_modifier = { modifier = ship_firing_starbase_debuff_own days = $DAYS|-1$ }
 				}
 			}
-		} else = { create_fleet = {
+		} 
+		else = { create_fleet = {
 			name = "Name_Eternal_station_fleet"
 			settings = { spawn_debris = no can_disband = no }
 			effect = {
@@ -767,11 +771,11 @@ create_elternal_system_warbase = {
 				create_ship = { design = "NAME_EXE_STARBASE_MEGASTRUCTURE" effect = { 
 					set_disable_at_health = 0.01 
 					set_ship_flag = enable_disable_starbase 
+					set_variable = { which = STARBASE_HEALTH_VAR value = 15 }
 				} }
 				set_location = { target = prev distance = -1 angle = 0 }
 				[[DAYS] fleet_event = { id = exe_invasion.125 days = $DAYS$ }]
 				set_fleet_flag = ag_kuat_invasion_starbase
-				set_fleet_flag = ag_kuat_invasion_starbase_disable
 				[[LOCK] set_event_locked = $LOCK$ ]
 				add_modifier = { modifier = ship_firing_starbase_debuff_own days = $DAYS|-1$ }
 			}
