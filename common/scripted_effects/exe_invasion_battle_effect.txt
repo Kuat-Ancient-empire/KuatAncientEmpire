@@ -43,7 +43,7 @@ eternal_increase_executor_power = {
 		else_if = { limit = { has_hp <= @$TYPE$_increase_hp_T2 } add_modifier = { modifier = $TYPE$_increase_hp_T2 days = $DAYS$ } }
 		else_if = { limit = { has_hp <= @$TYPE$_increase_hp_T1 } add_modifier = { modifier = $TYPE$_increase_hp_T1 days = $DAYS$ } }]
 
-		if = { limit = { kuat_is_flagship_system_protection = yes } set_disable_at_health = 0.01 }
+		if = { limit = { exists = owner owner = { is_ai = no } kuat_is_flagship_system_protection = yes } set_disable_at_health = 0.01 }
 		set_timed_ship_flag = { flag = kuat_has_eternal_increase_executor_power_temple days = $DAYS$ }
 	}
 }
@@ -712,6 +712,7 @@ set_eternal_fleet_standard_modifier = {
 		add_modifier = { modifier = basic_$PARAMATER$ multiplier = $PARAMATER$_value }
 		if = { limit = { is_variable_set = $PARAMATER$_value } clear_variable = $PARAMATER$_value }
 		set_timed_ship_flag = { flag = $PARAMATER$_ship_cooldown days = 1 }
+		#fleet = { change_variable = { which = kuat_fleet_dynamic_modifier_times value = 1 } }
 	} 
 	else_if = { 
 		limit = { 
@@ -725,6 +726,7 @@ set_eternal_fleet_standard_modifier = {
 		add_modifier = { modifier = change_basic_$PARAMATER$ multiplier = debug_change_$PARAMATER$_value }
 		if = { limit = { is_variable_set = change_$PARAMATER$_value } clear_variable = change_$PARAMATER$_value }
 		set_timed_ship_flag = { flag = $PARAMATER$_ship_cooldown days = 1 }
+		#fleet = { change_variable = { which = kuat_fleet_dynamic_modifier_times value = 1 } }
 	}
 }
 
@@ -745,6 +747,7 @@ set_eternal_fleet_damage_modifier = {
 		add_modifier = { modifier = basic_$PARAMATER$ multiplier = $PARAMATER$_value }
 		if = { limit = { is_variable_set = $PARAMATER$_value } clear_variable = $PARAMATER$_value }
 		set_timed_ship_flag = { flag = $PARAMATER$_ship_cooldown days = 1 }
+		#fleet = { change_variable = { which = kuat_fleet_dynamic_modifier_times value = 1 } }
 	} 
 	else_if = { 
 		limit = { 
@@ -762,6 +765,7 @@ set_eternal_fleet_damage_modifier = {
 			add_modifier = { modifier = change_basic_$PARAMATER$ multiplier = debug_change_$PARAMATER$_value }
 			if = { limit = { is_variable_set = change_$PARAMATER$_value } clear_variable = change_$PARAMATER$_value }
 			set_timed_ship_flag = { flag = $PARAMATER$_ship_cooldown days = 1 }
+			#fleet = { change_variable = { which = kuat_fleet_dynamic_modifier_times value = 1 } }
 		}
 		else_if = {
 			limit = { NOT = { fleet = { has_fleet_flag = kuat_super_flagship_lack_support } } }
@@ -776,6 +780,7 @@ set_eternal_fleet_damage_modifier = {
 				add_modifier = { modifier = change_basic_$PARAMATER$ multiplier = debug_change_$PARAMATER$_value }
 				if = { limit = { is_variable_set = change_$PARAMATER$_value } clear_variable = change_$PARAMATER$_value }
 				set_timed_ship_flag = { flag = $PARAMATER$_ship_cooldown days = 1 }
+				#fleet = { change_variable = { which = kuat_fleet_dynamic_modifier_times value = 1 } }
 			}
 			else_if = { #-75
 				limit = {  
@@ -788,6 +793,7 @@ set_eternal_fleet_damage_modifier = {
 				add_modifier = { modifier = change_basic_$PARAMATER$ multiplier = debug_change_$PARAMATER$_value }
 				if = { limit = { is_variable_set = change_$PARAMATER$_value } clear_variable = change_$PARAMATER$_value }
 				set_timed_ship_flag = { flag = $PARAMATER$_ship_cooldown days = 1 }
+				#fleet = { change_variable = { which = kuat_fleet_dynamic_modifier_times value = 1 } }
 			}
 		}
 	}
@@ -816,6 +822,7 @@ set_eternal_fleet_protection_modifier = {
 			add_modifier = { modifier = basic_$PARAMATER$ multiplier = $PARAMATER$_value }
 			if = { limit = { is_variable_set = $PARAMATER$_value } clear_variable = $PARAMATER$_value }
 			set_timed_ship_flag = { flag = $PARAMATER$_ship_cooldown days = 1 }
+			#fleet = { change_variable = { which = kuat_fleet_dynamic_modifier_times value = 1 } }
 		}
 		else_if = {
 			limit = { 
@@ -827,6 +834,7 @@ set_eternal_fleet_protection_modifier = {
 			add_modifier = { modifier = basic_$PARAMATER$ multiplier = $PARAMATER$_value }
 			if = { limit = { is_variable_set = $PARAMATER$_value } clear_variable = $PARAMATER$_value }
 			set_timed_ship_flag = { flag = $PARAMATER$_ship_cooldown days = 1 }
+			#fleet = { change_variable = { which = kuat_fleet_dynamic_modifier_times value = 1 } }
 		}
 	} 
 	else_if = { 
@@ -845,6 +853,7 @@ set_eternal_fleet_protection_modifier = {
 			add_modifier = { modifier = change_basic_$PARAMATER$ multiplier = debug_change_$PARAMATER$_value }
 			if = { limit = { is_variable_set = change_$PARAMATER$_value } clear_variable = change_$PARAMATER$_value }
 			set_timed_ship_flag = { flag = $PARAMATER$_ship_cooldown days = 1 }
+			#fleet = { change_variable = { which = kuat_fleet_dynamic_modifier_times value = 1 } }
 		}
 		else_if = {
 			limit = { 
@@ -857,6 +866,7 @@ set_eternal_fleet_protection_modifier = {
 			add_modifier = { modifier = change_basic_$PARAMATER$ multiplier = debug_change_$PARAMATER$_value }
 			if = { limit = { is_variable_set = change_$PARAMATER$_value } clear_variable = change_$PARAMATER$_value }
 			set_timed_ship_flag = { flag = $PARAMATER$_ship_cooldown days = 1 }
+			#fleet = { change_variable = { which = kuat_fleet_dynamic_modifier_times value = 1 } }
 		}
 	}
 }
@@ -1388,10 +1398,10 @@ remove_repeatable_ship_modifier_change_basic_vairable = {
 
 kuat_reduce_hp_percent = {
 	optimize_memory
-	export_trigger_value_to_variable = { trigger = has_hp variable = exist_hp_value }
+	export_trigger_value_to_variable = { trigger = has_max_hp variable = exist_hp_value }
 	multiply_variable = { which = exist_hp_value value = 0.01 }
 	multiply_variable = { which = exist_hp_value value = $value$ }
-	damage_ship = exist_hp_value clear_variable = exist_hp_value
+	round_variable = exist_hp_value damage_ship = exist_hp_value clear_variable = exist_hp_value
 }
 
 kuat_set_epsilon_obelisk_code = {
@@ -1773,5 +1783,27 @@ kuat_star_flagship_caculation = {
 			kuat_star_flagship_base_fleet_clear_calculation = { ID = 3 }
 			set_fleet_flag = kuat_super_flagship_lack_support 
 		} }
+	}
+}
+
+kuat_remove_starbase_station = {
+	if = {
+		limit = { exists = orbit }
+		orbit = { remove_planet_flag = has_megastructure save_event_target_as = target_planet }
+	}
+	solar_system = { random_system_planet = {
+		limit = { has_planet_flag = habitat }
+		every_deposit = { limit = { has_deposit_flag = planet@event_target:target_planet } remove_deposit = yes }
+	} }
+	destroy_ship = this
+	create_ambient_object = {
+		location = this
+		type = habitat_cracker_object
+		duration = 5
+		use_3d_location = yes
+		base_angle_towards = star
+		entity_face_object = star
+		entity_offset = { min = 0 max = 0 }
+		entity_scale_to_size = yes scale = 0.10
 	}
 }

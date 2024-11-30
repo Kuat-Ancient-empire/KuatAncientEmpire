@@ -1426,35 +1426,54 @@ situation_plague_pop_deficit = {
 	}
 
 	monthly_progress = { 
-		base = 1
+		base = 0
 		modifier = {
-			set = 25
-			event_target:global_event_country = { check_variable = { which = kuat_plague_pops_dead value > 0 } }
+			add = event_target:global_event_country.kuat_plague_pops_dead
 			event_target:global_event_country = { check_variable = { which = kuat_plague_pops_dead value <= 25 } }
 			desc = "situation_facility_plague_desc"
 		}
 		modifier = {
-			set = 50
+			add = 50
 			event_target:global_event_country = { check_variable = { which = kuat_plague_pops_dead value > 25 } }
 			desc = "situation_facility_plague_desc"
 		}
 		modifier = {
 			add = 1
+			current_situation_approach = situation_plague_siton_altitude_station
+			desc = "situation_facility_plague_desc"
+		}
+		modifier = {
+			add = 5
 			current_situation_approach = situation_plague_handon_altitude_station
 			desc = "situation_facility_plague_desc"
 		}
 		modifier = {
+			mult = 2
+			target = { has_global_flag = enable_final_extramonster_crisis }
+			desc = "situation_facility_plague_desc"
+		} 
+		modifier = {
 			set = 0
-			target = { NOT = { has_global_flag = enable_final_extramonster_crisis } }
+			current_situation_approach = situation_plague_banon_altitude_station
 			desc = "situation_facility_plague_desc"
 		} 
 	}
 
+	#封锁现场
+	approach = {
+		name = situation_plague_banon_altitude_station
+		icon = GFX_situation_approach_research
+		icon_background = GFX_situation_approach_bg_red
+		on_select = { 
+			custom_tooltip = approach_outcome_tooltip 
+			set_situation_flag = situation_plague_banon_altitude_station
+		}
+	}
 	#放任
 	approach = {
 		name = situation_plague_siton_altitude_station
 		icon = GFX_situation_approach_research
-		icon_background = GFX_situation_approach_bg_red
+		icon_background = GFX_situation_approach_bg_yellow
 		on_select = { 
 			custom_tooltip = approach_outcome_tooltip 
 			set_situation_flag = situation_plague_siton_altitude_station

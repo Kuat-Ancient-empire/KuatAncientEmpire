@@ -586,11 +586,12 @@ country_event = {
 			set_global_flag = exe_invasion_ban_hidden
 			kuat_unlock_all_gateway = yes
 			kuat_change_country_owner = { TARGET = root }
+			country_event = { id = exe_return_invasion.40 days = 45 random = 45 }
 			if = {
-				limit = { any_situation = { is_situation_type = situation_plague_pop_deficit } }
-				country_event = { id = exe_return_invasion.40 days = 45 random = 45 }
+				limit = { NOT = { has_global_flag = kuat_plague_enable } }
+				set_global_flag = kuat_plague_enable
+				country_event = { id = kuat_plague.0 days = 90 random = 360 }
 			}
-			else = { set_global_flag = enable_final_extramonster_crisis }
 			set_update_modifiers_batch = end
 		}
 	} 
@@ -651,11 +652,12 @@ country_event = { #整合科技，撤军
 		}
 	}
 	after = {
+		country_event = { id = exe_return_invasion.40 days = 45 random = 45 }
 		if = {
-			limit = { any_situation = { is_situation_type = situation_plague_pop_deficit } }
-			country_event = { id = exe_return_invasion.40 days = 45 random = 45 }
+			limit = { NOT = { has_global_flag = kuat_plague_enable } }
+			set_global_flag = kuat_plague_enable
+			country_event = { id = kuat_plague.0 days = 90 random = 360 }
 		}
-		else = { set_global_flag = enable_final_extramonster_crisis }
 	}
 }
 

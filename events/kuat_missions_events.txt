@@ -79,16 +79,10 @@ country_event = {
 	hide_window = yes
 	is_triggered_only = yes
 	trigger = {
-		NOT = {
-			has_global_flag = kuat_mission_1_actived
-		}
 		is_ai = no
-		is_at_war = no
+		NOT = { has_global_flag = kuat_mission_1_actived }
 		exists = event_target:fallen_empire_kuat
-		event_target:fallen_empire_kuat = {
-			is_at_war = no
-			has_communications = root
-		}
+		event_target:fallen_empire_kuat = { has_communications = root }
 		any_system = {
 			OR = {
 				is_within_borders_of = root
@@ -97,14 +91,8 @@ country_event = {
 			any_system_planet = {
 				is_colony = no
 				is_under_colonization = no
-				can_colonize = {
-					who = root
-					status = yes
-				}
-				habitability = {
-					who = root.owner_species
-					value >= 0.3
-				}
+				can_colonize = { who = root status = yes }
+				habitability = { who = root.owner_species value >= 0.3 }
 			}
 		}
 	}
@@ -115,20 +103,9 @@ country_event = {
 			limit = {
 				is_colony = no
 				is_under_colonization = no
-				can_colonize = {
-					who = root
-					status = yes
-				}
-				habitability = {
-					who = root.owner_species
-					value >= 0.3
-				}
-				solar_system = {
-					OR = {
-						is_within_borders_of = root
-						is_neighbor_of = root
-					}
-				}
+				can_colonize = { who = root status = yes }
+				habitability = { who = root.owner_species value >= 0.3 }
+				solar_system = { OR = { is_within_borders_of = root is_neighbor_of = root } }
 			}
 			save_event_target_as = kuat_mission_1_target_planet
 		}
@@ -443,18 +420,13 @@ country_event = {
 	hide_window = yes
 	is_triggered_only = yes
 	trigger = {
-		NOT = { has_global_flag = kuat_mission_2_actived }
 		is_ai = no
-		is_at_war = no
+		NOT = { has_global_flag = kuat_mission_2_actived }
 		fleet_power > 200000
 		exists = event_target:fallen_empire_kuat
-		event_target:fallen_empire_kuat = {
-			is_at_war = no
-			has_communications = root
-		}
+		event_target:fallen_empire_kuat = { has_communications = root }
 		any_country = {
 			has_ai_personality_behaviour = demands_clear_borders
-			is_at_war = no
 			has_communications = root
 		}
 	}
@@ -464,7 +436,6 @@ country_event = {
 		random_country = {
 			limit = {
 				has_ai_personality_behaviour = demands_clear_borders
-				is_at_war = no
 				has_communications = root
 			}
 			save_event_target_as = kuat_mission_2_target_country
@@ -546,9 +517,7 @@ ship_event = {
 		owner = {
 			has_country_flag = kuat_mission_2_accepted
 			has_country_flag = kuat_mission_2_timer
-			NOT = {
-				has_country_flag = kuat_mission_outpost_timer_flag
-			}
+			NOT = { has_country_flag = kuat_mission_outpost_timer_flag }
 		}
 		solar_system = {
 			any_system = {
@@ -877,16 +846,11 @@ country_event = {
 	trigger = {
 		NOT = { has_global_flag = kuat_mission_3_actived }
 		is_ai = no
-		is_at_war = no
 		fleet_power > 200000
 		exists = event_target:fallen_empire_kuat
-		event_target:fallen_empire_kuat = {
-			is_at_war = no
-			has_communications = root
-		}
+		event_target:fallen_empire_kuat = { has_communications = root }
 		any_country = {
 			has_ai_personality_behaviour = holy_planets
-			is_at_war = no
 			has_communications = root
 		}
 		any_galaxy_planet = {
@@ -1245,11 +1209,9 @@ country_event = {
 	trigger = {
 		NOT = { has_global_flag = kuat_mission_4_actived }
 		is_ai = no
-		is_at_war = no
 		fleet_power > 200000
 		exists = event_target:fallen_empire_kuat
 		event_target:fallen_empire_kuat = {
-			is_at_war = no
 			has_communications = root
 		}
 		any_country = {
@@ -1257,7 +1219,6 @@ country_event = {
 				is_country_type = fallen_empire
 				is_country_type = awakened_fallen_empire
 			}
-			is_at_war = no
 			has_communications = root
 		}
 	}
@@ -1538,35 +1499,37 @@ country_event = {
 	}
 }
 
-#5x:改变思潮为极端和平主义
+#5x:改变思潮为极端和平主义 禁用
 #触发器
 country_event = {
 	id = kuat_missions.5
 	hide_window = yes
-	mean_time_to_happen = {
-		years = 100
-		modifier = {
-			factor = 0.1
-			has_country_flag = kuat_mission_4_finished
-		}
-	}
+	# mean_time_to_happen = {
+	# 	years = 100
+	# 	modifier = {
+	# 		factor = 0.1
+	# 		has_country_flag = kuat_mission_4_finished
+	# 	}
+	# }
+	is_triggered_only = yes
 	trigger = {
-		has_faction = prosperity
-		years_passed >= 60
-		NOR = {
-			has_global_flag = kuat_mission_5_actived
-			has_country_flag = kuat_mission_5_finished
-		}
-		is_ai = no
-		is_at_war = no
-		NOT = {
-			has_ethic = ethic_fanatic_pacifist
-		}
-		exists = event_target:fallen_empire_kuat
-		event_target:fallen_empire_kuat = {
-			is_at_war = no
-			has_communications = root
-		}
+		# has_faction = prosperity
+		# years_passed >= 60
+		# NOR = {
+		# 	has_global_flag = kuat_mission_5_actived
+		# 	has_country_flag = kuat_mission_5_finished
+		# }
+		# is_ai = no
+		# is_at_war = no
+		# NOT = {
+		# 	has_ethic = ethic_fanatic_pacifist
+		# }
+		# exists = event_target:fallen_empire_kuat
+		# event_target:fallen_empire_kuat = {
+		# 	is_at_war = no
+		# 	has_communications = root
+		# }
+		always = no
 	}
 	immediate = {
 		random_list = {

@@ -12,10 +12,7 @@ country_event = {
 	immediate = {
 		set_update_modifiers_batch = begin
 		set_global_flag = kuat_plague_started
-		start_situation = {
-			type = situation_plague_pop_deficit
-			target = root
-		}
+		start_situation = { type = situation_plague_pop_deficit target = root }
 		create_species = {
 			name = "Name_Endoria_death"
 			class = random
@@ -57,6 +54,14 @@ country_event = {
 		if = {
 			limit = { is_difficulty > 4 }
 			change_variable = { which = kuat_plague_power value = 10 }
+		}
+		if = {
+			limit = { has_global_flag = difficult_exe_invasion }
+			multiply_variable = { which = kuat_plague_power value = 2 }
+		}
+		if = {
+			limit = { has_global_flag = ban_exe_invasion }
+			multiply_variable = { which = kuat_plague_power value = 4 }
 		}
 		while = {
 			count = kuat_plague_power
@@ -361,7 +366,7 @@ country_event = {
 			}
 			success_text = {
 				text = kuat_plague.9.desc.4
-				has_ascension_perk = ap_transcendence
+				has_tradition = tr_politics_adopt
 			}
 			text = kuat_plague.9.desc.5
 		}

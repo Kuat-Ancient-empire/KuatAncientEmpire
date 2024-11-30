@@ -2212,3 +2212,102 @@ kuat_kae_ge_assault_fleet_action = {
 		}
 	}
 }
+
+# scope: fleet
+# prev: eternal country
+# prevprev: system
+eternal_player_fleet_order_1 = {
+	optimize_memory
+	queue_actions = {
+		wait = 2
+		repeat = {
+			find_closest_planet = {
+				trigger = {
+					id = executing_eternal_fleet.1
+					OR = {
+						AND = {
+							is_colony = yes exists = owner
+							owner = { is_hostile = event_target:eternal_support_country }
+						}
+						AND = {
+							is_star = yes
+							solar_system = {
+								any_fleet_in_system = {
+									exists = owner
+									owner = { is_hostile = event_target:eternal_support_country }
+								}
+							}
+						}
+					}
+					solar_system = { is_same_value = prevprevprevprev }
+				}
+				found_planet = {
+					orbit_planet = this
+					effect = {
+						id = executing_eternal_fleet.2
+						if = {
+							limit = { is_colony = yes }
+							set_planet_flag = ruins_planet
+							root = { set_fleet_flag = eternal_fallen_bombaring_fleet }
+						}
+					}
+					repeat = {
+						while = { 
+							id = executing_eternal_fleet.3 
+							root = { has_fleet_flag = eternal_fallen_bombaring_fleet } 
+						}
+						effect = {
+							id = executing_eternal_fleet.4
+							if = { 
+								limit = { is_colony = no } 
+								root = { remove_fleet_flag = eternal_fallen_bombaring_fleet } 
+							}
+						} 
+						wait = 5
+					}
+				}
+				failed = {
+					wait = 60
+					effect = {
+						id = executing_eternal_fleet.5
+						remove_fleet_flag = choosen_eternal_fleet
+						remove_fleet_flag = executing_eternal_fleet
+						clear_orders = yes
+						clear_fleet_actions = this
+						event_target:Eternalempire = {
+							if = {
+								limit = { has_country_flag = eternal_fleet_destroy_enenmy }
+								event_target:eternal_support_country = { 
+									subtract_variable = { which = list_owned_eternal_fleet value = 1 } 
+									change_variable = { which = mission_finished_eternal_fleet value = 1 }
+								}
+								if = {
+									limit = { event_target:eternal_support_country = { OR = {
+										check_variable = { which = list_owned_eternal_fleet value <= 0 } 
+										check_variable = { which = mission_finished_eternal_fleet value >= mission_pending_eternal_fleet }
+									} } }
+									set_timed_country_flag = { flag = have_been_ordered_eternal_fleet days = 1800 } 
+									country_event = { id = kuat_starkiller.18 }
+									event_target:eternal_support_country = {
+										clear_variable = list_owned_eternal_fleet
+										clear_variable = page_owned_eternal_fleet
+										clear_variable = count_eternal_center_target
+										clear_variable = mission_pending_eternal_fleet
+										clear_variable = mission_finished_eternal_fleet
+										every_owned_fleet = { remove_fleet_flag = choosen_eternal_fleet }
+									}
+								}
+							}
+							if = {
+								limit = { has_country_flag = eternal_fleet_attack_enenmy }
+								set_timed_country_flag = { flag = have_been_ordered_eternal_fleet days = 360 } 
+								country_event = { id = kuat_starkiller.18 }
+							}
+						}
+						set_location = event_target:zakuul_system.system_star
+					}
+				}
+			}
+		}
+	}
+}
