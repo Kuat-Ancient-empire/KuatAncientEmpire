@@ -113,7 +113,7 @@ planet_event = {
 	option = { name = kuat_EEstart.2.a }
 }
 
-ship_event = {
+country_event = {
 	id = kuat_EEstart.3
 	title = kuat_EEstart.3.name
 	desc = kuat_EEstart.3.desc
@@ -123,17 +123,15 @@ ship_event = {
 	custom_gui_option = "kuat_event_option"
 	is_triggered_only = yes
 	immediate = {
-		set_global_flag = kuat_eternal_legacy_God_awakened_finished
-		owner = { start_situation = { type = situation_legacy_pretext_action target = root.owner } }
+		set_country_flag = kuat_eternal_legacy_God_awakened_finished
+		start_situation = { type = situation_legacy_pretext_action target = this }
 	}
 	option = {
 		name = kuat_EEstart.3.a
 		custom_tooltip = kuat_EEstart.3.tooltip
 		hidden_effect = { 
-			owner = { 
-				establish_communications_no_message = event_target:eternal_support_country 
-				country_event = { id = kuat_EEstart.4 scopes = { from = event_target:eternal_support_country } days = 1 }
-			} 
+			establish_communications_no_message = event_target:eternal_support_country 
+			country_event = { id = kuat_EEstart.4 scopes = { from = event_target:eternal_support_country } days = 1 }
 		}
 	}
 }
@@ -2320,47 +2318,44 @@ fleet_event = {
 	
 	option = {
 		name = kuat_eternal_legacy.5010.a
-		hidden_effect = {
-			set_global_flag = kuat_eternal_legacy_God_awakened
-			owner = { 
-				add_event_chain_counter = {
-					event_chain = "Eternal_legacyancient_chain"
-					counter = "Eternal_legacyancient"
-					amount = 1
-				}
-				add_monthly_resource_mult = { resource = energy value = 12 min = 1000 }
-				add_monthly_resource_mult = { resource = consumer_goods value = 12 min = 1000 }
-				add_monthly_resource_mult = { resource = minerals value = 12 min = 1000 }
-				add_monthly_resource_mult = { resource = alloys value = 12 min = 1000 }
-				add_monthly_resource_mult = { resource = physics_research value = 12 min = 1000 }
-				add_monthly_resource_mult = { resource = society_research value = 12 min = 1000 }
-				add_monthly_resource_mult = { resource = engineering_research value = 12 min = 1000 }
-				country_event = { id = kuat_eternal_legacy.6000 days = @standard_event_days random = @standard_random_days }
-				create_country = {
-					name = "Name_Eternal_Support"
-					type = eternal_support
-					name_list = Eternal_Fleet
-					day_zero_contact = no
-					flag = {
-						icon = {
-							category = "exe_invasion"
-							file = "ge_o.dds"
-						}
-						background = {
-							category = "backgrounds"
-							file = "00_solid.dds"
-						}
-						colors = { "yellow" "black" "null" "null" }
-					}
-					effect = { 
-						set_country_flag = protected_from_queen_storm
-						save_global_event_target_as = eternal_support_country 
-						add_modifier = { modifier = Elternal_creating }
-					}
-				}
-				event_target:zakuul_system = { create_elternal_origin_system_warbase = { LOCK = yes DAYS = -1 } }
+		hidden_effect = { owner = { 
+			add_event_chain_counter = {
+				event_chain = "Eternal_legacyancient_chain"
+				counter = "Eternal_legacyancient"
+				amount = 1
 			}
-		}
+			add_monthly_resource_mult = { resource = energy value = 12 min = 1000 }
+			add_monthly_resource_mult = { resource = consumer_goods value = 12 min = 1000 }
+			add_monthly_resource_mult = { resource = minerals value = 12 min = 1000 }
+			add_monthly_resource_mult = { resource = alloys value = 12 min = 1000 }
+			add_monthly_resource_mult = { resource = physics_research value = 12 min = 1000 }
+			add_monthly_resource_mult = { resource = society_research value = 12 min = 1000 }
+			add_monthly_resource_mult = { resource = engineering_research value = 12 min = 1000 }
+			set_country_flag = kuat_eternal_legacy_God_awakened
+			create_country = {
+				name = "Name_Eternal_Support"
+				type = eternal_support
+				name_list = Eternal_Fleet
+				day_zero_contact = no
+				flag = {
+					icon = {
+						category = "exe_invasion"
+						file = "ge_o.dds"
+					}
+					background = {
+						category = "backgrounds"
+						file = "00_solid.dds"
+					}
+					colors = { "yellow" "black" "null" "null" }
+				}
+				effect = { 
+					set_country_flag = protected_from_queen_storm
+					save_global_event_target_as = eternal_support_country 
+					add_modifier = { modifier = Elternal_creating }
+				}
+			}
+			event_target:zakuul_system = { create_elternal_origin_system_warbase = { LOCK = yes DAYS = -1 } }
+		} }
 	}
 }
 
@@ -2376,7 +2371,10 @@ country_event = {
 	diplomatic = yes
 	mean_time_to_happen = { months = 1 }
 	fire_only_once = yes
-	trigger = { has_origin = origin_eternalthrone has_global_flag = kuat_eternal_legacy_God_awakened_finished }
+	trigger = { 
+		has_origin = origin_eternalthrone 
+		has_country_flag = kuat_eternal_legacy_God_awakened_finished 
+	}
 	option = {
 		name = "kuat_eternal_legacy.50101.a"
 		hidden_effect = { add_modifier = { modifier = kuat_eternal_audio_limited days = 360 } } 
@@ -2458,16 +2456,20 @@ country_event = {
 	custom_gui_option = "kuat_event_m_option"
 	show_sound = event_power_down
 	diplomatic = yes
-	is_triggered_only = yes
-	trigger = { has_origin = origin_eternalthrone }
+	mean_time_to_happen = { days = @standard_event_days }
+	trigger = { 
+		has_origin = origin_eternalthrone 
+		has_country_flag = kuat_eternal_legacy_God_awakened
+		NOT = { has_country_flag = kuat_eternal_legacy_God_awakened_already }
+	}
+	immediate = { set_country_flag = kuat_eternal_legacy_God_awakened_already }
 	option = {
 		name = "kuat_eternal_legacy.6000.a"
 		hidden_effect = { 
 			end_event_chain = Eternal_legacyancient_chain 
 			enable_special_project = {
 				name = exe_enable_eternal_AI
-				location = event_target:zakuul_system.star
-				owner = space_owner
+				location = event_target:zakuul_system.star owner = root
 			}
 		} 
 	}
