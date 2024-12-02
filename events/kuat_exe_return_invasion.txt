@@ -260,6 +260,10 @@ event = {
 			establish_communications_no_message = event_target:eternal_fleet_country
 			country_event = { id = exe_return_invasion.10 }
 		}
+		random_country = {
+			limit = { is_eternal_faction = no is_ai = no }
+			country_event = { id = exe_return_invasion.20 }
+		}
 		every_country = {
 			limit = { has_special_project = exe_invasion_lock_outer_gate }
 			abort_special_project = { type = exe_invasion_lock_outer_gate }
@@ -342,24 +346,22 @@ country_event = {
 	option = { name = exe_return_invasion.102.a ai_chance = { weight = 100 } }
 }
 
-#contact within eternal fleet
+#situation of find station notification
 country_event = {
 	id = exe_return_invasion.20
 	title = "exe_return_invasion.20.name"
 	desc = "exe_return_invasion.20.desc"
 	diplomatic = yes
-	picture_event_data = { room = no_video_feed_room }
-	custom_gui = "kuat_event_diplomacy_window"
-	custom_gui_option = "kuat_event_diplomacy_option"
+	picture_event_data = { room = ancient_databank_room }
+	custom_gui = "kuat_event_window"
+	custom_gui_option = "kuat_event_option"
 	show_sound = event_red_alert
 	location = root.capital_scope
-	fire_only_once = yes
 	trigger = { has_global_flag = exe_return_invasion_begin }
-	mean_time_to_happen = { 
-		years = 1
-		modifier = { factor = 0.20 retrun_first_station_check = yes }
-		modifier = { factor = 0.15 retrun_second_station_check = yes }
-		modifier = { factor = 0.10 retrun_third_station_check = yes }
+	is_triggered_only = yes
+	immediate = { 
+		set_global_flag = kuat_eternal_station_star_unlock_temple
+		start_situation = { type = situation_eternal_station_system_disable target = root } 
 	}
 	option = {
 		name = "exe_return_invasion.20.a"
@@ -381,14 +383,12 @@ country_event = {
 	trigger = {
 		has_global_flag = exe_return_invasion_begin
 		is_player_country = yes
-		retrun_first_station_check = yes
-		NOT = { any_country = { has_country_flag = fire_first_find } }
 	}
-	mean_time_to_happen = { months = 3 }
+	is_triggered_only = yes
 	immediate = { 
-		set_country_flag = fire_first_find 
 		begin_event_chain = { event_chain = ag_find_invasion_chain }
 		save_global_event_target_as = return_instersting_country
+		remove_global_flag = kuat_eternal_station_star_unlock_temple
 	}
 	option = {
 		name = "exe_return_invasion.24.a"
@@ -412,13 +412,11 @@ country_event = {
 	trigger = {
 		has_global_flag = exe_return_invasion_begin
 		is_player_country = yes
-		retrun_second_station_check = yes
-		has_country_flag = fire_first_find
-		NOT = { has_country_flag = second_first_find }
-		check_variable = { which = num_finish value = 1 } 
 	}
-	mean_time_to_happen = { months = 3 }
-	immediate = { set_country_flag = second_first_find }
+	immediate = {
+		remove_global_flag = kuat_eternal_station_star_unlock_temple
+	}
+	is_triggered_only = yes
 	option = {
 		name = "exe_return_invasion.24.a"
 		enable_special_project = {
@@ -441,19 +439,20 @@ country_event = {
 	trigger = {
 		has_global_flag = exe_return_invasion_begin
 		is_player_country = yes
-		retrun_third_station_check = yes
-		has_country_flag = second_first_find
-		NOT = { has_country_flag = third_first_find }
-		check_variable = { which = num_finish value = 2 } 
 	}
-	mean_time_to_happen = { months = 3 }
-	immediate = { set_country_flag = third_first_find }
+	immediate = {
+		remove_global_flag = kuat_eternal_station_star_unlock_temple
+	}
+	is_triggered_only = yes
 	option = {
 		name = "exe_return_invasion.24.a"
 		enable_special_project = {
 			name = exe_return_invasion_project
 			owner = root location = root.capital_star
 		}
+	}
+	after = {
+		event_target:situation_eternal_station_system_disable = { destroy_situation = this }
 	}
 }
 
@@ -708,10 +707,14 @@ fleet_event = {
 	custom_gui = "kuat_event_m_window"
 	custom_gui_option = "kuat_event_m_option"
 	is_triggered_only = yes
-	fire_only_once = yes
+
 	trigger = { 
-		NOT = { has_global_flag = enable_the_eternal_starbase } 
 		has_global_flag = exe_return_invasion_begin
+		NOR = {
+			has_global_flag = enable_the_eternal_starbase
+			has_global_flag = exe_return_invasion.333.a.back
+			has_global_flag = exe_return_invasion.333.b.battle
+		}
 		from = { any_fleet_in_system = { has_fleet_flag = ag_kuat_invasion_starbase } }
 		exists = owner owner = { is_ai = no }
 	}
@@ -744,7 +747,7 @@ fleet_event = {
 	id = exe_return_invasion.334
 	hide_window = yes
 	is_triggered_only = yes
-	fire_only_once = yes
+
 	trigger = { 
 		NOT = { has_global_flag = enable_the_eternal_starbase } 
 		has_global_flag = exe_return_invasion_begin
@@ -755,6 +758,7 @@ fleet_event = {
 			has_global_flag = exe_return_invasion.333.b.battle
 		}
 	}
+	
 	immediate = {
 		if = {
 			limit = { has_global_flag = exe_return_invasion.333.a.back }

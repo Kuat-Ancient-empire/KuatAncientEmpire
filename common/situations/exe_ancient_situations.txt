@@ -176,6 +176,7 @@ situation_unlocked_the_first_station = {
 				remove_modifier = country_distorted_by_lost_eternal_station
 				add_modifier = { modifier = country_distorted_by_lost_eternal_station }
 			}
+			set_global_flag = kuat_eternal_station_star_unlock_temple
 		}
 	}
 	stages = {
@@ -311,6 +312,7 @@ situation_unlocked_the_second_station = {
 				remove_modifier = country_distorted_by_lost_eternal_station
 				add_modifier = { modifier = country_distorted_by_lost_eternal_station multiplier = 2 }
 			}
+			set_global_flag = kuat_eternal_station_star_unlock_temple
 		}
 	}
 	stages = {
@@ -446,6 +448,7 @@ situation_unlocked_the_third_station = {
 				remove_modifier = country_distorted_by_lost_eternal_station
 				add_modifier = { modifier = country_distorted_by_lost_eternal_station multiplier = 3 }
 			}
+			set_global_flag = kuat_eternal_station_star_unlock_temple
 		}
 	}
 	stages = {
@@ -1304,7 +1307,7 @@ situation_legacy_pretext_action = {
 }
 
 #TO DO F设施瘟疫局势 外空间流浪者入侵前兆
-situation_plague_pop_deficit = {
+situation_contractor_shadow_of_plague_pop_deficit = {
 	picture = GFX_evt_astral_rift_tower
 	category = positive
 	fail_icon = GFX_situation_outcome_meh
@@ -1560,6 +1563,64 @@ situation_white_hole_system_disable = {
 			set = 0
 			has_global_flag = kuat_white_hole_star_unlock_temple
 			desc = "kuat_white_hole_star_unlock_temple_exists"
+		}
+	}
+	abort_trigger = { NOT = { exists = owner } }
+}
+
+#寻找永恒中继站
+situation_eternal_station_system_disable = {
+	picture = GFX_evt_em_war_1
+	complete_icon_frame = GFX_situation_outcome_frame_blue
+	complete_icon = GFX_situation_outcome_unknown
+	fail_icon_frame = GFX_situation_outcome_frame_red
+	fail_icon = GFX_situation_outcome_meh
+	on_start = { save_global_event_target_as = situation_eternal_station_system_disable }
+	on_progress_complete = {
+		custom_tooltip = situation_unknown_outcome_approach
+		hidden_effect = { owner = { country_event = { id = exe_return_invasion.26 } } }
+		clear_global_event_target = situation_eternal_station_system_disable
+	}
+	stages = {
+		stage_1 = {
+			icon = GFX_situation_stage_1
+			icon_background = GFX_situation_stage_frame_blue
+			end = 600
+			custom_tooltip = situation_unknown_outcome_approach
+		}
+		stage_2 = {
+			icon = GFX_situation_stage_2
+			icon_background = GFX_situation_stage_frame_blue
+			end = 1200
+			on_first_enter = { owner = { country_event = { id = exe_return_invasion.24 } } }
+			custom_tooltip = situation_unknown_outcome_approach
+		}
+		stage_3 = {
+			icon = GFX_situation_stage_3
+			icon_background = GFX_situation_stage_frame_blue
+			end = 2400
+			on_first_enter = { owner = { country_event = { id = exe_return_invasion.25 } } }
+			custom_tooltip = situation_unknown_outcome_approach
+		}
+	}
+	#hositle
+	approach = {
+		name = "situation_plague_handon_altitude_station"
+		icon = GFX_situation_approach_research
+		icon_background = GFX_situation_approach_bg_green
+		on_select = { custom_tooltip = approach_outcome_tooltip }
+	}
+	monthly_progress = { 
+		base = 0 
+		modifier = {
+			set = 0
+			NOT = { has_global_flag = kuat_eternal_station_star_unlock_temple }
+			desc = "kuat_eternal_station_star_unlock_temple_not_exists"
+		}
+		modifier = {
+			add = value:kuat_find_eternal_progress
+			has_global_flag = kuat_eternal_station_star_unlock_temple
+			desc = "kuat_eternal_station_star_unlock_temple_exists"
 		}
 	}
 	abort_trigger = { NOT = { exists = owner } }
