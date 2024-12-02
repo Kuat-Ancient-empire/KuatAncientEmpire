@@ -2350,13 +2350,39 @@ event = {
 	is_triggered_only = yes
 	trigger = { always = yes }
 	immediate = { 
-		every_galaxy_planet = {
-			limit = { has_planet_flag = has_building_kuat_command_center_auto }
-			kuat_reset_auto_colony_variable = yes
+		if = {
+			limit = { any_galaxy_fleet = { OR = {
+				has_fleet_flag = kuat_contractor_capital_fleet
+				has_fleet_flag = kuat_contractor_super_capital_fleet
+				has_fleet_flag = ag_kuat_invasion_starbase
+			} } }
+			every_galaxy_fleet = {
+				limit = { OR = {
+					has_fleet_flag = kuat_contractor_capital_fleet
+					has_fleet_flag = kuat_contractor_super_capital_fleet
+					has_fleet_flag = ag_kuat_invasion_starbase
+				} }
+				switch = {
+					trigger = has_fleet_flag
+					kuat_contractor_capital_fleet = { every_owned_ship = { set_ship_flag = kuat_contractor_capital_fleet } }
+					kuat_contractor_super_capital_fleet = { every_owned_ship = { set_ship_flag = kuat_contractor_super_capital_fleet } }
+					ag_kuat_invasion_starbase = { every_owned_ship = { set_ship_flag = ag_kuat_invasion_starbase } }
+				}
+			}
 		}
-		every_country = {
-			limit = { has_country_flag = solarpunk_country }
-			destroy_country = yes
+		if = {
+			limit = { any_galaxy_planet = { has_planet_flag = has_building_kuat_command_center_auto } }
+			every_galaxy_planet = {
+				limit = { has_planet_flag = has_building_kuat_command_center_auto }
+				kuat_reset_auto_colony_variable = yes
+			}
+		}
+		if = {
+			limit = { any_country = { has_country_flag = solarpunk_country } }
+			every_country = {
+				limit = { has_country_flag = solarpunk_country }
+				destroy_country = yes
+			}
 		}
 		random_country = {
 			limit = { 
