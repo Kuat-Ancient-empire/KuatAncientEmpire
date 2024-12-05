@@ -17,7 +17,7 @@
 # }
 kuat_set_forcetrigger_order_66_group = {
 	potential = { NOT = { has_global_flag = kuat_set_forcetrigger_order_66_group_enable } }
-	allow = { hidden_trigger = { is_scope_type = country NOT = { has_global_flag = kuat_set_forcetrigger_order_66_group_disable } } }
+	allow = { hidden_trigger = { is_scope_type = country } }
 	effect = {  
 		custom_tooltip = "kuat_set_forcetrigger_order_66_group_tip"
 		hidden_effect = { from = { set_global_flag = kuat_set_forcetrigger_order_66_group_enable } }
@@ -26,42 +26,117 @@ kuat_set_forcetrigger_order_66_group = {
 
 kuat_set_forcetrigger_order_alt_66_group = {
 	potential = { has_global_flag = kuat_set_forcetrigger_order_66_group_enable }
-	allow = { hidden_trigger = { is_scope_type = country NOT = { has_global_flag = kuat_set_forcetrigger_order_66_group_disable } } }
+	allow = { hidden_trigger = { is_scope_type = country } }
 	effect = {  
 		custom_tooltip = "kuat_set_forcetrigger_order_alt_66_group_tip"
-		hidden_effect = { from = { 
-			if = {
-				limit = { NOR = { 
-					has_origin = origin_eternalthrone 
-					has_origin = origin_kuat_apocalyptic
-					has_origin = origin_kuat_shadow
-				} }
-				change_variable = { which = order_6_games_value value = 1 } 
+		hidden_effect = { from = { remove_global_flag = kuat_set_forcetrigger_order_66_group_enable } }
+	}
+}
+
+#夸特全科技
+kuat_set_forcetrigger_order_get_all_kuat_tech = {
+	potential = { has_global_flag = kuat_set_forcetrigger_order_66_group_enable }
+	allow = { hidden_trigger = { is_scope_type = country } }
+	effect = {
+		custom_tooltip = "kuat_set_forcetrigger_order_get_all_kuat_tech_tip"
+		hidden_effect = { from = {
+			play_sound = {
+				sound = order_66_completed_speech
+				location = capital_scope
 			}
-			if = {
-				limit = { 
-					NOT = { has_global_flag = kuat_settings_first_fired }
-					NOT = { has_country_flag = has_origin_kuat_shadow }
-					check_variable = { which = order_6_games_value value = 2 } 
-				}
-				set_country_flag = has_origin_kuat_shadow
-				play_sound = {
-					sound = event_construction
-					location = capital_scope
-				}
-				clear_variable = order_6_games_value
+			kuat_origin_give_all_ship_and_tech = yes 
+		} }
+	}
+}
+
+#开启阴影之下事件
+kuat_set_forcetrigger_order_enable_shadow = {
+	potential = { has_global_flag = kuat_set_forcetrigger_order_66_group_enable }
+	allow = { hidden_trigger = { 
+		is_scope_type = country 
+		NOT = { has_global_flag = kuat_settings_first_fired } 
+		NOT = { has_country_flag = has_origin_kuat_shadow } 
+	} }
+	effect = {
+		custom_tooltip = "kuat_set_forcetrigger_order_enable_shadow_tip"
+		hidden_effect = { from = {
+			play_sound = {
+				sound = event_construction
+				location = capital_scope
 			}
-			change_variable = { which = order_66_games_value value = 1 } 
-			if = {
-				limit = { check_variable = { which = order_66_games_value value = 66 } }
-				kuat_origin_give_all_ship_and_tech = yes
-				play_sound = {
-					sound = order_66_completed_speech
-					location = capital_scope
-				}
-				clear_variable = order_66_games_value
-				set_global_flag = kuat_set_forcetrigger_order_66_group_disable
-			}
+			set_country_flag = has_origin_kuat_shadow
+		} }
+	}
+}
+
+#启动永恒入侵
+kuat_set_forcetrigger_order_enable_eternal_invasion = {
+	potential = { has_global_flag = kuat_set_forcetrigger_order_66_group_enable }
+	allow = { hidden_trigger = { 
+		is_scope_type = country 
+		NOT = { has_global_flag = exe_invasion_ended } 
+		NOT = { has_country_flag = fired_exe_invasion } 
+		kuat_is_enable_shadow_origin = yes
+		exists = event_target:fallen_empire_kuat
+	} }
+	effect = {
+		custom_tooltip = "kuat_set_forcetrigger_order_enable_eternal_invasion_tip"
+		hidden_effect = { from = {
+			event_target:fallen_empire_kuat = { destroy_country = yes }
+			set_country_flag = fired_exe_invasion
+			set_global_flag = exe_invasion_7_fired
+		} }
+	}
+}
+
+#启动永恒回归
+kuat_set_forcetrigger_order_enable_eternal_return = {
+	potential = { has_global_flag = kuat_set_forcetrigger_order_66_group_enable }
+	allow = { hidden_trigger = { 
+		is_scope_type = country 
+		NOT = { has_global_flag = exe_return_invasion_ended } 
+		NOT = { has_country_flag = fired_exe_return_invasion } 
+		has_global_flag = kuat_non_legacy_trigger_eternal_return
+	} }
+	effect = {
+		custom_tooltip = "kuat_set_forcetrigger_order_enable_eternal_return_tip"
+		hidden_effect = { from = {
+			set_country_flag = fired_exe_return_invasion
+			set_global_flag = exe_return_invasion_7_fired
+		} }
+	}
+}
+
+#启动流浪者
+kuat_set_forcetrigger_order_enable_contractor_return = {
+	potential = { has_global_flag = kuat_set_forcetrigger_order_66_group_enable }
+	allow = { hidden_trigger = { 
+		is_scope_type = country 
+		NOT = { has_global_flag = kuat_extramonster_ended } 
+		any_system = { has_star_flag = myst_system_5 }
+		NOT = { has_country_flag = fired_kuat_extramonster_invasion } 
+	} }
+	effect = {
+		custom_tooltip = "kuat_set_forcetrigger_order_enable_contractor_return_tip"
+		hidden_effect = { from = {
+			set_country_flag = fired_kuat_extramonster_invasion
+			set_global_flag = kuat_extramonster_7_fired 
+		} }
+	}
+}
+
+#旗舰
+kuat_set_forcetrigger_order_enable_flagship_system = {
+	potential = { has_global_flag = kuat_set_forcetrigger_order_66_group_enable }
+	allow = { hidden_trigger = { 
+		is_scope_type = country 
+		NOT = { has_global_flag = kuat_set_forcetrigger_order_enable_flagship_system_TEMPLRE }
+	} }
+	effect = {
+		custom_tooltip = "kuat_set_forcetrigger_order_enable_flagship_system_tip"
+		hidden_effect = { from = {
+			country_event = { id = kuat_testing.0 }
+			set_timed_global_flag = { flag = kuat_set_forcetrigger_order_enable_flagship_system_TEMPLRE days = 1 }
 		} }
 	}
 }
