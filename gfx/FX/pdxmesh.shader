@@ -891,7 +891,6 @@ PixelShader =
 		}
 	]]
 
-	// change
 	MainCode PixelPdxMeshWhiteHole
 		ConstantBuffers = { Common, FourthKind, Shadow }
 	[[
@@ -3763,8 +3762,6 @@ Effect PdxMeshExtraDimensionalShipSkinnedShadow
 	PixelShader = "PixelPdxMeshStandardShadow"
 	Defines = { "IS_SHADOW" }
 }
-
-// change
 
 Effect AotPlanetShieldDM
 {
