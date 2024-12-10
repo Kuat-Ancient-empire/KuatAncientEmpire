@@ -1,12 +1,8 @@
 #AWAKENING FLEET
 create_kuat_awakening_fleet = {
 	optimize_memory
-	every_system = {
-		limit = { 
-			exists = starbase
-			starbase = { controller = { is_kuat_fallen_empire = yes } }
-			kuat_is_kuat_system = yes 
-		}
+	every_system_within_border = { 
+		limit = { kuat_is_kuat_system = yes }
 		switch = {
 			trigger = has_global_flag
 			difficult_exe_invasion = { create_exe_invasion_fleet = {
@@ -87,162 +83,167 @@ create_kuat_awakening_fleet = {
 create_kuat_return_fleet_defender = {
 	optimize_memory
 	if = { limit = { has_global_flag = has_origin_eternalthrone }
-		every_system = { 
-			limit = { 
-				exists = starbase
-				starbase = { controller = { is_kuat_fallen_empire = yes } }
+		every_system_within_border = { 
+			limit = { OR = { 
+				has_star_flag = kuat_military_base_system_home 
 				kuat_is_kuat_system = yes 
-			}
-			switch = {
-				trigger = has_global_flag
-				difficult_exe_invasion = { create_exe_invasion_fleet = {
-					NAME = Name_DFLEET_II
-					is_boss = yes  can_disband = no
-					Fleet_owner = event_target:return_kuat_awakening_country
-					bombardment = indiscriminate
-
-					Compellor = @kuat_invasion_flagship_num_T1  
-					Tyrant = @kuat_invasion_flagship_num_T2
-					Resugrant = @kuat_invasion_BattleCruser_num_T3  
-					high_Imperial = @kuat_invasion_Cruser_num_T3  DIFF = 1
-
-					Location = prev.star Disable_health = 0.01
-				} }
-				normal_exe_invasion = {	create_exe_invasion_fleet = {
-					NAME = Name_DFLEET_II
-					is_boss = yes  can_disband = no
-					Fleet_owner = event_target:return_kuat_awakening_country
-					bombardment = indiscriminate
-					
-					Compellor = @kuat_invasion_flagship_num_T1  
-					Balletor = @kuat_invasion_flagship_num_T2
-					Resugrant = @kuat_invasion_BattleCruser_num_T3  
-					high_Imperial = @kuat_invasion_Cruser_num_T3  DIFF = 2
-
-					Location = prev.star Disable_health = 0.01
-				} }
-				easy_exe_invasion = { create_exe_invasion_fleet = {
-					NAME = Name_DFLEET_II
-					is_boss = yes  can_disband = no
-					Fleet_owner = event_target:return_kuat_awakening_country
-					bombardment = indiscriminate
-					
-					Compellor = @kuat_invasion_flagship_num_T1  
-					Titan = @kuat_invasion_flagship_num_T2
-					Resugrant = @kuat_invasion_BattleCruser_num_T3  
-					high_Imperial = @kuat_invasion_Cruser_num_T3  DIFF = 3
-
-					Location = prev.star Disable_health = 0.01
-				} }
-				ban_exe_invasion = { create_exe_invasion_fleet = {
-					NAME = Name_DFLEET_II
-					is_boss = yes  can_disband = no
-					Fleet_owner = event_target:return_kuat_awakening_country
-					bombardment = indiscriminate
-					
-					Compellor = @kuat_invasion_flagship_num_T1  
-					Tyrant = @kuat_invasion_flagship_num_T2
-					Resugrant = @kuat_invasion_BattleCruser_num_T3  
-					high_Imperial = @kuat_invasion_Cruser_num_T3  DIFF = 1
-
-					Location = prev.star Disable_health = 0.01
-				} }
-				default = { create_exe_invasion_fleet = {
-					NAME = Name_DFLEET_II
-					is_boss = yes  can_disband = no
-					Fleet_owner = event_target:return_kuat_awakening_country
-					bombardment = indiscriminate
-					
-					Compellor = @kuat_invasion_flagship_num_T1  
-					Balletor = @kuat_invasion_flagship_num_T2
-					Resugrant = @kuat_invasion_BattleCruser_num_T3  
-					high_Imperial = @kuat_invasion_Cruser_num_T3  DIFF = 3
-
-					Location = prev.star Disable_health = 0.01
-				} }
-			}
+			} }
+			create_kuat_defender_fleet = yes
 		}
 	}
-	else = { every_system = {
-		limit = { 
-			exists = starbase
-			starbase = { controller = { is_kuat_fallen_empire = yes } }
+	else = { every_system_within_border = { 
+		limit = { OR = { 
+			has_star_flag = kuat_military_base_system_home 
 			kuat_is_kuat_system = yes 
-		}
-		switch = {
-			trigger = has_global_flag
-			difficult_exe_invasion = { create_exe_invasion_fleet = {
-				NAME = Name_DFLEET_II
-				is_boss = yes  can_disband = no
-				Fleet_owner = event_target:return_kuat_awakening_country
-				bombardment = indiscriminate
-
-				Eclipse = @kuat_invasion_flagship_num_T1
-				Tyrant = @kuat_invasion_flagship_num_T2
-				Resugrant = @kuat_invasion_Battleship_num_T3  
-				high_Imperial = @kuat_invasion_BattleCruser_num_T3  
-				Harrower = @kuat_invasion_Cruser_num_T3  DIFF = 1
-
-				Location = prev.star Disable_health = 0.01
-			} }
-			normal_exe_invasion = {	create_exe_invasion_fleet = {
-				NAME = Name_DFLEET_II
-				is_boss = yes  can_disband = no
-				Fleet_owner = event_target:return_kuat_awakening_country
-				bombardment = indiscriminate
-				
-				Eclipse = @kuat_invasion_flagship_num_T1   
-				Balletor = @kuat_invasion_flagship_num_T2
-				Resugrant = @kuat_invasion_Battleship_num_T3  
-				high_Imperial = @kuat_invasion_BattleCruser_num_T3  
-				Harrower = @kuat_invasion_Cruser_num_T3  DIFF = 2
-
-				Location = prev.star Disable_health = 0.01
-			} }
-			easy_exe_invasion = { create_exe_invasion_fleet = {
-				NAME = Name_DFLEET_II
-				is_boss = yes  can_disband = no
-				Fleet_owner = event_target:return_kuat_awakening_country
-				bombardment = indiscriminate
-				
-				Eclipse = @kuat_invasion_flagship_num_T1   
-				Titan = @kuat_invasion_flagship_num_T2
-				Resugrant = @kuat_invasion_Battleship_num_T3  
-				high_Imperial = @kuat_invasion_BattleCruser_num_T3  
-				Harrower = @kuat_invasion_Cruser_num_T3  DIFF = 3
-
-				Location = prev.star Disable_health = 0.01
-			} }
-			ban_exe_invasion = { create_exe_invasion_fleet = {
-				NAME = Name_DFLEET_II
-				is_boss = yes  can_disband = no
-				Fleet_owner = event_target:return_kuat_awakening_country
-				bombardment = indiscriminate
-				
-				Eclipse = @kuat_invasion_flagship_num_T1   
-				Tyrant = @kuat_invasion_flagship_num_T2
-				Resugrant = @kuat_invasion_Battleship_num_T3  
-				high_Imperial = @kuat_invasion_BattleCruser_num_T3  
-				Harrower = @kuat_invasion_Cruser_num_T3  DIFF = 1
-				
-				Location = prev.star Disable_health = 0.01
-			} }
-			default = { create_exe_invasion_fleet = {
-				NAME = Name_DFLEET_II
-				is_boss = yes  can_disband = no
-				Fleet_owner = event_target:return_kuat_awakening_country
-				bombardment = indiscriminate
-
-				Eclipse = @kuat_invasion_flagship_num_T1   
-				Balletor = @kuat_invasion_flagship_num_T2
-				Resugrant = @kuat_invasion_Battleship_num_T3  
-				high_Imperial = @kuat_invasion_BattleCruser_num_T3  
-				Harrower = @kuat_invasion_Cruser_num_T3  DIFF = 3
-
-				Location = prev.star Disable_health = 0.01
-			} }
-		}
+		} }
+		create_council_defender_fleet = yes
 	} }
+}
+
+create_kuat_defender_fleet = {
+	switch = {
+		trigger = has_global_flag
+		difficult_exe_invasion = { create_exe_invasion_fleet = {
+			NAME = Name_DFLEET_II
+			is_boss = yes  can_disband = no
+			Fleet_owner = event_target:return_kuat_awakening_country
+			bombardment = indiscriminate
+
+			Compellor = @kuat_invasion_flagship_num_T1  
+			Tyrant = @kuat_invasion_flagship_num_T2
+			Resugrant = @kuat_invasion_BattleCruser_num_T3  
+			high_Imperial = @kuat_invasion_Cruser_num_T3  DIFF = 1
+
+			Location = prev.star Disable_health = 0.01
+		} }
+		normal_exe_invasion = {	create_exe_invasion_fleet = {
+			NAME = Name_DFLEET_II
+			is_boss = yes  can_disband = no
+			Fleet_owner = event_target:return_kuat_awakening_country
+			bombardment = indiscriminate
+			
+			Compellor = @kuat_invasion_flagship_num_T1  
+			Balletor = @kuat_invasion_flagship_num_T2
+			Resugrant = @kuat_invasion_BattleCruser_num_T3  
+			high_Imperial = @kuat_invasion_Cruser_num_T3  DIFF = 2
+
+			Location = prev.star Disable_health = 0.01
+		} }
+		easy_exe_invasion = { create_exe_invasion_fleet = {
+			NAME = Name_DFLEET_II
+			is_boss = yes  can_disband = no
+			Fleet_owner = event_target:return_kuat_awakening_country
+			bombardment = indiscriminate
+			
+			Compellor = @kuat_invasion_flagship_num_T1  
+			Titan = @kuat_invasion_flagship_num_T2
+			Resugrant = @kuat_invasion_BattleCruser_num_T3  
+			high_Imperial = @kuat_invasion_Cruser_num_T3  DIFF = 3
+
+			Location = prev.star Disable_health = 0.01
+		} }
+		ban_exe_invasion = { create_exe_invasion_fleet = {
+			NAME = Name_DFLEET_II
+			is_boss = yes  can_disband = no
+			Fleet_owner = event_target:return_kuat_awakening_country
+			bombardment = indiscriminate
+			
+			Compellor = @kuat_invasion_flagship_num_T1  
+			Tyrant = @kuat_invasion_flagship_num_T2
+			Resugrant = @kuat_invasion_BattleCruser_num_T3  
+			high_Imperial = @kuat_invasion_Cruser_num_T3  DIFF = 1
+
+			Location = prev.star Disable_health = 0.01
+		} }
+		default = { create_exe_invasion_fleet = {
+			NAME = Name_DFLEET_II
+			is_boss = yes  can_disband = no
+			Fleet_owner = event_target:return_kuat_awakening_country
+			bombardment = indiscriminate
+			
+			Compellor = @kuat_invasion_flagship_num_T1  
+			Balletor = @kuat_invasion_flagship_num_T2
+			Resugrant = @kuat_invasion_BattleCruser_num_T3  
+			high_Imperial = @kuat_invasion_Cruser_num_T3  DIFF = 3
+
+			Location = prev.star Disable_health = 0.01
+		} }
+	}
+}
+create_council_defender_fleet = {
+	switch = {
+		trigger = has_global_flag
+		difficult_exe_invasion = { create_exe_invasion_fleet = {
+			NAME = Name_DFLEET_II
+			is_boss = yes  can_disband = no
+			Fleet_owner = event_target:return_kuat_awakening_country
+			bombardment = indiscriminate
+
+			Eclipse = @kuat_invasion_flagship_num_T1
+			Tyrant = @kuat_invasion_flagship_num_T2
+			Resugrant = @kuat_invasion_Battleship_num_T3  
+			high_Imperial = @kuat_invasion_BattleCruser_num_T3  
+			Harrower = @kuat_invasion_Cruser_num_T3  DIFF = 1
+
+			Location = prev.star Disable_health = 0.01
+		} }
+		normal_exe_invasion = {	create_exe_invasion_fleet = {
+			NAME = Name_DFLEET_II
+			is_boss = yes  can_disband = no
+			Fleet_owner = event_target:return_kuat_awakening_country
+			bombardment = indiscriminate
+			
+			Eclipse = @kuat_invasion_flagship_num_T1   
+			Balletor = @kuat_invasion_flagship_num_T2
+			Resugrant = @kuat_invasion_Battleship_num_T3  
+			high_Imperial = @kuat_invasion_BattleCruser_num_T3  
+			Harrower = @kuat_invasion_Cruser_num_T3  DIFF = 2
+
+			Location = prev.star Disable_health = 0.01
+		} }
+		easy_exe_invasion = { create_exe_invasion_fleet = {
+			NAME = Name_DFLEET_II
+			is_boss = yes  can_disband = no
+			Fleet_owner = event_target:return_kuat_awakening_country
+			bombardment = indiscriminate
+			
+			Eclipse = @kuat_invasion_flagship_num_T1   
+			Titan = @kuat_invasion_flagship_num_T2
+			Resugrant = @kuat_invasion_Battleship_num_T3  
+			high_Imperial = @kuat_invasion_BattleCruser_num_T3  
+			Harrower = @kuat_invasion_Cruser_num_T3  DIFF = 3
+
+			Location = prev.star Disable_health = 0.01
+		} }
+		ban_exe_invasion = { create_exe_invasion_fleet = {
+			NAME = Name_DFLEET_II
+			is_boss = yes  can_disband = no
+			Fleet_owner = event_target:return_kuat_awakening_country
+			bombardment = indiscriminate
+			
+			Eclipse = @kuat_invasion_flagship_num_T1   
+			Tyrant = @kuat_invasion_flagship_num_T2
+			Resugrant = @kuat_invasion_Battleship_num_T3  
+			high_Imperial = @kuat_invasion_BattleCruser_num_T3  
+			Harrower = @kuat_invasion_Cruser_num_T3  DIFF = 1
+			
+			Location = prev.star Disable_health = 0.01
+		} }
+		default = { create_exe_invasion_fleet = {
+			NAME = Name_DFLEET_II
+			is_boss = yes  can_disband = no
+			Fleet_owner = event_target:return_kuat_awakening_country
+			bombardment = indiscriminate
+
+			Eclipse = @kuat_invasion_flagship_num_T1   
+			Balletor = @kuat_invasion_flagship_num_T2
+			Resugrant = @kuat_invasion_Battleship_num_T3  
+			high_Imperial = @kuat_invasion_BattleCruser_num_T3  
+			Harrower = @kuat_invasion_Cruser_num_T3  DIFF = 3
+
+			Location = prev.star Disable_health = 0.01
+		} }
+	}
 }
 
 create_kuat_return_fleet_attacker = {
@@ -372,8 +373,22 @@ create_kuat_return_starbase = {
 	create_ship_design = { design = "NAME_KUAT_Starbase" }
 	add_ship_design = last_created_design
 	every_system = {
-		limit = { NOT = { exists = starbase } kuat_is_kuat_system = yes }
-		create_starbase = { owner = event_target:return_kuat_awakening_country size = exe_starbase }
+		limit = { OR = {
+			has_star_flag = kuat_military_base_system_home
+			kuat_is_kuat_system = yes
+		} }
+		if = {
+			limit = { exists = starbase }
+			every_fleet_in_system = {
+				limit = { is_ship_class = shipclass_starbase }
+				set_owner = event_target:return_kuat_awakening_country
+			}
+		}
+		else = { create_starbase = { owner = event_target:return_kuat_awakening_country size = exe_starbase } }
+		if = {
+			limit = { has_megastructure = BlackholeShipyard }
+			event_target:BlackholeShipyard = { set_owner = event_target:return_kuat_awakening_country }
+		}
 	}
 }
 
@@ -479,12 +494,8 @@ create_kuat_defender_and_attack_fleet = {
 
 create_kuat_defender_and_attack_crisis_fleet = {
 	optimize_memory
-	every_system = {
-		limit = { 
-			exists = starbase 
-			starbase = { exists = controller controller = { is_kuat_fallen_empire = yes } }
-			kuat_is_kuat_system = yes 
-		}
+	every_system_within_border = {
+		limit = { kuat_is_kuat_system = yes }
 		create_fleet = {
 			name = "Name_DFLEET"
 			effect = {
