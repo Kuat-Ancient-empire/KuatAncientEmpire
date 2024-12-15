@@ -1,0 +1,74 @@
+@cost0 = 1250
+@cost1 = 2500
+@cost2 = 5000
+@cost3 = 10000
+@power0 = -5
+@power1 = -10
+@power2 = -15
+@power3 = -25
+@exe_cost_1 = 400
+@shipAuraRange = 80
+####################
+## CRISIS COMPUTER##
+####################
+#easy t4
+utility_component_template = {
+	key = "EXECUTOR_COMBAT_COMPUTER_T4_BATTLESHIP"
+	size = small
+	icon = "GFX_executor_ship_part_computer"
+	icon_frame = 1
+	power = @power3
+	hidden = yes
+	ship_modifier = { ship_weapon_damage = 2 ship_cloaking_detection_add = 2 }
+	ai_weight = { weight = 0 }
+	component_set = "combat_computers"
+	ship_behavior = "EXE_Battleship"
+}
+utility_component_template = {
+	key = "EXECUTOR_COMBAT_COMPUTER_T4_FLAGSHIP"
+	size = small
+	icon = "GFX_executor_ship_part_computer"
+	icon_frame = 1
+	power = @power3
+	hidden = yes
+	component_set = "combat_computers"
+	ship_behavior = "EXE_flagship"
+	ship_modifier = { ship_weapon_damage = 2 ship_cloaking_detection_add = 2 }
+	ai_weight = { weight = 0 }
+}
+utility_component_template = {
+	key = "EXECUTOR_COMBAT_COMPUTER_T4_DE_FLAGSHIP"
+	size = small
+	icon = "GFX_executor_ship_part_computer"
+	icon_frame = 1
+	power = @power3
+	hidden = yes
+	ship_modifier = { ship_weapon_damage = 2 ship_cloaking_detection_add = 2 }
+	hostile_aura = {
+		name = SSDE
+		system_wide = yes
+		stack_info = {
+			id = Firmus_Piett_Super_Flagship
+			priority = 250
+		}
+		limit = {
+			exists = owner is_in_combat = yes
+			owner = { is_invisable_faction = no }
+		}
+		modifier = {
+			ship_shield_penetration_mult = -1
+			ship_armor_penetration_mult = -1
+			ship_weapon_damage = -0.25
+			ship_armor_damage_mult = -0.25
+			ship_shield_damage_mult = -0.25
+			ship_hull_damage_mult = -0.25
+		}
+		graphics = {
+			area_effect = { entity = "kuat_ship_aura_negative_entity" dynamic_scale = yes }
+			ship_effect = { entity = "ship_aura_negative_entity" dynamic_scale = no }
+		}
+	}
+	ai_weight = { weight = 0 }
+	component_set = "combat_computers"
+	ship_behavior = "EXE_flagship"
+}

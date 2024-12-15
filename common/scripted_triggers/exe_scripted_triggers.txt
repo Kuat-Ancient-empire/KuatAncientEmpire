@@ -221,7 +221,7 @@ kuat_is_can_pass_by_country = {
 	OR = {
 		AND = {
 			NOT = { has_global_flag = disable_kuat_by_passed }
-			has_origin = origin_eternalthrone
+			kuat_is_enbale_eternal_origin = yes
 		}
 		has_country_flag = can_pass_by
 		is_invisable_faction = yes
@@ -234,7 +234,7 @@ kuat_is_can_inpass_by_country = {
 		has_origin = origin_kuat_apocalyptic
 		AND = {
 			NOT = { has_global_flag = disable_kuat_by_passed }
-			has_origin = origin_eternalthrone
+			kuat_is_enbale_eternal_origin = yes
 		}
 		has_country_flag = can_pass_inner_by
 	}
@@ -525,7 +525,7 @@ retrun_first_station_check = {
 	if = {
 		limit = { any_country = { is_ai = no OR = {
 			has_origin = origin_kuat_apocalyptic
-			has_origin = origin_eternalthrone
+			kuat_is_enbale_eternal_origin = yes
 		} } }
 		event_target:global_event_country = {
 			check_variable_arithmetic = { which = count_destroy_eternal_fleet value > eternal_fleet_return_index divide = 2 }
@@ -545,7 +545,7 @@ retrun_second_station_check = {
 	if = {
 		limit = { any_country = { is_ai = no OR = {
 			has_origin = origin_kuat_apocalyptic
-			has_origin = origin_eternalthrone
+			kuat_is_enbale_eternal_origin = yes
 		} } }
 		event_target:global_event_country = {
 			check_variable_arithmetic = { which = count_destroy_eternal_fleet value > eternal_fleet_return_index divide = 4 }
@@ -565,7 +565,7 @@ retrun_third_station_check = {
 	if = {
 		limit = { any_country = { is_ai = no OR = {
 			has_origin = origin_kuat_apocalyptic
-			has_origin = origin_eternalthrone
+			kuat_is_enbale_eternal_origin = yes
 		} } }
 		event_target:global_event_country = {
 			check_variable_arithmetic = { which = count_destroy_eternal_fleet value > eternal_fleet_return_index divide = 8 }
@@ -711,8 +711,16 @@ kuat_is_enable_shadow_origin = {
 	}
 }
 
+kuat_is_enbale_eternal_origin = {
+	OR = {
+		has_origin = origin_eternalthrone
+		has_country_flag = has_origin_kuat_eternal
+	}
+}
+
 Kuat_auto_colony_reserve_condition = {
 	is_ai = yes 
+	is_nirvana_empire = no
 	check_variable_arithmetic = { which = modifier:country_resource_max_add value >= 100000 }
 	OR = {
 		resource_stockpile_compare = { resource = energy value > modifier:country_resource_max_add }

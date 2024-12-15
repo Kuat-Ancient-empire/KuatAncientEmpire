@@ -18,13 +18,13 @@ country_event = {
 			if = {
 				limit = { is_ai = yes OR = { 
 					has_origin = origin_kuat_apocalyptic 
-					has_origin = origin_eternalthrone 
+					has_origin = origin_eternalthrone
 					has_origin = origin_kuat_shadow
 				} }
 				set_origin = origin_default
 			}
 			if = {
-				limit = { has_origin = origin_eternalthrone kuat_is_forbidden_ee_production_var = no }
+				limit = { kuat_is_enbale_eternal_origin = yes kuat_is_forbidden_ee_production_var = no }
 				every_owned_planet = {
 					limit = {
 						if = {
@@ -117,9 +117,9 @@ country_event = {
 			}
 		}
 		else_if = {
-			limit = { any_country = { is_ai = no has_origin = origin_eternalthrone } }
+			limit = { any_country = { is_ai = no kuat_is_enbale_eternal_origin = yes } }
 			every_playable_country = {
-				limit = { is_ai = no has_origin = origin_eternalthrone }
+				limit = { is_ai = no kuat_is_enbale_eternal_origin = yes }
 				remove_country_flag = human_1 remove_country_flag = human_2 set_country_flag = custom_start_screen
 			}
 		}
@@ -138,7 +138,7 @@ country_event = {
 		}
 		else = { random_country = { limit = { is_ai = no } create_kuat_shipyard_country = yes } }
 		if = {
-			limit = { any_country = { OR = { has_origin = origin_kuat_apocalyptic has_origin = origin_eternalthrone } } }
+			limit = { any_country = { OR = { has_origin = origin_kuat_apocalyptic kuat_is_enbale_eternal_origin = yes } } }
 			every_megastructure = {
 				limit = { is_megastructure_type = exe_outer_gate_disable }
 				upgrade_megastructure_to = exe_outer_gate finish_upgrade = yes
@@ -447,7 +447,7 @@ country_event = {
 		is_ai = no
 		has_technology = tech_sensors_2
 		has_country_flag = finished_kuat_gateway_stage_first
-		NOT = { any_country = { OR = { has_origin = origin_kuat_apocalyptic has_origin = origin_eternalthrone } } }
+		NOT = { any_country = { OR = { has_origin = origin_kuat_apocalyptic kuat_is_enbale_eternal_origin = yes } } }
 		NOT = { has_global_flag = kuat_outgate_enable }
 	}
 	mean_time_to_happen = { 
@@ -2308,7 +2308,10 @@ country_event = {
 				clear_ship_modifier = { modifier = fleet_capture_defeated_leader_chance DAYS = 30 }
 			}
 		}
-		kuat_auto_colony_total_reserve = yes
+		if = {
+			limit = { Kuat_auto_colony_reserve_condition = yes }
+			kuat_auto_colony_total_reserve = yes
+		}
 	}
 }
 
@@ -2316,7 +2319,7 @@ country_event = {
 	id = executor_build.1002
 	hide_window = yes
 	is_triggered_only = yes
-	trigger = { has_origin = origin_eternalthrone }
+	trigger = { kuat_is_enbale_eternal_origin = yes }
 	immediate = { 
 		every_owned_planet = {
 			limit = {
@@ -2401,14 +2404,14 @@ planet_event = {
 		has_planet_flag = colonied_eternal_ringworld
 		NOT = { has_planet_flag = colonied_eternal_ringworld_over }
 		is_planet_class = pc_kuat_eternal_ringworld_habitable 
-		owner = { has_origin = origin_eternalthrone }
+		owner = { kuat_is_enbale_eternal_origin = yes }
 	}
 	immediate = { set_planet_flag = colonied_eternal_ringworld_over }
 	option = {
 		name = executor_build.1004.a
 		hidden_effect = { 
 			while = { limit = { free_district_slots > 0 } add_district = district_arcology_kuat_housing } 
-			if = { limit = { free_building_slots > 0 owner = { has_origin = origin_eternalthrone } } add_building = building_eternal_pop_assembly }
+			if = { limit = { free_building_slots > 0 owner = { kuat_is_enbale_eternal_origin = yes } } add_building = building_eternal_pop_assembly }
 			if = { limit = { free_building_slots > 0 owner = { is_nirvana_empire_council = yes } } add_building = building_cloud_castle }
 			if = { limit = { free_building_slots > 0 owner = { is_nirvana_empire_dragon = yes } } add_building = building_aurora_shrine }
 			if = { limit = { free_building_slots > 0 owner = { has_technology = tr_eternal_building_alloys_Forge } } add_building = building_eternal_alloys_Forge add_building = building_foundry_1 }
@@ -2426,7 +2429,7 @@ planet_event = {
 		name = executor_build.1004.c
 		hidden_effect = { 
 			while = { limit = { free_district_slots > 0 } add_district = district_arcology_kuat_science } 
-			if = { limit = { free_building_slots > 0 owner = { has_origin = origin_eternalthrone } } add_building = building_eternal_pop_assembly }
+			if = { limit = { free_building_slots > 0 owner = { kuat_is_enbale_eternal_origin = yes } } add_building = building_eternal_pop_assembly }
 			if = { limit = { free_building_slots > 0 owner = { is_nirvana_empire_council = yes } } add_building = building_cloud_castle }
 			if = { limit = { free_building_slots > 0 owner = { is_nirvana_empire_dragon = yes } } add_building = building_aurora_shrine }
 			if = { limit = { free_building_slots > 0 owner = { has_technology = tr_eternal_building_business_complex } } add_building = building_eternal_business_complex }
@@ -2440,7 +2443,7 @@ planet_event = {
 		name = executor_build.1004.b
 		hidden_effect = { 
 			while = { limit = { free_district_slots > 0 } add_district = district_arcology_kuat_Military }
-			if = { limit = { free_building_slots > 0 owner = { has_origin = origin_eternalthrone } } add_building = building_eternal_pop_assembly }
+			if = { limit = { free_building_slots > 0 owner = { kuat_is_enbale_eternal_origin = yes } } add_building = building_eternal_pop_assembly }
 			if = { limit = { free_building_slots > 0 owner = { is_nirvana_empire_council = yes } } add_building = building_cloud_castle }
 			if = { limit = { free_building_slots > 0 owner = { is_nirvana_empire_dragon = yes } } add_building = building_aurora_shrine }
 			if = { limit = { free_building_slots > 0 owner = { has_technology = tr_eternal_building_alloys_Forge } } add_building = building_eternal_alloys_Forge add_building = building_foundry_1 }
@@ -2456,7 +2459,7 @@ planet_event = {
 		name = executor_build.1004.d
 		hidden_effect = { 
 			while = { limit = { free_district_slots > 0 } add_district = district_arcology_kuat_Khaydarin } 
-			if = { limit = { free_building_slots > 0 owner = { has_origin = origin_eternalthrone } } add_building = building_eternal_pop_assembly }
+			if = { limit = { free_building_slots > 0 owner = { kuat_is_enbale_eternal_origin = yes } } add_building = building_eternal_pop_assembly }
 			if = { limit = { free_building_slots > 0 owner = { is_nirvana_empire_council = yes } } add_building = building_cloud_castle }
 			if = { limit = { free_building_slots > 0 owner = { is_nirvana_empire_dragon = yes } } add_building = building_aurora_shrine }
 			if = { limit = { free_building_slots > 0 owner = { has_technology = tr_eternal_building_alloys_Forge } } add_building = building_eternal_alloys_Forge add_building = building_foundry_1 }
@@ -2472,7 +2475,7 @@ planet_event = {
 		name = executor_build.1004.e
 		hidden_effect = { 
 			while = { limit = { free_district_slots > 0 } add_district = district_arcology_Kuat_civilian_industry }
-			if = { limit = { free_building_slots > 0 owner = { has_origin = origin_eternalthrone } } add_building = building_eternal_pop_assembly }
+			if = { limit = { free_building_slots > 0 owner = { kuat_is_enbale_eternal_origin = yes } } add_building = building_eternal_pop_assembly }
 			if = { limit = { free_building_slots > 0 owner = { is_nirvana_empire_council = yes } } add_building = building_cloud_castle }
 			if = { limit = { free_building_slots > 0 owner = { is_nirvana_empire_dragon = yes } } add_building = building_aurora_shrine }
 			if = { limit = { free_building_slots > 0 owner = { has_technology = tr_eternal_building_alloys_Forge } } add_building = building_eternal_alloys_Forge add_building = building_foundry_1 }
@@ -2488,7 +2491,7 @@ planet_event = {
 		name = executor_build.1004.f
 		hidden_effect = { 
 			while = { limit = { free_district_slots > 0 } add_district = district_arcology_eternal_Khaydarin } 
-			if = { limit = { free_building_slots > 0 owner = { has_origin = origin_eternalthrone } } add_building = building_eternal_pop_assembly }
+			if = { limit = { free_building_slots > 0 owner = { kuat_is_enbale_eternal_origin = yes } } add_building = building_eternal_pop_assembly }
 			if = { limit = { free_building_slots > 0 owner = { is_nirvana_empire_council = yes } } add_building = building_cloud_castle }
 			if = { limit = { free_building_slots > 0 owner = { is_nirvana_empire_dragon = yes } } add_building = building_aurora_shrine }
 			if = { limit = { free_building_slots > 0 owner = { has_technology = tr_eternal_building_alloys_Forge } } add_building = building_eternal_alloys_Forge add_building = building_foundry_1 }
@@ -2575,7 +2578,7 @@ country_event = {
 			if = {
 				limit = { 
 					has_global_flag = install_kuat_mod 
-					NOR = { has_origin = origin_kuat_apocalyptic has_origin = origin_eternalthrone }
+					NOR = { has_origin = origin_kuat_apocalyptic kuat_is_enbale_eternal_origin = yes }
 				}
 				country_event = { id = kuat_shipyard.1 }
 			}
@@ -2647,7 +2650,7 @@ country_event = {
 			OR = {
 				has_origin = origin_kuat_apocalyptic
 				kuat_is_enable_shadow_origin = yes
-				has_origin = origin_eternalthrone
+				kuat_is_enbale_eternal_origin = yes
 			}
 		}
 		hidden_effect = { country_event = { id = kuat_event_memory.1 } }

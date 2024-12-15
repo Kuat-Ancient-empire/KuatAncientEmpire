@@ -1,0 +1,104 @@
+@cost0 = 1250
+@cost1 = 2500
+@cost2 = 5000
+@cost3 = 10000
+@power0 = -5
+@power1 = -10
+@power2 = -15
+@power3 = -25
+@exe_cost_1 = 400
+@shipAuraRange = 80
+####################
+### KUAT COMPUTER ##
+####################
+#t2
+utility_component_template = {
+	key = "EXECUTOR_COMBAT_COMPUTER_T2_FLAGSHIP"
+	size = small
+	icon = "GFX_executor_ship_part_computer"
+	icon_frame = 1
+	power = @power3
+	resources = {
+		category = ship_components
+		cost = { alloys = @cost2 }
+	}
+	size_restriction = { X308_Balletor X308_Tyrant nebula_executor knight_hammer_executor X308_Titan }
+	prerequisites = { tech_kuat_noway }
+	component_set = "combat_computers"
+	ship_behavior = "EXE_flagship"
+	friendly_aura = {
+		name = "aura_inspiring_presence"
+		radius = @shipAuraRange
+		apply_on = ships
+		stack_info = {
+			id = aura_eternal_buff
+			priority = 2
+		}
+		modifier = {
+			weapon_type_energy_weapon_damage_mult = 5
+			weapon_type_explosive_weapon_damage_mult = 5
+			weapon_type_kinetic_weapon_damage_mult = 5
+		}
+		graphics = {
+			area_effect = { entity = "kuat_ship_aura_repair_entity" dynamic_scale = yes }
+			ship_effect = { entity = "ship_aura_positive_entity" dynamic_scale = no }
+		}
+	}
+	ai_weight = { weight = 5000 }
+}
+utility_component_template = {
+	key = "EXECUTOR_COMBAT_COMPUTER_T2_DE_FLAGSHIP"
+	size = small
+	icon = "GFX_executor_ship_part_computer"
+	icon_frame = 1
+	power = @power3
+	resources = {
+		category = ship_components
+		cost = { alloys = @cost2 }
+	}
+	size_restriction = { X308_Balletor X308_Tyrant nebula_executor knight_hammer_executor X308_Titan }
+	prerequisites = { tech_kuat_noway }
+	component_set = "combat_computers"
+	ship_behavior = "EXE_flagship"
+	hostile_aura = {
+		name = "aura_quantum_destabilizer"
+		system_wide = yes
+		stack_info = {
+			id = aura_ag_weapon_damage_debuff
+			priority = 150
+		}
+		limit = { 
+			is_in_combat = yes
+			NOT = { exists = event_target:eternal_fleet_country } 
+		}
+		modifier = { 
+			ship_hull_damage_mult = -0.5 
+			ship_armor_damage_mult = -0.5
+			ship_shield_damage_mult = -0.5
+		}
+		graphics = {
+			area_effect = { entity = "kuat_ship_aura_negative_entity" dynamic_scale = yes }
+			ship_effect = { entity = "ship_aura_negative_entity" dynamic_scale = no }
+		}
+	}
+	friendly_aura = {
+		name = "aura_inspiring_presence"
+		radius = @shipAuraRange
+		apply_on = ships
+		stack_info = {
+			id = aura_eternal_buff
+			priority = 2
+		}
+		limit = { exists = event_target:eternal_fleet_country }
+		modifier = {
+			weapon_type_energy_weapon_fire_rate_mult = 5
+			weapon_type_explosive_weapon_fire_rate_mult = 5
+			weapon_type_kinetic_weapon_fire_rate_mult = 5
+		}
+		graphics = {
+			area_effect = { entity = "kuat_ship_aura_repair_entity" dynamic_scale = yes }
+			ship_effect = { entity = "ship_aura_positive_entity" dynamic_scale = no }
+		}
+	}
+	ai_weight = { weight = 5000 }
+}

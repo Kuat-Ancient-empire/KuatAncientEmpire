@@ -1,0 +1,96 @@
+@cost0 = 1250
+@cost1 = 2500
+@cost2 = 5000
+@cost3 = 10000
+@power0 = -5
+@power1 = -10
+@power2 = -15
+@power3 = -25
+@exe_cost_1 = 400
+@shipAuraRange = 80
+####################
+### DRFT COMPUTER ##
+####################
+utility_component_template = {
+	key = "DRFT_COMBAT_COMPUTER_2"
+	size = small
+	icon = "GFX_ship_part_sws_Lattice_locked_dekaisogen"
+	icon_frame = 1
+	power = @power3
+	resources = {
+		category = ship_components
+		cost = { alloys = @cost2 }
+	}
+	hidden = yes
+	component_set = "combat_computers"
+	ship_behavior = "EXE_Cruser"
+	size_restriction = { Drift_Battleship Drift_Crusier }
+	friendly_aura = {
+		name = "aura_inspiring_presence"
+		radius = @shipAuraRange
+		apply_on = ships
+		stack_info = {
+			id = aura_eternal_buff
+			priority = 2
+		}
+		modifier = {
+			weapon_type_energy_weapon_damage_mult = 2
+			weapon_type_explosive_weapon_damage_mult = 2
+			weapon_type_kinetic_weapon_damage_mult = 2
+		}
+		graphics = {
+			area_effect = { entity = "kuat_ship_aura_repair_entity" dynamic_scale = yes }
+			ship_effect = { entity = "ship_aura_positive_entity" dynamic_scale = no }
+		}
+	}
+	ai_weight = { weight = 5000 }
+}
+utility_component_template = {
+	key = "DRFT_COMBAT_COMPUTER_1"
+	size = small
+	icon = "GFX_ship_part_sws_Zero_point_field_manipulator"
+	icon_frame = 1
+	power = @power3
+	resources = {
+		category = ship_components
+		cost = { alloys = @cost2 }
+	}
+	hidden = yes
+	component_set = "combat_computers"
+	ship_behavior = "EXE_flagship"
+	size_restriction = { Drift_Battleship Drift_Crusier }
+	hostile_aura = {
+		name = "aura_quantum_destabilizer"
+		system_wide = yes
+		stack_info = {
+			id = aura_ag_weapon_damage_debuff
+			priority = 150
+		}
+		limit = { is_in_combat = yes }
+		modifier = { 
+			ship_hull_damage_mult = -0.5 
+			ship_armor_damage_mult = -0.5
+			ship_shield_damage_mult = -0.5
+		}
+	}
+	hostile_aura = {
+		name = SSDE
+		system_wide = yes
+		limit = { is_in_combat = yes }
+		stack_info = {
+			id = Firmus_Piett_Super_Flagship
+			priority = 250
+		}
+		graphics = {
+			area_effect = { entity = "kuat_ship_aura_negative_entity" dynamic_scale = yes }
+			ship_effect = { entity = "ship_aura_negative_entity" dynamic_scale = no }
+		}
+		damage_per_day = {
+			damage = { min = 10000 max = 10000 }
+			accuracy = 10
+			shield_penetration = 1
+			armor_penetration = 1
+		}
+	}
+	ai_weight = { weight = 5000 }
+}

@@ -1,0 +1,269 @@
+@cost0 = 1250
+@cost1 = 2500
+@cost2 = 5000
+@cost3 = 10000
+@power0 = -5
+@power1 = -10
+@power2 = -15
+@power3 = -25
+@exe_cost_1 = 400
+@shipAuraRange = 80
+#####################
+###  FTL DRIVE ######
+#####################
+utility_component_template = {
+	key = "EXE_JUMP_DRIVE_1"
+	size = small
+	icon = "GFX_ship_part_exe_jump_drive_1"
+	icon_frame = 1
+	power = -15
+	ftl = yes
+	jumpdrive = yes
+	ship_modifier = {
+		ship_windup_mult = -1
+		ship_winddown_mult = -1
+		ship_ftl_jumpdrive_range_mult = 3
+		ship_jumpdrive_cooldown_mult = -1
+	}
+	ai_weight = { weight = 5000 }
+	size_restriction = { X308_Balletor X308_Tyrant nebula_executor knight_hammer_executor X308_Titan Aggressor }
+	prerequisites = { tech_exe_jump_drive }
+	component_set = "ftl_components"
+}
+
+utility_component_template = {
+	key = "EXE_STARBASE_JUMP_DRIVE_1"
+	size = small
+	icon = "GFX_ship_part_exe_jump_drive_1"
+	icon_frame = 1
+	power = -15
+	hidden = yes
+	ftl = no
+	jumpdrive = yes
+	ship_modifier = {
+		ship_windup_mult = -1
+		ship_winddown_mult = -1
+		ship_ftl_jumpdrive_range_mult = 5
+		ship_jumpdrive_cooldown_mult = 2
+	}
+	ai_weight = { weight = 0 }
+	component_set = "ftl_components"
+}
+
+utility_component_template = {
+	key = "DFRT_JUMP_DRIVE_1"
+	size = small
+	icon = "GFX_ship_part_sws_Trinary_state_processor"
+	icon_frame = 1
+	power = -15
+	hidden = yes
+	ftl = yes
+	jumpdrive = yes
+	ship_modifier = {
+		ship_windup_mult = -1
+		ship_winddown_mult = -1
+		ship_ftl_jumpdrive_range_mult = 3
+		ship_jumpdrive_cooldown_mult = -1
+	}
+	ai_weight = { weight = 0 }
+	size_restriction = { Drift_Battleship Drift_Crusier }
+	component_set = "ftl_components"
+}
+
+########################
+# Supremacy Reactors  ##
+########################
+utility_component_template = {
+	key = "EXECUTOR_MCSD_REACTOR"
+	size = small
+	icon = "GFX_executor_ship_part_reactor_1"
+	icon_frame = 1
+	power = 500000
+	prerequisites = { tech_kuat_reactor }
+	component_set = "power_core"
+	ai_weight = { weight = 5000 }
+	size_restriction = { X308_Balletor X308_Tyrant nebula_executor knight_hammer_executor X308_Titan Aggressor }
+}
+
+utility_component_template = {
+	key = "DRFT_MCSD_REACTOR"
+	size = small
+	icon = "GFX_ship_part_sws_Singularity_radiation_convertor"
+	icon_frame = 1
+	power = 500000
+	hidden = yes
+	component_set = "power_core"
+	size_restriction = { Drift_Battleship Drift_Crusier }
+	ai_weight = { weight = 5000 }
+}
+########################
+# Sensor and Aux slot  #
+########################
+utility_component_template = {
+	key = "EXECUTOR_SENSOR_VIOLET"
+	size = medium
+	icon = "GFX_executor_ship_part_sensor"
+	icon_frame = 1
+	power = -15
+	sensor_range = 8
+	hyperlane_range = 10
+	ship_modifier = {
+		ship_tracking_add = 40
+		ship_accuracy_add = 10
+	}
+	size_restriction = { X308_Balletor X308_Tyrant nebula_executor knight_hammer_executor X308_Titan Aggressor }
+	prerequisites = { tech_exe_jump_drive }
+	component_set = "sensor_components"
+	ai_weight = { weight = 5000 }
+}
+
+utility_component_template = {
+	key = "DRFT_SENSOR_VIOLET"
+	size = medium
+	icon = "GFX_ship_part_sws_Datacore"
+	icon_frame = 1
+	power = -15
+	sensor_range = 8
+	hyperlane_range = 10
+	ship_modifier = {
+		ship_tracking_add = 40
+		ship_accuracy_add = 10
+	}
+	size_restriction = { Drift_Battleship Drift_Crusier }
+	component_set = "sensor_components"
+	ai_weight = { weight = 5000 }
+	hidden = yes
+}
+
+utility_component_template = {
+	key = "EXE_STARBASE_MEAGASTRUCTRUE_AUX"
+	size = medium
+	icon = "GFX_executor_ship_part_aux_system"
+	icon_frame = 1
+	power = @exe_cost_1
+	component_set = "ship_aura_components"
+	hidden = yes
+	ftl_inhibitor = yes
+	hostile_aura = {
+		name = "aura_quantum_destabilizer"
+		system_wide = yes
+		stack_info = {
+			id = Firmus_Piett_Super_Flagship
+			priority = 500
+		}
+		limit = { 
+			exists = owner is_in_combat = yes
+			owner = { is_invisable_faction = no }
+		}
+		modifier = {
+			ship_shield_penetration_mult = -1
+			ship_armor_penetration_mult = -1
+			ship_weapon_damage = -0.5
+			ship_armor_damage_mult = -0.5
+			ship_shield_damage_mult = -0.5
+			ship_hull_damage_mult = -0.5
+		}
+		graphics = {
+			area_effect = { entity = "kuat_ship_aura_negative_entity" dynamic_scale = yes }
+			ship_effect = { entity = "ship_aura_negative_entity" dynamic_scale = no }
+		}
+	}
+}
+
+utility_component_template = {
+	key = "EXE_STARBASE_MEAGASTRUCTRUE_AUX_1"
+	size = medium
+	icon = "GFX_executor_ship_part_aux_system"
+	icon_frame = 1
+	power = @exe_cost_1
+	component_set = "ship_aura_components"
+	hidden = yes
+	ftl_inhibitor = yes
+	hostile_aura = {
+		name = "aura_quantum_destabilizer"
+		system_wide = yes
+		stack_info = {
+			id = Firmus_Piett_Super_No_Flagship
+			priority = 1000
+		}
+		limit = {
+			is_in_combat = yes
+			exists = owner owner = { is_invisable_faction = no }
+			fleet = { has_enable_flag_ship_system_true = no }	
+		}
+		modifier = {
+			ship_shield_penetration_mult = -1
+			ship_armor_penetration_mult = -1
+			ship_weapon_damage = -1
+			ship_armor_damage_mult = -1
+			ship_shield_damage_mult = -1
+			ship_hull_damage_mult = -1
+		}
+		graphics = {
+			area_effect = { entity = "kuat_ship_aura_negative_entity" dynamic_scale = yes }
+			ship_effect = { entity = "ship_aura_negative_entity" dynamic_scale = no }
+		}
+	}
+	hostile_aura = {
+		name = "aura_quantum_destabilizer"
+		system_wide = yes
+		stack_info = {
+			id = Firmus_Piett_Super_Flagship
+			priority = 1000
+		}
+		limit = {
+			is_in_combat = yes
+			exists = owner owner = { is_invisable_faction = no }
+			fleet = { has_enable_flag_ship_system_true = yes }	
+		}
+		modifier = {
+			ship_shield_penetration_mult = -1
+			ship_armor_penetration_mult = -1
+			ship_weapon_damage = -0.75
+			ship_armor_damage_mult = -0.75
+			ship_shield_damage_mult = -0.75
+			ship_hull_damage_mult = -0.75
+		}
+		graphics = {
+			area_effect = { entity = "kuat_ship_aura_negative_entity" dynamic_scale = yes }
+			ship_effect = { entity = "ship_aura_negative_entity" dynamic_scale = no }
+		}
+	}
+}
+
+utility_component_template = {
+	key = "EXE_STARBASE_MEAGASTRUCTRUE_AUX_2"
+	size = medium
+	icon = "GFX_executor_ship_part_aux_system"
+	icon_frame = 1
+	power = @exe_cost_1
+	component_set = "ship_aura_components"
+	hidden = yes
+}
+
+#######################
+# Supremacy THRUSTERS #
+#######################
+utility_component_template = {
+	key = "EXECUTOR_THRUSTER"
+	size = small
+	icon = "GFX_executor_ship_part_thruster_1"
+	icon_frame = 1
+	power = -15
+	prerequisites = { tech_kuat_THRUSTER }
+	component_set = "thruster_components"
+	size_restriction = { X308_Balletor X308_Tyrant nebula_executor knight_hammer_executor X308_Titan Aggressor }
+	ai_weight = { weight = 5000 }
+}
+
+utility_component_template = {
+	key = "DRFT_THRUSTER"
+	size = small
+	icon = "GFX_ship_part_sws_Radiation_absorption_thruster"
+	icon_frame = 1
+	power = -15
+	hidden = yes
+	component_set = "thruster_components"
+	size_restriction = { Drift_Battleship Drift_Crusier }
+	ai_weight = { weight = 5000 }
+}

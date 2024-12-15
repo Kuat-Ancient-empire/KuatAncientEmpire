@@ -55,7 +55,10 @@ kuat_set_forcetrigger_order_enable_shadow = {
 	allow = { hidden_trigger = { 
 		is_scope_type = country 
 		NOT = { has_global_flag = kuat_settings_first_fired } 
-		NOT = { has_country_flag = has_origin_kuat_shadow } 
+		NOR = { 
+			kuat_is_enable_shadow_origin = yes
+			kuat_is_enbale_eternal_origin = yes
+		} 
 	} }
 	effect = {
 		custom_tooltip = "kuat_set_forcetrigger_order_enable_shadow_tip"
@@ -65,6 +68,29 @@ kuat_set_forcetrigger_order_enable_shadow = {
 				location = capital_scope
 			}
 			set_country_flag = has_origin_kuat_shadow
+		} }
+	}
+}
+
+#开启永恒王座事件
+kuat_set_forcetrigger_order_enable_eternal = {
+	potential = { has_global_flag = kuat_set_forcetrigger_order_66_group_enable }
+	allow = { hidden_trigger = { 
+		is_scope_type = country 
+		NOT = { has_global_flag = kuat_settings_first_fired } 
+		NOR = { 
+			kuat_is_enable_shadow_origin = yes
+			kuat_is_enbale_eternal_origin = yes
+		} 
+	} }
+	effect = {
+		custom_tooltip = "kuat_set_forcetrigger_order_enable_eternal_tip"
+		hidden_effect = { from = {
+			play_sound = {
+				sound = event_construction
+				location = capital_scope
+			}
+			set_country_flag = has_origin_kuat_eternal
 		} }
 	}
 }
@@ -371,18 +397,18 @@ kuat_set_check_two = {
 #animal trigger
 kuat_animal_trigger_group = {
 	potential = { always = yes }
-	allow = { hidden_trigger = { from = { OR = { has_origin = origin_eternalthrone kuat_is_enable_shadow_origin = yes } } } }
+	allow = { hidden_trigger = { from = { OR = { kuat_is_enbale_eternal_origin = yes kuat_is_enable_shadow_origin = yes } } } }
 	effect = { }
 }
 kuat_animal_trigger_enable = {
 	potential = { always = yes }
-	allow = { hidden_trigger = { from = { OR = { has_origin = origin_eternalthrone kuat_is_enable_shadow_origin = yes } } } }
+	allow = { hidden_trigger = { from = { OR = { kuat_is_enbale_eternal_origin = yes kuat_is_enable_shadow_origin = yes } } } }
 	effect = { hidden_effect = {
 		remove_global_flag = disable_animal_trigger
 		remove_global_flag = enable_animal_trigger
 		set_global_flag = enable_animal_trigger
 		if = {
-			limit = { has_origin = origin_eternalthrone }
+			limit = { kuat_is_enbale_eternal_origin = yes }
 			if = {
 				limit = { exists = event_target:CHECK_ETERNAL_LEADER }
 				clear_global_event_target = ETERNAL_LEADER
@@ -409,18 +435,18 @@ kuat_animal_trigger_enable = {
 }
 kuat_animal_trigger_enable_alt = {
 	potential = { hidden_trigger = { has_global_flag = enable_animal_trigger } }
-	allow = { hidden_trigger = { from = { OR = { has_origin = origin_eternalthrone kuat_is_enable_shadow_origin = yes } } } }
+	allow = { hidden_trigger = { from = { OR = { kuat_is_enbale_eternal_origin = yes kuat_is_enable_shadow_origin = yes } } } }
 	effect = { }
 }
 kuat_animal_trigger_disable = {
 	potential = { always = yes }
-	allow = { hidden_trigger = { from = { OR = { has_origin = origin_eternalthrone kuat_is_enable_shadow_origin = yes } } } }
+	allow = { hidden_trigger = { from = { OR = { kuat_is_enbale_eternal_origin = yes kuat_is_enable_shadow_origin = yes } } } }
 	effect = { hidden_effect = {
 		remove_global_flag = disable_animal_trigger
 		remove_global_flag = enable_animal_trigger
 		set_global_flag = disable_animal_trigger
 		if = {
-			limit = { has_origin = origin_eternalthrone }
+			limit = { kuat_is_enbale_eternal_origin = yes }
 			clear_global_event_target = ETERNAL_LEADER
 			from = { ruler = { save_global_event_target_as = ETERNAL_LEADER } }
 		}
@@ -433,7 +459,7 @@ kuat_animal_trigger_disable = {
 }
 kuat_animal_trigger_disable_alt = {
 	potential = { hidden_trigger = { has_global_flag = disable_animal_trigger } }
-	allow = { hidden_trigger = { from = { OR = { has_origin = origin_eternalthrone kuat_is_enable_shadow_origin = yes } } } }
+	allow = { hidden_trigger = { from = { OR = { kuat_is_enbale_eternal_origin = yes kuat_is_enable_shadow_origin = yes } } } }
 	effect = { }
 }
 

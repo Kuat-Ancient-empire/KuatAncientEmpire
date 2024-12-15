@@ -1237,6 +1237,21 @@ country_event = {
 	desc = {
 		trigger = {
 			success_text = {
+				kuat_is_enable_shadow_origin = yes
+				text = "exe_invasion.1000.shadow.desc"
+			}
+			success_text = {
+				kuat_is_enbale_eternal_origin = yes
+				text = "exe_invasion.1000.eternal.desc"
+			}
+			success_text = {
+				NOR = {
+					kuat_is_enbale_eternal_origin = yes
+					kuat_is_enable_shadow_origin = yes
+				}
+				text = "exe_invasion.1000.none.desc"
+			}
+			success_text = {
 				NOT = { has_global_flag = kuat_settings_first_fired }
 				text = "exe_invasion.1000.desc"
 			}
@@ -1257,30 +1272,6 @@ country_event = {
 		limit = { NOT = { has_global_flag = kuat_settings_first_fired } }
 		set_global_flag = easy_exe_invasion 
 		set_global_flag = enable_animal_trigger
-		if = {
-			limit = { has_origin = origin_eternalthrone }
-			if = {
-				limit = { exists = event_target:CHECK_ETERNAL_LEADER }
-				clear_global_event_target = ETERNAL_LEADER
-				random_galaxy_species = {
-					limit = { is_same_value = event_target:CHECK_ETERNAL_LEADER }
-					save_global_event_target_as = ETERNAL_LEADER
-				}
-			}
-			else = { kuat_kae_create_faction_species = yes }
-		}
-		else_if = {
-			limit = { kuat_is_enable_shadow_origin = yes }
-			if = {
-				limit = { exists = event_target:CHECK_UTS02_LEADER }
-				clear_global_event_target = UTS02_LEADER
-				random_galaxy_species = {
-					limit = { is_same_value = event_target:CHECK_UTS02_LEADER }
-					save_global_event_target_as = UTS02_LEADER
-				}
-			}
-			else = { kuat_Uts02_create_faction_species = yes }
-		}
 		set_global_flag = kuat_impulse_mod_settings_disable
 		event_target:global_event_country = { 
 			set_variable = { which = exe_invasion_difficult_global_var value = 1 } 
@@ -1290,6 +1281,11 @@ country_event = {
 			}
 			set_variable = { which = kuat_dynamic_modifier_var value = 1 }
 		}
+		random_list = {
+			1 = { set_country_flag = has_origin_kuat_shadow remove_country_flag = has_origin_kuat_eternal }
+			1 = { set_country_flag = has_origin_kuat_eternal remove_country_flag = has_origin_kuat_shadow }
+			1 = { no_events = yes }
+		}
 	} }
 	option = {
 		name = "exe_invasion.1000.a"
@@ -1298,6 +1294,30 @@ country_event = {
 			limit = { NOT = { has_global_flag = kuat_settings_first_fired } }
 			event_target:global_event_country = { country_event = { id = executor_build.0 } }
 			set_global_flag = kuat_settings_first_fired
+			if = {
+				limit = { kuat_is_enbale_eternal_origin = yes }
+				if = {
+					limit = { exists = event_target:CHECK_ETERNAL_LEADER }
+					clear_global_event_target = ETERNAL_LEADER
+					random_galaxy_species = {
+						limit = { is_same_value = event_target:CHECK_ETERNAL_LEADER }
+						save_global_event_target_as = ETERNAL_LEADER
+					}
+				}
+				else = { kuat_kae_create_faction_species = yes }
+			}
+			else_if = {
+				limit = { kuat_is_enable_shadow_origin = yes }
+				if = {
+					limit = { exists = event_target:CHECK_UTS02_LEADER }
+					clear_global_event_target = UTS02_LEADER
+					random_galaxy_species = {
+						limit = { is_same_value = event_target:CHECK_UTS02_LEADER }
+						save_global_event_target_as = UTS02_LEADER
+					}
+				}
+				else = { kuat_Uts02_create_faction_species = yes }
+			}
 		} }
 	}
 }
