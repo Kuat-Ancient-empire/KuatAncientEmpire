@@ -25,13 +25,13 @@
 
 # scope: ship
 @kuat_flagship_proection_mult = 0.1
-eternal_increase_executor_power = {
+kuat_battle_eternal_increase_executor_power = {
 	optimize_memory
 	if = {
 		limit = { NOT = { has_ship_flag = kuat_has_eternal_increase_executor_power_temple } }
-		clear_ship_modifier = { modifier = ship_hull_mult DAYS = $DAYS$ subtract = @kuat_flagship_proection_mult }
-		clear_ship_modifier = { modifier = shipclass_military_hull_mult DAYS = $DAYS$ subtract = @kuat_flagship_proection_mult }
-		clear_ship_modifier = { modifier = ship_hull_regen_add_perc DAYS = $DAYS$ subtract = @kuat_flagship_proection_mult }
+		kuat_battle_clear_ship_modifier = { modifier = ship_hull_mult DAYS = $DAYS$ subtract = @kuat_flagship_proection_mult }
+		kuat_battle_clear_ship_modifier = { modifier = shipclass_military_hull_mult DAYS = $DAYS$ subtract = @kuat_flagship_proection_mult }
+		kuat_battle_clear_ship_modifier = { modifier = ship_hull_regen_add_perc DAYS = $DAYS$ subtract = @kuat_flagship_proection_mult }
 
 		[[TYPE] if = { limit = { has_hp <= @$TYPE$_increase_hp_T9 } add_modifier = { modifier = $TYPE$_increase_hp_T9 days = $DAYS$ } }
 		else_if = { limit = { has_hp <= @$TYPE$_increase_hp_T8 } add_modifier = { modifier = $TYPE$_increase_hp_T8 days = $DAYS$ } }
@@ -48,13 +48,13 @@ eternal_increase_executor_power = {
 	}
 }
 
-increase_ship_hp_effect_change = {
+kuat_battle_increase_ship_hp_effect_change = {
 	optimize_memory
 	every_owned_ship = {
 		if = {
 			limit = { kuat_is_kuat_ship = yes }
 			set_timed_ship_flag = { flag = kuat_executor_checkpoint days = $DAYS$ }
-			eternal_increase_executor_power = { DAYS = $DAYS$ TYPE = $TYPE$ }
+			kuat_battle_eternal_increase_executor_power = { DAYS = $DAYS$ TYPE = $TYPE$ }
 		}
 		else_if = {
 			limit = { kuat_is_kuat_ship = no NOT = { has_modifier = Eternal_submit } }
@@ -65,7 +65,7 @@ increase_ship_hp_effect_change = {
 	}
 }
 
-clear_ship_modifier = {
+kuat_battle_clear_ship_modifier = {
 	set_variable = { which = $modifier$_value_iep value = modifier:$modifier$ }
 	[[subtract] subtract_variable = { which = $modifier$_value_iep value = $subtract$ }]
 	[[change] change_variable = { which = $modifier$_value_iep value = $change$ }]
@@ -75,92 +75,92 @@ clear_ship_modifier = {
 	clear_variable = $modifier$_value_iep
 }
 
-clear_ship_repeatable_modifier = {
+kuat_battle_clear_ship_repeatable_modifier = {
 	optimize_memory
-	clear_repeatable_modifier = { TYPE = explosive	 				multiply = $multiply$ DAYS = $DAYS$ }
-	clear_repeatable_modifier = { TYPE = kinetic  	 				multiply = $multiply$ DAYS = $DAYS$ }
-	clear_repeatable_modifier = { TYPE = energy 	 				multiply = $multiply$ DAYS = $DAYS$ }
-	clear_repeatable_modifier = { TYPE = strike_craft 	 			multiply = $multiply$ DAYS = $DAYS$ }
-	clear_repeatable_modifier = { TYPE = gravity 	 				multiply = $multiply$ DAYS = $DAYS$ }
-	clear_repeatable_modifier = { TYPE = psionic 	 				multiply = $multiply$ DAYS = $DAYS$ }
-	clear_repeatable_modifier = { TYPE = anti_psionic 				multiply = $multiply$ DAYS = $DAYS$ }
-	clear_repeatable_modifier = { TYPE = adv_kinetic 				multiply = $multiply$ DAYS = $DAYS$ }
-	clear_repeatable_modifier = { TYPE = gravity_dummy 				multiply = $multiply$ DAYS = $DAYS$ }
-	clear_repeatable_modifier = { TYPE = ag_ancient_weapon_buff_1 	multiply = $multiply$ DAYS = $DAYS$ }
-	clear_repeatable_modifier = { TYPE = ag_ancient_weapon_buff_2 	multiply = $multiply$ DAYS = $DAYS$ }
-	clear_repeatable_modifier = { TYPE = ag_ancient_weapon_buff_3 	multiply = $multiply$ DAYS = $DAYS$ }
-	clear_repeatable_modifier = { TYPE = instant_kill_effect 		multiply = $multiply$ DAYS = $DAYS$ }
-	clear_repeatable_modifier = { TYPE = difficulty_scale 			multiply = $multiply$ DAYS = $DAYS$ }
-	clear_repeatable_modifier = { TYPE = difficulty_scale_player 	multiply = $multiply$ DAYS = $DAYS$ }
-	clear_repeatable_modifier = { TYPE = SRA_SRA 					multiply = $multiply$ DAYS = $DAYS$ }
-	clear_repeatable_modifier = { TYPE = SRA_RE_Core 				multiply = $multiply$ DAYS = $DAYS$ }
-	clear_repeatable_modifier = { TYPE = H.D.energy 				multiply = $multiply$ DAYS = $DAYS$ }
-	clear_repeatable_modifier = { TYPE = HD.M.kinetic 				multiply = $multiply$ DAYS = $DAYS$ }
-	clear_repeatable_modifier = { TYPE = PrimaMateria 				multiply = $multiply$ DAYS = $DAYS$ }
-	clear_repeatable_modifier = { TYPE = magicia 					multiply = $multiply$ DAYS = $DAYS$ }
-	clear_repeatable_modifier = { TYPE = rulerule 					multiply = $multiply$ DAYS = $DAYS$ }
-	clear_repeatable_modifier = { TYPE = fake_madoka 				multiply = $multiply$ DAYS = $DAYS$ }
-	clear_repeatable_modifier = { TYPE = arcane				 		multiply = $multiply$ DAYS = $DAYS$ }
-	clear_repeatable_modifier = { TYPE = cosmic 					multiply = $multiply$ DAYS = $DAYS$ }
-	clear_repeatable_modifier = { TYPE = light_power 				multiply = $multiply$ DAYS = $DAYS$ }
-	clear_repeatable_modifier = { TYPE = wsg_pantsu 				multiply = $multiply$ DAYS = $DAYS$ }
-	clear_repeatable_modifier = { TYPE = tesla 						multiply = $multiply$ DAYS = $DAYS$ }
-	clear_repeatable_modifier = { TYPE = sr_uf 						multiply = $multiply$ DAYS = $DAYS$ }
-	clear_repeatable_modifier = { TYPE = gungnir 					multiply = $multiply$ DAYS = $DAYS$ }
-	clear_repeatable_modifier = { TYPE = xianzhe 					multiply = $multiply$ DAYS = $DAYS$ }
-	clear_repeatable_modifier = { TYPE = knife 						multiply = $multiply$ DAYS = $DAYS$ }
-	clear_repeatable_modifier = { TYPE = lingli 					multiply = $multiply$ DAYS = $DAYS$ }
-	clear_repeatable_modifier = { TYPE = magic 						multiply = $multiply$ DAYS = $DAYS$ }
-	clear_repeatable_modifier = { TYPE = nytowith 					multiply = $multiply$ DAYS = $DAYS$ }
-	clear_repeatable_modifier = { TYPE = light						multiply = $multiply$ DAYS = $DAYS$ }
-	clear_repeatable_modifier = { TYPE = keto 						multiply = $multiply$ DAYS = $DAYS$ }
-	clear_repeatable_modifier = { TYPE = Akso 						multiply = $multiply$ DAYS = $DAYS$ }
-	clear_repeatable_modifier = { TYPE = LsScepter 					multiply = $multiply$ DAYS = $DAYS$ }
-	clear_repeatable_modifier = { TYPE = son 						multiply = $multiply$ DAYS = $DAYS$ }
-	clear_repeatable_modifier = { TYPE = prism 						multiply = $multiply$ DAYS = $DAYS$ }
-	clear_repeatable_modifier = { TYPE = Electronic 				multiply = $multiply$ DAYS = $DAYS$ }
-	clear_repeatable_modifier = { TYPE = beacon 					multiply = $multiply$ DAYS = $DAYS$ }
-	clear_repeatable_modifier = { TYPE = aoe 						multiply = $multiply$ DAYS = $DAYS$ }
-	clear_repeatable_modifier = { TYPE = fireworks 					multiply = $multiply$ DAYS = $DAYS$ }
-	clear_repeatable_modifier = { TYPE = kancolle 					multiply = $multiply$ DAYS = $DAYS$ }
-	clear_repeatable_modifier = { TYPE = kancolle_shinkai 			multiply = $multiply$ DAYS = $DAYS$ }
-	clear_repeatable_modifier = { TYPE = aon_rpg_attack 			multiply = $multiply$ DAYS = $DAYS$ }
-	clear_repeatable_modifier = { TYPE = aon_rpg_magic 				multiply = $multiply$ DAYS = $DAYS$ }
-	clear_repeatable_modifier = { TYPE = sfdoll 					multiply = $multiply$ DAYS = $DAYS$ }
-	clear_repeatable_modifier = { TYPE = nano 						multiply = $multiply$ DAYS = $DAYS$ }
-	clear_repeatable_modifier = { TYPE = KZ_VOY_magic 				multiply = $multiply$ DAYS = $DAYS$ }
-	clear_repeatable_modifier = { TYPE = KZ_VOY_wind_magic 			multiply = $multiply$ DAYS = $DAYS$ }
-	clear_repeatable_modifier = { TYPE = KZ_VOY_time_magic 			multiply = $multiply$ DAYS = $DAYS$ }
-	clear_repeatable_modifier = { TYPE = KZ_VOY_earth_magic 		multiply = $multiply$ DAYS = $DAYS$ }
-	clear_repeatable_modifier = { TYPE = KZ_VOY_pyromancy_magic 	multiply = $multiply$ DAYS = $DAYS$ }
-	clear_repeatable_modifier = { TYPE = KZ_VOY_lightning_magic 	multiply = $multiply$ DAYS = $DAYS$ }
-	clear_repeatable_modifier = { TYPE = KZ_VOY_bright_magic 		multiply = $multiply$ DAYS = $DAYS$ }
-	clear_repeatable_modifier = { TYPE = KZ_VOY_dark_magic 			multiply = $multiply$ DAYS = $DAYS$ }
-	clear_repeatable_modifier = { TYPE = KZ_VOY_space_magic 		multiply = $multiply$ DAYS = $DAYS$ }
-	clear_repeatable_modifier = { TYPE = KZ_VOY_aqua_magic 			multiply = $multiply$ DAYS = $DAYS$ }
-	clear_repeatable_modifier = { TYPE = KZ_VOY_life_magic 			multiply = $multiply$ DAYS = $DAYS$ }
-	clear_repeatable_modifier = { TYPE = KZ_VOY_temporal 			multiply = $multiply$ DAYS = $DAYS$ }
-	clear_repeatable_modifier = { TYPE = ge_void_energy 			multiply = $multiply$ DAYS = $DAYS$ }
-	clear_repeatable_modifier = { TYPE = magi 						multiply = $multiply$ DAYS = $DAYS$ }
-	clear_repeatable_modifier = { TYPE = charm 						multiply = $multiply$ DAYS = $DAYS$ }
-	clear_repeatable_modifier = { TYPE = mystical 					multiply = $multiply$ DAYS = $DAYS$ }
-	clear_repeatable_modifier = { TYPE = close_combat 				multiply = $multiply$ DAYS = $DAYS$ }
-	clear_repeatable_modifier = { TYPE = critical 					multiply = $multiply$ DAYS = $DAYS$ }
-	clear_repeatable_modifier = { TYPE = fgosw_block 				multiply = $multiply$ DAYS = $DAYS$ }
-	clear_repeatable_modifier = { TYPE = fgosw_battle_continuation 	multiply = $multiply$ DAYS = $DAYS$ }
-	clear_repeatable_modifier = { TYPE = fgosw_only_one 			multiply = $multiply$ DAYS = $DAYS$ }
-	clear_repeatable_modifier = { TYPE = fgosw_multi_level 			multiply = $multiply$ DAYS = $DAYS$ }
-	clear_repeatable_modifier = { TYPE = fgosw_skill_saber 			multiply = $multiply$ DAYS = $DAYS$ }
-	clear_repeatable_modifier = { TYPE = fgosw_skill_archer 		multiply = $multiply$ DAYS = $DAYS$ }
-	clear_repeatable_modifier = { TYPE = fgosw_skill_lancer 		multiply = $multiply$ DAYS = $DAYS$ }
-	clear_repeatable_modifier = { TYPE = fgosw_skill_rider			multiply = $multiply$ DAYS = $DAYS$ }
-	clear_repeatable_modifier = { TYPE = fgosw_skill_caster 		multiply = $multiply$ DAYS = $DAYS$ }
-	clear_repeatable_modifier = { TYPE = fgosw_skill_assassin 		multiply = $multiply$ DAYS = $DAYS$ }
-	clear_repeatable_modifier = { TYPE = fgosw_skill_berserker 		multiply = $multiply$ DAYS = $DAYS$ }
-	clear_repeatable_modifier = { TYPE = blackash 					multiply = $multiply$ DAYS = $DAYS$ }
+	kuat_battle_clear_repeatable_modifier = { TYPE = explosive	 				multiply = $multiply$ DAYS = $DAYS$ }
+	kuat_battle_clear_repeatable_modifier = { TYPE = kinetic  	 				multiply = $multiply$ DAYS = $DAYS$ }
+	kuat_battle_clear_repeatable_modifier = { TYPE = energy 	 				multiply = $multiply$ DAYS = $DAYS$ }
+	kuat_battle_clear_repeatable_modifier = { TYPE = strike_craft 	 			multiply = $multiply$ DAYS = $DAYS$ }
+	kuat_battle_clear_repeatable_modifier = { TYPE = gravity 	 				multiply = $multiply$ DAYS = $DAYS$ }
+	kuat_battle_clear_repeatable_modifier = { TYPE = psionic 	 				multiply = $multiply$ DAYS = $DAYS$ }
+	kuat_battle_clear_repeatable_modifier = { TYPE = anti_psionic 				multiply = $multiply$ DAYS = $DAYS$ }
+	kuat_battle_clear_repeatable_modifier = { TYPE = adv_kinetic 				multiply = $multiply$ DAYS = $DAYS$ }
+	kuat_battle_clear_repeatable_modifier = { TYPE = gravity_dummy 				multiply = $multiply$ DAYS = $DAYS$ }
+	kuat_battle_clear_repeatable_modifier = { TYPE = ag_ancient_weapon_buff_1 	multiply = $multiply$ DAYS = $DAYS$ }
+	kuat_battle_clear_repeatable_modifier = { TYPE = ag_ancient_weapon_buff_2 	multiply = $multiply$ DAYS = $DAYS$ }
+	kuat_battle_clear_repeatable_modifier = { TYPE = ag_ancient_weapon_buff_3 	multiply = $multiply$ DAYS = $DAYS$ }
+	kuat_battle_clear_repeatable_modifier = { TYPE = instant_kill_effect 		multiply = $multiply$ DAYS = $DAYS$ }
+	kuat_battle_clear_repeatable_modifier = { TYPE = difficulty_scale 			multiply = $multiply$ DAYS = $DAYS$ }
+	kuat_battle_clear_repeatable_modifier = { TYPE = difficulty_scale_player 	multiply = $multiply$ DAYS = $DAYS$ }
+	kuat_battle_clear_repeatable_modifier = { TYPE = SRA_SRA 					multiply = $multiply$ DAYS = $DAYS$ }
+	kuat_battle_clear_repeatable_modifier = { TYPE = SRA_RE_Core 				multiply = $multiply$ DAYS = $DAYS$ }
+	kuat_battle_clear_repeatable_modifier = { TYPE = H.D.energy 				multiply = $multiply$ DAYS = $DAYS$ }
+	kuat_battle_clear_repeatable_modifier = { TYPE = HD.M.kinetic 				multiply = $multiply$ DAYS = $DAYS$ }
+	kuat_battle_clear_repeatable_modifier = { TYPE = PrimaMateria 				multiply = $multiply$ DAYS = $DAYS$ }
+	kuat_battle_clear_repeatable_modifier = { TYPE = magicia 					multiply = $multiply$ DAYS = $DAYS$ }
+	kuat_battle_clear_repeatable_modifier = { TYPE = rulerule 					multiply = $multiply$ DAYS = $DAYS$ }
+	kuat_battle_clear_repeatable_modifier = { TYPE = fake_madoka 				multiply = $multiply$ DAYS = $DAYS$ }
+	kuat_battle_clear_repeatable_modifier = { TYPE = arcane				 		multiply = $multiply$ DAYS = $DAYS$ }
+	kuat_battle_clear_repeatable_modifier = { TYPE = cosmic 					multiply = $multiply$ DAYS = $DAYS$ }
+	kuat_battle_clear_repeatable_modifier = { TYPE = light_power 				multiply = $multiply$ DAYS = $DAYS$ }
+	kuat_battle_clear_repeatable_modifier = { TYPE = wsg_pantsu 				multiply = $multiply$ DAYS = $DAYS$ }
+	kuat_battle_clear_repeatable_modifier = { TYPE = tesla 						multiply = $multiply$ DAYS = $DAYS$ }
+	kuat_battle_clear_repeatable_modifier = { TYPE = sr_uf 						multiply = $multiply$ DAYS = $DAYS$ }
+	kuat_battle_clear_repeatable_modifier = { TYPE = gungnir 					multiply = $multiply$ DAYS = $DAYS$ }
+	kuat_battle_clear_repeatable_modifier = { TYPE = xianzhe 					multiply = $multiply$ DAYS = $DAYS$ }
+	kuat_battle_clear_repeatable_modifier = { TYPE = knife 						multiply = $multiply$ DAYS = $DAYS$ }
+	kuat_battle_clear_repeatable_modifier = { TYPE = lingli 					multiply = $multiply$ DAYS = $DAYS$ }
+	kuat_battle_clear_repeatable_modifier = { TYPE = magic 						multiply = $multiply$ DAYS = $DAYS$ }
+	kuat_battle_clear_repeatable_modifier = { TYPE = nytowith 					multiply = $multiply$ DAYS = $DAYS$ }
+	kuat_battle_clear_repeatable_modifier = { TYPE = light						multiply = $multiply$ DAYS = $DAYS$ }
+	kuat_battle_clear_repeatable_modifier = { TYPE = keto 						multiply = $multiply$ DAYS = $DAYS$ }
+	kuat_battle_clear_repeatable_modifier = { TYPE = Akso 						multiply = $multiply$ DAYS = $DAYS$ }
+	kuat_battle_clear_repeatable_modifier = { TYPE = LsScepter 					multiply = $multiply$ DAYS = $DAYS$ }
+	kuat_battle_clear_repeatable_modifier = { TYPE = son 						multiply = $multiply$ DAYS = $DAYS$ }
+	kuat_battle_clear_repeatable_modifier = { TYPE = prism 						multiply = $multiply$ DAYS = $DAYS$ }
+	kuat_battle_clear_repeatable_modifier = { TYPE = Electronic 				multiply = $multiply$ DAYS = $DAYS$ }
+	kuat_battle_clear_repeatable_modifier = { TYPE = beacon 					multiply = $multiply$ DAYS = $DAYS$ }
+	kuat_battle_clear_repeatable_modifier = { TYPE = aoe 						multiply = $multiply$ DAYS = $DAYS$ }
+	kuat_battle_clear_repeatable_modifier = { TYPE = fireworks 					multiply = $multiply$ DAYS = $DAYS$ }
+	kuat_battle_clear_repeatable_modifier = { TYPE = kancolle 					multiply = $multiply$ DAYS = $DAYS$ }
+	kuat_battle_clear_repeatable_modifier = { TYPE = kancolle_shinkai 			multiply = $multiply$ DAYS = $DAYS$ }
+	kuat_battle_clear_repeatable_modifier = { TYPE = aon_rpg_attack 			multiply = $multiply$ DAYS = $DAYS$ }
+	kuat_battle_clear_repeatable_modifier = { TYPE = aon_rpg_magic 				multiply = $multiply$ DAYS = $DAYS$ }
+	kuat_battle_clear_repeatable_modifier = { TYPE = sfdoll 					multiply = $multiply$ DAYS = $DAYS$ }
+	kuat_battle_clear_repeatable_modifier = { TYPE = nano 						multiply = $multiply$ DAYS = $DAYS$ }
+	kuat_battle_clear_repeatable_modifier = { TYPE = KZ_VOY_magic 				multiply = $multiply$ DAYS = $DAYS$ }
+	kuat_battle_clear_repeatable_modifier = { TYPE = KZ_VOY_wind_magic 			multiply = $multiply$ DAYS = $DAYS$ }
+	kuat_battle_clear_repeatable_modifier = { TYPE = KZ_VOY_time_magic 			multiply = $multiply$ DAYS = $DAYS$ }
+	kuat_battle_clear_repeatable_modifier = { TYPE = KZ_VOY_earth_magic 		multiply = $multiply$ DAYS = $DAYS$ }
+	kuat_battle_clear_repeatable_modifier = { TYPE = KZ_VOY_pyromancy_magic 	multiply = $multiply$ DAYS = $DAYS$ }
+	kuat_battle_clear_repeatable_modifier = { TYPE = KZ_VOY_lightning_magic 	multiply = $multiply$ DAYS = $DAYS$ }
+	kuat_battle_clear_repeatable_modifier = { TYPE = KZ_VOY_bright_magic 		multiply = $multiply$ DAYS = $DAYS$ }
+	kuat_battle_clear_repeatable_modifier = { TYPE = KZ_VOY_dark_magic 			multiply = $multiply$ DAYS = $DAYS$ }
+	kuat_battle_clear_repeatable_modifier = { TYPE = KZ_VOY_space_magic 		multiply = $multiply$ DAYS = $DAYS$ }
+	kuat_battle_clear_repeatable_modifier = { TYPE = KZ_VOY_aqua_magic 			multiply = $multiply$ DAYS = $DAYS$ }
+	kuat_battle_clear_repeatable_modifier = { TYPE = KZ_VOY_life_magic 			multiply = $multiply$ DAYS = $DAYS$ }
+	kuat_battle_clear_repeatable_modifier = { TYPE = KZ_VOY_temporal 			multiply = $multiply$ DAYS = $DAYS$ }
+	kuat_battle_clear_repeatable_modifier = { TYPE = ge_void_energy 			multiply = $multiply$ DAYS = $DAYS$ }
+	kuat_battle_clear_repeatable_modifier = { TYPE = magi 						multiply = $multiply$ DAYS = $DAYS$ }
+	kuat_battle_clear_repeatable_modifier = { TYPE = charm 						multiply = $multiply$ DAYS = $DAYS$ }
+	kuat_battle_clear_repeatable_modifier = { TYPE = mystical 					multiply = $multiply$ DAYS = $DAYS$ }
+	kuat_battle_clear_repeatable_modifier = { TYPE = close_combat 				multiply = $multiply$ DAYS = $DAYS$ }
+	kuat_battle_clear_repeatable_modifier = { TYPE = critical 					multiply = $multiply$ DAYS = $DAYS$ }
+	kuat_battle_clear_repeatable_modifier = { TYPE = fgosw_block 				multiply = $multiply$ DAYS = $DAYS$ }
+	kuat_battle_clear_repeatable_modifier = { TYPE = fgosw_battle_continuation 	multiply = $multiply$ DAYS = $DAYS$ }
+	kuat_battle_clear_repeatable_modifier = { TYPE = fgosw_only_one 			multiply = $multiply$ DAYS = $DAYS$ }
+	kuat_battle_clear_repeatable_modifier = { TYPE = fgosw_multi_level 			multiply = $multiply$ DAYS = $DAYS$ }
+	kuat_battle_clear_repeatable_modifier = { TYPE = fgosw_skill_saber 			multiply = $multiply$ DAYS = $DAYS$ }
+	kuat_battle_clear_repeatable_modifier = { TYPE = fgosw_skill_archer 		multiply = $multiply$ DAYS = $DAYS$ }
+	kuat_battle_clear_repeatable_modifier = { TYPE = fgosw_skill_lancer 		multiply = $multiply$ DAYS = $DAYS$ }
+	kuat_battle_clear_repeatable_modifier = { TYPE = fgosw_skill_rider			multiply = $multiply$ DAYS = $DAYS$ }
+	kuat_battle_clear_repeatable_modifier = { TYPE = fgosw_skill_caster 		multiply = $multiply$ DAYS = $DAYS$ }
+	kuat_battle_clear_repeatable_modifier = { TYPE = fgosw_skill_assassin 		multiply = $multiply$ DAYS = $DAYS$ }
+	kuat_battle_clear_repeatable_modifier = { TYPE = fgosw_skill_berserker 		multiply = $multiply$ DAYS = $DAYS$ }
+	kuat_battle_clear_repeatable_modifier = { TYPE = blackash 					multiply = $multiply$ DAYS = $DAYS$ }
 }
 
-remove_increase_hp_modifier = {
+kuat_battle_remove_increase_hp_modifier = {
 	remove_modifier = $TYPE$_increase_hp_T9
 	remove_modifier = $TYPE$_increase_hp_T8
 	remove_modifier = $TYPE$_increase_hp_T7
@@ -173,24 +173,24 @@ remove_increase_hp_modifier = {
 }
 
 #旗舰与循环增益系统清理
-remove_executor_power = {
+kuat_battle_remove_executor_power = {
 	optimize_memory
 	remove_modifier = Eternal_submit
 	remove_modifier = superlazier_super_power_enhance
 	remove_ship_flag = kuat_has_eternal_increase_executor_power_temple
-	remove_increase_hp_modifier = { TYPE = kt }
-	remove_increase_hp_modifier = { TYPE = ee }
-	remove_standard_modifier_system = { TITLE = iep_basic }
-	remove_repeatable_modifier_base_and_change_base = yes
-	remove_repetable_modifier_iep = yes
+	kuat_battle_remove_increase_hp_modifier = { TYPE = kt }
+	kuat_battle_remove_increase_hp_modifier = { TYPE = ee }
+	kuat_battle_remove_standard_modifier_system = { TITLE = iep_basic }
+	kuat_battle_remove_repeatable_modifier_base_and_change_base = yes
+	kuat_battle_remove_repetable_modifier_iep = yes
 }
-remove_executor_power_fleet = {
+kuat_battle_remove_executor_power_fleet = {
 	optimize_memory
-	every_owned_ship = { remove_executor_power = yes }
+	every_owned_ship = { kuat_battle_remove_executor_power = yes }
 }
 
 #移除基本脚本
-remove_standard_modifier_system = {
+kuat_battle_remove_standard_modifier_system = {
 	remove_modifier = $TITLE$_ship_shield_penetration_mult
 	remove_modifier = $TITLE$_ship_armor_penetration_mult			
 	remove_modifier = $TITLE$_ship_armor_damage_mult				
@@ -226,19 +226,19 @@ remove_standard_modifier_system = {
 	remove_modifier = $TITLE$_fleet_capture_defeated_leader_chance
 }
 
-clear_repeatable_modifier = {
+kuat_battle_clear_repeatable_modifier = {
 	optimize_memory
 	if = {
 		limit = { check_modifier_value = { modifier = weapon_type_$TYPE$_weapon_damage_mult value > 0 } }
-		clear_ship_modifier = { modifier = weapon_type_$TYPE$_weapon_damage_mult multiply = $multiply$ DAYS = $DAYS$ }
+		kuat_battle_clear_ship_modifier = { modifier = weapon_type_$TYPE$_weapon_damage_mult multiply = $multiply$ DAYS = $DAYS$ }
 	}
 	if = {
 		limit = { check_modifier_value = { modifier = weapon_type_$TYPE$_weapon_fire_rate_mult value > 0 } }
-		clear_ship_modifier = { modifier = weapon_type_$TYPE$_weapon_fire_rate_mult multiply = $multiply$ DAYS = $DAYS$ }
+		kuat_battle_clear_ship_modifier = { modifier = weapon_type_$TYPE$_weapon_fire_rate_mult multiply = $multiply$ DAYS = $DAYS$ }
 	}
 }
 
-remove_repetable_modifier = {
+kuat_battle_remove_repetable_modifier = {
 	optimize_memory
 	remove_modifier = $TITLE$_weapon_type_$TYPE$_weapon_damage_mult
 	remove_modifier = $TITLE$_weapon_type_$TYPE$_weapon_fire_rate_mult
@@ -246,202 +246,202 @@ remove_repetable_modifier = {
 
 # initial = 0  min = 0.25  small = 0.5  medium = 0.75  max = 0.99  origin = 1
 # double = 2  fifth = 5  Tenth = 10  one_of_fourth = 25  one_of_double = 50  hundred = 100  million = 1000000  billion = 2000000
-random_list_eternal_fleet_rate = {
+kuat_battle_random_list_eternal_fleet_rate = {
 	optimize_memory
-	set_repeatable_eternal_fleet_mult_rate_to_damage = { TYPE = explosive }
-	set_repeatable_eternal_fleet_mult_rate_to_damage = { TYPE = kinetic }
-	set_repeatable_eternal_fleet_mult_rate_to_damage = { TYPE = energy }
-	set_repeatable_eternal_fleet_mult_rate_to_damage = { TYPE = strike_craft }
-	set_repeatable_eternal_fleet_mult_rate_to_damage = { TYPE = arcane }
-	set_repeatable_eternal_fleet_mult_rate_to_damage = { TYPE = cosmic }
-	set_repeatable_eternal_fleet_mult_rate_to_damage = { TYPE = gravity }
-	set_repeatable_eternal_fleet_mult_rate_to_damage = { TYPE = psionic }
-	set_repeatable_eternal_fleet_mult_rate_to_damage = { TYPE = anti_psionic }
-	set_repeatable_eternal_fleet_mult_rate_to_damage = { TYPE = adv_kinetic }
-	set_repeatable_eternal_fleet_mult_rate_to_damage = { TYPE = gravity_dummy }
-	set_repeatable_eternal_fleet_mult_rate_to_damage = { TYPE = ag_ancient_weapon_buff_1 }
-	set_repeatable_eternal_fleet_mult_rate_to_damage = { TYPE = ag_ancient_weapon_buff_2 }
-	set_repeatable_eternal_fleet_mult_rate_to_damage = { TYPE = ag_ancient_weapon_buff_3 }
-	set_repeatable_eternal_fleet_mult_damage_to_rate = { TYPE = instant_kill_effect }
-	set_repeatable_eternal_fleet_mult_rate_to_damage = { TYPE = difficulty_scale }
-	set_repeatable_eternal_fleet_mult_rate_to_damage = { TYPE = difficulty_scale_player }
-	set_repeatable_eternal_fleet_mult_rate_to_damage = { TYPE = SRA_SRA }
-	set_repeatable_eternal_fleet_mult_rate_to_damage = { TYPE = SRA_RE_Core }
-	set_repeatable_eternal_fleet_mult_rate_to_damage = { TYPE = H.D.energy }
-	set_repeatable_eternal_fleet_mult_rate_to_damage = { TYPE = HD.M.kinetic }
-	set_repeatable_eternal_fleet_mult_rate_to_damage = { TYPE = PrimaMateria }
-	set_repeatable_eternal_fleet_mult_rate_to_damage = { TYPE = light_power }
-	set_repeatable_eternal_fleet_mult_rate_to_damage = { TYPE = wsg_pantsu }
-	set_repeatable_eternal_fleet_mult_rate_to_damage = { TYPE = tesla }
-	set_repeatable_eternal_fleet_mult_rate_to_damage = { TYPE = kancolle }
-	set_repeatable_eternal_fleet_mult_rate_to_damage = { TYPE = kancolle_shinkai }
-	set_repeatable_eternal_fleet_mult_rate_to_damage = { TYPE = magicia }
-	set_repeatable_eternal_fleet_mult_rate_to_damage = { TYPE = rulerule }
-	set_repeatable_eternal_fleet_mult_rate_to_damage = { TYPE = fake_madoka }
-	set_repeatable_eternal_fleet_mult_rate_to_damage = { TYPE = sr_uf }
-	set_repeatable_eternal_fleet_mult_rate_to_damage = { TYPE = gungnir }
-	set_repeatable_eternal_fleet_mult_rate_to_damage = { TYPE = xianzhe }
-	set_repeatable_eternal_fleet_mult_rate_to_damage = { TYPE = knife }
-	set_repeatable_eternal_fleet_mult_rate_to_damage = { TYPE = lingli }
-	set_repeatable_eternal_fleet_mult_rate_to_damage = { TYPE = magic }
-	set_repeatable_eternal_fleet_mult_rate_to_damage = { TYPE = nytowith }
-	set_repeatable_eternal_fleet_mult_rate_to_damage = { TYPE = light }
-	set_repeatable_eternal_fleet_mult_rate_to_damage = { TYPE = keto }
-	set_repeatable_eternal_fleet_mult_rate_to_damage = { TYPE = Akso }
-	set_repeatable_eternal_fleet_mult_rate_to_damage = { TYPE = LsScepter }
-	set_repeatable_eternal_fleet_mult_rate_to_damage = { TYPE = son }
-	set_repeatable_eternal_fleet_mult_rate_to_damage = { TYPE = prism }
-	set_repeatable_eternal_fleet_mult_rate_to_damage = { TYPE = Electronic }
-	set_repeatable_eternal_fleet_mult_rate_to_damage = { TYPE = beacon }
-	set_repeatable_eternal_fleet_mult_rate_to_damage = { TYPE = aoe }
-	set_repeatable_eternal_fleet_mult_rate_to_damage = { TYPE = fireworks }
-	set_repeatable_eternal_fleet_mult_rate_to_damage = { TYPE = aon_rpg_attack }
-	set_repeatable_eternal_fleet_mult_rate_to_damage = { TYPE = aon_rpg_magic }
-	set_repeatable_eternal_fleet_mult_rate_to_damage = { TYPE = sfdoll }
-	set_repeatable_eternal_fleet_mult_rate_to_damage = { TYPE = nano }
-	set_repeatable_eternal_fleet_mult_rate_to_damage = { TYPE = KZ_VOY_magic }
-	set_repeatable_eternal_fleet_mult_rate_to_damage = { TYPE = KZ_VOY_wind_magic }
-	set_repeatable_eternal_fleet_mult_rate_to_damage = { TYPE = KZ_VOY_time_magic }
-	set_repeatable_eternal_fleet_mult_rate_to_damage = { TYPE = KZ_VOY_earth_magic }
-	set_repeatable_eternal_fleet_mult_rate_to_damage = { TYPE = KZ_VOY_pyromancy_magic }
-	set_repeatable_eternal_fleet_mult_rate_to_damage = { TYPE = KZ_VOY_lightning_magic }
-	set_repeatable_eternal_fleet_mult_rate_to_damage = { TYPE = KZ_VOY_bright_magic }
-	set_repeatable_eternal_fleet_mult_rate_to_damage = { TYPE = KZ_VOY_dark_magic }
-	set_repeatable_eternal_fleet_mult_rate_to_damage = { TYPE = KZ_VOY_space_magic }
-	set_repeatable_eternal_fleet_mult_rate_to_damage = { TYPE = KZ_VOY_aqua_magic }
-	set_repeatable_eternal_fleet_mult_rate_to_damage = { TYPE = KZ_VOY_life_magic }
-	set_repeatable_eternal_fleet_mult_rate_to_damage = { TYPE = KZ_VOY_temporal }
-	set_repeatable_eternal_fleet_mult_rate_to_damage = { TYPE = ge_void_energy }
-	set_repeatable_eternal_fleet_mult_rate_to_damage = { TYPE = magi }
-	set_repeatable_eternal_fleet_mult_rate_to_damage = { TYPE = charm }
-	set_repeatable_eternal_fleet_mult_rate_to_damage = { TYPE = mystical }
-	set_repeatable_eternal_fleet_mult_rate_to_damage = { TYPE = close_combat }
-	set_repeatable_eternal_fleet_mult_rate_to_damage = { TYPE = critical }
-	set_repeatable_eternal_fleet_mult_rate_to_damage = { TYPE = fgosw_block }
-	set_repeatable_eternal_fleet_mult_rate_to_damage = { TYPE = fgosw_battle_continuation }
-	set_repeatable_eternal_fleet_mult_rate_to_damage = { TYPE = fgosw_only_one }
-	set_repeatable_eternal_fleet_mult_rate_to_damage = { TYPE = fgosw_multi_level }
-	set_repeatable_eternal_fleet_mult_rate_to_damage = { TYPE = fgosw_skill_saber }
-	set_repeatable_eternal_fleet_mult_rate_to_damage = { TYPE = fgosw_skill_archer }
-	set_repeatable_eternal_fleet_mult_rate_to_damage = { TYPE = fgosw_skill_lancer }
-	set_repeatable_eternal_fleet_mult_rate_to_damage = { TYPE = fgosw_skill_rider }
-	set_repeatable_eternal_fleet_mult_rate_to_damage = { TYPE = fgosw_skill_caster }
-	set_repeatable_eternal_fleet_mult_rate_to_damage = { TYPE = fgosw_skill_assassin }
-	set_repeatable_eternal_fleet_mult_rate_to_damage = { TYPE = fgosw_skill_berserker }
-	set_repeatable_eternal_fleet_mult_rate_to_damage = { TYPE = blackash }
+	kuat_battle_set_repeatable_eternal_fleet_mult_rate_to_damage = { TYPE = explosive }
+	kuat_battle_set_repeatable_eternal_fleet_mult_rate_to_damage = { TYPE = kinetic }
+	kuat_battle_set_repeatable_eternal_fleet_mult_rate_to_damage = { TYPE = energy }
+	kuat_battle_set_repeatable_eternal_fleet_mult_rate_to_damage = { TYPE = strike_craft }
+	kuat_battle_set_repeatable_eternal_fleet_mult_rate_to_damage = { TYPE = arcane }
+	kuat_battle_set_repeatable_eternal_fleet_mult_rate_to_damage = { TYPE = cosmic }
+	kuat_battle_set_repeatable_eternal_fleet_mult_rate_to_damage = { TYPE = gravity }
+	kuat_battle_set_repeatable_eternal_fleet_mult_rate_to_damage = { TYPE = psionic }
+	kuat_battle_set_repeatable_eternal_fleet_mult_rate_to_damage = { TYPE = anti_psionic }
+	kuat_battle_set_repeatable_eternal_fleet_mult_rate_to_damage = { TYPE = adv_kinetic }
+	kuat_battle_set_repeatable_eternal_fleet_mult_rate_to_damage = { TYPE = gravity_dummy }
+	kuat_battle_set_repeatable_eternal_fleet_mult_rate_to_damage = { TYPE = ag_ancient_weapon_buff_1 }
+	kuat_battle_set_repeatable_eternal_fleet_mult_rate_to_damage = { TYPE = ag_ancient_weapon_buff_2 }
+	kuat_battle_set_repeatable_eternal_fleet_mult_rate_to_damage = { TYPE = ag_ancient_weapon_buff_3 }
+	kuat_battle_set_repeatable_eternal_fleet_mult_damage_to_rate = { TYPE = instant_kill_effect }
+	kuat_battle_set_repeatable_eternal_fleet_mult_rate_to_damage = { TYPE = difficulty_scale }
+	kuat_battle_set_repeatable_eternal_fleet_mult_rate_to_damage = { TYPE = difficulty_scale_player }
+	kuat_battle_set_repeatable_eternal_fleet_mult_rate_to_damage = { TYPE = SRA_SRA }
+	kuat_battle_set_repeatable_eternal_fleet_mult_rate_to_damage = { TYPE = SRA_RE_Core }
+	kuat_battle_set_repeatable_eternal_fleet_mult_rate_to_damage = { TYPE = H.D.energy }
+	kuat_battle_set_repeatable_eternal_fleet_mult_rate_to_damage = { TYPE = HD.M.kinetic }
+	kuat_battle_set_repeatable_eternal_fleet_mult_rate_to_damage = { TYPE = PrimaMateria }
+	kuat_battle_set_repeatable_eternal_fleet_mult_rate_to_damage = { TYPE = light_power }
+	kuat_battle_set_repeatable_eternal_fleet_mult_rate_to_damage = { TYPE = wsg_pantsu }
+	kuat_battle_set_repeatable_eternal_fleet_mult_rate_to_damage = { TYPE = tesla }
+	kuat_battle_set_repeatable_eternal_fleet_mult_rate_to_damage = { TYPE = kancolle }
+	kuat_battle_set_repeatable_eternal_fleet_mult_rate_to_damage = { TYPE = kancolle_shinkai }
+	kuat_battle_set_repeatable_eternal_fleet_mult_rate_to_damage = { TYPE = magicia }
+	kuat_battle_set_repeatable_eternal_fleet_mult_rate_to_damage = { TYPE = rulerule }
+	kuat_battle_set_repeatable_eternal_fleet_mult_rate_to_damage = { TYPE = fake_madoka }
+	kuat_battle_set_repeatable_eternal_fleet_mult_rate_to_damage = { TYPE = sr_uf }
+	kuat_battle_set_repeatable_eternal_fleet_mult_rate_to_damage = { TYPE = gungnir }
+	kuat_battle_set_repeatable_eternal_fleet_mult_rate_to_damage = { TYPE = xianzhe }
+	kuat_battle_set_repeatable_eternal_fleet_mult_rate_to_damage = { TYPE = knife }
+	kuat_battle_set_repeatable_eternal_fleet_mult_rate_to_damage = { TYPE = lingli }
+	kuat_battle_set_repeatable_eternal_fleet_mult_rate_to_damage = { TYPE = magic }
+	kuat_battle_set_repeatable_eternal_fleet_mult_rate_to_damage = { TYPE = nytowith }
+	kuat_battle_set_repeatable_eternal_fleet_mult_rate_to_damage = { TYPE = light }
+	kuat_battle_set_repeatable_eternal_fleet_mult_rate_to_damage = { TYPE = keto }
+	kuat_battle_set_repeatable_eternal_fleet_mult_rate_to_damage = { TYPE = Akso }
+	kuat_battle_set_repeatable_eternal_fleet_mult_rate_to_damage = { TYPE = LsScepter }
+	kuat_battle_set_repeatable_eternal_fleet_mult_rate_to_damage = { TYPE = son }
+	kuat_battle_set_repeatable_eternal_fleet_mult_rate_to_damage = { TYPE = prism }
+	kuat_battle_set_repeatable_eternal_fleet_mult_rate_to_damage = { TYPE = Electronic }
+	kuat_battle_set_repeatable_eternal_fleet_mult_rate_to_damage = { TYPE = beacon }
+	kuat_battle_set_repeatable_eternal_fleet_mult_rate_to_damage = { TYPE = aoe }
+	kuat_battle_set_repeatable_eternal_fleet_mult_rate_to_damage = { TYPE = fireworks }
+	kuat_battle_set_repeatable_eternal_fleet_mult_rate_to_damage = { TYPE = aon_rpg_attack }
+	kuat_battle_set_repeatable_eternal_fleet_mult_rate_to_damage = { TYPE = aon_rpg_magic }
+	kuat_battle_set_repeatable_eternal_fleet_mult_rate_to_damage = { TYPE = sfdoll }
+	kuat_battle_set_repeatable_eternal_fleet_mult_rate_to_damage = { TYPE = nano }
+	kuat_battle_set_repeatable_eternal_fleet_mult_rate_to_damage = { TYPE = KZ_VOY_magic }
+	kuat_battle_set_repeatable_eternal_fleet_mult_rate_to_damage = { TYPE = KZ_VOY_wind_magic }
+	kuat_battle_set_repeatable_eternal_fleet_mult_rate_to_damage = { TYPE = KZ_VOY_time_magic }
+	kuat_battle_set_repeatable_eternal_fleet_mult_rate_to_damage = { TYPE = KZ_VOY_earth_magic }
+	kuat_battle_set_repeatable_eternal_fleet_mult_rate_to_damage = { TYPE = KZ_VOY_pyromancy_magic }
+	kuat_battle_set_repeatable_eternal_fleet_mult_rate_to_damage = { TYPE = KZ_VOY_lightning_magic }
+	kuat_battle_set_repeatable_eternal_fleet_mult_rate_to_damage = { TYPE = KZ_VOY_bright_magic }
+	kuat_battle_set_repeatable_eternal_fleet_mult_rate_to_damage = { TYPE = KZ_VOY_dark_magic }
+	kuat_battle_set_repeatable_eternal_fleet_mult_rate_to_damage = { TYPE = KZ_VOY_space_magic }
+	kuat_battle_set_repeatable_eternal_fleet_mult_rate_to_damage = { TYPE = KZ_VOY_aqua_magic }
+	kuat_battle_set_repeatable_eternal_fleet_mult_rate_to_damage = { TYPE = KZ_VOY_life_magic }
+	kuat_battle_set_repeatable_eternal_fleet_mult_rate_to_damage = { TYPE = KZ_VOY_temporal }
+	kuat_battle_set_repeatable_eternal_fleet_mult_rate_to_damage = { TYPE = ge_void_energy }
+	kuat_battle_set_repeatable_eternal_fleet_mult_rate_to_damage = { TYPE = magi }
+	kuat_battle_set_repeatable_eternal_fleet_mult_rate_to_damage = { TYPE = charm }
+	kuat_battle_set_repeatable_eternal_fleet_mult_rate_to_damage = { TYPE = mystical }
+	kuat_battle_set_repeatable_eternal_fleet_mult_rate_to_damage = { TYPE = close_combat }
+	kuat_battle_set_repeatable_eternal_fleet_mult_rate_to_damage = { TYPE = critical }
+	kuat_battle_set_repeatable_eternal_fleet_mult_rate_to_damage = { TYPE = fgosw_block }
+	kuat_battle_set_repeatable_eternal_fleet_mult_rate_to_damage = { TYPE = fgosw_battle_continuation }
+	kuat_battle_set_repeatable_eternal_fleet_mult_rate_to_damage = { TYPE = fgosw_only_one }
+	kuat_battle_set_repeatable_eternal_fleet_mult_rate_to_damage = { TYPE = fgosw_multi_level }
+	kuat_battle_set_repeatable_eternal_fleet_mult_rate_to_damage = { TYPE = fgosw_skill_saber }
+	kuat_battle_set_repeatable_eternal_fleet_mult_rate_to_damage = { TYPE = fgosw_skill_archer }
+	kuat_battle_set_repeatable_eternal_fleet_mult_rate_to_damage = { TYPE = fgosw_skill_lancer }
+	kuat_battle_set_repeatable_eternal_fleet_mult_rate_to_damage = { TYPE = fgosw_skill_rider }
+	kuat_battle_set_repeatable_eternal_fleet_mult_rate_to_damage = { TYPE = fgosw_skill_caster }
+	kuat_battle_set_repeatable_eternal_fleet_mult_rate_to_damage = { TYPE = fgosw_skill_assassin }
+	kuat_battle_set_repeatable_eternal_fleet_mult_rate_to_damage = { TYPE = fgosw_skill_berserker }
+	kuat_battle_set_repeatable_eternal_fleet_mult_rate_to_damage = { TYPE = blackash }
 }
-set_repeatable_eternal_fleet_mult_rate_to_damage = {
+kuat_battle_set_repeatable_eternal_fleet_mult_rate_to_damage = {
 	optimize_memory
 	if = {
 		limit = { check_modifier_value = { modifier = weapon_type_$TYPE$_weapon_fire_rate_mult value > 0 } }
-		set_standard_battle_repeatable_modifier = { PARAMATER1 = weapon_type_$TYPE$_weapon_fire_rate_mult PARAMATER2 = weapon_type_$TYPE$_weapon_damage_mult UNIT = initial RATE = -0.75 } 
+		kuat_battle_set_standard_battle_repeatable_modifier = { PARAMATER1 = weapon_type_$TYPE$_weapon_fire_rate_mult PARAMATER2 = weapon_type_$TYPE$_weapon_damage_mult UNIT = initial RATE = -0.75 } 
 		# if = {
 		# 	limit = { check_modifier_value = { modifier = weapon_type_$TYPE$_weapon_fire_rate_mult value > 200 } }
-		# 	set_standard_battle_repeatable_modifier = { PARAMATER1 = weapon_type_$TYPE$_weapon_fire_rate_mult PARAMATER2 = weapon_type_$TYPE$_weapon_damage_mult UNIT = origin RATE = -0.65 } 
+		# 	kuat_battle_set_standard_battle_repeatable_modifier = { PARAMATER1 = weapon_type_$TYPE$_weapon_fire_rate_mult PARAMATER2 = weapon_type_$TYPE$_weapon_damage_mult UNIT = origin RATE = -0.65 } 
 		# }
 		# else_if = {
 		# 	limit = { check_modifier_value = { modifier = weapon_type_$TYPE$_weapon_fire_rate_mult value > 100 } }
-		# 	set_standard_battle_repeatable_modifier = { PARAMATER1 = weapon_type_$TYPE$_weapon_fire_rate_mult PARAMATER2 = weapon_type_$TYPE$_weapon_damage_mult UNIT = origin RATE = -0.70 } 
+		# 	kuat_battle_set_standard_battle_repeatable_modifier = { PARAMATER1 = weapon_type_$TYPE$_weapon_fire_rate_mult PARAMATER2 = weapon_type_$TYPE$_weapon_damage_mult UNIT = origin RATE = -0.70 } 
 		# }
 		# else_if = {
 		# 	limit = { check_modifier_value = { modifier = weapon_type_$TYPE$_weapon_fire_rate_mult value > 90 } }
-		# 	set_standard_battle_repeatable_modifier = { PARAMATER1 = weapon_type_$TYPE$_weapon_fire_rate_mult PARAMATER2 = weapon_type_$TYPE$_weapon_damage_mult UNIT = origin RATE = -0.75 } 
+		# 	kuat_battle_set_standard_battle_repeatable_modifier = { PARAMATER1 = weapon_type_$TYPE$_weapon_fire_rate_mult PARAMATER2 = weapon_type_$TYPE$_weapon_damage_mult UNIT = origin RATE = -0.75 } 
 		# }
 		# else_if = {
 		# 	limit = { check_modifier_value = { modifier = weapon_type_$TYPE$_weapon_fire_rate_mult value > 80 } }
-		# 	set_standard_battle_repeatable_modifier = { PARAMATER1 = weapon_type_$TYPE$_weapon_fire_rate_mult PARAMATER2 = weapon_type_$TYPE$_weapon_damage_mult UNIT = origin RATE = -0.80 } 
+		# 	kuat_battle_set_standard_battle_repeatable_modifier = { PARAMATER1 = weapon_type_$TYPE$_weapon_fire_rate_mult PARAMATER2 = weapon_type_$TYPE$_weapon_damage_mult UNIT = origin RATE = -0.80 } 
 		# }
 		# else_if = {
 		# 	limit = { check_modifier_value = { modifier = weapon_type_$TYPE$_weapon_fire_rate_mult value > 70 } }
-		# 	set_standard_battle_repeatable_modifier = { PARAMATER1 = weapon_type_$TYPE$_weapon_fire_rate_mult PARAMATER2 = weapon_type_$TYPE$_weapon_damage_mult UNIT = origin RATE = -0.85 } 
+		# 	kuat_battle_set_standard_battle_repeatable_modifier = { PARAMATER1 = weapon_type_$TYPE$_weapon_fire_rate_mult PARAMATER2 = weapon_type_$TYPE$_weapon_damage_mult UNIT = origin RATE = -0.85 } 
 		# }
 		# else_if = {
 		# 	limit = { check_modifier_value = { modifier = weapon_type_$TYPE$_weapon_fire_rate_mult value > 60 } }
-		# 	set_standard_battle_repeatable_modifier = { PARAMATER1 = weapon_type_$TYPE$_weapon_fire_rate_mult PARAMATER2 = weapon_type_$TYPE$_weapon_damage_mult UNIT = origin RATE = -0.80 } 
+		# 	kuat_battle_set_standard_battle_repeatable_modifier = { PARAMATER1 = weapon_type_$TYPE$_weapon_fire_rate_mult PARAMATER2 = weapon_type_$TYPE$_weapon_damage_mult UNIT = origin RATE = -0.80 } 
 		# }
 		# else_if = {
 		# 	limit = { check_modifier_value = { modifier = weapon_type_$TYPE$_weapon_fire_rate_mult value > 50 } }
-		# 	set_standard_battle_repeatable_modifier = { PARAMATER1 = weapon_type_$TYPE$_weapon_fire_rate_mult PARAMATER2 = weapon_type_$TYPE$_weapon_damage_mult UNIT = origin RATE = -0.85 } 
+		# 	kuat_battle_set_standard_battle_repeatable_modifier = { PARAMATER1 = weapon_type_$TYPE$_weapon_fire_rate_mult PARAMATER2 = weapon_type_$TYPE$_weapon_damage_mult UNIT = origin RATE = -0.85 } 
 		# }
 		# else_if = {
 		# 	limit = { check_modifier_value = { modifier = weapon_type_$TYPE$_weapon_fire_rate_mult value > 40 } }
-		# 	set_standard_battle_repeatable_modifier = { PARAMATER1 = weapon_type_$TYPE$_weapon_fire_rate_mult PARAMATER2 = weapon_type_$TYPE$_weapon_damage_mult UNIT = origin RATE = -0.90 } 
+		# 	kuat_battle_set_standard_battle_repeatable_modifier = { PARAMATER1 = weapon_type_$TYPE$_weapon_fire_rate_mult PARAMATER2 = weapon_type_$TYPE$_weapon_damage_mult UNIT = origin RATE = -0.90 } 
 		# }
 		# else_if = {
 		# 	limit = { check_modifier_value = { modifier = weapon_type_$TYPE$_weapon_fire_rate_mult value > 30 } }
-		# 	set_standard_battle_repeatable_modifier = { PARAMATER1 = weapon_type_$TYPE$_weapon_fire_rate_mult PARAMATER2 = weapon_type_$TYPE$_weapon_damage_mult UNIT = origin RATE = -0.95 } 
+		# 	kuat_battle_set_standard_battle_repeatable_modifier = { PARAMATER1 = weapon_type_$TYPE$_weapon_fire_rate_mult PARAMATER2 = weapon_type_$TYPE$_weapon_damage_mult UNIT = origin RATE = -0.95 } 
 		# }
 		# else_if = {
 		# 	limit = { check_modifier_value = { modifier = weapon_type_$TYPE$_weapon_fire_rate_mult value > 20 } }
-		# 	set_standard_battle_repeatable_modifier = { PARAMATER1 = weapon_type_$TYPE$_weapon_fire_rate_mult PARAMATER2 = weapon_type_$TYPE$_weapon_damage_mult UNIT = origin RATE = -0.90 } 
+		# 	kuat_battle_set_standard_battle_repeatable_modifier = { PARAMATER1 = weapon_type_$TYPE$_weapon_fire_rate_mult PARAMATER2 = weapon_type_$TYPE$_weapon_damage_mult UNIT = origin RATE = -0.90 } 
 		# }
 		# else_if = {
 		# 	limit = { check_modifier_value = { modifier = weapon_type_$TYPE$_weapon_fire_rate_mult value > 1 } }
-		# 	set_standard_battle_repeatable_modifier = { PARAMATER1 = weapon_type_$TYPE$_weapon_fire_rate_mult PARAMATER2 = weapon_type_$TYPE$_weapon_damage_mult UNIT = origin RATE = -1 } 
+		# 	kuat_battle_set_standard_battle_repeatable_modifier = { PARAMATER1 = weapon_type_$TYPE$_weapon_fire_rate_mult PARAMATER2 = weapon_type_$TYPE$_weapon_damage_mult UNIT = origin RATE = -1 } 
 		# }
 	}
 }
-set_repeatable_eternal_fleet_mult_damage_to_rate = {
+kuat_battle_set_repeatable_eternal_fleet_mult_damage_to_rate = {
 	optimize_memory
 	if = {
 		limit = { check_modifier_value = { modifier = weapon_type_$TYPE$_weapon_damage_mult value > 0 } }
-		set_standard_battle_repeatable_modifier = { PARAMATER1 = weapon_type_$TYPE$_weapon_damage_mult PARAMATER2 = weapon_type_$TYPE$_weapon_fire_rate_mult UNIT = initial RATE = 0 } 
+		kuat_battle_set_standard_battle_repeatable_modifier = { PARAMATER1 = weapon_type_$TYPE$_weapon_damage_mult PARAMATER2 = weapon_type_$TYPE$_weapon_fire_rate_mult UNIT = initial RATE = 0 } 
 		# if = {
 		# 	limit = { check_modifier_value = { modifier = weapon_type_$TYPE$_weapon_damage_mult value > 200 } }
-		# 	set_standard_battle_repeatable_modifier = { PARAMATER1 = weapon_type_$TYPE$_weapon_damage_mult PARAMATER2 = weapon_type_$TYPE$_weapon_fire_rate_mult UNIT = Tenth RATE = -0.01 } 
+		# 	kuat_battle_set_standard_battle_repeatable_modifier = { PARAMATER1 = weapon_type_$TYPE$_weapon_damage_mult PARAMATER2 = weapon_type_$TYPE$_weapon_fire_rate_mult UNIT = Tenth RATE = -0.01 } 
 		# }
 		# else_if = {
 		# 	limit = { check_modifier_value = { modifier = weapon_type_$TYPE$_weapon_damage_mult value > 100 } }
-		# 	set_standard_battle_repeatable_modifier = { PARAMATER1 = weapon_type_$TYPE$_weapon_damage_mult PARAMATER2 = weapon_type_$TYPE$_weapon_fire_rate_mult UNIT = Tenth RATE = -0.10 } 
+		# 	kuat_battle_set_standard_battle_repeatable_modifier = { PARAMATER1 = weapon_type_$TYPE$_weapon_damage_mult PARAMATER2 = weapon_type_$TYPE$_weapon_fire_rate_mult UNIT = Tenth RATE = -0.10 } 
 		# }
 		# else_if = {
 		# 	limit = { check_modifier_value = { modifier = weapon_type_$TYPE$_weapon_damage_mult value > 90 } }
-		# 	set_standard_battle_repeatable_modifier = { PARAMATER1 = weapon_type_$TYPE$_weapon_damage_mult PARAMATER2 = weapon_type_$TYPE$_weapon_fire_rate_mult UNIT = Tenth RATE = -0.20 } 
+		# 	kuat_battle_set_standard_battle_repeatable_modifier = { PARAMATER1 = weapon_type_$TYPE$_weapon_damage_mult PARAMATER2 = weapon_type_$TYPE$_weapon_fire_rate_mult UNIT = Tenth RATE = -0.20 } 
 		# }
 		# else_if = {
 		# 	limit = { check_modifier_value = { modifier = weapon_type_$TYPE$_weapon_damage_mult value > 80 } }
-		# 	set_standard_battle_repeatable_modifier = { PARAMATER1 = weapon_type_$TYPE$_weapon_damage_mult PARAMATER2 = weapon_type_$TYPE$_weapon_fire_rate_mult UNIT = Tenth RATE = -0.30 } 
+		# 	kuat_battle_set_standard_battle_repeatable_modifier = { PARAMATER1 = weapon_type_$TYPE$_weapon_damage_mult PARAMATER2 = weapon_type_$TYPE$_weapon_fire_rate_mult UNIT = Tenth RATE = -0.30 } 
 		# }
 		# else_if = {
 		# 	limit = { check_modifier_value = { modifier = weapon_type_$TYPE$_weapon_damage_mult value > 70 } }
-		# 	set_standard_battle_repeatable_modifier = { PARAMATER1 = weapon_type_$TYPE$_weapon_damage_mult PARAMATER2 = weapon_type_$TYPE$_weapon_fire_rate_mult UNIT = Tenth RATE = -0.40 } 
+		# 	kuat_battle_set_standard_battle_repeatable_modifier = { PARAMATER1 = weapon_type_$TYPE$_weapon_damage_mult PARAMATER2 = weapon_type_$TYPE$_weapon_fire_rate_mult UNIT = Tenth RATE = -0.40 } 
 		# }
 		# else_if = {
 		# 	limit = { check_modifier_value = { modifier = weapon_type_$TYPE$_weapon_damage_mult value > 60 } }
-		# 	set_standard_battle_repeatable_modifier = { PARAMATER1 = weapon_type_$TYPE$_weapon_damage_mult PARAMATER2 = weapon_type_$TYPE$_weapon_fire_rate_mult UNIT = Tenth RATE = -0.50 } 
+		# 	kuat_battle_set_standard_battle_repeatable_modifier = { PARAMATER1 = weapon_type_$TYPE$_weapon_damage_mult PARAMATER2 = weapon_type_$TYPE$_weapon_fire_rate_mult UNIT = Tenth RATE = -0.50 } 
 		# }
 		# else_if = {
 		# 	limit = { check_modifier_value = { modifier = weapon_type_$TYPE$_weapon_damage_mult value > 50 } }
-		# 	set_standard_battle_repeatable_modifier = { PARAMATER1 = weapon_type_$TYPE$_weapon_damage_mult PARAMATER2 = weapon_type_$TYPE$_weapon_fire_rate_mult UNIT = Tenth RATE = -0.60 } 
+		# 	kuat_battle_set_standard_battle_repeatable_modifier = { PARAMATER1 = weapon_type_$TYPE$_weapon_damage_mult PARAMATER2 = weapon_type_$TYPE$_weapon_fire_rate_mult UNIT = Tenth RATE = -0.60 } 
 		# }
 		# else_if = {
 		# 	limit = { check_modifier_value = { modifier = weapon_type_$TYPE$_weapon_damage_mult value > 40 } }
-		# 	set_standard_battle_repeatable_modifier = { PARAMATER1 = weapon_type_$TYPE$_weapon_damage_mult PARAMATER2 = weapon_type_$TYPE$_weapon_fire_rate_mult UNIT = Tenth RATE = -0.70 } 
+		# 	kuat_battle_set_standard_battle_repeatable_modifier = { PARAMATER1 = weapon_type_$TYPE$_weapon_damage_mult PARAMATER2 = weapon_type_$TYPE$_weapon_fire_rate_mult UNIT = Tenth RATE = -0.70 } 
 		# }
 		# else_if = {
 		# 	limit = { check_modifier_value = { modifier = weapon_type_$TYPE$_weapon_damage_mult value > 30 } }
-		# 	set_standard_battle_repeatable_modifier = { PARAMATER1 = weapon_type_$TYPE$_weapon_damage_mult PARAMATER2 = weapon_type_$TYPE$_weapon_fire_rate_mult UNIT = Tenth RATE = -0.80 } 
+		# 	kuat_battle_set_standard_battle_repeatable_modifier = { PARAMATER1 = weapon_type_$TYPE$_weapon_damage_mult PARAMATER2 = weapon_type_$TYPE$_weapon_fire_rate_mult UNIT = Tenth RATE = -0.80 } 
 		# }
 		# else_if = {
 		# 	limit = { check_modifier_value = { modifier = weapon_type_$TYPE$_weapon_damage_mult value > 20 } }
-		# 	set_standard_battle_repeatable_modifier = { PARAMATER1 = weapon_type_$TYPE$_weapon_damage_mult PARAMATER2 = weapon_type_$TYPE$_weapon_fire_rate_mult UNIT = Tenth RATE = -0.98 } 
+		# 	kuat_battle_set_standard_battle_repeatable_modifier = { PARAMATER1 = weapon_type_$TYPE$_weapon_damage_mult PARAMATER2 = weapon_type_$TYPE$_weapon_fire_rate_mult UNIT = Tenth RATE = -0.98 } 
 		# }
 		# else_if = {
 		# 	limit = { check_modifier_value = { modifier = weapon_type_$TYPE$_weapon_damage_mult value > 10 } }
-		# 	set_standard_battle_repeatable_modifier = { PARAMATER1 = weapon_type_$TYPE$_weapon_damage_mult PARAMATER2 = weapon_type_$TYPE$_weapon_fire_rate_mult UNIT = Tenth RATE = -0.99 } 
+		# 	kuat_battle_set_standard_battle_repeatable_modifier = { PARAMATER1 = weapon_type_$TYPE$_weapon_damage_mult PARAMATER2 = weapon_type_$TYPE$_weapon_fire_rate_mult UNIT = Tenth RATE = -0.99 } 
 		# }
 	}
 }
 
 # THIS: SOLAR SYSTEM
-setup_invinciable_protection_pragram = {
+kuat_battle_setup_invinciable_protection_pragram = {
 	optimize_memory
 	if = {
 		limit = { is_in_combat = yes }
 		every_owned_ship = {
 			if = { 
 				limit = { NOT = { has_ship_flag = fire_ship_var } } 
-				random_list_eternal_fleet_rate = yes 
+				kuat_battle_random_list_eternal_fleet_rate = yes 
 				set_ship_flag = fire_ship_var
 			}
 			$KEY$ = { netrual = yes frendly = yes AUTO = yes }
@@ -449,16 +449,16 @@ setup_invinciable_protection_pragram = {
 		}
 		fleet_event = { id = $ID$ days = 1 }
 	}
-	else = { clear_battleship_modifier_fixed_ship = yes }
+	else = { kuat_battle_clear_battleship_modifier_fixed_ship = yes }
 }
-setup_invinciable_attacketion_pragram = {
+kuat_battle_setup_invinciable_attacketion_pragram = {
 	optimize_memory
 	if = {
 		limit = { is_in_combat = yes }
 		every_owned_ship = {
 			if = { 
 				limit = { NOT = { has_ship_flag = fire_ship_var } } 
-				random_list_eternal_fleet_rate = yes 
+				kuat_battle_random_list_eternal_fleet_rate = yes 
 				set_ship_flag = fire_ship_var
 			}
 			$KEY$ = { netrual = yes hostile = yes }
@@ -466,228 +466,228 @@ setup_invinciable_attacketion_pragram = {
 		}
 		fleet_event = { id = $ID$ days = 1 }
 	}
-	else = { clear_battleship_modifier_fixed_ship = yes }
+	else = { kuat_battle_clear_battleship_modifier_fixed_ship = yes }
 }
 
 # initial = 0  min = 0.25  small = 0.5  medium = 0.75  large = 0.90  max = 0.99  origin = 1
 # double = 2  fifth = 5  Tenth = 10  one_of_fourth = 25  one_of_double = 50  hundred = 100 double_hundred = 200  million = 1000000  billion = 5000000
-set_easy_eternal_fleet_mult_modifier = {
+kuat_battle_set_easy_eternal_fleet_mult_modifier = {
 	optimize_memory
 	[[netrual] 
-		set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_speed_mult 					RELATION = "<"  OUTPUT_VALUE = 0 	UNIT_VALUE = 0 }
-		set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_armor_hardening_add 			RELATION = "!=" OUTPUT_VALUE = 0 	UNIT_VALUE = 0 } 
-		set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_shield_hardening_add 			RELATION = "!=" OUTPUT_VALUE = 0 	UNIT_VALUE = 0 }
-		set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_fire_rate_mult 				RELATION = "!=" OUTPUT_VALUE = 0 	UNIT_VALUE = 0 }
-		set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_hull_regen_add_static			RELATION = "!=" OUTPUT_VALUE = 0 	UNIT_VALUE = 0 }
-		set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_armor_regen_add_static			RELATION = "!=" OUTPUT_VALUE = 0 	UNIT_VALUE = 0 }
-		set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_shield_regen_add_static		RELATION = "!=" OUTPUT_VALUE = 0 	UNIT_VALUE = 0 }
-		set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_hull_regen_add_perc 			RELATION = "!=" OUTPUT_VALUE = 0 	UNIT_VALUE = 0 }
-		set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_armor_regen_add_perc 			RELATION = "!=" OUTPUT_VALUE = 0 	UNIT_VALUE = 0 }
-		set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_shield_regen_add_perc 			RELATION = "!=" OUTPUT_VALUE = 0 	UNIT_VALUE = 0 }
-		set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_steal_defeated_ship_chance 	RELATION = "!=" OUTPUT_VALUE = 0 	UNIT_VALUE = 0 }
-		set_eternal_fleet_standard_modifier 				= { PARAMATER = fleet_capture_defeated_leader_chance RELATION = "!=" OUTPUT_VALUE = 0 	UNIT_VALUE = 0 }
+		kuat_battle_set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_speed_mult 					RELATION = "<"  OUTPUT_VALUE = 0 	UNIT_VALUE = 0 }
+		kuat_battle_set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_armor_hardening_add 			RELATION = "!=" OUTPUT_VALUE = 0 	UNIT_VALUE = 0 } 
+		kuat_battle_set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_shield_hardening_add 			RELATION = "!=" OUTPUT_VALUE = 0 	UNIT_VALUE = 0 }
+		kuat_battle_set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_fire_rate_mult 				RELATION = "!=" OUTPUT_VALUE = 0 	UNIT_VALUE = 0 }
+		kuat_battle_set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_hull_regen_add_static			RELATION = "!=" OUTPUT_VALUE = 0 	UNIT_VALUE = 0 }
+		kuat_battle_set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_armor_regen_add_static			RELATION = "!=" OUTPUT_VALUE = 0 	UNIT_VALUE = 0 }
+		kuat_battle_set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_shield_regen_add_static		RELATION = "!=" OUTPUT_VALUE = 0 	UNIT_VALUE = 0 }
+		kuat_battle_set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_hull_regen_add_perc 			RELATION = "!=" OUTPUT_VALUE = 0 	UNIT_VALUE = 0 }
+		kuat_battle_set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_armor_regen_add_perc 			RELATION = "!=" OUTPUT_VALUE = 0 	UNIT_VALUE = 0 }
+		kuat_battle_set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_shield_regen_add_perc 			RELATION = "!=" OUTPUT_VALUE = 0 	UNIT_VALUE = 0 }
+		kuat_battle_set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_steal_defeated_ship_chance 	RELATION = "!=" OUTPUT_VALUE = 0 	UNIT_VALUE = 0 }
+		kuat_battle_set_eternal_fleet_standard_modifier 				= { PARAMATER = fleet_capture_defeated_leader_chance RELATION = "!=" OUTPUT_VALUE = 0 	UNIT_VALUE = 0 }
 	]
 
 	[[hostile] 
-		set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_shield_penetration_mult 		RELATION = "!=" OUTPUT_VALUE = 1 		UNIT_VALUE = -1 }
-		set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_armor_penetration_mult 		RELATION = "!=" OUTPUT_VALUE = 1 		UNIT_VALUE = -1 }
-		set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_disengage_chance_reduction 	RELATION = "!=" OUTPUT_VALUE = 1 		UNIT_VALUE = -1 }
-		set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_armor_damage_mult 				RELATION = "!=" OUTPUT_VALUE = 3 		UNIT_VALUE = -3 } 
-		set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_shield_damage_mult 			RELATION = "!=" OUTPUT_VALUE = 3 		UNIT_VALUE = -3 }
-		set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_hull_damage_mult				RELATION = "!=" OUTPUT_VALUE = 3 		UNIT_VALUE = -3 } 
-		set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_weapon_damage 					RELATION = "!=" OUTPUT_VALUE = 3 		UNIT_VALUE = -3 }
-		set_eternal_fleet_standard_modifier 				= { PARAMATER = component_lifesteal_add 			RELATION = ">"  OUTPUT_VALUE = 1 		UNIT_VALUE = -1 }
+		kuat_battle_set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_shield_penetration_mult 		RELATION = "!=" OUTPUT_VALUE = 1 		UNIT_VALUE = -1 }
+		kuat_battle_set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_armor_penetration_mult 		RELATION = "!=" OUTPUT_VALUE = 1 		UNIT_VALUE = -1 }
+		kuat_battle_set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_disengage_chance_reduction 	RELATION = "!=" OUTPUT_VALUE = 1 		UNIT_VALUE = -1 }
+		kuat_battle_set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_armor_damage_mult 				RELATION = "!=" OUTPUT_VALUE = 3 		UNIT_VALUE = -3 } 
+		kuat_battle_set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_shield_damage_mult 			RELATION = "!=" OUTPUT_VALUE = 3 		UNIT_VALUE = -3 }
+		kuat_battle_set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_hull_damage_mult				RELATION = "!=" OUTPUT_VALUE = 3 		UNIT_VALUE = -3 } 
+		kuat_battle_set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_weapon_damage 					RELATION = "!=" OUTPUT_VALUE = 3 		UNIT_VALUE = -3 }
+		kuat_battle_set_eternal_fleet_standard_modifier 				= { PARAMATER = component_lifesteal_add 			RELATION = ">"  OUTPUT_VALUE = 1 		UNIT_VALUE = -1 }
 	]
 
 	[[frendly] 
-		set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_armor_damage_mult 				RELATION = "!=" OUTPUT_VALUE = 0 		UNIT_VALUE = 0 }
-		set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_shield_damage_mult				RELATION = "!=" OUTPUT_VALUE = 0 		UNIT_VALUE = 0 }
-		set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_hull_damage_mult				RELATION = "!=" OUTPUT_VALUE = 0 		UNIT_VALUE = 0 }
-		set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_hull_mult 						RELATION = "!=" OUTPUT_VALUE = 0 		UNIT_VALUE = 0 }
-		set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_armor_mult						RELATION = "!=" OUTPUT_VALUE = 0 		UNIT_VALUE = 0 }    
-		set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_shield_mult					RELATION = "!=" OUTPUT_VALUE = 0 		UNIT_VALUE = 0 }    
-		set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_weapon_range_mult 				RELATION = "!=" OUTPUT_VALUE = 0 		UNIT_VALUE = 0 } 
-		set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_tracking_mult 					RELATION = "!=" OUTPUT_VALUE = 0 		UNIT_VALUE = 0 }   
-		set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_accuracy_mult 					RELATION = "!=" OUTPUT_VALUE = 0 		UNIT_VALUE = 0 }
-		set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_tracking_add 					RELATION = "!=" OUTPUT_VALUE = 0 		UNIT_VALUE = 0 }
-		set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_accuracy_add					RELATION = "!=" OUTPUT_VALUE = 0 		UNIT_VALUE = 0 }
-		set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_shield_add 					RELATION = "!=" OUTPUT_VALUE = 0 		UNIT_VALUE = 0 }   
-		set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_armor_add 						RELATION = "!=" OUTPUT_VALUE = 0 		UNIT_VALUE = 0 }  
-		set_eternal_fleet_standard_modifier					= { PARAMATER = ship_shield_reduction 				RELATION = "!=" OUTPUT_VALUE = 0 		UNIT_VALUE = 0 }
-		set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_armor_reduction 				RELATION = "!=" OUTPUT_VALUE = 0 		UNIT_VALUE = 0 }
+		kuat_battle_set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_armor_damage_mult 				RELATION = "!=" OUTPUT_VALUE = 0 		UNIT_VALUE = 0 }
+		kuat_battle_set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_shield_damage_mult				RELATION = "!=" OUTPUT_VALUE = 0 		UNIT_VALUE = 0 }
+		kuat_battle_set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_hull_damage_mult				RELATION = "!=" OUTPUT_VALUE = 0 		UNIT_VALUE = 0 }
+		kuat_battle_set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_hull_mult 						RELATION = "!=" OUTPUT_VALUE = 0 		UNIT_VALUE = 0 }
+		kuat_battle_set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_armor_mult						RELATION = "!=" OUTPUT_VALUE = 0 		UNIT_VALUE = 0 }    
+		kuat_battle_set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_shield_mult					RELATION = "!=" OUTPUT_VALUE = 0 		UNIT_VALUE = 0 }    
+		kuat_battle_set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_weapon_range_mult 				RELATION = "!=" OUTPUT_VALUE = 0 		UNIT_VALUE = 0 } 
+		kuat_battle_set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_tracking_mult 					RELATION = "!=" OUTPUT_VALUE = 0 		UNIT_VALUE = 0 }   
+		kuat_battle_set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_accuracy_mult 					RELATION = "!=" OUTPUT_VALUE = 0 		UNIT_VALUE = 0 }
+		kuat_battle_set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_tracking_add 					RELATION = "!=" OUTPUT_VALUE = 0 		UNIT_VALUE = 0 }
+		kuat_battle_set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_accuracy_add					RELATION = "!=" OUTPUT_VALUE = 0 		UNIT_VALUE = 0 }
+		kuat_battle_set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_shield_add 					RELATION = "!=" OUTPUT_VALUE = 0 		UNIT_VALUE = 0 }   
+		kuat_battle_set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_armor_add 						RELATION = "!=" OUTPUT_VALUE = 0 		UNIT_VALUE = 0 }  
+		kuat_battle_set_eternal_fleet_standard_modifier					= { PARAMATER = ship_shield_reduction 				RELATION = "!=" OUTPUT_VALUE = 0 		UNIT_VALUE = 0 }
+		kuat_battle_set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_armor_reduction 				RELATION = "!=" OUTPUT_VALUE = 0 		UNIT_VALUE = 0 }
 	]
 
 	[[AUTO]
-		set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_weapon_damage					RELATION = "!=" OUTPUT_VALUE = 0 		UNIT_VALUE = 0 } 
-		set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_shield_penetration_mult		RELATION = "!=" OUTPUT_VALUE = 0		UNIT_VALUE = 0 } 
-		set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_armor_penetration_mult			RELATION = "!=" OUTPUT_VALUE = 0 		UNIT_VALUE = 0 }
+		kuat_battle_set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_weapon_damage					RELATION = "!=" OUTPUT_VALUE = 0 		UNIT_VALUE = 0 } 
+		kuat_battle_set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_shield_penetration_mult		RELATION = "!=" OUTPUT_VALUE = 0		UNIT_VALUE = 0 } 
+		kuat_battle_set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_armor_penetration_mult			RELATION = "!=" OUTPUT_VALUE = 0 		UNIT_VALUE = 0 }
 	]
 }
 
-set_normal_eternal_fleet_mult_modifier = {
+kuat_battle_set_normal_eternal_fleet_mult_modifier = {
 	optimize_memory
 	[[netrual] 
-		set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_speed_mult 					RELATION = "<"  OUTPUT_VALUE = 0 		UNIT_VALUE = 0 }
-		set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_armor_hardening_add 			RELATION = "!=" OUTPUT_VALUE = 0 		UNIT_VALUE = 0 } 
-		set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_shield_hardening_add 			RELATION = "!=" OUTPUT_VALUE = 0 		UNIT_VALUE = 0 }
-		set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_fire_rate_mult 				RELATION = "!=" OUTPUT_VALUE = 0 		UNIT_VALUE = 0 }
-		set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_hull_regen_add_static			RELATION = "!=" OUTPUT_VALUE = 0 		UNIT_VALUE = 0 }
-		set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_armor_regen_add_static			RELATION = "!=" OUTPUT_VALUE = 0 		UNIT_VALUE = 0 }
-		set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_shield_regen_add_static		RELATION = "!=" OUTPUT_VALUE = 0 		UNIT_VALUE = 0 }
-		set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_hull_regen_add_perc 			RELATION = "!=" OUTPUT_VALUE = 0 		UNIT_VALUE = 0 }
-		set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_armor_regen_add_perc 			RELATION = "!=" OUTPUT_VALUE = 0 		UNIT_VALUE = 0 }
-		set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_shield_regen_add_perc 			RELATION = "!=" OUTPUT_VALUE = 0 		UNIT_VALUE = 0 }
-		set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_steal_defeated_ship_chance 	RELATION = "!=" OUTPUT_VALUE = 0 		UNIT_VALUE = 0 }
-		set_eternal_fleet_standard_modifier 				= { PARAMATER = fleet_capture_defeated_leader_chance RELATION = "!=" OUTPUT_VALUE = 0 		UNIT_VALUE = 0 }
+		kuat_battle_set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_speed_mult 					RELATION = "<"  OUTPUT_VALUE = 0 		UNIT_VALUE = 0 }
+		kuat_battle_set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_armor_hardening_add 			RELATION = "!=" OUTPUT_VALUE = 0 		UNIT_VALUE = 0 } 
+		kuat_battle_set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_shield_hardening_add 			RELATION = "!=" OUTPUT_VALUE = 0 		UNIT_VALUE = 0 }
+		kuat_battle_set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_fire_rate_mult 				RELATION = "!=" OUTPUT_VALUE = 0 		UNIT_VALUE = 0 }
+		kuat_battle_set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_hull_regen_add_static			RELATION = "!=" OUTPUT_VALUE = 0 		UNIT_VALUE = 0 }
+		kuat_battle_set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_armor_regen_add_static			RELATION = "!=" OUTPUT_VALUE = 0 		UNIT_VALUE = 0 }
+		kuat_battle_set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_shield_regen_add_static		RELATION = "!=" OUTPUT_VALUE = 0 		UNIT_VALUE = 0 }
+		kuat_battle_set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_hull_regen_add_perc 			RELATION = "!=" OUTPUT_VALUE = 0 		UNIT_VALUE = 0 }
+		kuat_battle_set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_armor_regen_add_perc 			RELATION = "!=" OUTPUT_VALUE = 0 		UNIT_VALUE = 0 }
+		kuat_battle_set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_shield_regen_add_perc 			RELATION = "!=" OUTPUT_VALUE = 0 		UNIT_VALUE = 0 }
+		kuat_battle_set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_steal_defeated_ship_chance 	RELATION = "!=" OUTPUT_VALUE = 0 		UNIT_VALUE = 0 }
+		kuat_battle_set_eternal_fleet_standard_modifier 				= { PARAMATER = fleet_capture_defeated_leader_chance RELATION = "!=" OUTPUT_VALUE = 0 		UNIT_VALUE = 0 }
 	]
 
 	[[hostile] 
-		set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_shield_penetration_mult 		RELATION = "!=" OUTPUT_VALUE = -1 		UNIT_VALUE = 1 }
-		set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_armor_penetration_mult 		RELATION = "!=" OUTPUT_VALUE = -1 		UNIT_VALUE = 1 }
-		set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_disengage_chance_reduction 	RELATION = "!=" OUTPUT_VALUE = 1 		UNIT_VALUE = -1 }
-		set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_armor_damage_mult 				RELATION = "!=" OUTPUT_VALUE = -0.25 	UNIT_VALUE = 0.25 } 
-		set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_shield_damage_mult 			RELATION = "!=" OUTPUT_VALUE = -0.25 	UNIT_VALUE = 0.25 }
-		set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_hull_damage_mult				RELATION = "!=" OUTPUT_VALUE = -0.25 	UNIT_VALUE = 0.25 } 
-		set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_weapon_damage 					RELATION = "!=" OUTPUT_VALUE = -0.25 	UNIT_VALUE = 0.25 }
-		set_eternal_fleet_standard_modifier 				= { PARAMATER = component_lifesteal_add 			RELATION = ">"  OUTPUT_VALUE = 1 		UNIT_VALUE = -1 }
+		kuat_battle_set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_shield_penetration_mult 		RELATION = "!=" OUTPUT_VALUE = -1 		UNIT_VALUE = 1 }
+		kuat_battle_set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_armor_penetration_mult 		RELATION = "!=" OUTPUT_VALUE = -1 		UNIT_VALUE = 1 }
+		kuat_battle_set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_disengage_chance_reduction 	RELATION = "!=" OUTPUT_VALUE = 1 		UNIT_VALUE = -1 }
+		kuat_battle_set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_armor_damage_mult 				RELATION = "!=" OUTPUT_VALUE = -0.25 	UNIT_VALUE = 0.25 } 
+		kuat_battle_set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_shield_damage_mult 			RELATION = "!=" OUTPUT_VALUE = -0.25 	UNIT_VALUE = 0.25 }
+		kuat_battle_set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_hull_damage_mult				RELATION = "!=" OUTPUT_VALUE = -0.25 	UNIT_VALUE = 0.25 } 
+		kuat_battle_set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_weapon_damage 					RELATION = "!=" OUTPUT_VALUE = -0.25 	UNIT_VALUE = 0.25 }
+		kuat_battle_set_eternal_fleet_standard_modifier 				= { PARAMATER = component_lifesteal_add 			RELATION = ">"  OUTPUT_VALUE = 1 		UNIT_VALUE = -1 }
 	]
 
 	[[frendly] 
-		set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_armor_damage_mult 				RELATION = "!=" OUTPUT_VALUE = 0 		UNIT_VALUE = 0 }
-		set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_shield_damage_mult				RELATION = "!=" OUTPUT_VALUE = 0 		UNIT_VALUE = 0 }
-		set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_hull_damage_mult				RELATION = "!=" OUTPUT_VALUE = 0 		UNIT_VALUE = 0 }
-		set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_hull_mult 						RELATION = "<"  OUTPUT_VALUE = 0.5 		UNIT_VALUE = -0.5 }
-		set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_armor_mult						RELATION = "<"  OUTPUT_VALUE = 0.5 		UNIT_VALUE = -0.5 }    
-		set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_shield_mult					RELATION = "<"  OUTPUT_VALUE = 0.5 		UNIT_VALUE = -0.5 }    
-		set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_weapon_range_mult 				RELATION = "<"  OUTPUT_VALUE = 0.5 		UNIT_VALUE = -0.5 } 
-		set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_tracking_mult 					RELATION = "<"  OUTPUT_VALUE = 0.5 		UNIT_VALUE = -0.5 }   
-		set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_accuracy_mult 					RELATION = "<"  OUTPUT_VALUE = 0.5 		UNIT_VALUE = -0.5 }
-		set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_tracking_add 					RELATION = "!=" OUTPUT_VALUE = 50 		UNIT_VALUE = -50 }
-		set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_accuracy_add					RELATION = "!=" OUTPUT_VALUE = 50 		UNIT_VALUE = -50 }
-		set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_shield_add 					RELATION = "!=" OUTPUT_VALUE = 500000 	UNIT_VALUE = -500000 }   
-		set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_armor_add 						RELATION = "!=" OUTPUT_VALUE = 500000 	UNIT_VALUE = -500000 }  
-		set_eternal_fleet_standard_modifier					= { PARAMATER = ship_shield_reduction 				RELATION = "!=" OUTPUT_VALUE = 0 		UNIT_VALUE = 0 }
-		set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_armor_reduction 				RELATION = "!=" OUTPUT_VALUE = 0 		UNIT_VALUE = 0 }
+		kuat_battle_set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_armor_damage_mult 				RELATION = "!=" OUTPUT_VALUE = 0 		UNIT_VALUE = 0 }
+		kuat_battle_set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_shield_damage_mult				RELATION = "!=" OUTPUT_VALUE = 0 		UNIT_VALUE = 0 }
+		kuat_battle_set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_hull_damage_mult				RELATION = "!=" OUTPUT_VALUE = 0 		UNIT_VALUE = 0 }
+		kuat_battle_set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_hull_mult 						RELATION = "<"  OUTPUT_VALUE = 0.5 		UNIT_VALUE = -0.5 }
+		kuat_battle_set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_armor_mult						RELATION = "<"  OUTPUT_VALUE = 0.5 		UNIT_VALUE = -0.5 }    
+		kuat_battle_set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_shield_mult					RELATION = "<"  OUTPUT_VALUE = 0.5 		UNIT_VALUE = -0.5 }    
+		kuat_battle_set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_weapon_range_mult 				RELATION = "<"  OUTPUT_VALUE = 0.5 		UNIT_VALUE = -0.5 } 
+		kuat_battle_set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_tracking_mult 					RELATION = "<"  OUTPUT_VALUE = 0.5 		UNIT_VALUE = -0.5 }   
+		kuat_battle_set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_accuracy_mult 					RELATION = "<"  OUTPUT_VALUE = 0.5 		UNIT_VALUE = -0.5 }
+		kuat_battle_set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_tracking_add 					RELATION = "!=" OUTPUT_VALUE = 50 		UNIT_VALUE = -50 }
+		kuat_battle_set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_accuracy_add					RELATION = "!=" OUTPUT_VALUE = 50 		UNIT_VALUE = -50 }
+		kuat_battle_set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_shield_add 					RELATION = "!=" OUTPUT_VALUE = 500000 	UNIT_VALUE = -500000 }   
+		kuat_battle_set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_armor_add 						RELATION = "!=" OUTPUT_VALUE = 500000 	UNIT_VALUE = -500000 }  
+		kuat_battle_set_eternal_fleet_standard_modifier					= { PARAMATER = ship_shield_reduction 				RELATION = "!=" OUTPUT_VALUE = 0 		UNIT_VALUE = 0 }
+		kuat_battle_set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_armor_reduction 				RELATION = "!=" OUTPUT_VALUE = 0 		UNIT_VALUE = 0 }
 	]
 
 	[[AUTO]
-		set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_weapon_damage					RELATION = "<"  OUTPUT_VALUE = 0.5		UNIT_VALUE = -0.5 } 
-		set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_shield_penetration_mult		RELATION = "<"  OUTPUT_VALUE = 0.5		UNIT_VALUE = -0.5 } 
-		set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_armor_penetration_mult			RELATION = "<"  OUTPUT_VALUE = 0.5 		UNIT_VALUE = -0.5 }
+		kuat_battle_set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_weapon_damage					RELATION = "<"  OUTPUT_VALUE = 0.5		UNIT_VALUE = -0.5 } 
+		kuat_battle_set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_shield_penetration_mult		RELATION = "<"  OUTPUT_VALUE = 0.5		UNIT_VALUE = -0.5 } 
+		kuat_battle_set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_armor_penetration_mult			RELATION = "<"  OUTPUT_VALUE = 0.5 		UNIT_VALUE = -0.5 }
 	]
 }
  
-set_difiicult_eternal_fleet_mult_modifier = {
+kuat_battle_set_difiicult_eternal_fleet_mult_modifier = {
 	optimize_memory
 	[[netrual] 
-		set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_speed_mult 					RELATION = "<"  OUTPUT_VALUE = 0 	UNIT_VALUE = 0 }
-		set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_armor_hardening_add 			RELATION = "!=" OUTPUT_VALUE = 0 	UNIT_VALUE = 0 } 
-		set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_shield_hardening_add 			RELATION = "!=" OUTPUT_VALUE = 0 	UNIT_VALUE = 0 }
-		set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_fire_rate_mult 				RELATION = "!=" OUTPUT_VALUE = 0 	UNIT_VALUE = 0 }
-		set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_hull_regen_add_static			RELATION = "!=" OUTPUT_VALUE = 0 	UNIT_VALUE = 0 }
-		set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_armor_regen_add_static			RELATION = "!=" OUTPUT_VALUE = 0 	UNIT_VALUE = 0 }
-		set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_shield_regen_add_static		RELATION = "!=" OUTPUT_VALUE = 0 	UNIT_VALUE = 0 }
-		set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_hull_regen_add_perc 			RELATION = "!=" OUTPUT_VALUE = 0 	UNIT_VALUE = 0 }
-		set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_armor_regen_add_perc 			RELATION = "!=" OUTPUT_VALUE = 0 	UNIT_VALUE = 0 }
-		set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_shield_regen_add_perc 			RELATION = "!=" OUTPUT_VALUE = 0 	UNIT_VALUE = 0 }
-		set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_steal_defeated_ship_chance 	RELATION = "!=" OUTPUT_VALUE = 0 	UNIT_VALUE = 0 }
-		set_eternal_fleet_standard_modifier 				= { PARAMATER = fleet_capture_defeated_leader_chance RELATION = "!=" OUTPUT_VALUE = 0 	UNIT_VALUE = 0 }
+		kuat_battle_set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_speed_mult 					RELATION = "<"  OUTPUT_VALUE = 0 	UNIT_VALUE = 0 }
+		kuat_battle_set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_armor_hardening_add 			RELATION = "!=" OUTPUT_VALUE = 0 	UNIT_VALUE = 0 } 
+		kuat_battle_set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_shield_hardening_add 			RELATION = "!=" OUTPUT_VALUE = 0 	UNIT_VALUE = 0 }
+		kuat_battle_set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_fire_rate_mult 				RELATION = "!=" OUTPUT_VALUE = 0 	UNIT_VALUE = 0 }
+		kuat_battle_set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_hull_regen_add_static			RELATION = "!=" OUTPUT_VALUE = 0 	UNIT_VALUE = 0 }
+		kuat_battle_set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_armor_regen_add_static			RELATION = "!=" OUTPUT_VALUE = 0 	UNIT_VALUE = 0 }
+		kuat_battle_set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_shield_regen_add_static		RELATION = "!=" OUTPUT_VALUE = 0 	UNIT_VALUE = 0 }
+		kuat_battle_set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_hull_regen_add_perc 			RELATION = "!=" OUTPUT_VALUE = 0 	UNIT_VALUE = 0 }
+		kuat_battle_set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_armor_regen_add_perc 			RELATION = "!=" OUTPUT_VALUE = 0 	UNIT_VALUE = 0 }
+		kuat_battle_set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_shield_regen_add_perc 			RELATION = "!=" OUTPUT_VALUE = 0 	UNIT_VALUE = 0 }
+		kuat_battle_set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_steal_defeated_ship_chance 	RELATION = "!=" OUTPUT_VALUE = 0 	UNIT_VALUE = 0 }
+		kuat_battle_set_eternal_fleet_standard_modifier 				= { PARAMATER = fleet_capture_defeated_leader_chance RELATION = "!=" OUTPUT_VALUE = 0 	UNIT_VALUE = 0 }
 	]
 	
 	[[hostile] 
-		set_eternal_fleet_standard_modifier 			= { PARAMATER = component_lifesteal_add 			RELATION = ">"  OUTPUT_VALUE = 1 	UNIT_VALUE = -1 }
-		set_eternal_fleet_standard_modifier 			= { PARAMATER = ship_shield_penetration_mult 		RELATION = "!=" OUTPUT_VALUE = -1 	UNIT_VALUE = 1 }
-		set_eternal_fleet_standard_modifier 			= { PARAMATER = ship_armor_penetration_mult 		RELATION = "!=" OUTPUT_VALUE = -1 	UNIT_VALUE = 1 }
-		set_eternal_fleet_standard_modifier 			= { PARAMATER = ship_disengage_chance_reduction 	RELATION = "!=" OUTPUT_VALUE = 1 	UNIT_VALUE = -1 }
-		set_eternal_fleet_damage_modifier 				= { PARAMATER = ship_armor_damage_mult				RELATION = "!="	UNIT = origin		UNIT1 = medium		UNIT2 = small		UNIT3 = max }  
-		set_eternal_fleet_damage_modifier 				= { PARAMATER = ship_shield_damage_mult				RELATION = "!="	UNIT = origin		UNIT1 = medium		UNIT2 = small		UNIT3 = max } 
-		set_eternal_fleet_damage_modifier 				= { PARAMATER = ship_hull_damage_mult 				RELATION = "!="	UNIT = origin		UNIT1 = medium		UNIT2 = small		UNIT3 = max }  
-		set_eternal_fleet_damage_modifier 				= { PARAMATER = ship_weapon_damage 					RELATION = "!="	UNIT = origin		UNIT1 = medium		UNIT2 = small		UNIT3 = max }
+		kuat_battle_set_eternal_fleet_standard_modifier 			= { PARAMATER = component_lifesteal_add 			RELATION = ">"  OUTPUT_VALUE = 1 	UNIT_VALUE = -1 }
+		kuat_battle_set_eternal_fleet_standard_modifier 			= { PARAMATER = ship_shield_penetration_mult 		RELATION = "!=" OUTPUT_VALUE = -1 	UNIT_VALUE = 1 }
+		kuat_battle_set_eternal_fleet_standard_modifier 			= { PARAMATER = ship_armor_penetration_mult 		RELATION = "!=" OUTPUT_VALUE = -1 	UNIT_VALUE = 1 }
+		kuat_battle_set_eternal_fleet_standard_modifier 			= { PARAMATER = ship_disengage_chance_reduction 	RELATION = "!=" OUTPUT_VALUE = 1 	UNIT_VALUE = -1 }
+		kuat_battle_set_eternal_fleet_damage_modifier 				= { PARAMATER = ship_armor_damage_mult				RELATION = "!="	UNIT = origin		UNIT1 = medium		UNIT2 = small		UNIT3 = max }  
+		kuat_battle_set_eternal_fleet_damage_modifier 				= { PARAMATER = ship_shield_damage_mult				RELATION = "!="	UNIT = origin		UNIT1 = medium		UNIT2 = small		UNIT3 = max } 
+		kuat_battle_set_eternal_fleet_damage_modifier 				= { PARAMATER = ship_hull_damage_mult 				RELATION = "!="	UNIT = origin		UNIT1 = medium		UNIT2 = small		UNIT3 = max }  
+		kuat_battle_set_eternal_fleet_damage_modifier 				= { PARAMATER = ship_weapon_damage 					RELATION = "!="	UNIT = origin		UNIT1 = medium		UNIT2 = small		UNIT3 = max }
 	]
 
 	[[frendly] 
-		set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_armor_damage_mult 				RELATION = "!=" OUTPUT_VALUE = 0 		UNIT_VALUE = 0 }
-		set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_shield_damage_mult				RELATION = "!=" OUTPUT_VALUE = 0 		UNIT_VALUE = 0 }
-		set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_hull_damage_mult				RELATION = "!=" OUTPUT_VALUE = 0 		UNIT_VALUE = 0 }
-		set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_hull_mult 						RELATION = "<"  OUTPUT_VALUE = 1 		UNIT_VALUE = -1 }
-		set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_armor_mult						RELATION = "<"  OUTPUT_VALUE = 1 		UNIT_VALUE = -1 }   
-		set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_shield_penetration_mult		RELATION = "<"  OUTPUT_VALUE = 1		UNIT_VALUE = -1 } 
-		set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_armor_penetration_mult			RELATION = "<"  OUTPUT_VALUE = 1		UNIT_VALUE = -1 }  
-		set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_shield_mult					RELATION = "<"  OUTPUT_VALUE = 1 		UNIT_VALUE = -1 }    
-		set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_weapon_range_mult 				RELATION = "<"  OUTPUT_VALUE = 1 		UNIT_VALUE = -1 } 
-		set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_tracking_mult 					RELATION = "<"  OUTPUT_VALUE = 1 		UNIT_VALUE = -1 }   
-		set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_accuracy_mult 					RELATION = "<"  OUTPUT_VALUE = 1 		UNIT_VALUE = -1 }
-		set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_tracking_add 					RELATION = "!=" OUTPUT_VALUE = 100 		UNIT_VALUE = -100 }
-		set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_accuracy_add					RELATION = "!=" OUTPUT_VALUE = 100 		UNIT_VALUE = -100 }
-		set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_shield_add 					RELATION = "!=" OUTPUT_VALUE = 1000000 	UNIT_VALUE = -1000000 }   
-		set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_armor_add 						RELATION = "!=" OUTPUT_VALUE = 1000000 	UNIT_VALUE = -1000000 }  
-		set_eternal_fleet_standard_modifier					= { PARAMATER = ship_shield_reduction 				RELATION = "!=" OUTPUT_VALUE = 0 		UNIT_VALUE = 0 }
-		set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_armor_reduction 				RELATION = "!=" OUTPUT_VALUE = 0 		UNIT_VALUE = 0 }
+		kuat_battle_set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_armor_damage_mult 				RELATION = "!=" OUTPUT_VALUE = 0 		UNIT_VALUE = 0 }
+		kuat_battle_set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_shield_damage_mult				RELATION = "!=" OUTPUT_VALUE = 0 		UNIT_VALUE = 0 }
+		kuat_battle_set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_hull_damage_mult				RELATION = "!=" OUTPUT_VALUE = 0 		UNIT_VALUE = 0 }
+		kuat_battle_set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_hull_mult 						RELATION = "<"  OUTPUT_VALUE = 1 		UNIT_VALUE = -1 }
+		kuat_battle_set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_armor_mult						RELATION = "<"  OUTPUT_VALUE = 1 		UNIT_VALUE = -1 }   
+		kuat_battle_set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_shield_penetration_mult		RELATION = "<"  OUTPUT_VALUE = 1		UNIT_VALUE = -1 } 
+		kuat_battle_set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_armor_penetration_mult			RELATION = "<"  OUTPUT_VALUE = 1		UNIT_VALUE = -1 }  
+		kuat_battle_set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_shield_mult					RELATION = "<"  OUTPUT_VALUE = 1 		UNIT_VALUE = -1 }    
+		kuat_battle_set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_weapon_range_mult 				RELATION = "<"  OUTPUT_VALUE = 1 		UNIT_VALUE = -1 } 
+		kuat_battle_set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_tracking_mult 					RELATION = "<"  OUTPUT_VALUE = 1 		UNIT_VALUE = -1 }   
+		kuat_battle_set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_accuracy_mult 					RELATION = "<"  OUTPUT_VALUE = 1 		UNIT_VALUE = -1 }
+		kuat_battle_set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_tracking_add 					RELATION = "!=" OUTPUT_VALUE = 100 		UNIT_VALUE = -100 }
+		kuat_battle_set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_accuracy_add					RELATION = "!=" OUTPUT_VALUE = 100 		UNIT_VALUE = -100 }
+		kuat_battle_set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_shield_add 					RELATION = "!=" OUTPUT_VALUE = 1000000 	UNIT_VALUE = -1000000 }   
+		kuat_battle_set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_armor_add 						RELATION = "!=" OUTPUT_VALUE = 1000000 	UNIT_VALUE = -1000000 }  
+		kuat_battle_set_eternal_fleet_standard_modifier					= { PARAMATER = ship_shield_reduction 				RELATION = "!=" OUTPUT_VALUE = 0 		UNIT_VALUE = 0 }
+		kuat_battle_set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_armor_reduction 				RELATION = "!=" OUTPUT_VALUE = 0 		UNIT_VALUE = 0 }
 	]
 
 	[[AUTO]
-		set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_weapon_damage							RELATION = "<"  OUTPUT_VALUE = value:kuat_dynamic_OUTPUT_value		UNIT_VALUE = value:kuat_dynamic_UNIT_value } 
-		set_eternal_fleet_standard_modifier 				= { PARAMATER = weapon_type_energy_weapon_damage_mult		RELATION = "<"  OUTPUT_VALUE = value:kuat_dynamic_OUTPUT_value		UNIT_VALUE = value:kuat_dynamic_UNIT_value } 
-		set_eternal_fleet_standard_modifier 				= { PARAMATER = weapon_type_kinetic_weapon_damage_mult		RELATION = "<"  OUTPUT_VALUE = value:kuat_dynamic_OUTPUT_value		UNIT_VALUE = value:kuat_dynamic_UNIT_value } 
-		set_eternal_fleet_standard_modifier 				= { PARAMATER = weapon_type_explosive_weapon_damage_mult	RELATION = "<"  OUTPUT_VALUE = value:kuat_dynamic_OUTPUT_value		UNIT_VALUE = value:kuat_dynamic_UNIT_value } 
-		set_eternal_fleet_standard_modifier 				= { PARAMATER = weapon_type_strike_craft_weapon_damage_mult	RELATION = "<"  OUTPUT_VALUE = value:kuat_dynamic_OUTPUT_value		UNIT_VALUE = value:kuat_dynamic_UNIT_value } 
+		kuat_battle_set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_weapon_damage							RELATION = "<"  OUTPUT_VALUE = value:kuat_dynamic_OUTPUT_value		UNIT_VALUE = value:kuat_dynamic_UNIT_value } 
+		kuat_battle_set_eternal_fleet_standard_modifier 				= { PARAMATER = weapon_type_energy_weapon_damage_mult		RELATION = "<"  OUTPUT_VALUE = value:kuat_dynamic_OUTPUT_value		UNIT_VALUE = value:kuat_dynamic_UNIT_value } 
+		kuat_battle_set_eternal_fleet_standard_modifier 				= { PARAMATER = weapon_type_kinetic_weapon_damage_mult		RELATION = "<"  OUTPUT_VALUE = value:kuat_dynamic_OUTPUT_value		UNIT_VALUE = value:kuat_dynamic_UNIT_value } 
+		kuat_battle_set_eternal_fleet_standard_modifier 				= { PARAMATER = weapon_type_explosive_weapon_damage_mult	RELATION = "<"  OUTPUT_VALUE = value:kuat_dynamic_OUTPUT_value		UNIT_VALUE = value:kuat_dynamic_UNIT_value } 
+		kuat_battle_set_eternal_fleet_standard_modifier 				= { PARAMATER = weapon_type_strike_craft_weapon_damage_mult	RELATION = "<"  OUTPUT_VALUE = value:kuat_dynamic_OUTPUT_value		UNIT_VALUE = value:kuat_dynamic_UNIT_value } 
 	]
 }
 
-set_ban_eternal_fleet_mult_modifier = {
+kuat_battle_set_ban_eternal_fleet_mult_modifier = {
 	optimize_memory
 	[[netrual] 
-		set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_speed_mult 					RELATION = "<"  OUTPUT_VALUE = 0 	UNIT_VALUE = 0 }
-		set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_armor_hardening_add 			RELATION = "!=" OUTPUT_VALUE = 0 	UNIT_VALUE = 0 } 
-		set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_shield_hardening_add 			RELATION = "!=" OUTPUT_VALUE = 0 	UNIT_VALUE = 0 }
-		set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_fire_rate_mult 				RELATION = "!=" OUTPUT_VALUE = 0 	UNIT_VALUE = 0 }
-		set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_hull_regen_add_static			RELATION = "!=" OUTPUT_VALUE = 0 	UNIT_VALUE = 0 }
-		set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_armor_regen_add_static			RELATION = "!=" OUTPUT_VALUE = 0 	UNIT_VALUE = 0 }
-		set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_shield_regen_add_static		RELATION = "!=" OUTPUT_VALUE = 0 	UNIT_VALUE = 0 }
-		set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_hull_regen_add_perc 			RELATION = "!=" OUTPUT_VALUE = 0 	UNIT_VALUE = 0 }
-		set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_armor_regen_add_perc 			RELATION = "!=" OUTPUT_VALUE = 0 	UNIT_VALUE = 0 }
-		set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_shield_regen_add_perc 			RELATION = "!=" OUTPUT_VALUE = 0 	UNIT_VALUE = 0 }
-		set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_steal_defeated_ship_chance 	RELATION = "!=" OUTPUT_VALUE = 0 	UNIT_VALUE = 0 }
-		set_eternal_fleet_standard_modifier 				= { PARAMATER = fleet_capture_defeated_leader_chance RELATION = "!=" OUTPUT_VALUE = 0 	UNIT_VALUE = 0 }
+		kuat_battle_set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_speed_mult 					RELATION = "<"  OUTPUT_VALUE = 0 	UNIT_VALUE = 0 }
+		kuat_battle_set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_armor_hardening_add 			RELATION = "!=" OUTPUT_VALUE = 0 	UNIT_VALUE = 0 } 
+		kuat_battle_set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_shield_hardening_add 			RELATION = "!=" OUTPUT_VALUE = 0 	UNIT_VALUE = 0 }
+		kuat_battle_set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_fire_rate_mult 				RELATION = "!=" OUTPUT_VALUE = 0 	UNIT_VALUE = 0 }
+		kuat_battle_set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_hull_regen_add_static			RELATION = "!=" OUTPUT_VALUE = 0 	UNIT_VALUE = 0 }
+		kuat_battle_set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_armor_regen_add_static			RELATION = "!=" OUTPUT_VALUE = 0 	UNIT_VALUE = 0 }
+		kuat_battle_set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_shield_regen_add_static		RELATION = "!=" OUTPUT_VALUE = 0 	UNIT_VALUE = 0 }
+		kuat_battle_set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_hull_regen_add_perc 			RELATION = "!=" OUTPUT_VALUE = 0 	UNIT_VALUE = 0 }
+		kuat_battle_set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_armor_regen_add_perc 			RELATION = "!=" OUTPUT_VALUE = 0 	UNIT_VALUE = 0 }
+		kuat_battle_set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_shield_regen_add_perc 			RELATION = "!=" OUTPUT_VALUE = 0 	UNIT_VALUE = 0 }
+		kuat_battle_set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_steal_defeated_ship_chance 	RELATION = "!=" OUTPUT_VALUE = 0 	UNIT_VALUE = 0 }
+		kuat_battle_set_eternal_fleet_standard_modifier 				= { PARAMATER = fleet_capture_defeated_leader_chance RELATION = "!=" OUTPUT_VALUE = 0 	UNIT_VALUE = 0 }
 	] 
 	
 	[[hostile] 
-		set_eternal_fleet_standard_modifier 				= { PARAMATER = component_lifesteal_add 			RELATION = ">"  OUTPUT_VALUE = 1 	UNIT_VALUE = -1 }
-		set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_shield_penetration_mult 		RELATION = "!=" OUTPUT_VALUE = -1 	UNIT_VALUE = 1 }
-		set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_armor_penetration_mult 		RELATION = "!=" OUTPUT_VALUE = -1 	UNIT_VALUE = 1 }
-		set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_disengage_chance_reduction 	RELATION = "!=" OUTPUT_VALUE = 1 	UNIT_VALUE = -1 }
-		set_eternal_fleet_damage_modifier 					= { PARAMATER = ship_armor_damage_mult				RELATION = "!=" UNIT = origin		UNIT1 = max		UNIT2 = medium		UNIT3 = maxul }  
-		set_eternal_fleet_damage_modifier 					= { PARAMATER = ship_shield_damage_mult				RELATION = "!="	UNIT = origin		UNIT1 = max		UNIT2 = medium		UNIT3 = maxul } 
-		set_eternal_fleet_damage_modifier 					= { PARAMATER = ship_hull_damage_mult 				RELATION = "!="	UNIT = origin		UNIT1 = max		UNIT2 = medium		UNIT3 = maxul }  
-		set_eternal_fleet_damage_modifier 					= { PARAMATER = ship_weapon_damage 					RELATION = "!="	UNIT = origin		UNIT1 = max		UNIT2 = medium		UNIT3 = maxul }
+		kuat_battle_set_eternal_fleet_standard_modifier 				= { PARAMATER = component_lifesteal_add 			RELATION = ">"  OUTPUT_VALUE = 1 	UNIT_VALUE = -1 }
+		kuat_battle_set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_shield_penetration_mult 		RELATION = "!=" OUTPUT_VALUE = -1 	UNIT_VALUE = 1 }
+		kuat_battle_set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_armor_penetration_mult 		RELATION = "!=" OUTPUT_VALUE = -1 	UNIT_VALUE = 1 }
+		kuat_battle_set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_disengage_chance_reduction 	RELATION = "!=" OUTPUT_VALUE = 1 	UNIT_VALUE = -1 }
+		kuat_battle_set_eternal_fleet_damage_modifier 					= { PARAMATER = ship_armor_damage_mult				RELATION = "!=" UNIT = origin		UNIT1 = max		UNIT2 = medium		UNIT3 = maxul }  
+		kuat_battle_set_eternal_fleet_damage_modifier 					= { PARAMATER = ship_shield_damage_mult				RELATION = "!="	UNIT = origin		UNIT1 = max		UNIT2 = medium		UNIT3 = maxul } 
+		kuat_battle_set_eternal_fleet_damage_modifier 					= { PARAMATER = ship_hull_damage_mult 				RELATION = "!="	UNIT = origin		UNIT1 = max		UNIT2 = medium		UNIT3 = maxul }  
+		kuat_battle_set_eternal_fleet_damage_modifier 					= { PARAMATER = ship_weapon_damage 					RELATION = "!="	UNIT = origin		UNIT1 = max		UNIT2 = medium		UNIT3 = maxul }
 	] 
 
 	[[frendly] 
-		set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_armor_damage_mult 				RELATION = "!=" OUTPUT_VALUE = 0 		UNIT_VALUE = 0 }
-		set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_shield_damage_mult				RELATION = "!=" OUTPUT_VALUE = 0 		UNIT_VALUE = 0 }
-		set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_hull_damage_mult				RELATION = "!=" OUTPUT_VALUE = 0 		UNIT_VALUE = 0 } 
-		set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_shield_penetration_mult		RELATION = "<"  OUTPUT_VALUE = 2		UNIT_VALUE = -2 } 
-		set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_armor_penetration_mult			RELATION = "<"  OUTPUT_VALUE = 2		UNIT_VALUE = -2 }  
-		set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_hull_mult 						RELATION = "<"  OUTPUT_VALUE = 2 		UNIT_VALUE = -2 }
-		set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_armor_mult						RELATION = "<"  OUTPUT_VALUE = 2 		UNIT_VALUE = -2 }    
-		set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_shield_mult					RELATION = "<"  OUTPUT_VALUE = 2 		UNIT_VALUE = -2 }    
-		set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_weapon_range_mult 				RELATION = "<"  OUTPUT_VALUE = 2 		UNIT_VALUE = -2 } 
-		set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_tracking_mult 					RELATION = "<"  OUTPUT_VALUE = 2 		UNIT_VALUE = -2 }   
-		set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_accuracy_mult 					RELATION = "<"  OUTPUT_VALUE = 2 		UNIT_VALUE = -2 }
-		set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_tracking_add 					RELATION = "!=" OUTPUT_VALUE = 200 		UNIT_VALUE = -200 }
-		set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_accuracy_add					RELATION = "!=" OUTPUT_VALUE = 200 		UNIT_VALUE = -200 }
-		set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_shield_add 					RELATION = "!=" OUTPUT_VALUE = 2000000 	UNIT_VALUE = -2000000 }   
-		set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_armor_add 						RELATION = "!=" OUTPUT_VALUE = 2000000 	UNIT_VALUE = -2000000 }  
-		set_eternal_fleet_standard_modifier					= { PARAMATER = ship_shield_reduction 				RELATION = "!=" OUTPUT_VALUE = 0 		UNIT_VALUE = 0 }
-		set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_armor_reduction 				RELATION = "!=" OUTPUT_VALUE = 0 		UNIT_VALUE = 0 }
+		kuat_battle_set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_armor_damage_mult 				RELATION = "!=" OUTPUT_VALUE = 0 		UNIT_VALUE = 0 }
+		kuat_battle_set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_shield_damage_mult				RELATION = "!=" OUTPUT_VALUE = 0 		UNIT_VALUE = 0 }
+		kuat_battle_set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_hull_damage_mult				RELATION = "!=" OUTPUT_VALUE = 0 		UNIT_VALUE = 0 } 
+		kuat_battle_set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_shield_penetration_mult		RELATION = "<"  OUTPUT_VALUE = 2		UNIT_VALUE = -2 } 
+		kuat_battle_set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_armor_penetration_mult			RELATION = "<"  OUTPUT_VALUE = 2		UNIT_VALUE = -2 }  
+		kuat_battle_set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_hull_mult 						RELATION = "<"  OUTPUT_VALUE = 2 		UNIT_VALUE = -2 }
+		kuat_battle_set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_armor_mult						RELATION = "<"  OUTPUT_VALUE = 2 		UNIT_VALUE = -2 }    
+		kuat_battle_set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_shield_mult					RELATION = "<"  OUTPUT_VALUE = 2 		UNIT_VALUE = -2 }    
+		kuat_battle_set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_weapon_range_mult 				RELATION = "<"  OUTPUT_VALUE = 2 		UNIT_VALUE = -2 } 
+		kuat_battle_set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_tracking_mult 					RELATION = "<"  OUTPUT_VALUE = 2 		UNIT_VALUE = -2 }   
+		kuat_battle_set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_accuracy_mult 					RELATION = "<"  OUTPUT_VALUE = 2 		UNIT_VALUE = -2 }
+		kuat_battle_set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_tracking_add 					RELATION = "!=" OUTPUT_VALUE = 200 		UNIT_VALUE = -200 }
+		kuat_battle_set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_accuracy_add					RELATION = "!=" OUTPUT_VALUE = 200 		UNIT_VALUE = -200 }
+		kuat_battle_set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_shield_add 					RELATION = "!=" OUTPUT_VALUE = 2000000 	UNIT_VALUE = -2000000 }   
+		kuat_battle_set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_armor_add 						RELATION = "!=" OUTPUT_VALUE = 2000000 	UNIT_VALUE = -2000000 }  
+		kuat_battle_set_eternal_fleet_standard_modifier					= { PARAMATER = ship_shield_reduction 				RELATION = "!=" OUTPUT_VALUE = 0 		UNIT_VALUE = 0 }
+		kuat_battle_set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_armor_reduction 				RELATION = "!=" OUTPUT_VALUE = 0 		UNIT_VALUE = 0 }
 	]
 
 	[[AUTO]
-		set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_weapon_damage							RELATION = "<"  OUTPUT_VALUE = value:kuat_dynamic_OUTPUT_value		UNIT_VALUE = value:kuat_dynamic_UNIT_value } 
-		set_eternal_fleet_standard_modifier 				= { PARAMATER = weapon_type_energy_weapon_damage_mult		RELATION = "<"  OUTPUT_VALUE = value:kuat_dynamic_OUTPUT_value		UNIT_VALUE = value:kuat_dynamic_UNIT_value } 
-		set_eternal_fleet_standard_modifier 				= { PARAMATER = weapon_type_kinetic_weapon_damage_mult		RELATION = "<"  OUTPUT_VALUE = value:kuat_dynamic_OUTPUT_value		UNIT_VALUE = value:kuat_dynamic_UNIT_value } 
-		set_eternal_fleet_standard_modifier 				= { PARAMATER = weapon_type_explosive_weapon_damage_mult	RELATION = "<"  OUTPUT_VALUE = value:kuat_dynamic_OUTPUT_value		UNIT_VALUE = value:kuat_dynamic_UNIT_value } 
-		set_eternal_fleet_standard_modifier 				= { PARAMATER = weapon_type_strike_craft_weapon_damage_mult	RELATION = "<"  OUTPUT_VALUE = value:kuat_dynamic_OUTPUT_value		UNIT_VALUE = value:kuat_dynamic_UNIT_value } 
+		kuat_battle_set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_weapon_damage							RELATION = "<"  OUTPUT_VALUE = value:kuat_dynamic_OUTPUT_value		UNIT_VALUE = value:kuat_dynamic_UNIT_value } 
+		kuat_battle_set_eternal_fleet_standard_modifier 				= { PARAMATER = weapon_type_energy_weapon_damage_mult		RELATION = "<"  OUTPUT_VALUE = value:kuat_dynamic_OUTPUT_value		UNIT_VALUE = value:kuat_dynamic_UNIT_value } 
+		kuat_battle_set_eternal_fleet_standard_modifier 				= { PARAMATER = weapon_type_kinetic_weapon_damage_mult		RELATION = "<"  OUTPUT_VALUE = value:kuat_dynamic_OUTPUT_value		UNIT_VALUE = value:kuat_dynamic_UNIT_value } 
+		kuat_battle_set_eternal_fleet_standard_modifier 				= { PARAMATER = weapon_type_explosive_weapon_damage_mult	RELATION = "<"  OUTPUT_VALUE = value:kuat_dynamic_OUTPUT_value		UNIT_VALUE = value:kuat_dynamic_UNIT_value } 
+		kuat_battle_set_eternal_fleet_standard_modifier 				= { PARAMATER = weapon_type_strike_craft_weapon_damage_mult	RELATION = "<"  OUTPUT_VALUE = value:kuat_dynamic_OUTPUT_value		UNIT_VALUE = value:kuat_dynamic_UNIT_value } 
 	]
 }
 
@@ -697,7 +697,7 @@ set_ban_eternal_fleet_mult_modifier = {
 # OUTPUT_VALUE: target value of modifier.
 # TYPE: value class type, for example change\subtract.
 # SUPPORT: + OR -  
-set_eternal_fleet_standard_modifier = {
+kuat_battle_set_eternal_fleet_standard_modifier = {
 	optimize_memory
 	if = { 
 		limit = { 
@@ -735,7 +735,7 @@ set_eternal_fleet_standard_modifier = {
 # UNIT：Non flagship value  
 # UNIT1：flagship value
 # SUPPORT: -
-set_eternal_fleet_damage_modifier = {
+kuat_battle_set_eternal_fleet_damage_modifier = {
 	optimize_memory
 	if = {
 		limit = { 
@@ -803,7 +803,7 @@ set_eternal_fleet_damage_modifier = {
 # UNIT：Non flagship value  
 # RELATION： < > or = 
 # SUPPORT: +
-set_eternal_fleet_protection_modifier = {
+kuat_battle_set_eternal_fleet_protection_modifier = {
 	optimize_memory
 	if = {
 		limit = { 
@@ -876,7 +876,7 @@ set_eternal_fleet_protection_modifier = {
 # parameter1： the repeatable fire rate modifier(input)
 # parameter1： the repeatable damage modifier(output)
 # UNIT：Value standard
-set_standard_battle_repeatable_modifier = {
+kuat_battle_set_standard_battle_repeatable_modifier = {
 	optimize_memory
 	if = {
 		limit = { 
@@ -922,7 +922,7 @@ set_standard_battle_repeatable_modifier = {
 # parameter1： the repeatable fire rate modifier(input)
 # parameter1： the repeatable damage modifier(output)
 # UNIT：Value standard
-set_standard_battle_superlazer_weapon_keeping_modifier = {
+kuat_battle_set_standard_battle_superlazer_weapon_keeping_modifier = {
 	optimize_memory
 	if = {
 		limit = { 
@@ -955,7 +955,7 @@ set_standard_battle_superlazer_weapon_keeping_modifier = {
 	}
 }
 
-clear_superlazer_system_fixed_ship = {
+kuat_battle_clear_superlazer_system_fixed_ship = {
 	optimize_memory
 	remove_ship_flag = is_modifiering_superlazer 
 	remove_ship_flag = is_modifiering_power_superlazer
@@ -970,408 +970,408 @@ clear_superlazer_system_fixed_ship = {
 }
 
 # base modifier script
-set_invasion_fleet_basic_modifier = { 
+kuat_battle_set_invasion_fleet_basic_modifier = { 
 	optimize_memory
 	add_modifier = { modifier = $SUB$ multiplier = $FACTOR$ days = $DAYS|-1$ } 
 }
 
 # 重置一切
-clear_battleship_modifier_fixed_ship = {
+kuat_battle_clear_battleship_modifier_fixed_ship = {
 	optimize_memory
 	every_owned_ship = {
-		remove_executor_power = yes
-		remove_standard_modifier_system = { TITLE = basic }
-		remove_standard_modifier_system = { TITLE = change_basic }
-		remove_ship_modifier_trigger_flag = yes
-		remove_all_ship_modifier_change_basic_variable = yes
+		kuat_battle_remove_executor_power = yes
+		kuat_battle_remove_standard_modifier_system = { TITLE = basic }
+		kuat_battle_remove_standard_modifier_system = { TITLE = change_basic }
+		kuat_battle_remove_ship_modifier_trigger_flag = yes
+		kuat_battle_remove_all_ship_modifier_change_basic_variable = yes
 	}
-	remove_fleet_modifier_trigger_flag = yes
+	kuat_battle_remove_fleet_modifier_trigger_flag = yes
 }
 
-remove_all_ship_modifier_change_basic_variable = {
+kuat_battle_remove_all_ship_modifier_change_basic_variable = {
 	optimize_memory
-	remove_ship_modifier_change_basic_variable = { PARAMATER = ship_hull_regen_add_static }
-	remove_ship_modifier_change_basic_variable = { PARAMATER = ship_armor_regen_add_static }
-	remove_ship_modifier_change_basic_variable = { PARAMATER = ship_shield_regen_add_static }
-	remove_ship_modifier_change_basic_variable = { PARAMATER = ship_shield_regen_add_perc }
-	remove_ship_modifier_change_basic_variable = { PARAMATER = ship_armor_regen_add_perc }
-	remove_ship_modifier_change_basic_variable = { PARAMATER = ship_hull_regen_add_perc }
-	remove_ship_modifier_change_basic_variable = { PARAMATER = ship_disengage_chance_reduction }
-	remove_ship_modifier_change_basic_variable = { PARAMATER = ship_armor_hardening_add }
-	remove_ship_modifier_change_basic_variable = { PARAMATER = ship_shield_hardening_add }
-	remove_ship_modifier_change_basic_variable = { PARAMATER = ship_shield_penetration_mult }
-	remove_ship_modifier_change_basic_variable = { PARAMATER = ship_armor_penetration_mult }
-	remove_ship_modifier_change_basic_variable = { PARAMATER = ship_hull_mult }
-	remove_ship_modifier_change_basic_variable = { PARAMATER = ship_shield_mult }
-	remove_ship_modifier_change_basic_variable = { PARAMATER = ship_armor_mult }
-	remove_ship_modifier_change_basic_variable = { PARAMATER = ship_shield_reduction }
-	remove_ship_modifier_change_basic_variable = { PARAMATER = ship_armor_reduction }
-	remove_ship_modifier_change_basic_variable = { PARAMATER = ship_weapon_range_mult }
-	remove_ship_modifier_change_basic_variable = { PARAMATER = ship_fire_rate_mult }
-	remove_ship_modifier_change_basic_variable = { PARAMATER = ship_weapon_damage }
-	remove_ship_modifier_change_basic_variable = { PARAMATER = weapon_type_explosive_weapon_damage_mult }
-	remove_ship_modifier_change_basic_variable = { PARAMATER = weapon_type_energy_weapon_damage_mult }
-	remove_ship_modifier_change_basic_variable = { PARAMATER = weapon_type_kinetic_weapon_damage_mult }
-	remove_ship_modifier_change_basic_variable = { PARAMATER = ship_tracking_mult }
-	remove_ship_modifier_change_basic_variable = { PARAMATER = ship_tracking_add }
-	remove_ship_modifier_change_basic_variable = { PARAMATER = ship_accuracy_mult }
-	remove_ship_modifier_change_basic_variable = { PARAMATER = ship_accuracy_add }
-	remove_ship_modifier_change_basic_variable = { PARAMATER = ship_shield_add }
-	remove_ship_modifier_change_basic_variable = { PARAMATER = ship_armor_add }
-	remove_ship_modifier_change_basic_variable = { PARAMATER = ship_hull_damage_mult }
-	remove_ship_modifier_change_basic_variable = { PARAMATER = ship_shield_damage_mult }
-	remove_ship_modifier_change_basic_variable = { PARAMATER = ship_armor_damage_mult }
-	remove_ship_modifier_change_basic_variable = { PARAMATER = ship_speed_mult }
-	remove_ship_modifier_change_basic_variable = { PARAMATER = component_lifesteal_add }
-	remove_ship_modifier_change_basic_variable = { PARAMATER = ship_steal_defeated_ship_chance }
-	remove_ship_modifier_change_basic_variable = { PARAMATER = fleet_capture_defeated_leader_chance }
+	kuat_battle_remove_ship_modifier_change_basic_variable = { PARAMATER = ship_hull_regen_add_static }
+	kuat_battle_remove_ship_modifier_change_basic_variable = { PARAMATER = ship_armor_regen_add_static }
+	kuat_battle_remove_ship_modifier_change_basic_variable = { PARAMATER = ship_shield_regen_add_static }
+	kuat_battle_remove_ship_modifier_change_basic_variable = { PARAMATER = ship_shield_regen_add_perc }
+	kuat_battle_remove_ship_modifier_change_basic_variable = { PARAMATER = ship_armor_regen_add_perc }
+	kuat_battle_remove_ship_modifier_change_basic_variable = { PARAMATER = ship_hull_regen_add_perc }
+	kuat_battle_remove_ship_modifier_change_basic_variable = { PARAMATER = ship_disengage_chance_reduction }
+	kuat_battle_remove_ship_modifier_change_basic_variable = { PARAMATER = ship_armor_hardening_add }
+	kuat_battle_remove_ship_modifier_change_basic_variable = { PARAMATER = ship_shield_hardening_add }
+	kuat_battle_remove_ship_modifier_change_basic_variable = { PARAMATER = ship_shield_penetration_mult }
+	kuat_battle_remove_ship_modifier_change_basic_variable = { PARAMATER = ship_armor_penetration_mult }
+	kuat_battle_remove_ship_modifier_change_basic_variable = { PARAMATER = ship_hull_mult }
+	kuat_battle_remove_ship_modifier_change_basic_variable = { PARAMATER = ship_shield_mult }
+	kuat_battle_remove_ship_modifier_change_basic_variable = { PARAMATER = ship_armor_mult }
+	kuat_battle_remove_ship_modifier_change_basic_variable = { PARAMATER = ship_shield_reduction }
+	kuat_battle_remove_ship_modifier_change_basic_variable = { PARAMATER = ship_armor_reduction }
+	kuat_battle_remove_ship_modifier_change_basic_variable = { PARAMATER = ship_weapon_range_mult }
+	kuat_battle_remove_ship_modifier_change_basic_variable = { PARAMATER = ship_fire_rate_mult }
+	kuat_battle_remove_ship_modifier_change_basic_variable = { PARAMATER = ship_weapon_damage }
+	kuat_battle_remove_ship_modifier_change_basic_variable = { PARAMATER = weapon_type_explosive_weapon_damage_mult }
+	kuat_battle_remove_ship_modifier_change_basic_variable = { PARAMATER = weapon_type_energy_weapon_damage_mult }
+	kuat_battle_remove_ship_modifier_change_basic_variable = { PARAMATER = weapon_type_kinetic_weapon_damage_mult }
+	kuat_battle_remove_ship_modifier_change_basic_variable = { PARAMATER = ship_tracking_mult }
+	kuat_battle_remove_ship_modifier_change_basic_variable = { PARAMATER = ship_tracking_add }
+	kuat_battle_remove_ship_modifier_change_basic_variable = { PARAMATER = ship_accuracy_mult }
+	kuat_battle_remove_ship_modifier_change_basic_variable = { PARAMATER = ship_accuracy_add }
+	kuat_battle_remove_ship_modifier_change_basic_variable = { PARAMATER = ship_shield_add }
+	kuat_battle_remove_ship_modifier_change_basic_variable = { PARAMATER = ship_armor_add }
+	kuat_battle_remove_ship_modifier_change_basic_variable = { PARAMATER = ship_hull_damage_mult }
+	kuat_battle_remove_ship_modifier_change_basic_variable = { PARAMATER = ship_shield_damage_mult }
+	kuat_battle_remove_ship_modifier_change_basic_variable = { PARAMATER = ship_armor_damage_mult }
+	kuat_battle_remove_ship_modifier_change_basic_variable = { PARAMATER = ship_speed_mult }
+	kuat_battle_remove_ship_modifier_change_basic_variable = { PARAMATER = component_lifesteal_add }
+	kuat_battle_remove_ship_modifier_change_basic_variable = { PARAMATER = ship_steal_defeated_ship_chance }
+	kuat_battle_remove_ship_modifier_change_basic_variable = { PARAMATER = fleet_capture_defeated_leader_chance }
 
-	remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = explosive }
-	remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = kinetic }
-	remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = energy }
-	remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = strike_craft }
-	remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = arcane }
-	remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = cosmic }
-	remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = gravity }
-	remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = psionic }
-	remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = anti_psionic }
-	remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = adv_kinetic }
-	remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = gravity_dummy }
-	remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = ag_ancient_weapon_buff_1 }
-	remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = ag_ancient_weapon_buff_2 }
-	remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = ag_ancient_weapon_buff_3 }
-	remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = instant_kill_effect }
-	remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = difficulty_scale }
-	remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = difficulty_scale_player }
-	remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = SRA_SRA }
-	remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = SRA_RE_Core }
-	remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = H.D.energy }
-	remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = HD.M.kinetic }
-	remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = PrimaMateria }
-	remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = light_power }
-	remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = wsg_pantsu }
-	remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = tesla }
-	remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = kancolle }
-	remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = kancolle_shinkai }
-	remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = magicia }
-	remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = rulerule }
-	remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = fake_madoka }
-	remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = sr_uf }
-	remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = gungnir }
-	remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = xianzhe }
-	remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = knife }
-	remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = lingli }
-	remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = magic }
-	remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = nytowith }
-	remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = light }
-	remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = keto }
-	remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = Akso }
-	remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = LsScepter }
-	remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = son }
-	remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = prism }
-	remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = Electronic }
-	remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = beacon }
-	remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = aoe }
-	remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = fireworks }
-	remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = aon_rpg_attack }
-	remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = aon_rpg_magic }
-	remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = sfdoll }
-	remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = nano }
-	remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = KZ_VOY_magic }
-	remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = KZ_VOY_wind_magic }
-	remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = KZ_VOY_time_magic }
-	remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = KZ_VOY_earth_magic }
-	remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = KZ_VOY_pyromancy_magic }
-	remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = KZ_VOY_lightning_magic }
-	remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = KZ_VOY_bright_magic }
-	remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = KZ_VOY_dark_magic }
-	remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = KZ_VOY_space_magic }
-	remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = KZ_VOY_aqua_magic }
-	remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = KZ_VOY_life_magic }
-	remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = KZ_VOY_temporal }
-	remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = ge_void_energy }
-	remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = magi }
-	remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = charm }
-	remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = mystical }
-	remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = close_combat }
-	remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = critical }
-	remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = fgosw_block }
-	remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = fgosw_battle_continuation }
-	remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = fgosw_only_one }
-	remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = fgosw_multi_level }
-	remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = fgosw_skill_saber }
-	remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = fgosw_skill_archer }
-	remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = fgosw_skill_lancer }
-	remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = fgosw_skill_rider }
-	remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = fgosw_skill_caster }
-	remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = fgosw_skill_assassin }
-	remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = fgosw_skill_berserker }
-	remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = blackash }
+	kuat_battle_remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = explosive }
+	kuat_battle_remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = kinetic }
+	kuat_battle_remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = energy }
+	kuat_battle_remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = strike_craft }
+	kuat_battle_remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = arcane }
+	kuat_battle_remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = cosmic }
+	kuat_battle_remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = gravity }
+	kuat_battle_remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = psionic }
+	kuat_battle_remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = anti_psionic }
+	kuat_battle_remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = adv_kinetic }
+	kuat_battle_remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = gravity_dummy }
+	kuat_battle_remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = ag_ancient_weapon_buff_1 }
+	kuat_battle_remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = ag_ancient_weapon_buff_2 }
+	kuat_battle_remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = ag_ancient_weapon_buff_3 }
+	kuat_battle_remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = instant_kill_effect }
+	kuat_battle_remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = difficulty_scale }
+	kuat_battle_remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = difficulty_scale_player }
+	kuat_battle_remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = SRA_SRA }
+	kuat_battle_remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = SRA_RE_Core }
+	kuat_battle_remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = H.D.energy }
+	kuat_battle_remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = HD.M.kinetic }
+	kuat_battle_remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = PrimaMateria }
+	kuat_battle_remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = light_power }
+	kuat_battle_remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = wsg_pantsu }
+	kuat_battle_remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = tesla }
+	kuat_battle_remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = kancolle }
+	kuat_battle_remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = kancolle_shinkai }
+	kuat_battle_remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = magicia }
+	kuat_battle_remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = rulerule }
+	kuat_battle_remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = fake_madoka }
+	kuat_battle_remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = sr_uf }
+	kuat_battle_remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = gungnir }
+	kuat_battle_remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = xianzhe }
+	kuat_battle_remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = knife }
+	kuat_battle_remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = lingli }
+	kuat_battle_remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = magic }
+	kuat_battle_remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = nytowith }
+	kuat_battle_remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = light }
+	kuat_battle_remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = keto }
+	kuat_battle_remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = Akso }
+	kuat_battle_remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = LsScepter }
+	kuat_battle_remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = son }
+	kuat_battle_remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = prism }
+	kuat_battle_remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = Electronic }
+	kuat_battle_remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = beacon }
+	kuat_battle_remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = aoe }
+	kuat_battle_remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = fireworks }
+	kuat_battle_remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = aon_rpg_attack }
+	kuat_battle_remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = aon_rpg_magic }
+	kuat_battle_remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = sfdoll }
+	kuat_battle_remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = nano }
+	kuat_battle_remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = KZ_VOY_magic }
+	kuat_battle_remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = KZ_VOY_wind_magic }
+	kuat_battle_remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = KZ_VOY_time_magic }
+	kuat_battle_remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = KZ_VOY_earth_magic }
+	kuat_battle_remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = KZ_VOY_pyromancy_magic }
+	kuat_battle_remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = KZ_VOY_lightning_magic }
+	kuat_battle_remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = KZ_VOY_bright_magic }
+	kuat_battle_remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = KZ_VOY_dark_magic }
+	kuat_battle_remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = KZ_VOY_space_magic }
+	kuat_battle_remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = KZ_VOY_aqua_magic }
+	kuat_battle_remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = KZ_VOY_life_magic }
+	kuat_battle_remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = KZ_VOY_temporal }
+	kuat_battle_remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = ge_void_energy }
+	kuat_battle_remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = magi }
+	kuat_battle_remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = charm }
+	kuat_battle_remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = mystical }
+	kuat_battle_remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = close_combat }
+	kuat_battle_remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = critical }
+	kuat_battle_remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = fgosw_block }
+	kuat_battle_remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = fgosw_battle_continuation }
+	kuat_battle_remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = fgosw_only_one }
+	kuat_battle_remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = fgosw_multi_level }
+	kuat_battle_remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = fgosw_skill_saber }
+	kuat_battle_remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = fgosw_skill_archer }
+	kuat_battle_remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = fgosw_skill_lancer }
+	kuat_battle_remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = fgosw_skill_rider }
+	kuat_battle_remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = fgosw_skill_caster }
+	kuat_battle_remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = fgosw_skill_assassin }
+	kuat_battle_remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = fgosw_skill_berserker }
+	kuat_battle_remove_repeatable_ship_modifier_change_basic_vairable = { TYPE = blackash }
 }
 
-remove_repeatable_modifier_base_and_change_base = {
+kuat_battle_remove_repeatable_modifier_base_and_change_base = {
 	optimize_memory
-	remove_repetable_modifier = { TITLE = change_basic TYPE = explosive }
-	remove_repetable_modifier = { TITLE = change_basic TYPE = kinetic }
-	remove_repetable_modifier = { TITLE = change_basic TYPE = energy }
-	remove_repetable_modifier = { TITLE = change_basic TYPE = strike_craft }
-	remove_repetable_modifier = { TITLE = change_basic TYPE = gravity }
-	remove_repetable_modifier = { TITLE = change_basic TYPE = psionic }
-	remove_repetable_modifier = { TITLE = change_basic TYPE = anti_psionic }
-	remove_repetable_modifier = { TITLE = change_basic TYPE = adv_kinetic }
-	remove_repetable_modifier = { TITLE = change_basic TYPE = gravity_dummy }
-	remove_repetable_modifier = { TITLE = change_basic TYPE = ag_ancient_weapon_buff_1 }
-	remove_repetable_modifier = { TITLE = change_basic TYPE = ag_ancient_weapon_buff_2 }
-	remove_repetable_modifier = { TITLE = change_basic TYPE = ag_ancient_weapon_buff_3 }
-	remove_repetable_modifier = { TITLE = change_basic TYPE = instant_kill_effect }
-	remove_repetable_modifier = { TITLE = change_basic TYPE = difficulty_scale }
-	remove_repetable_modifier = { TITLE = change_basic TYPE = difficulty_scale_player }
-	remove_repetable_modifier = { TITLE = change_basic TYPE = SRA_SRA }
-	remove_repetable_modifier = { TITLE = change_basic TYPE = SRA_RE_Core }
-	remove_repetable_modifier = { TITLE = change_basic TYPE = H.D.energy }
-	remove_repetable_modifier = { TITLE = change_basic TYPE = HD.M.kinetic }
-	remove_repetable_modifier = { TITLE = change_basic TYPE = PrimaMateria }
-	remove_repetable_modifier = { TITLE = change_basic TYPE = magicia }
-	remove_repetable_modifier = { TITLE = change_basic TYPE = rulerule }
-	remove_repetable_modifier = { TITLE = change_basic TYPE = fake_madoka }
-	remove_repetable_modifier = { TITLE = change_basic TYPE = arcane }
-	remove_repetable_modifier = { TITLE = change_basic TYPE = cosmic }
-	remove_repetable_modifier = { TITLE = change_basic TYPE = light_power }
-	remove_repetable_modifier = { TITLE = change_basic TYPE = wsg_pantsu }
-	remove_repetable_modifier = { TITLE = change_basic TYPE = tesla }
-	remove_repetable_modifier = { TITLE = change_basic TYPE = sr_uf }
-	remove_repetable_modifier = { TITLE = change_basic TYPE = gungnir }
-	remove_repetable_modifier = { TITLE = change_basic TYPE = xianzhe }
-	remove_repetable_modifier = { TITLE = change_basic TYPE = knife }
-	remove_repetable_modifier = { TITLE = change_basic TYPE = lingli }
-	remove_repetable_modifier = { TITLE = change_basic TYPE = magic }
-	remove_repetable_modifier = { TITLE = change_basic TYPE = nytowith }
-	remove_repetable_modifier = { TITLE = change_basic TYPE = light }
-	remove_repetable_modifier = { TITLE = change_basic TYPE = keto }
-	remove_repetable_modifier = { TITLE = change_basic TYPE = Akso }
-	remove_repetable_modifier = { TITLE = change_basic TYPE = LsScepter }
-	remove_repetable_modifier = { TITLE = change_basic TYPE = son }
-	remove_repetable_modifier = { TITLE = change_basic TYPE = prism }
-	remove_repetable_modifier = { TITLE = change_basic TYPE = Electronic }
-	remove_repetable_modifier = { TITLE = change_basic TYPE = beacon }
-	remove_repetable_modifier = { TITLE = change_basic TYPE = aoe }
-	remove_repetable_modifier = { TITLE = change_basic TYPE = fireworks }
-	remove_repetable_modifier = { TITLE = change_basic TYPE = kancolle }
-	remove_repetable_modifier = { TITLE = change_basic TYPE = kancolle_shinkai }
-	remove_repetable_modifier = { TITLE = change_basic TYPE = aon_rpg_attack }
-	remove_repetable_modifier = { TITLE = change_basic TYPE = aon_rpg_magic }
-	remove_repetable_modifier = { TITLE = change_basic TYPE = sfdoll }
-	remove_repetable_modifier = { TITLE = change_basic TYPE = nano }
-	remove_repetable_modifier = { TITLE = change_basic TYPE = KZ_VOY_magic }
-	remove_repetable_modifier = { TITLE = change_basic TYPE = KZ_VOY_wind_magic }
-	remove_repetable_modifier = { TITLE = change_basic TYPE = KZ_VOY_time_magic }
-	remove_repetable_modifier = { TITLE = change_basic TYPE = KZ_VOY_earth_magic }
-	remove_repetable_modifier = { TITLE = change_basic TYPE = KZ_VOY_pyromancy_magic }
-	remove_repetable_modifier = { TITLE = change_basic TYPE = KZ_VOY_lightning_magic }
-	remove_repetable_modifier = { TITLE = change_basic TYPE = KZ_VOY_bright_magic }
-	remove_repetable_modifier = { TITLE = change_basic TYPE = KZ_VOY_dark_magic }
-	remove_repetable_modifier = { TITLE = change_basic TYPE = KZ_VOY_space_magic }
-	remove_repetable_modifier = { TITLE = change_basic TYPE = KZ_VOY_aqua_magic }
-	remove_repetable_modifier = { TITLE = change_basic TYPE = KZ_VOY_life_magic }
-	remove_repetable_modifier = { TITLE = change_basic TYPE = KZ_VOY_temporal }
-	remove_repetable_modifier = { TITLE = change_basic TYPE = ge_void_energy }
-	remove_repetable_modifier = { TITLE = change_basic TYPE = magi }
-	remove_repetable_modifier = { TITLE = change_basic TYPE = charm }
-	remove_repetable_modifier = { TITLE = change_basic TYPE = mystical }
-	remove_repetable_modifier = { TITLE = change_basic TYPE = close_combat }
-	remove_repetable_modifier = { TITLE = change_basic TYPE = critical }
-	remove_repetable_modifier = { TITLE = change_basic TYPE = fgosw_block }
-	remove_repetable_modifier = { TITLE = change_basic TYPE = fgosw_battle_continuation }
-	remove_repetable_modifier = { TITLE = change_basic TYPE = fgosw_only_one }
-	remove_repetable_modifier = { TITLE = change_basic TYPE = fgosw_multi_level }
-	remove_repetable_modifier = { TITLE = change_basic TYPE = fgosw_skill_saber }
-	remove_repetable_modifier = { TITLE = change_basic TYPE = fgosw_skill_archer }
-	remove_repetable_modifier = { TITLE = change_basic TYPE = fgosw_skill_lancer }
-	remove_repetable_modifier = { TITLE = change_basic TYPE = fgosw_skill_rider }
-	remove_repetable_modifier = { TITLE = change_basic TYPE = fgosw_skill_caster }
-	remove_repetable_modifier = { TITLE = change_basic TYPE = fgosw_skill_assassin }
-	remove_repetable_modifier = { TITLE = change_basic TYPE = fgosw_skill_berserker }
-	remove_repetable_modifier = { TITLE = change_basic TYPE = blackash }
+	kuat_battle_remove_repetable_modifier = { TITLE = change_basic TYPE = explosive }
+	kuat_battle_remove_repetable_modifier = { TITLE = change_basic TYPE = kinetic }
+	kuat_battle_remove_repetable_modifier = { TITLE = change_basic TYPE = energy }
+	kuat_battle_remove_repetable_modifier = { TITLE = change_basic TYPE = strike_craft }
+	kuat_battle_remove_repetable_modifier = { TITLE = change_basic TYPE = gravity }
+	kuat_battle_remove_repetable_modifier = { TITLE = change_basic TYPE = psionic }
+	kuat_battle_remove_repetable_modifier = { TITLE = change_basic TYPE = anti_psionic }
+	kuat_battle_remove_repetable_modifier = { TITLE = change_basic TYPE = adv_kinetic }
+	kuat_battle_remove_repetable_modifier = { TITLE = change_basic TYPE = gravity_dummy }
+	kuat_battle_remove_repetable_modifier = { TITLE = change_basic TYPE = ag_ancient_weapon_buff_1 }
+	kuat_battle_remove_repetable_modifier = { TITLE = change_basic TYPE = ag_ancient_weapon_buff_2 }
+	kuat_battle_remove_repetable_modifier = { TITLE = change_basic TYPE = ag_ancient_weapon_buff_3 }
+	kuat_battle_remove_repetable_modifier = { TITLE = change_basic TYPE = instant_kill_effect }
+	kuat_battle_remove_repetable_modifier = { TITLE = change_basic TYPE = difficulty_scale }
+	kuat_battle_remove_repetable_modifier = { TITLE = change_basic TYPE = difficulty_scale_player }
+	kuat_battle_remove_repetable_modifier = { TITLE = change_basic TYPE = SRA_SRA }
+	kuat_battle_remove_repetable_modifier = { TITLE = change_basic TYPE = SRA_RE_Core }
+	kuat_battle_remove_repetable_modifier = { TITLE = change_basic TYPE = H.D.energy }
+	kuat_battle_remove_repetable_modifier = { TITLE = change_basic TYPE = HD.M.kinetic }
+	kuat_battle_remove_repetable_modifier = { TITLE = change_basic TYPE = PrimaMateria }
+	kuat_battle_remove_repetable_modifier = { TITLE = change_basic TYPE = magicia }
+	kuat_battle_remove_repetable_modifier = { TITLE = change_basic TYPE = rulerule }
+	kuat_battle_remove_repetable_modifier = { TITLE = change_basic TYPE = fake_madoka }
+	kuat_battle_remove_repetable_modifier = { TITLE = change_basic TYPE = arcane }
+	kuat_battle_remove_repetable_modifier = { TITLE = change_basic TYPE = cosmic }
+	kuat_battle_remove_repetable_modifier = { TITLE = change_basic TYPE = light_power }
+	kuat_battle_remove_repetable_modifier = { TITLE = change_basic TYPE = wsg_pantsu }
+	kuat_battle_remove_repetable_modifier = { TITLE = change_basic TYPE = tesla }
+	kuat_battle_remove_repetable_modifier = { TITLE = change_basic TYPE = sr_uf }
+	kuat_battle_remove_repetable_modifier = { TITLE = change_basic TYPE = gungnir }
+	kuat_battle_remove_repetable_modifier = { TITLE = change_basic TYPE = xianzhe }
+	kuat_battle_remove_repetable_modifier = { TITLE = change_basic TYPE = knife }
+	kuat_battle_remove_repetable_modifier = { TITLE = change_basic TYPE = lingli }
+	kuat_battle_remove_repetable_modifier = { TITLE = change_basic TYPE = magic }
+	kuat_battle_remove_repetable_modifier = { TITLE = change_basic TYPE = nytowith }
+	kuat_battle_remove_repetable_modifier = { TITLE = change_basic TYPE = light }
+	kuat_battle_remove_repetable_modifier = { TITLE = change_basic TYPE = keto }
+	kuat_battle_remove_repetable_modifier = { TITLE = change_basic TYPE = Akso }
+	kuat_battle_remove_repetable_modifier = { TITLE = change_basic TYPE = LsScepter }
+	kuat_battle_remove_repetable_modifier = { TITLE = change_basic TYPE = son }
+	kuat_battle_remove_repetable_modifier = { TITLE = change_basic TYPE = prism }
+	kuat_battle_remove_repetable_modifier = { TITLE = change_basic TYPE = Electronic }
+	kuat_battle_remove_repetable_modifier = { TITLE = change_basic TYPE = beacon }
+	kuat_battle_remove_repetable_modifier = { TITLE = change_basic TYPE = aoe }
+	kuat_battle_remove_repetable_modifier = { TITLE = change_basic TYPE = fireworks }
+	kuat_battle_remove_repetable_modifier = { TITLE = change_basic TYPE = kancolle }
+	kuat_battle_remove_repetable_modifier = { TITLE = change_basic TYPE = kancolle_shinkai }
+	kuat_battle_remove_repetable_modifier = { TITLE = change_basic TYPE = aon_rpg_attack }
+	kuat_battle_remove_repetable_modifier = { TITLE = change_basic TYPE = aon_rpg_magic }
+	kuat_battle_remove_repetable_modifier = { TITLE = change_basic TYPE = sfdoll }
+	kuat_battle_remove_repetable_modifier = { TITLE = change_basic TYPE = nano }
+	kuat_battle_remove_repetable_modifier = { TITLE = change_basic TYPE = KZ_VOY_magic }
+	kuat_battle_remove_repetable_modifier = { TITLE = change_basic TYPE = KZ_VOY_wind_magic }
+	kuat_battle_remove_repetable_modifier = { TITLE = change_basic TYPE = KZ_VOY_time_magic }
+	kuat_battle_remove_repetable_modifier = { TITLE = change_basic TYPE = KZ_VOY_earth_magic }
+	kuat_battle_remove_repetable_modifier = { TITLE = change_basic TYPE = KZ_VOY_pyromancy_magic }
+	kuat_battle_remove_repetable_modifier = { TITLE = change_basic TYPE = KZ_VOY_lightning_magic }
+	kuat_battle_remove_repetable_modifier = { TITLE = change_basic TYPE = KZ_VOY_bright_magic }
+	kuat_battle_remove_repetable_modifier = { TITLE = change_basic TYPE = KZ_VOY_dark_magic }
+	kuat_battle_remove_repetable_modifier = { TITLE = change_basic TYPE = KZ_VOY_space_magic }
+	kuat_battle_remove_repetable_modifier = { TITLE = change_basic TYPE = KZ_VOY_aqua_magic }
+	kuat_battle_remove_repetable_modifier = { TITLE = change_basic TYPE = KZ_VOY_life_magic }
+	kuat_battle_remove_repetable_modifier = { TITLE = change_basic TYPE = KZ_VOY_temporal }
+	kuat_battle_remove_repetable_modifier = { TITLE = change_basic TYPE = ge_void_energy }
+	kuat_battle_remove_repetable_modifier = { TITLE = change_basic TYPE = magi }
+	kuat_battle_remove_repetable_modifier = { TITLE = change_basic TYPE = charm }
+	kuat_battle_remove_repetable_modifier = { TITLE = change_basic TYPE = mystical }
+	kuat_battle_remove_repetable_modifier = { TITLE = change_basic TYPE = close_combat }
+	kuat_battle_remove_repetable_modifier = { TITLE = change_basic TYPE = critical }
+	kuat_battle_remove_repetable_modifier = { TITLE = change_basic TYPE = fgosw_block }
+	kuat_battle_remove_repetable_modifier = { TITLE = change_basic TYPE = fgosw_battle_continuation }
+	kuat_battle_remove_repetable_modifier = { TITLE = change_basic TYPE = fgosw_only_one }
+	kuat_battle_remove_repetable_modifier = { TITLE = change_basic TYPE = fgosw_multi_level }
+	kuat_battle_remove_repetable_modifier = { TITLE = change_basic TYPE = fgosw_skill_saber }
+	kuat_battle_remove_repetable_modifier = { TITLE = change_basic TYPE = fgosw_skill_archer }
+	kuat_battle_remove_repetable_modifier = { TITLE = change_basic TYPE = fgosw_skill_lancer }
+	kuat_battle_remove_repetable_modifier = { TITLE = change_basic TYPE = fgosw_skill_rider }
+	kuat_battle_remove_repetable_modifier = { TITLE = change_basic TYPE = fgosw_skill_caster }
+	kuat_battle_remove_repetable_modifier = { TITLE = change_basic TYPE = fgosw_skill_assassin }
+	kuat_battle_remove_repetable_modifier = { TITLE = change_basic TYPE = fgosw_skill_berserker }
+	kuat_battle_remove_repetable_modifier = { TITLE = change_basic TYPE = blackash }
 	
-	remove_repetable_modifier = { TITLE = basic TYPE = explosive }
-	remove_repetable_modifier = { TITLE = basic TYPE = kinetic }
-	remove_repetable_modifier = { TITLE = basic TYPE = energy }
-	remove_repetable_modifier = { TITLE = basic TYPE = strike_craft }
-	remove_repetable_modifier = { TITLE = basic TYPE = gravity }
-	remove_repetable_modifier = { TITLE = basic TYPE = psionic }
-	remove_repetable_modifier = { TITLE = basic TYPE = anti_psionic }
-	remove_repetable_modifier = { TITLE = basic TYPE = adv_kinetic }
-	remove_repetable_modifier = { TITLE = basic TYPE = gravity_dummy }
-	remove_repetable_modifier = { TITLE = basic TYPE = ag_ancient_weapon_buff_1 }
-	remove_repetable_modifier = { TITLE = basic TYPE = ag_ancient_weapon_buff_2 }
-	remove_repetable_modifier = { TITLE = basic TYPE = ag_ancient_weapon_buff_3 }
-	remove_repetable_modifier = { TITLE = basic TYPE = instant_kill_effect }
-	remove_repetable_modifier = { TITLE = basic TYPE = difficulty_scale }
-	remove_repetable_modifier = { TITLE = basic TYPE = difficulty_scale_player }
-	remove_repetable_modifier = { TITLE = basic TYPE = SRA_SRA }
-	remove_repetable_modifier = { TITLE = basic TYPE = SRA_RE_Core }
-	remove_repetable_modifier = { TITLE = basic TYPE = H.D.energy }
-	remove_repetable_modifier = { TITLE = basic TYPE = HD.M.kinetic }
-	remove_repetable_modifier = { TITLE = basic TYPE = PrimaMateria }
-	remove_repetable_modifier = { TITLE = basic TYPE = magicia }
-	remove_repetable_modifier = { TITLE = basic TYPE = rulerule }
-	remove_repetable_modifier = { TITLE = basic TYPE = fake_madoka }
-	remove_repetable_modifier = { TITLE = basic TYPE = arcane }
-	remove_repetable_modifier = { TITLE = basic TYPE = cosmic }
-	remove_repetable_modifier = { TITLE = basic TYPE = light_power }
-	remove_repetable_modifier = { TITLE = basic TYPE = wsg_pantsu }
-	remove_repetable_modifier = { TITLE = basic TYPE = tesla }
-	remove_repetable_modifier = { TITLE = basic TYPE = sr_uf }
-	remove_repetable_modifier = { TITLE = basic TYPE = gungnir }
-	remove_repetable_modifier = { TITLE = basic TYPE = xianzhe }
-	remove_repetable_modifier = { TITLE = basic TYPE = knife }
-	remove_repetable_modifier = { TITLE = basic TYPE = lingli }
-	remove_repetable_modifier = { TITLE = basic TYPE = magic }
-	remove_repetable_modifier = { TITLE = basic TYPE = nytowith }
-	remove_repetable_modifier = { TITLE = basic TYPE = light }
-	remove_repetable_modifier = { TITLE = basic TYPE = keto }
-	remove_repetable_modifier = { TITLE = basic TYPE = Akso }
-	remove_repetable_modifier = { TITLE = basic TYPE = LsScepter }
-	remove_repetable_modifier = { TITLE = basic TYPE = son }
-	remove_repetable_modifier = { TITLE = basic TYPE = prism }
-	remove_repetable_modifier = { TITLE = basic TYPE = Electronic }
-	remove_repetable_modifier = { TITLE = basic TYPE = beacon }
-	remove_repetable_modifier = { TITLE = basic TYPE = aoe }
-	remove_repetable_modifier = { TITLE = basic TYPE = fireworks }
-	remove_repetable_modifier = { TITLE = basic TYPE = kancolle }
-	remove_repetable_modifier = { TITLE = basic TYPE = kancolle_shinkai }
-	remove_repetable_modifier = { TITLE = basic TYPE = aon_rpg_attack }
-	remove_repetable_modifier = { TITLE = basic TYPE = aon_rpg_magic }
-	remove_repetable_modifier = { TITLE = basic TYPE = sfdoll }
-	remove_repetable_modifier = { TITLE = basic TYPE = nano }
-	remove_repetable_modifier = { TITLE = basic TYPE = KZ_VOY_magic }
-	remove_repetable_modifier = { TITLE = basic TYPE = KZ_VOY_wind_magic }
-	remove_repetable_modifier = { TITLE = basic TYPE = KZ_VOY_time_magic }
-	remove_repetable_modifier = { TITLE = basic TYPE = KZ_VOY_earth_magic }
-	remove_repetable_modifier = { TITLE = basic TYPE = KZ_VOY_pyromancy_magic }
-	remove_repetable_modifier = { TITLE = basic TYPE = KZ_VOY_lightning_magic }
-	remove_repetable_modifier = { TITLE = basic TYPE = KZ_VOY_bright_magic }
-	remove_repetable_modifier = { TITLE = basic TYPE = KZ_VOY_dark_magic }
-	remove_repetable_modifier = { TITLE = basic TYPE = KZ_VOY_space_magic }
-	remove_repetable_modifier = { TITLE = basic TYPE = KZ_VOY_aqua_magic }
-	remove_repetable_modifier = { TITLE = basic TYPE = KZ_VOY_life_magic }
-	remove_repetable_modifier = { TITLE = basic TYPE = KZ_VOY_temporal }
-	remove_repetable_modifier = { TITLE = basic TYPE = ge_void_energy }
-	remove_repetable_modifier = { TITLE = basic TYPE = magi }
-	remove_repetable_modifier = { TITLE = basic TYPE = charm }
-	remove_repetable_modifier = { TITLE = basic TYPE = mystical }
-	remove_repetable_modifier = { TITLE = basic TYPE = close_combat }
-	remove_repetable_modifier = { TITLE = basic TYPE = critical }
-	remove_repetable_modifier = { TITLE = basic TYPE = fgosw_block }
-	remove_repetable_modifier = { TITLE = basic TYPE = fgosw_battle_continuation }
-	remove_repetable_modifier = { TITLE = basic TYPE = fgosw_only_one }
-	remove_repetable_modifier = { TITLE = basic TYPE = fgosw_multi_level }
-	remove_repetable_modifier = { TITLE = basic TYPE = fgosw_skill_saber }
-	remove_repetable_modifier = { TITLE = basic TYPE = fgosw_skill_archer }
-	remove_repetable_modifier = { TITLE = basic TYPE = fgosw_skill_lancer }
-	remove_repetable_modifier = { TITLE = basic TYPE = fgosw_skill_rider }
-	remove_repetable_modifier = { TITLE = basic TYPE = fgosw_skill_caster }
-	remove_repetable_modifier = { TITLE = basic TYPE = fgosw_skill_assassin }
-	remove_repetable_modifier = { TITLE = basic TYPE = fgosw_skill_berserker }
-	remove_repetable_modifier = { TITLE = basic TYPE = blackash }
+	kuat_battle_remove_repetable_modifier = { TITLE = basic TYPE = explosive }
+	kuat_battle_remove_repetable_modifier = { TITLE = basic TYPE = kinetic }
+	kuat_battle_remove_repetable_modifier = { TITLE = basic TYPE = energy }
+	kuat_battle_remove_repetable_modifier = { TITLE = basic TYPE = strike_craft }
+	kuat_battle_remove_repetable_modifier = { TITLE = basic TYPE = gravity }
+	kuat_battle_remove_repetable_modifier = { TITLE = basic TYPE = psionic }
+	kuat_battle_remove_repetable_modifier = { TITLE = basic TYPE = anti_psionic }
+	kuat_battle_remove_repetable_modifier = { TITLE = basic TYPE = adv_kinetic }
+	kuat_battle_remove_repetable_modifier = { TITLE = basic TYPE = gravity_dummy }
+	kuat_battle_remove_repetable_modifier = { TITLE = basic TYPE = ag_ancient_weapon_buff_1 }
+	kuat_battle_remove_repetable_modifier = { TITLE = basic TYPE = ag_ancient_weapon_buff_2 }
+	kuat_battle_remove_repetable_modifier = { TITLE = basic TYPE = ag_ancient_weapon_buff_3 }
+	kuat_battle_remove_repetable_modifier = { TITLE = basic TYPE = instant_kill_effect }
+	kuat_battle_remove_repetable_modifier = { TITLE = basic TYPE = difficulty_scale }
+	kuat_battle_remove_repetable_modifier = { TITLE = basic TYPE = difficulty_scale_player }
+	kuat_battle_remove_repetable_modifier = { TITLE = basic TYPE = SRA_SRA }
+	kuat_battle_remove_repetable_modifier = { TITLE = basic TYPE = SRA_RE_Core }
+	kuat_battle_remove_repetable_modifier = { TITLE = basic TYPE = H.D.energy }
+	kuat_battle_remove_repetable_modifier = { TITLE = basic TYPE = HD.M.kinetic }
+	kuat_battle_remove_repetable_modifier = { TITLE = basic TYPE = PrimaMateria }
+	kuat_battle_remove_repetable_modifier = { TITLE = basic TYPE = magicia }
+	kuat_battle_remove_repetable_modifier = { TITLE = basic TYPE = rulerule }
+	kuat_battle_remove_repetable_modifier = { TITLE = basic TYPE = fake_madoka }
+	kuat_battle_remove_repetable_modifier = { TITLE = basic TYPE = arcane }
+	kuat_battle_remove_repetable_modifier = { TITLE = basic TYPE = cosmic }
+	kuat_battle_remove_repetable_modifier = { TITLE = basic TYPE = light_power }
+	kuat_battle_remove_repetable_modifier = { TITLE = basic TYPE = wsg_pantsu }
+	kuat_battle_remove_repetable_modifier = { TITLE = basic TYPE = tesla }
+	kuat_battle_remove_repetable_modifier = { TITLE = basic TYPE = sr_uf }
+	kuat_battle_remove_repetable_modifier = { TITLE = basic TYPE = gungnir }
+	kuat_battle_remove_repetable_modifier = { TITLE = basic TYPE = xianzhe }
+	kuat_battle_remove_repetable_modifier = { TITLE = basic TYPE = knife }
+	kuat_battle_remove_repetable_modifier = { TITLE = basic TYPE = lingli }
+	kuat_battle_remove_repetable_modifier = { TITLE = basic TYPE = magic }
+	kuat_battle_remove_repetable_modifier = { TITLE = basic TYPE = nytowith }
+	kuat_battle_remove_repetable_modifier = { TITLE = basic TYPE = light }
+	kuat_battle_remove_repetable_modifier = { TITLE = basic TYPE = keto }
+	kuat_battle_remove_repetable_modifier = { TITLE = basic TYPE = Akso }
+	kuat_battle_remove_repetable_modifier = { TITLE = basic TYPE = LsScepter }
+	kuat_battle_remove_repetable_modifier = { TITLE = basic TYPE = son }
+	kuat_battle_remove_repetable_modifier = { TITLE = basic TYPE = prism }
+	kuat_battle_remove_repetable_modifier = { TITLE = basic TYPE = Electronic }
+	kuat_battle_remove_repetable_modifier = { TITLE = basic TYPE = beacon }
+	kuat_battle_remove_repetable_modifier = { TITLE = basic TYPE = aoe }
+	kuat_battle_remove_repetable_modifier = { TITLE = basic TYPE = fireworks }
+	kuat_battle_remove_repetable_modifier = { TITLE = basic TYPE = kancolle }
+	kuat_battle_remove_repetable_modifier = { TITLE = basic TYPE = kancolle_shinkai }
+	kuat_battle_remove_repetable_modifier = { TITLE = basic TYPE = aon_rpg_attack }
+	kuat_battle_remove_repetable_modifier = { TITLE = basic TYPE = aon_rpg_magic }
+	kuat_battle_remove_repetable_modifier = { TITLE = basic TYPE = sfdoll }
+	kuat_battle_remove_repetable_modifier = { TITLE = basic TYPE = nano }
+	kuat_battle_remove_repetable_modifier = { TITLE = basic TYPE = KZ_VOY_magic }
+	kuat_battle_remove_repetable_modifier = { TITLE = basic TYPE = KZ_VOY_wind_magic }
+	kuat_battle_remove_repetable_modifier = { TITLE = basic TYPE = KZ_VOY_time_magic }
+	kuat_battle_remove_repetable_modifier = { TITLE = basic TYPE = KZ_VOY_earth_magic }
+	kuat_battle_remove_repetable_modifier = { TITLE = basic TYPE = KZ_VOY_pyromancy_magic }
+	kuat_battle_remove_repetable_modifier = { TITLE = basic TYPE = KZ_VOY_lightning_magic }
+	kuat_battle_remove_repetable_modifier = { TITLE = basic TYPE = KZ_VOY_bright_magic }
+	kuat_battle_remove_repetable_modifier = { TITLE = basic TYPE = KZ_VOY_dark_magic }
+	kuat_battle_remove_repetable_modifier = { TITLE = basic TYPE = KZ_VOY_space_magic }
+	kuat_battle_remove_repetable_modifier = { TITLE = basic TYPE = KZ_VOY_aqua_magic }
+	kuat_battle_remove_repetable_modifier = { TITLE = basic TYPE = KZ_VOY_life_magic }
+	kuat_battle_remove_repetable_modifier = { TITLE = basic TYPE = KZ_VOY_temporal }
+	kuat_battle_remove_repetable_modifier = { TITLE = basic TYPE = ge_void_energy }
+	kuat_battle_remove_repetable_modifier = { TITLE = basic TYPE = magi }
+	kuat_battle_remove_repetable_modifier = { TITLE = basic TYPE = charm }
+	kuat_battle_remove_repetable_modifier = { TITLE = basic TYPE = mystical }
+	kuat_battle_remove_repetable_modifier = { TITLE = basic TYPE = close_combat }
+	kuat_battle_remove_repetable_modifier = { TITLE = basic TYPE = critical }
+	kuat_battle_remove_repetable_modifier = { TITLE = basic TYPE = fgosw_block }
+	kuat_battle_remove_repetable_modifier = { TITLE = basic TYPE = fgosw_battle_continuation }
+	kuat_battle_remove_repetable_modifier = { TITLE = basic TYPE = fgosw_only_one }
+	kuat_battle_remove_repetable_modifier = { TITLE = basic TYPE = fgosw_multi_level }
+	kuat_battle_remove_repetable_modifier = { TITLE = basic TYPE = fgosw_skill_saber }
+	kuat_battle_remove_repetable_modifier = { TITLE = basic TYPE = fgosw_skill_archer }
+	kuat_battle_remove_repetable_modifier = { TITLE = basic TYPE = fgosw_skill_lancer }
+	kuat_battle_remove_repetable_modifier = { TITLE = basic TYPE = fgosw_skill_rider }
+	kuat_battle_remove_repetable_modifier = { TITLE = basic TYPE = fgosw_skill_caster }
+	kuat_battle_remove_repetable_modifier = { TITLE = basic TYPE = fgosw_skill_assassin }
+	kuat_battle_remove_repetable_modifier = { TITLE = basic TYPE = fgosw_skill_berserker }
+	kuat_battle_remove_repetable_modifier = { TITLE = basic TYPE = blackash }
 }
 
-remove_repetable_modifier_iep = {
-	remove_repetable_modifier = { TITLE = iep_basic TYPE = explosive }
-	remove_repetable_modifier = { TITLE = iep_basic TYPE = kinetic }
-	remove_repetable_modifier = { TITLE = iep_basic TYPE = energy }
-	remove_repetable_modifier = { TITLE = iep_basic TYPE = strike_craft }
-	remove_repetable_modifier = { TITLE = iep_basic TYPE = gravity }
-	remove_repetable_modifier = { TITLE = iep_basic TYPE = psionic }
-	remove_repetable_modifier = { TITLE = iep_basic TYPE = anti_psionic }
-	remove_repetable_modifier = { TITLE = iep_basic TYPE = adv_kinetic }
-	remove_repetable_modifier = { TITLE = iep_basic TYPE = gravity_dummy }
-	remove_repetable_modifier = { TITLE = iep_basic TYPE = ag_ancient_weapon_buff_1 }
-	remove_repetable_modifier = { TITLE = iep_basic TYPE = ag_ancient_weapon_buff_2 }
-	remove_repetable_modifier = { TITLE = iep_basic TYPE = ag_ancient_weapon_buff_3 }
-	remove_repetable_modifier = { TITLE = iep_basic TYPE = instant_kill_effect }
-	remove_repetable_modifier = { TITLE = iep_basic TYPE = difficulty_scale }
-	remove_repetable_modifier = { TITLE = iep_basic TYPE = difficulty_scale_player }
-	remove_repetable_modifier = { TITLE = iep_basic TYPE = SRA_SRA }
-	remove_repetable_modifier = { TITLE = iep_basic TYPE = SRA_RE_Core }
-	remove_repetable_modifier = { TITLE = iep_basic TYPE = H.D.energy }
-	remove_repetable_modifier = { TITLE = iep_basic TYPE = HD.M.kinetic }
-	remove_repetable_modifier = { TITLE = iep_basic TYPE = PrimaMateria }
-	remove_repetable_modifier = { TITLE = iep_basic TYPE = magicia }
-	remove_repetable_modifier = { TITLE = iep_basic TYPE = rulerule }
-	remove_repetable_modifier = { TITLE = iep_basic TYPE = fake_madoka }
-	remove_repetable_modifier = { TITLE = iep_basic TYPE = arcane }
-	remove_repetable_modifier = { TITLE = iep_basic TYPE = cosmic }
-	remove_repetable_modifier = { TITLE = iep_basic TYPE = light_power }
-	remove_repetable_modifier = { TITLE = iep_basic TYPE = wsg_pantsu }
-	remove_repetable_modifier = { TITLE = iep_basic TYPE = tesla }
-	remove_repetable_modifier = { TITLE = iep_basic TYPE = sr_uf }
-	remove_repetable_modifier = { TITLE = iep_basic TYPE = gungnir }
-	remove_repetable_modifier = { TITLE = iep_basic TYPE = xianzhe }
-	remove_repetable_modifier = { TITLE = iep_basic TYPE = knife }
-	remove_repetable_modifier = { TITLE = iep_basic TYPE = lingli }
-	remove_repetable_modifier = { TITLE = iep_basic TYPE = magic }
-	remove_repetable_modifier = { TITLE = iep_basic TYPE = nytowith }
-	remove_repetable_modifier = { TITLE = iep_basic TYPE = light }
-	remove_repetable_modifier = { TITLE = iep_basic TYPE = keto }
-	remove_repetable_modifier = { TITLE = iep_basic TYPE = Akso }
-	remove_repetable_modifier = { TITLE = iep_basic TYPE = LsScepter }
-	remove_repetable_modifier = { TITLE = iep_basic TYPE = son }
-	remove_repetable_modifier = { TITLE = iep_basic TYPE = prism }
-	remove_repetable_modifier = { TITLE = iep_basic TYPE = Electronic }
-	remove_repetable_modifier = { TITLE = iep_basic TYPE = beacon }
-	remove_repetable_modifier = { TITLE = iep_basic TYPE = aoe }
-	remove_repetable_modifier = { TITLE = iep_basic TYPE = fireworks }
-	remove_repetable_modifier = { TITLE = iep_basic TYPE = kancolle }
-	remove_repetable_modifier = { TITLE = iep_basic TYPE = kancolle_shinkai }
-	remove_repetable_modifier = { TITLE = iep_basic TYPE = aon_rpg_attack }
-	remove_repetable_modifier = { TITLE = iep_basic TYPE = aon_rpg_magic }
-	remove_repetable_modifier = { TITLE = iep_basic TYPE = sfdoll }
-	remove_repetable_modifier = { TITLE = iep_basic TYPE = nano }
-	remove_repetable_modifier = { TITLE = iep_basic TYPE = KZ_VOY_magic }
-	remove_repetable_modifier = { TITLE = iep_basic TYPE = KZ_VOY_wind_magic }
-	remove_repetable_modifier = { TITLE = iep_basic TYPE = KZ_VOY_time_magic }
-	remove_repetable_modifier = { TITLE = iep_basic TYPE = KZ_VOY_earth_magic }
-	remove_repetable_modifier = { TITLE = iep_basic TYPE = KZ_VOY_pyromancy_magic }
-	remove_repetable_modifier = { TITLE = iep_basic TYPE = KZ_VOY_lightning_magic }
-	remove_repetable_modifier = { TITLE = iep_basic TYPE = KZ_VOY_bright_magic }
-	remove_repetable_modifier = { TITLE = iep_basic TYPE = KZ_VOY_dark_magic }
-	remove_repetable_modifier = { TITLE = iep_basic TYPE = KZ_VOY_space_magic }
-	remove_repetable_modifier = { TITLE = iep_basic TYPE = KZ_VOY_aqua_magic }
-	remove_repetable_modifier = { TITLE = iep_basic TYPE = KZ_VOY_life_magic }
-	remove_repetable_modifier = { TITLE = iep_basic TYPE = KZ_VOY_temporal }
-	remove_repetable_modifier = { TITLE = iep_basic TYPE = ge_void_energy }
-	remove_repetable_modifier = { TITLE = iep_basic TYPE = magi }
-	remove_repetable_modifier = { TITLE = iep_basic TYPE = charm }
-	remove_repetable_modifier = { TITLE = iep_basic TYPE = mystical }
-	remove_repetable_modifier = { TITLE = iep_basic TYPE = close_combat }
-	remove_repetable_modifier = { TITLE = iep_basic TYPE = critical }
-	remove_repetable_modifier = { TITLE = iep_basic TYPE = fgosw_block }
-	remove_repetable_modifier = { TITLE = iep_basic TYPE = fgosw_battle_continuation }
-	remove_repetable_modifier = { TITLE = iep_basic TYPE = fgosw_only_one }
-	remove_repetable_modifier = { TITLE = iep_basic TYPE = fgosw_multi_level }
-	remove_repetable_modifier = { TITLE = iep_basic TYPE = fgosw_skill_saber }
-	remove_repetable_modifier = { TITLE = iep_basic TYPE = fgosw_skill_archer }
-	remove_repetable_modifier = { TITLE = iep_basic TYPE = fgosw_skill_lancer }
-	remove_repetable_modifier = { TITLE = iep_basic TYPE = fgosw_skill_rider }
-	remove_repetable_modifier = { TITLE = iep_basic TYPE = fgosw_skill_caster }
-	remove_repetable_modifier = { TITLE = iep_basic TYPE = fgosw_skill_assassin }
-	remove_repetable_modifier = { TITLE = iep_basic TYPE = fgosw_skill_berserker }
-	remove_repetable_modifier = { TITLE = iep_basic TYPE = blackash }
+kuat_battle_remove_repetable_modifier_iep = {
+	kuat_battle_remove_repetable_modifier = { TITLE = iep_basic TYPE = explosive }
+	kuat_battle_remove_repetable_modifier = { TITLE = iep_basic TYPE = kinetic }
+	kuat_battle_remove_repetable_modifier = { TITLE = iep_basic TYPE = energy }
+	kuat_battle_remove_repetable_modifier = { TITLE = iep_basic TYPE = strike_craft }
+	kuat_battle_remove_repetable_modifier = { TITLE = iep_basic TYPE = gravity }
+	kuat_battle_remove_repetable_modifier = { TITLE = iep_basic TYPE = psionic }
+	kuat_battle_remove_repetable_modifier = { TITLE = iep_basic TYPE = anti_psionic }
+	kuat_battle_remove_repetable_modifier = { TITLE = iep_basic TYPE = adv_kinetic }
+	kuat_battle_remove_repetable_modifier = { TITLE = iep_basic TYPE = gravity_dummy }
+	kuat_battle_remove_repetable_modifier = { TITLE = iep_basic TYPE = ag_ancient_weapon_buff_1 }
+	kuat_battle_remove_repetable_modifier = { TITLE = iep_basic TYPE = ag_ancient_weapon_buff_2 }
+	kuat_battle_remove_repetable_modifier = { TITLE = iep_basic TYPE = ag_ancient_weapon_buff_3 }
+	kuat_battle_remove_repetable_modifier = { TITLE = iep_basic TYPE = instant_kill_effect }
+	kuat_battle_remove_repetable_modifier = { TITLE = iep_basic TYPE = difficulty_scale }
+	kuat_battle_remove_repetable_modifier = { TITLE = iep_basic TYPE = difficulty_scale_player }
+	kuat_battle_remove_repetable_modifier = { TITLE = iep_basic TYPE = SRA_SRA }
+	kuat_battle_remove_repetable_modifier = { TITLE = iep_basic TYPE = SRA_RE_Core }
+	kuat_battle_remove_repetable_modifier = { TITLE = iep_basic TYPE = H.D.energy }
+	kuat_battle_remove_repetable_modifier = { TITLE = iep_basic TYPE = HD.M.kinetic }
+	kuat_battle_remove_repetable_modifier = { TITLE = iep_basic TYPE = PrimaMateria }
+	kuat_battle_remove_repetable_modifier = { TITLE = iep_basic TYPE = magicia }
+	kuat_battle_remove_repetable_modifier = { TITLE = iep_basic TYPE = rulerule }
+	kuat_battle_remove_repetable_modifier = { TITLE = iep_basic TYPE = fake_madoka }
+	kuat_battle_remove_repetable_modifier = { TITLE = iep_basic TYPE = arcane }
+	kuat_battle_remove_repetable_modifier = { TITLE = iep_basic TYPE = cosmic }
+	kuat_battle_remove_repetable_modifier = { TITLE = iep_basic TYPE = light_power }
+	kuat_battle_remove_repetable_modifier = { TITLE = iep_basic TYPE = wsg_pantsu }
+	kuat_battle_remove_repetable_modifier = { TITLE = iep_basic TYPE = tesla }
+	kuat_battle_remove_repetable_modifier = { TITLE = iep_basic TYPE = sr_uf }
+	kuat_battle_remove_repetable_modifier = { TITLE = iep_basic TYPE = gungnir }
+	kuat_battle_remove_repetable_modifier = { TITLE = iep_basic TYPE = xianzhe }
+	kuat_battle_remove_repetable_modifier = { TITLE = iep_basic TYPE = knife }
+	kuat_battle_remove_repetable_modifier = { TITLE = iep_basic TYPE = lingli }
+	kuat_battle_remove_repetable_modifier = { TITLE = iep_basic TYPE = magic }
+	kuat_battle_remove_repetable_modifier = { TITLE = iep_basic TYPE = nytowith }
+	kuat_battle_remove_repetable_modifier = { TITLE = iep_basic TYPE = light }
+	kuat_battle_remove_repetable_modifier = { TITLE = iep_basic TYPE = keto }
+	kuat_battle_remove_repetable_modifier = { TITLE = iep_basic TYPE = Akso }
+	kuat_battle_remove_repetable_modifier = { TITLE = iep_basic TYPE = LsScepter }
+	kuat_battle_remove_repetable_modifier = { TITLE = iep_basic TYPE = son }
+	kuat_battle_remove_repetable_modifier = { TITLE = iep_basic TYPE = prism }
+	kuat_battle_remove_repetable_modifier = { TITLE = iep_basic TYPE = Electronic }
+	kuat_battle_remove_repetable_modifier = { TITLE = iep_basic TYPE = beacon }
+	kuat_battle_remove_repetable_modifier = { TITLE = iep_basic TYPE = aoe }
+	kuat_battle_remove_repetable_modifier = { TITLE = iep_basic TYPE = fireworks }
+	kuat_battle_remove_repetable_modifier = { TITLE = iep_basic TYPE = kancolle }
+	kuat_battle_remove_repetable_modifier = { TITLE = iep_basic TYPE = kancolle_shinkai }
+	kuat_battle_remove_repetable_modifier = { TITLE = iep_basic TYPE = aon_rpg_attack }
+	kuat_battle_remove_repetable_modifier = { TITLE = iep_basic TYPE = aon_rpg_magic }
+	kuat_battle_remove_repetable_modifier = { TITLE = iep_basic TYPE = sfdoll }
+	kuat_battle_remove_repetable_modifier = { TITLE = iep_basic TYPE = nano }
+	kuat_battle_remove_repetable_modifier = { TITLE = iep_basic TYPE = KZ_VOY_magic }
+	kuat_battle_remove_repetable_modifier = { TITLE = iep_basic TYPE = KZ_VOY_wind_magic }
+	kuat_battle_remove_repetable_modifier = { TITLE = iep_basic TYPE = KZ_VOY_time_magic }
+	kuat_battle_remove_repetable_modifier = { TITLE = iep_basic TYPE = KZ_VOY_earth_magic }
+	kuat_battle_remove_repetable_modifier = { TITLE = iep_basic TYPE = KZ_VOY_pyromancy_magic }
+	kuat_battle_remove_repetable_modifier = { TITLE = iep_basic TYPE = KZ_VOY_lightning_magic }
+	kuat_battle_remove_repetable_modifier = { TITLE = iep_basic TYPE = KZ_VOY_bright_magic }
+	kuat_battle_remove_repetable_modifier = { TITLE = iep_basic TYPE = KZ_VOY_dark_magic }
+	kuat_battle_remove_repetable_modifier = { TITLE = iep_basic TYPE = KZ_VOY_space_magic }
+	kuat_battle_remove_repetable_modifier = { TITLE = iep_basic TYPE = KZ_VOY_aqua_magic }
+	kuat_battle_remove_repetable_modifier = { TITLE = iep_basic TYPE = KZ_VOY_life_magic }
+	kuat_battle_remove_repetable_modifier = { TITLE = iep_basic TYPE = KZ_VOY_temporal }
+	kuat_battle_remove_repetable_modifier = { TITLE = iep_basic TYPE = ge_void_energy }
+	kuat_battle_remove_repetable_modifier = { TITLE = iep_basic TYPE = magi }
+	kuat_battle_remove_repetable_modifier = { TITLE = iep_basic TYPE = charm }
+	kuat_battle_remove_repetable_modifier = { TITLE = iep_basic TYPE = mystical }
+	kuat_battle_remove_repetable_modifier = { TITLE = iep_basic TYPE = close_combat }
+	kuat_battle_remove_repetable_modifier = { TITLE = iep_basic TYPE = critical }
+	kuat_battle_remove_repetable_modifier = { TITLE = iep_basic TYPE = fgosw_block }
+	kuat_battle_remove_repetable_modifier = { TITLE = iep_basic TYPE = fgosw_battle_continuation }
+	kuat_battle_remove_repetable_modifier = { TITLE = iep_basic TYPE = fgosw_only_one }
+	kuat_battle_remove_repetable_modifier = { TITLE = iep_basic TYPE = fgosw_multi_level }
+	kuat_battle_remove_repetable_modifier = { TITLE = iep_basic TYPE = fgosw_skill_saber }
+	kuat_battle_remove_repetable_modifier = { TITLE = iep_basic TYPE = fgosw_skill_archer }
+	kuat_battle_remove_repetable_modifier = { TITLE = iep_basic TYPE = fgosw_skill_lancer }
+	kuat_battle_remove_repetable_modifier = { TITLE = iep_basic TYPE = fgosw_skill_rider }
+	kuat_battle_remove_repetable_modifier = { TITLE = iep_basic TYPE = fgosw_skill_caster }
+	kuat_battle_remove_repetable_modifier = { TITLE = iep_basic TYPE = fgosw_skill_assassin }
+	kuat_battle_remove_repetable_modifier = { TITLE = iep_basic TYPE = fgosw_skill_berserker }
+	kuat_battle_remove_repetable_modifier = { TITLE = iep_basic TYPE = blackash }
 }
 
-remove_ship_modifier_trigger_flag = {
+kuat_battle_remove_ship_modifier_trigger_flag = {
 	optimize_memory
 	remove_ship_flag = is_modifiering
 	remove_ship_flag = fire_ship_var
 	remove_ship_flag = kuat_runing_kuat_support_trigger_eternal_return
 }
-remove_fleet_modifier_trigger_flag = {
+kuat_battle_remove_fleet_modifier_trigger_flag = {
 	optimize_memory
 	fleet = {
-		kuat_star_flagship_base_fleet_clear_calculation = { ID = 1 SCOPE = solar_system }
-		kuat_star_flagship_base_fleet_clear_calculation = { ID = 1.5 SCOPE = solar_system }
-		kuat_star_flagship_base_fleet_clear_calculation = { ID = 3 SCOPE = solar_system }
+		kuat_battle_kuat_star_flagship_base_fleet_clear_calculation = { ID = 1 SCOPE = solar_system }
+		kuat_battle_kuat_star_flagship_base_fleet_clear_calculation = { ID = 1.5 SCOPE = solar_system }
+		kuat_battle_kuat_star_flagship_base_fleet_clear_calculation = { ID = 3 SCOPE = solar_system }
 		remove_fleet_flag = kuat_star_flagship_nonsupport_battle_times_sutrat_placeholder
 		remove_fleet_flag = kuat_super_flagship_lack_support
 		remove_fleet_flag = eternal_learned_leader 
@@ -1385,18 +1385,18 @@ remove_fleet_modifier_trigger_flag = {
 	}
 }
 
-remove_ship_modifier_change_basic_variable = {
+kuat_battle_remove_ship_modifier_change_basic_variable = {
 	optimize_memory
 	clear_variable = debug_change_$PARAMATER$_value
 }
 
-remove_repeatable_ship_modifier_change_basic_vairable = {
+kuat_battle_remove_repeatable_ship_modifier_change_basic_vairable = {
 	optimize_memory
 	clear_variable = debug_change_weapon_type_$TYPE$_weapon_fire_rate_mult_value
 	clear_variable = debug_change_weapon_type_$TYPE$_weapon_damage_mul_value
 }
 
-kuat_reduce_hp_percent = {
+kuat_battle_kuat_reduce_hp_percent = {
 	optimize_memory
 	export_trigger_value_to_variable = { trigger = has_max_hp variable = exist_hp_value }
 	multiply_variable = { which = exist_hp_value value = 0.01 }
@@ -1404,7 +1404,7 @@ kuat_reduce_hp_percent = {
 	round_variable = exist_hp_value damage_ship = exist_hp_value clear_variable = exist_hp_value
 }
 
-kuat_set_epsilon_obelisk_code = {
+kuat_battle_kuat_set_epsilon_obelisk_code = {
 	optimize_memory
 	random_list = {
 		10 = { set_planet_flag = kuat_epsilon_obelisk_$kuat_obelisk_seq$_$kuat_position$_0 event_target:global_event_country = { set_variable = { which = kuat_epsilon_obelisk_$kuat_obelisk_seq$_$kuat_position$ value = 0 } } }
@@ -1420,7 +1420,7 @@ kuat_set_epsilon_obelisk_code = {
 	}
 }
 
-kuat_invinciable_battle_random_effect = {
+kuat_battle_kuat_invinciable_battle_random_effect = {
 	optimize_memory
 	random_list = {
 		100 = {
@@ -1442,7 +1442,7 @@ kuat_invinciable_battle_random_effect = {
 					has_global_flag = kuat_impulse_mod_settings
 				}
 			}
-			kuat_reduce_hp_percent = { value = 1 }
+			kuat_battle_kuat_reduce_hp_percent = { value = 1 }
 			set_timed_ship_flag = { flag = kuat_clear_ship_modifier_target days = 1 }
 		}
 		10 = {
@@ -1454,7 +1454,7 @@ kuat_invinciable_battle_random_effect = {
 					has_global_flag = kuat_impulse_mod_settings
 				}
 			}
-			kuat_reduce_hp_percent = { value = 2 }
+			kuat_battle_kuat_reduce_hp_percent = { value = 2 }
 			set_timed_ship_flag = { flag = kuat_clear_ship_modifier_target days = 2 }
 		}
 		5 = {
@@ -1466,7 +1466,7 @@ kuat_invinciable_battle_random_effect = {
 					has_global_flag = kuat_impulse_mod_settings
 				}
 			}
-			kuat_reduce_hp_percent = { value = 5 }
+			kuat_battle_kuat_reduce_hp_percent = { value = 5 }
 			set_timed_ship_flag = { flag = kuat_clear_ship_modifier_target days = 5 }
 		}
 		5 = {
@@ -1478,7 +1478,7 @@ kuat_invinciable_battle_random_effect = {
 					has_global_flag = kuat_impulse_mod_settings
 				}
 			}
-			kuat_reduce_hp_percent = { value = 7 }
+			kuat_battle_kuat_reduce_hp_percent = { value = 7 }
 			set_timed_ship_flag = { flag = kuat_clear_ship_modifier_target days = 6 }
 		}
 		5 = {
@@ -1490,7 +1490,7 @@ kuat_invinciable_battle_random_effect = {
 					has_global_flag = kuat_impulse_mod_settings
 				}
 			}
-			kuat_reduce_hp_percent = { value = 10 }
+			kuat_battle_kuat_reduce_hp_percent = { value = 10 }
 			set_timed_ship_flag = { flag = kuat_clear_ship_modifier_target days = 7 }
 		}
 		#POWERRRRR
@@ -1503,7 +1503,7 @@ kuat_invinciable_battle_random_effect = {
 					NOT = { has_global_flag = kuat_impulse_mod_settings }
 				}
 			}
-			kuat_reduce_hp_percent = { value = 20 }
+			kuat_battle_kuat_reduce_hp_percent = { value = 20 }
 			set_timed_ship_flag = { flag = kuat_clear_ship_modifier_target days = 5 }
 		}
 		5 = {
@@ -1515,7 +1515,7 @@ kuat_invinciable_battle_random_effect = {
 					NOT = { has_global_flag = kuat_impulse_mod_settings }
 				}
 			}
-			kuat_reduce_hp_percent = { value = 30 }
+			kuat_battle_kuat_reduce_hp_percent = { value = 30 }
 			set_timed_ship_flag = { flag = kuat_clear_ship_modifier_target days = 6 }
 		}
 		2 = {
@@ -1527,14 +1527,14 @@ kuat_invinciable_battle_random_effect = {
 					NOT = { has_global_flag = kuat_impulse_mod_settings }
 				}
 			}
-			kuat_reduce_hp_percent = { value = 40 }
+			kuat_battle_kuat_reduce_hp_percent = { value = 40 }
 			set_timed_ship_flag = { flag = kuat_clear_ship_modifier_target days = 7 }
 		}
 	}
 	reroll_random = yes
 }
 
-kuat_upgrade_epsilon_obelisk = {
+kuat_battle_kuat_upgrade_epsilon_obelisk = {
 	optimize_memory
 	if = {
 		limit = { exists = owner }
@@ -1598,7 +1598,7 @@ kuat_upgrade_epsilon_obelisk = {
 
 #fromfromfrom: enemy fleet
 #fromfrom: eternal fleet
-kuat_copy_leader_learning_system = {
+kuat_battle_kuat_copy_leader_learning_system = {
 	optimize_memory
 	if = {
 		limit = { 
@@ -1658,7 +1658,7 @@ kuat_copy_leader_learning_system = {
 }
 
 #scope: fleet
-mult_half_variable = {
+kuat_battle_mult_half_variable = {
 	optimize_memory
 	export_trigger_value_to_variable = { trigger = count_owned_ship variable = $WHICH$ } #总
 	set_variable = { which = $WHICH$_half value = $WHICH$ } #检查总
@@ -1667,7 +1667,7 @@ mult_half_variable = {
 }
 
 #补给系统
-kuat_star_flagship_checksum = {
+kuat_battle_kuat_star_flagship_checksum = {
 	optimize_memory
 	if = {
 		limit = { count_fleet_in_system = {
@@ -1697,12 +1697,12 @@ kuat_star_flagship_checksum = {
 				owner = { is_invisable_faction = no is_ai = no }
 				has_enable_flag_ship_system_true = yes 
 			}
-			kuat_star_flagship_caculation = yes
+			kuat_battle_kuat_star_flagship_caculation = yes
 		}
 	}
 }
 
-kuat_star_flagship_base_calculate = {
+kuat_battle_kuat_star_flagship_base_calculate = {
 	optimize_memory
 	solar_system = { 
 		subtract_variable = { which = kuat_support_battle_add_variable value = $ID$ }
@@ -1713,7 +1713,7 @@ kuat_star_flagship_base_calculate = {
 					NOT = { has_ship_flag = kuat_runing_kuat_support_trigger_eternal_return } 
 				}
 				set_ship_flag = kuat_runing_kuat_support_trigger_eternal_return
-				clear_ship_repeatable_modifier = { multiply = -$ID$ DAYS = -1 }
+				kuat_battle_clear_ship_repeatable_modifier = { multiply = -$ID$ DAYS = -1 }
 			}
 			remove_fleet_flag = kuat_super_flagship_lack_support
 			set_fleet_flag = kuat_super_flagship_$ID$_enough_support_@prev
@@ -1727,66 +1727,66 @@ kuat_star_flagship_base_calculate = {
 	}
 }
 
-kuat_star_flagship_clear_all_caculation = {
+kuat_battle_kuat_star_flagship_clear_all_caculation = {
 	clear_variable = kuat_support_battle_add_variable 
 	every_fleet_in_system = {
-		kuat_star_flagship_base_fleet_clear_calculation = { ID = 1 }
-		kuat_star_flagship_base_fleet_clear_calculation = { ID = 1.5 }
-		kuat_star_flagship_base_fleet_clear_calculation = { ID = 3 }
+		kuat_battle_kuat_star_flagship_base_fleet_clear_calculation = { ID = 1 }
+		kuat_battle_kuat_star_flagship_base_fleet_clear_calculation = { ID = 1.5 }
+		kuat_battle_kuat_star_flagship_base_fleet_clear_calculation = { ID = 3 }
 	}
-	kuat_star_flagship_base_system_clear_calculation = { ID = 1 }
-	kuat_star_flagship_base_system_clear_calculation = { ID = 1.5 }
-	kuat_star_flagship_base_system_clear_calculation = { ID = 3 }
+	kuat_battle_kuat_star_flagship_base_system_clear_calculation = { ID = 1 }
+	kuat_battle_kuat_star_flagship_base_system_clear_calculation = { ID = 1.5 }
+	kuat_battle_kuat_star_flagship_base_system_clear_calculation = { ID = 3 }
 }
 
-kuat_star_flagship_base_system_clear_calculation = {
+kuat_battle_kuat_star_flagship_base_system_clear_calculation = {
 	optimize_memory
 	remove_star_flag = kuat_super_flagship_$ID$_enough_support
 	clear_variable = kuat_super_flagship_$ID$_enough_support_var
 }
 
-kuat_star_flagship_base_fleet_clear_calculation = {
+kuat_battle_kuat_star_flagship_base_fleet_clear_calculation = {
 	optimize_memory
 	remove_fleet_flag = kuat_super_flagship_$ID$_enough_support
 	remove_fleet_flag = kuat_super_flagship_$ID$_enough_support_@$SCOPE|prev$
 }
 
-kuat_star_flagship_caculation = {
+kuat_battle_kuat_star_flagship_caculation = {
 	optimize_memory
 	if = { 
 		limit = { 
 			kuat_fleet_cap_occupy = { ID = 3 } 
 			solar_system = { check_variable = { which = kuat_support_battle_add_variable value >= 3 } }
 		} 
-		kuat_star_flagship_base_calculate = { ID = 3 }
+		kuat_battle_kuat_star_flagship_base_calculate = { ID = 3 }
 	}
 	else_if = { 
 		limit = { 
 			kuat_fleet_cap_occupy = { ID = 1.5 } 
 			solar_system = { check_variable = { which = kuat_support_battle_add_variable value >= 1.5 } }
 		}  
-		kuat_star_flagship_base_calculate = { ID = 1.5 }
+		kuat_battle_kuat_star_flagship_base_calculate = { ID = 1.5 }
 	}
 	else_if = { 
 		limit = { 
 			kuat_fleet_cap_occupy = { ID = 1 } 
 			solar_system = { check_variable = { which = kuat_support_battle_add_variable value >= 1 } }
 		} 
-		kuat_star_flagship_base_calculate = { ID = 1 }
+		kuat_battle_kuat_star_flagship_base_calculate = { ID = 1 }
 	}
 	else_if = {
 		limit = { kuat_fleet_cap_flag_condition = yes }
 		solar_system = { prev = { 
-			remove_repetable_modifier_iep = yes
-			kuat_star_flagship_base_fleet_clear_calculation = { ID = 1 }
-			kuat_star_flagship_base_fleet_clear_calculation = { ID = 1.5 }
-			kuat_star_flagship_base_fleet_clear_calculation = { ID = 3 }
+			kuat_battle_remove_repetable_modifier_iep = yes
+			kuat_battle_kuat_star_flagship_base_fleet_clear_calculation = { ID = 1 }
+			kuat_battle_kuat_star_flagship_base_fleet_clear_calculation = { ID = 1.5 }
+			kuat_battle_kuat_star_flagship_base_fleet_clear_calculation = { ID = 3 }
 			set_fleet_flag = kuat_super_flagship_lack_support 
 		} }
 	}
 }
 
-kuat_remove_starbase_station = {
+kuat_battle_kuat_remove_starbase_station = {
 	if = {
 		limit = { exists = orbit }
 		orbit = { remove_planet_flag = has_megastructure save_event_target_as = target_planet }
@@ -1808,7 +1808,7 @@ kuat_remove_starbase_station = {
 	}
 }
 
-kuat_disable_checks_effect = {
+kuat_battle_kuat_disable_checks_effect = {
 	if = {
 		limit = { count_owned_ship = {
 			limit = { check_variable = { which = kuat_invsiable_faction_disables_times value > 10 } }
