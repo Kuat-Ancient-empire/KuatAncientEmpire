@@ -1597,23 +1597,6 @@ kuat_str_auto_colony_total_reserve = {
 }
 
 kuat_initial_eternal_throne = {
-	event_target:zakuul_system = { random_system_planet = {
-		limit = { has_planet_flag = EE_Home_World }
-		save_event_target_as = new_home_planet
-	} }
-	random_owned_planet = {
-		save_event_target_as = previous_home_planet
-		solar_system = { save_event_target_as = previous_home_system }
-	}
-	event_target:previous_home_planet = {
-		every_owned_pop = {
-			resettle_pop = {
-				pop = this
-				planet = event_target:new_home_planet
-			}
-			unemploy_pop = yes
-		}
-	}
 	event_target:zakuul_system = {
 		create_starbase = { size = starbase_outpost owner = root }
 		random_system_planet = {
@@ -1637,9 +1620,56 @@ kuat_initial_eternal_throne = {
 			add_deposit = ss_volatile_motes
 			add_deposit = ss_crystallinemin
 			add_deposit = ss_gaseous_eruption
+			while = { count = 15 create_pop = { species = owner_main_species } }
 			set_name = "Zakuul"
 		}
 		generate_home_system_resources = yes
 		set_name = "Zakuul System"
+		create_fleet = {
+			effect = {
+				set_owner = root
+				create_ship = {
+					name = random
+					random_existing_design = science
+				}
+				set_fleet_stance = evasive
+				set_location = root.capital_star
+				owner = {
+					random_owned_leader = {
+						limit = { leader_class = scientist }
+						save_event_target_as = ag_science_ship_leader
+					}
+				}
+				if = {
+					limit = { exists = event_target:ag_science_ship_leader }
+					set_leader = event_target:ag_science_ship_leader
+				}
+			}
+		}
+		create_fleet = {
+			effect = {
+				set_owner = root
+				create_ship = {
+					name = random
+					random_existing_design = constructor
+				}
+				set_fleet_stance = evasive
+				set_location = root.capital_star
+			}
+		}
+		create_fleet = {
+			effect = {
+				set_owner = root
+				while = {
+					count = 3
+					create_ship = {
+						name = random
+						random_existing_design = corvette
+					}
+				}
+				set_fleet_stance = aggressive
+				set_location = root.capital_star
+			}
+		}
 	}
 }
