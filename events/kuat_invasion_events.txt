@@ -1079,11 +1079,7 @@ country_event = {
 				has_country_flag = trigger_ended_event_temple
 			} }
 			set_timed_country_flag = { flag = trigger_ended_event_temple days = 1 }
-			if = {
-				limit = { NOT = { has_global_flag = special_exe_invasion } }
-				country_event = { id = exe_invasion.33 }
-			} 
-			else = { country_event = { id = exe_invasion.35 } }
+			country_event = { id = exe_invasion.35 }
 		}
 		add_threat = { who = root amount = 50 }
 		set_global_flag = exe_invasion_ended
@@ -1095,36 +1091,20 @@ country_event = {
 
 #Notification: Invasion end. 
 country_event = {
-	id = exe_invasion.33
-	title = "exe_invasion.33.name"
-	desc = "exe_invasion.33.desc"
-	diplomatic = yes
-	picture_event_data = { room = Eternal_Empire_room }
-	custom_gui = "kuat_event_window"
-	custom_gui_option = "kuat_event_option"
-	fire_only_once = yes
-	show_sound = event_space_battle
-	is_triggered_only = yes
-	immediate = { 
-		remove_global_flag = eternal_fleet_debug_check 
-		remove_global_flag = ai_fighting_with_player_against_eternal
-	}
-	option = {
-		name = "exe_invasion.33.a"
-		hidden_effect = {
-			if = {
-				limit = { kuat_is_enable_shadow_origin = yes }
-				set_global_flag = fire_the_kuat_return
-			}
-			end_event_chain = ag_exe_invasion_chain
-		}
-	}
-}
-
-country_event = {
 	id = exe_invasion.35
 	title = "exe_invasion.33.name"
-	desc = "exe_invasion.35.desc"
+	desc = {
+		trigger = {
+			success_text = {
+				has_global_flag = special_exe_invasion
+				text = "exe_invasion.35.desc"
+			}
+			success_text = {
+				NOT = { has_global_flag = special_exe_invasion }
+				text = "exe_invasion.33.desc"
+			}
+		}
+	}
 	diplomatic = yes
 	picture_event_data = {
 		room = Eternal_Empire_room
@@ -1134,14 +1114,37 @@ country_event = {
 	fire_only_once = yes
 	show_sound = event_space_battle
 	is_triggered_only = yes
+	immediate = { 
+		if = {
+			limit = { NOT = { has_global_flag = special_exe_invasion } }
+			remove_global_flag = eternal_fleet_debug_check 
+			remove_global_flag = ai_fighting_with_player_against_eternal
+		}
+	}
 	option = {
 		name = "exe_invasion.33.b"
+		trigger = {
+			has_global_flag = special_exe_invasion
+		}
 		hidden_effect = {
 			end_event_chain = ag_exe_invasion_chain
 			enable_special_project = {
 				name = exe_invasion_lock_the_eclipse
 				location = this.capital_star
 			}
+		}
+	}
+	option = {
+		name = "exe_invasion.33.a"
+		trigger = {
+			NOT = { has_global_flag = special_exe_invasion }
+		}
+		hidden_effect = {
+			if = {
+				limit = { kuat_is_enable_shadow_origin = yes }
+				set_global_flag = fire_the_kuat_return
+			}
+			end_event_chain = ag_exe_invasion_chain
 		}
 	}
 }
@@ -1241,12 +1244,12 @@ country_event = {
 				text = "exe_invasion.1000.shadow.desc"
 			}
 			success_text = {
-				kuat_is_enbale_eternal_origin = yes
+				kuat_is_enable_eternal_origin = yes
 				text = "exe_invasion.1000.eternal.desc"
 			}
 			success_text = {
 				NOR = {
-					kuat_is_enbale_eternal_origin = yes
+					kuat_is_enable_eternal_origin = yes
 					kuat_is_enable_shadow_origin = yes
 				}
 				text = "exe_invasion.1000.none.desc"
@@ -1287,8 +1290,14 @@ country_event = {
 				has_origin = origin_eternalthrone
 			} }
 			random_list = {
-				1 = { set_country_flag = has_origin_kuat_shadow remove_country_flag = has_origin_kuat_eternal }
-				1 = { set_country_flag = has_origin_kuat_eternal remove_country_flag = has_origin_kuat_shadow }
+				1 = { 
+					set_country_flag = has_origin_kuat_shadow 
+					remove_country_flag = has_origin_kuat_eternal 
+				}
+				1 = { 
+					set_country_flag = has_origin_kuat_eternal 
+					remove_country_flag = has_origin_kuat_shadow 
+				}
 				1 = { no_events = yes }
 			}
 		}
@@ -1301,7 +1310,7 @@ country_event = {
 			event_target:global_event_country = { country_event = { id = executor_build.0 } }
 			set_global_flag = kuat_settings_first_fired
 			if = {
-				limit = { kuat_is_enbale_eternal_origin = yes }
+				limit = { kuat_is_enable_eternal_origin = yes }
 				if = {
 					limit = { exists = event_target:CHECK_ETERNAL_LEADER }
 					clear_global_event_target = ETERNAL_LEADER

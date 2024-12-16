@@ -669,6 +669,14 @@ country_event = {
 		else = { is_country_type = kuat_awakened_returned_empire }
 	}
 	immediate = {
+		if = {
+			limit = { kuat_is_enable_eternal_origin = yes }
+			set_global_flag = eternal_throne_Overseer_Council_defeated_second 
+		}
+		else_if = {
+			limit = { kuat_is_enable_shadow_origin = yes }
+			set_global_flag = under_shadow_kuat_defeated_second 
+		}
 		every_country = {
 			limit = { is_ai = no }
 			country_event = { id = exe_kuat_return.16 }
@@ -692,7 +700,7 @@ country_event = {
 		text = "exe_kuat_return.16.desc"
 	}
 	desc = {
-		trigger = { kuat_is_enbale_eternal_origin = yes }
+		trigger = { kuat_is_enable_eternal_origin = yes }
 		text = "kuat_facility_return_invasion.27.desc"
 	}
 	diplomatic = yes
@@ -715,12 +723,15 @@ country_event = {
 				country_event = { id = exe_kuat_return.161 days = 30 }
 			}
 			if = {
-				limit = { has_country_flag = eternal_fleet_ennded_A }
-				country_event = { id = kuat_facility_return_invasion.23 days = 2 random = 2 }
-			}
-			else_if = {
-				limit = { has_country_flag = eternal_fleet_ennded_B }
-				country_event = { id = kuat_facility_return_invasion.25 days = 2 random = 2 }
+				limit = { kuat_is_enable_eternal_origin = yes }
+				if = {
+					limit = { has_country_flag = eternal_fleet_ennded_A }
+					country_event = { id = kuat_facility_return_invasion.23 days = 2 random = 2 }
+				}
+				else_if = {
+					limit = { has_country_flag = eternal_fleet_ennded_B }
+					country_event = { id = kuat_facility_return_invasion.25 days = 2 random = 2 }
+				}
 			}
 		}
 	}
