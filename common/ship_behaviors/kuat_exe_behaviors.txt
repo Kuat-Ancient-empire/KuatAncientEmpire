@@ -1,45 +1,19 @@
 #此文件（以及此文件夹中的所有文件）可以使用控制台命令"reload behavior"重新加载
 #要调试战斗中的舰船行为，您可以使用控制台命令“debuglines”来可视化大部分行为
-### FLAGSHIP
-
-#ship_behavior = {
-#	name = "example"						# Name
-#	range_components = strike_craft			# Which components' ranges will be used for calculating the max/min/median distances below.
-											# Valid values are: 'weapon' (all weapons other than strike craft), 'strike_craft' (if there's no strike craft weapons, falls back to weapon). (default = weapon)
-#	preferred_attack_range = 10				# The distance this ship wants to have to its combat position for 'attack_movement_pattern'.
-											# Valid values are: <NUMBERS>, 'max', 'min', 'median' (where the last 3 will use the weapon components of the ship design)
-#	formation_distance = 10					# The distance this ship wants to have to its combat_position for 'passive_movement_pattern'. For a ship to switch to 'attack_movement_pattern' this needs to be less than distance to its combat position.
-											# Valid values are: <NUMBERS>, 'max', 'min', 'median' (where the last 3 will use the weapon components of the ship design, for strike crafts just only use numbers)
-#	return_to_formation_distance = 60		# Distance to combat position where the ship will force switch back to 'passive_move_pattern'
-											# Valid values are: <NUMBERS>, 'max', 'min', 'median' (where the last 3 will use the weapon components of the ship design, for strike crafts just only use numbers)
-#	source_target_anchor_factor = 1.0		# Weight factor where this ship wants to position itself between 'combat_source_anchor' and 'combat_target_anchor', this is the combat position.
-#	combat_source_anchor = parent			# 计算本舰战斗位置时以哪个锚为源，这是锚舰的实际位置。
-											# Valid values are: 'parent', 'root' (where 'parent' is the immediate parent ship and 'root' the fleet leader ship)
-#	combat_target_anchor = parent			# 计算本舰战斗位置时使用哪个锚作为目标，这是锚舰的战斗位置。对于“root”，这将是实际目标。
-											# Valid values are: 'parent', 'root' (where 'parent' is the immediate parent ship and 'root' the fleet leader ship)
-#
-#	collision_awareness = 0.5				# How much we try to avoid other ships
-#	collision_strafe = 1.0					# Allows the ship to move in any direction while colliding with another
-#	collision_radius = 2.0					# Multiplier on the radius specified in the ship size
-#	attack_move_pattern = orbit				# Valid values: '
-#	passive_move_pattern = charge
-#
-#	desc = "EXAMPLE_DESC"					# Description used in tooltip
-#}
 
 ship_behavior = {
 	name = "EXE_flagship"
-	preferred_attack_range = max			#舰船attack_move_pattern模式下保持的进攻距离
-	formation_distance = max				#舰船passive_move_pattern模式下保持的攻击距离，如果小于该距离切换为attack_move_pattern模式
-	return_to_formation_distance = max		#抵达该距离之前，强制转换为passive_move_pattern模式
-	source_target_anchor_factor = 1.0		#目标和锚点之间坐标权重倍率
+	preferred_attack_range = max			#舰船进攻模式下保持的进攻距离 #PS：舰船处于进攻模式下会保持该距离
+	formation_distance = max				#舰船被动模式下保持的攻击距离，如果小于该距离切换为进攻模式 #PS:当舰船处于被动模式将会保持该距离，一旦运动到低于该距离，强制转化为进攻模式
+	return_to_formation_distance = max		#抵达该距离之前，强制转化为被动模式 #PS:即任何比该数值要大的距离和包括该距离都是被动模式，包括进战
+	source_target_anchor_factor = 1.0		#目标和锚点之间坐标权重倍率，该值不能为0 不写该条目默认为1，最低值疑似为0.1或者0.01 数值越低锚点离自己舰船越近
 	combat_target_anchor = root				#以敌人舰队领袖船为目标锚点 parent是锁定目标敌舰 root是敌人舰队首位船
 
-	collision_awareness = 0.0 #
-	collision_radius = 0	#collision_radius is a multiplier on the radius specified in the ship size
-	collision_strafe = 0	#collision_strafe allows the ship to move in any direction while colliding with another
-	attack_move_pattern = charge
-	passive_move_pattern = stationary
+	collision_awareness = 0.0 				#舰船运动意识，当舰船的移动半径运算结果要撞上去之前，有多高的移动概率，越大的船移动概率越低
+	collision_radius = 0					#舰船移动半径倍率，与舰船的定义半径进行相乘，这一数值应该优先修正舰船shipsize定义中的半径，使其与舰船的大小相近
+	collision_strafe = 0					#舰船位置冲突时，舰船会选择多大的角度进行回避，一般情况下拉高点舰船回避的速度越快，容易出现鬼畜，数值要适合
+	attack_move_pattern = charge			#舰船进攻模式
+	passive_move_pattern = stationary		#舰船被动模式
 	desc = "EXE_FLAGSHIP_DEFENSIVE_BEHAVIOR_DESC"
 }
 
@@ -54,7 +28,7 @@ ship_behavior = {
 
 	collision_awareness = 0.5
 	collision_radius = 1.0
-	collision_strafe = 5.0				#collision_strafe allows the ship to move in any direction while colliding with another
+	collision_strafe = 5.0				
 
 	attack_move_pattern = stay_at_range 
 	passive_move_pattern = maintain_distance
@@ -72,7 +46,7 @@ ship_behavior = {
 
 	collision_awareness = 0.75
 	collision_radius = 1.0
-	collision_strafe = 5.0				#collision_strafe allows the ship to move in any direction while colliding with another
+	collision_strafe = 5.0				
 	
 	attack_move_pattern = stay_at_range 
 	passive_move_pattern = maintain_distance
@@ -89,8 +63,8 @@ ship_behavior = {
 	combat_target_anchor = parent
 
 	collision_awareness = 0
-	collision_radius = 0	#collision_radius is a multiplier on the radius specified in the ship size
-	collision_strafe = 0	#collision_strafe allows the ship to move in any direction while colliding with another
+	collision_radius = 0	
+	collision_strafe = 0	
 	attack_move_pattern = charge 
 	passive_move_pattern = stationary
 	desc = "EXE_CRUSER_DEFENSIVE_BEHAVIOR_DESC"
@@ -105,8 +79,8 @@ ship_behavior = {
 	return_to_formation_distance = 400
 	combat_target_anchor = root
 	collision_awareness = 0.2
-	collision_radius = 1.0	#collision_radius is a multiplier on the radius specified in the ship size
-	collision_strafe = 2.5	#collision_strafe allows the ship to move in any direction while colliding with another
+	collision_radius = 1.0	
+	collision_strafe = 2.5	
 	attack_move_pattern = stationary
 	passive_move_pattern = none
 	#desc = "EXE_BATTLE_DEFENSIVE_BEHAVIOR_DESC"
@@ -122,7 +96,7 @@ ship_behavior = {
 	return_to_formation_distance = @return_range 
 
 	collision_awareness = 0.5
-	collision_strafe = 1.0							#collision_strafe allows the ship to move in any direction while colliding with another
+	collision_strafe = 1.0							
 	collision_radius = 1.0
 
 	attack_move_pattern = charge
@@ -136,7 +110,7 @@ ship_behavior = {
 	return_to_formation_distance = @return_range
 
 	collision_awareness = 0.5
-	collision_strafe = 1.0							#collision_strafe allows the ship to move in any direction while colliding with another
+	collision_strafe = 1.0							
 	collision_radius = 1.0
 
 	attack_move_pattern = charge
