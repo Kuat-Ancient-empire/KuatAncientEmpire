@@ -26,7 +26,21 @@ Kuat_foundry = {
 	}
 	
 	weight = {
-		weight = 15		
+		weight = @specialist_job_weight # Fairly important job
+		mult = value:job_weights_modifier|JOB|Kuat_foundry|RESOURCE|alloys|
+		modifier = {
+			factor = 2
+			is_enslaved = yes
+			can_take_servant_job = no
+		}
+		modifier = {
+			factor = 5
+			has_job = Kuat_foundry
+		}
+		modifier = {
+			factor = 5
+			has_trait = trait_cyborg_creed_of_construction
+		}
 	}
 }
 
@@ -55,7 +69,21 @@ Kuat_Specialist_foundry = {
 	}
 	
 	weight = {
-		weight = 15		
+		weight = @specialist_job_weight # Fairly important job
+		mult = value:job_weights_modifier|JOB|Kuat_Specialist_foundry|RESOURCE|minerals|
+		modifier = {
+			factor = 2
+			is_enslaved = yes
+			can_take_servant_job = no
+		}
+		modifier = {
+			factor = 5
+			has_job = Kuat_Specialist_foundry
+		}
+		modifier = {
+			factor = 5
+			has_trait = trait_cyborg_creed_of_construction
+		}
 	}
 }
 
@@ -140,6 +168,7 @@ Kuat_chief_researcher = {
 			has_slavery_type = { type = slavery_indentured }
 		}
 	}
+	inline_script = "jobs/automodding_priority_research"
 }
 
 Kuat_artisan = {
@@ -177,35 +206,32 @@ Kuat_artisan = {
 
 	weight = {
 		weight = @specialist_job_weight
+		mult = value:job_weights_modifier|JOB|Kuat_artisan|RESOURCE|consumer_goods|
 		modifier = {
-			factor = 0.2
-			has_citizenship_rights = no
-			NOT = { has_trait = trait_mechanical }
-		}
-		modifier = {
-			factor = 0.1
-			can_take_servant_job = yes
+			factor = 2
+			is_enslaved = yes
+			can_take_servant_job = no
 		}
 		modifier = {
 			factor = 5
 			has_job = Kuat_artisan
 		}
-		modifier = {
-			factor = 10
-			has_job = Kuat_artisan
-			OR = {
-				has_trait = trait_robust
-				has_trait = trait_robot_efficient_processors
-			}
-		}
+
+		# low income modifier
 		modifier = {
 			factor = 1.2
-			is_enslaved = yes
-			has_slavery_type = { type = slavery_indentured }
-		}
-		modifier = {
-			factor = 1.5
-			has_trait = trait_void_dweller_1
+			exists = planet
+			planet = {
+				has_available_jobs = "Kuat_artisan"
+			}
+			exists = owner
+			owner = {
+				is_ai = yes
+				has_monthly_income = {
+					resource = consumer_goods
+					value < 5
+				}
+			}
 		}
 	}
 }
