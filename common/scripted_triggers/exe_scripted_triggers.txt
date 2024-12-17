@@ -308,6 +308,7 @@ kuat_is_kuat_ship = {
 		swgs_is_standard_ship = yes
 		unsc_is_standard_ship = yes
 		kuat_is_mega_starbase = yes
+		kuat_is_addon_standard_ship = yes
 	}
 }
 kuat_is_mega_starbase = {
@@ -357,7 +358,7 @@ kuat_fleet_cap_TRIGGER_occupy_1.5 = {
 			is_ship_size = X308_Balletor
 			is_ship_size = X308_Titan
 			is_ship_size = X308_Tyrant
-			has_ship_flag = has_sg_sub_flagship
+			kuat_is_addon_sub_flagship = yes
 		}
 	}
 }
@@ -401,7 +402,7 @@ kuat_is_sub_flagship_system_protection = {
 		is_ship_size = kuat_compellor
 		is_ship_size = Infinite_battleship
 		is_ship_size = eternal_flagship
-		has_ship_flag = has_sg_sub_flagship
+		kuat_is_addon_sub_flagship = yes
 		kuat_is_mega_starbase = yes	
 	}
 }
@@ -428,10 +429,15 @@ kuat_is_forbidden_autocolony_country = {
 }
 
 kuat_is_addon_flagship = {
-	OR = {
-		has_ship_flag = has_ag_flagship
-		has_ship_flag = has_sg_flagship
-	}
+	has_ship_flag = has_ag_flagship
+}
+
+kuat_is_addon_sub_flagship = {
+	has_ship_flag = has_ag_sub_flagship
+}
+
+kuat_is_addon_standard_ship = {
+	has_ship_flag = has_ag_standard_ship
 }
 
 has_enable_ai_battle_system = {
@@ -590,20 +596,23 @@ has_trigger_shipyard = {
 			has_starbase_size = ag_gamma_station_hostile
 			has_starbase_size = ag_gamma_station_0
 			has_starbase_size = ag_gamma_station_1
+
 			has_starbase_size = swfo_supremacy
 			has_starbase_size = exe_megastructure_starbase
 			has_starbase_size = Drift_megastructure_starbase
 			owner = { has_origin = origin_kuat_apocalyptic }
 		} }
 		AND = { is_scope_type = megastructure OR = {
-			is_megastructure_type = Infinite_StarForge
 			is_megastructure_type = ag_ancient_construction_section
 			has_megastructure_flag = ag_ancient_construction_section_megashipyard
+			
 			is_megastructure_type = StarForge
+			is_megastructure_type = Infinite_StarForge
 			is_megastructure_type = ed_mega_shipyard
 			is_megastructure_type = exe_black_hole_restore
 			is_megastructure_type = exe_black_hole_facility
 		} }
+		AND = { exists = owner owner = { has_modifier = "ag_debug_modifier_buff_common" } }
 	}
 }
 

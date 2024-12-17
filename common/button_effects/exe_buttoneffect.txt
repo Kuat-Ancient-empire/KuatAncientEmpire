@@ -108,6 +108,10 @@ kuat_set_forcetrigger_order_enable_eternal_invasion = {
 	effect = {
 		custom_tooltip = "kuat_set_forcetrigger_order_enable_eternal_invasion_tip"
 		hidden_effect = { from = {
+			play_sound = {
+				sound = event_construction
+				location = capital_scope
+			}
 			event_target:fallen_empire_kuat = { destroy_country = yes }
 			set_country_flag = fired_exe_invasion
 			set_global_flag = exe_invasion_7_fired
@@ -122,11 +126,15 @@ kuat_set_forcetrigger_order_enable_eternal_return = {
 		is_scope_type = country 
 		NOT = { has_global_flag = exe_return_invasion_ended } 
 		NOT = { has_country_flag = fired_exe_return_invasion } 
-		has_global_flag = kuat_non_legacy_trigger_eternal_return
+		NOT = { has_global_flag = exe_return_invasion_begin } 
 	} }
 	effect = {
 		custom_tooltip = "kuat_set_forcetrigger_order_enable_eternal_return_tip"
 		hidden_effect = { from = {
+			play_sound = {
+				sound = event_construction
+				location = capital_scope
+			}
 			set_country_flag = fired_exe_return_invasion
 			set_global_flag = exe_return_invasion_7_fired
 		} }
@@ -139,12 +147,15 @@ kuat_set_forcetrigger_order_enable_contractor_return = {
 	allow = { hidden_trigger = { 
 		is_scope_type = country 
 		NOT = { has_global_flag = kuat_extramonster_ended } 
-		any_system = { has_star_flag = myst_system_5 }
+		NOT = { has_global_flag = kuat_extramonster_begin } 
 		NOT = { has_country_flag = fired_kuat_extramonster_invasion } 
 	} }
 	effect = {
 		custom_tooltip = "kuat_set_forcetrigger_order_enable_contractor_return_tip"
 		hidden_effect = { from = {
+			play_sound = { sound = event_construction location = capital_scope }
+			capital_scope = { spawn_system = { initializer = myst_system_5 hyperlane = no } }
+			event_target:kuat_contractor_country = { destroy_country = yes }
 			set_country_flag = fired_kuat_extramonster_invasion
 			set_global_flag = kuat_extramonster_7_fired 
 		} }
