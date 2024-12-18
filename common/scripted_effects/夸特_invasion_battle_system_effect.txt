@@ -43,7 +43,14 @@ kuat_battle_eternal_increase_executor_power = {
 		else_if = { limit = { has_hp <= @$TYPE$_increase_hp_T2 } add_modifier = { modifier = $TYPE$_increase_hp_T2 days = $DAYS$ } }
 		else_if = { limit = { has_hp <= @$TYPE$_increase_hp_T1 } add_modifier = { modifier = $TYPE$_increase_hp_T1 days = $DAYS$ } }]
 
-		if = { limit = { exists = owner owner = { is_ai = no } kuat_is_flagship_system_protection = yes } set_disable_at_health = 0.01 }
+		if = { 
+			limit = { 
+				exists = owner owner = { is_ai = no } 
+				kuat_is_flagship_system_protection = yes 
+				ag_is_ancient_titan_alt = no
+			} 
+			kuat_battle_disable_ship_at_health = { Disable_health = 0.01 } 
+		}
 		set_timed_ship_flag = { flag = kuat_has_eternal_increase_executor_power_temple days = $DAYS$ }
 	}
 }
@@ -1629,6 +1636,7 @@ kuat_battle_kuat_star_flagship_caculation = {
 }
 
 kuat_battle_kuat_remove_starbase_station = {
+	optimize_memory
 	if = {
 		limit = { exists = orbit }
 		orbit = { remove_planet_flag = has_megastructure save_event_target_as = target_planet }
@@ -1651,6 +1659,7 @@ kuat_battle_kuat_remove_starbase_station = {
 }
 
 kuat_battle_kuat_disable_checks_effect = {
+	optimize_memory
 	if = {
 		limit = { count_owned_ship = {
 			limit = { check_variable = { which = kuat_invsiable_faction_disables_times value > 10 } }
@@ -1750,4 +1759,20 @@ kuat_battle_kuat_disable_checks_effect = {
 			set_timed_fleet_flag = { flag = kuat_fleet_invisiable_checkpoint_half_temple days = 1 }
 		}
 	}
+}
+
+kuat_battle_disable_ship_at_health = {
+	optimize_memory
+	[[FLAG] set_ship_flag = $FLAG$ ]
+	[[Disable_health] set_disable_at_health = $Disable_health$ set_ship_flag = kuat_battle_disable_ship_at_health ]
+	[[WHICH] set_variable = { which = $WHICH$ value = $HEALTH$ }]
+}
+
+kuat_battle_clear_ship_at_health = {
+	optimize_memory
+	[[REPAIR] repair_ship = $REPAIR$ ] 
+	[[DISABLE] set_disabled = $DISABLE$ ]
+	[[Disable_health] set_disable_at_health = $Disable_health$ remove_ship_flag = kuat_battle_disable_ship_at_health ]
+	[[WHICH] subtract_variable = { which = $WHICH$ value = 1 } ]
+	[[AG_TYPE] while = { count = $AG_TYPE$ ag_subtract_disable_at_health = { ag_type = common } remove_ship_flag = kuat_battle_disable_ship_at_health } ]
 }

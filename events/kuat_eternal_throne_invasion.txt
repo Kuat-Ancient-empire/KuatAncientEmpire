@@ -1498,16 +1498,16 @@ country_event = {
 	hide_window = yes
 	is_triggered_only = yes
 	trigger = {
-		is_country_type = Kuat_Galatic_Empire_invasion_country
-		fromfrom.fleet = { OR = {
+		from = { is_country_type = Kuat_Galatic_Empire_invasion_country }
+		fromfromfrom.fleet = { OR = {
 			has_fleet_flag = ag_kae_ge_primary_portal
 			has_fleet_flag = ag_kae_ge_secondary_portal
 		} }
 	}
 	immediate = {
 		if = {
-			limit = { fromfrom.fleet = { has_fleet_flag = ag_kae_ge_primary_portal } }
-			fromfrom.solar_system.star = { save_event_target_as = ag_kae_target_planet }
+			limit = { fromfromfrom.fleet = { has_fleet_flag = ag_kae_ge_primary_portal } }
+			fromfromfrom.solar_system.star = { save_event_target_as = ag_kae_target_planet }
 		}
 		event_target:global_event_country = {
 			change_variable = { which = ag_kae_ge_invasion_num_portals_destroyed value = 1 }
@@ -1517,7 +1517,7 @@ country_event = {
 			if = {
 				limit = { has_event_chain = "ag_kae_ge_invasion_chain" }
 				add_event_chain_counter = { event_chain = "ag_kae_ge_invasion_chain" counter = ag_kae_ge_invasion_portal amount = -1 }
-				root.fromfrom = {
+				root.fromfromfrom = {
 					if = { limit = { solar_system = { has_star_flag = ag_kae_portal_system_1 } } prev = { remove_point_of_interest = ag_kae_ge_invasion_secondary_portal_poi_1 } }
 					else_if = { limit = { solar_system = { has_star_flag = ag_kae_portal_system_2 } } prev = { remove_point_of_interest = ag_kae_ge_invasion_secondary_portal_poi_2 } }
 					else_if = { limit = { solar_system = { has_star_flag = ag_kae_portal_system_3 } } prev = { remove_point_of_interest = ag_kae_ge_invasion_secondary_portal_poi_3 } }
@@ -1527,16 +1527,16 @@ country_event = {
 				}
 			}
 			if = {
-				limit = { is_same_value = root.from }
+				limit = { is_same_value = root }
 				if = {
-					limit = { fromfrom.fleet = { has_fleet_flag = ag_kae_ge_secondary_portal } }
+					limit = { fromfromfrom.fleet = { has_fleet_flag = ag_kae_ge_secondary_portal } }
 					country_event = { id = ag_kae_ge_invasion.235 }
 				}
 				else = { country_event = { id = ag_kae_ge_invasion.237 } }
 			}
 			else = {
 				if = {
-					limit = { fromfrom.fleet = { has_fleet_flag = ag_kae_ge_secondary_portal } }
+					limit = { fromfromfrom.fleet = { has_fleet_flag = ag_kae_ge_secondary_portal } }
 					country_event = { id = ag_kae_ge_invasion.236 days = 2 random = 2 }
 				}
 				else = { country_event = { id = ag_kae_ge_invasion.238 days = 2 random = 2 } }

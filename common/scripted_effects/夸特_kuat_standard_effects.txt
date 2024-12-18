@@ -42,9 +42,9 @@ create_exe_invasion_fleet = {
 	create_fleet = {
 		[[NAME] name = $NAME$ ]
 		settings = { 
-			can_change_composition = $is_composition|yes$ 
-			uses_naval_capacity = $uses_naval_capacity|no$ spawn_debris = no 
-			can_disband = $can_disband$ is_ultra_boss = $is_boss$
+			[[is_composition] can_change_composition = $is_composition$ ]
+			[[uses_naval_capacity] uses_naval_capacity = $uses_naval_capacity$ ]
+			spawn_debris = no can_disband = $can_disband$ is_ultra_boss = $is_boss$
 		}
 		effect = {
 			[[flag] set_fleet_flag = $flag$ ]
@@ -64,12 +64,10 @@ create_exe_invasion_fleet = {
 
 			#Drift ships
 			[[Drift_Battleship] while = { count = $Drift_Battleship$ create_ship = { design = Name_boss_crisis_DB_$DIFF$ effect = {
-				set_ship_flag = enable_drft_ship_inital set_disable_at_health = 0.01
-				set_variable = { which = DRFT_SHIP_HEALTH_VAR value = $HEALTH|1$ }
+				kuat_battle_disable_ship_at_health = { FLAG = enable_drft_ship_inital Disable_health = 0.01 WHICH = DRFT_SHIP_HEALTH_VAR HEALTH = $HEALTH|1$ }
 			} } }]
 			[[Drift_Crusier] while = { count = $Drift_Crusier$ create_ship = { design = Name_boss_crisis_DC_$DIFF$ effect = {
-				set_ship_flag = enable_drft_ship_inital set_disable_at_health = 0.01
-				set_variable = { which = DRFT_SHIP_HEALTH_VAR value = $HEALTH|1$ }
+				kuat_battle_disable_ship_at_health = { FLAG = enable_drft_ship_inital Disable_health = 0.01 WHICH = DRFT_SHIP_HEALTH_VAR HEALTH = $HEALTH|1$ }
 			} } }]
 
 			#player ships
@@ -91,7 +89,7 @@ create_exe_invasion_fleet = {
 			#String varaible
 			[[Location] set_location = { target = $Location$ distance = 25 angle = random }]
 			[[Flagship_flag] random_owned_ship = { limit = { is_ship_size = $ship_class$ } set_ship_flag = $Flagship_flag$ }]
-			[[Disable_health] every_owned_ship = { set_disable_at_health = $Disable_health$ }]
+			[[Disable_health] every_owned_ship = { kuat_battle_disable_ship_at_health = { FLAG = kuat_battle_disable_ship_at_health Disable_health = $Disable_health$ } }]
 			[[modifier] add_modifier = { modifier = $modifier$ }]
 
 			#fleet target
