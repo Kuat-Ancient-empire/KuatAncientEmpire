@@ -1815,22 +1815,7 @@ ship_event = {
 			from.owner = { is_invisable_faction = yes } 
 			is_ship_class = shipclass_habitat_station 
 		}
-		has_ship_flag = enable_disable_starbase
-		has_ship_flag = enable_drft_ship_inital
-		AND = { 
-			exists = owner
-			owner = { is_ai = no }
-			kuat_is_flagship = yes 
-			ag_is_ancient_titan_alt = no 
-		}
-		AND = { 
-			is_ship_class = shipclass_military 
-			exists = owner owner = { OR = { 
-				is_eternal_faction = yes 
-				is_infinite_faction = yes 
-				is_kuat_fallen_empire = yes
-			} } 
-		}
+		has_ship_flag = kuat_battle_disable_ship_at_health
 	} }
 	immediate = { 
 		if = {
@@ -1870,11 +1855,7 @@ ship_event = {
 			else = { kuat_battle_clear_ship_at_health = { REPAIR = yes DISABLE = no Disable_health = -1 } }
 		}
 		if = {
-			limit = { 
-				exists = owner owner = { is_ai = no }
-				kuat_is_flagship = yes 
-				ag_is_ancient_titan_alt = no 
-			}
+			limit = { exists = owner owner = { is_ai = no } kuat_is_flagship_system_protection = yes }
 			if = {
 				limit = { 
 					NOT = { has_ship_flag = kuat_flagship_disable_system_pending } 
