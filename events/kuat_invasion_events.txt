@@ -1836,23 +1836,23 @@ ship_event = {
 				} } 
 			}
 			change_variable = { which = kuat_invsiable_faction_disables_times value = 1 }
-			kuat_battle_clear_ship_at_health = { REPAIR = yes DISABLE = no }
+			kuat_battle_clear_ship_at_health = { REPAIR = yes INVERT_DISABLE = set_disabled }
 		}
 		if = {
 			limit = { has_ship_flag = enable_disable_starbase }
 			if = { 
 				limit = { check_variable = { which = STARBASE_HEALTH_VAR value > 0 } } 
-				kuat_battle_clear_ship_at_health = { REPAIR = yes DISABLE = no WHICH = STARBASE_HEALTH_VAR }
+				kuat_battle_clear_ship_at_health = { REPAIR = yes INVERT_DISABLE = set_disabled WHICH = STARBASE_HEALTH_VAR }
 			} 
-			else = { kuat_battle_clear_ship_at_health = { REPAIR = yes DISABLE = no Disable_health = -1 } }
+			else = { kuat_battle_clear_ship_at_health = { REPAIR = yes INVERT_DISABLE = set_disabled Disable_health = -1 } }
 		}
 		if = {
 			limit = { has_ship_flag = enable_drft_ship_inital }
 			if = { 
 				limit = { check_variable = { which = DRFT_SHIP_HEALTH_VAR value > 0 } } 
-				kuat_battle_clear_ship_at_health = { REPAIR = yes DISABLE = no WHICH = DRFT_SHIP_HEALTH_VAR }
+				kuat_battle_clear_ship_at_health = { REPAIR = yes INVERT_DISABLE = set_disabled WHICH = DRFT_SHIP_HEALTH_VAR }
 			} 
-			else = { kuat_battle_clear_ship_at_health = { REPAIR = yes DISABLE = no Disable_health = -1 } }
+			else = { kuat_battle_clear_ship_at_health = { REPAIR = yes INVERT_DISABLE = set_disabled Disable_health = -1 } }
 		}
 		if = {
 			limit = { exists = owner owner = { is_ai = no } kuat_is_flagship_system_protection = yes }
@@ -1861,10 +1861,10 @@ ship_event = {
 					NOT = { has_ship_flag = kuat_flagship_disable_system_pending } 
 					has_ship_flag = kuat_executor_checkpoint 
 				}
-				kuat_battle_clear_ship_at_health = { REPAIR = yes DISABLE = no }
+				kuat_battle_clear_ship_at_health = { REPAIR = yes INVERT_DISABLE = set_disabled }
 				set_timed_ship_flag = { flag = kuat_flagship_disable_system_pending days = 1 }
 			}
-			else = { kuat_battle_clear_ship_at_health = { REPAIR = yes DISABLE = no Disable_health = -1 } }
+			else = { kuat_battle_clear_ship_at_health = { REPAIR = yes INVERT_DISABLE = set_disabled Disable_health = -1 } }
 		}
 	}
 }
@@ -1881,10 +1881,10 @@ ship_event = {
 					NOT = { has_ship_flag = kuat_flagship_disable_system_pending } 
 					has_ship_flag = kuat_executor_checkpoint 
 				}
-				kuat_battle_clear_ship_at_health = { REPAIR = yes DISABLE = no AG_TYPE = 1 } 
+				kuat_battle_clear_ship_at_health = { REPAIR = yes INVERT_DISABLE = set_disabled AG_TYPE = 1 } 
 				set_timed_ship_flag = { flag = kuat_flagship_disable_system_pending days = 2 }
 			}
-			else = { kuat_battle_clear_ship_at_health = { REPAIR = yes DISABLE = no AG_TYPE = 2 } }
+			else = { kuat_battle_clear_ship_at_health = { REPAIR = yes INVERT_DISABLE = set_disabled AG_TYPE = 2 } }
 		}
 	}
 }
@@ -2473,6 +2473,19 @@ event = {
 				}
 			}
 			country_event = { id = exe_invasion.1000 }
+		}
+		every_galaxy_fleet = {
+			limit = {
+				has_fleet_flag = ag_kuat_invasion_fleet
+				any_owned_ship = { 
+					is_disabled = yes
+					NOT = { has_ship_flag = kuat_battle_disable_ship_at_health }
+				}
+			}
+			every_owned_ship = { 
+				set_ship_flag = kuat_battle_disable_ship_at_health
+				kuat_battle_clear_ship_at_health = { REPAIR = yes INVERT_DISABLE = set_disabled } 
+			}
 		}
 	}
 }
