@@ -2430,26 +2430,6 @@ event = {
 	trigger = { always = yes }
 	immediate = { 
 		if = {
-			limit = { any_galaxy_fleet = { OR = {
-				has_fleet_flag = kuat_contractor_capital_fleet
-				has_fleet_flag = kuat_contractor_super_capital_fleet
-				has_fleet_flag = ag_kuat_invasion_starbase
-			} } }
-			every_galaxy_fleet = {
-				limit = { OR = {
-					has_fleet_flag = kuat_contractor_capital_fleet
-					has_fleet_flag = kuat_contractor_super_capital_fleet
-					has_fleet_flag = ag_kuat_invasion_starbase
-				} }
-				switch = {
-					trigger = has_fleet_flag
-					kuat_contractor_capital_fleet = { every_owned_ship = { set_ship_flag = kuat_contractor_capital_fleet } }
-					kuat_contractor_super_capital_fleet = { every_owned_ship = { set_ship_flag = kuat_contractor_super_capital_fleet } }
-					ag_kuat_invasion_starbase = { every_owned_ship = { set_ship_flag = ag_kuat_invasion_starbase } }
-				}
-			}
-		}
-		if = {
 			limit = { any_galaxy_planet = { has_planet_flag = has_building_kuat_command_center_auto } }
 			every_galaxy_planet = {
 				limit = { has_planet_flag = has_building_kuat_command_center_auto }
@@ -2473,19 +2453,6 @@ event = {
 				}
 			}
 			country_event = { id = exe_invasion.1000 }
-		}
-		every_galaxy_fleet = {
-			limit = {
-				has_fleet_flag = ag_kuat_invasion_fleet
-				any_owned_ship = { 
-					is_disabled = yes
-					NOT = { has_ship_flag = kuat_battle_disable_ship_at_health }
-				}
-			}
-			every_owned_ship = { 
-				set_ship_flag = kuat_battle_disable_ship_at_health
-				kuat_battle_clear_ship_at_health = { REPAIR = yes INVERT_DISABLE = set_disabled } 
-			}
 		}
 	}
 }
