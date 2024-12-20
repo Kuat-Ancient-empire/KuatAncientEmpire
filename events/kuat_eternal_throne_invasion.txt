@@ -1492,7 +1492,7 @@ country_event = {
 	}
 }
 
-# on_ship_destroyed_victim, Portal destroyed.
+# on_ship_destroyed_perp, Portal destroyed.
 country_event = {
 	id = ag_kae_ge_invasion.234
 	hide_window = yes
@@ -1513,7 +1513,7 @@ country_event = {
 			change_variable = { which = ag_kae_ge_invasion_num_portals_destroyed value = 1 }
 		}
 		every_country = {
-			limit = { NOT = { is_same_value = root } }
+			limit = { NOT = { is_same_value = root.from } }
 			if = {
 				limit = { has_event_chain = "ag_kae_ge_invasion_chain" }
 				add_event_chain_counter = { event_chain = "ag_kae_ge_invasion_chain" counter = ag_kae_ge_invasion_portal amount = -1 }
@@ -1526,20 +1526,20 @@ country_event = {
 					else_if = { limit = { solar_system = { has_star_flag = ag_kae_portal_system_6 } } prev = { remove_point_of_interest = ag_kae_ge_invasion_secondary_portal_poi_6 } }
 				}
 			}
-			if = {
-				limit = { is_same_value = root }
-				if = {
-					limit = { fromfromfrom.fleet = { has_fleet_flag = ag_kae_ge_secondary_portal } }
-					country_event = { id = ag_kae_ge_invasion.235 }
-				}
-				else = { country_event = { id = ag_kae_ge_invasion.237 } }
+		}
+		if = {
+			limit = { fromfromfrom.fleet = { has_fleet_flag = ag_kae_ge_secondary_portal } }
+			country_event = { id = ag_kae_ge_invasion.235 }
+			every_country = {
+				limit = { NOR = { is_same_value = root is_same_value = root.from } }
+				country_event = { id = ag_kae_ge_invasion.236 days = 2 random = 2 }
 			}
-			else = {
-				if = {
-					limit = { fromfromfrom.fleet = { has_fleet_flag = ag_kae_ge_secondary_portal } }
-					country_event = { id = ag_kae_ge_invasion.236 days = 2 random = 2 }
-				}
-				else = { country_event = { id = ag_kae_ge_invasion.238 days = 2 random = 2 } }
+		}
+		else = { 
+			country_event = { id = ag_kae_ge_invasion.237 } 
+			every_country = {
+				limit = { NOR = { is_same_value = root is_same_value = root.from } }
+				country_event = { id = ag_kae_ge_invasion.238 days = 2 random = 2 }
 			}
 		}
 	}
@@ -1583,11 +1583,12 @@ country_event = {
 	is_triggered_only = yes
 	option = {
 		name = "ag_kae_ge_invasion.237.a"
-		event_target:ag_kae_target_planet = { enable_special_project = {
-			name = "ag_kae_end_ge_invasion_project"
-			owner = event_target:Eternalempire
-			location = this
-		} }
+		event_target:ag_kae_target_planet = { 
+			enable_special_project = {
+				name = "ag_kae_end_ge_invasion_project"
+				owner = root location = this
+			}
+		}
 	}
 }
 # Notification, primary destroyed, for others.
@@ -1603,13 +1604,12 @@ country_event = {
 	is_triggered_only = yes
 	option = { name = "ag_kae_ge_invasion.238.a" }
 	after = { if = {
-		limit = { root.fromfrom = {
+		limit = { root.from = {
 			NOT = { has_special_project = ag_kae_end_ge_invasion_project }
 		} }
 		event_target:ag_kae_target_planet = { enable_special_project = {
 			name = "ag_kae_end_ge_invasion_project"
-			owner = event_target:Eternalempire
-			location = this
+			owner = root.from location = this
 		} }
 	} }
 }
