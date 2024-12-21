@@ -137,6 +137,11 @@ kuat_set_forcetrigger_order_enable_eternal_return = {
 			}
 			set_country_flag = fired_exe_return_invasion
 			set_global_flag = exe_return_invasion_7_fired
+			event_target:global_event_country = { 
+				set_variable = { which = eternal_fleet_return_index value = 8 } 
+				set_variable = { which = eternal_fleet_return_index_x4 value = eternal_fleet_return_index }
+				multiply_variable = { which = eternal_fleet_return_index_x4 value = 4 }
+			}
 		} }
 	}
 }
@@ -153,8 +158,34 @@ kuat_set_forcetrigger_order_enable_contractor_return = {
 	effect = {
 		custom_tooltip = "kuat_set_forcetrigger_order_enable_contractor_return_tip"
 		hidden_effect = { from = {
+			set_spawn_system_batch = begin
 			play_sound = { sound = event_construction location = capital_scope }
 			capital_scope = { spawn_system = { initializer = myst_system_5 hyperlane = no } }
+			random_rim_system = {
+				limit = { NOT = { has_star_flag = kuat_white_hole_star } }
+				spawn_system = { initializer = kuat_white_hole_system_1 min_distance >= 30 max_distance <= 15 }
+			}
+			random_rim_system = {
+				limit = { NOT = { has_star_flag = kuat_white_hole_star } }
+				spawn_system = { initializer = kuat_white_hole_system_2 min_distance >= 30 max_distance <= 15 }
+			}
+			random_rim_system = {
+				limit = { NOT = { has_star_flag = kuat_white_hole_star } }
+				spawn_system = { initializer = kuat_white_hole_system_3 min_distance >= 30 max_distance <= 15 }
+			}
+			random_rim_system = {
+				limit = { NOT = { has_star_flag = kuat_white_hole_star } }
+				spawn_system = { initializer = kuat_white_hole_system_4 min_distance >= 30 max_distance <= 15 }
+			}
+			random_rim_system = {
+				limit = { NOT = { has_star_flag = kuat_white_hole_star } }
+				spawn_system = { initializer = kuat_white_hole_system_5 min_distance >= 30 max_distance <= 15 }
+			}
+			random_rim_system = {
+				limit = { NOT = { has_star_flag = kuat_white_hole_star } }
+				spawn_system = { initializer = kuat_white_hole_system_6 min_distance >= 30 max_distance <= 15 }
+			}
+			set_spawn_system_batch = end
 			event_target:kuat_contractor_country = { destroy_country = yes }
 			set_country_flag = fired_kuat_extramonster_invasion
 			set_global_flag = kuat_extramonster_7_fired 
