@@ -347,13 +347,6 @@ starkiller_destroyed_system_everything = {
 		}
 		else_if = {
 			limit = { OR = {
-				is_megastructure_type = kuat_starkiller_marker_2 
-				is_megastructure_type = kuat_starkiller_marker_2_1
-			} }
-			set_megastructure_flag = kuat_starkiller_marker_2
-		}
-		else_if = {
-			limit = { OR = {
 				is_megastructure_type = exe_outer_gate
 				is_megastructure_type = exe_outer_gate_locked
 				is_megastructure_type = exe_outer_gate_disable
@@ -1459,13 +1452,6 @@ starkiller_destroyed_system_everything_random = {
 		}
 		else_if = {
 			limit = { OR = {
-				is_megastructure_type = kuat_starkiller_marker_2 
-				is_megastructure_type = kuat_starkiller_marker_2_1
-			} }
-			set_megastructure_flag = kuat_starkiller_marker_2
-		}
-		else_if = {
-			limit = { OR = {
 				is_megastructure_type = exe_outer_gate
 				is_megastructure_type = exe_outer_gate_locked
 				is_megastructure_type = exe_outer_gate_disable
@@ -1594,101 +1580,4 @@ kuat_str_auto_colony_total_reserve = {
 	Kuat_auto_colony_reserve = { TYPE = energy MULT = 0.5 }
 	Kuat_auto_colony_reserve = { TYPE = food MULT = 0.5 }
 	Kuat_auto_colony_reserve = { TYPE = minerals MULT = 0.5 }
-}
-
-kuat_initial_eternal_throne = {
-	capital_scope = { spawn_system = { initializer = exe_zakuul_System max_jumps = 1 } }
-	event_target:zakuul_system = { 
-		random_system_planet = {
-			limit = { has_planet_flag = EE_Home_World }
-			save_event_target_as = new_home_planet
-		}
-		create_starbase = { size = starbase_outpost owner = root }
-	}
-	random_owned_planet = {
-		save_event_target_as = previous_home_planet
-		solar_system = { save_event_target_as = previous_home_system }
-	}
-	event_target:previous_home_planet = {
-		random_owned_pop = {
-			resettle_pop = {
-				pop = this
-				planet = event_target:new_home_planet
-			}
-			unemploy_pop = yes
-		}
-	}
-	event_target:zakuul_system = {
-		random_system_planet = {
-			limit = { has_planet_flag = EE_Home_World }
-			set_owner = space_owner
-			set_controller = space_owner
-			change_pc = pc_kuat_eternal_city
-			generate_start_buildings_and_districts = yes
-			remove_all_districts = yes
-			clear_deposits = yes
-			add_building = building_eternal_pop_assembly
-			while = { count = 1 add_district = district_arcology_kuat_housing }
-			while = { count = 1 add_district = district_arcology_kuat_Military }
-			while = { count = 1 add_district = district_arcology_kuat_science }
-			while = { count = 1 add_district = district_arcology_kuat_Khaydarin }
-			while = { count = 1 add_district = district_arcology_Kuat_civilian_industry }
-			while = { count = 1 add_district = district_arcology_eternal_Khaydarin }
-			add_deposit = ss_auto_deposits
-			add_deposit = ss_Solarfarm
-			add_deposit = ss_volatile_motes
-			add_deposit = ss_crystallinemin
-			add_deposit = ss_gaseous_eruption
-			while = { count = 15 create_pop = { species = space_owner.species } }
-			set_name = "Zakuul"
-		}
-		generate_home_system_resources = yes
-		set_name = "Zakuul System"
-		create_fleet = {
-			effect = {
-				set_owner = space_owner
-				create_ship = {
-					name = random
-					random_existing_design = science
-				}
-				set_fleet_stance = evasive
-				set_location = space_owner.capital_star
-				owner = {
-					random_owned_leader = {
-						limit = { leader_class = scientist }
-						save_event_target_as = ag_science_ship_leader
-					}
-				}
-				if = {
-					limit = { exists = event_target:ag_science_ship_leader }
-					set_leader = event_target:ag_science_ship_leader
-				}
-			}
-		}
-		create_fleet = {
-			effect = {
-				set_owner = space_owner
-				create_ship = {
-					name = random
-					random_existing_design = constructor
-				}
-				set_fleet_stance = evasive
-				set_location = space_owner.capital_star
-			}
-		}
-		create_fleet = {
-			effect = {
-				set_owner = space_owner
-				while = {
-					count = 3
-					create_ship = {
-						name = random
-						random_existing_design = corvette
-					}
-				}
-				set_fleet_stance = aggressive
-				set_location = space_owner.capital_star
-			}
-		}
-	}
 }

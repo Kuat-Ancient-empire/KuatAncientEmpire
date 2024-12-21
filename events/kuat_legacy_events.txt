@@ -3487,28 +3487,13 @@ country_event = {
 			every_system_within_border = {
 				limit = { is_capital_system = yes }
 				every_system_planet = {
-					if = {
-						limit = { OR = {
-							is_colonizable = yes
-							is_colony = yes
-							is_capital = yes
-						} }
-						set_planet_flag = built_target
-						solar_system = { spawn_megastructure = {
-							owner = event_target:kuat_firebase_country
-							type = kuat_starkiller_marker_0
-							coords_from = prev
-						} }
-					}
-					if = {
-						limit = { is_star = yes }
-						set_planet_flag = built_target
-						solar_system = { spawn_megastructure = {
-							owner = event_target:kuat_firebase_country
-							type = kuat_starkiller_marker_0_1
-							coords_from = prev
-						} }
-					}
+					limit = { OR = { is_colony = yes is_capital = yes is_star = yes } }
+					set_planet_flag = starkiller_attack_built_target
+					prev = { spawn_megastructure = {
+						type = kuat_starkiller_marker_0
+						owner = event_target:kuat_firebase_country coords_from = prev
+						init_effect = { set_megastructure_flag = kuat_starkiller_marker_0_upgrade_@event_target:kuat_firebase_country }
+					} }
 				}
 			}
 			event_target:kuat_firebase_country = {
@@ -3532,13 +3517,9 @@ country_event = {
 					limit = { is_megastructure_type = kuat_starkillerbase_1 }
 					remove_megastructure = this
 				}
-				every_galaxy_planet = {
-					limit = { has_planet_flag = buildingsoon }
-					remove_planet_flag = buildingsoon
-				}
 			}
 			set_country_flag = fighting_won_with_facility
-			event_target:sun_target_system = { spawn_megastructure = {
+			event_target:starkiller_sun_target_system = { spawn_megastructure = {
 				type = kuat_starkillerbase_1
 				coords_from = event_target:starkillerbase_location
 				owner = root
