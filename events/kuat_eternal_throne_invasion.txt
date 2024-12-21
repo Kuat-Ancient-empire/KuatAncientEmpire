@@ -948,6 +948,13 @@ country_event = {
 				country_event = { id = ag_kae_ge_invasion.212 days = 1 random = 2 }
 			}
 			country_event = { id = ag_kae_ge_invasion.211 days = @ag_kae_ge_invasion_secondary_portal_delay_time random = @ag_kae_ge_invasion_secondary_portal_delay_random }
+			event_target:Kuat_Galatic_Empire_invasion_country = {
+				if = {
+					limit = { count_owned_fleet = { limit = { has_fleet_flag = kuat_empire_starbase_hull_control } count > 0 } }
+					no_events = yes
+				}
+				else = { every_country = { limit = { is_ai = no } country_event = { id = kuat_extramonster.91 scopes = { from = prev } } } }
+			}
 		}
 		else_if = {
 			limit = { check_variable = { which = ag_kae_ge_invasion_num_portals value = 2 } }

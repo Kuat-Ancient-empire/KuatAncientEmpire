@@ -254,7 +254,14 @@ event = {
 				}
 			}
 		} }
-		event_target:eternal_fleet_country = { country_event = { id = exe_return_invasion.19 days = 100 } }
+		event_target:eternal_fleet_country = { 
+			if = {
+				limit = { count_owned_fleet = { limit = { has_fleet_flag = kuat_eternal_starbase_hull_control } count = 4 } }
+				no_events = yes
+			}
+			else = { every_country = { limit = { is_ai = no } country_event = { id = kuat_extramonster.91 scopes = { from = prev } } } }
+			country_event = { id = exe_return_invasion.19 days = 100 } 
+		}
 		every_country = {
 			limit = { is_eternal_faction = no }
 			establish_communications_no_message = event_target:eternal_fleet_country

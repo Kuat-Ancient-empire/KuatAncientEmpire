@@ -88,6 +88,13 @@ event = {
 			set_star_flag = kuat_white_hole_star
 			set_timed_star_flag = { flag = kuat_white_hole_star_in_system days = 30 }
 		} }
+		event_target:kuat_contractor_hostile = {
+			if = {
+				limit = { count_owned_fleet = { limit = { has_fleet_flag = kuat_contractor_starbase_hull_control } count = 6 } }
+				no_events = yes
+			}
+			else = { every_country = { limit = { is_ai = no } country_event = { id = kuat_extramonster.91 scopes = { from = prev } } } }
+		}
 		every_country = {
 			limit = { NOT = { is_kuat_contractor_faction = yes } }
 			establish_communications_no_message = event_target:kuat_contractor_hostile
@@ -119,6 +126,36 @@ event = {
 			#country_event = { id = kuat_extramonster.91 days = 75 random = 75 } #TODO
 		}
 	}
+}
+
+country_event = {
+	id = kuat_extramonster.91
+	title = "kuat_extramonster.91.name"
+	desc = {
+		trigger = {
+			success_text = {
+				from = { is_same_value = event_target:kuat_contractor_hostile }
+				text = "kuat_extramonster.91.0.desc"
+			}
+			success_text = {
+				from = { is_same_value = event_target:eternal_fleet_country }
+				text = "kuat_extramonster.91.1.desc"
+			}
+			success_text = {
+				from = { is_same_value = event_target:Kuat_Galatic_Empire_invasion_country }
+				text = "kuat_extramonster.91.2.desc"
+			}
+		}
+	}
+	is_triggered_only = yes
+	is_advisor_event = yes
+	immediate = { set_variable = { which = kuat_extramonster_91_trigger value = 2 } }
+	option = { name = "kuat_extramonster.91.a" }
+	after = { if = {
+		limit = { check_variable = { which = kuat_extramonster_91_trigger value > 0 } }
+		subtract_variable = { which = kuat_extramonster_91_trigger value = 1 }
+		country_event = { id = kuat_extramonster.91 days = 1 scopes = { from = from } }
+	} }
 }
 
 # #TODO 后裔出现 告知玩家流浪者威胁，并告知己方将试图重启天文台，以通过其武器系统干掉流浪者
