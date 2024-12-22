@@ -6,10 +6,10 @@ country_event = {
 	hide_window = yes
 	is_triggered_only = yes
 	trigger = {
+		from = { is_invisable_faction = no }
 		has_country_flag = kuat_can_enable_dynamic_system_easy
 		NOT = { has_country_flag = kuat_can_enable_dynamic_system_normal }
 		from = { NOR = {
-			is_invisable_faction = yes 
 			has_country_flag = kuat_can_enable_dynamic_system_easy
 			has_country_flag = kuat_can_enable_dynamic_system_normal
 		} }
@@ -36,33 +36,13 @@ country_event = {
 	hide_window = yes
 	is_triggered_only = yes
 	trigger = {
-		OR = {
-			AND = {
-				has_country_flag = kuat_can_enable_dynamic_system_normal
-				NOT = { has_country_flag = kuat_can_enable_dynamic_system_easy }
-				from = { NOR = {
-					is_invisable_faction = yes 
-					has_country_flag = kuat_can_enable_dynamic_system_easy
-					has_country_flag = kuat_can_enable_dynamic_system_normal
-				} }
-			}
-			AND = {
-				is_player_country = yes
-				from = { is_invisable_faction = no }
-				fromfrom = { OR = {
-					any_owned_ship = { has_component = EXE_STARBASE_MEAGASTRUCTRUE_AUX_2 }
-					has_fleet_flag = kuat_station_drift_megasturcture
-					AND = {
-						exists = solar_system
-						solar_system = { has_star_flag = kuat_starbase_megastructure_buffer_system }
-					}
-					kuat_exist_fleet_leader = { 
-						TRUE_FLAG = SOP_eddy
-						TRAIT = leader_trait_commander_SOP_eddy_3 
-					}
-				} }
-			}
-		}
+		from = { is_invisable_faction = no }
+		has_country_flag = kuat_can_enable_dynamic_system_normal
+		NOT = { has_country_flag = kuat_can_enable_dynamic_system_easy }
+		from = { NOR = {
+			has_country_flag = kuat_can_enable_dynamic_system_easy
+			has_country_flag = kuat_can_enable_dynamic_system_normal
+		} }
 	}
 	immediate = {
 		fromfromfrom = { IF = { 
@@ -79,3 +59,31 @@ country_event = {
 }
 fleet_event = { inline_script = { script = kuat_battle_event/kuat_exe_invasion_attake ID = exe_dynamic.5 KEY = kuat_battle_set_normal_eternal_fleet_mult_modifier } }
 fleet_event = { inline_script = { script = kuat_battle_event/kuat_exe_invasion_battle ID = exe_dynamic.6 KEY = kuat_battle_set_normal_eternal_fleet_mult_modifier } }
+
+country_event = {
+	id = exe_dynamic.7
+	hide_window = yes
+	is_triggered_only = yes
+	trigger = {
+		is_player_country = yes
+		from = { is_invisable_faction = no }
+		fromfrom = { any_owned_ship = { check_modifier_value = {
+			modifier = kuat_damage_control_modifier
+			value > 0
+		} } }
+	}
+	immediate = {
+		fromfromfrom = { IF = { 
+			limit = { NOT = { has_fleet_flag = random_list_eternal_fleet_rate_placeholder }  }
+			set_fleet_flag = is_modifiering_fleet fleet_event = { id = exe_dynamic.9 } 
+			set_timed_fleet_flag = { flag = random_list_eternal_fleet_rate_placeholder days = 1 }
+		} }
+		fromfrom = { IF = { 
+			limit = { NOT = { has_fleet_flag = random_list_eternal_fleet_rate_placeholder }  }
+			set_fleet_flag = is_modifiering_fleet fleet_event = { id = exe_dynamic.10 } 
+			set_timed_fleet_flag = { flag = random_list_eternal_fleet_rate_placeholder days = 1 }
+		} }
+	}
+}
+fleet_event = { inline_script = { script = kuat_battle_event/kuat_exe_invasion_attake ID = exe_dynamic.9  KEY = kuat_battle_set_modifier_control_eternal_fleet_mult_modifier } }
+fleet_event = { inline_script = { script = kuat_battle_event/kuat_exe_invasion_battle ID = exe_dynamic.10 KEY = kuat_battle_set_modifier_control_eternal_fleet_mult_modifier } }
