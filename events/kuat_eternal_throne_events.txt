@@ -16,10 +16,11 @@ country_event = {
 				NOT = { has_origin = origin_eternalthrone }
 			}
 			capital_scope = { spawn_system = { initializer = exe_zakuul_System max_jumps = 1 } }
-			last_created_system = { create_starbase = { size = starbase_outpost owner = root } }
+			last_created_system = { 
+				create_starbase = { size = starbase_outpost owner = root } 
+				set_name = "Zakuul System"
+			}
 			event_target:EE_Home_World = {
-				set_owner = root
-				set_controller = root
 				change_pc = pc_kuat_eternal_city
 				generate_start_buildings_and_districts = yes
 				remove_all_districts = yes
@@ -36,57 +37,8 @@ country_event = {
 				add_deposit = ss_volatile_motes
 				add_deposit = ss_crystallinemin
 				add_deposit = ss_gaseous_eruption
-				while = { count = 15 create_pop = { species = owner_main_species } }
+				start_colony = { owner = root species = root.owner_main_species }
 				set_name = "Zakuul"
-				solar_system = {
-					set_name = "Zakuul System"
-					create_fleet = {
-						effect = {
-							set_owner = root
-							create_ship = {
-								name = random
-								random_existing_design = science
-							}
-							set_fleet_stance = evasive
-							set_location = root.capital_star
-							owner = {
-								random_owned_leader = {
-									limit = { leader_class = scientist }
-									save_event_target_as = ag_science_ship_leader
-								}
-							}
-							if = {
-								limit = { exists = event_target:ag_science_ship_leader }
-								set_leader = event_target:ag_science_ship_leader
-							}
-						}
-					}
-					create_fleet = {
-						effect = {
-							set_owner = root
-							create_ship = {
-								name = random
-								random_existing_design = constructor
-							}
-							set_fleet_stance = evasive
-							set_location = root.capital_star
-						}
-					}
-					create_fleet = {
-						effect = {
-							set_owner = root
-							while = {
-								count = 3
-								create_ship = {
-									name = random
-									random_existing_design = corvette
-								}
-							}
-							set_fleet_stance = aggressive
-							set_location = root.capital_star
-						}
-					}
-				}
 			}
 		}
 		else_if = {
