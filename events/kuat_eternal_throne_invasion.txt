@@ -850,6 +850,20 @@ country_event = {
 				fleet_event = { id = ag_kae_ge_invasion.218 days = 60 }
 			}
 		}
+		every_country = {
+			if = {
+				limit = { is_hostile = root }
+				event_target:eternal_support_country = { set_faction_hostility = {
+					target = prev set_friendly = no set_hostile = yes set_neutral = no
+				} }
+			}
+			if = {
+				limit = { NOT = { is_hostile = root } }
+				event_target:eternal_support_country = { set_faction_hostility = {
+					target = prev set_friendly = no set_hostile = no set_neutral = yes
+				} }
+			}
+		}
 	}
 	option = { 
 		name = ag_kae_ge_invasion.209.e
@@ -970,7 +984,7 @@ country_event = {
 			ag_kae_ge_invasion_create_secondary_portal_system = yes
 			every_country = {
 				limit = { NOT = { is_same_value = event_target:Kuat_Galatic_Empire_invasion_country } }
-				country_event = { id = ag_kae_ge_invasion.215 days = 1 random = 2 }
+				country_event = { id = ag_kae_ge_invasion.214 days = 1 random = 2 }
 			}
 			country_event = { id = ag_kae_ge_invasion.211 days = @ag_kae_ge_invasion_secondary_portal_delay_time random = @ag_kae_ge_invasion_secondary_portal_delay_random }
 		}
@@ -1240,6 +1254,22 @@ country_event = {
 			set_faction_hostility = {
 				target = root
 				set_friendly = yes set_hostile = no set_neutral = no
+			}
+			every_country = {
+				if = {
+					limit = { is_hostile = root }
+					prev = { set_faction_hostility = {
+						target = prev
+						set_friendly = no set_hostile = yes set_neutral = no
+					} }
+				}
+				if = {
+					limit = { NOT = { is_hostile = root } }
+					prev = { set_faction_hostility = {
+						target = prev
+						set_friendly = no set_hostile = no set_neutral = yes
+					} }
+				}
 			}
 			every_system = { clear_variable = fleet_id }
 		}

@@ -2324,6 +2324,23 @@ country_event = {
 				kuat_battle_clear_ship_modifier = { modifier = planet_pop_assembly_mult DAYS = 30 }
 			}
 		}
+		if = {
+			limit = { exists = event_target:eternal_support_country }
+			every_country = {
+				if = {
+					limit = { is_hostile = root }
+					event_target:eternal_support_country = { set_faction_hostility = {
+						target = prev set_friendly = no set_hostile = yes set_neutral = no
+					} }
+				}
+				if = {
+					limit = { NOT = { is_hostile = root } }
+					event_target:eternal_support_country = { set_faction_hostility = {
+						target = prev set_friendly = no set_hostile = no set_neutral = yes
+					} }
+				}
+			}
+		}
 	}
 }
 
