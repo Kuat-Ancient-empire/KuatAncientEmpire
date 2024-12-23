@@ -2632,6 +2632,90 @@ country_event = {
 			}
 		}
 	}
+	option = {
+		name = "executor_build.1008.d" 
+		trigger = {
+			is_ai = no
+			OR = {
+				kuat_is_enable_shadow_origin = yes
+				kuat_is_enable_eternal_origin = yes
+			}
+		}
+		hidden_effect = {
+			country_event = { 
+				id = kuat_event_memory.1 
+			} 
+		}
+	}
+	option = {
+		name = "executor_build.1008.f" 
+		allow = {
+			custom_tooltip = "remove_ship_need_exists"
+			hidden_trigger = {
+				is_player_country = yes
+				OR = {
+					AND = {
+						any_controlled_fleet = {
+							num_ships = 1
+							NOT = { exists = leader }
+							is_ship_class = shipclass_military
+							has_enable_total_flagship_system_false = yes
+						}
+						NOT = { exists = event_target:eternal_fleet_country }
+					}
+					AND = {
+						any_controlled_fleet = {
+							num_ships < 20
+							NOT = { exists = leader }
+							is_ship_class = shipclass_military
+							has_enable_total_flagship_system_false = yes
+						}
+						exists = event_target:eternal_fleet_country
+					}
+				}
+			}
+		}
+		custom_tooltip = "remove_ship_need_exists_tooltip"
+		hidden_effect = {
+			every_controlled_fleet = {
+				if = {
+					limit = {
+						NOT = { exists = event_target:eternal_fleet_country }
+						num_ships = 1
+						is_ship_class = shipclass_military
+						NOT = { exists = leader }
+						has_enable_total_flagship_system_false = yes
+					}
+					delete_fleet = { target = this destroy_template = yes kill_leader = no }
+					root = { change_variable = { which = destroyed_fleet value = 1 } }
+				}
+				if = {
+					limit = {
+						exists = event_target:eternal_fleet_country
+						num_ships < 20
+						is_ship_class = shipclass_military
+						NOT = { exists = leader }
+						has_enable_total_flagship_system_false = yes
+					}
+					delete_fleet = { target = this destroy_template = yes kill_leader = no }
+					root = { change_variable = { which = destroyed_fleet value = prev.trigger:num_ships } }
+				}
+			}
+			if = {
+				limit = { is_variable_set = destroyed_fleet }
+				random_list = {
+					10 = { add_resource = { alloys = 3000 mult = destroyed_fleet } }
+					20 = { add_resource = { alloys = 2000 mult = destroyed_fleet } }
+					30 = { add_resource = { alloys = 1000 mult = destroyed_fleet } }
+					40 = { add_resource = { alloys = 500 mult = destroyed_fleet } }
+					50 = { add_resource = { alloys = 250 mult = destroyed_fleet } }
+					60 = { add_resource = { alloys = 125 mult = destroyed_fleet } }
+				}
+				reroll_random = yes
+				clear_variable = destroyed_fleet
+			}
+		}
+	}
 	option = { name = "executor_build.1008.e" default_hide_option = yes }
 }
 
@@ -2663,6 +2747,9 @@ country_event = {
 	}
 	option = {
 		name = executor_build.1010.a
+		trigger = {
+			has_existing_ship_design = high_Imperial_star_destroyer
+		}
 		hidden_effect = {
 			event_target:BlackholeShipyard = { 
 				solar_system = { spawn_megastructure = { 
@@ -2675,6 +2762,9 @@ country_event = {
 	}
 	option = {
 		name = executor_build.1010.b
+		trigger = {
+			has_existing_ship_design = horrizone
+		}
 		hidden_effect = {
 			event_target:BlackholeShipyard = { 
 				solar_system = { spawn_megastructure = { 
@@ -2687,6 +2777,9 @@ country_event = {
 	}
 	option = {
 		name = executor_build.1010.c
+		trigger = {
+			has_existing_ship_design = swfo_resurgent
+		}
 		hidden_effect = {
 			event_target:BlackholeShipyard = { 
 				solar_system = { spawn_megastructure = { 
@@ -2699,6 +2792,9 @@ country_event = {
 	}
 	option = {
 		name = executor_build.1010.d
+		trigger = {
+			has_existing_ship_design = Annihilator
+		}
 		hidden_effect = {
 			event_target:BlackholeShipyard = { 
 				solar_system = { spawn_megastructure = { 
@@ -2711,6 +2807,9 @@ country_event = {
 	}
 	option = {
 		name = executor_build.1010.e
+		trigger = {
+			has_existing_ship_design = kuat_compellor
+		}
 		hidden_effect = {
 			event_target:BlackholeShipyard = { 
 				solar_system = { spawn_megastructure = { 
@@ -2723,6 +2822,9 @@ country_event = {
 	}
 	option = {
 		name = executor_build.1010.f
+		trigger = {
+			has_existing_ship_design = nebula_dominance
+		}
 		hidden_effect = {
 			event_target:BlackholeShipyard = { 
 				solar_system = { spawn_megastructure = { 
@@ -2735,6 +2837,9 @@ country_event = {
 	}
 	option = {
 		name = executor_build.1010.g
+		trigger = {
+			has_existing_ship_design = eclipse
+		}
 		hidden_effect = {
 			event_target:BlackholeShipyard = { 
 				solar_system = { spawn_megastructure = { 
@@ -2747,6 +2852,9 @@ country_event = {
 	}
 	option = {
 		name = executor_build.1010.h
+		trigger = {
+			has_existing_ship_design = kuat_legator
+		}
 		hidden_effect = {
 			event_target:BlackholeShipyard = { 
 				solar_system = { spawn_megastructure = { 
@@ -2759,6 +2867,9 @@ country_event = {
 	}
 	option = {
 		name = executor_build.1010.i
+		trigger = {
+			has_existing_ship_design = Vengeance
+		}
 		hidden_effect = {
 			event_target:BlackholeShipyard = { 
 				solar_system = { spawn_megastructure = { 

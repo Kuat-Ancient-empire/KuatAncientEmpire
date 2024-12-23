@@ -1,0 +1,194 @@
+can_orbital_bombard = {
+	exists = FROM.OWNER
+	NOR = {
+		any_controlled_ship = { is_ship_size = colossus }
+		FROM.OWNER = { is_country_type = kuat_fire_base_hositle }
+		FROM = { has_planet_flag = enable_kuat_shield }
+	}
+	OR = {
+		AND = {
+			ROOT.CONTROLLER = {
+				NOT = { has_communications = FROM.OWNER }
+			}
+			FROM.OWNER = {
+				NOT = { is_country_type = primitive }
+			}
+		}
+		AND = {
+			ROOT.CONTROLLER = {
+				NOR = {
+					has_policy_flag = interference_not_allowed
+					has_policy_flag = interference_subtle
+				}
+			}
+			FROM.OWNER = { is_country_type = primitive }
+		}
+		ROOT.CONTROLLER = { is_at_war_with = FROM.CONTROLLER }
+		FROM = { is_planet_class = pc_infested }
+		FROM.CONTROLLER = {
+			OR = {
+				is_country_type = swarm
+				is_country_type = ai_empire
+				is_country_type = cybrex_empire
+				AND = {
+					has_global_flag = has_ancient_empire_mod
+					ag_can_be_orbital_bombardment_country = yes		
+				}
+				AND = {
+					has_global_flag = install_kuat_mod
+					kuat_can_be_orbital_bombarment_country = yes
+				}			
+			}
+		}
+		ROOT.OWNER = {
+			OR = {
+				is_country_type = extradimensional
+				is_country_type = extradimensional_2
+				is_country_type = extradimensional_3
+				is_country_type = swarm
+				is_country_type = ai_empire
+				is_country_type = cybrex_empire
+				is_country_type = dormant_marauders
+				is_country_type = marauder_raiders
+				is_country_type = ruined_marauders
+				is_country_type = gray_goo
+				is_country_type = vol
+				is_country_type = mercenary_fleet				
+				is_country_type = ev_leviathans_crisis				
+				is_country_type = wg_crisis_country				
+				is_country_type = afk_crisis_country		
+				is_country_type = LsE_fallen_empire
+				AND = {
+					has_global_flag = has_wsg_mod
+					is_khan_country_type = yes
+				}
+				AND = {
+					is_country_type = frenzied_voidworms
+					has_country_flag = can_bombard
+					FROM.CONTROLLER = { has_country_flag = tormented_by_frenzied_voidworms }
+				}
+				AND = {
+					has_global_flag = install_kuat_mod
+					kuat_can_do_bombarment_country = yes
+				}
+				AND = {
+					has_global_flag = has_ancient_empire_mod
+					ag_can_do_orbital_bombardment_country = yes
+				}	
+				AND = {
+					OR = {
+						is_country_type = awakened_marauders
+						is_country_type = formless
+					}
+					FROM.CONTROLLER = { is_hostile = prev }
+				}
+				AND = {
+					is_voidworms_hostile_country_type = yes
+					ROOT = { is_ship_size = voidworms_titan }
+				}
+			}
+		}
+		AND = {
+			from.controller = {
+				is_country_type = faction
+				NOT = { is_same_value = root.owner }
+			}
+			from.owner = { is_same_value = root.owner }
+		}
+	}
+}
+
+can_enter_system_by_jump = {
+	custom_tooltip = {
+		success_text = "debug: can jump"
+		fail_text = cannot_jump_to_system
+		OR = {
+			###_绝对通行	z_fw
+			root = {
+				OR = {
+					has_country_flag = z_fw_r_celestial_orrey_activited			# 璀璨星图
+					has_country_flag = z_fw_r_cheat_quantum_beacon_activited	# 永恒星炬
+				}
+			}
+			###_特殊通行	AAR
+			root = {
+				has_country_flag = AAR_flg_cntr_JUMP_webway_TGT			# 网道行者
+			}
+			
+			###_基础条件
+			AND = {
+				##_Sealed system
+				OR = {
+					# vanilla
+					NOT = { has_star_flag = sealed_system }
+					AND = {
+						root = { has_country_flag = entered_sealed_system }
+						has_star_flag = sealed_system
+					}
+				}
+
+				##_特殊禁入星系		+wsg/古代帝国/阿夸/SOFE/Giga/Ehof/seooc/多彩
+				NOR = {
+					# vanilla
+					has_star_flag = lcluster
+
+					# wsg
+					has_star_flag = wg_sealed_system
+					has_star_flag = wg_psionic_systems
+					# 古代帝国
+					has_star_flag = ag_no_jump_in_system
+					# 阿夸
+					kuat_is_kuat_system = yes
+					has_star_flag = ag_kae_e_area_system
+					AND = {
+						has_global_flag = starkillerbase_not_passed
+						has_star_flag = starkiller_system	
+					}
+					# SOFE
+					has_star_flag = outercluster
+					# seooc
+					has_star_flag = nep_Krahen_cluster
+					has_star_flag = nep_Scrus_cluster
+					AND = {
+						has_global_flag = nep_not_pass_Aemethms 
+						OR = {
+							has_star_flag = nep_dragon_system
+							has_star_flag = nep_heptagram_cluster
+						}
+					}
+					# 多彩
+					AND = {
+						has_global_flag = love_between_us
+						OR = {
+							has_star_flag = ten_crisis_system
+							any_neighbor_system = { has_star_flag = ten_crisis_system }
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+# This = fleet, fleet we'd like to trade
+# Root = country, country that owns the fleet currently
+# From = country, country that would receive the fleet
+can_trade_fleet = {
+	ROOT = {
+		NAND = {
+			is_overlord = yes
+			OR = {
+				is_country_type = fallen_empire
+				is_country_type = awakened_fallen_empire
+			}
+		}
+	}
+	custom_tooltip = {
+		fail_text = "cannot_sold_wg_fleet"
+		NOT = { any_owned_ship = { is_wg_event_limit_ships = yes } }
+	}
+	custom_tooltip = {
+		fail_text = "cannot_sold_kuat_fleet"
+		NOT = { any_owned_ship = { kuat_is_flagship = yes } }
+	}
+}
