@@ -1,79 +1,6 @@
 namespace = kuat_missions
 #1x:殖民低宜居星球
 #触发器
-# country_event = {
-# 	id = kuat_missions.1
-# 	hide_window = yes
-# 	mean_time_to_happen = {
-# 		years = 20
-# 	}
-# 	trigger = {
-# 		NOR = {
-# 			has_global_flag = kuat_mission_1_actived
-# 			has_country_flag = kuat_mission_1_finished
-# 		}
-# 		is_ai = no
-# 		is_at_war = no
-# 		exists = event_target:fallen_empire_kuat
-# 		event_target:fallen_empire_kuat = {
-# 			is_at_war = no
-# 			has_communications = root
-# 		}
-# 		any_system = {
-# 			OR = {
-# 				is_within_borders_of = root
-# 				is_neighbor_of = root
-# 			}
-# 			any_system_planet = {
-# 				is_colony = no
-# 				is_under_colonization = no
-# 				can_colonize = {
-# 					who = root
-# 					status = yes
-# 				}
-# 				habitability = {
-# 					who = root.owner_species
-# 					value <= 0.7
-# 				}
-# 				habitability = {
-# 					who = root.owner_species
-# 					value >= 0.3
-# 				}
-# 			}
-# 		}
-# 	}
-# 	immediate = {
-# 		set_global_flag = kuat_mission_1_actived
-# 		set_global_flag = kuat_mission_1_locked
-# 		random_galaxy_planet = {
-# 			limit = {
-# 				is_colony = no
-# 				is_under_colonization = no
-# 				can_colonize = {
-# 					who = root
-# 					status = yes
-# 				}
-# 				habitability = {
-# 					who = root.owner_species
-# 					value <= 0.7
-# 				}
-# 				habitability = {
-# 					who = root.owner_species
-# 					value >= 0.3
-# 				}
-# 				solar_system = {
-# 					OR = {
-# 						is_within_borders_of = root
-# 						is_neighbor_of = root
-# 					}
-# 				}
-# 			}
-# 			save_event_target_as = kuat_mission_1_target_planet
-# 		}
-# 		country_event = { id = kuat_missions.11 days = 5 random = 30 }
-# 	}
-# }
-
 country_event = {
 	id = kuat_missions.1
 	hide_window = yes
@@ -83,31 +10,26 @@ country_event = {
 		NOT = { has_global_flag = kuat_mission_1_actived }
 		exists = event_target:fallen_empire_kuat
 		event_target:fallen_empire_kuat = { has_communications = root }
-		any_system = {
-			OR = {
-				is_within_borders_of = root
-				is_neighbor_of = root
-			}
+		any_system_within_border = {
 			any_system_planet = {
 				is_colony = no
 				is_under_colonization = no
 				can_colonize = { who = root status = yes }
-				habitability = { who = root.owner_species value >= 0.3 }
 			}
 		}
 	}
 	immediate = {
 		set_global_flag = kuat_mission_1_actived
 		set_global_flag = kuat_mission_1_locked
-		random_galaxy_planet = {
-			limit = {
-				is_colony = no
-				is_under_colonization = no
-				can_colonize = { who = root status = yes }
-				habitability = { who = root.owner_species value >= 0.3 }
-				solar_system = { OR = { is_within_borders_of = root is_neighbor_of = root } }
+		random_system_within_border = {
+			random_system_planet = {
+				limit = {
+					is_colony = no
+					is_under_colonization = no
+					can_colonize = { who = root status = yes }
+				}
+				save_event_target_as = kuat_mission_1_target_planet
 			}
-			save_event_target_as = kuat_mission_1_target_planet
 		}
 		country_event = { id = kuat_missions.11 days = 5 random = 30 }
 	}
@@ -366,55 +288,6 @@ country_event = {
 
 #2x:和军事孤立者接壤
 #触发器
-# country_event = {
-# 	id = kuat_missions.2
-# 	hide_window = yes
-# 	mean_time_to_happen = {
-# 		years = 100
-# 		modifier = {
-# 			factor = 0.7
-# 			has_country_flag = kuat_mission_1_finished
-# 		}
-# 	}
-# 	trigger = {
-# 		NOR = {
-# 			has_global_flag = kuat_mission_2_actived
-# 			has_country_flag = kuat_mission_2_finished
-# 		}
-# 		is_ai = no
-# 		is_at_war = no
-# 		fleet_power > 200000
-# 		exists = event_target:fallen_empire_kuat
-# 		event_target:fallen_empire_kuat = {
-# 			is_at_war = no
-# 			has_communications = root
-# 		}
-# 		any_country = {
-# 			has_ai_personality_behaviour = demands_clear_borders
-# 			is_at_war = no
-# 			has_communications = root
-# 		}
-# 	}
-# 	immediate = {
-# 		set_global_flag = kuat_mission_2_actived
-# 		set_global_flag = kuat_mission_2_locked
-# 		random_country = {
-# 			limit = {
-# 				has_ai_personality_behaviour = demands_clear_borders
-# 				is_at_war = no
-# 				has_communications = root
-# 			}
-# 			save_event_target_as = kuat_mission_2_target_country
-# 			save_global_event_target_as = kuat_mission_2_target_country_commnication
-# 		}
-# 		country_event = {
-# 			id = kuat_missions.21
-# 			days = 5
-# 			random = 30
-# 		}
-# 	}
-# }
-
 country_event = {
 	id = kuat_missions.2
 	hide_window = yes
@@ -787,58 +660,6 @@ country_event = {
 
 #3x:殖民圣地
 #触发器
-# country_event = {
-# 	id = kuat_missions.3
-# 	hide_window = yes
-# 	mean_time_to_happen = {
-# 		years = 100
-# 		modifier = {
-# 			factor = 0.1
-# 			has_country_flag = kuat_mission_2_finished
-# 		}
-# 	}
-# 	trigger = {
-# 		NOR = {
-# 			has_global_flag = kuat_mission_3_actived
-# 			has_country_flag = kuat_mission_3_finished
-# 		}
-# 		is_ai = no
-# 		is_at_war = no
-# 		fleet_power > 200000
-# 		exists = event_target:fallen_empire_kuat
-# 		event_target:fallen_empire_kuat = {
-# 			is_at_war = no
-# 			has_communications = root
-# 		}
-# 		any_country = {
-# 			has_ai_personality_behaviour = holy_planets
-# 			is_at_war = no
-# 			has_communications = root
-# 		}
-# 		any_galaxy_planet = {
-# 			has_modifier = "holy_planet"
-# 			is_planet_class = pc_gaia
-# 		}
-# 	}
-# 	immediate = {
-# 		set_global_flag = kuat_mission_3_actived
-# 		set_global_flag = kuat_mission_3_locked
-# 		random_galaxy_planet = {
-# 			limit = {
-# 				has_modifier = "holy_planet"
-# 				is_planet_class = pc_gaia
-# 			}
-# 			save_event_target_as = kuat_mission_3_target_planet
-# 			save_global_event_target_as = kuat_mission_3_target_planet_communication
-# 		}
-# 		country_event = {
-# 			id = kuat_missions.31
-# 			days = 5
-# 			random = 30
-# 		}
-# 	}
-# }
-
 country_event = {
 	id = kuat_missions.3
 	hide_window = yes
@@ -1145,63 +966,6 @@ country_event = {
 
 #4x:随机消灭一个堕落帝国
 #触发器
-# country_event = {
-# 	id = kuat_missions.4
-# 	hide_window = yes
-# 	mean_time_to_happen = {
-# 		years = 100
-# 		modifier = {
-# 			factor = 0.1
-# 			has_country_flag = kuat_mission_3_finished
-# 		}
-# 	}
-# 	trigger = {
-# 		mid_game_years_passed >= 25
-# 		NOR = {
-# 			has_global_flag = kuat_mission_4_actived
-# 			has_country_flag = kuat_mission_4_finished
-# 		}
-# 		is_ai = no
-# 		is_at_war = no
-# 		fleet_power > 200000
-# 		exists = event_target:fallen_empire_kuat
-# 		event_target:fallen_empire_kuat = {
-# 			is_at_war = no
-# 			has_communications = root
-# 		}
-# 		any_country = {
-# 			OR = {
-# 				is_country_type = fallen_empire
-# 				is_country_type = awakened_fallen_empire
-# 			}
-# 			is_at_war = no
-# 			has_communications = root
-# 		}
-# 	}
-# 	immediate = {
-# 		set_global_flag = kuat_mission_4_actived
-# 		set_global_flag = kuat_mission_4_locked
-# 		random_country = {
-# 			limit = {
-# 				OR = {
-# 					is_country_type = fallen_empire
-# 					is_country_type = awakened_fallen_empire
-# 				}
-# 				is_at_war = no
-# 				has_communications = root
-# 			}
-# 			save_event_target_as = kuat_mission_4_target_country
-# 			capital_scope = {
-# 				save_event_target_as = kuat_mission_4_target_planet
-# 			}
-# 		}
-# 		country_event = {
-# 			id = kuat_missions.41
-# 			days = 5
-# 			random = 30
-# 		}
-# 	}
-# }
 country_event = {
 	id = kuat_missions.4
 	hide_window = yes
