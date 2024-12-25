@@ -83,7 +83,6 @@ country_event = {
 					}
 					system_event = { id = kuat_final_crisis_events.59 days = 30 }
 					set_star_flag = Kuat_Rakata_first_warp_portal
-					save_global_event_target_as = Kuat_Rakata_first_warp_portal_system_for_door
 				}
 				event_target:Infinite_empire = {
 					country_event = { id = kuat_final_crisis_events.4  days = 2 }
@@ -744,13 +743,8 @@ country_event = {
 		fromfromfrom.fleet = {
 			if = {
 				# 第一节点被破坏
-				limit = {
-					solar_system = { is_same_value = event_target:Kuat_Rakata_first_warp_portal_system_for_door }
-					event_target:Kuat_Rakata_first_warp_portal_system_for_door = { has_star_flag = Kuat_Rakata_first_warp_portal }
-				}
+				limit = { solar_system = { has_star_flag = Kuat_Rakata_first_warp_portal_system } }
 				set_global_flag = Kuat_Rakata_first_warp_portal_destroyed
-				event_target:Kuat_Rakata_first_warp_portal_system_for_door = { remove_star_flag = Kuat_Rakata_first_warp_portal }
-				clear_global_event_target = Kuat_Rakata_first_warp_portal_system_for_door
 				every_country = {
 					limit = { has_point_of_interest = { poi = Kuat_Rakata_invasion_poi.1 } }
 					remove_point_of_interest = Kuat_Rakata_invasion_poi.1
@@ -763,6 +757,7 @@ country_event = {
 				if = {
 					# 所有节点被破坏
 					limit = {
+						has_global_flag = Kuat_Rakata_first_warp_portal_destroyed
 						has_global_flag = Kuat_Rakata_second_warp_portal_destroyed
 						has_global_flag = Kuat_Rakata_third_warp_portal_destroyed
 						has_global_flag = Kuat_Rakata_total_warp_portal_destroyed
@@ -776,13 +771,8 @@ country_event = {
 			}
 			else_if = {
 				# 第二节点被破坏
-				limit = {
-					solar_system = { is_same_value = event_target:Kuat_Rakata_second_warp_portal_system_for_door }
-					event_target:Kuat_Rakata_second_warp_portal_system_for_door = { has_star_flag = Kuat_Rakata_second_warp_portal }
-				}
+				limit = { solar_system = { has_star_flag = Kuat_Rakata_second_warp_portal_system } }
 				set_global_flag = Kuat_Rakata_second_warp_portal_destroyed
-				event_target:Kuat_Rakata_second_warp_portal_system_for_door = { remove_star_flag = Kuat_Rakata_second_warp_portal }
-				clear_global_event_target = Kuat_Rakata_second_warp_portal_system_for_door
 				every_country = {
 					limit = { has_point_of_interest = { poi = Kuat_Rakata_invasion_poi.2 } }
 					remove_point_of_interest = Kuat_Rakata_invasion_poi.2
@@ -791,6 +781,37 @@ country_event = {
 					# 若第一节点被破坏，特殊节点未出现，则马上刷出特殊节点
 					limit = {
 						has_global_flag = Kuat_Rakata_first_warp_portal_destroyed
+						NOT = { has_global_flag = Kuat_Rakata_third_warp_portal_opened }
+					}
+					event_target:Infinite_empire = { country_event = { id = kuat_final_crisis_events.17 } }
+				}
+				if = {
+					# 所有节点被破坏
+					limit = {
+						has_global_flag = Kuat_Rakata_first_warp_portal_destroyed
+						has_global_flag = Kuat_Rakata_second_warp_portal_destroyed
+						has_global_flag = Kuat_Rakata_third_warp_portal_destroyed
+						has_global_flag = Kuat_Rakata_total_warp_portal_destroyed
+					}
+					ROOT = { country_event = { id = kuat_final_crisis_events.101 } }
+				} 
+				else = {
+					# 尚有其他节点
+					every_playable_country = { country_event = { id = kuat_final_crisis_events.53 } }
+				}
+			}
+			else_if = {
+				# 第三节点被破坏
+				limit = { solar_system = { has_star_flag = Kuat_Rakata_third_warp_portal_system } }
+				set_global_flag = Kuat_Rakata_third_warp_portal_destroyed
+				every_country = {
+					limit = { has_point_of_interest = { poi = Kuat_Rakata_invasion_poi.3 } }
+					remove_point_of_interest = Kuat_Rakata_invasion_poi.3
+				}
+				if = {
+					# 若特殊节点被破坏，第三节点未出现，则马上刷出第三节点
+					limit = {
+						has_global_flag = Kuat_Rakata_second_warp_portal_destroyed
 						NOT = { has_global_flag = Kuat_Rakata_total_warp_portal_opened }
 					}
 					event_target:Infinite_empire = { country_event = { id = kuat_final_crisis_events.15 } }
@@ -799,6 +820,7 @@ country_event = {
 					# 所有节点被破坏
 					limit = {
 						has_global_flag = Kuat_Rakata_first_warp_portal_destroyed
+						has_global_flag = Kuat_Rakata_second_warp_portal_destroyed
 						has_global_flag = Kuat_Rakata_third_warp_portal_destroyed
 						has_global_flag = Kuat_Rakata_total_warp_portal_destroyed
 					}
@@ -811,25 +833,11 @@ country_event = {
 			}
 			else_if = {
 				# 特殊节点被破坏
-				limit = {
-					solar_system = { is_same_value = event_target:Kuat_Rakata_total_warp_portal_system_for_door }
-					event_target:Kuat_Rakata_total_warp_portal_system_for_door = { has_star_flag = Kuat_Rakata_total_warp_portal }
-				}
+				limit = { solar_system = { has_star_flag = Kuat_Rakata_total_warp_portal_system } }
 				set_global_flag = Kuat_Rakata_total_warp_portal_destroyed
-				event_target:Kuat_Rakata_total_warp_portal_system_for_door = { remove_star_flag = Kuat_Rakata_total_warp_portal }
-				clear_global_event_target = Kuat_Rakata_total_warp_portal_system_for_door
 				every_country = {
 					limit = { has_point_of_interest = { poi = Kuat_Rakata_invasion_poi.4 } }
 					remove_point_of_interest = Kuat_Rakata_invasion_poi.4
-				}
-				if = {
-					# 若特殊节点被破坏，第三节点未出现，则马上刷出第三节点
-					limit = {
-						has_global_flag = Kuat_Rakata_first_warp_portal_destroyed
-						has_global_flag = Kuat_Rakata_second_warp_portal_destroyed
-						NOT = { has_global_flag = Kuat_Rakata_third_warp_portal_opened }
-					}
-					event_target:Infinite_empire = { country_event = { id = kuat_final_crisis_events.17 } }
 				}
 				if = {
 					# 所有节点被破坏
@@ -837,37 +845,9 @@ country_event = {
 						has_global_flag = Kuat_Rakata_first_warp_portal_destroyed
 						has_global_flag = Kuat_Rakata_second_warp_portal_destroyed
 						has_global_flag = Kuat_Rakata_third_warp_portal_destroyed
+						has_global_flag = Kuat_Rakata_total_warp_portal_destroyed
 					}
 					ROOT = { country_event = { id = kuat_final_crisis_events.101 } }
-				} 
-				else = {
-					# 尚有其他节点
-					every_playable_country = { country_event = { id = kuat_final_crisis_events.53 } }
-				}
-			}
-			else_if = {
-				# 第三节点被破坏
-				limit = {
-					solar_system = { is_same_value = event_target:Kuat_Rakata_third_warp_portal_system_for_door }
-					event_target:Kuat_Rakata_third_warp_portal_system_for_door = { has_star_flag = Kuat_Rakata_third_warp_portal }
-				}
-				set_global_flag = Kuat_Rakata_third_warp_portal_destroyed
-				event_target:Kuat_Rakata_third_warp_portal_system_for_door = { remove_star_flag = Kuat_Rakata_third_warp_portal }
-				clear_global_event_target = Kuat_Rakata_second_warp_portal_system_for_door
-				every_country = {
-					limit = { has_point_of_interest = { poi = Kuat_Rakata_invasion_poi.3 } }
-					remove_point_of_interest = Kuat_Rakata_invasion_poi.3
-				}
-				if = {
-					# 所有节点被破坏
-					limit = {
-						has_global_flag = Kuat_Rakata_first_warp_portal_destroyed
-						has_global_flag = Kuat_Rakata_second_warp_portal_destroyed
-					}
-					ROOT = {
-						save_event_target_as = Kuat_Rakata_portal_killer
-						country_event = { id = kuat_final_crisis_events.101 }
-					}
 				} 
 				else = {
 					# 尚有其他节点
@@ -992,8 +972,6 @@ country_event = {
 				effect = { fleet = { set_event_locked = yes } }
 			}
 			system_event = { id = kuat_final_crisis_events.59 days = 30 }
-			set_star_flag = Kuat_Rakata_total_warp_portal
-			save_global_event_target_as = Kuat_Rakata_total_warp_portal_system_for_door
 		}
 		every_playable_country = {
 			limit = { is_ai = no }
@@ -1040,8 +1018,6 @@ country_event = {
 				effect = { fleet = { set_event_locked = yes } }
 			}
 			system_event = { id = kuat_final_crisis_events.59 days = 30 }
-			set_star_flag = Kuat_Rakata_second_warp_portal
-			save_global_event_target_as = Kuat_Rakata_second_warp_portal_system_for_door
 		}
 		every_playable_country = {
 			limit = { is_ai = no }
@@ -1089,8 +1065,6 @@ country_event = {
 				effect = { fleet = { set_event_locked = yes } }
 			}
 			system_event = { id = kuat_final_crisis_events.59 days = 30 }
-			set_star_flag = Kuat_Rakata_third_warp_portal
-			save_global_event_target_as = Kuat_Rakata_third_warp_portal_system_for_door
 		}
 		every_playable_country = {
 			limit = { is_ai = no }
