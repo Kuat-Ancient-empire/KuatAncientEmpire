@@ -1080,6 +1080,7 @@ country_event = {
 			} }
 			set_timed_country_flag = { flag = trigger_ended_event_temple days = 1 }
 			country_event = { id = exe_invasion.35 }
+			kuat_create_toasto_message = { KEY = kuat_find_memory_cluds TARGET = this RECIPIENT = this }
 		}
 		add_threat = { who = root amount = 50 }
 		set_global_flag = exe_invasion_ended
@@ -1287,6 +1288,7 @@ country_event = {
 		if = {
 			limit = {  
 				NOR = {
+					has_origin = origin_kuat_apocalyptic
 					has_origin = origin_kuat_shadow
 					has_origin = origin_eternalthrone
 					has_origin = origin_parit
@@ -1316,6 +1318,18 @@ country_event = {
 			set_global_flag = kuat_settings_first_fired
 			if = {
 				limit = { kuat_is_enable_eternal_origin = yes }
+				if = {
+					limit = { exists = event_target:CHECK_UTS01_LEADER }
+					clear_global_event_target = UTS01_LEADER
+					random_galaxy_species = {
+						limit = { is_same_value = event_target:CHECK_UTS01_LEADER }
+						save_global_event_target_as = UTS01_LEADER
+					}
+				}
+				else = { kuat_Uts01_create_faction_species = yes }
+			}
+			if = {
+				limit = { always = yes }
 				if = {
 					limit = { exists = event_target:CHECK_ETERNAL_LEADER }
 					clear_global_event_target = ETERNAL_LEADER
@@ -1675,7 +1689,7 @@ country_event = {
 				fleet = { create_ship = { 
 					design = event_target:kuat_battle_disable_ship_at_health_ship 
 					effect = { 
-						copy_flags_and_variables_from = root.fromfromfrom 
+						copy_flags_and_variables_from = event_target:kuat_battle_disable_ship_at_health_ship 
 						if = {
 							limit = { root.from = { is_kuat_fallen_empire = yes } }
 							switch = {

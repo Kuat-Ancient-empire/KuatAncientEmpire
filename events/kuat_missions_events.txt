@@ -10,26 +10,24 @@ country_event = {
 		NOT = { has_global_flag = kuat_mission_1_actived }
 		exists = event_target:fallen_empire_kuat
 		event_target:fallen_empire_kuat = { has_communications = root }
-		any_system_within_border = {
-			any_system_planet = {
-				is_colony = no
-				is_under_colonization = no
-				can_colonize = { who = root status = yes }
-			}
+		any_galaxy_planet = {
+			is_colony = no
+			is_under_colonization = no
+			is_within_borders_of = root
+			can_colonize = { who = root status = yes }
 		}
 	}
 	immediate = {
 		set_global_flag = kuat_mission_1_actived
 		set_global_flag = kuat_mission_1_locked
-		random_system_within_border = {
-			random_system_planet = {
-				limit = {
-					is_colony = no
-					is_under_colonization = no
-					can_colonize = { who = root status = yes }
-				}
-				save_event_target_as = kuat_mission_1_target_planet
+		random_galaxy_planet = {
+			limit = {
+				is_colony = no
+				is_under_colonization = no
+				is_within_borders_of = root
+				can_colonize = { who = root status = yes }
 			}
+			save_event_target_as = kuat_mission_1_target_planet
 		}
 		country_event = { id = kuat_missions.11 days = 5 random = 30 }
 	}
@@ -157,11 +155,7 @@ country_event = {
 	after = {
 		if = {
 			limit = { has_event_chain = kuat_mission_0_chain }
-			add_event_chain_counter = {
-				event_chain = kuat_mission_0_chain
-				counter = kuat_mission_0_chain_amount
-				amount = 1
-			}
+			add_event_chain_counter = { event_chain = kuat_mission_0_chain counter = kuat_mission_0_chain_amount amount = 1 }
 		}
 	}
 }
@@ -295,7 +289,6 @@ country_event = {
 	trigger = {
 		is_ai = no
 		NOT = { has_global_flag = kuat_mission_2_actived }
-		fleet_power > 200000
 		exists = event_target:fallen_empire_kuat
 		event_target:fallen_empire_kuat = { has_communications = root }
 		any_country = {
@@ -380,36 +373,6 @@ country_event = {
 	}
 }
 
-#建成哨站统计变量
-ship_event = {
-	id = kuat_missions.22
-	hide_window = yes
-	is_triggered_only = yes
-	trigger = {
-		has_global_flag = kuat_mission_2_actived
-		owner = {
-			has_country_flag = kuat_mission_2_accepted
-			has_country_flag = kuat_mission_2_timer
-			NOT = { has_country_flag = kuat_mission_outpost_timer_flag }
-		}
-		solar_system = {
-			any_system = {
-				exists = space_owner
-				space_owner = {
-					has_country_flag = kuat_mission_2_target_country
-				}
-				has_hyperlane_to = prev
-			}
-		}
-	}
-	immediate = {
-		owner = {
-			set_country_flag = kuat_mission_outpost_timer_flag
-			clear_variable = kuat_mission_outpost_timer
-		}
-	}
-}
-
 #每月检测变量
 country_event = {
 	id = kuat_missions.23
@@ -419,7 +382,6 @@ country_event = {
 		has_global_flag = kuat_mission_2_actived
 		has_country_flag = kuat_mission_2_accepted
 		has_country_flag = kuat_mission_2_timer
-		has_country_flag = kuat_mission_outpost_timer_flag
 	}
 	immediate = {
 		if = {
@@ -436,10 +398,7 @@ country_event = {
 			}
 			change_variable = { which = kuat_mission_outpost_timer value = 1 }
 		}
-		else = {
-			remove_country_flag = kuat_mission_outpost_timer_flag
-			clear_variable = kuat_mission_outpost_timer
-		}
+		else = { clear_variable = kuat_mission_outpost_timer }
 	}
 }
 
@@ -467,14 +426,12 @@ country_event = {
 		has_global_flag = kuat_mission_2_actived
 		has_country_flag = kuat_mission_2_accepted
 		has_country_flag = kuat_mission_2_timer
-		has_country_flag = kuat_mission_outpost_timer_flag
-		check_variable = { which = kuat_mission_outpost_timer value = 1 }
+		check_variable = { which = kuat_mission_outpost_timer value >= 1 }
 	}
 	immediate = {
 		remove_global_flag = kuat_mission_2_actived
 		remove_country_flag = kuat_mission_2_accepted
 		remove_country_flag = kuat_mission_2_timer
-		remove_country_flag = kuat_mission_outpost_timer_flag
 		clear_variable = kuat_mission_outpost_timer
 		every_country = {
 			limit = {
@@ -494,11 +451,7 @@ country_event = {
 	after = {
 		if = {
 			limit = { has_event_chain = kuat_mission_0_chain }
-			add_event_chain_counter = {
-				event_chain = kuat_mission_0_chain
-				counter = kuat_mission_0_chain_amount
-				amount = 1
-			}
+			add_event_chain_counter = { event_chain = kuat_mission_0_chain counter = kuat_mission_0_chain_amount amount = 1 }
 		}
 	}
 	option = {
@@ -542,7 +495,6 @@ country_event = {
 		OR = {
 			NOR = {
 				has_country_flag = kuat_mission_2_timer
-				has_country_flag = kuat_mission_outpost_timer_flag
 				check_variable = {
 					which = kuat_mission_outpost_timer
 					value >= 60
@@ -555,7 +507,6 @@ country_event = {
 		remove_global_flag = kuat_mission_2_actived
 		remove_country_flag = kuat_mission_2_accepted
 		remove_country_flag = kuat_mission_2_timer
-		remove_country_flag = kuat_mission_outpost_timer_flag
 		clear_variable = kuat_mission_outpost_timer
 		every_country = {
 			limit = {
@@ -635,12 +586,6 @@ country_event = {
 				}
 				remove_country_flag = kuat_mission_2_timer
 			}
-			if = {
-				limit = {
-					has_country_flag = kuat_mission_outpost_timer_flag
-				}
-				remove_country_flag = kuat_mission_outpost_timer_flag
-			}
 		}
 		every_country = {
 			limit = {
@@ -667,7 +612,6 @@ country_event = {
 	trigger = {
 		NOT = { has_global_flag = kuat_mission_3_actived }
 		is_ai = no
-		fleet_power > 200000
 		exists = event_target:fallen_empire_kuat
 		event_target:fallen_empire_kuat = { has_communications = root }
 		any_country = {
@@ -731,6 +675,7 @@ country_event = {
 			create_point_of_interest = {
 				id = kuat_mission.3
 				name = kuat_mission.3
+				desc = "exe_first_mission_desc_1"
 				event_chain = kuat_mission_3_chain
 				location = event_target:kuat_mission_3_target_planet
 			}
@@ -812,11 +757,7 @@ country_event = {
 	after = {
 		if = {
 			limit = { has_event_chain = kuat_mission_0_chain }
-			add_event_chain_counter = {
-				event_chain = kuat_mission_0_chain
-				counter = kuat_mission_0_chain_amount
-				amount = 1
-			}
+			add_event_chain_counter = { event_chain = kuat_mission_0_chain counter = kuat_mission_0_chain_amount amount = 1 }
 		}
 	}
 	option = {
@@ -973,7 +914,6 @@ country_event = {
 	trigger = {
 		NOT = { has_global_flag = kuat_mission_4_actived }
 		is_ai = no
-		fleet_power > 200000
 		exists = event_target:fallen_empire_kuat
 		event_target:fallen_empire_kuat = {
 			has_communications = root
