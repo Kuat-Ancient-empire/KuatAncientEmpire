@@ -20,7 +20,14 @@ kuat_set_forcetrigger_order_66_group = {
 	allow = { hidden_trigger = { is_scope_type = country } }
 	effect = {  
 		custom_tooltip = "kuat_set_forcetrigger_order_66_group_tip"
-		hidden_effect = { from = { set_global_flag = kuat_set_forcetrigger_order_66_group_enable } }
+		hidden_effect = { from = { 
+			set_global_flag = kuat_set_forcetrigger_order_66_group_enable 
+			change_variable = { which = kuat_set_forcetrigger_order_66_group_enable_timer value = 1 }
+			if = {
+				limit = { check_variable = { which = kuat_set_forcetrigger_order_66_group_enable_timer value = 66 } }
+				set_global_flag = kuat_test
+			}
+		} }
 	}
 }
 
@@ -29,7 +36,14 @@ kuat_set_forcetrigger_order_alt_66_group = {
 	allow = { hidden_trigger = { is_scope_type = country } }
 	effect = {  
 		custom_tooltip = "kuat_set_forcetrigger_order_alt_66_group_tip"
-		hidden_effect = { from = { remove_global_flag = kuat_set_forcetrigger_order_66_group_enable } }
+		hidden_effect = { from = { 
+			remove_global_flag = kuat_set_forcetrigger_order_66_group_enable 
+			change_variable = { which = kuat_set_forcetrigger_order_66_group_enable_timer value = 1 }
+			if = {
+				limit = { check_variable = { which = kuat_set_forcetrigger_order_66_group_enable_timer value = 66 } }
+				set_global_flag = kuat_test
+			}
+		} }
 	}
 }
 
@@ -95,6 +109,22 @@ kuat_set_forcetrigger_order_enable_eternal = {
 	}
 }
 
+#旗舰
+kuat_set_forcetrigger_order_enable_flagship_system = {
+	potential = { has_global_flag = kuat_set_forcetrigger_order_66_group_enable }
+	allow = { hidden_trigger = { 
+		is_scope_type = country 
+		NOT = { has_global_flag = kuat_set_forcetrigger_order_enable_flagship_system_TEMPLRE }
+	} }
+	effect = {
+		custom_tooltip = "kuat_set_forcetrigger_order_enable_flagship_system_tip"
+		hidden_effect = { from = {
+			country_event = { id = kuat_testing.0 }
+			set_timed_global_flag = { flag = kuat_set_forcetrigger_order_enable_flagship_system_TEMPLRE days = 1 }
+		} }
+	}
+}
+
 #启动永恒入侵
 kuat_set_forcetrigger_order_enable_eternal_invasion = {
 	potential = { has_global_flag = kuat_set_forcetrigger_order_66_group_enable }
@@ -102,6 +132,7 @@ kuat_set_forcetrigger_order_enable_eternal_invasion = {
 		is_scope_type = country 
 		NOT = { has_global_flag = exe_invasion_ended } 
 		NOT = { has_country_flag = fired_exe_invasion } 
+		NOT = { has_global_flag = exe_invasion_begin } 
 		exists = event_target:fallen_empire_kuat
 		has_global_flag = kuat_test
 	} }
@@ -195,19 +226,60 @@ kuat_set_forcetrigger_order_enable_contractor_return = {
 	}
 }
 
-#旗舰
-kuat_set_forcetrigger_order_enable_flagship_system = {
+#启动斗蛐蛐
+kuat_set_forcetrigger_order_enable_crisis_eve_system = {
 	potential = { has_global_flag = kuat_set_forcetrigger_order_66_group_enable }
 	allow = { hidden_trigger = { 
 		is_scope_type = country 
-		NOT = { has_global_flag = kuat_set_forcetrigger_order_enable_flagship_system_TEMPLRE }
+		NOT = { has_global_flag = kuat_set_forcetrigger_order_enable_crisis_eve_system }
 		has_global_flag = kuat_test
 	} }
 	effect = {
-		custom_tooltip = "kuat_set_forcetrigger_order_enable_flagship_system_tip"
+		custom_tooltip = "kuat_set_forcetrigger_order_enable_crisis_eve_system_tip"
 		hidden_effect = { from = {
-			country_event = { id = kuat_testing.0 }
-			set_timed_global_flag = { flag = kuat_set_forcetrigger_order_enable_flagship_system_TEMPLRE days = 1 }
+			set_global_flag = kuat_set_forcetrigger_order_enable_crisis_eve_system
+		} }
+	}
+}
+
+#启动夸特侵军
+kuat_set_forcetrigger_order_enable_kuat_empire_return = {
+	potential = { has_global_flag = kuat_set_forcetrigger_order_66_group_enable }
+	allow = { hidden_trigger = { 
+		is_scope_type = country 
+		NOT = { has_global_flag = ag_kae_ge_invasion_begin } 
+		NOT = { has_global_flag = ag_kae_ge_invasion_ended } 
+		NOT = { has_country_flag = fired_kuat_empire_invasion } 
+		has_global_flag = kuat_test
+	} }
+	effect = {
+		custom_tooltip = "kuat_set_forcetrigger_order_enable_kuat_empire_return_tip"
+		hidden_effect = { from = {
+			play_sound = { sound = event_construction location = capital_scope }
+			remove_global_flag = ag_kae_no_ge_invasion_crisis
+			country_event = { id = ag_kae_ge_invasion.104 }
+			event_target:global_event_country = { country_event = { id = ag_kae_ge_invasion.211 days = 10 random = 10 } }
+			set_country_flag = fired_kuat_empire_invasion
+		} }
+	}
+}
+
+#启动无限帝国
+kuat_set_forcetrigger_order_enable_infinite_empire_return = {
+	potential = { has_global_flag = kuat_set_forcetrigger_order_66_group_enable }
+	allow = { hidden_trigger = { 
+		is_scope_type = country 
+		NOT = { has_global_flag = Kuat_Rakata_invasion_happened } 
+		NOT = { has_global_flag = kuat_final_crisis_events_rakata_ended }
+		NOT = { has_country_flag = fired_kuat_rakata_invasion } 
+		has_global_flag = kuat_test
+	} }
+	effect = {
+		custom_tooltip = "kuat_set_forcetrigger_order_enable_infinite_empire_return_tip"
+		hidden_effect = { from = {
+			play_sound = { sound = event_construction location = capital_scope }
+			event_target:global_event_country = { country_event = { id = kuat_final_crisis_events.3 days = 15 } }
+			set_country_flag = fired_kuat_rakata_invasion
 		} }
 	}
 }

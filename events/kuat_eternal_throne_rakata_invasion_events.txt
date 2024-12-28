@@ -9,14 +9,14 @@ namespace = kuat_final_crisis_events
 #kuat_final_crisis_events.401					DEFENCED FLEET BEEN ATTACK FLEET LONG TIME AGO								（在很久以后将防御舰队转化为进攻舰队离开星系）
 #kuat_final_crisis_events.11					RAKATA CRISIS BASE DESTROYED TRIGGER 										（拉卡塔据点被摧毁的控制事件）
 #kuat_final_crisis_events.101					ALL RAKATA BASE BEEN DESTROYED EFFECT 										（所有的拉卡塔据点被摧毁以后的效果）
-#kuat_final_crisis_events.12					ALL RAKATA BASE BEEN DESTROYED NOTIFICATION 								（所有的拉卡塔据点被摧毁以后的通知）
+#kuat_final_crisis_events.40					ALL RAKATA BASE BEEN DESTROYED NOTIFICATION 								（所有的拉卡塔据点被摧毁以后的通知）
 #kuat_final_crisis_events.13					DEBUG CHECK WHEN ALL BASE BEEN DESTROYED BUT CRISIS NOT END 				（DEBUG检测，防止所有单位被消灭了但危机没有结束）
 #kuat_final_crisis_events.3						GENERAL INFINITE FIRST BASE													 (第一行动基地)
 #kuat_final_crisis_events.15					GENERAL INFINITE SHIPYARD SYSTEM 											 (无限构筑厂)
 #kuat_final_crisis_events.16					GENERAL INFINITE SECOND BASE												 (第二行动基地)
 #kuat_final_crisis_events.17					GENERAL THE LAST BASE 														 (最后一个星门/第三行动基地)
 #kuat_final_crisis_events.20					DIPLOMAY TO INFINITE EMPIRE 												（玩家联系拉卡塔帝国，外交）
-#kuat_final_crisis_events.40					ATTACK FLEET QUEUE ACTION 													（舰队脚本）
+#kuat_final_crisis_events.12					ATTACK FLEET QUEUE ACTION 													（舰队脚本）
 #kuat_final_crisis_events.46					RESET FLEET ACTION AND VARIABLE 											（脚本变量清理）
 #kuat_final_crisis_events.47					BOMBARMENT NON_COLONY EVENT 												（轰炸非殖民，实际表现不明）
 #kuat_final_crisis_events.44 45					EVENTCHAIN COUNT KILLED AND KILL 											（事件链内计数）
@@ -252,6 +252,32 @@ planet_event = {
 				}
 			}
 		}	
+		solar_system = {
+			every_fleet_in_system = {
+				limit = {
+					exists = owner
+					owner = { is_infinite_faction = yes }
+					has_fleet_flag = Kuat_Rakata_attack_fleet
+					OR = {
+						AND = { exists = orbit orbit = { is_same_value = root } }
+						AND = {
+							is_fleet_idle = yes
+							NAND = {
+								exists = orbit
+								orbit = {
+									NOT = { is_star = yes }
+									exists = owner
+									owner = { is_hostile = event_target:Infinite_empire }
+								}
+							}
+						}
+					}
+				}
+				clear_orders = yes
+				clear_fleet_actions = this
+				fleet_event = { id = kuat_final_crisis_events.12 days = 1 random = 2 }
+			}
+		}
 	}
 	option = { name = kuat_final_crisis_events.10.a }
 }
@@ -721,12 +747,7 @@ fleet_event = {
 		set_name = "Name_DFLEET_II"
 		remove_fleet_flag = Kuat_Rakata_defence_fleet
 		set_fleet_flag = Kuat_Rakata_attack_fleet
-		owner = { change_variable = { which = "fleet_id" value = 1 } }
-		if = {
-			limit = { is_scope_type = fleet }
-			set_variable = { which = "fleet_id" value = owner.fleet_id }
-		}
-		fleet_event = { id = kuat_final_crisis_events.40 }
+		fleet_event = { id = kuat_final_crisis_events.12 }
 	}
 }
 
@@ -869,7 +890,7 @@ country_event = {
 		event_target:Eternalempire = { country_event = { id = ag_kae_ge_invasion.256 days = 5 random = 2 } }
 		every_playable_country = {
 			add_modifier = { modifier = "extradimensionals_defeated" days = 360 }
-			country_event = { id = kuat_final_crisis_events.12 }
+			country_event = { id = kuat_final_crisis_events.40 }
 		}
 		event_target:Eternalempire = { country_event = { id = ag_kae_ge_invasion.257 days = 1 random = 2 } }
 	}
@@ -877,16 +898,16 @@ country_event = {
 
 # notification(starbase destoryed)
 country_event = {
-	id = kuat_final_crisis_events.12
-	title = "kuat_final_crisis_events.12.name"
-	desc = "kuat_final_crisis_events.12.desc"
+	id = kuat_final_crisis_events.40
+	title = "kuat_final_crisis_events.40.name"
+	desc = "kuat_final_crisis_events.40.desc"
 	diplomatic = yes
 	picture_event_data = { room = exploding_ship_room }
 	custom_gui = "kuat_event_m_window"
 	custom_gui_option = "kuat_event_m_option"
 	show_sound = event_super_explosion
 	is_triggered_only = yes
-	option = { name = kuat_final_crisis_events.12.a }
+	option = { name = kuat_final_crisis_events.40.a }
 }
 
 # on_monthly_purly debug check(over the crisis)
@@ -1100,16 +1121,15 @@ country_event = {
 
 # fleet main action
 fleet_event = {
-	id = kuat_final_crisis_events.40
+	id = kuat_final_crisis_events.12
 	hide_window = yes
 	is_triggered_only = yes
 	trigger = {
 		exists = this
 		has_global_flag = Kuat_Rakata_invasion_happened
-		has_fleet_flag = Kuat_Rakata_attack_fleet
-		owner = { is_infinite_faction = yes }
+		NOT = { has_global_flag = kuat_final_crisis_events_rakata_ended }
 	}
-	immediate = { kuat_rakata_invasion_fleet_action = yes }
+	immediate = { kuat_exe_invasion_fleet_action = { ID = kuat_final_crisis_events TYPE = Infnite_Rakata OWNER = Infinite_empire } }
 }
 
 # reset fleet action variable
@@ -1119,60 +1139,133 @@ country_event = {
 	is_triggered_only = yes
 	trigger = {
 		is_infinite_faction = yes
+		has_global_flag = Kuat_Rakata_invasion_happened
+		NOT = { has_global_flag = kuat_final_crisis_events_rakata_ended }
 		FROMFROM = { has_fleet_flag = Kuat_Rakata_attack_fleet }
+		fromfromfrom = { OR = {
+			is_ship_class = shipclass_starbase
+			is_ship_class = shipclass_military
+		} }
 	}
 	immediate = {
-		random_system = {
-			limit = { check_variable = { which = Rakata_crisis_fleet_id value = FROMFROM.fleet_id } }
-			set_variable = { which = Rakata_crisis_fleet_id value = 0 }
+		fromfrom = {
+			solar_system = {
+				every_fleet_in_system = {
+					limit = {
+						exists = owner
+						owner = { is_infinite_faction = yes }
+						has_fleet_flag = Kuat_Rakata_attack_fleet
+					}
+					clear_orders = yes
+					clear_fleet_actions = this
+					fleet_event = { id = kuat_final_crisis_events.12 days = 3 random = 2 }
+				}
+			}
 		}
 	}
 }
 
-# bomborment(uncolony)
-planet_event = {
-	id = kuat_final_crisis_events.47
+#Invasion fleet action on orbit planet. 
+country_event = {
+	id = kuat_final_crisis_events.461
 	hide_window = yes
 	is_triggered_only = yes
-	pre_triggers = { has_owner = no }
 	trigger = {
-		OR = {
-			is_colonizable = yes
-			has_planet_flag = phaseshifting_active
+		is_infinite_faction = yes
+		has_global_flag = Kuat_Rakata_invasion_happened
+		NOT = { has_global_flag = kuat_final_crisis_events_rakata_ended }
+		from = { has_fleet_flag = Kuat_Rakata_attack_fleet }
+		fromfrom = { OR = {
+			is_star = yes
+			NOT = { exists = owner }
+		} }
+	}
+	immediate = {
+		from = {
+			clear_orders = yes
+			clear_fleet_actions = this
+			fleet_event = { id = kuat_final_crisis_events.12 days = 3 random = 2 }
 		}
-		has_planet_flag = Rakata_crisis_target_planet
-		any_fleet_in_orbit = {
-			owner = {
-				is_infinite_faction = yes
+	}
+}
+
+#Reset invasion fleet action if two fleet in same system. 
+fleet_event = {
+	id = kuat_final_crisis_events.462
+	hide_window = yes
+	is_triggered_only = yes
+	trigger = {
+		has_global_flag = Kuat_Rakata_invasion_happened
+		NOT = { has_global_flag = kuat_final_crisis_events_rakata_ended }
+		has_fleet_flag = Kuat_Rakata_attack_fleet
+		from = {
+			NOR = {
+				kuat_is_kuat_system = yes
+				has_star_flag = kuat_military_base_local_home
+				has_star_flag = kuat_military_sublocal_home
 			}
-			has_fleet_flag = Kuat_Rakata_attack_fleet
+			any_fleet_in_system = {
+				NOT = { is_same_value = root }
+				has_fleet_flag = Kuat_Rakata_attack_fleet
+			}
 		}
 	}
 	immediate = {
-		if = {
-			limit = {
-				has_planet_flag = phaseshifting_active
+		clear_orders = yes
+		clear_fleet_actions = this
+		from = {
+			random_neighbor_system = {
+				system_star = { root = { auto_move_to_planet = { target = prev clear_auto_move_on_arrival = yes } } }
 			}
-			remove_planet_flag = phaseshifting_active
-			remove_modifier = phaseshifted
 		}
-		remove_planet_flag = Rakata_crisis_target_planet
-		if = {
-			limit = { kuat_is_ringworld = yes }
-			spawn_ringworld_cracker_effect = yes
-			change_pc = pc_ringworld_habitable_damaged
-			reset_planet = yes
+	}
+}
+
+#Check every month to prevent bugs.
+event = {
+	id = kuat_final_crisis_events.463
+	hide_window = yes
+	is_triggered_only = yes
+	trigger = {
+		has_global_flag = Kuat_Rakata_invasion_happened
+		NOT = { has_global_flag = kuat_final_crisis_events_rakata_ended }
+		exists = event_target:Infinite_empire
+		event_target:Infinite_empire = {
+			any_owned_fleet = {
+				exists = this
+				is_fleet_idle = yes
+				has_fleet_flag = Kuat_Rakata_attack_fleet
+				NAND = {
+					exists = orbit
+					orbit = {
+						NOT = { is_star = yes }
+						exists = controller
+						controller = { is_hostile = event_target:Infinite_empire }
+					}
+				}
+			}
 		}
-		else_if = {
-			limit = { kuat_is_habitat = yes }
-			spawn_habitat_cracker_effect = yes
-			remove_planet = yes
-		}
-		else = { change_pc = pc_shattered }
-		every_fleet_in_orbit = { remove_fleet_flag = Rakata_bombarding_planet }
-		every_country = {
-			limit = { has_event_chain = "kuat_rakata_invasion_chain" }
-			add_event_chain_counter = { event_chain = "kuat_rakata_invasion_chain" counter = "kuat_rakata_invastor_planets" amount = 1 }
+	}
+	immediate = {
+		event_target:Infinite_empire = {
+			every_owned_fleet = {
+				limit = {
+					exists = this
+					is_fleet_idle = yes
+					has_fleet_flag = Kuat_Rakata_attack_fleet
+					NAND = {
+						exists = orbit
+						orbit = {
+							NOT = { is_star = yes }
+							exists = controller
+							controller = { is_hostile = event_target:Infinite_empire }
+						}
+					}
+				}
+				clear_orders = yes
+				clear_fleet_actions = this
+				fleet_event = { id = kuat_final_crisis_events.12 days = 3 random = 2 }
+			}
 		}
 	}
 }

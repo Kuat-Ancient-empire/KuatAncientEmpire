@@ -684,7 +684,7 @@ planet_event = {
 				fleet_event = { id = exe_invasion.12 days = 1 random = 2 }
 			}
 			country_event = { id = exe_invasion.111 days = 30 }
-			set_global_flag = can_win_the_fleet
+			set_global_flag = kuat_eternal_invasion_can_win_the_fleet
 		} }
 	}
 }
@@ -745,7 +745,7 @@ country_event = {
 			}
 		}
 	}
-	after = {
+	immediate = {
 		fromfrom = {
 			solar_system = {
 				every_fleet_in_system = {
@@ -1069,7 +1069,7 @@ country_event = {
 			}
 		}
 		fromfromfrom = { has_fleet_flag = ag_kuat_invasion_fleet }
-		has_global_flag = can_win_the_fleet
+		has_global_flag = kuat_eternal_invasion_can_win_the_fleet
 		event_target:global_event_country = { check_variable = { which = var_eternal_fleet_defeated value >= 16 } }
 	}
 	immediate = {
@@ -1162,7 +1162,7 @@ event = {
 	}
 	immediate = {
 		remove_global_flag = exe_invasion_begin
-		remove_global_flag = can_win_the_fleet
+		remove_global_flag = kuat_eternal_invasion_can_win_the_fleet
 		remove_global_flag = eternal_fleet_debug_check
 		remove_global_flag = ai_fighting_with_player_against_eternal
 		remove_global_flag = exe_invasion_signs_cooldown
@@ -1654,21 +1654,41 @@ country_event = {
 		fromfrom = { has_enable_flag_ship_system_true = yes }
 	}
 	immediate = {
-		FROMFROM = { if = {
-			limit = { has_enable_flag_ship_system_true = yes }
-			if = { limit = { kuat_is_flagship_size = { size = eclipse } } kuat_battle_increase_ship_hp_effect_change = { DAYS = 5 TYPE = kt } }
-			else_if = { limit = { kuat_is_flagship_size = { size = Annihilator } } kuat_battle_increase_ship_hp_effect_change = { DAYS = 5 TYPE = kt } }
-			else_if = { limit = { kuat_is_flagship_size = { size = kuat_sector } } kuat_battle_increase_ship_hp_effect_change = { DAYS = 4 TYPE = kt } }
-			else_if = { limit = { kuat_is_flagship_size = { size = kuat_compellor } } kuat_battle_increase_ship_hp_effect_change = { DAYS = 4 TYPE = kt } }
-			else_if = { limit = { kuat_is_flagship_size = { size = kuat_legator } } kuat_battle_increase_ship_hp_effect_change = { DAYS = 4 TYPE = kt } }
-			else_if = { limit = { kuat_is_flagship_size = { size = Vengeance } } kuat_battle_increase_ship_hp_effect_change = { DAYS = 4 TYPE = kt } }
-			else_if = { limit = { kuat_is_flagship_size = { size = nebula_executor } } kuat_battle_increase_ship_hp_effect_change = { DAYS = 4 TYPE = kt } }
-			else_if = { limit = { kuat_is_flagship_size = { size = knight_hammer_executor } } kuat_battle_increase_ship_hp_effect_change = { DAYS = 4 TYPE = kt } }
-			else_if = { limit = { kuat_is_flagship_size = { size = nebula_dominance } } kuat_battle_increase_ship_hp_effect_change = { DAYS = 3 TYPE = kt } }
-			else_if = { limit = { kuat_is_flagship_size = { size = Infinite_battleship } } kuat_battle_increase_ship_hp_effect_change = { DAYS = 3 TYPE = kt } }
-			else_if = { limit = { kuat_is_flagship_size = { size = eternal_flagship } } kuat_battle_increase_ship_hp_effect_change = { DAYS = 3 TYPE = kt } }
-			else = { kuat_battle_increase_ship_hp_effect_change = { DAYS = 2 TYPE = kt } }
-		} }
+		if = {
+			limit = { has_global_flag = kuat_set_forcetrigger_order_enable_crisis_eve_system }
+			FROMFROM = { if = {
+				limit = { has_enable_flag_ship_system_true = yes }
+				if = { limit = { kuat_is_flagship_size = { size = eclipse } } kuat_battle_increase_ship_hp_effect_change = { DAYS = 10 TYPE = kt } }
+				else_if = { limit = { kuat_is_flagship_size = { size = Annihilator } } kuat_battle_increase_ship_hp_effect_change = { DAYS = 10 TYPE = kt } }
+				else_if = { limit = { kuat_is_flagship_size = { size = kuat_sector } } kuat_battle_increase_ship_hp_effect_change = { DAYS = 9 TYPE = kt } }
+				else_if = { limit = { kuat_is_flagship_size = { size = kuat_compellor } } kuat_battle_increase_ship_hp_effect_change = { DAYS = 8 TYPE = kt } }
+				else_if = { limit = { kuat_is_flagship_size = { size = kuat_legator } } kuat_battle_increase_ship_hp_effect_change = { DAYS = 8 TYPE = kt } }
+				else_if = { limit = { kuat_is_flagship_size = { size = Vengeance } } kuat_battle_increase_ship_hp_effect_change = { DAYS = 8 TYPE = kt } }
+				else_if = { limit = { kuat_is_flagship_size = { size = nebula_executor } } kuat_battle_increase_ship_hp_effect_change = { DAYS = 8 TYPE = kt } }
+				else_if = { limit = { kuat_is_flagship_size = { size = knight_hammer_executor } } kuat_battle_increase_ship_hp_effect_change = { DAYS = 8 TYPE = kt } }
+				else_if = { limit = { kuat_is_flagship_size = { size = nebula_dominance } } kuat_battle_increase_ship_hp_effect_change = { DAYS = 4 TYPE = kt } }
+				else_if = { limit = { kuat_is_flagship_size = { size = Infinite_battleship } } kuat_battle_increase_ship_hp_effect_change = { DAYS = 4 TYPE = kt } }
+				else_if = { limit = { kuat_is_flagship_size = { size = eternal_flagship } } kuat_battle_increase_ship_hp_effect_change = { DAYS = 4 TYPE = kt } }
+				#else = { kuat_battle_increase_ship_hp_effect_change = { DAYS = 2 TYPE = kt } }
+			} }
+		}
+		else = {
+			FROMFROM = { if = {
+				limit = { has_enable_flag_ship_system_true = yes }
+				if = { limit = { kuat_is_flagship_size = { size = eclipse } } kuat_battle_increase_ship_hp_effect_change = { DAYS = 5 TYPE = kt } }
+				else_if = { limit = { kuat_is_flagship_size = { size = Annihilator } } kuat_battle_increase_ship_hp_effect_change = { DAYS = 5 TYPE = kt } }
+				else_if = { limit = { kuat_is_flagship_size = { size = kuat_sector } } kuat_battle_increase_ship_hp_effect_change = { DAYS = 4 TYPE = kt } }
+				else_if = { limit = { kuat_is_flagship_size = { size = kuat_compellor } } kuat_battle_increase_ship_hp_effect_change = { DAYS = 4 TYPE = kt } }
+				else_if = { limit = { kuat_is_flagship_size = { size = kuat_legator } } kuat_battle_increase_ship_hp_effect_change = { DAYS = 4 TYPE = kt } }
+				else_if = { limit = { kuat_is_flagship_size = { size = Vengeance } } kuat_battle_increase_ship_hp_effect_change = { DAYS = 4 TYPE = kt } }
+				else_if = { limit = { kuat_is_flagship_size = { size = nebula_executor } } kuat_battle_increase_ship_hp_effect_change = { DAYS = 4 TYPE = kt } }
+				else_if = { limit = { kuat_is_flagship_size = { size = knight_hammer_executor } } kuat_battle_increase_ship_hp_effect_change = { DAYS = 4 TYPE = kt } }
+				else_if = { limit = { kuat_is_flagship_size = { size = nebula_dominance } } kuat_battle_increase_ship_hp_effect_change = { DAYS = 3 TYPE = kt } }
+				else_if = { limit = { kuat_is_flagship_size = { size = Infinite_battleship } } kuat_battle_increase_ship_hp_effect_change = { DAYS = 3 TYPE = kt } }
+				else_if = { limit = { kuat_is_flagship_size = { size = eternal_flagship } } kuat_battle_increase_ship_hp_effect_change = { DAYS = 3 TYPE = kt } }
+				else = { kuat_battle_increase_ship_hp_effect_change = { DAYS = 2 TYPE = kt } }
+			} }
+		}
 	}
 }
 
@@ -2014,10 +2034,6 @@ country_event = {
 				is_invisable_faction = yes
 				from = { is_invisable_faction = no } 
 			}
-			if = { 
-				limit = { has_global_flag = kuat_impulse_mod_settings } 
-				fromfrom = { set_fleet_flag = has_kuat_flagship_system_addon_repeatable } 
-			}
 			fromfromfrom = { every_owned_ship = { 
 				if = { limit = { check_modifier_value = { modifier = ship_hull_mult value > 0 } } 
 				kuat_battle_clear_ship_modifier = { modifier = ship_hull_mult DAYS = -1 } } 
@@ -2034,18 +2050,6 @@ country_event = {
 			}
 			kuat_contractor_randomlist_battle_duplcate_ship = yes
 		}
-		# disable ag system which will protect the system to normally
-		# if = {
-		# 	limit = { from = { OR = {
-		# 		ag_is_ancient_country = yes
-		# 		is_country_type = ag_zeta_crisis_country
-		# 		any_owned_ship = { OR = { has_ship_flag = ag_ancient_empire_mod_ship ag_has_special_aura = yes } }
-		# 	} } }
-		# 	fromfromfrom = { 
-		# 		set_fleet_flag = ag_ancient_2100_mutex_@root.fromfrom 
-		# 		fleet_event = { id = exe_invasion.138 days = 2 scopes = { from = root.fromfrom } }
-		# 	}
-		# }
 		if = {
 			limit = { 
 				is_invisable_faction = yes
@@ -2075,6 +2079,7 @@ country_event = {
 					set_fleet_flag = is_modifiering_fleet
 					switch = {
 						trigger = has_global_flag
+						kuat_set_forcetrigger_order_enable_crisis_eve_system = { fleet_event = { id = exe_invasion.138 } }
 						ban_exe_invasion = { fleet_event = { id = exe_invasion.140 } }
 						difficult_exe_invasion = { fleet_event = { id = exe_invasion.137 } }
 						normal_exe_invasion = { fleet_event = { id = exe_invasion.143 } }
@@ -2125,6 +2130,7 @@ country_event = {
 							limit = { NOT = { has_global_flag = kuat_non_legacy_trigger_eternal_return } }
 							switch = {
 								trigger = has_global_flag
+								kuat_set_forcetrigger_order_enable_crisis_eve_system = { fleet_event = { id = exe_invasion.147 } }
 								kuat_impulse_mod_settings = { fleet_event = { id = exe_invasion.136 } }
 								ban_exe_invasion = { fleet_event = { id = exe_invasion.136 } }
 								difficult_exe_invasion = { fleet_event = { id = exe_invasion.131 } }
@@ -2147,13 +2153,12 @@ country_event = {
 							limit = { NOT = { has_global_flag = kuat_non_legacy_trigger_eternal_return } }
 							switch = {
 								trigger = has_global_flag
+								kuat_set_forcetrigger_order_enable_crisis_eve_system = { fleet_event = { id = exe_invasion.147 } }
 								kuat_impulse_mod_settings = { fleet_event = { id = exe_invasion.136 } }
 								ban_exe_invasion = { fleet_event = { id = exe_invasion.131 } }
 								difficult_exe_invasion = { fleet_event = { id = exe_invasion.129 } }
 								normal_exe_invasion = { fleet_event = { id = exe_invasion.142 } }
 								easy_exe_invasion = { fleet_event = { id = exe_invasion.142 } }
-
-								default = { fleet_event = { id = exe_invasion.142 } }
 							}
 						}
 						else = { fleet_event = { id = exe_invasion.142 } }
@@ -2167,13 +2172,12 @@ country_event = {
 						set_fleet_flag = is_modifiering_fleet 
 						switch = {
 							trigger = has_global_flag
+							kuat_set_forcetrigger_order_enable_crisis_eve_system = { fleet_event = { id = exe_invasion.147 } }
 							kuat_impulse_mod_settings = { fleet_event = { id = exe_invasion.136 } }
 							ban_exe_invasion = { fleet_event = { id = exe_invasion.136 } }
 							difficult_exe_invasion = { fleet_event = { id = exe_invasion.136 } }
 							normal_exe_invasion = { fleet_event = { id = exe_invasion.131 } }
 							easy_exe_invasion = { fleet_event = { id = exe_invasion.129 } }
-
-							default = { fleet_event = { id = exe_invasion.142 } }
 						}
 						set_timed_fleet_flag = { flag = random_list_eternal_fleet_rate_placeholder days = 1 }
 					}
@@ -2185,13 +2189,12 @@ country_event = {
 						set_fleet_flag = is_modifiering_fleet 
 						switch = {
 							trigger = has_global_flag
+							kuat_set_forcetrigger_order_enable_crisis_eve_system = { fleet_event = { id = exe_invasion.147 } }
 							kuat_impulse_mod_settings = { fleet_event = { id = exe_invasion.136 } }
 							ban_exe_invasion = { fleet_event = { id = exe_invasion.131 } }
 							difficult_exe_invasion = { fleet_event = { id = exe_invasion.129 } }
 							normal_exe_invasion = { fleet_event = { id = exe_invasion.142 } }
 							easy_exe_invasion = { fleet_event = { id = exe_invasion.142 } }
-
-							default = { fleet_event = { id = exe_invasion.142 } }
 						}
 						set_timed_fleet_flag = { flag = random_list_eternal_fleet_rate_placeholder days = 1 }
 					}
@@ -2209,6 +2212,7 @@ country_event = {
 					has_global_flag = difficult_exe_invasion
 					has_global_flag = ban_exe_invasion
 				}
+				NOT = { has_global_flag = kuat_set_forcetrigger_order_enable_crisis_eve_system }
 			}
 			country_event = {
 				id = exe_invasion.132 days = 1 
@@ -2292,14 +2296,6 @@ country_event = {
 	}
 }
 
-# fleet_event = {
-# 	id = exe_invasion.138
-# 	hide_window = yes
-# 	is_triggered_only = yes
-# 	trigger = { has_fleet_flag = ag_ancient_2100_mutex_@from }
-# 	immediate = { remove_fleet_flag = ag_ancient_2100_mutex_@from } 
-# }
-
 country_event = {
 	id = exe_invasion.146
 	hide_window = yes
@@ -2328,12 +2324,14 @@ fleet_event = { inline_script = { script = kuat_battle_event/kuat_exe_invasion_b
 fleet_event = { inline_script = { script = kuat_battle_event/kuat_exe_invasion_battle ID = exe_invasion.137 KEY = kuat_battle_set_difiicult_eternal_fleet_mult_modifier } }
 fleet_event = { inline_script = { script = kuat_battle_event/kuat_exe_invasion_battle ID = exe_invasion.143 KEY = kuat_battle_set_normal_eternal_fleet_mult_modifier 	} }
 fleet_event = { inline_script = { script = kuat_battle_event/kuat_exe_invasion_battle ID = exe_invasion.144 KEY = kuat_battle_set_easy_eternal_fleet_mult_modifier 		} }
+fleet_event = { inline_script = { script = kuat_battle_event/kuat_exe_invasion_battle ID = exe_invasion.138 KEY = kuat_battle_set_crisis_eve_eternal_fleet_mult_modifier } }
 
 #fromfromfrom
 fleet_event = { inline_script = { script = kuat_battle_event/kuat_exe_invasion_attake ID = exe_invasion.136 KEY = kuat_battle_set_ban_eternal_fleet_mult_modifier 		} }
 fleet_event = { inline_script = { script = kuat_battle_event/kuat_exe_invasion_attake ID = exe_invasion.131 KEY = kuat_battle_set_difiicult_eternal_fleet_mult_modifier } }
 fleet_event = { inline_script = { script = kuat_battle_event/kuat_exe_invasion_attake ID = exe_invasion.129 KEY = kuat_battle_set_normal_eternal_fleet_mult_modifier 	} }
 fleet_event = { inline_script = { script = kuat_battle_event/kuat_exe_invasion_attake ID = exe_invasion.142 KEY = kuat_battle_set_easy_eternal_fleet_mult_modifier 		} }
+fleet_event = { inline_script = { script = kuat_battle_event/kuat_exe_invasion_attake ID = exe_invasion.147 KEY = kuat_battle_set_crisis_eve_eternal_fleet_mult_modifier } }
 
 #ORIGIN ETERNAL
 country_event = {
@@ -2448,6 +2446,14 @@ event = {
 	is_triggered_only = yes
 	trigger = { always = yes }
 	immediate = { 
+		if = {
+			limit = { has_global_flag = can_win_the_fleet }
+			set_global_flag = kuat_eternal_invasion_can_win_the_fleet
+		}
+		if = {
+			limit = { has_global_flag = can_win_the_fleet_stage_1 }
+			set_global_flag = kuat_eternal_invasion_can_win_the_fleet_stage_1
+		}
 		every_system = {
 			limit = { has_star_flag = starkiller_system }
 			save_global_event_target_as = starkiller_sun_target_system

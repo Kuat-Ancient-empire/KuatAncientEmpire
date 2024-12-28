@@ -122,6 +122,62 @@ country_event = {
 	}
 }
 country_event = {
+    id = ag_kae_ge_invasion.104
+    hide_window = yes
+	is_triggered_only = yes
+	trigger = { 
+		has_global_flag = kuat_set_forcetrigger_order_enable_crisis_eve_system
+	}
+	immediate = {
+		save_event_target_as = interesting_country
+		random_system_within_border = {
+			limit = { NOT = { any_system_planet = { is_capital = yes } } }
+			save_event_target_as = ag_kae_target_system
+		}
+		if = {
+			limit = { NOT = { exists = event_target:ag_kae_target_system } }
+			random_system_within_border = { save_event_target_as = ag_kae_target_system }
+			if = {
+				limit = { NOT = { exists = event_target:ag_kae_target_system } }
+				random_system = { save_event_target_as = ag_kae_target_system }
+			}
+		}
+		set_spawn_system_batch = begin
+		event_target:ag_kae_target_system = {
+			spawn_system = {
+				min_distance >= 20
+				max_distance <= 50
+				initializer = "ag_kae_e_area_init"
+				hyperlane = yes
+			}
+		}
+		set_spawn_system_batch = end
+		random_system = {
+			limit = { has_star_flag = ag_kae_e_area_system }
+			save_global_event_target_as = ag_kae_e_area_system
+		}
+		country_event = { id = ag_kae_ge_invasion.102 days = 2 random = 5 }
+		every_playable_country = {
+			limit = { NOT = { is_same_value = root } }
+			country_event = { id = ag_kae_ge_invasion.103 days = 7 random = 7 }
+		}
+		event_target:Kuat_E_Area_Guardian = { destroy_country = yes }
+	}
+}
+fleet_event = {
+	id = ag_kae_ge_invasion.105
+	hide_window = yes
+	is_triggered_only = yes
+	trigger = {
+		exists = owner
+		owner = { is_invisable_faction = no }
+		from = { has_star_flag = ag_kae_e_area_system }
+		has_global_flag = ag_kae_ge_invasion_begin
+		event_target:global_event_country = { check_variable = { which = ag_kae_ge_invasion_num_portals_destroyed value < 6 } }
+	}
+	immediate = { delete_fleet = { destroy_template = yes target = this kill_leader = no } }
+}
+country_event = {
 	id = ag_kae_ge_invasion.102
 	title = "ag_kae_ge_invasion.102.name"
 	desc = "ag_kae_ge_invasion.102.desc"
@@ -2078,7 +2134,7 @@ country_event = {
 	}
 	option = { 
 		name = ag_kae_ge_invasion.254.b
-		hidden_effect = { country_event = { id = kuat_final_crisis_events.3 days = 30 random = 180 } }
+		hidden_effect = { event_target:global_event_country = { country_event = { id = kuat_final_crisis_events.3 days = 30 random = 180 } } }
 		response_text = ag_kae_ge_invasion.254.b.resp 
 	}
 }

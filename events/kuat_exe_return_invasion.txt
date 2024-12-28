@@ -20,7 +20,7 @@ event = {
 	}
 	immediate = {
 		event_target:global_event_country = { set_variable = { which = count_destroy_eternal_fleet value = 0 } }
-		remove_global_flag = can_win_the_fleet
+		remove_global_flag = kuat_eternal_invasion_can_win_the_fleet
 		set_timed_global_flag = { flag = exe_invasion_signs_cooldown days = 360 }
 		every_playable_country = { country_event = { id = exe_return_invasion.2 days = 1 random = 2 } }
 		set_global_flag = exe_return_invasion_seed
@@ -233,7 +233,11 @@ event = {
 				NOT = { has_star_flag = eternal_starbase_megastructure_in_system }
 			}
 			create_eternal_defensive_fleet = yes
-			create_elternal_system_warbase = { LOCK = yes }
+			if = {
+				limit = { has_global_flag = kuat_set_forcetrigger_order_enable_crisis_eve_system }
+				create_elternal_system_warbase = { LOCK = no }
+			}
+			else = { create_elternal_system_warbase = { LOCK = yes } }
 			system_star = {
 				if = {
 					limit = { any_country = { is_ai = no OR = {
@@ -697,7 +701,7 @@ country_event = {
 		custom_tooltip = exe_return_invasion.33.tooltip
 		end_event_chain = ag_find_invasion_chain
 		hidden_effect = { 
-			set_global_flag = can_win_the_fleet 
+			set_global_flag = kuat_eternal_invasion_can_win_the_fleet 
 			event_target:eternal_fleet_country = { country_event = { id = exe_return_invasion.37 days = 30 } }
 		}
 	}
@@ -741,10 +745,6 @@ fleet_event = {
 	option = { 
 		name = "exe_return_invasion.333.b" 
 		hidden_effect = {  
-			from = { every_fleet_in_system = {
-				limit = { owner = { is_same_value = event_target:eternal_fleet_country } }
-				set_fleet_flag = has_kuat_flagship_system_addon_repeatable
-			} }
 			set_global_flag = exe_return_invasion.333.b.battle
 		}
 	}
@@ -760,27 +760,14 @@ fleet_event = {
 		has_global_flag = exe_return_invasion_begin
 		from = { any_fleet_in_system = { has_fleet_flag = ag_kuat_invasion_starbase } }
 		exists = owner owner = { is_ai = no }
-		OR = {
-			has_global_flag = exe_return_invasion.333.a.back
-			has_global_flag = exe_return_invasion.333.b.battle
-		}
+		has_global_flag = exe_return_invasion.333.a.back
 	}
 	
 	immediate = {
-		if = {
-			limit = { has_global_flag = exe_return_invasion.333.a.back }
-			owner = { every_owned_fleet = {
-				limit = { exists = solar_system solar_system = { is_same_value = root.from } }
-				set_location = prev.capital_scope
-			} }
-		}
-		else_if = {
-			limit = { has_global_flag = exe_return_invasion.333.b.battle }
-			from = { every_fleet_in_system = {
-				limit = { owner = { is_same_value = event_target:eternal_fleet_country } }
-				set_fleet_flag = has_kuat_flagship_system_addon_repeatable
-			} }
-		}
+		owner = { every_owned_fleet = {
+			limit = { exists = solar_system solar_system = { is_same_value = root.from } }
+			set_location = prev.capital_scope
+		} }
 	}
 }
 
@@ -791,7 +778,10 @@ country_event = {
 	is_triggered_only = yes
 	trigger = { 
 		has_global_flag = exe_return_invasion_begin
-		has_global_flag = can_win_the_fleet
+		OR = {
+			has_global_flag = kuat_eternal_invasion_can_win_the_fleet
+			has_global_flag = kuat_set_forcetrigger_order_enable_crisis_eve_system
+		}
 		fromfromfrom = { has_ship_flag = ag_kuat_invasion_starbase }
 		from = { is_eternal_faction = yes }
 	}
@@ -880,8 +870,8 @@ planet_event = {
 						fleet_event = { id = exe_return_invasion.12 days = 1 random = 2 }
 					}
 					if = {
-						limit = { NOT = { has_global_flag = can_win_the_fleet_stage_1 } }
-						set_global_flag = can_win_the_fleet_stage_1
+						limit = { NOT = { has_global_flag = kuat_eternal_invasion_can_win_the_fleet_stage_1 } }
+						set_global_flag = kuat_eternal_invasion_can_win_the_fleet_stage_1
 					}
 				}
 			}
@@ -891,7 +881,7 @@ planet_event = {
 					limit = { has_fleet_flag = ag_kuat_invasion_fleet is_fleet_idle = yes } 
 					fleet_event = { id = exe_return_invasion.12 days = 1 random = 2 } 
 				}
-				if = { limit = { NOT = { has_global_flag = can_win_the_fleet_stage_1 } } set_global_flag = can_win_the_fleet_stage_1 }
+				if = { limit = { NOT = { has_global_flag = kuat_eternal_invasion_can_win_the_fleet_stage_1 } } set_global_flag = kuat_eternal_invasion_can_win_the_fleet_stage_1 }
 			} 
 		}
 	}
@@ -905,8 +895,8 @@ country_event = {
 	trigger = {
 		exists = event_target:eternal_fleet_country
 		is_eternal_faction = yes
-		NOT = { has_global_flag = can_win_the_fleet }
-		has_global_flag = can_win_the_fleet_stage_1
+		NOT = { has_global_flag = kuat_eternal_invasion_can_win_the_fleet }
+		has_global_flag = kuat_eternal_invasion_can_win_the_fleet_stage_1
 	}
 	immediate = {
 		if = {
@@ -962,7 +952,7 @@ country_event = {
 			is_ship_class = shipclass_military
 		} }
 	}
-	after = {
+	immediate = {
 		fromfrom = {
 			solar_system = {
 				every_fleet_in_system = {
@@ -1278,7 +1268,10 @@ country_event = {
 			}
 		}
 		fromfromfrom = { has_fleet_flag = ag_kuat_invasion_fleet }
-		has_global_flag = can_win_the_fleet
+		OR = {
+			has_global_flag = kuat_eternal_invasion_can_win_the_fleet
+			has_global_flag = kuat_set_forcetrigger_order_enable_crisis_eve_system
+		}
 	}
 	immediate = {
 		set_global_flag = enable_the_eternal_starbase
@@ -1292,13 +1285,17 @@ country_event = {
 	is_triggered_only = yes
 	trigger = {
 		NOT = { has_global_flag = enable_the_eternal_starbase }
-		has_global_flag = can_win_the_fleet
+		OR = {
+			has_global_flag = kuat_eternal_invasion_can_win_the_fleet
+			has_global_flag = kuat_set_forcetrigger_order_enable_crisis_eve_system
+		}
 		any_owned_fleet = { has_fleet_flag = ag_kuat_invasion_starbase }
 	}
 	immediate = {
 		if = {
-			limit = { NOT = {
-				any_owned_fleet = { has_fleet_flag = ag_kuat_invasion_fleet }
+			limit = { OR = {
+				NOT = { any_owned_fleet = { has_fleet_flag = ag_kuat_invasion_fleet } }
+				has_global_flag = kuat_set_forcetrigger_order_enable_crisis_eve_system
 			} }
 			set_global_flag = enable_the_eternal_starbase
 			every_owned_fleet = {
@@ -1327,7 +1324,10 @@ country_event = {
 				}
 			}
 		}
-		has_global_flag = enable_the_eternal_starbase
+		OR = {
+			has_global_flag = enable_the_eternal_starbase
+			has_global_flag = kuat_set_forcetrigger_order_enable_crisis_eve_system
+		}
 		fromfromfrom = { has_ship_flag = ag_kuat_invasion_starbase }
 		event_target:eternal_fleet_country = { check_variable = { which = ag_kuat_invasion_starbase_arrived value = 4 } }
 	}
@@ -1552,8 +1552,8 @@ event = {
 			remove_star_flag = final_3_system
 		}
 		remove_global_flag = enable_the_eternal_starbase
-		remove_global_flag = can_win_the_fleet_stage_1
-		remove_global_flag = can_win_the_fleet
+		remove_global_flag = kuat_eternal_invasion_can_win_the_fleet_stage_1
+		remove_global_flag = kuat_eternal_invasion_can_win_the_fleet
 		remove_global_flag = exe_return_invasion_begin
 		remove_global_flag = eternal_return_fleet_debug_check
 		remove_global_flag = ai_fighting_with_player_against_eternal

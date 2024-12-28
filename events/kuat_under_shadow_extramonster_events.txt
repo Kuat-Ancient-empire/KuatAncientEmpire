@@ -503,7 +503,7 @@ country_event = {
 			is_ship_class = shipclass_military
 		} }
 	}
-	after = {
+	immediate = {
 		fromfrom = {
 			solar_system = {
 				every_fleet_in_system = {
@@ -1438,8 +1438,6 @@ country_event = {
 		from = { is_kuat_contractor_faction = yes }
 		fromfromfrom = {
 			has_ship_flag = kuat_contractor_super_capital_fleet
-			exists = solar_system
-			solar_system = { is_same_value = event_target:kuat_white_hole_system_7 }
 		}
 	}
 	immediate = {
@@ -1532,8 +1530,30 @@ country_event = {
 		}
 		fromfromfrom.solar_system = { set_star_flag = kuat_white_hole_rainforce_attack_active }
 		if = {
-			limit = { NOT = { exists = event_target:situation_white_hole_system_disable } }
-			start_situation = { type = situation_white_hole_system_disable }
+			limit = { NOT = { has_global_flag = kuat_set_forcetrigger_order_enable_crisis_eve_system } }
+			if = {
+				limit = { NOT = { exists = event_target:situation_white_hole_system_disable } }
+				start_situation = { type = situation_white_hole_system_disable }
+			}
+		}
+		else = {
+			change_variable = { which = kuat_white_hole_star_enable value = 1 }
+			if = {
+				limit = { check_variable = { which = kuat_white_hole_star_enable value > 4 } }
+				set_spawn_system_batch = begin
+				random_rim_system = {
+					limit = { NOT = { exists = space_owner } }
+					spawn_system = { initializer = kuat_white_hole_system_7 min_distance >= 45 max_distance <= 15 }
+				}
+				event_target:kuat_white_hole_system_7 = {
+					set_star_flag = kuat_white_hole_star_final
+					kuat_contractor_super_create_elternal_system_warbase = yes
+					system_event = { id = kuat_extramonster.24 days = 30 }
+					set_timed_star_flag = { flag = kuat_white_hole_star_in_system days = 30 }
+				}
+				country_event = { id = kuat_extramonster.391 days = 1 }
+				set_spawn_system_batch = end
+			}
 		}
 	}
 }
@@ -1628,6 +1648,7 @@ country_event = {
 			NOT = { has_fleet_flag = kuat_enable_bossbar }
 			solar_system = { is_same_value = event_target:kuat_white_hole_system_7 }
 		}
+		NOT = { has_global_flag = kuat_set_forcetrigger_order_enable_crisis_eve_system }
 	}
 	immediate = {
 		fromfromfrom = {
