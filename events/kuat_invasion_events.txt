@@ -213,7 +213,7 @@ event = {
 		set_global_flag = eternal_spawnd
 		set_global_flag = exe_invasion_begin
 		create_country = {
-			name = "Eternal Fleet"
+			name = "Name_Eternal_fleet"
 			name_list = Eternal_Fleet_1
 			type = eternal_fleet_country
 			flag = {
@@ -1288,7 +1288,7 @@ country_event = {
 		if = {
 			limit = {  
 				NOR = {
-					has_origin = origin_kuat_apocalyptic
+					kuat_is_enable_apocalyptic_origin = yes
 					has_origin = origin_kuat_shadow
 					has_origin = origin_eternalthrone
 					has_origin = origin_parit
@@ -2476,10 +2476,7 @@ event = {
 			limit = { 
 				is_player_country = yes 
 				has_global_flag = install_kuat_mod
-				NOR = {
-					has_origin = origin_kuat_apocalyptic
-					has_global_flag = special_exe_invasion
-				}
+				NOT = { has_global_flag = special_exe_invasion }
 			}
 			country_event = { id = exe_invasion.1000 }
 		}
@@ -2611,10 +2608,7 @@ fleet_event = {
 	is_triggered_only = yes
 	trigger = {
 		exists = owner
-		owner = { 
-			is_ai = no  
-			NOT = { has_origin = origin_kuat_apocalyptic }  
-		}
+		owner = { is_ai = no }
 		exists = event_target:eternal_fleet_country
 		has_enable_flag_ship_system_true = yes 
 		check_variable = { which = kuat_star_flagship_nonsupport_battle_times value < 4 }

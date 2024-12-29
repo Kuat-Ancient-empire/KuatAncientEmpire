@@ -17,7 +17,7 @@ country_event = {
 		every_country = {
 			if = {
 				limit = { is_ai = yes OR = { 
-					has_origin = origin_kuat_apocalyptic 
+					kuat_is_enable_apocalyptic_origin = yes 
 					has_origin = origin_eternalthrone
 					has_origin = origin_kuat_shadow
 				} }
@@ -87,9 +87,9 @@ country_event = {
 			owner_main_species = { save_global_event_target_as = kuat_player_target_species }
 		}
 		if = {
-			limit = { any_country = { is_ai = no has_origin = origin_kuat_apocalyptic } }
+			limit = { any_country = { is_ai = no kuat_is_enable_apocalyptic_origin = yes } }
 			every_playable_country = {
-				limit = { is_ai = no has_origin = origin_kuat_apocalyptic }
+				limit = { is_ai = no kuat_is_enable_apocalyptic_origin = yes }
 				remove_country_flag = human_1 remove_country_flag = human_2 set_country_flag = custom_start_screen
 				country_event = { id = kuat_origin.1 }
 			}
@@ -116,13 +116,13 @@ country_event = {
 		}
 		else = { random_country = { limit = { is_ai = no } create_kuat_shipyard_country = yes } }
 		if = {
-			limit = { any_country = { OR = { has_origin = origin_kuat_apocalyptic kuat_is_enable_eternal_origin = yes } } }
+			limit = { any_country = { OR = { kuat_is_enable_apocalyptic_origin = yes kuat_is_enable_eternal_origin = yes } } }
 			every_megastructure = {
 				limit = { is_megastructure_type = exe_outer_gate_disable }
 				upgrade_megastructure_to = exe_outer_gate finish_upgrade = yes
 			}
 			every_playable_country = {
-				limit = { is_ai = no has_origin = origin_kuat_apocalyptic }
+				limit = { is_ai = no kuat_is_enable_apocalyptic_origin = yes }
 				set_country_flag = can_pass_by set_country_flag = can_pass_inner_by
 			}
 			every_megastructure = { limit = { is_megastructure_type = exe_outer_gate } activate_gateway = this }
@@ -430,7 +430,7 @@ country_event = {
 		is_ai = no
 		has_technology = tech_sensors_2
 		has_country_flag = finished_kuat_gateway_stage_first
-		NOT = { any_country = { OR = { has_origin = origin_kuat_apocalyptic kuat_is_enable_eternal_origin = yes } } }
+		NOT = { any_country = { OR = { kuat_is_enable_apocalyptic_origin = yes kuat_is_enable_eternal_origin = yes } } }
 		NOT = { has_global_flag = kuat_outgate_enable }
 	}
 	mean_time_to_happen = { 
@@ -1692,7 +1692,7 @@ country_event = {
 	is_triggered_only = yes
 	fire_only_once = yes
 	immediate = {
-		create_kuat_fleet_country_type = yes
+		#create_kuat_fleet_country_type = yes
 		kuat_military_base_system_initial = yes
 		random_playable_country = {
 			limit = { is_ai = no }
@@ -2554,14 +2554,14 @@ country_event = {
 			if = {
 				limit = { 
 					has_global_flag = install_kuat_mod 
-					NOR = { has_origin = origin_kuat_apocalyptic kuat_is_enable_eternal_origin = yes }
+					NOR = { kuat_is_enable_apocalyptic_origin = yes kuat_is_enable_eternal_origin = yes }
 				}
 				country_event = { id = kuat_shipyard.1 }
 			}
 			else_if = {
 				limit = { 
 					has_global_flag = install_kuat_mod 
-					has_origin = origin_kuat_apocalyptic
+					kuat_is_enable_apocalyptic_origin = yes
 				}
 				country_event = { id = kuat_origin.9 }
 			}

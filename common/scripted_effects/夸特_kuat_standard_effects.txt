@@ -418,7 +418,7 @@ foa_effect_the_crisis_starbase = {
 reset_return_eternal_fleet = {
 	optimize_memory
 	if = {
-		limit = { has_origin = origin_kuat_apocalyptic }
+		limit = { kuat_is_enable_apocalyptic_origin = yes }
 		remove_global_flag = enable_the_eternal_starbase
 		remove_global_flag = kuat_eternal_invasion_can_win_the_fleet
 		remove_global_flag = exe_return_invasion_seed
@@ -427,7 +427,6 @@ reset_return_eternal_fleet = {
 		remove_global_flag = exe_return_invasion_7_fired
 		remove_global_flag = exe_return_invasion_begin
 		remove_global_flag = exe_return_invasion_ended
-		remove_global_flag = enbale_last_invasion
 		remove_global_flag = ban_exe_invasion
 		remove_global_flag = kuat_eternal_invasion_can_win_the_fleet_stage_1
 		remove_country_flag = fire_first_find
@@ -448,28 +447,6 @@ reset_return_eternal_fleet = {
 			remove_star_flag = final_3_system
 		}
 		remove_country_flag = exe_return_invasion_2_fired
-		if = {
-			limit = {
-				OR = {
-					has_global_flag = ban_exe_invasion
-					has_global_flag = normal_exe_invasion
-					has_global_flag = easy_exe_invasion
-					has_global_flag = difficult_exe_invasion
-				}
-			}
-			remove_global_flag = ban_exe_invasion
-			remove_global_flag = normal_exe_invasion
-			remove_global_flag = easy_exe_invasion
-			remove_global_flag = difficult_exe_invasion
-		}
-		set_global_flag = difficult_exe_invasion
-		event_target:global_event_country = { 
-			set_variable = { which = exe_invasion_difficult_global_var value = 3 } 
-			if = {
-				limit = { has_global_flag = kuat_impulse_mod_settings }
-				multiply_variable = { which = exe_invasion_difficult_global_var value = 3 }
-			}
-		}
 		set_global_flag = enbale_last_invasion
 	}
 	else_if = {
@@ -483,7 +460,6 @@ reset_return_eternal_fleet = {
 		remove_global_flag = exe_return_invasion_begin
 		remove_global_flag = exe_return_invasion_ended
 		remove_global_flag = enbale_last_invasion
-		remove_global_flag = enbale_recycle_last_invasion
 		remove_global_flag = ban_exe_invasion
 		remove_global_flag = kuat_eternal_invasion_can_win_the_fleet_stage_1
 		remove_country_flag = fire_first_find
@@ -504,10 +480,9 @@ reset_return_eternal_fleet = {
 			remove_star_flag = final_3_system
 		}
 		remove_country_flag = exe_return_invasion_2_fired
-		set_global_flag = enbale_recycle_last_invasion
 	}
 	else = {
-		remove_global_flag = enbale_last_invasion
+		remove_global_flag = enable_the_eternal_starbase
 		remove_global_flag = kuat_eternal_invasion_can_win_the_fleet
 		remove_global_flag = exe_return_invasion_seed
 		remove_global_flag = exe_return_invasion_3_fired
@@ -535,7 +510,6 @@ reset_return_eternal_fleet = {
 		}
 		remove_country_flag = exe_return_invasion_2_fired
 		set_global_flag = enbale_last_invasion
-		remove_global_flag = enable_the_eternal_starbase
 	}
 }
 

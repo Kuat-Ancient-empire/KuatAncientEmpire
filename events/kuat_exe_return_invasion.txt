@@ -162,25 +162,8 @@ event = {
 		set_update_modifiers_batch = begin
 		set_global_flag = eternal_spawnd
 		set_global_flag = exe_return_invasion_begin
-		if = {
-			limit = { any_country = { has_origin = origin_kuat_apocalyptic } }
-			set_global_flag = difficult_exe_invasion
-			event_target:global_event_country = { 
-				set_variable = { which = exe_invasion_difficult_global_var value = 3 } 
-				if = {
-					limit = { has_global_flag = kuat_impulse_mod_settings }
-					multiply_variable = { which = exe_invasion_difficult_global_var value = 3 }
-				}
-				if = {
-					limit = { NOT = { is_variable_set = eternal_fleet_return_index } }
-					set_variable = { which = eternal_fleet_return_index value = 1 } 
-					set_variable = { which = eternal_fleet_return_index_x4 value = eternal_fleet_return_index }
-					multiply_variable = { which = eternal_fleet_return_index_x4 value = 4 }
-				}
-			}
-		}
 		create_country = {
-			name = "Eternal Fleet"
+			name = "Name_Eternal_fleet"
 			name_list = Eternal_Fleet_1
 			type = eternal_fleet_country
 			flag = {
@@ -241,7 +224,7 @@ event = {
 			system_star = {
 				if = {
 					limit = { any_country = { is_ai = no OR = {
-						has_origin = origin_kuat_apocalyptic
+						kuat_is_enable_apocalyptic_origin = yes
 						kuat_is_enable_eternal_origin = yes
 					} } }
 					while = {
@@ -604,7 +587,7 @@ ship_event = {
 			} }
 		} }
 		if = {
-			limit = { owner = { has_origin = origin_kuat_apocalyptic } }
+			limit = { owner = { kuat_is_enable_apocalyptic_origin = yes } }
 			owner = { 
 				add_random_research_option = { add_progress = 1 } 
 				hidden_effect = { change_variable = { which = num_finish value = 1 } }
@@ -633,7 +616,7 @@ ship_event = {
 			} }
 		} }
 		if = {
-			limit = { owner = { has_origin = origin_kuat_apocalyptic } }
+			limit = { owner = { kuat_is_enable_apocalyptic_origin = yes } }
 			owner = { 
 				add_random_research_option = { add_progress = 1 } 
 				hidden_effect = { change_variable = { which = num_finish value = 1 } }
@@ -662,7 +645,7 @@ ship_event = {
 			} }
 		} }
 		if = {
-			limit = { owner = { has_origin = origin_kuat_apocalyptic } }
+			limit = { owner = { kuat_is_enable_apocalyptic_origin = yes } }
 			owner = { 
 				add_random_research_option = { add_progress = 1 } 
 				hidden_effect = { change_variable = { which = num_finish value = 1 } }
@@ -857,7 +840,7 @@ planet_event = {
 		event_target:eternal_fleet_country = {
 			if = {
 				limit = { any_country = { is_ai = no OR = {
-					has_origin = origin_kuat_apocalyptic
+					kuat_is_enable_apocalyptic_origin = yes
 					kuat_is_enable_eternal_origin = yes
 				} } }
 				if = {
@@ -903,7 +886,7 @@ country_event = {
 			limit = { 
 				if = {
 					limit = { any_country = { is_ai = no OR = {
-						has_origin = origin_kuat_apocalyptic
+						kuat_is_enable_apocalyptic_origin = yes
 						kuat_is_enable_eternal_origin = yes
 					} } }
 					count_owned_fleet = { 
@@ -1358,7 +1341,7 @@ country_event = {
 		text = "exe_return_invasion.35.desc"
 	}
 	desc = {
-		trigger = { has_origin = origin_kuat_apocalyptic }
+		trigger = { kuat_is_enable_apocalyptic_origin = yes }
 		text = "exe_return_invasion.36.desc"
 	}
 	desc = {
@@ -1398,9 +1381,9 @@ country_event = {
 				country_event = { id = exe_return_invasion.38 days = 30 random = 2 }
 			}
 			if = {
-				limit = { is_ai = no OR = { has_global_flag = enbale_recycle_last_invasion has_origin = origin_kuat_apocalyptic } }
+				limit = { is_ai = no OR = { has_global_flag = enbale_recycle_last_invasion kuat_is_enable_apocalyptic_origin = yes } }
 				if = {
-					limit = { has_origin = origin_kuat_apocalyptic }
+					limit = { kuat_is_enable_apocalyptic_origin = yes }
 					event_target:global_event_country = { 
 						change_variable = { which = eternal_fleet_return_index value = 1 } 
 						set_variable = { which = eternal_fleet_return_index_x4 value = eternal_fleet_return_index }
