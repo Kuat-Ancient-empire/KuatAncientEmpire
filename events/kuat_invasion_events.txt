@@ -229,18 +229,33 @@ event = {
 			}
 			ignore_initial_colony_error = yes
 		}
-		last_created_country = { if = {
-			limit = { OR = {
-				exists = event_target:wg_crisis_country
-				exists = event_target:monolith_crisis_country
-			} }
-			set_faction_hostility = {
-				target = event_target:monolith_crisis_country
-				set_hostile = no set_friendly = yes
-			} set_faction_hostility = {
-				target = event_target:wg_crisis_country
-				set_hostile = no set_friendly = yes
-			} }
+		last_created_country = { 
+			if = {
+				limit = {  
+					OR = {
+						exists = event_target:wg_crisis_country
+						exists = event_target:wg_crisis_2_country
+						exists = event_target:monolith_crisis_country
+						exists = event_target:return_kuat_awakening_country
+					}
+				}
+				set_faction_hostility = {
+					target = event_target:monolith_crisis_country
+					set_hostile = no set_friendly = yes
+				} 
+				set_faction_hostility = {
+					target = event_target:wg_crisis_country
+					set_hostile = no set_friendly = yes
+				} 
+				set_faction_hostility = {
+					target = event_target:wg_crisis_2_country
+					set_hostile = no set_friendly = yes
+				} 
+				set_faction_hostility = {
+					target = event_target:return_kuat_awakening_country
+					set_hostile = no set_friendly = yes
+				} 
+			}
 			set_country_flag = protected_from_queen_storm
 			save_global_event_target_as = eternal_fleet_country
 			set_country_flag = eternal_fleet_country
