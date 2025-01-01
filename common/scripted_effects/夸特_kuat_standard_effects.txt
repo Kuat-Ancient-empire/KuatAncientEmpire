@@ -108,14 +108,7 @@ create_exe_invasion_fleet = {
 starkiller_destroyed_system_everything = {
 	optimize_memory
 	set_update_modifiers_batch = begin
-	if = {
-		limit = { exists = event_target:crisis_country }
-		fire_on_action = {
-			on_action = on_destroy_star_system
-			scopes = { from = event_target:crisis_country }
-		}
-	}
-	else = { fire_on_action = { on_action = on_destroy_star_system } }
+	fire_on_action = { on_action = on_destroy_star_system }
 	set_star_flag = star_cracked
 	every_system_planet = {
 		limit = { is_star = yes }
@@ -622,6 +615,11 @@ kuat_origin_give_all_ship_and_tech = {
 	if = {
 		limit = { NOT = { has_existing_ship_design = Venator_modifier } }
 		create_ship_design = { design = "Name_boss_Venator" }
+		add_ship_design = last_created_design
+	}
+	if = {
+		limit = { NOT = { has_existing_ship_design = Venator_modifier_II } }
+		create_ship_design = { design = "Name_boss_Venator_II" }
 		add_ship_design = last_created_design
 	}
 	if = {
@@ -1197,14 +1195,7 @@ starkiller_destroyed_system_everything_random = {
 	optimize_memory
 	star = { change_pc = pc_black_hole }
 	set_star_class = sc_black_hole 
-	if = {
-		limit = { exists = event_target:crisis_country }
-		fire_on_action = {
-			on_action = on_destroy_star_system
-			scopes = { from = event_target:crisis_country }
-		}
-	}
-	else = { fire_on_action = { on_action = on_destroy_star_system } }
+	fire_on_action = { on_action = on_destroy_star_system }
 	set_star_flag = star_cracked
 	every_system_planet = {
 		limit = { is_star = yes }

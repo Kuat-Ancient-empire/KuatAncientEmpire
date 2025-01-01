@@ -46,6 +46,26 @@ utility_component_template = {
 }
 
 utility_component_template = {
+	key = "EXE_JUMP_DRIVE_1_STARBASE_PLAYER"
+	size = small
+	icon = "GFX_ship_part_exe_jump_drive_1"
+	icon_frame = 1
+	power = -15
+	ftl = no
+	jumpdrive = yes
+	ship_modifier = {
+		ship_windup_mult = -1
+		ship_winddown_mult = -1
+		ship_ftl_jumpdrive_range_mult = 3
+		ship_jumpdrive_cooldown_mult = -1
+	}
+	ai_weight = { weight = 5000 }
+	size_restriction = { X308_Balletor X308_Tyrant nebula_executor knight_hammer_executor X308_Titan Aggressor }
+	prerequisites = { tech_exe_jump_drive }
+	component_set = "ftl_components"
+}
+
+utility_component_template = {
 	key = "EXE_STARBASE_JUMP_DRIVE_1"
 	size = small
 	icon = "GFX_ship_part_exe_jump_drive_1"
@@ -186,16 +206,7 @@ utility_component_template = {
 			owner = { is_invisable_faction = no }
 		}
 		modifier = {
-			ship_shield_penetration_mult = -1
-			ship_armor_penetration_mult = -1
-			ship_weapon_damage = -0.5
-			ship_armor_damage_mult = -0.5
-			ship_shield_damage_mult = -0.5
-			ship_hull_damage_mult = -0.5
-		}
-		graphics = {
-			area_effect = { entity = "kuat_ship_aura_negative_entity" dynamic_scale = yes }
-			ship_effect = { entity = "ship_aura_negative_entity" dynamic_scale = no }
+			kuat_damage_control_hositle_modifier = 0.30
 		}
 	}
 }
@@ -209,29 +220,20 @@ utility_component_template = {
 	component_set = "ship_aura_components"
 	hidden = yes
 	ftl_inhibitor = yes
-	hostile_aura = {
-		name = "aura_quantum_destabilizer"
-		system_wide = yes
+	friendly_aura = {
+		name = "aura_inspiring_presence"
+		radius = @shipAuraRange
+		apply_on = ships
 		stack_info = {
-			id = Firmus_Piett_Super_No_Flagship
-			priority = 1000
-		}
-		limit = {
-			is_in_combat = yes
-			exists = owner owner = { is_invisable_faction = no }
-			fleet = { has_enable_flag_ship_system_true = no }	
+			id = aura_eternal_buffer_control_buff
+			priority = 1
 		}
 		modifier = {
-			ship_shield_penetration_mult = -1
-			ship_armor_penetration_mult = -1
-			ship_weapon_damage = -1
-			ship_armor_damage_mult = -1
-			ship_shield_damage_mult = -1
-			ship_hull_damage_mult = -1
+			kuat_damage_control_modifier = 0.60
 		}
 		graphics = {
-			area_effect = { entity = "kuat_ship_aura_negative_entity" dynamic_scale = yes }
-			ship_effect = { entity = "ship_aura_negative_entity" dynamic_scale = no }
+			area_effect = { entity = "kuat_ship_aura_repair_entity" dynamic_scale = yes }
+			ship_effect = { entity = "ship_aura_positive_entity" dynamic_scale = no }
 		}
 	}
 	hostile_aura = {
@@ -239,37 +241,52 @@ utility_component_template = {
 		system_wide = yes
 		stack_info = {
 			id = Firmus_Piett_Super_Flagship
-			priority = 1000
+			priority = 500
 		}
-		limit = {
-			is_in_combat = yes
-			exists = owner owner = { is_invisable_faction = no }
-			fleet = { has_enable_flag_ship_system_true = yes }	
+		limit = { 
+			exists = owner is_in_combat = yes
+			owner = { is_invisable_faction = no }
 		}
 		modifier = {
-			ship_shield_penetration_mult = -1
-			ship_armor_penetration_mult = -1
-			ship_weapon_damage = -0.75
-			ship_armor_damage_mult = -0.75
-			ship_shield_damage_mult = -0.75
-			ship_hull_damage_mult = -0.75
-		}
-		graphics = {
-			area_effect = { entity = "kuat_ship_aura_negative_entity" dynamic_scale = yes }
-			ship_effect = { entity = "ship_aura_negative_entity" dynamic_scale = no }
+			kuat_damage_control_hositle_modifier = 0.60
 		}
 	}
 }
 
 utility_component_template = {
-	key = "EXE_STARBASE_MEAGASTRUCTRUE_AUX_2"
+	key = "EXE_VENATOR_MODIFER_AUX_1"
 	size = medium
 	icon = "GFX_executor_ship_part_aux_system"
 	icon_frame = 1
 	power = @exe_cost_1
 	component_set = "ship_aura_components"
 	hidden = yes
-	ship_modifier = { kuat_damage_control_modifier = 0.60 }
+	ship_modifier = { kuat_damage_control_modifier = 1.0 }
+}
+utility_component_template = {
+	key = "EXE_VENATOR_MODIFER_AUX_2"
+	size = medium
+	icon = "GFX_executor_ship_part_aux_system"
+	icon_frame = 1
+	power = @exe_cost_1
+	component_set = "ship_aura_components"
+	hidden = yes
+	ship_modifier = { kuat_damage_control_modifier = 1.0 }
+	hostile_aura = {
+		name = "aura_quantum_destabilizer"
+		system_wide = yes
+		stack_info = {
+			id = Firmus_Piett_Super_Flagship
+			priority = 500
+		}
+		limit = { 
+			exists = owner is_in_combat = yes
+			owner = { is_invisable_faction = no }
+		}
+		modifier = {
+			kuat_damage_control_hositle_modifier = 0.35
+		}
+	}
 }
 
 #######################
