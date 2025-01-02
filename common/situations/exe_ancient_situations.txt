@@ -1687,7 +1687,7 @@ situation_research_B_facility_technology = {
 				physics_research = 2
 				society_research = 2
 				engineering_research = 2
-				multiplier = owner.trigger:num_pops
+				multiplier = target.trigger:num_pops
 			}
 		}
 		on_select = { custom_tooltip = approach_outcome_tooltip }
@@ -1703,7 +1703,7 @@ situation_research_B_facility_technology = {
 				physics_research = 1
 				society_research = 1
 				engineering_research = 1
-				multiplier = owner.trigger:num_pops
+				multiplier = target.trigger:num_pops
 			}
 		}
 		on_select = { custom_tooltip = approach_outcome_tooltip }
@@ -1711,7 +1711,7 @@ situation_research_B_facility_technology = {
 	monthly_progress = { 
 		base = 1 
 		modifier = {
-			add = value:kuat_situation_research_B_facility_technology_value
+			add = target.value:kuat_situation_research_B_facility_technology_value
 			always = yes
 			desc = "kuat_engineer_tech_situation_standard"
 		}
@@ -1726,5 +1726,8 @@ situation_research_B_facility_technology = {
 			desc = "kuat_engineer_tech_situation_reduce_research"
 		}
 	}
-	abort_trigger = { NOT = { exists = owner } }
+	abort_trigger = { OR = {
+		NOT = { exists = owner }
+		target = { NOT = { is_same_value = owner } }
+	} }
 }
