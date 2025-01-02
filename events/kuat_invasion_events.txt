@@ -2508,9 +2508,22 @@ event = {
 			limit = { has_global_flag = can_win_the_fleet_stage_1 }
 			set_global_flag = kuat_eternal_invasion_can_win_the_fleet_stage_1
 		}
-		every_system = {
-			limit = { has_star_flag = starkiller_system }
-			save_global_event_target_as = starkiller_sun_target_system
+		if = {
+			limit = { any_country = {
+				is_ai = no
+				has_country_flag = Kuat_B_facility_area_over 
+				NOT = { has_existing_ship_design = Venator_modifier_II }
+				NOT = { country_has_situation = { SITUATION = situation_research_B_facility_technology } }
+			} }
+			random_country = {
+				limit = { 
+					is_ai = no
+					has_country_flag = Kuat_B_facility_area_over 
+					NOT = { has_existing_ship_design = Venator_modifier_II }
+					NOT = { country_has_situation = { SITUATION = situation_research_B_facility_technology } }
+				}
+				start_situation = { type = situation_research_B_facility_technology target = this }
+			}
 		}
 		if = {
 			limit = { any_galaxy_planet = { has_planet_flag = has_building_kuat_command_center_auto } }
