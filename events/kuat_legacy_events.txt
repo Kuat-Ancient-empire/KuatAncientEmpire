@@ -2239,12 +2239,7 @@ country_event = {
 	picture_event_data = { room = contingency_planet_room }
 	custom_gui = "kuat_event_window"
 	custom_gui_option = "kuat_event_option"
-	trigger = {
-		is_ai = no
-		has_country_flag = fire_the_legacy_kuat_stage_7
-		has_event_chain = ag_legacy_invasion_chain
-		#event_target:will_be_add_ringworld_shielded = { kuat_has_researcher = yes }
-	}
+	trigger = { has_country_flag = fire_the_legacy_kuat_stage_7 }
 	mean_time_to_happen = { months = 1 }
 	immediate = { start_situation = {
 		type = situation_unlocked_the_C_Area
@@ -2262,7 +2257,7 @@ country_event = {
 	option = { name = "kuat_lagacy.252.a" }
 }
 
-ship_event = {
+country_event = {
 	id = kuat_legacy.91
 	title = "kuat_legacy.91.title"
 	desc = "kuat_lagacy.91.desc"
@@ -2272,8 +2267,8 @@ ship_event = {
 	picture_event_data = { room = black_hole_room }
 	custom_gui = "kuat_event_m_window"
 	custom_gui_option = "kuat_event_m_option"
-	trigger = { owner = { has_event_chain = ag_legacy_invasion_chain } }
-	immediate = { owner = { country_event = { id = kuat_legacy.67 } } }
+	trigger = { has_country_flag = fire_the_legacy_kuat_stage_7 }
+	immediate = { country_event = { id = kuat_legacy.67 days = 1 } }
 	option = { name = kuat_legacy.63.a }
 }
 
@@ -2293,7 +2288,7 @@ country_event = {
 		set_country_flag = Kuat_C_facility_area_over
 		kuat_create_toasto_message = { KEY = kuat_find_memory_cluds TARGET = this RECIPIENT = this }
 		random_system_within_border = {
-			limit = { has_star_flag = myst_system_3 }
+			limit = { NOT = { has_star_flag = myst_system_3 } }
 			spawn_system = { initializer = myst_system_4 hyperlane = no }
 		}
 	}
