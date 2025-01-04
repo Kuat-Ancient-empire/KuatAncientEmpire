@@ -8,63 +8,43 @@ kuat_shipyard_check_allow_resource = {
 		multiplier = value:kuat_shipyard_value
 	}
 }
+kuat_shipyard_check_simple_allow_resource = {
+	optimize_memory
+	resource_stockpile_compare = {
+		resource = alloys
+		value >= @\[ $second_alloys$ * 1 ]
+		multiplier = value:kuat_shipyard_flagship_value
+	}
+}
 
 get_ship_alloys_allow = {
 	optimize_memory
 	if = {
-		limit = { has_country_flag = building_the_horriwer }
-		if = {
-			limit = { NOT = { has_country_flag = kuat_build_fifth_ships } }
-			kuat_shipyard_check_allow_resource = { second_alloys = @building_the_horriwer_cost }
-		}
-		if = {
-			limit = { has_country_flag = kuat_build_fifth_ships }
-			kuat_shipyard_check_allow_resource = { second_alloys = @building_the_horriwer_cost }
-		} 
+		limit = { always = $HSD|no$ }
+		kuat_shipyard_check_allow_resource = { second_alloys = @building_the_horriwer_cost }
 	}
-	else_if = {
-		limit = { has_country_flag = building_the_cavelry } 
-		if = {
-			limit = { NOT = { has_country_flag = kuat_build_fifth_ships } }
-			kuat_shipyard_check_allow_resource = { second_alloys = @building_the_cavelry_cost }
-		}
-		if = {
-			limit = { has_country_flag = kuat_build_fifth_ships }
-			kuat_shipyard_check_allow_resource = { second_alloys = @building_the_cavelry_cost }
-		} 
+	if = {
+		limit = { always = $CSD|no$ } 
+		kuat_shipyard_check_allow_resource = { second_alloys = @building_the_cavelry_cost }
 	}
-	else_if = {
-		limit = { has_country_flag = building_the_empire } 
-		if = {
-			limit = { NOT = { has_country_flag = kuat_build_fifth_ships } }
-			kuat_shipyard_check_allow_resource = { second_alloys = @building_the_empire_cost }
-		}
-		if = {
-			limit = { has_country_flag = kuat_build_fifth_ships }
-			kuat_shipyard_check_allow_resource = { second_alloys = @building_the_empire_cost }
-		}
+	if = {
+		limit = { always = $ISD|no$ } 
+		kuat_shipyard_check_allow_resource = { second_alloys = @building_the_empire_cost }
 	}
-	else_if = {
-		limit = { has_country_flag = building_the_resugrant }
-		if = {
-			limit = { NOT = { has_country_flag = kuat_build_fifth_ships } }
-			kuat_shipyard_check_allow_resource = { second_alloys = @building_the_resugrant_cost }
-		}
-		if = {
-			limit = { has_country_flag = kuat_build_fifth_ships }
-			kuat_shipyard_check_allow_resource = { second_alloys = @building_the_resugrant_cost }
-		} 
+	if = {
+		limit = { always = $RSD|no$ }
+		kuat_shipyard_check_allow_resource = { second_alloys = @building_the_resugrant_cost }
 	}
-	else_if = {
-		limit = { has_country_flag = building_the_donimance }
-		kuat_shipyard_check_allow_resource = { second_alloys = @building_the_donimance_cost }
+	if = {
+		limit = { always = $DSDD|no$ }
+		kuat_shipyard_check_simple_allow_resource = { second_alloys = @building_the_donimance_cost }
 	}
-	else_if = {
-		limit = { has_country_flag = building_the_eclipse }
-		kuat_shipyard_check_allow_resource = { second_alloys = @building_the_eclipse_cost }
+	if = {
+		limit = { always = $ESDD|no$ }
+		kuat_shipyard_check_simple_allow_resource = { second_alloys = @building_the_eclipse_cost }
 	}
-	else_if = {
-		limit = { has_country_flag = building_the_Vengeance }
-		kuat_shipyard_check_allow_resource = { second_alloys = @building_the_Vengeance_cost }
+	if = {
+		limit = { always = $VSDD|no$ }
+		kuat_shipyard_check_simple_allow_resource = { second_alloys = @building_the_Vengeance_cost }
 	}
 }

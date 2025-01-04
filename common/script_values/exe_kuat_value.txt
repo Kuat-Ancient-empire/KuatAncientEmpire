@@ -56,11 +56,39 @@
 
 kuat_shipyard_value = {
 	base = 1
-	modifier = { mult = 0.25 has_global_flag = easy_exe_invasion }
-	modifier = { mult = 0.5 has_global_flag = normal_exe_invasion }
-	modifier = { mult = 0.75 has_global_flag = difficult_exe_invasion }
+	mult = value:kuat_shipyard_resource_rate_value
+	modifier = { mult = 0.2 has_global_flag = easy_exe_invasion }
+	modifier = { mult = 0.4 has_global_flag = normal_exe_invasion }
+	modifier = { mult = 0.6 has_global_flag = difficult_exe_invasion }
+	modifier = { mult = 0.9 has_global_flag = ban_exe_invasion }
 	mult = event_target:global_event_country.kuat_shipyard_buillding_queue_selection 
 	mult = value:kuat_shipyard_modifier_value
+}
+kuat_shipyard_flagship_value = {
+	base = 1
+	mult = value:kuat_shipyard_resource_rate_value
+	modifier = { mult = 0.2 has_global_flag = easy_exe_invasion }
+	modifier = { mult = 0.4 has_global_flag = normal_exe_invasion }
+	modifier = { mult = 0.6 has_global_flag = difficult_exe_invasion }
+	modifier = { mult = 0.9 has_global_flag = ban_exe_invasion }
+	mult = value:kuat_shipyard_modifier_value
+}
+
+kuat_shipyard_resource_value = {
+	base = 0
+	complex_trigger_modifier = {
+		trigger = $TRIGGER$
+		trigger_scope = this
+		parameters = { resource = $RESOURCE$ }
+		mode = set
+	}
+}
+
+kuat_shipyard_resource_rate_value = {
+	base = 1
+	mult = value:kuat_shipyard_resource_value|TRIGGER|resource_income_compare|RESOURCE|alloys|
+	divide = value:kuat_shipyard_resource_value|TRIGGER|resource_stockpile_compare|RESOURCE|alloys|
+	add = 1
 }
 
 kuat_shipyard_modifier_value = {
@@ -75,11 +103,42 @@ kuat_shipyard_exist_commandline = {
 	add = mulf_ISD_queue
 	add = mulf_RSD_queue
 	add = mulf_CLD_queue
+	add = mulf_DSDD_queue
+	add = mulf_ESDD_queue
+	add = mulf_VSDD_queue
+}
+
+kuat_shipyard_flagship_order = {
+	base = 0
+	add = DSDD_queue
+	add = ESDD_queue
+	add = VSDD_queue
+}
+kuat_shipyard_flagship_exist = {
+	base = 0
+	add = DSDD_class_queue
+	add = ESDD_class_queue
+	add = VSDD_class_queue
 }
 
 kuat_dynamic_exist_commandline = {
 	base = 0
 	add = event_target:global_event_country.kuat_dynamic_modifier_var 
+	floor = yes 
+}
+
+kuat_dynamic_exist_life_times = {
+	base = 0
+	add = event_target:global_event_country.kuat_dynamic_modifier_var 
+	modifier = { mult = 0.5 owner = { is_invisable_faction = no } }
+	modifier = { mult = 2.0 has_ship_flag = kuat_contractor_super_capital_fleet }
+	modifier = { mult = 2.0 is_ship_class = shipclass_starbase }
+	modifier = { mult = 0.3 has_global_flag = easy_exe_invasion }
+	modifier = { mult = 0.5 has_global_flag = normal_exe_invasion }
+	modifier = { mult = 1.0 has_global_flag = difficult_exe_invasion }
+	modifier = { mult = 2.0 has_global_flag = ban_exe_invasion }
+	modifier = { mult = 2.0 has_global_flag = kuat_impulse_mod_settings }
+	min = 1
 	floor = yes 
 }
 
