@@ -577,57 +577,6 @@ country_event = {
 	option = { name = exe_invasion.102.a ai_chance = { weight = 100 } }
 }
 
-fleet_event = {
-	id = exe_invasion.125
-	hide_window = yes
-	is_triggered_only = yes
-	trigger = { exists = event_target:kuat_station_elternal }
-	immediate = { 
-		solar_system = {
-			remove_star_flag = eternal_starbase_megastructure_in_system
-			set_star_class = sc_black_hole
-			star = {
-				create_ambient_object = { type = "star_explosion" play_animation_once = yes location = this }
-				last_created_ambient_object = { set_location = { target = prev distance = 0 angle = random } }
-				create_ambient_object = { type = "destroyed_system" location = this }
-				last_created_ambient_object = { set_ambient_object_flag = destroyed_system_effect set_location = { target = prev  distance = 0  angle = random  } }
-				change_pc = pc_black_hole
-				set_planet_size = 18
-			}
-			set_variable_to_random_value = {
-				which = exe_megastructure_starbase_explode
-				min = 15 max = 99 rounded = yes
-			}
-			every_ship_in_system = {
-				limit = { owner = { is_eternal_faction = no } }
-				kuat_battle_kuat_reduce_hp_percent = { value = prev.exe_megastructure_starbase_explode }
-			}
-			reroll_random = yes
-			random_ambient_object = {
-				limit = { has_ambient_object_flag = space_storm_object }
-				destroy_ambient_object = this
-			}
-			clear_variable = exe_megastructure_starbase_explode
-		}
-		destroy_fleet = { target = this destroy_template = yes kill_leader = yes }
-		every_playable_country = { country_event = { id = exe_invasion.126 } }
-	}
-}
-
-country_event = {
-	id = exe_invasion.126
-	title = "exe_invasion.126.name"
-	desc = "exe_invasion.126.desc"
-	diplomatic = yes
-	picture_event_data = { room = black_hole_room }
-	custom_gui = "kuat_event_m_window"
-	custom_gui_option = "kuat_event_m_option"
-	fire_only_once = yes
-	show_sound = event_red_alert
-	is_triggered_only = yes
-	option = { name = exe_invasion.126.a }
-}
-
 country_event = {
 	id = exe_invasion.127
 	title = "exe_invasion.127.name"
@@ -708,10 +657,7 @@ country_event = {
 	id = exe_invasion.111
 	hide_window = yes
 	is_triggered_only = yes
-	trigger = {
-		exists = event_target:eternal_fleet_country
-		is_eternal_faction = yes
-	}
+	trigger = { exists = event_target:eternal_fleet_country }
 	immediate = {
 		if = {
 			limit = {
@@ -1094,7 +1040,11 @@ country_event = {
 				has_country_flag = trigger_ended_event_temple
 			} }
 			set_timed_country_flag = { flag = trigger_ended_event_temple days = 1 }
-			country_event = { id = exe_invasion.35 }
+			country_event = { id = exe_invasion.35 scopes = { from = root } }
+		}
+		if = {
+			limit = { is_ai = no }
+			country_event = { id = exe_invasion.36 }
 			kuat_create_toasto_message = { KEY = kuat_find_memory_cluds TARGET = this RECIPIENT = this }
 		}
 		add_threat = { who = root amount = 50 }
@@ -1108,6 +1058,43 @@ country_event = {
 #Notification: Invasion end. 
 country_event = {
 	id = exe_invasion.35
+	title = "exe_invasion.33.name"
+	desc = "exe_invasion.36.desc"
+	diplomatic = yes
+	picture_event_data = {
+		room = Eternal_Empire_room
+	}
+	custom_gui = "kuat_event_window"
+	custom_gui_option = "kuat_event_option"
+	show_sound = event_space_battle
+	is_triggered_only = yes
+	immediate = { if = {
+		limit = { from = { is_ai = no } }
+		random_country = {
+			limit = { is_ai = no }
+			if = {
+				limit = { has_global_flag = special_exe_invasion }
+				end_event_chain = ag_exe_invasion_chain
+				enable_special_project = {
+					name = exe_invasion_lock_the_eclipse
+					location = this.capital_scope
+				}
+			}
+			else = {
+				if = {
+					limit = { kuat_is_enable_shadow_origin = yes }
+					set_global_flag = fire_the_kuat_return
+				}
+				end_event_chain = ag_exe_invasion_chain
+			}
+		}
+	} }
+	option = { name = "exe_invasion.33.b" }
+}
+
+#Notification: Invasion end. 
+country_event = {
+	id = exe_invasion.36
 	title = "exe_invasion.33.name"
 	desc = {
 		trigger = {
@@ -1127,7 +1114,6 @@ country_event = {
 	}
 	custom_gui = "kuat_event_window"
 	custom_gui_option = "kuat_event_option"
-	fire_only_once = yes
 	show_sound = event_space_battle
 	is_triggered_only = yes
 	immediate = { 
@@ -1683,7 +1669,6 @@ country_event = {
 				else_if = { limit = { kuat_is_flagship_size = { size = nebula_dominance } } kuat_battle_increase_ship_hp_effect_change = { DAYS = 4 TYPE = kt } }
 				else_if = { limit = { kuat_is_flagship_size = { size = Infinite_battleship } } kuat_battle_increase_ship_hp_effect_change = { DAYS = 4 TYPE = kt } }
 				else_if = { limit = { kuat_is_flagship_size = { size = eternal_flagship } } kuat_battle_increase_ship_hp_effect_change = { DAYS = 4 TYPE = kt } }
-				#else = { kuat_battle_increase_ship_hp_effect_change = { DAYS = 2 TYPE = kt } }
 			} }
 		}
 		else = {
@@ -1728,7 +1713,7 @@ country_event = {
 							limit = { root.from = { is_kuat_fallen_empire = yes } }
 							switch = {
 								trigger = is_ship_class
-								shipclass_military = { kuat_battle_disable_ship_at_health = { FLAG = kuat_battle_disable_ship_at_health Disable_health = 0.01 } }
+								shipclass_military = { kuat_battle_disable_ship_at_health = { FLAG = enable_kuat_ship_inital Disable_health = 0.01 WHICH = KUAT_SHIP_HEALTH_VAR HEALTH = value:kuat_dynamic_exist_life_times } }
 								shipclass_starbase = { kuat_battle_disable_ship_at_health = { FLAG = enable_disable_starbase Disable_health = 0.01 WHICH = STARBASE_HEALTH_VAR HEALTH = value:kuat_dynamic_exist_life_times } }
 							}
 						}
@@ -1736,7 +1721,7 @@ country_event = {
 							limit = { root.from = { is_eternal_faction = yes } }
 							switch = {
 								trigger = is_ship_class
-								shipclass_military = { kuat_battle_disable_ship_at_health = { FLAG = kuat_battle_disable_ship_at_health Disable_health = 0.01 } }
+								shipclass_military = { kuat_battle_disable_ship_at_health = { FLAG = enable_Eternal_ship_inital Disable_health = 0.01 WHICH = ETERNAL_SHIP_HEALTH_VAR HEALTH = value:kuat_dynamic_exist_life_times } }
 								shipclass_starbase = { kuat_battle_disable_ship_at_health = { FLAG = enable_disable_starbase Disable_health = 0.01 WHICH = STARBASE_HEALTH_VAR HEALTH = value:kuat_dynamic_exist_life_times } }
 							}
 						}
@@ -1744,50 +1729,15 @@ country_event = {
 							limit = { root.from = { is_infinite_faction = yes } }
 							switch = {
 								trigger = is_ship_class
-								shipclass_military = { kuat_battle_disable_ship_at_health = { FLAG = kuat_battle_disable_ship_at_health Disable_health = 0.01 } }
+								shipclass_military = { kuat_battle_disable_ship_at_health = { FLAG = enable_Infinite_ship_inital Disable_health = 0.01 WHICH = INFINITE_SHIP_HEALTH_VAR HEALTH = value:kuat_dynamic_exist_life_times } }
 							}
 						}
 						else_if = {
 							limit = { root.from = { is_kuat_contractor_faction = yes } }
 							switch = {
-								trigger = is_ship_size
-								Drift_Battleship = {  
-									if = {
-										limit = { has_global_flag = difficult_exe_invasion }
-										kuat_battle_disable_ship_at_health = { FLAG = enable_drft_ship_inital Disable_health = 0.01 WHICH = DRFT_SHIP_HEALTH_VAR HEALTH = value:kuat_dynamic_exist_life_times }
-									}
-									if = {
-										limit = { has_global_flag = normal_exe_invasion }
-										kuat_battle_disable_ship_at_health = { FLAG = enable_drft_ship_inital Disable_health = 0.01 WHICH = DRFT_SHIP_HEALTH_VAR HEALTH = value:kuat_dynamic_exist_life_times }
-									}
-									if = {
-										limit = { has_global_flag = easy_exe_invasion }
-										kuat_battle_disable_ship_at_health = { FLAG = enable_drft_ship_inital Disable_health = 0.01 WHICH = DRFT_SHIP_HEALTH_VAR HEALTH = value:kuat_dynamic_exist_life_times }
-									}
-									if = {
-										limit = { has_global_flag = ban_exe_invasion }
-										kuat_battle_disable_ship_at_health = { FLAG = enable_drft_ship_inital Disable_health = 0.01 WHICH = DRFT_SHIP_HEALTH_VAR HEALTH = value:kuat_dynamic_exist_life_times }
-									}
-								}
-								Drift_Crusier = {  
-									if = {
-										limit = { has_global_flag = difficult_exe_invasion }
-										kuat_battle_disable_ship_at_health = { FLAG = enable_drft_ship_inital Disable_health = 0.01 WHICH = DRFT_SHIP_HEALTH_VAR HEALTH = value:kuat_dynamic_exist_life_times }
-									}
-									if = {
-										limit = { has_global_flag = normal_exe_invasion }
-										kuat_battle_disable_ship_at_health = { FLAG = enable_drft_ship_inital Disable_health = 0.01 WHICH = DRFT_SHIP_HEALTH_VAR HEALTH = value:kuat_dynamic_exist_life_times }
-									}
-									if = {
-										limit = { has_global_flag = easy_exe_invasion }
-										kuat_battle_disable_ship_at_health = { FLAG = enable_drft_ship_inital Disable_health = 0.01 WHICH = DRFT_SHIP_HEALTH_VAR HEALTH = value:kuat_dynamic_exist_life_times }
-									}
-									if = {
-										limit = { has_global_flag = ban_exe_invasion }
-										kuat_battle_disable_ship_at_health = { FLAG = enable_drft_ship_inital Disable_health = 0.01 WHICH = DRFT_SHIP_HEALTH_VAR HEALTH = value:kuat_dynamic_exist_life_times }
-									}
-								}
-								Drift_megastructure_starbase = { kuat_battle_disable_ship_at_health = { FLAG = enable_drft_ship_inital Disable_health = 0.01 WHICH = DRFT_SHIP_HEALTH_VAR HEALTH = value:kuat_dynamic_exist_life_times } }
+								trigger = is_ship_class
+								shipclass_military = { kuat_battle_disable_ship_at_health = { FLAG = enable_drft_ship_inital Disable_health = 0.01 WHICH = DRFT_SHIP_HEALTH_VAR HEALTH = value:kuat_dynamic_exist_life_times } }
+								shipclass_starbase = { kuat_battle_disable_ship_at_health = { FLAG = enable_drft_ship_inital Disable_health = 0.01 WHICH = DRFT_SHIP_HEALTH_VAR HEALTH = value:kuat_dynamic_exist_life_times } }
 							}
 						}
 						else = {
@@ -1880,16 +1830,12 @@ ship_event = {
 			kuat_battle_kuat_remove_starbase_station = yes
 		}
 		if = {
-			limit = { 
-				is_ship_class = shipclass_military 
-				exists = owner owner = { OR = { 
-					is_eternal_faction = yes 
-					is_infinite_faction = yes 
-					is_kuat_fallen_empire = yes
-				} } 
-			}
-			change_variable = { which = kuat_invsiable_faction_disables_times value = 1 }
-			kuat_battle_clear_ship_at_health = { REPAIR = yes INVERT_DISABLE = set_disabled }
+			limit = { has_ship_flag = enable_kuat_ship_inital owner = { is_kuat_fallen_empire = yes } }
+			if = { 
+				limit = { check_variable = { which = KUAT_SHIP_HEALTH_VAR value > 0 } } 
+				kuat_battle_clear_ship_at_health = { REPAIR = yes INVERT_DISABLE = set_disabled WHICH = KUAT_SHIP_HEALTH_VAR }
+			} 
+			else = { kuat_battle_clear_ship_at_health = { REPAIR = yes INVERT_DISABLE = set_disabled Disable_health = -1 } }
 		}
 		if = {
 			limit = { has_ship_flag = enable_disable_starbase }
@@ -1908,15 +1854,30 @@ ship_event = {
 			else = { kuat_battle_clear_ship_at_health = { REPAIR = yes INVERT_DISABLE = set_disabled Disable_health = -1 } }
 		}
 		if = {
-			limit = { exists = owner owner = { is_ai = no } kuat_is_flagship_system_protection = yes }
-			if = {
+			limit = { has_ship_flag = enable_Infinite_ship_inital owner = { is_infinite_faction = yes } }
+			if = { 
+				limit = { check_variable = { which = INFINITE_SHIP_HEALTH_VAR value > 0 } } 
+				kuat_battle_clear_ship_at_health = { REPAIR = yes INVERT_DISABLE = set_disabled WHICH = INFINITE_SHIP_HEALTH_VAR }
+			} 
+			else = { kuat_battle_clear_ship_at_health = { REPAIR = yes INVERT_DISABLE = set_disabled Disable_health = -1 } }
+		}
+		if = {
+			limit = { has_ship_flag = enable_Eternal_ship_inital owner = { is_eternal_faction = yes } }
+			if = { 
 				limit = { 
-					NOT = { has_ship_flag = kuat_flagship_disable_system_pending } 
-					has_ship_flag = kuat_executor_checkpoint 
-				}
-				kuat_battle_clear_ship_at_health = { REPAIR = yes INVERT_DISABLE = set_disabled }
-				set_timed_ship_flag = { flag = kuat_flagship_disable_system_pending days = 1 }
-			}
+					check_variable = { which = ETERNAL_SHIP_HEALTH_VAR value > 0 } 
+					exists = solar_system solar_system = { kuat_is_repair_system = no }
+				} 
+				kuat_battle_clear_ship_at_health = { REPAIR = yes INVERT_DISABLE = set_disabled WHICH = ETERNAL_SHIP_HEALTH_VAR }
+			} 
+			else = { kuat_battle_clear_ship_at_health = { REPAIR = yes INVERT_DISABLE = set_disabled Disable_health = -1 } }
+		}
+		if = {
+			limit = { has_ship_flag = enable_kuat_none_ship_inital owner = { is_invisable_faction = no } }
+			if = { 
+				limit = { check_variable = { which = KUAT_NONE_SHIP_HEALTH_VAR value > 0 } } 
+				kuat_battle_clear_ship_at_health = { REPAIR = yes INVERT_DISABLE = set_disabled WHICH = KUAT_NONE_SHIP_HEALTH_VAR }
+			} 
 			else = { kuat_battle_clear_ship_at_health = { REPAIR = yes INVERT_DISABLE = set_disabled Disable_health = -1 } }
 		}
 	}
@@ -1941,100 +1902,6 @@ ship_event = {
 		}
 	}
 }
-fleet_event = {
-	id = exe_invasion.145
-	hide_window = yes
-	is_triggered_only = yes
-	trigger = { owner = { is_invisable_faction = yes }  }
-	immediate = {
-		if = {
-			limit = { is_in_combat = yes }
-			change_variable = { which = weapon_fired_combat_days value = 1 }
-			change_variable = { which = fleet_combat_days value = 1 }
-			if = {
-				limit = { 
-					owner = { is_eternal_faction = yes } 
-					exists = solar_system solar_system = { kuat_is_repair_system = yes }
-				}
-				set_variable = { which = fleet_combat_days value = 0 }
-			}
-			else_if = {
-				limit = { 
-					owner = { is_eternal_faction = yes } 
-					check_variable = { which = fleet_combat_days value > 2 } 
-				} 
-				every_owned_ship = { kuat_battle_clear_ship_at_health = { Disable_health = -1 } }
-			}
-			else_if = {
-				limit = { 
-					owner = { is_infinite_faction = yes } 
-					check_variable = { which = fleet_combat_days value > 2 } 
-				} 
-				every_owned_ship = { kuat_battle_clear_ship_at_health = { Disable_health = -1 } }
-			}
-			else_if = {
-				limit = { 
-					owner = { is_kuat_fallen_empire = yes } 
-					check_variable = { which = fleet_combat_days value > 2 } 
-				} 
-				every_owned_ship = { kuat_battle_clear_ship_at_health = { Disable_health = -1 } }
-			}
-			else_if = {
-				limit = { 
-					has_global_flag = ban_exe_invasion
-					check_variable = { which = kuat_fleet_invisiable_checkpoint value > 40 }
-					check_variable = { which = fleet_combat_days value < 3 }
-					count_owned_ship = {
-						count >= kuat_fleet_invisiable_checkpoint_half 
-						limit = { check_variable = { which = kuat_invsiable_faction_disables_times value > 2 } }
-					}
-				}
-				kuat_battle_kuat_disable_checks_effect = yes
-			}
-			if = {
-				limit = { check_variable = { which = weapon_fired_combat_days value = 3 } }
-				if = {
-					limit = { exists = controller controller = { is_eternal_faction = yes } }
-					add_modifier = { 
-						modifier = random_modifier_addon_effect_eternal days = 2 
-						multiplier = event_target:global_event_country.exe_invasion_difficult_global_var
-					}
-				}
-				if = {
-					limit = { exists = controller controller = { is_infinite_faction = yes } }
-					add_modifier = { 
-						modifier = random_modifier_addon_effect_infinite days = 2 
-						multiplier = event_target:global_event_country.exe_invasion_difficult_global_var 
-					}
-				}
-				if = {
-					limit = { exists = controller controller = { is_kuat_contractor_faction = yes } }
-					add_modifier = { 
-						modifier = random_modifier_addon_effect_kuat_contractor days = 2 
-						multiplier = event_target:global_event_country.exe_invasion_difficult_global_var 
-					}
-				}
-				subtract_variable = { which = weapon_fired_combat_days value = 3 }
-			}
-			fleet_event = { id = exe_invasion.145 days = 1 }
-		}
-		else = { 
-			if = { 
-				limit = { owner = { OR = { 
-					is_eternal_faction = yes 
-					is_infinite_faction = yes 
-					is_kuat_fallen_empire = yes
-				} } } 
-				every_owned_ship = { 
-					clear_variable = kuat_invsiable_faction_disables_times 
-					kuat_battle_disable_ship_at_health = { Disable_health = 0.01 }
-				} 
-			}
-			clear_variable = fleet_combat_days
-			clear_variable = weapon_fired_combat_days
-		}
-	}
-}
 
 #debug check modifier in eternal fleet FROMFROM
 country_event = {
@@ -2043,19 +1910,6 @@ country_event = {
 	is_triggered_only = yes
 	trigger = { is_invisable_faction = yes }
 	immediate = {
-		if = {
-			limit = { 
-				is_invisable_faction = yes
-				from = { is_invisable_faction = no } 
-			}
-			fromfromfrom = { every_owned_ship = { 
-				if = { limit = { check_modifier_value = { modifier = ship_hull_mult value > 0 } } 
-				kuat_battle_clear_ship_modifier = { modifier = ship_hull_mult DAYS = -1 } } 
-				if = { limit = { check_modifier_value = { modifier = shipclass_military_hull_mult value > 0 } } 
-				kuat_battle_clear_ship_modifier = { modifier = shipclass_military_hull_mult DAYS = -1 } } 
-			} }
-			# if = { limit = { is_eternal_crisis = yes } kuat_battle_kuat_copy_leader_learning_system = yes }
-		}
 		if = {
 			limit = { 
 				is_kuat_contractor_faction = yes 
@@ -2079,15 +1933,6 @@ country_event = {
 		if = {
 			limit = { is_invisable_faction = yes }
 			fromfrom = {
-				if = {
-					limit = { 
-						is_ship_class = shipclass_military
-						NOT = { has_fleet_flag = random_list_eternal_fleet_rate_placeholder } 
-					}
-					kuat_battle_mult_half_variable = { WHICH = kuat_fleet_invisiable_checkpoint VALUE = 0.90 }
-					fleet_event = { id = exe_invasion.145 }
-					set_timed_fleet_flag = { flag = random_list_eternal_fleet_rate_placeholder days = 1 }
-				}
 				if = {  
 					limit = { NOT = { has_fleet_flag = random_list_eternal_fleet_rate_modifier } }
 					set_fleet_flag = is_modifiering_fleet
@@ -2425,15 +2270,6 @@ country_event = {
 			kuat_battle_kuat_invinciable_battle_random_effect = yes
 		} }
 	}
-}
-
-# entering gateway WITHOUT SPECIAL
-fleet_event = {
-	id = exe_invasion.1987
-	hide_window = yes
-	is_triggered_only = yes
-	trigger = { owner = { is_eternal_faction = yes } }
-	immediate = { kuat_battle_increase_ship_hp_effect_change = { DAYS = 1 TYPE = kt } }
 }
 
 # message about leader clone
