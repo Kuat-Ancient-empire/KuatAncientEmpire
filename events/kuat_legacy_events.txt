@@ -749,7 +749,7 @@ country_event = {
 	option = { name = "kuat_lagacy.251.a" }
 }
 
-ship_event = {
+country_event= {
 	id = kuat_legacy.44
 	title = "kuat_lagacy.252.name"
 	desc = "kuat_lagacy.252.desc"
@@ -761,12 +761,12 @@ ship_event = {
 	custom_gui_option = "kuat_event_option"
 	is_triggered_only = yes
 	trigger = {
-		owner = { is_ai = no has_country_flag = fire_the_legacy_kuat_stage_5 }
+		is_ai = no has_country_flag = fire_the_legacy_kuat_stage_5
 	}
 	option = { 
 		#trigger = { NOT = { owner = { has_origin = origin_parit } } }
 		name = "kuat_lagacy.252.a" 
-		owner = { event_target:ancient_shadow_place = { planet_event = { id = kuat_legacy.180 days = 1 random = 3 } } }
+		event_target:ancient_shadow_place = { planet_event = { id = kuat_legacy.180 days = 1 random = 3 } }
 	}
 	# option = {
 	# 	trigger = { owner = { has_origin = origin_parit } }
@@ -1917,7 +1917,7 @@ country_event = {
 	option = { name = "kuat_lagacy.252.a" }
 }
 
-ship_event = {
+country_event = {
 	id = kuat_legacy.75
 	title = "kuat_lagacy.251.name"
 	desc = "kuat_lagacy.75.desc"
@@ -1928,7 +1928,7 @@ ship_event = {
 	custom_gui = "kuat_event_window"
 	custom_gui_option = "kuat_event_option"
 	trigger = {
-		owner = { is_ai = no has_country_flag = fire_the_legacy_kuat_stage_6 }
+		is_ai = no has_country_flag = fire_the_legacy_kuat_stage_6
 	}
 	option = { 
 		name = "kuat_lagacy.75.a" 
@@ -2054,7 +2054,7 @@ country_event = {
 	option = { name = kuat_legacy.25.a }
 }
 
-ship_event = {
+country_event = {
 	id = kuat_legacy.61
 	is_triggered_only = yes
 	title = kuat_legacy.61.title
@@ -2065,21 +2065,19 @@ ship_event = {
 	custom_gui = "kuat_event_m_window"
 	custom_gui_option = "kuat_event_m_option"
 	immediate = {
-		solar_system = {
-			random_system_planet = {
-				limit = {
-					has_planet_flag = will_be_add_3
-				}
-				change_pc = pc_ringworld_habitable_damaged
+		random_galaxy_planet = {
+			limit = {
+				has_planet_flag = will_be_add_3
 			}
+			change_pc = pc_ringworld_habitable_damaged
+			save_event_target_as = kuat_temple_will_be_add_3
 		}
 	}
 	option = { 
 		name = kuat_legacy.61.a 
-		hidden_effect = { solar_system = { random_system_planet = {
-			limit = { has_planet_flag = will_be_add_3 }
+		hidden_effect = { event_target:kuat_temple_will_be_add_3 = {
 			create_archaeological_site = kuat_lagacy_8
-		} } }
+		} }
 	}
 }
 
@@ -3088,7 +3086,7 @@ country_event = {
 	option = { name = "kuat_lagacy.252.a" }
 }
 
-ship_event = {
+country_event = {
 	id = kuat_legacy.77
 	title = "kuat_legacy.37.title"
 	desc = "kuat_lagacy.77.desc"
@@ -3099,33 +3097,24 @@ ship_event = {
 	custom_gui = "kuat_event_m_window"
 	custom_gui_option = "kuat_event_m_option"
 	immediate = {
-		owner = { 
-			set_country_flag = Kuat_D_facility_area_over 
-			kuat_create_toasto_message = { KEY = kuat_find_memory_cluds TARGET = this RECIPIENT = this }
-		}
+		set_country_flag = Kuat_D_facility_area_over 
+		kuat_create_toasto_message = { KEY = kuat_find_memory_cluds TARGET = this RECIPIENT = this }
 		set_spawn_system_batch = begin
-		solar_system = {
-			closest_system = {
-				max_steps = 6
-				spawn_system = { 
-					initializer = starkiller_base 
-					hyperlane = no
-				}
-			}
+		random_system = {
+			limit = { is_capital_system = yes }
+			spawn_system = { initializer = starkiller_base hyperlane = no }
 		}
 		set_spawn_system_batch = end
 		set_global_flag = starkillerbase_not_passed
-		owner = { 
-			every_playable_country = {
-				limit = { is_ai = no }
-				establish_communications_no_message = event_target:kuat_firebase_country
-			}
-			country_event = { id = kuat_legacy.78 days = @standard_event_days random = @standard_random_days } 
+		every_playable_country = {
+			limit = { is_ai = no }
+			establish_communications_no_message = event_target:kuat_firebase_country
 		}
+		country_event = { id = kuat_legacy.78 days = @standard_event_days random = @standard_random_days } 
 	}
 	option = { 
 		name = kuat_origin.2.a 
-		owner = {
+		hidden_effect = {
 			set_country_flag = finish_starkillerbase_event
 			if = {
 				limit = { has_country_flag = choose_395 }

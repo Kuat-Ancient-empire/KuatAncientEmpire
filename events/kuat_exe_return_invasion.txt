@@ -291,7 +291,17 @@ country_event = {
 	is_triggered_only = yes
 	option = {
 		name = "exe_return_invasion.10.a"
-		hidden_effect = { country_event = { id = exe_return_invasion.102 days = 1 } }
+		hidden_effect = { if = {
+			limit = { kuat_is_enable_apocalyptic_origin = no }
+			if = {
+				limit = { kuat_is_enable_eternal_origin = yes }
+				country_event = { id = exe_return_invasion.103 days = 1 }
+			}
+			else_if = {
+				limit = { kuat_is_enable_shadow_origin = yes }
+				country_event = { id = exe_return_invasion.102 days = 1 }
+			}
+		} }
 	}
 }
 
@@ -300,6 +310,7 @@ country_event = {
 	title = "exe_return_invasion.102.name"
 	desc = { trigger = {
 		success_text = {
+			kuat_is_enable_shadow_origin = yes
 			NOR = {
 				has_country_flag = fired_exe_return_invasion.102.b
 				has_country_flag = fired_exe_return_invasion.102.c
@@ -307,10 +318,12 @@ country_event = {
 			text = "exe_return_invasion.102.desc"
 		}
 		success_text = {
+			kuat_is_enable_shadow_origin = yes
 			has_country_flag = fired_exe_return_invasion.102.b
 			text = "exe_return_invasion.102.b.desc"
 		}
 		success_text = {
+			kuat_is_enable_shadow_origin = yes
 			has_country_flag = fired_exe_return_invasion.102.c
 			text = "exe_return_invasion.102.c.desc"
 		}
@@ -349,6 +362,61 @@ country_event = {
 		}
 	}
 	option = { name = exe_return_invasion.102.a ai_chance = { weight = 100 } }
+}
+country_event = {
+	id = exe_return_invasion.103
+	title = "exe_return_invasion.103.name"
+	desc = { trigger = {
+		success_text = {
+			kuat_is_enable_eternal_origin = yes
+			NOR = {
+				has_country_flag = fired_exe_return_invasion.103.b
+				has_country_flag = fired_exe_return_invasion.103.c
+			}
+			text = "exe_return_invasion.102.eternal.desc"
+		}
+		success_text = {
+			kuat_is_enable_eternal_origin = yes
+			has_country_flag = fired_exe_return_invasion.103.b
+			text = "exe_return_invasion.102.b.eternal.desc"
+		}
+		success_text = {
+			kuat_is_enable_eternal_origin = yes
+			has_country_flag = fired_exe_return_invasion.103.c
+			text = "exe_return_invasion.102.c.eternal.desc"
+		}
+	} }
+	diplomatic = yes
+	picture_event_data = { room = Eternal_Empire_room }
+	custom_gui = "kuat_event_diplomacy_window"
+	custom_gui_option = "kuat_event_diplomacy_option"
+	show_sound = event_red_alert
+	location = root.capital_scope
+	is_triggered_only = yes
+	immediate = {  
+		begin_event_chain = { event_chain = ag_exe_invasion_chain }
+		if = {
+			limit = { has_event_chain = ag_return_eternal_chain }
+			add_event_chain_counter = { event_chain = ag_return_eternal_chain counter = ag_return_eternal_amount amount = 1 }
+		}
+	}
+	option = {
+		name = exe_return_invasion.103.b
+		hidden_effect = { 
+			set_country_flag = fired_exe_return_invasion.103.b
+			remove_country_flag = fired_exe_return_invasion.103.c
+			country_event = { id = exe_return_invasion.103 } 
+		}
+	}
+	option = {
+		name = exe_return_invasion.103.c
+		hidden_effect = { 
+			set_country_flag = fired_exe_return_invasion.103.c
+			remove_country_flag = fired_exe_return_invasion.103.b
+			country_event = { id = exe_return_invasion.103 } 
+		}
+	}
+	option = { name = exe_return_invasion.103.a ai_chance = { weight = 100 } }
 }
 
 #situation of find station notification
@@ -461,7 +529,7 @@ country_event = {
 	}
 }
 
-ship_event = {
+country_event = {
 	id = exe_return_invasion.27
 	title = "exe_return_invasion.27.name"
 	desc = "exe_return_invasion.27.desc"
@@ -471,73 +539,65 @@ ship_event = {
 	custom_gui_option = "kuat_event_m_option"
 	is_triggered_only = yes
 	immediate = { 
-		owner = { 
-			change_variable = { which = num_vaild_system value = 1 } 
-			abort_special_project = { type = exe_return_invasion_project }
-		} 
+		change_variable = { which = num_vaild_system value = 1 } 
+		abort_special_project = { type = exe_return_invasion_project }
 	}
 	option = {
 		name = exe_return_invasion.27.a
-		trigger = { owner = { check_variable = { which = num_vaild_system value = 1 } } }
+		trigger = { check_variable = { which = num_vaild_system value = 1 } }
 		hidden_effect = {
 			set_spawn_system_batch = begin
-			owner = {
-				random_system = {
-					limit = { 
-						is_capital_system = no
-						kuat_is_kuat_system = no 
-						NOR = {
-							has_star_flag = final_1_system
-							has_star_flag = final_2_system
-							has_star_flag = final_3_system
-						}
+			random_system = {
+				limit = { 
+					is_capital_system = no
+					kuat_is_kuat_system = no 
+					NOR = {
+						has_star_flag = final_1_system
+						has_star_flag = final_2_system
+						has_star_flag = final_3_system
 					}
-					spawn_system = { initializer = exe_first_invasion_system hyperlane = no }
 				}
+				spawn_system = { initializer = exe_first_invasion_system hyperlane = no }
 			}
 			set_spawn_system_batch = end
 		}
 	}
 	option = {
 		name = exe_return_invasion.27.b
-		trigger = { owner = { check_variable = { which = num_vaild_system value = 2 } } }
+		trigger = { check_variable = { which = num_vaild_system value = 2 } }
 		hidden_effect = {
 			set_spawn_system_batch = begin
-			owner = {
-				random_system = {
-					limit = { 
-						is_capital_system = no
-						kuat_is_kuat_system = no 
-						NOR = {
-							has_star_flag = final_1_system
-							has_star_flag = final_2_system
-							has_star_flag = final_3_system
-						}
+			random_system = {
+				limit = { 
+					is_capital_system = no
+					kuat_is_kuat_system = no 
+					NOR = {
+						has_star_flag = final_1_system
+						has_star_flag = final_2_system
+						has_star_flag = final_3_system
 					}
-					spawn_system = { initializer = exe_second_invasion_system hyperlane = no }
 				}
+				spawn_system = { initializer = exe_second_invasion_system hyperlane = no }
 			}
 			set_spawn_system_batch = end
 		}
 	}
 	option = {
 		name = exe_return_invasion.27.c
-		trigger = { owner = { check_variable = { which = num_vaild_system value >= 3 } } }
+		trigger = { check_variable = { which = num_vaild_system value = 3 } }
 		hidden_effect = {
 			set_spawn_system_batch = begin
-			owner = {
-				random_system = {
-					limit = { 
-						is_capital_system = no
-						kuat_is_kuat_system = no 
-						NOR = {
-							has_star_flag = final_1_system
-							has_star_flag = final_2_system
-							has_star_flag = final_3_system
-						}
+			random_system = {
+				limit = { 
+					is_capital_system = no
+					kuat_is_kuat_system = no 
+					NOR = {
+						has_star_flag = final_1_system
+						has_star_flag = final_2_system
+						has_star_flag = final_3_system
 					}
-					spawn_system = { initializer = exe_third_invasion_system hyperlane = no }
 				}
+				spawn_system = { initializer = exe_third_invasion_system hyperlane = no }
 			}
 			set_spawn_system_batch = end
 		}
