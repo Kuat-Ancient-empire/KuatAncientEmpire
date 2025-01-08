@@ -781,7 +781,6 @@ ship_event = {
 	is_triggered_only = yes
 	trigger = { OR = {
 		is_ship_size = exe_megastructure_starbase
-		is_ship_size = swfo_supremacy
 		is_ship_size = Drift_megastructure_starbase
 	} }
 	immediate = {
@@ -812,15 +811,6 @@ ship_event = {
 				last_created_cosmic_storm = { set_storm_flag = storm_kuat_support_nexus_storm_exe_megastructure_starbase_@root }
 			}
 			if = {
-				limit = { root = { is_ship_size = swfo_supremacy } }
-				every_cosmic_storm = { 
-					limit = { has_storm_flag = storm_kuat_support_particle_storm_swfo_supremacy_@root } 
-					destroy_cosmic_storm = yes 
-				}
-				spawn_random_storm = { type = "kuat_support_particle_storm" cosmic_storm_start_position = this immediate = yes }
-				last_created_cosmic_storm = { set_storm_flag = storm_kuat_support_particle_storm_swfo_supremacy_@root }
-			}
-			if = {
 				limit = { root = { is_ship_size = Drift_megastructure_starbase } }
 				every_cosmic_storm = { 
 					limit = { has_storm_flag = storm_kuat_support_celestic_storm_Drift_megastructure_starbase_@root } 
@@ -835,6 +825,26 @@ ship_event = {
 				last_created_cosmic_storm = { set_storm_flag = storm_kuat_support_celestic_storm_Drift_megastructure_starbase_@root }
 			}
 		}
+	}
+}
+
+ship_event = {
+	id = kuat_legacy.451
+	hide_window = yes
+	is_triggered_only = yes
+	trigger = {
+		is_ship_size = swfo_supremacy
+	}
+	immediate = {
+		from = { if = {
+			limit = { root = { is_ship_size = swfo_supremacy } }
+			every_cosmic_storm = { 
+				limit = { has_storm_flag = storm_kuat_support_particle_storm_swfo_supremacy_@root } 
+				destroy_cosmic_storm = yes 
+			}
+			spawn_random_storm = { type = "kuat_support_particle_storm" cosmic_storm_start_position = this immediate = yes }
+			last_created_cosmic_storm = { set_storm_flag = storm_kuat_support_particle_storm_swfo_supremacy_@root }
+		} }
 	}
 }
 
