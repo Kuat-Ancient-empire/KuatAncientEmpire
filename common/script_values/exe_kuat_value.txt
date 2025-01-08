@@ -175,6 +175,58 @@ kuat_dynamic_base_value = {
 	floor = yes 
 }
 
+kuat_dynamic_base_hositle_difficult = {
+	modifier = {
+		set = 0.25
+		has_global_flag = easy_exe_invasion
+		NOT = { has_global_flag = kuat_set_forcetrigger_order_enable_crisis_eve_system }
+	}
+	modifier = {
+		set = 0.50
+		has_global_flag = normal_exe_invasion
+		NOT = { has_global_flag = kuat_set_forcetrigger_order_enable_crisis_eve_system }
+	}
+	modifier = {
+		set = 0.75
+		has_global_flag = difficult_exe_invasion
+		NOT = { has_global_flag = kuat_set_forcetrigger_order_enable_crisis_eve_system }
+	}
+	modifier = {
+		set = 0.99
+		has_global_flag = ban_exe_invasion
+		exists = owner
+		owner = { OR = {
+			is_kuat_fallen_empire = yes 
+			is_kuat_contractor_faction = yes
+			has_global_flag = kuat_set_forcetrigger_order_enable_crisis_eve_system
+		} }
+	}
+	modifier = {
+		set = 1
+		has_global_flag = ban_exe_invasion
+		exists = owner
+		owner = { OR = {
+			is_eternal_faction = yes
+			is_infinite_faction = yes
+		} }
+		NOT = { has_global_flag = kuat_set_forcetrigger_order_enable_crisis_eve_system }
+	}
+}
+
+kuat_dynamic_base_hostile_value = {
+	base = 0
+	add = value:kuat_dynamic_base_hositle_difficult
+	modifier = {
+		subtract = 0.25
+		OR = {
+			has_global_flag = ban_exe_invasion
+			has_global_flag = difficult_exe_invasion
+		}
+		has_ship_flag = kuat_runing_kuat_support_trigger_eternal_return
+	}
+	mult = $MULT$
+}
+
 kuat_eternal_starkiller_base_target = {
 	base = 5
 	complex_trigger_modifier = {

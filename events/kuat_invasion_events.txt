@@ -1038,13 +1038,15 @@ country_event = {
 			limit = { NOR = { 
 				is_same_value = event_target:eternal_fleet_country 
 				has_country_flag = trigger_ended_event_temple
+				is_same_value = root
 			} }
 			set_timed_country_flag = { flag = trigger_ended_event_temple days = 1 }
 			country_event = { id = exe_invasion.35 scopes = { from = root } }
 		}
 		if = {
-			limit = { is_ai = no }
+			limit = { is_ai = no NOT = { has_country_flag = trigger_ended_event_temple_1 } }
 			country_event = { id = exe_invasion.36 }
+			set_timed_country_flag = { flag = trigger_ended_event_temple_1 days = 1 }
 			kuat_create_toasto_message = { KEY = kuat_find_memory_cluds TARGET = this RECIPIENT = this }
 		}
 		add_threat = { who = root amount = 50 }
@@ -1931,143 +1933,174 @@ country_event = {
 				ship_event = { id = exe_invasion.2501 }
 			}  }
 		}
+		#旗舰标识
 		if = {
 			limit = { is_invisable_faction = yes }
 			fromfrom = {
-				if = {  
-					limit = { NOT = { has_fleet_flag = random_list_eternal_fleet_rate_modifier } }
-					set_fleet_flag = is_modifiering_fleet
-					switch = {
-						trigger = has_global_flag
-						kuat_set_forcetrigger_order_enable_crisis_eve_system = { fleet_event = { id = exe_invasion.138 } }
-						ban_exe_invasion = { fleet_event = { id = exe_invasion.140 } }
-						difficult_exe_invasion = { fleet_event = { id = exe_invasion.137 } }
-						normal_exe_invasion = { fleet_event = { id = exe_invasion.143 } }
-						easy_exe_invasion = { fleet_event = { id = exe_invasion.144 } }
-						default = { fleet_event = { id = exe_invasion.144 } }
-					}
-					set_timed_fleet_flag = { flag = random_list_eternal_fleet_rate_modifier days = 1 }
-				}
 				set_fleet_flag = has_kuat_flagship_system
 				set_fleet_flag = has_kuat_subflagship_system
 			}
 		}
 		if = {
-			limit = {
-				is_invisable_faction = yes 
-				from = { is_invisable_faction = no } 
+			limit = { 
+				is_invisable_faction = no 
+				from = { is_invisable_faction = yes }
 			}
-			fromfromfrom = { 
-				if = {
-					limit = { 
-						NOT = { has_fleet_flag = has_kuat_flagship_system }
-						OR = {
-							kuat_is_mega_starbase = yes
-							has_enable_flag_ship_system_true = yes
-							kuat_exist_fleet_leader = { TRAIT = leader_trait_commander_SOP_eddy_3 }
+			fromfrom = { kuat_battle_flagship_intial = yes }
+		}
+		#动态引入
+		if = {
+			limit = { is_eternal_faction = yes }
+			fromfrom = {
+				if = {  
+					limit = { NOT = { has_fleet_flag = random_list_eternal_fleet_rate_modifier } }
+					set_fleet_flag = is_modifiering_fleet
+					if = {
+						limit = { NOT = { has_global_flag = kuat_non_legacy_trigger_eternal_return } }
+						switch = {
+							trigger = has_global_flag
+							kuat_set_forcetrigger_order_enable_crisis_eve_system = { fleet_event = { id = exe_invasion.138 } }
+							default = { fleet_event = { id = exe_invasion.140 } }
 						}
 					}
-					set_fleet_flag = has_kuat_flagship_system
+					else = { fleet_event = { id = exe_invasion.144 } }
+					set_timed_fleet_flag = { flag = random_list_eternal_fleet_rate_modifier days = 1 }
 				}
-				if = {
-					limit = { 
-						NOT = { has_fleet_flag = has_kuat_subflagship_system }
-						OR = {
-							kuat_is_mega_starbase = yes
-							has_enable_flag_ship_system_true = yes
-							kuat_exist_fleet_leader = { TRAIT = leader_trait_commander_SOP_eddy_3 }
-						}
-						has_enable_sub_flag_ship_system_true = yes
+			}
+			if = {
+				limit = { from = { is_invisable_faction = no } }
+				fromfromfrom = { if = {
+					limit = {
+						ROOT = { is_eternal_faction = yes }
+						NOT = { has_fleet_flag = random_list_eternal_fleet_rate_placeholder }
 					}
-					set_fleet_flag = has_kuat_subflagship_system
-				}
-				if = {
-					limit = { ROOT = { is_eternal_faction = yes } }
-					if = { 
-						limit = { NOT = { has_fleet_flag = random_list_eternal_fleet_rate_placeholder }  }
-						set_fleet_flag = is_modifiering_fleet  
-						if = {
-							limit = { NOT = { has_global_flag = kuat_non_legacy_trigger_eternal_return } }
-							switch = {
-								trigger = has_global_flag
-								kuat_set_forcetrigger_order_enable_crisis_eve_system = { fleet_event = { id = exe_invasion.147 } }
-								kuat_impulse_mod_settings = { fleet_event = { id = exe_invasion.136 } }
-								ban_exe_invasion = { fleet_event = { id = exe_invasion.136 } }
-								difficult_exe_invasion = { fleet_event = { id = exe_invasion.131 } }
-								normal_exe_invasion = { fleet_event = { id = exe_invasion.129 } }
-								easy_exe_invasion = { fleet_event = { id = exe_invasion.142 } }
-
-								default = { fleet_event = { id = exe_invasion.142 } }
-							}
-						}
-						else = { fleet_event = { id = exe_invasion.142 } }
-						set_timed_fleet_flag = { flag = random_list_eternal_fleet_rate_placeholder days = 1 }
-					}
-				}
-				else_if = {
-					limit = { ROOT = { is_kuat_contractor_faction = yes } }
-					if = { 
-						limit = { NOT = { has_fleet_flag = random_list_eternal_fleet_rate_placeholder }  }
-						set_fleet_flag = is_modifiering_fleet  
-						if = {
-							limit = { NOT = { has_global_flag = kuat_non_legacy_trigger_eternal_return } }
-							switch = {
-								trigger = has_global_flag
-								kuat_set_forcetrigger_order_enable_crisis_eve_system = { fleet_event = { id = exe_invasion.147 } }
-								kuat_impulse_mod_settings = { fleet_event = { id = exe_invasion.136 } }
-								ban_exe_invasion = { fleet_event = { id = exe_invasion.131 } }
-								difficult_exe_invasion = { fleet_event = { id = exe_invasion.129 } }
-								normal_exe_invasion = { fleet_event = { id = exe_invasion.142 } }
-								easy_exe_invasion = { fleet_event = { id = exe_invasion.142 } }
-							}
-						}
-						else = { fleet_event = { id = exe_invasion.142 } }
-						set_timed_fleet_flag = { flag = random_list_eternal_fleet_rate_placeholder days = 1 }
-					}
-				}
-				else_if = {  
-					limit = { ROOT = { is_infinite_faction = yes } }
-					if = { 
-						limit = { NOT = { has_fleet_flag = random_list_eternal_fleet_rate_placeholder }  }
-						set_fleet_flag = is_modifiering_fleet 
+					set_fleet_flag = is_modifiering_fleet
+					if = {
+						limit = { NOT = { has_global_flag = kuat_non_legacy_trigger_eternal_return } }
 						switch = {
 							trigger = has_global_flag
 							kuat_set_forcetrigger_order_enable_crisis_eve_system = { fleet_event = { id = exe_invasion.147 } }
-							kuat_impulse_mod_settings = { fleet_event = { id = exe_invasion.136 } }
-							ban_exe_invasion = { fleet_event = { id = exe_invasion.136 } }
-							difficult_exe_invasion = { fleet_event = { id = exe_invasion.136 } }
-							normal_exe_invasion = { fleet_event = { id = exe_invasion.131 } }
-							easy_exe_invasion = { fleet_event = { id = exe_invasion.129 } }
+							default = { fleet_event = { id = exe_invasion.136 } }
 						}
-						set_timed_fleet_flag = { flag = random_list_eternal_fleet_rate_placeholder days = 1 }
 					}
+					else = { fleet_event = { id = exe_invasion.142 } }
+					set_timed_fleet_flag = { flag = random_list_eternal_fleet_rate_placeholder days = 1 }
+				} }
+			}
+		}
+		if = {
+			limit = { is_infinite_faction = yes }
+			fromfrom = {
+				if = {  
+					limit = { NOT = { has_fleet_flag = random_list_eternal_fleet_rate_modifier } }
+					set_fleet_flag = is_modifiering_fleet
+					if = {
+						limit = { NOT = { has_global_flag = kuat_non_legacy_trigger_eternal_return } }
+						switch = {
+							trigger = has_global_flag
+							kuat_set_forcetrigger_order_enable_crisis_eve_system = { fleet_event = { id = exe_invasion.138 } }
+							default = { fleet_event = { id = exe_invasion.137 } }
+						}
+					}
+					else = { fleet_event = { id = exe_invasion.144 } }
+					set_timed_fleet_flag = { flag = random_list_eternal_fleet_rate_modifier days = 1 }
 				}
-				else_if = {  
-					limit = { ROOT = { is_kuat_fallen_empire = yes } }
-					if = { 
-						limit = { NOT = { has_fleet_flag = random_list_eternal_fleet_rate_placeholder }  }
-						set_fleet_flag = is_modifiering_fleet 
+			}
+			if = {
+				limit = { from = { is_invisable_faction = no } }
+				fromfromfrom = { if = {
+					limit = {
+						ROOT = { is_infinite_faction = yes }
+						NOT = { has_fleet_flag = random_list_eternal_fleet_rate_placeholder }
+					}
+					set_fleet_flag = is_modifiering_fleet
+					if = {
+						limit = { NOT = { has_global_flag = kuat_non_legacy_trigger_eternal_return } }
 						switch = {
 							trigger = has_global_flag
 							kuat_set_forcetrigger_order_enable_crisis_eve_system = { fleet_event = { id = exe_invasion.147 } }
-							kuat_impulse_mod_settings = { fleet_event = { id = exe_invasion.136 } }
-							ban_exe_invasion = { fleet_event = { id = exe_invasion.131 } }
-							difficult_exe_invasion = { fleet_event = { id = exe_invasion.129 } }
-							normal_exe_invasion = { fleet_event = { id = exe_invasion.142 } }
-							easy_exe_invasion = { fleet_event = { id = exe_invasion.142 } }
+							default = { fleet_event = { id = exe_invasion.131 } }
 						}
-						set_timed_fleet_flag = { flag = random_list_eternal_fleet_rate_placeholder days = 1 }
 					}
+					else = { fleet_event = { id = exe_invasion.142 } }
+					set_timed_fleet_flag = { flag = random_list_eternal_fleet_rate_placeholder days = 1 }
+				} }
+			}
+		}
+		if = {
+			limit = { is_kuat_contractor_faction = yes }
+			fromfrom = {
+				if = {  
+					limit = { NOT = { has_fleet_flag = random_list_eternal_fleet_rate_modifier } }
+					set_fleet_flag = is_modifiering_fleet
+					if = {
+						limit = { NOT = { has_global_flag = kuat_non_legacy_trigger_eternal_return } }
+						switch = {
+							trigger = has_global_flag
+							kuat_set_forcetrigger_order_enable_crisis_eve_system = { fleet_event = { id = exe_invasion.138 } }
+							default = { fleet_event = { id = exe_invasion.143 } }
+						}
+					}
+					else = { fleet_event = { id = exe_invasion.144 } }
+					set_timed_fleet_flag = { flag = random_list_eternal_fleet_rate_modifier days = 1 }
 				}
+			}
+			if = {
+				limit = { from = { is_invisable_faction = no } }
+				fromfromfrom = { if = {
+					limit = {
+						ROOT = { is_kuat_contractor_faction = yes }
+						NOT = { has_fleet_flag = random_list_eternal_fleet_rate_placeholder }
+					}
+					set_fleet_flag = is_modifiering_fleet
+					if = {
+						limit = { NOT = { has_global_flag = kuat_non_legacy_trigger_eternal_return } }
+						switch = {
+							trigger = has_global_flag
+							kuat_set_forcetrigger_order_enable_crisis_eve_system = { fleet_event = { id = exe_invasion.147 } }
+							default = { fleet_event = { id = exe_invasion.129 } }
+						}
+					}
+					else = { fleet_event = { id = exe_invasion.142 } }
+					set_timed_fleet_flag = { flag = random_list_eternal_fleet_rate_placeholder days = 1 }
+				} }
+			}
+		}
+		if = {
+			limit = { is_kuat_fallen_empire = yes }
+			fromfrom = {
+				if = {  
+					limit = { NOT = { has_fleet_flag = random_list_eternal_fleet_rate_modifier } }
+					set_fleet_flag = is_modifiering_fleet
+					if = {
+						limit = { NOT = { has_global_flag = kuat_non_legacy_trigger_eternal_return } }
+						fleet_event = { id = exe_invasion.138 }
+					}
+					else = { fleet_event = { id = exe_invasion.144 } }
+					set_timed_fleet_flag = { flag = random_list_eternal_fleet_rate_modifier days = 1 }
+				}
+			}
+			if = {
+				limit = { from = { is_invisable_faction = no } }
+				fromfromfrom = { if = {
+					limit = {
+						ROOT = { is_kuat_contractor_faction = yes }
+						NOT = { has_fleet_flag = random_list_eternal_fleet_rate_placeholder }
+					}
+					set_fleet_flag = is_modifiering_fleet
+					if = {
+						limit = { NOT = { has_global_flag = kuat_non_legacy_trigger_eternal_return } }
+						fleet_event = { id = exe_invasion.147 }
+					}
+					else = { fleet_event = { id = exe_invasion.142 } }
+					set_timed_fleet_flag = { flag = random_list_eternal_fleet_rate_placeholder days = 1 }
+				} }
 			}
 		}
 		#补给区
 		if = {
 			limit = { 
-				OR = {
-					is_kuat_contractor_faction = yes
-					is_eternal_crisis = yes
-				}
+				is_invisable_faction = yes
 				OR = {
 					has_global_flag = difficult_exe_invasion
 					has_global_flag = ban_exe_invasion
@@ -2179,22 +2212,19 @@ country_event = {
 	} }
 }
 
-#fromfrom
+#eternal
 fleet_event = { inline_script = { 
 	script = kuat_battle_event/kuat_exe_invasion_battle 
 	TYPE = kuat_battle_setup_invinciable_protection_pragram 
-	ID = exe_invasion.140 KEY = kuat_battle_set_ban_eternal_fleet_mult_modifier 		
+	ID = exe_invasion.140 KEY = kuat_battle_set_need_flagship_eternal_fleet_mult_modifier 		
 } }
 fleet_event = { inline_script = { 
 	script = kuat_battle_event/kuat_exe_invasion_battle 
-	TYPE = kuat_battle_setup_invinciable_protection_pragram 
-	ID = exe_invasion.137 KEY = kuat_battle_set_difiicult_eternal_fleet_mult_modifier 
+	TYPE = kuat_battle_setup_invinciable_attacketion_pragram 
+	ID = exe_invasion.136 KEY = kuat_battle_set_need_flagship_eternal_fleet_mult_modifier 		
 } }
-fleet_event = { inline_script = { 
-	script = kuat_battle_event/kuat_exe_invasion_battle 
-	TYPE = kuat_battle_setup_invinciable_protection_pragram 
-	ID = exe_invasion.143 KEY = kuat_battle_set_normal_eternal_fleet_mult_modifier 	
-} }
+
+#none eternal
 fleet_event = { inline_script = { 
 	script = kuat_battle_event/kuat_exe_invasion_battle 
 	TYPE = kuat_battle_setup_invinciable_protection_pragram 
@@ -2202,35 +2232,44 @@ fleet_event = { inline_script = {
 } }
 fleet_event = { inline_script = { 
 	script = kuat_battle_event/kuat_exe_invasion_battle 
-	TYPE = kuat_battle_setup_invinciable_protection_pragram 
-	ID = exe_invasion.138 KEY = kuat_battle_set_crisis_eve_eternal_fleet_mult_modifier 
-} }
-
-#fromfromfrom
-fleet_event = { inline_script = { 
-	script = kuat_battle_event/kuat_exe_invasion_battle 
-	TYPE = kuat_battle_setup_invinciable_attacketion_pragram 
-	ID = exe_invasion.136 KEY = kuat_battle_set_ban_eternal_fleet_mult_modifier 		
-} }
-fleet_event = { inline_script = { 
-	script = kuat_battle_event/kuat_exe_invasion_battle 
-	TYPE = kuat_battle_setup_invinciable_attacketion_pragram 
-	ID = exe_invasion.131 KEY = kuat_battle_set_difiicult_eternal_fleet_mult_modifier 
-} }
-fleet_event = { inline_script = { 
-	script = kuat_battle_event/kuat_exe_invasion_battle 
-	TYPE = kuat_battle_setup_invinciable_attacketion_pragram 
-	ID = exe_invasion.129 KEY = kuat_battle_set_normal_eternal_fleet_mult_modifier 	
-} }
-fleet_event = { inline_script = { 
-	script = kuat_battle_event/kuat_exe_invasion_battle 
 	TYPE = kuat_battle_setup_invinciable_attacketion_pragram 
 	ID = exe_invasion.142 KEY = kuat_battle_set_easy_eternal_fleet_mult_modifier 		
 } }
+
+#infinite
+fleet_event = { inline_script = { 
+	script = kuat_battle_event/kuat_exe_invasion_battle 
+	TYPE = kuat_battle_setup_invinciable_protection_pragram 
+	ID = exe_invasion.137 KEY = kuat_battle_set_need_flagship_infinite_fleet_mult_modifier 
+} }
 fleet_event = { inline_script = { 
 	script = kuat_battle_event/kuat_exe_invasion_battle 
 	TYPE = kuat_battle_setup_invinciable_attacketion_pragram 
-	ID = exe_invasion.147 KEY = kuat_battle_set_crisis_eve_eternal_fleet_mult_modifier 
+	ID = exe_invasion.131 KEY = kuat_battle_set_need_flagship_infinite_fleet_mult_modifier 
+} }
+
+#contractor
+fleet_event = { inline_script = { 
+	script = kuat_battle_event/kuat_exe_invasion_battle 
+	TYPE = kuat_battle_setup_invinciable_protection_pragram 
+	ID = exe_invasion.143 KEY = kuat_battle_set_not_need_flagship_contractor_fleet_mult_modifier 	
+} }
+fleet_event = { inline_script = { 
+	script = kuat_battle_event/kuat_exe_invasion_battle 
+	TYPE = kuat_battle_setup_invinciable_attacketion_pragram 
+	ID = exe_invasion.129 KEY = kuat_battle_set_not_need_flagship_contractor_fleet_mult_modifier 	
+} }
+
+#kuat standard
+fleet_event = { inline_script = { 
+	script = kuat_battle_event/kuat_exe_invasion_battle 
+	TYPE = kuat_battle_setup_invinciable_protection_pragram 
+	ID = exe_invasion.138 KEY = kuat_battle_set_standard_crisis_fleet_mult_modifier 
+} }
+fleet_event = { inline_script = { 
+	script = kuat_battle_event/kuat_exe_invasion_battle 
+	TYPE = kuat_battle_setup_invinciable_attacketion_pragram 
+	ID = exe_invasion.147 KEY = kuat_battle_set_standard_crisis_fleet_mult_modifier 
 } }
 
 #ORIGIN ETERNAL
