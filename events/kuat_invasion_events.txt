@@ -2196,7 +2196,13 @@ country_event = {
 	trigger = { fromfrom = { kuat_is_flagship = yes } }
 	immediate = { fromfrom = { 
 		if = {
-			limit = { kuat_is_flagship_system_protection = yes }
+			limit = { 
+				kuat_is_flagship_system_protection = yes 
+				fleet = { count_owned_ship = {
+					count = 0
+					limit = { NOT = { is_same_value = prevprev } kuat_is_flagship_system_protection = yes }
+				} }
+			}
 			fleet = { remove_fleet_flag = has_kuat_flagship_system } 
 		}
 		else_if = {
