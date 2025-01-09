@@ -8,7 +8,6 @@ country_event = {
 		kuat_is_enable_apocalyptic_origin = yes 
 	}
 	immediate = { 
-		kuat_enable_settings_hell_tradition = yes
 		set_global_flag = enable_origin_kuat_apocalyptic 
 	}
 }
@@ -40,7 +39,6 @@ country_event = {
 			limit = { has_planet_flag = center_world }
 			save_event_target_as = new_home_planet
 		} }
-		kuat_research_all_technology = yes
 		kuat_origin_give_all_ship_and_tech = yes
 		set_country_flag = kuat_starting_country
 		random_owned_planet = {
@@ -161,18 +159,6 @@ country_event = {
 				}
 			}
 		}
-		set_name = Name_kuat
-		change_country_flag = {
-			icon = {
-				category = "Kuat"
-				file = "Kuat_flags_01.dds"
-			}
-			background = {
-				category = "backgrounds"
-				file = "00_solid.dds"
-			}
-			colors = { "blue" "blue" "null" "null" }
-		}
 		every_system_within_border = {
 			limit = { has_star_flag = kuat_initial_system }
 			create_exe_invasion_fleet = {
@@ -229,6 +215,31 @@ country_event = {
 	
 	immediate = {
 		set_update_modifiers_batch = begin
+		if = {
+			limit = { NOT = { exists = event_target:kuat_support_country } }
+			create_country = {
+				name = "Name_Kuat_Support"
+				type = kuat_support
+				flag = {
+					icon = {
+						category = "Kuat"
+						file = "flag_swep_1.dds"
+					}
+					background = {
+						category = "backgrounds"
+						file = "circle.dds"
+					}
+					colors = { "red" "black" "null" "null" }
+				}
+				effect = {
+					set_country_flag = protected_from_queen_storm
+					add_modifier = { modifier = Elternal_creating }
+					save_global_event_target_as = kuat_support_country
+					establish_communications_no_message = root
+				}
+			}
+			add_modifier = { modifier = country_production_for_vanilla days = -1 }
+		}
 		set_country_flag = begin_the_unknown_world_chain
 		if = {
 			limit = {
@@ -383,7 +394,10 @@ country_event = {
 	id = kuat_origin.8
 	title = kuat_origin.8.name
 	desc = {
-		trigger = { kuat_is_enable_apocalyptic_origin = yes }
+		trigger = { 
+			kuat_is_enable_shadow_origin = yes
+			kuat_is_enable_apocalyptic_origin = yes 
+		}
 		text = kuat_origin.8.desc
 	}
 	desc = {
@@ -391,7 +405,10 @@ country_event = {
 		text = kuat_origin.8.eternal.desc
 	}
 	desc = {
-		trigger = { has_global_flag = will_be_upgrade_starforge }
+		trigger = { 
+			kuat_is_enable_shadow_origin = yes 
+			kuat_is_enable_apocalyptic_origin = no
+		}
 		text = kuat_origin.8.flag.desc
 	}
 	diplomatic = yes
@@ -404,67 +421,12 @@ country_event = {
 	trigger = { NOT = { has_country_flag = fire_once } }
 	immediate = {
 		if = {
-			limit = { kuat_is_enable_apocalyptic_origin = yes }
-			every_country = { 
-				limit = { NOT = { has_event_chain = ag_return_eternal_chain } }
-				begin_event_chain = { event_chain = ag_return_eternal_chain }
-			}
-			every_megastructure = {
-				limit = { is_megastructure_type = exe_outer_gate_disable }
-				upgrade_megastructure_to = exe_outer_gate
-				finish_upgrade = yes
-			}
-			set_country_flag = can_pass_by
-			set_country_flag = can_pass_inner_by
-			every_megastructure = {
-				limit = { is_megastructure_type = exe_outer_gate }
-				activate_gateway = this
-			}
-			if = {
-				limit = { NOT = { exists = event_target:kuat_support_country } }
-				create_country = {
-					name = "Name_Kuat_Support"
-					type = kuat_support
-					flag = {
-						icon = {
-							category = "Kuat"
-							file = "flag_swep_1.dds"
-						}
-						background = {
-							category = "backgrounds"
-							file = "circle.dds"
-						}
-						colors = { "red" "black" "null" "null" }
-					}
-					effect = {
-						set_country_flag = protected_from_queen_storm
-						add_modifier = { modifier = Elternal_creating }
-						save_global_event_target_as = kuat_support_country
-						establish_communications_no_message = root
-					}
-				}
-				add_modifier = { modifier = country_production_for_vanilla days = -1 }
-				set_country_flag = fire_once
-				reset_return_eternal_fleet = yes
-			}
-		}
-		else_if = {
 			limit = { kuat_is_enable_eternal_origin = yes }
 			country_event = { id = ag_kae_ge_invasion.254 random = 2 days = 1 }
 		}
 		else_if = {
 			limit = { has_global_flag = will_be_upgrade_starforge }
-			every_megastructure = {
-				limit = { is_megastructure_type = exe_outer_gate_disable }
-				upgrade_megastructure_to = exe_outer_gate
-				finish_upgrade = yes
-			}
-			set_country_flag = can_pass_by
-			set_country_flag = can_pass_inner_by
-			every_megastructure = {
-				limit = { is_megastructure_type = exe_outer_gate }
-				activate_gateway = this
-			}
+			kuat_unlock_all_gateway = yes
 			set_country_flag = fire_once
 			reset_return_eternal_fleet = yes
 		}
@@ -510,6 +472,10 @@ country_event = {
 	#about eternal
 	option = {
 		name = kuat_origin.9.c
+		trigger = { 
+			exists = event_target:eternal_fleet_country 
+			has_global_flag = exe_return_invasion_begin
+		}
 		hidden_effect = { country_event = { id = kuat_origin.14 } }
 	}
 	option = {
@@ -681,12 +647,10 @@ country_event = {
 	is_triggered_only = yes
 	diplomatic = yes
 	trigger = { kuat_is_enable_apocalyptic_origin = yes }
-	#what about now
 	option = {
 		name = kuat_origin.11.a
 		hidden_effect = { country_event = { id = kuat_origin.12 } }
 	}
-	#what about other area
 	option = {
 		name = kuat_origin.11.b
 		hidden_effect = { country_event = { id = kuat_origin.13 } }
@@ -714,40 +678,7 @@ country_event = {
 	#just begining
 	option = {
 		name = kuat_origin.12.a
-		trigger = {
-			event_target:global_event_country = {
-				check_variable = { which = eternal_fleet_return_index value < 5 }
-			}
-		}
 		response_text = kuat_origin.12.a.respon
-	}
-	#just middle
-	option = {
-		name = kuat_origin.12.b
-		trigger = {
-			event_target:global_event_country = {
-				check_variable = { which = eternal_fleet_return_index value >= 5 }
-			}
-		}
-		response_text = kuat_origin.12.b.respon
-	}
-	#end of war
-	option = {
-		name = kuat_origin.12.c
-		trigger = {
-			event_target:global_event_country = {
-				check_variable = { which = eternal_fleet_return_index value > 10 }
-			}
-		}
-		custom_tooltip = kuat_origin.12.tooltip
-		hidden_effect = {
-			win = yes
-			every_owned_fleet = {
-				limit = { has_fleet_flag = kuat_origin_fleet }
-				delete_fleet = { target = this destroy_template = yes kill_leader = no }
-			}
-		}
-		response_text = kuat_origin.12.c.respon
 	}
 	option = {
 		name = kuat_shipyard.return
@@ -772,7 +703,12 @@ country_event = {
 	#most over
 	option = {
 		name = kuat_origin.13.a
-		hidden_effect = { add_random_research_option = { add_progress = 1 } }
+		hidden_effect = {
+			random_list = {
+				1 = { add_random_research_option = { add_progress = 1 } }
+				9 = { add_monthly_resource_mult = { resource = alloys value = 2 } }
+			}
+		}
 		response_text = kuat_origin.13.a.respon
 	}
 	option = {
