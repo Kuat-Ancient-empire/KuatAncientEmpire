@@ -910,7 +910,10 @@ country_event = {
 	option = {
 		name = executor_build.a
 		hidden_effect = {
-			event_target:fallen_empire_kuat = { add_opinion_modifier = { who = prev modifier = opinion_kuat_new } }
+			if = {
+				limit = { kuat_is_enable_shadow_origin = yes kuat_is_enable_apocalyptic_origin = no }
+				event_target:fallen_empire_kuat = { add_opinion_modifier = { who = prev modifier = opinion_kuat_new } }
+			}
 			country_event = { id = executor_build.8 days = 30 }
 		}
 	}
@@ -1248,7 +1251,10 @@ ship_event = {
 	hide_window = yes
 	is_triggered_only = yes
 	trigger = {
-		owner = { kuat_is_enable_shadow_origin = yes }
+		owner = { 
+			kuat_is_enable_shadow_origin = yes 
+			kuat_is_enable_apocalyptic_origin = no
+		}
 		is_ship_size = knight_hammer_executor
 	}
 	immediate = {
@@ -1276,7 +1282,10 @@ country_event = {
 	}
 	custom_gui = "kuat_event_diplomacy_window"
 	custom_gui_option = "kuat_event_diplomacy_option"
-	trigger = { any_country = { has_country_flag = fallen_empire_kuat } }
+	trigger = { 
+		kuat_is_enable_apocalyptic_origin = no
+		any_country = { has_country_flag = fallen_empire_kuat } 
+	}
 	immediate = {
 		set_timed_country_flag = { flag = kuat_will_be_return_for_money years = 20 }
 		if = {
@@ -1310,6 +1319,7 @@ country_event = {
 	custom_gui_option = "kuat_event_m_option"
 	is_triggered_only = yes
 	trigger = {
+		kuat_is_enable_apocalyptic_origin = no
 		has_country_flag = kuat_will_be_return_for_money
 		any_owned_ship = { has_ship_flag = executor }
 		exists = event_target:fallen_empire_kuat
@@ -1361,7 +1371,10 @@ country_event = { #水晶信标D设施结束
 	}
 	option = {
 		name = executor_build_op_a.a
-		event_target:fallen_empire_kuat = { add_opinion_modifier = { who = prev modifier = opinion_kuat_shipc_can_get } }
+		if = {
+			limit = { kuat_is_enable_shadow_origin = yes kuat_is_enable_apocalyptic_origin = no }
+			event_target:fallen_empire_kuat = { add_opinion_modifier = { who = prev modifier = opinion_kuat_shipc_can_get } }
+		}
 	}
 }
 
@@ -1482,7 +1495,11 @@ event = {
 	is_triggered_only = yes
 	trigger = {
 		exists = event_target:fallen_empire_kuat
-		any_country = { is_ai = no kuat_is_enable_shadow_origin = yes }
+		any_country = { 
+			is_ai = no 
+			kuat_is_enable_shadow_origin = yes 
+			kuat_is_enable_apocalyptic_origin = no
+		}
 		mid_game_years_passed > 0
 	}
 	immediate = {
