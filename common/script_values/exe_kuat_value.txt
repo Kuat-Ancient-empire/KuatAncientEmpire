@@ -196,27 +196,14 @@ kuat_dynamic_base_hositle_difficult = {
 		set = 0.99
 		has_global_flag = ban_exe_invasion
 		exists = owner
-		owner = { is_infinite_faction = no }
-		NOT = { has_global_flag = kuat_set_forcetrigger_order_enable_crisis_eve_system }
-	}
-	modifier = {
-		set = 0.99
-		has_global_flag = ban_exe_invasion
-		exists = owner
-		owner = { OR = {
-			is_kuat_fallen_empire = yes 
-			is_kuat_contractor_faction = yes
-		} }
+		owner = { is_invisable_faction = no }
 		NOT = { has_global_flag = kuat_set_forcetrigger_order_enable_crisis_eve_system }
 	}
 	modifier = {
 		set = 1
 		has_global_flag = ban_exe_invasion
 		exists = owner
-		owner = { OR = {
-			is_eternal_faction = yes
-			is_infinite_faction = yes
-		} }
+		owner = { is_invisable_faction = yes }
 		NOT = { has_global_flag = kuat_set_forcetrigger_order_enable_crisis_eve_system }
 	}
 }
@@ -225,11 +212,17 @@ kuat_dynamic_base_hostile_value = {
 	base = 0
 	add = value:kuat_dynamic_base_hositle_difficult
 	modifier = {
-		subtract = 0.25
-		OR = {
-			has_global_flag = ban_exe_invasion
-			has_global_flag = difficult_exe_invasion
-		}
+		set = 0.50
+		exists = owner
+		owner = { is_invisable_faction = no }
+		has_global_flag = difficult_exe_invasion
+		has_ship_flag = kuat_runing_kuat_support_trigger_eternal_return
+	}
+	modifier = {
+		set = 0.75
+		exists = owner
+		owner = { is_invisable_faction = no }
+		has_global_flag = ban_exe_invasion
 		has_ship_flag = kuat_runing_kuat_support_trigger_eternal_return
 	}
 	modifier = {
@@ -238,10 +231,6 @@ kuat_dynamic_base_hostile_value = {
 	}
 	modifier = {
 		set = 1
-		OR = {
-			has_global_flag = ban_exe_invasion
-			has_global_flag = difficult_exe_invasion
-		}
 		exists = fleet
 		fleet = { has_fleet_flag = kuat_super_flagship_lack_support }
 	}
