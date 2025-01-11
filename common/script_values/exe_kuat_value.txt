@@ -210,7 +210,22 @@ kuat_dynamic_base_hositle_difficult = {
 
 kuat_dynamic_base_hostile_value = {
 	base = 0
-	add = value:kuat_dynamic_base_hositle_difficult
+	modifier = {
+		set = value:kuat_dynamic_base_hositle_difficult
+		NOR = {
+			AND = {
+				exists = owner
+				owner = { is_invisable_faction = no }
+				OR = {
+					has_global_flag = difficult_exe_invasion
+					has_global_flag = ban_exe_invasion
+				}
+				has_ship_flag = kuat_runing_kuat_support_trigger_eternal_return
+			}
+			has_global_flag = kuat_set_forcetrigger_order_enable_crisis_eve_system
+			AND = { exists = fleet fleet = { has_fleet_flag = kuat_super_flagship_lack_support } }
+		}
+	}
 	modifier = {
 		set = 0.50
 		exists = owner
