@@ -1634,7 +1634,7 @@ situation_research_B_facility_technology = {
 	fail_icon = GFX_situation_outcome_meh
 	on_start = { save_global_event_target_as = situation_research_B_facility_technology_@target }
 	on_progress_complete = {
-		custom_tooltip = situation_unknown_outcome_approach
+		custom_tooltip = "ancient_shadow_place_B"
 		hidden_effect = { owner = { country_event = { id = kuat_situation.91 } } }
 	}
 	stages = {
@@ -1699,6 +1699,98 @@ situation_research_B_facility_technology = {
 	}
 	monthly_progress = { 
 		base = 0 
+		modifier = {
+			add = target.value:kuat_situation_research_technology_value
+			current_situation_approach = situation_enlarge_research
+			desc = "kuat_engineer_tech_situation_standard"
+		}
+		modifier = {
+			set = 0
+			current_situation_approach = situation_reduce_research
+			desc = "kuat_engineer_tech_situation_reduce_research"
+		}
+	}
+	abort_trigger = { OR = {
+		NOT = { exists = owner }
+		target = { NOT = { is_same_value = owner } }
+	} }
+}
+
+#研究B设施科技
+situation_research_F_facility_technology = {
+	picture = GFX_evt_astral_rift_research_lab
+	complete_icon_frame = GFX_situation_outcome_frame_blue
+	complete_icon = GFX_situation_outcome_unknown
+	fail_icon_frame = GFX_situation_outcome_frame_red
+	fail_icon = GFX_situation_outcome_meh
+	ON_START = { save_global_event_target_as = situation_research_F_facility_technology_@target }
+	on_progress_complete = {
+		custom_tooltip = situation_unknown_outcome_approach
+		hidden_effect = { owner = { country_event = { id = kuat_extramonster_expand.2 } } }
+	}
+	stages = {
+		stage_1 = {
+			icon = GFX_situation_stage_1
+			icon_background = GFX_situation_stage_frame_blue
+			end = 600
+			on_first_enter = { situation_event = { id = kuat_extramonster_expand.7 } }
+			custom_tooltip = situation_unknown_outcome_approach
+		}
+		stage_2 = {
+			icon = GFX_situation_stage_2
+			icon_background = GFX_situation_stage_frame_blue
+			end = 1800
+			on_first_enter = { situation_event = { id = kuat_extramonster_expand.6 } }
+			custom_tooltip = situation_unknown_outcome_approach
+		}
+		stage_3 = {
+			icon = GFX_situation_stage_3
+			icon_background = GFX_situation_stage_frame_blue
+			end = 3000
+			on_first_enter = { situation_event = { id = kuat_extramonster_expand.5 } }
+			custom_tooltip = situation_unknown_outcome_approach
+		}
+		stage_4 = {
+			icon = GFX_situation_stage_4
+			icon_background = GFX_situation_stage_frame_blue
+			end = 4200
+			on_first_enter = { situation_event = { id = kuat_extramonster_expand.4 } }
+			custom_tooltip = situation_unknown_outcome_approach
+		}
+		stage_5 = {
+			icon = GFX_situation_stage_5
+			icon_background = GFX_situation_stage_frame_blue
+			end = 5400
+			on_first_enter = { situation_event = { id = kuat_extramonster_expand.3 } }
+			custom_tooltip = situation_unknown_outcome_approach
+		}
+	}
+	#hositle
+	#Enlarge
+	approach = {
+		name = "situation_enlarge_research"
+		icon = GFX_situation_approach_research
+		icon_background = GFX_situation_approach_bg_green
+		resources = {
+			category = situations
+			upkeep = {
+				physics_research = 2
+				society_research = 2
+				engineering_research = 2
+				multiplier = target.trigger:num_pops
+			}
+		}
+		on_select = { custom_tooltip = approach_outcome_tooltip }
+	}
+	#Reduce
+	approach = {
+		name = "situation_reduce_research"
+		icon = GFX_situation_approach_research
+		icon_background = GFX_situation_approach_bg_yellow
+		on_select = { custom_tooltip = approach_outcome_tooltip }
+	}
+	monthly_progress = {
+		base = 0
 		modifier = {
 			add = target.value:kuat_situation_research_technology_value
 			current_situation_approach = situation_enlarge_research
