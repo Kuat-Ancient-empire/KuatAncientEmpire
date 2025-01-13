@@ -1049,8 +1049,18 @@ country_event = {
 			set_timed_country_flag = { flag = trigger_ended_event_temple_1 days = 1 }
 			kuat_create_toasto_message = { KEY = kuat_find_memory_cluds TARGET = this RECIPIENT = this }
 			if = {
-				limit = { kuat_is_enable_apocalyptic_origin = yes }
+				limit = { 
+					NOT = { has_global_flag = special_exe_invasion }
+					kuat_is_enable_apocalyptic_origin = yes 
+				}
 				country_event = { id = kuat_diplomatic.16 days = 10 random = 20 }
+			}
+			else_if = {
+				limit = {  
+					has_global_flag = special_exe_invasion
+					kuat_is_enable_apocalyptic_origin = yes
+				}
+				country_event = { id = kuat_diplomatic.19 days = 10 random = 20 }
 			}
 		}
 		add_threat = { who = root amount = 50 }
