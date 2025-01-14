@@ -570,7 +570,7 @@ country_event = {
 		set_spawn_system_batch = begin
 		random_system_within_border = {
 			limit = { is_capital_system = yes }
-			spawn_system = { initializer = myst_system_1 }
+			spawn_system = { initializer = myst_system_1 hyperlane = no }
 		}
 		set_spawn_system_batch = end
 	}
@@ -710,6 +710,19 @@ fleet_event = {
 		hidden_effect = { root.owner = {
 			country_event = { id = kuat_legacy.49 days = @standard_event_days random = @standard_random_days }
 			set_country_flag = fire_the_legacy_kuat_stage_5
+			if = {
+				limit = { NOT = { has_technology = tech_hyper_drive_1 } }
+				give_technology = { tech = tech_hyper_drive_1 message = no }
+			}
+			if = {
+				limit = { NOT = { has_technology = tech_hyper_drive_2 } }
+				give_technology = { tech = tech_hyper_drive_2 message = no }
+			}
+			if = {
+				limit = { NOT = { has_technology = tech_hyper_drive_3 } }
+				give_technology = { tech = tech_hyper_drive_3 message = no }
+			}
+			add_research_option = tech_gateway_activation
 		} }
 		from.planet = { change_pc = pc_ringworld_habitable }
 	}
@@ -1745,7 +1758,7 @@ country_event = {
 		country_event = { id = kuat_missions.2 days = 1 random = 2 }
 		random_system_within_border = {
 			limit = { is_capital_system = yes }
-			spawn_system = { initializer = myst_system_2 }
+			spawn_system = { initializer = myst_system_2 hyperlane = no }
 		}
 	}
 	option = { name = kuat_legacy.49.a }
@@ -2075,6 +2088,7 @@ planet_event = {
 	is_triggered_only = yes
 	hide_window = yes
 	trigger = {
+		NOT = { has_global_flag = executor_build.8012.fired }
 		has_planet_flag = will_be_add_3
 		from = { has_country_flag = fire_the_legacy_kuat_stage_6 }
 	}
@@ -3155,7 +3169,7 @@ country_event = {
 		}
 		kuat_create_toasto_message = { KEY = kuat_find_memory_cluds TARGET = this RECIPIENT = this }
 		set_spawn_system_batch = begin
-		random_system = {
+		random_system_within_border = {
 			limit = { is_capital_system = yes }
 			spawn_system = { initializer = starkiller_base hyperlane = no }
 		}

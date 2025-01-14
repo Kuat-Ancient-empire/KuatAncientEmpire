@@ -44,7 +44,6 @@ country_event = {
 	}
 	after = { if = {
 		limit = { has_country_flag = kuat_fallen_mission_reaction.1.refuse }
-		clear_global_event_target = kuat_mission_2_target_country_commnication
 		remove_country_flag = kuat_fallen_mission_reaction.1.refuse
 	} }
 }
@@ -86,7 +85,6 @@ country_event = {
 		remove_country_flag = kuat_fallen_mission_reaction.1.accept
 		response_text = kuat_fallen_mission_reaction.2.refuse.response
 	}
-	after = { clear_global_event_target = kuat_mission_2_target_country_commnication }
 }
 
 #圣位要你别做，否则宣战
@@ -218,7 +216,18 @@ country_event = { inline_script = { script = kuat_reasearch_event/kuat_research_
 country_event = {
 	id = kuat_fallen_mission_reaction.18
 	title = TRANSMISSION
-	desc = kuat_fallen_mission_reaction.18.desc
+	desc = {
+		trigger = {
+			kuat_is_enable_apocalyptic_origin = no
+		}
+		text = kuat_fallen_mission_reaction.18.desc
+	}
+	desc = {
+		trigger = {
+			kuat_is_enable_apocalyptic_origin = yes
+		}
+		text = kuat_fallen_mission_reaction.18.apocalyptic.desc
+	}
 	picture_event_data = { 
 		portrait = event_target:kuat_player_target_species
 		room = galactic_custodian_room 
@@ -228,6 +237,7 @@ country_event = {
 	show_sound = event_default
 	is_triggered_only = yes
 	diplomatic = yes
+	immediate = { change_variable = { which = eternal_bornus_var value = 150 }}
 	option = { name = kuat_fallen_mission_reaction.18.accept }
 	option = { name = kuat_fallen_mission_reaction.18.refuse }
 }

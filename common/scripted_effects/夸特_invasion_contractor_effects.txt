@@ -292,17 +292,31 @@ kuat_contractor_plague_kill_people = {
 kuat_contractor_plague_random_list_effect = {
 	random_list = {
 		# NOT die
-		10 = {
+		19 = {
 			# crime
 			inline_script = kuat_plague_modifier/kuat_plague_sample
 			[[IMMUNE] inline_script = kuat_plague_modifier/kuat_plafgue_trigger/kuat_plague_yes_immunes ]
 			[[!IMMUNE] inline_script = kuat_plague_modifier/kuat_plafgue_trigger/kuat_plague_no_immunes ]
 		}
 		# die
-		40 = {
+		80 = {
 			inline_script = kuat_plague_modifier/kuat_plague_sample_a
 			[[IMMUNE] kuat_contractor_plague_kill_people = yes ]
 			[[!IMMUNE] planet_event = { id = kuat_plague.1 days = 90 random = 90 }]
+		}
+		1 = {  
+			modifier = {
+				mult = 0
+				solar_system = { NOT = { any_fleet_in_system = { is_ship_class = shipclass_military } } }
+			}
+			save_event_target_as = kuat_plague_zombie_country_fleet
+			solar_system = {
+				random_fleet_in_system = {
+					limit = { is_ship_class = shipclass_military }
+					set_owner = event_target:kuat_plague_zombie_country
+					root.owner = { country_event = { id = kuat_plague.174 } } #TODO
+				}
+			}
 		}
 	}
 }
