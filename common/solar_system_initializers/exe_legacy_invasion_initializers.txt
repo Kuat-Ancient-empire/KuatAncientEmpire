@@ -685,3 +685,50 @@ myst_system_5 = {
 		}
 	}
 }
+
+myst_system_6 = {
+	name = "Name_G_1"
+	class = sc_kuat_white_hole
+	asteroid_belt = {
+		type = rocky_asteroid_belt
+		radius = 135
+	}
+	usage = misc_system_init
+	prevent_anomalies = yes
+	usage_odds = 0
+	flags = { myst_system_6 cannot_be_hit_by_aow_starfall_spear kuat_cannot_be_hit_by_starkillerbase }
+	planet = {
+		class = pc_kuat_white_hole
+		size = 18
+		orbit_distance = 0
+		orbit_angle = 0
+	}
+	change_orbit = 105
+	init_effect = {
+		spawn_megastructure = {
+			type = exe_outer_gate_G_facility
+			planet = system_star
+			init_effect = { save_global_event_target_as = exe_outer_gate_G_facility }
+			owner = space_owner
+		}
+		create_ambient_object = { type = "kuat_plague_storm_1" location = star }
+		last_created_ambient_object = { set_location = { target = prev distance = 0 angle = random } }
+		event_target:interesting_country = {
+			create_point_of_interest = {
+				id = misc_system_find.7
+				name = misc_system_desc_8
+				desc = kuat_legacy_key_world_8_desc
+				event_chain = ag_legacy_invasion_chain
+				location = prev.star
+			}
+			create_point_of_interest = {
+				id = ag_legacy_stroy_recording.21
+				name = misc_system_desc_8
+				desc = kuat_legacy_key_world_8_desc
+				event_chain = kuat_mission_6_chain
+				location = prev.star
+			}
+			change_variable = { which = ag_legacy_invasion_chain_check_number value = 1 }
+		}
+	}
+}

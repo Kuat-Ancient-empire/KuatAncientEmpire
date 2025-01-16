@@ -2161,7 +2161,37 @@ country_event = {
 					system_event = { id = exe_invasion.2502 days = 3 }
 				} }
 				#运算
-				kuat_battle_kuat_star_flagship_caculation = yes
+				if = { 
+					limit = { 
+						kuat_fleet_cap_occupy = { ID = 3 } 
+						solar_system = { check_variable = { which = kuat_support_battle_add_variable value >= 3 } }
+					} 
+					kuat_battle_kuat_star_flagship_base_calculate = { ID = 3 MULT = 4 }
+				}
+				else_if = { 
+					limit = { 
+						kuat_fleet_cap_occupy = { ID = 1.5 } 
+						solar_system = { check_variable = { which = kuat_support_battle_add_variable value >= 1.5 } }
+					}  
+					kuat_battle_kuat_star_flagship_base_calculate = { ID = 1.5 MULT = 2 }
+				}
+				else_if = { 
+					limit = { 
+						kuat_fleet_cap_occupy = { ID = 1 } 
+						solar_system = { check_variable = { which = kuat_support_battle_add_variable value >= 1 } }
+					} 
+					kuat_battle_kuat_star_flagship_base_calculate = { ID = 1 MULT = 1 }
+				}
+				else_if = {
+					limit = { kuat_fleet_cap_flag_condition = yes }
+					solar_system = { prev = { 
+						kuat_battle_remove_repetable_modifier_iep = yes
+						kuat_battle_kuat_star_flagship_base_fleet_clear_calculation = { ID = 1 }
+						kuat_battle_kuat_star_flagship_base_fleet_clear_calculation = { ID = 1.5 }
+						kuat_battle_kuat_star_flagship_base_fleet_clear_calculation = { ID = 3 }
+						kuat_battle_notification_suppliment_fleet = yes
+					} }
+				}
 			}
 			else_if = {
 				limit = { 
@@ -2532,9 +2562,9 @@ system_event = {
 			system_event = { id = exe_invasion.2502 days = 3 }
 			switch = {
 				trigger = has_star_flag
-				kuat_super_flagship_3_enough_support = { kuat_battle_kuat_star_flagship_checksum = { ID = 3 } }
-				kuat_super_flagship_1.5_enough_support = { kuat_battle_kuat_star_flagship_checksum = { ID = 1.5 } }
-				kuat_super_flagship_1_enough_support = { kuat_battle_kuat_star_flagship_checksum = { ID = 1 } }
+				kuat_super_flagship_3_enough_support = { inline_script = { script = kuat_battle_event/kuat_exe_support_checksum ID = 3 } }
+				kuat_super_flagship_1.5_enough_support = { inline_script = { script = kuat_battle_event/kuat_exe_support_checksum ID = 1.5 } }
+				kuat_super_flagship_1_enough_support = { inline_script = { script = kuat_battle_event/kuat_exe_support_checksum ID = 1 } }
 			}
 		}
 		else = { kuat_battle_kuat_star_flagship_clear_all_caculation = yes }

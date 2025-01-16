@@ -1518,10 +1518,7 @@ country_event = {
 	option = { 
 		name = exe_return_invasion.38.e
 		response_text = exe_return_invasion.38.e.resp 
-		hidden_effect = { 
-			remove_country_flag = fire_once_contact 
-			country_event = { id = exe_return_invasion.40 days = 45 random = 45 }
-		}
+		hidden_effect = { remove_country_flag = fire_once_contact }
 	}
 	after = {
 		if = {
@@ -1570,6 +1567,7 @@ event = {
 	}
 }
 
+#流浪者触发
 country_event = {
 	id = exe_return_invasion.40
 	title = "exe_return_invasion.40.name"
@@ -1580,6 +1578,12 @@ country_event = {
 	custom_gui_option = "kuat_event_option"
 	show_sound = event_sensor_ping
 	is_triggered_only = yes
+	location = event_target:will_be_add_habitable_plague
 	option = { name = exe_return_invasion.40.a }
+	immediate = {
+		event_target:kuat_contractor_country = { destroy_country = yes }
+		event_target:exe_outer_gate_f_facility = { create_archaeological_site = site_F_systeam_1 }
+		start_situation = { type = situation_contractor_shadow_of_plague_pop_deficit target = root }
+	}
 	after = { set_global_flag = enable_final_extramonster_crisis }
 }

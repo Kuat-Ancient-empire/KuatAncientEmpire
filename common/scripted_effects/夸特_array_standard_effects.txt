@@ -306,59 +306,63 @@ kuat_set_array = {
 # input: ARRAY, VALUE, VARIABLE # 数组名，数值，索引（需要为一个变量）
 # output: variable ($ARRAY$_(variable value), $value$)
 kuat_set_array_variable = {
-	if = {
-		limit = { check_variable = { which = $VARIABLE$ value = 0 }}
-		set_variable = { which = $ARRAY$_0 value = $VALUE$ }
-	}
-	else = {
-		if = { # if the given index is greater than the maximum index of the array, change the maximum index of array to the given index+1
-			limit = { check_variable = { which = $VARIABLE$ value >= $ARRAY$ }}
-			set_variable = { which = $ARRAY$ value = $VARIABLE$ }
-			change_variable = { which = $ARRAY$ value = 1 }
-		}
-		kuat_get_digits = { ARRAY = $VARIABLE$ VARIABLE = $VARIABLE$ }
-		if = {
-			limit = { check_variable = { which = $VARIABLE$_DIGIT_1 value = 1 }}
-			kuat_set_array_variable_S2 = { ARRAY = $ARRAY$ VALUE = $VALUE$ VARIABLE = $VARIABLE$ INDEX = 1 }
-		} 
-		else_if = {
-			limit = { check_variable = { which = $VARIABLE$_DIGIT_1 value = 2 }}
-			kuat_set_array_variable_S2 = { ARRAY = $ARRAY$ VALUE = $VALUE$ VARIABLE = $VARIABLE$ INDEX = 2 }
-		} 
-		else_if = {
-			limit = { check_variable = { which = $VARIABLE$_DIGIT_1 value = 3 }}
-			kuat_set_array_variable_S2 = { ARRAY = $ARRAY$ VALUE = $VALUE$ VARIABLE = $VARIABLE$ INDEX = 3 }
-		} 
-		else_if = {
-			limit = { check_variable = { which = $VARIABLE$_DIGIT_1 value = 4 }}
-			kuat_set_array_variable_S2 = { ARRAY = $ARRAY$ VALUE = $VALUE$ VARIABLE = $VARIABLE$ INDEX = 4 }
-		} 
-		else_if = {
-			limit = { check_variable = { which = $VARIABLE$_DIGIT_1 value = 5 }}
-			kuat_set_array_variable_S2 = { ARRAY = $ARRAY$ VALUE = $VALUE$ VARIABLE = $VARIABLE$ INDEX = 5 }
-		} 
-		else_if = {
-			limit = { check_variable = { which = $VARIABLE$_DIGIT_1 value = 6 }}
-			kuat_set_array_variable_S2 = { ARRAY = $ARRAY$ VALUE = $VALUE$ VARIABLE = $VARIABLE$ INDEX = 6 }
-		} 
-		else_if = {
-			limit = { check_variable = { which = $VARIABLE$_DIGIT_1 value = 7 }}
-			kuat_set_array_variable_S2 = { ARRAY = $ARRAY$ VALUE = $VALUE$ VARIABLE = $VARIABLE$ INDEX = 7 }
-		} 
-		else_if = {
-			limit = { check_variable = { which = $VARIABLE$_DIGIT_1 value = 8 }}
-			kuat_set_array_variable_S2 = { ARRAY = $ARRAY$ VALUE = $VALUE$ VARIABLE = $VARIABLE$ INDEX = 8 }
-		} 
-		else_if = {
-			limit = { check_variable = { which = $VARIABLE$_DIGIT_1 value = 9 }}
-			kuat_set_array_variable_S2 = { ARRAY = $ARRAY$ VALUE = $VALUE$ VARIABLE = $VARIABLE$ INDEX = 9 }
-		} 
-		else_if = {
-			limit = { check_variable = { which = $VARIABLE$_DIGIT_1 value = 0 }}
-			kuat_set_array_variable_S2 = { ARRAY = $ARRAY$ VALUE = $VALUE$ VARIABLE = $VARIABLE$ INDEX = 0 }
-		}
-		remove_array_variables = { ARRAY = $VARIABLE$ }
-	}
+	inline_script = { 
+        script = kuat_reasearch_event/kuat_set_array_variable_Config 
+        ARRAY = $ARRAY$ VALUE = $VALUE$ VARIABLE = $VARIABLE$
+    }
+	# if = {
+	# 	limit = { check_variable = { which = $VARIABLE$ value = 0 }}
+	# 	set_variable = { which = $ARRAY$_0 value = $VALUE$ }
+	# }
+	# else = {
+	# 	if = { # if the given index is greater than the maximum index of the array, change the maximum index of array to the given index+1
+	# 		limit = { check_variable = { which = $VARIABLE$ value >= $ARRAY$ }}
+	# 		set_variable = { which = $ARRAY$ value = $VARIABLE$ }
+	# 		change_variable = { which = $ARRAY$ value = 1 }
+	# 	}
+	# 	kuat_get_digits = { ARRAY = $VARIABLE$ VARIABLE = $VARIABLE$ }
+	# 	if = {
+	# 		limit = { check_variable = { which = $VARIABLE$_DIGIT_1 value = 1 }}
+	# 		kuat_set_array_variable_S2 = { ARRAY = $ARRAY$ VALUE = $VALUE$ VARIABLE = $VARIABLE$ INDEX = 1 }
+	# 	} 
+	# 	else_if = {
+	# 		limit = { check_variable = { which = $VARIABLE$_DIGIT_1 value = 2 }}
+	# 		kuat_set_array_variable_S2 = { ARRAY = $ARRAY$ VALUE = $VALUE$ VARIABLE = $VARIABLE$ INDEX = 2 }
+	# 	} 
+	# 	else_if = {
+	# 		limit = { check_variable = { which = $VARIABLE$_DIGIT_1 value = 3 }}
+	# 		kuat_set_array_variable_S2 = { ARRAY = $ARRAY$ VALUE = $VALUE$ VARIABLE = $VARIABLE$ INDEX = 3 }
+	# 	} 
+	# 	else_if = {
+	# 		limit = { check_variable = { which = $VARIABLE$_DIGIT_1 value = 4 }}
+	# 		kuat_set_array_variable_S2 = { ARRAY = $ARRAY$ VALUE = $VALUE$ VARIABLE = $VARIABLE$ INDEX = 4 }
+	# 	} 
+	# 	else_if = {
+	# 		limit = { check_variable = { which = $VARIABLE$_DIGIT_1 value = 5 }}
+	# 		kuat_set_array_variable_S2 = { ARRAY = $ARRAY$ VALUE = $VALUE$ VARIABLE = $VARIABLE$ INDEX = 5 }
+	# 	} 
+	# 	else_if = {
+	# 		limit = { check_variable = { which = $VARIABLE$_DIGIT_1 value = 6 }}
+	# 		kuat_set_array_variable_S2 = { ARRAY = $ARRAY$ VALUE = $VALUE$ VARIABLE = $VARIABLE$ INDEX = 6 }
+	# 	} 
+	# 	else_if = {
+	# 		limit = { check_variable = { which = $VARIABLE$_DIGIT_1 value = 7 }}
+	# 		kuat_set_array_variable_S2 = { ARRAY = $ARRAY$ VALUE = $VALUE$ VARIABLE = $VARIABLE$ INDEX = 7 }
+	# 	} 
+	# 	else_if = {
+	# 		limit = { check_variable = { which = $VARIABLE$_DIGIT_1 value = 8 }}
+	# 		kuat_set_array_variable_S2 = { ARRAY = $ARRAY$ VALUE = $VALUE$ VARIABLE = $VARIABLE$ INDEX = 8 }
+	# 	} 
+	# 	else_if = {
+	# 		limit = { check_variable = { which = $VARIABLE$_DIGIT_1 value = 9 }}
+	# 		kuat_set_array_variable_S2 = { ARRAY = $ARRAY$ VALUE = $VALUE$ VARIABLE = $VARIABLE$ INDEX = 9 }
+	# 	} 
+	# 	else_if = {
+	# 		limit = { check_variable = { which = $VARIABLE$_DIGIT_1 value = 0 }}
+	# 		kuat_set_array_variable_S2 = { ARRAY = $ARRAY$ VALUE = $VALUE$ VARIABLE = $VARIABLE$ INDEX = 0 }
+	# 	}
+	# 	remove_array_variables = { ARRAY = $VARIABLE$ }
+	# }
 }
 
 kuat_set_array_variable_S2 = {
@@ -576,50 +580,54 @@ kuat_get_array = {
 # input: ARRAY 数组名, VARIABLE(variable name) # 变量名(输入)
 # output: OUT(variable name) # 变量名(输出)
 kuat_get_array_variable = {
-	if = {
-		limit = { check_variable = { which = $VARIABLE$ value = 0 }}
-		kuat_get_array = { ARRAY = $ARRAY$ INDEX = 0 OUT = $OUT$ }
-	} 
-	else = {
-		kuat_get_digits = { ARRAY = $VARIABLE$ VARIABLE = $VARIABLE$ }
-		if = {
-			limit = { check_variable = { which = $VARIABLE$_DIGIT_1 value = 1 }}
-			kuat_get_array_variable_S2 = { ARRAY = $ARRAY$ OUT = $OUT$ VARIABLE = $VARIABLE$ INDEX = 1 }
-		} 
-		else_if = {
-			limit = { check_variable = { which = $VARIABLE$_DIGIT_1 value = 2 }}
-			kuat_get_array_variable_S2 = { ARRAY = $ARRAY$ OUT = $OUT$ VARIABLE = $VARIABLE$ INDEX = 2 }
-		} 
-		else_if = {
-			limit = { check_variable = { which = $VARIABLE$_DIGIT_1 value = 3 }}
-			kuat_get_array_variable_S2 = { ARRAY = $ARRAY$ OUT = $OUT$ VARIABLE = $VARIABLE$ INDEX = 3 }
-		} 
-		else_if = {
-			limit = { check_variable = { which = $VARIABLE$_DIGIT_1 value = 4 }}
-			kuat_get_array_variable_S2 = { ARRAY = $ARRAY$ OUT = $OUT$ VARIABLE = $VARIABLE$ INDEX = 4 }
-		} 
-		else_if = {
-			limit = { check_variable = { which = $VARIABLE$_DIGIT_1 value = 5 }}
-			kuat_get_array_variable_S2 = { ARRAY = $ARRAY$ OUT = $OUT$ VARIABLE = $VARIABLE$ INDEX = 5 }
-		} 
-		else_if = {
-			limit = { check_variable = { which = $VARIABLE$_DIGIT_1 value = 6 }}
-			kuat_get_array_variable_S2 = { ARRAY = $ARRAY$ OUT = $OUT$ VARIABLE = $VARIABLE$ INDEX = 6 }
-		} 
-		else_if = {
-			limit = { check_variable = { which = $VARIABLE$_DIGIT_1 value = 7 }}
-			kuat_get_array_variable_S2 = { ARRAY = $ARRAY$ OUT = $OUT$ VARIABLE = $VARIABLE$ INDEX = 7 }
-		} 
-		else_if = {
-			limit = { check_variable = { which = $VARIABLE$_DIGIT_1 value = 8 }}
-			kuat_get_array_variable_S2 = { ARRAY = $ARRAY$ OUT = $OUT$ VARIABLE = $VARIABLE$ INDEX = 8 }
-		} 
-		else_if = {
-			limit = { check_variable = { which = $VARIABLE$_DIGIT_1 value = 9 }}
-			kuat_get_array_variable_S2 = { ARRAY = $ARRAY$ OUT = $OUT$ VARIABLE = $VARIABLE$ INDEX = 9 }
-		}
-		remove_array_variables = { ARRAY = $VARIABLE$ }
-	}
+	inline_script = { 
+        script = kuat_reasearch_event/kuat_get_array_variable_Config 
+        ARRAY = $ARRAY$ OUT = $OUT$ VARIABLE = $VARIABLE$
+    }
+	# if = {
+	# 	limit = { check_variable = { which = $VARIABLE$ value = 0 }}
+	# 	kuat_get_array = { ARRAY = $ARRAY$ INDEX = 0 OUT = $OUT$ }
+	# } 
+	# else = {
+	# 	kuat_get_digits = { ARRAY = $VARIABLE$ VARIABLE = $VARIABLE$ }
+	# 	if = {
+	# 		limit = { check_variable = { which = $VARIABLE$_DIGIT_1 value = 1 }}
+	# 		kuat_get_array_variable_S2 = { ARRAY = $ARRAY$ OUT = $OUT$ VARIABLE = $VARIABLE$ INDEX = 1 }
+	# 	} 
+	# 	else_if = {
+	# 		limit = { check_variable = { which = $VARIABLE$_DIGIT_1 value = 2 }}
+	# 		kuat_get_array_variable_S2 = { ARRAY = $ARRAY$ OUT = $OUT$ VARIABLE = $VARIABLE$ INDEX = 2 }
+	# 	} 
+	# 	else_if = {
+	# 		limit = { check_variable = { which = $VARIABLE$_DIGIT_1 value = 3 }}
+	# 		kuat_get_array_variable_S2 = { ARRAY = $ARRAY$ OUT = $OUT$ VARIABLE = $VARIABLE$ INDEX = 3 }
+	# 	} 
+	# 	else_if = {
+	# 		limit = { check_variable = { which = $VARIABLE$_DIGIT_1 value = 4 }}
+	# 		kuat_get_array_variable_S2 = { ARRAY = $ARRAY$ OUT = $OUT$ VARIABLE = $VARIABLE$ INDEX = 4 }
+	# 	} 
+	# 	else_if = {
+	# 		limit = { check_variable = { which = $VARIABLE$_DIGIT_1 value = 5 }}
+	# 		kuat_get_array_variable_S2 = { ARRAY = $ARRAY$ OUT = $OUT$ VARIABLE = $VARIABLE$ INDEX = 5 }
+	# 	} 
+	# 	else_if = {
+	# 		limit = { check_variable = { which = $VARIABLE$_DIGIT_1 value = 6 }}
+	# 		kuat_get_array_variable_S2 = { ARRAY = $ARRAY$ OUT = $OUT$ VARIABLE = $VARIABLE$ INDEX = 6 }
+	# 	} 
+	# 	else_if = {
+	# 		limit = { check_variable = { which = $VARIABLE$_DIGIT_1 value = 7 }}
+	# 		kuat_get_array_variable_S2 = { ARRAY = $ARRAY$ OUT = $OUT$ VARIABLE = $VARIABLE$ INDEX = 7 }
+	# 	} 
+	# 	else_if = {
+	# 		limit = { check_variable = { which = $VARIABLE$_DIGIT_1 value = 8 }}
+	# 		kuat_get_array_variable_S2 = { ARRAY = $ARRAY$ OUT = $OUT$ VARIABLE = $VARIABLE$ INDEX = 8 }
+	# 	} 
+	# 	else_if = {
+	# 		limit = { check_variable = { which = $VARIABLE$_DIGIT_1 value = 9 }}
+	# 		kuat_get_array_variable_S2 = { ARRAY = $ARRAY$ OUT = $OUT$ VARIABLE = $VARIABLE$ INDEX = 9 }
+	# 	}
+	# 	remove_array_variables = { ARRAY = $VARIABLE$ }
+	# }
 }
 
 kuat_get_array_variable_S2 = {
@@ -864,57 +872,60 @@ find_array_variable = {
 # clear variable in an array at the given index, which the index is a integer of a variable in game
 # input: ARRAY, VARIABLE # 数组名，变量名
 kuat_clear_array_variable = {
-	if = {
-		limit = { check_variable = { which = $VARIABLE$ value = 0 }}
-		clear_variable = $ARRAY$_0
-	} 
-	else = {
-		if = { # if the given index is greater than the maximum index of the array, stops effect
-			limit = { check_variable = { which = $VARIABLE$ value > $ARRAY$ }}
-			break = yes
-		} 
-		else_if = {
-			limit = { check_variable = { which = $VARIABLE$ value <= $ARRAY$ }}
-			kuat_get_digits = { ARRAY = $VARIABLE$ VARIABLE = $VARIABLE$ }
-			if = {
-				limit = { check_variable = { which = $VARIABLE$_DIGIT_1 value = 1 }}
-				kuat_clear_array_set_digit_2 = { ARRAY = $ARRAY$ VARIABLE = $VARIABLE$ INDEX = 1 }
-			} 
-			else_if = {
-				limit = { check_variable = { which = $VARIABLE$_DIGIT_1 value = 2 }}
-				kuat_clear_array_set_digit_2 = { ARRAY = $ARRAY$ VARIABLE = $VARIABLE$ INDEX = 2 }
-			} 
-			else_if = {
-				limit = { check_variable = { which = $VARIABLE$_DIGIT_1 value = 3 }}
-				kuat_clear_array_set_digit_2 = { ARRAY = $ARRAY$ VARIABLE = $VARIABLE$ INDEX = 3 }
-			} 
-			else_if = {
-				limit = { check_variable = { which = $VARIABLE$_DIGIT_1 value = 4 }}
-				kuat_clear_array_set_digit_2 = { ARRAY = $ARRAY$ VARIABLE = $VARIABLE$ INDEX = 4 }
-			} 
-			else_if = {
-				limit = { check_variable = { which = $VARIABLE$_DIGIT_1 value = 5 }}
-				kuat_clear_array_set_digit_2 = { ARRAY = $ARRAY$ VARIABLE = $VARIABLE$ INDEX = 5 }
-			} 
-			else_if = {
-				limit = { check_variable = { which = $VARIABLE$_DIGIT_1 value = 6 }}
-				kuat_clear_array_set_digit_2 = { ARRAY = $ARRAY$ VARIABLE = $VARIABLE$ INDEX = 6 }
-			} 
-			else_if = {
-				limit = { check_variable = { which = $VARIABLE$_DIGIT_1 value = 7 }}
-				kuat_clear_array_set_digit_2 = { ARRAY = $ARRAY$ VARIABLE = $VARIABLE$ INDEX = 7 }
-			} 
-			else_if = {
-				limit = { check_variable = { which = $VARIABLE$_DIGIT_1 value = 8 }}
-				kuat_clear_array_set_digit_2 = { ARRAY = $ARRAY$ VARIABLE = $VARIABLE$ INDEX = 8 }
-			} 
-			else_if = {
-				limit = { check_variable = { which = $VARIABLE$_DIGIT_1 value = 9 }}
-				kuat_clear_array_set_digit_2 = { ARRAY = $ARRAY$ VARIABLE = $VARIABLE$ INDEX = 9 }
-			}
-		}
-	}
-	
+	inline_script = { 
+        script = kuat_reasearch_event/kuat_clear_array_variable_Config 
+        ARRAY = $ARRAY$ VARIABLE = $VARIABLE$
+    }
+	# if = {
+	# 	limit = { check_variable = { which = $VARIABLE$ value = 0 }}
+	# 	clear_variable = $ARRAY$_0
+	# } 
+	# else = {
+	# 	if = { # if the given index is greater than the maximum index of the array, stops effect
+	# 		limit = { check_variable = { which = $VARIABLE$ value > $ARRAY$ }}
+	# 		break = yes
+	# 	} 
+	# 	else_if = {
+	# 		limit = { check_variable = { which = $VARIABLE$ value <= $ARRAY$ }}
+	# 		kuat_get_digits = { ARRAY = $VARIABLE$ VARIABLE = $VARIABLE$ }
+	# 		if = {
+	# 			limit = { check_variable = { which = $VARIABLE$_DIGIT_1 value = 1 }}
+	# 			kuat_clear_array_set_digit_2 = { ARRAY = $ARRAY$ VARIABLE = $VARIABLE$ INDEX = 1 }
+	# 		} 
+	# 		else_if = {
+	# 			limit = { check_variable = { which = $VARIABLE$_DIGIT_1 value = 2 }}
+	# 			kuat_clear_array_set_digit_2 = { ARRAY = $ARRAY$ VARIABLE = $VARIABLE$ INDEX = 2 }
+	# 		} 
+	# 		else_if = {
+	# 			limit = { check_variable = { which = $VARIABLE$_DIGIT_1 value = 3 }}
+	# 			kuat_clear_array_set_digit_2 = { ARRAY = $ARRAY$ VARIABLE = $VARIABLE$ INDEX = 3 }
+	# 		} 
+	# 		else_if = {
+	# 			limit = { check_variable = { which = $VARIABLE$_DIGIT_1 value = 4 }}
+	# 			kuat_clear_array_set_digit_2 = { ARRAY = $ARRAY$ VARIABLE = $VARIABLE$ INDEX = 4 }
+	# 		} 
+	# 		else_if = {
+	# 			limit = { check_variable = { which = $VARIABLE$_DIGIT_1 value = 5 }}
+	# 			kuat_clear_array_set_digit_2 = { ARRAY = $ARRAY$ VARIABLE = $VARIABLE$ INDEX = 5 }
+	# 		} 
+	# 		else_if = {
+	# 			limit = { check_variable = { which = $VARIABLE$_DIGIT_1 value = 6 }}
+	# 			kuat_clear_array_set_digit_2 = { ARRAY = $ARRAY$ VARIABLE = $VARIABLE$ INDEX = 6 }
+	# 		} 
+	# 		else_if = {
+	# 			limit = { check_variable = { which = $VARIABLE$_DIGIT_1 value = 7 }}
+	# 			kuat_clear_array_set_digit_2 = { ARRAY = $ARRAY$ VARIABLE = $VARIABLE$ INDEX = 7 }
+	# 		} 
+	# 		else_if = {
+	# 			limit = { check_variable = { which = $VARIABLE$_DIGIT_1 value = 8 }}
+	# 			kuat_clear_array_set_digit_2 = { ARRAY = $ARRAY$ VARIABLE = $VARIABLE$ INDEX = 8 }
+	# 		} 
+	# 		else_if = {
+	# 			limit = { check_variable = { which = $VARIABLE$_DIGIT_1 value = 9 }}
+	# 			kuat_clear_array_set_digit_2 = { ARRAY = $ARRAY$ VARIABLE = $VARIABLE$ INDEX = 9 }
+	# 		}
+	# 	}
+	# }
 }
 kuat_clear_array_set_digit_2 = {
 	if = {

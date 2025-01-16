@@ -1,0 +1,36 @@
+if = {
+	limit = { has_country_flag = kuat_research_$TECH$ }
+	kuat_calculate_tech_points_grow = { TECH_AREA = $TECH_AREA$ ID = $ID$ }
+	if = {
+		limit = { kuat_rsearch_system_trigger = { TECH_AREA = $TECH_AREA$ ID = $ID$ VALUE = 99 } }
+		give_technology = { tech = $TECH$ }
+		kuat_clear_cur_resarch_system_perc = { TECH_AREA = $TECH_AREA$ ID = $ID$ }
+		remove_country_flag = kuat_research_$TECH$
+		remove_country_flag = kuat_research_$TECH$_cancel_$TECH_AREA$_$ID$
+		if = {
+			limit = { has_country_flag = kuat_research_$TECH$_continue }
+			set_country_flag = kuat_research_$TECH$
+			set_variable = { which = tier_$TECH$ value = modifier:$TECH_MODIFIER$ }
+			divide_variable = { which = tier_$TECH$ value = 0.05 }
+
+			set_variable = { which = kuat_tech_id_$TECH_AREA$ value = $ID$ }
+			set_variable = {
+				which = kuat_$TECH_AREA$_$ID$_tech_icon_resarch_req
+				value = value:kuat_reapeatable_value_req|VALUE|tier_$TECH$|
+			}
+			set_variable = {  #nanotech_points_grow
+				which = kuat_$TECH_AREA$_$ID$_tech_icon_resarch_monthly_value
+				value = value:kuat_situation_research_technology_system_value|RESOURCE|$TECH_AREA$_research|
+			}
+			kuat_tech_system_enable_start = { TECH_AREA = $TECH_AREA$ ID = $ID$ }
+			kuat_get_array_variable = {
+				ARRAY = stored_kuat_$TECH_AREA$_$ID$_tech_points_array
+				VARIABLE = kuat_tech_id_$TECH_AREA$
+				OUT = kuat_$TECH_AREA$_$ID$_tech_icon_resarch_perc
+			}
+			kuat_get_tech_save_research_value_addon = { TECH_AREA = $TECH_AREA$ ID = $ID$ }
+			#monlthy
+			kuat_calculate_tech_points_grow_started = { TECH_AREA = $TECH_AREA$ ID = $ID$ }
+		}
+	}
+}

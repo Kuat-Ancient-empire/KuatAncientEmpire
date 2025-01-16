@@ -1705,7 +1705,37 @@ kuat_battle_kuat_star_flagship_checksum = {
 				owner = { is_invisable_faction = no is_ai = no }
 				has_enable_flag_ship_system_true = yes 
 			}
-			kuat_battle_kuat_star_flagship_caculation = yes
+			if = { 
+				limit = { 
+					kuat_fleet_cap_occupy = { ID = 3 } 
+					solar_system = { check_variable = { which = kuat_support_battle_add_variable value >= 3 } }
+				} 
+				kuat_battle_kuat_star_flagship_base_calculate = { ID = 3 MULT = 4 }
+			}
+			else_if = { 
+				limit = { 
+					kuat_fleet_cap_occupy = { ID = 1.5 } 
+					solar_system = { check_variable = { which = kuat_support_battle_add_variable value >= 1.5 } }
+				}  
+				kuat_battle_kuat_star_flagship_base_calculate = { ID = 1.5 MULT = 2 }
+			}
+			else_if = { 
+				limit = { 
+					kuat_fleet_cap_occupy = { ID = 1 } 
+					solar_system = { check_variable = { which = kuat_support_battle_add_variable value >= 1 } }
+				} 
+				kuat_battle_kuat_star_flagship_base_calculate = { ID = 1 MULT = 1 }
+			}
+			else_if = {
+				limit = { kuat_fleet_cap_flag_condition = yes }
+				solar_system = { prev = { 
+					kuat_battle_remove_repetable_modifier_iep = yes
+					kuat_battle_kuat_star_flagship_base_fleet_clear_calculation = { ID = 1 }
+					kuat_battle_kuat_star_flagship_base_fleet_clear_calculation = { ID = 1.5 }
+					kuat_battle_kuat_star_flagship_base_fleet_clear_calculation = { ID = 3 }
+					kuat_battle_notification_suppliment_fleet = yes
+				} }
+			}
 		}
 	}
 }
@@ -1757,41 +1787,6 @@ kuat_battle_kuat_star_flagship_base_fleet_clear_calculation = {
 	optimize_memory
 	remove_fleet_flag = kuat_super_flagship_$ID$_enough_support
 	remove_fleet_flag = kuat_super_flagship_$ID$_enough_support_@$SCOPE|prev$
-}
-
-kuat_battle_kuat_star_flagship_caculation = {
-	optimize_memory
-	if = { 
-		limit = { 
-			kuat_fleet_cap_occupy = { ID = 3 } 
-			solar_system = { check_variable = { which = kuat_support_battle_add_variable value >= 3 } }
-		} 
-		kuat_battle_kuat_star_flagship_base_calculate = { ID = 3 MULT = 4 }
-	}
-	else_if = { 
-		limit = { 
-			kuat_fleet_cap_occupy = { ID = 1.5 } 
-			solar_system = { check_variable = { which = kuat_support_battle_add_variable value >= 1.5 } }
-		}  
-		kuat_battle_kuat_star_flagship_base_calculate = { ID = 1.5 MULT = 2 }
-	}
-	else_if = { 
-		limit = { 
-			kuat_fleet_cap_occupy = { ID = 1 } 
-			solar_system = { check_variable = { which = kuat_support_battle_add_variable value >= 1 } }
-		} 
-		kuat_battle_kuat_star_flagship_base_calculate = { ID = 1 MULT = 1 }
-	}
-	else_if = {
-		limit = { kuat_fleet_cap_flag_condition = yes }
-		solar_system = { prev = { 
-			kuat_battle_remove_repetable_modifier_iep = yes
-			kuat_battle_kuat_star_flagship_base_fleet_clear_calculation = { ID = 1 }
-			kuat_battle_kuat_star_flagship_base_fleet_clear_calculation = { ID = 1.5 }
-			kuat_battle_kuat_star_flagship_base_fleet_clear_calculation = { ID = 3 }
-			kuat_battle_notification_suppliment_fleet = yes
-		} }
-	}
 }
 
 kuat_battle_notification_suppliment_fleet = {

@@ -1,0 +1,709 @@
+kuat_physics_tech_icon_0 = {
+	potential = {
+		hidden_trigger = {
+			from = {
+				NOR = {
+					has_country_flag = kuat_research_tech_repeatable_weapon_type_energy_damage
+					has_country_flag = kuat_research_tech_repeatable_weapon_type_energy_fire_rate
+				}
+			}
+		}
+	}
+	allow = { hidden_trigger = { always = yes } }
+	effect = { }
+}
+
+kuat_physics_tech_icon_1 = {
+	potential = {
+		hidden_trigger = {
+			from = {
+				has_country_flag = kuat_research_tech_repeatable_weapon_type_energy_damage
+				NOT = { has_country_flag = kuat_research_tech_repeatable_weapon_type_energy_fire_rate }
+			}
+		}
+	}
+	allow = { hidden_trigger = { always = yes } }
+	effect = { }
+}
+
+kuat_physics_tech_icon_2 = {
+	potential = {
+		hidden_trigger = {
+			from = {
+				has_country_flag = kuat_research_tech_repeatable_weapon_type_energy_fire_rate
+				NOT = { has_country_flag = kuat_research_tech_repeatable_weapon_type_energy_damage }
+			}
+		}
+	}
+	allow = { hidden_trigger = { always = yes } }
+	effect = { }
+}
+
+kuat_physics_cancel_tech = {
+	potential = {
+		hidden_trigger = {
+			from = {
+				is_scope_type = country
+				OR = {
+					has_country_flag = kuat_research_tech_repeatable_weapon_type_energy_fire_rate
+					has_country_flag = kuat_research_tech_repeatable_weapon_type_energy_damage
+				}
+			}
+		}
+	}
+	allow = { hidden_trigger = { always = yes } }
+	effect = {
+		hidden_effect = { from = { switch = {
+			trigger = has_country_flag
+			kuat_research_tech_repeatable_weapon_type_energy_fire_rate = {
+				kuat_set_array_variable = {
+					ARRAY = stored_kuat_physics_1001_tech_points_array
+					VALUE = kuat_physics_1001_tech_icon_resarch_multipler_value
+					VARIABLE = kuat_tech_id_physics
+				}
+				remove_country_flag = kuat_research_tech_repeatable_weapon_type_energy_fire_rate
+				set_country_flag = kuat_research_tech_repeatable_weapon_type_energy_fire_rate_cancel_physics_1001
+			}
+			kuat_research_tech_repeatable_weapon_type_energy_damage = {
+				kuat_set_array_variable = {
+					ARRAY = stored_kuat_physics_1000_tech_points_array
+					VALUE = kuat_physics_1000_tech_icon_resarch_multipler_value
+					VARIABLE = kuat_tech_id_physics
+				}
+				remove_country_flag = kuat_research_tech_repeatable_weapon_type_energy_damage
+				set_country_flag = kuat_research_tech_repeatable_weapon_type_energy_damage_cancel_physics_1000
+			}
+		} } }
+	}
+}
+
+kuat_physics_auto_tech = {
+	potential = {
+		hidden_trigger = {
+			from = {
+				OR = {
+					has_country_flag = kuat_research_tech_repeatable_weapon_type_energy_fire_rate
+					has_country_flag = kuat_research_tech_repeatable_weapon_type_energy_damage
+				}
+				NOR = {
+					has_country_flag = kuat_research_tech_repeatable_weapon_type_energy_damage_continue
+					has_country_flag = kuat_research_tech_repeatable_weapon_type_energy_fire_rate_continue
+				}
+			}
+		}
+	}
+	allow = { hidden_trigger = { always = yes } }
+	effect = {
+		hidden_effect = { from = {
+			if = {
+				limit = { has_country_flag = kuat_research_tech_repeatable_weapon_type_energy_damage }
+				set_country_flag = kuat_research_tech_repeatable_weapon_type_energy_damage_continue
+			}
+			if = {
+				limit = { has_country_flag = kuat_research_tech_repeatable_weapon_type_energy_fire_rate }
+				set_country_flag = kuat_research_tech_repeatable_weapon_type_energy_fire_rate_continue
+			}
+		} }
+	}
+}
+
+kuat_physics_auto_tech_selected = {
+	potential = {
+		hidden_trigger = {
+			from = {
+				OR = {
+					has_country_flag = kuat_research_tech_repeatable_weapon_type_energy_fire_rate
+					has_country_flag = kuat_research_tech_repeatable_weapon_type_energy_damage
+				}
+				OR = {
+					has_country_flag = kuat_research_tech_repeatable_weapon_type_energy_damage_continue
+					has_country_flag = kuat_research_tech_repeatable_weapon_type_energy_fire_rate_continue
+				}
+			}
+		}
+	}
+	allow = { hidden_trigger = { always = yes } }
+	effect = {
+		hidden_effect = { from = {
+			if = {
+				limit = { has_country_flag = kuat_research_tech_repeatable_weapon_type_energy_damage_continue }
+				remove_country_flag = kuat_research_tech_repeatable_weapon_type_energy_damage_continue
+			}
+			if = {
+				limit = { has_country_flag = kuat_research_tech_repeatable_weapon_type_energy_fire_rate_continue }
+				remove_country_flag = kuat_research_tech_repeatable_weapon_type_energy_fire_rate_continue
+			}
+		} }
+	}
+}
+
+kuat_society_tech_icon_0 = {
+	potential = {
+		hidden_trigger = {
+			from = {
+				NOR = {
+					has_country_flag = kuat_research_tech_repeatable_weapon_type_strike_craft_fire_damage
+					has_country_flag = kuat_research_tech_repeatable_weapon_type_strike_craft_fire_rate
+				}
+			}
+		}
+	}
+	allow = { hidden_trigger = { always = yes } }
+	effect = { }
+}
+
+kuat_society_tech_icon_1 = {
+	potential = {
+		hidden_trigger = {
+			from = {
+				has_country_flag = kuat_research_tech_repeatable_weapon_type_strike_craft_fire_damage
+				NOT = { has_country_flag = kuat_research_tech_repeatable_weapon_type_strike_craft_fire_rate }
+			}
+		}
+	}
+	allow = { hidden_trigger = { always = yes } }
+	effect = { }
+}
+
+kuat_society_tech_icon_2 = {
+	potential = {
+		hidden_trigger = {
+			from = {
+				has_country_flag = kuat_research_tech_repeatable_weapon_type_strike_craft_fire_rate
+				NOT = { has_country_flag = kuat_research_tech_repeatable_weapon_type_strike_craft_fire_damage }
+			}
+		}
+	}
+	allow = { hidden_trigger = { always = yes } }
+	effect = { }
+}
+
+kuat_society_cancel_tech = {
+	potential = {
+		hidden_trigger = {
+			from = {
+				is_scope_type = country
+				OR = {
+					has_country_flag = kuat_research_tech_repeatable_weapon_type_strike_craft_fire_rate
+					has_country_flag = kuat_research_tech_repeatable_weapon_type_strike_craft_fire_damage
+				}
+			}
+		}
+	}
+	allow = { hidden_trigger = { always = yes } }
+	effect = {
+		hidden_effect = { from = { switch = {
+			trigger = has_country_flag
+			kuat_research_tech_repeatable_weapon_type_strike_craft_fire_rate = {
+				kuat_set_array_variable = {
+					ARRAY = stored_kuat_society_2001_tech_points_array
+					VALUE = kuat_society_2001_tech_icon_resarch_multipler_value
+					VARIABLE = kuat_tech_id_society
+				}
+				remove_country_flag = kuat_research_tech_repeatable_weapon_type_strike_craft_fire_rate
+				set_country_flag = kuat_research_tech_repeatable_weapon_type_strike_craft_fire_rate_cancel_society_2001
+			}
+			kuat_research_tech_repeatable_weapon_type_strike_craft_fire_damage = {
+				kuat_set_array_variable = {
+					ARRAY = stored_kuat_society_2000_tech_points_array
+					VALUE = kuat_society_2000_tech_icon_resarch_multipler_value
+					VARIABLE = kuat_tech_id_society
+				}
+				remove_country_flag = kuat_research_tech_repeatable_weapon_type_strike_craft_fire_damage
+				set_country_flag = kuat_research_tech_repeatable_weapon_type_strike_craft_fire_damage_cancel_society_2000
+			}
+		} } }
+	}
+}
+
+kuat_society_auto_tech = {
+	potential = {
+		hidden_trigger = {
+			from = {
+				OR = {
+					has_country_flag = kuat_research_tech_repeatable_weapon_type_strike_craft_fire_rate
+					has_country_flag = kuat_research_tech_repeatable_weapon_type_strike_craft_fire_damage
+				}
+				NOR = {
+					has_country_flag = kuat_research_tech_repeatable_weapon_type_strike_craft_fire_damage_continue
+					has_country_flag = kuat_research_tech_repeatable_weapon_type_strike_craft_fire_rate_continue
+				}
+			}
+		}
+	}
+	allow = { hidden_trigger = { always = yes } }
+	effect = {
+		hidden_effect = { from = {
+			if = {
+				limit = { has_country_flag = kuat_research_tech_repeatable_weapon_type_strike_craft_fire_damage }
+				set_country_flag = kuat_research_tech_repeatable_weapon_type_strike_craft_fire_damage_continue
+			}
+			if = {
+				limit = { has_country_flag = kuat_research_tech_repeatable_weapon_type_strike_craft_fire_rate }
+				set_country_flag = kuat_research_tech_repeatable_weapon_type_strike_craft_fire_rate_continue
+			}
+		} }
+	}
+}
+
+kuat_society_auto_tech_selected = {
+	potential = {
+		hidden_trigger = {
+			from = {
+				OR = {
+					has_country_flag = kuat_research_tech_repeatable_weapon_type_energy_fire_rate
+					has_country_flag = kuat_research_tech_repeatable_weapon_type_energy_damage
+				}
+				OR = {
+					has_country_flag = kuat_research_tech_repeatable_weapon_type_strike_craft_fire_damage_continue
+					has_country_flag = kuat_research_tech_repeatable_weapon_type_strike_craft_fire_rate_continue
+				}
+			}
+		}
+	}
+	allow = { hidden_trigger = { always = yes } }
+	effect = {
+		hidden_effect = { from = {
+			if = {
+				limit = { has_country_flag = kuat_research_tech_repeatable_weapon_type_strike_craft_fire_damage_continue }
+				remove_country_flag = kuat_research_tech_repeatable_weapon_type_strike_craft_fire_damage_continue
+			}
+			if = {
+				limit = { has_country_flag = kuat_research_tech_repeatable_weapon_type_strike_craft_fire_rate_continue }
+				remove_country_flag = kuat_research_tech_repeatable_weapon_type_strike_craft_fire_rate_continue
+			}
+		} }
+	}
+}
+
+kuat_engineering_tech_icon_0 = {
+	potential = {
+		hidden_trigger = {
+			from = {
+				NOR = {
+					has_country_flag = kuat_research_tech_repeatable_weapon_type_kinetic_damage
+					has_country_flag = kuat_research_tech_repeatable_weapon_type_kinetic_fire_rate
+				}
+			}
+		}
+	}
+	allow = { hidden_trigger = { always = yes } }
+	effect = { }
+}
+
+kuat_engineering_tech_icon_1 = {
+	potential = {
+		hidden_trigger = {
+			from = {
+				has_country_flag = kuat_research_tech_repeatable_weapon_type_kinetic_damage
+				NOR = { 
+					has_country_flag = enable_Name_boss_crisis_DB_BOSS_building_researching
+					has_country_flag = kuat_research_tech_repeatable_weapon_type_kinetic_fire_rate 
+					has_country_flag = enable_Name_boss_crisis_DC_BOSS_building_researching
+				}
+			}
+		}
+	}
+	allow = { hidden_trigger = { always = yes } }
+	effect = { }
+}
+
+kuat_engineering_tech_icon_2 = {
+	potential = {
+		hidden_trigger = {
+			from = {
+				has_country_flag = kuat_research_tech_repeatable_weapon_type_kinetic_fire_rate
+				NOR = { 
+					has_country_flag = enable_Name_boss_crisis_DB_BOSS_building_researching
+					has_country_flag = kuat_research_tech_repeatable_weapon_type_kinetic_damage 
+					has_country_flag = enable_Name_boss_crisis_DC_BOSS_building_researching
+				}
+			}
+		}
+	}
+	allow = { hidden_trigger = { always = yes } }
+	effect = { }
+}
+kuat_engineering_tech_icon_3 = {
+	potential = {
+		hidden_trigger = {
+			from = {
+				has_country_flag = enable_Name_boss_crisis_DC_BOSS_building_researching
+				NOR = { 
+					has_country_flag = enable_Name_boss_crisis_DB_BOSS_building_researching
+					has_country_flag = kuat_research_tech_repeatable_weapon_type_kinetic_damage 
+					has_country_flag = kuat_research_tech_repeatable_weapon_type_kinetic_fire_rate
+				}
+			}
+		}
+	}
+	allow = { hidden_trigger = { always = yes } }
+	effect = { }
+}
+kuat_engineering_tech_icon_4 = {
+	potential = {
+		hidden_trigger = {
+			from = {
+				has_country_flag = enable_Name_boss_crisis_DB_BOSS_building_researching
+				NOR = { 
+					has_country_flag = enable_Name_boss_crisis_DC_BOSS_building_researching
+					has_country_flag = kuat_research_tech_repeatable_weapon_type_kinetic_damage 
+					has_country_flag = kuat_research_tech_repeatable_weapon_type_kinetic_fire_rate
+				}
+			}
+		}
+	}
+	allow = { hidden_trigger = { always = yes } }
+	effect = { }
+}
+
+kuat_engineering_cancel_tech = {
+	potential = {
+		hidden_trigger = {
+			from = {
+				is_scope_type = country
+				OR = {
+					has_country_flag = kuat_research_tech_repeatable_weapon_type_kinetic_fire_rate
+					has_country_flag = kuat_research_tech_repeatable_weapon_type_kinetic_damage
+					has_country_flag = enable_Name_boss_crisis_DC_BOSS_building_researching
+					has_country_flag = enable_Name_boss_crisis_DB_BOSS_building_researching
+				}
+			}
+		}
+	}
+	allow = { hidden_trigger = { always = yes } }
+	effect = {
+		hidden_effect = { from = { switch = {
+			trigger = has_country_flag
+			kuat_research_tech_repeatable_weapon_type_kinetic_fire_rate = {
+				kuat_set_array_variable = {
+					ARRAY = stored_kuat_engineering_3001_tech_points_array
+					VALUE = kuat_engineering_3001_tech_icon_resarch_multipler_value
+					VARIABLE = kuat_tech_id_engineering
+				}
+				remove_country_flag = kuat_research_tech_repeatable_weapon_type_kinetic_fire_rate
+				set_country_flag = kuat_research_tech_repeatable_weapon_type_kinetic_fire_rate_cancel_engineering_3001
+			}
+			kuat_research_tech_repeatable_weapon_type_kinetic_damage = {
+				kuat_set_array_variable = {
+					ARRAY = stored_kuat_engineering_3000_tech_points_array
+					VALUE = kuat_engineering_3000_tech_icon_resarch_multipler_value
+					VARIABLE = kuat_tech_id_engineering
+				}
+				remove_country_flag = kuat_research_tech_repeatable_weapon_type_kinetic_damage
+				set_country_flag = kuat_research_tech_repeatable_weapon_type_kinetic_damage_cancel_engineering_3000
+			}
+			enable_Name_boss_crisis_DC_BOSS_building_researching = {
+				kuat_set_array_variable = {
+					ARRAY = stored_kuat_engineering_1000_tech_points_array
+					VALUE = kuat_engineering_1000_tech_icon_resarch_multipler_value
+					VARIABLE = kuat_tech_id_ship_engineering
+				}
+				remove_country_flag = enable_Name_boss_crisis_DC_BOSS_building_researching
+				set_country_flag = enable_Name_boss_crisis_DC_BOSS_building_researching_cancel_engineering_1000
+			}
+			enable_Name_boss_crisis_DB_BOSS_building_researching = {
+				kuat_set_array_variable = {
+					ARRAY = stored_kuat_engineering_1001_tech_points_array
+					VALUE = kuat_engineering_1001_tech_icon_resarch_multipler_value
+					VARIABLE = kuat_tech_id_ship_engineering
+				}
+				remove_country_flag = enable_Name_boss_crisis_DB_BOSS_building_researching
+				set_country_flag = enable_Name_boss_crisis_DB_BOSS_building_researching_cancel_engineering_1001
+			}
+		} } }
+	}
+}
+
+kuat_engineering_auto_tech = {
+	potential = {
+		hidden_trigger = {
+			from = {
+				OR = {
+					has_country_flag = kuat_research_tech_repeatable_weapon_type_kinetic_fire_rate
+					has_country_flag = kuat_research_tech_repeatable_weapon_type_kinetic_damage
+				}
+				NOR = {
+					has_country_flag = kuat_research_tech_repeatable_weapon_type_kinetic_damage_continue
+					has_country_flag = kuat_research_tech_repeatable_weapon_type_kinetic_fire_rate_continue
+				}
+			}
+		}
+	}
+	allow = { hidden_trigger = { always = yes } }
+	effect = {
+		hidden_effect = { from = {
+			if = {
+				limit = { has_country_flag = kuat_research_tech_repeatable_weapon_type_kinetic_damage }
+				set_country_flag = kuat_research_tech_repeatable_weapon_type_kinetic_damage_continue
+			}
+			if = {
+				limit = { has_country_flag = kuat_research_tech_repeatable_weapon_type_kinetic_fire_rate }
+				set_country_flag = kuat_research_tech_repeatable_weapon_type_kinetic_fire_rate_continue
+			}
+		} }
+	}
+}
+
+kuat_engineering_auto_tech_selected = {
+	potential = {
+		hidden_trigger = {
+			from = {
+				OR = {
+					has_country_flag = kuat_research_tech_repeatable_weapon_type_energy_fire_rate
+					has_country_flag = kuat_research_tech_repeatable_weapon_type_energy_damage
+				}
+				OR = {
+					has_country_flag = kuat_research_tech_repeatable_weapon_type_kinetic_damage_continue
+					has_country_flag = kuat_research_tech_repeatable_weapon_type_kinetic_fire_rate_continue
+				}
+			}
+		}
+	}
+	allow = { hidden_trigger = { always = yes } }
+	effect = {
+		hidden_effect = { from = {
+			if = {
+				limit = { has_country_flag = kuat_research_tech_repeatable_weapon_type_kinetic_damage_continue }
+				remove_country_flag = kuat_research_tech_repeatable_weapon_type_kinetic_damage_continue
+			}
+			if = {
+				limit = { has_country_flag = kuat_research_tech_repeatable_weapon_type_kinetic_fire_rate_continue }
+				remove_country_flag = kuat_research_tech_repeatable_weapon_type_kinetic_fire_rate_continue
+			}
+		} }
+	}
+}
+
+kuat_invisable_research = {
+	potential = { always = yes }
+	allow = { hidden_trigger = { always = yes } }
+	effect = { }
+}
+
+kuat_physics_progrees_1= { potential = { from = { kuat_check_research_progress_physics_value = { VALUE = 1.35 } } } allow = { hidden_trigger = { always = yes } } effect = { } }
+kuat_physics_progrees_2= { potential = { from = { kuat_check_research_progress_physics_value = { VALUE = 2.70 } } } allow = { hidden_trigger = { always = yes } } effect = { } }
+kuat_physics_progrees_3= { potential = { from = { kuat_check_research_progress_physics_value = { VALUE = 4.05 } } } allow = { hidden_trigger = { always = yes } } effect = { } }
+kuat_physics_progrees_4= { potential = { from = { kuat_check_research_progress_physics_value = { VALUE = 5.40 } } } allow = { hidden_trigger = { always = yes } } effect = { } }
+kuat_physics_progrees_5= { potential = { from = { kuat_check_research_progress_physics_value = { VALUE = 6.75 } } } allow = { hidden_trigger = { always = yes } } effect = { } }
+kuat_physics_progrees_6= { potential = { from = { kuat_check_research_progress_physics_value = { VALUE = 8.10 } } } allow = { hidden_trigger = { always = yes } } effect = { } }
+kuat_physics_progrees_7= { potential = { from = { kuat_check_research_progress_physics_value = { VALUE = 9.45 } } } allow = { hidden_trigger = { always = yes } } effect = { } }
+kuat_physics_progrees_8= { potential = { from = { kuat_check_research_progress_physics_value = { VALUE = 10.80 } } } allow = { hidden_trigger = { always = yes } } effect = { } }
+kuat_physics_progrees_9= { potential = { from = { kuat_check_research_progress_physics_value = { VALUE = 12.15 } } } allow = { hidden_trigger = { always = yes } } effect = { } }
+kuat_physics_progrees_10= { potential = { from = { kuat_check_research_progress_physics_value = { VALUE = 13.50 } } } allow = { hidden_trigger = { always = yes } } effect = { } }
+kuat_physics_progrees_11= { potential = { from = { kuat_check_research_progress_physics_value = { VALUE = 14.85 } } } allow = { hidden_trigger = { always = yes } } effect = { } }
+kuat_physics_progrees_12= { potential = { from = { kuat_check_research_progress_physics_value = { VALUE = 16.20 } } } allow = { hidden_trigger = { always = yes } } effect = { } }
+kuat_physics_progrees_13= { potential = { from = { kuat_check_research_progress_physics_value = { VALUE = 17.55 } } } allow = { hidden_trigger = { always = yes } } effect = { } }
+kuat_physics_progrees_14= { potential = { from = { kuat_check_research_progress_physics_value = { VALUE = 18.90 } } } allow = { hidden_trigger = { always = yes } } effect = { } }
+kuat_physics_progrees_15= { potential = { from = { kuat_check_research_progress_physics_value = { VALUE = 20.25 } } } allow = { hidden_trigger = { always = yes } } effect = { } }
+kuat_physics_progrees_16= { potential = { from = { kuat_check_research_progress_physics_value = { VALUE = 21.60 } } } allow = { hidden_trigger = { always = yes } } effect = { } }
+kuat_physics_progrees_17= { potential = { from = { kuat_check_research_progress_physics_value = { VALUE = 22.95 } } } allow = { hidden_trigger = { always = yes } } effect = { } }
+kuat_physics_progrees_18= { potential = { from = { kuat_check_research_progress_physics_value = { VALUE = 24.30 } } } allow = { hidden_trigger = { always = yes } } effect = { } }
+kuat_physics_progrees_19= { potential = { from = { kuat_check_research_progress_physics_value = { VALUE = 25.65 } } } allow = { hidden_trigger = { always = yes } } effect = { } }
+kuat_physics_progrees_20= { potential = { from = { kuat_check_research_progress_physics_value = { VALUE = 27.00 } } } allow = { hidden_trigger = { always = yes } } effect = { } }
+kuat_physics_progrees_21= { potential = { from = { kuat_check_research_progress_physics_value = { VALUE = 28.35 } } } allow = { hidden_trigger = { always = yes } } effect = { } }
+kuat_physics_progrees_22= { potential = { from = { kuat_check_research_progress_physics_value = { VALUE = 29.70 } } } allow = { hidden_trigger = { always = yes } } effect = { } }
+kuat_physics_progrees_23= { potential = { from = { kuat_check_research_progress_physics_value = { VALUE = 31.05 } } } allow = { hidden_trigger = { always = yes } } effect = { } }
+kuat_physics_progrees_24= { potential = { from = { kuat_check_research_progress_physics_value = { VALUE = 32.40 } } } allow = { hidden_trigger = { always = yes } } effect = { } }
+kuat_physics_progrees_25= { potential = { from = { kuat_check_research_progress_physics_value = { VALUE = 33.75 } } } allow = { hidden_trigger = { always = yes } } effect = { } }
+kuat_physics_progrees_26= { potential = { from = { kuat_check_research_progress_physics_value = { VALUE = 35.10 } } } allow = { hidden_trigger = { always = yes } } effect = { } }
+kuat_physics_progrees_27= { potential = { from = { kuat_check_research_progress_physics_value = { VALUE = 36.45 } } } allow = { hidden_trigger = { always = yes } } effect = { } }
+kuat_physics_progrees_28= { potential = { from = { kuat_check_research_progress_physics_value = { VALUE = 37.80 } } } allow = { hidden_trigger = { always = yes } } effect = { } }
+kuat_physics_progrees_29= { potential = { from = { kuat_check_research_progress_physics_value = { VALUE = 39.15 } } } allow = { hidden_trigger = { always = yes } } effect = { } }
+kuat_physics_progrees_30= { potential = { from = { kuat_check_research_progress_physics_value = { VALUE = 40.50 } } } allow = { hidden_trigger = { always = yes } } effect = { } }
+kuat_physics_progrees_31= { potential = { from = { kuat_check_research_progress_physics_value = { VALUE = 41.85 } } } allow = { hidden_trigger = { always = yes } } effect = { } }
+kuat_physics_progrees_32= { potential = { from = { kuat_check_research_progress_physics_value = { VALUE = 43.20 } } } allow = { hidden_trigger = { always = yes } } effect = { } }
+kuat_physics_progrees_33= { potential = { from = { kuat_check_research_progress_physics_value = { VALUE = 44.55 } } } allow = { hidden_trigger = { always = yes } } effect = { } }
+kuat_physics_progrees_34= { potential = { from = { kuat_check_research_progress_physics_value = { VALUE = 45.90 } } } allow = { hidden_trigger = { always = yes } } effect = { } }
+kuat_physics_progrees_35= { potential = { from = { kuat_check_research_progress_physics_value = { VALUE = 47.25 } } } allow = { hidden_trigger = { always = yes } } effect = { } }
+kuat_physics_progrees_36= { potential = { from = { kuat_check_research_progress_physics_value = { VALUE = 48.60 } } } allow = { hidden_trigger = { always = yes } } effect = { } }
+kuat_physics_progrees_37= { potential = { from = { kuat_check_research_progress_physics_value = { VALUE = 49.95 } } } allow = { hidden_trigger = { always = yes } } effect = { } }
+kuat_physics_progrees_38= { potential = { from = { kuat_check_research_progress_physics_value = { VALUE = 51.30 } } } allow = { hidden_trigger = { always = yes } } effect = { } }
+kuat_physics_progrees_39= { potential = { from = { kuat_check_research_progress_physics_value = { VALUE = 52.65 } } } allow = { hidden_trigger = { always = yes } } effect = { } }
+kuat_physics_progrees_40= { potential = { from = { kuat_check_research_progress_physics_value = { VALUE = 54.00 } } } allow = { hidden_trigger = { always = yes } } effect = { } }
+kuat_physics_progrees_41= { potential = { from = { kuat_check_research_progress_physics_value = { VALUE = 55.35 } } } allow = { hidden_trigger = { always = yes } } effect = { } }
+kuat_physics_progrees_42= { potential = { from = { kuat_check_research_progress_physics_value = { VALUE = 56.70 } } } allow = { hidden_trigger = { always = yes } } effect = { } }
+kuat_physics_progrees_43= { potential = { from = { kuat_check_research_progress_physics_value = { VALUE = 58.05 } } } allow = { hidden_trigger = { always = yes } } effect = { } }
+kuat_physics_progrees_44= { potential = { from = { kuat_check_research_progress_physics_value = { VALUE = 59.40 } } } allow = { hidden_trigger = { always = yes } } effect = { } }
+kuat_physics_progrees_45= { potential = { from = { kuat_check_research_progress_physics_value = { VALUE = 60.75 } } } allow = { hidden_trigger = { always = yes } } effect = { } }
+kuat_physics_progrees_46= { potential = { from = { kuat_check_research_progress_physics_value = { VALUE = 62.10 } } } allow = { hidden_trigger = { always = yes } } effect = { } }
+kuat_physics_progrees_47= { potential = { from = { kuat_check_research_progress_physics_value = { VALUE = 63.45 } } } allow = { hidden_trigger = { always = yes } } effect = { } }
+kuat_physics_progrees_48= { potential = { from = { kuat_check_research_progress_physics_value = { VALUE = 64.80 } } } allow = { hidden_trigger = { always = yes } } effect = { } }
+kuat_physics_progrees_49= { potential = { from = { kuat_check_research_progress_physics_value = { VALUE = 66.15 } } } allow = { hidden_trigger = { always = yes } } effect = { } }
+kuat_physics_progrees_50= { potential = { from = { kuat_check_research_progress_physics_value = { VALUE = 67.50 } } } allow = { hidden_trigger = { always = yes } } effect = { } }
+kuat_physics_progrees_51= { potential = { from = { kuat_check_research_progress_physics_value = { VALUE = 68.85 } } } allow = { hidden_trigger = { always = yes } } effect = { } }
+kuat_physics_progrees_52= { potential = { from = { kuat_check_research_progress_physics_value = { VALUE = 70.20 } } } allow = { hidden_trigger = { always = yes } } effect = { } }
+kuat_physics_progrees_53= { potential = { from = { kuat_check_research_progress_physics_value = { VALUE = 71.55 } } } allow = { hidden_trigger = { always = yes } } effect = { } }
+kuat_physics_progrees_54= { potential = { from = { kuat_check_research_progress_physics_value = { VALUE = 72.90 } } } allow = { hidden_trigger = { always = yes } } effect = { } }
+kuat_physics_progrees_55= { potential = { from = { kuat_check_research_progress_physics_value = { VALUE = 74.25 } } } allow = { hidden_trigger = { always = yes } } effect = { } }
+kuat_physics_progrees_56= { potential = { from = { kuat_check_research_progress_physics_value = { VALUE = 75.60 } } } allow = { hidden_trigger = { always = yes } } effect = { } }
+kuat_physics_progrees_57= { potential = { from = { kuat_check_research_progress_physics_value = { VALUE = 76.95 } } } allow = { hidden_trigger = { always = yes } } effect = { } }
+kuat_physics_progrees_58= { potential = { from = { kuat_check_research_progress_physics_value = { VALUE = 78.30 } } } allow = { hidden_trigger = { always = yes } } effect = { } }
+kuat_physics_progrees_59= { potential = { from = { kuat_check_research_progress_physics_value = { VALUE = 79.65 } } } allow = { hidden_trigger = { always = yes } } effect = { } }
+kuat_physics_progrees_60= { potential = { from = { kuat_check_research_progress_physics_value = { VALUE = 81.00 } } } allow = { hidden_trigger = { always = yes } } effect = { } }
+kuat_physics_progrees_61= { potential = { from = { kuat_check_research_progress_physics_value = { VALUE = 82.35 } } } allow = { hidden_trigger = { always = yes } } effect = { } }
+kuat_physics_progrees_62= { potential = { from = { kuat_check_research_progress_physics_value = { VALUE = 83.70 } } } allow = { hidden_trigger = { always = yes } } effect = { } }
+kuat_physics_progrees_63= { potential = { from = { kuat_check_research_progress_physics_value = { VALUE = 85.05 } } } allow = { hidden_trigger = { always = yes } } effect = { } }
+kuat_physics_progrees_64= { potential = { from = { kuat_check_research_progress_physics_value = { VALUE = 86.40 } } } allow = { hidden_trigger = { always = yes } } effect = { } }
+kuat_physics_progrees_65= { potential = { from = { kuat_check_research_progress_physics_value = { VALUE = 87.75 } } } allow = { hidden_trigger = { always = yes } } effect = { } }
+kuat_physics_progrees_66= { potential = { from = { kuat_check_research_progress_physics_value = { VALUE = 89.10 } } } allow = { hidden_trigger = { always = yes } } effect = { } }
+kuat_physics_progrees_67= { potential = { from = { kuat_check_research_progress_physics_value = { VALUE = 90.45 } } } allow = { hidden_trigger = { always = yes } } effect = { } }
+kuat_physics_progrees_68= { potential = { from = { kuat_check_research_progress_physics_value = { VALUE = 91.80 } } } allow = { hidden_trigger = { always = yes } } effect = { } }
+kuat_physics_progrees_69= { potential = { from = { kuat_check_research_progress_physics_value = { VALUE = 93.15 } } } allow = { hidden_trigger = { always = yes } } effect = { } }
+kuat_physics_progrees_70= { potential = { from = { kuat_check_research_progress_physics_value = { VALUE = 94.50 } } } allow = { hidden_trigger = { always = yes } } effect = { } }
+kuat_physics_progrees_71= { potential = { from = { kuat_check_research_progress_physics_value = { VALUE = 95.85 } } } allow = { hidden_trigger = { always = yes } } effect = { } }
+kuat_physics_progrees_72= { potential = { from = { kuat_check_research_progress_physics_value = { VALUE = 97.20 } } } allow = { hidden_trigger = { always = yes } } effect = { } }
+kuat_physics_progrees_73= { potential = { from = { kuat_check_research_progress_physics_value = { VALUE = 98.55 } } } allow = { hidden_trigger = { always = yes } } effect = { } }
+kuat_physics_progrees_74= { potential = { from = { kuat_check_research_progress_physics_value = { VALUE = 99.90 } } } allow = { hidden_trigger = { always = yes } } effect = { } }
+
+
+kuat_society_progrees_1= { potential = { from = { kuat_check_research_progress_society_value = { VALUE = 1.35 } } } allow = { hidden_trigger = { always = yes } } effect = { } }
+kuat_society_progrees_2= { potential = { from = { kuat_check_research_progress_society_value = { VALUE = 2.70 } } } allow = { hidden_trigger = { always = yes } } effect = { } }
+kuat_society_progrees_3= { potential = { from = { kuat_check_research_progress_society_value = { VALUE = 4.05 } } } allow = { hidden_trigger = { always = yes } } effect = { } }
+kuat_society_progrees_4= { potential = { from = { kuat_check_research_progress_society_value = { VALUE = 5.40 } } } allow = { hidden_trigger = { always = yes } } effect = { } }
+kuat_society_progrees_5= { potential = { from = { kuat_check_research_progress_society_value = { VALUE = 6.75 } } } allow = { hidden_trigger = { always = yes } } effect = { } }
+kuat_society_progrees_6= { potential = { from = { kuat_check_research_progress_society_value = { VALUE = 8.10 } } } allow = { hidden_trigger = { always = yes } } effect = { } }
+kuat_society_progrees_7= { potential = { from = { kuat_check_research_progress_society_value = { VALUE = 9.45 } } } allow = { hidden_trigger = { always = yes } } effect = { } }
+kuat_society_progrees_8= { potential = { from = { kuat_check_research_progress_society_value = { VALUE = 10.80 } } } allow = { hidden_trigger = { always = yes } } effect = { } }
+kuat_society_progrees_9= { potential = { from = { kuat_check_research_progress_society_value = { VALUE = 12.15 } } } allow = { hidden_trigger = { always = yes } } effect = { } }
+kuat_society_progrees_10= { potential = { from = { kuat_check_research_progress_society_value = { VALUE = 13.50 } } } allow = { hidden_trigger = { always = yes } } effect = { } }
+kuat_society_progrees_11= { potential = { from = { kuat_check_research_progress_society_value = { VALUE = 14.85 } } } allow = { hidden_trigger = { always = yes } } effect = { } }
+kuat_society_progrees_12= { potential = { from = { kuat_check_research_progress_society_value = { VALUE = 16.20 } } } allow = { hidden_trigger = { always = yes } } effect = { } }
+kuat_society_progrees_13= { potential = { from = { kuat_check_research_progress_society_value = { VALUE = 17.55 } } } allow = { hidden_trigger = { always = yes } } effect = { } }
+kuat_society_progrees_14= { potential = { from = { kuat_check_research_progress_society_value = { VALUE = 18.90 } } } allow = { hidden_trigger = { always = yes } } effect = { } }
+kuat_society_progrees_15= { potential = { from = { kuat_check_research_progress_society_value = { VALUE = 20.25 } } } allow = { hidden_trigger = { always = yes } } effect = { } }
+kuat_society_progrees_16= { potential = { from = { kuat_check_research_progress_society_value = { VALUE = 21.60 } } } allow = { hidden_trigger = { always = yes } } effect = { } }
+kuat_society_progrees_17= { potential = { from = { kuat_check_research_progress_society_value = { VALUE = 22.95 } } } allow = { hidden_trigger = { always = yes } } effect = { } }
+kuat_society_progrees_18= { potential = { from = { kuat_check_research_progress_society_value = { VALUE = 24.30 } } } allow = { hidden_trigger = { always = yes } } effect = { } }
+kuat_society_progrees_19= { potential = { from = { kuat_check_research_progress_society_value = { VALUE = 25.65 } } } allow = { hidden_trigger = { always = yes } } effect = { } }
+kuat_society_progrees_20= { potential = { from = { kuat_check_research_progress_society_value = { VALUE = 27.00 } } } allow = { hidden_trigger = { always = yes } } effect = { } }
+kuat_society_progrees_21= { potential = { from = { kuat_check_research_progress_society_value = { VALUE = 28.35 } } } allow = { hidden_trigger = { always = yes } } effect = { } }
+kuat_society_progrees_22= { potential = { from = { kuat_check_research_progress_society_value = { VALUE = 29.70 } } } allow = { hidden_trigger = { always = yes } } effect = { } }
+kuat_society_progrees_23= { potential = { from = { kuat_check_research_progress_society_value = { VALUE = 31.05 } } } allow = { hidden_trigger = { always = yes } } effect = { } }
+kuat_society_progrees_24= { potential = { from = { kuat_check_research_progress_society_value = { VALUE = 32.40 } } } allow = { hidden_trigger = { always = yes } } effect = { } }
+kuat_society_progrees_25= { potential = { from = { kuat_check_research_progress_society_value = { VALUE = 33.75 } } } allow = { hidden_trigger = { always = yes } } effect = { } }
+kuat_society_progrees_26= { potential = { from = { kuat_check_research_progress_society_value = { VALUE = 35.10 } } } allow = { hidden_trigger = { always = yes } } effect = { } }
+kuat_society_progrees_27= { potential = { from = { kuat_check_research_progress_society_value = { VALUE = 36.45 } } } allow = { hidden_trigger = { always = yes } } effect = { } }
+kuat_society_progrees_28= { potential = { from = { kuat_check_research_progress_society_value = { VALUE = 37.80 } } } allow = { hidden_trigger = { always = yes } } effect = { } }
+kuat_society_progrees_29= { potential = { from = { kuat_check_research_progress_society_value = { VALUE = 39.15 } } } allow = { hidden_trigger = { always = yes } } effect = { } }
+kuat_society_progrees_30= { potential = { from = { kuat_check_research_progress_society_value = { VALUE = 40.50 } } } allow = { hidden_trigger = { always = yes } } effect = { } }
+kuat_society_progrees_31= { potential = { from = { kuat_check_research_progress_society_value = { VALUE = 41.85 } } } allow = { hidden_trigger = { always = yes } } effect = { } }
+kuat_society_progrees_32= { potential = { from = { kuat_check_research_progress_society_value = { VALUE = 43.20 } } } allow = { hidden_trigger = { always = yes } } effect = { } }
+kuat_society_progrees_33= { potential = { from = { kuat_check_research_progress_society_value = { VALUE = 44.55 } } } allow = { hidden_trigger = { always = yes } } effect = { } }
+kuat_society_progrees_34= { potential = { from = { kuat_check_research_progress_society_value = { VALUE = 45.90 } } } allow = { hidden_trigger = { always = yes } } effect = { } }
+kuat_society_progrees_35= { potential = { from = { kuat_check_research_progress_society_value = { VALUE = 47.25 } } } allow = { hidden_trigger = { always = yes } } effect = { } }
+kuat_society_progrees_36= { potential = { from = { kuat_check_research_progress_society_value = { VALUE = 48.60 } } } allow = { hidden_trigger = { always = yes } } effect = { } }
+kuat_society_progrees_37= { potential = { from = { kuat_check_research_progress_society_value = { VALUE = 49.95 } } } allow = { hidden_trigger = { always = yes } } effect = { } }
+kuat_society_progrees_38= { potential = { from = { kuat_check_research_progress_society_value = { VALUE = 51.30 } } } allow = { hidden_trigger = { always = yes } } effect = { } }
+kuat_society_progrees_39= { potential = { from = { kuat_check_research_progress_society_value = { VALUE = 52.65 } } } allow = { hidden_trigger = { always = yes } } effect = { } }
+kuat_society_progrees_40= { potential = { from = { kuat_check_research_progress_society_value = { VALUE = 54.00 } } } allow = { hidden_trigger = { always = yes } } effect = { } }
+kuat_society_progrees_41= { potential = { from = { kuat_check_research_progress_society_value = { VALUE = 55.35 } } } allow = { hidden_trigger = { always = yes } } effect = { } }
+kuat_society_progrees_42= { potential = { from = { kuat_check_research_progress_society_value = { VALUE = 56.70 } } } allow = { hidden_trigger = { always = yes } } effect = { } }
+kuat_society_progrees_43= { potential = { from = { kuat_check_research_progress_society_value = { VALUE = 58.05 } } } allow = { hidden_trigger = { always = yes } } effect = { } }
+kuat_society_progrees_44= { potential = { from = { kuat_check_research_progress_society_value = { VALUE = 59.40 } } } allow = { hidden_trigger = { always = yes } } effect = { } }
+kuat_society_progrees_45= { potential = { from = { kuat_check_research_progress_society_value = { VALUE = 60.75 } } } allow = { hidden_trigger = { always = yes } } effect = { } }
+kuat_society_progrees_46= { potential = { from = { kuat_check_research_progress_society_value = { VALUE = 62.10 } } } allow = { hidden_trigger = { always = yes } } effect = { } }
+kuat_society_progrees_47= { potential = { from = { kuat_check_research_progress_society_value = { VALUE = 63.45 } } } allow = { hidden_trigger = { always = yes } } effect = { } }
+kuat_society_progrees_48= { potential = { from = { kuat_check_research_progress_society_value = { VALUE = 64.80 } } } allow = { hidden_trigger = { always = yes } } effect = { } }
+kuat_society_progrees_49= { potential = { from = { kuat_check_research_progress_society_value = { VALUE = 66.15 } } } allow = { hidden_trigger = { always = yes } } effect = { } }
+kuat_society_progrees_50= { potential = { from = { kuat_check_research_progress_society_value = { VALUE = 67.50 } } } allow = { hidden_trigger = { always = yes } } effect = { } }
+kuat_society_progrees_51= { potential = { from = { kuat_check_research_progress_society_value = { VALUE = 68.85 } } } allow = { hidden_trigger = { always = yes } } effect = { } }
+kuat_society_progrees_52= { potential = { from = { kuat_check_research_progress_society_value = { VALUE = 70.20 } } } allow = { hidden_trigger = { always = yes } } effect = { } }
+kuat_society_progrees_53= { potential = { from = { kuat_check_research_progress_society_value = { VALUE = 71.55 } } } allow = { hidden_trigger = { always = yes } } effect = { } }
+kuat_society_progrees_54= { potential = { from = { kuat_check_research_progress_society_value = { VALUE = 72.90 } } } allow = { hidden_trigger = { always = yes } } effect = { } }
+kuat_society_progrees_55= { potential = { from = { kuat_check_research_progress_society_value = { VALUE = 74.25 } } } allow = { hidden_trigger = { always = yes } } effect = { } }
+kuat_society_progrees_56= { potential = { from = { kuat_check_research_progress_society_value = { VALUE = 75.60 } } } allow = { hidden_trigger = { always = yes } } effect = { } }
+kuat_society_progrees_57= { potential = { from = { kuat_check_research_progress_society_value = { VALUE = 76.95 } } } allow = { hidden_trigger = { always = yes } } effect = { } }
+kuat_society_progrees_58= { potential = { from = { kuat_check_research_progress_society_value = { VALUE = 78.30 } } } allow = { hidden_trigger = { always = yes } } effect = { } }
+kuat_society_progrees_59= { potential = { from = { kuat_check_research_progress_society_value = { VALUE = 79.65 } } } allow = { hidden_trigger = { always = yes } } effect = { } }
+kuat_society_progrees_60= { potential = { from = { kuat_check_research_progress_society_value = { VALUE = 81.00 } } } allow = { hidden_trigger = { always = yes } } effect = { } }
+kuat_society_progrees_61= { potential = { from = { kuat_check_research_progress_society_value = { VALUE = 82.35 } } } allow = { hidden_trigger = { always = yes } } effect = { } }
+kuat_society_progrees_62= { potential = { from = { kuat_check_research_progress_society_value = { VALUE = 83.70 } } } allow = { hidden_trigger = { always = yes } } effect = { } }
+kuat_society_progrees_63= { potential = { from = { kuat_check_research_progress_society_value = { VALUE = 85.05 } } } allow = { hidden_trigger = { always = yes } } effect = { } }
+kuat_society_progrees_64= { potential = { from = { kuat_check_research_progress_society_value = { VALUE = 86.40 } } } allow = { hidden_trigger = { always = yes } } effect = { } }
+kuat_society_progrees_65= { potential = { from = { kuat_check_research_progress_society_value = { VALUE = 87.75 } } } allow = { hidden_trigger = { always = yes } } effect = { } }
+kuat_society_progrees_66= { potential = { from = { kuat_check_research_progress_society_value = { VALUE = 89.10 } } } allow = { hidden_trigger = { always = yes } } effect = { } }
+kuat_society_progrees_67= { potential = { from = { kuat_check_research_progress_society_value = { VALUE = 90.45 } } } allow = { hidden_trigger = { always = yes } } effect = { } }
+kuat_society_progrees_68= { potential = { from = { kuat_check_research_progress_society_value = { VALUE = 91.80 } } } allow = { hidden_trigger = { always = yes } } effect = { } }
+kuat_society_progrees_69= { potential = { from = { kuat_check_research_progress_society_value = { VALUE = 93.15 } } } allow = { hidden_trigger = { always = yes } } effect = { } }
+kuat_society_progrees_70= { potential = { from = { kuat_check_research_progress_society_value = { VALUE = 94.50 } } } allow = { hidden_trigger = { always = yes } } effect = { } }
+kuat_society_progrees_71= { potential = { from = { kuat_check_research_progress_society_value = { VALUE = 95.85 } } } allow = { hidden_trigger = { always = yes } } effect = { } }
+kuat_society_progrees_72= { potential = { from = { kuat_check_research_progress_society_value = { VALUE = 97.20 } } } allow = { hidden_trigger = { always = yes } } effect = { } }
+kuat_society_progrees_73= { potential = { from = { kuat_check_research_progress_society_value = { VALUE = 98.55 } } } allow = { hidden_trigger = { always = yes } } effect = { } }
+kuat_society_progrees_74= { potential = { from = { kuat_check_research_progress_society_value = { VALUE = 99.90 } } } allow = { hidden_trigger = { always = yes } } effect = { } }
+
+
+kuat_engineering_progrees_1= { potential = { from = { kuat_check_research_progress_engineering_value = { VALUE = 1.35 } } } allow = { hidden_trigger = { always = yes } } effect = { } }
+kuat_engineering_progrees_2= { potential = { from = { kuat_check_research_progress_engineering_value = { VALUE = 2.70 } } } allow = { hidden_trigger = { always = yes } } effect = { } }
+kuat_engineering_progrees_3= { potential = { from = { kuat_check_research_progress_engineering_value = { VALUE = 4.05 } } } allow = { hidden_trigger = { always = yes } } effect = { } }
+kuat_engineering_progrees_4= { potential = { from = { kuat_check_research_progress_engineering_value = { VALUE = 5.40 } } } allow = { hidden_trigger = { always = yes } } effect = { } }
+kuat_engineering_progrees_5= { potential = { from = { kuat_check_research_progress_engineering_value = { VALUE = 6.75 } } } allow = { hidden_trigger = { always = yes } } effect = { } }
+kuat_engineering_progrees_6= { potential = { from = { kuat_check_research_progress_engineering_value = { VALUE = 8.10 } } } allow = { hidden_trigger = { always = yes } } effect = { } }
+kuat_engineering_progrees_7= { potential = { from = { kuat_check_research_progress_engineering_value = { VALUE = 9.45 } } } allow = { hidden_trigger = { always = yes } } effect = { } }
+kuat_engineering_progrees_8= { potential = { from = { kuat_check_research_progress_engineering_value = { VALUE = 10.80 } } } allow = { hidden_trigger = { always = yes } } effect = { } }
+kuat_engineering_progrees_9= { potential = { from = { kuat_check_research_progress_engineering_value = { VALUE = 12.15 } } } allow = { hidden_trigger = { always = yes } } effect = { } }
+kuat_engineering_progrees_10= { potential = { from = { kuat_check_research_progress_engineering_value = { VALUE = 13.50 } } } allow = { hidden_trigger = { always = yes } } effect = { } }
+kuat_engineering_progrees_11= { potential = { from = { kuat_check_research_progress_engineering_value = { VALUE = 14.85 } } } allow = { hidden_trigger = { always = yes } } effect = { } }
+kuat_engineering_progrees_12= { potential = { from = { kuat_check_research_progress_engineering_value = { VALUE = 16.20 } } } allow = { hidden_trigger = { always = yes } } effect = { } }
+kuat_engineering_progrees_13= { potential = { from = { kuat_check_research_progress_engineering_value = { VALUE = 17.55 } } } allow = { hidden_trigger = { always = yes } } effect = { } }
+kuat_engineering_progrees_14= { potential = { from = { kuat_check_research_progress_engineering_value = { VALUE = 18.90 } } } allow = { hidden_trigger = { always = yes } } effect = { } }
+kuat_engineering_progrees_15= { potential = { from = { kuat_check_research_progress_engineering_value = { VALUE = 20.25 } } } allow = { hidden_trigger = { always = yes } } effect = { } }
+kuat_engineering_progrees_16= { potential = { from = { kuat_check_research_progress_engineering_value = { VALUE = 21.60 } } } allow = { hidden_trigger = { always = yes } } effect = { } }
+kuat_engineering_progrees_17= { potential = { from = { kuat_check_research_progress_engineering_value = { VALUE = 22.95 } } } allow = { hidden_trigger = { always = yes } } effect = { } }
+kuat_engineering_progrees_18= { potential = { from = { kuat_check_research_progress_engineering_value = { VALUE = 24.30 } } } allow = { hidden_trigger = { always = yes } } effect = { } }
+kuat_engineering_progrees_19= { potential = { from = { kuat_check_research_progress_engineering_value = { VALUE = 25.65 } } } allow = { hidden_trigger = { always = yes } } effect = { } }
+kuat_engineering_progrees_20= { potential = { from = { kuat_check_research_progress_engineering_value = { VALUE = 27.00 } } } allow = { hidden_trigger = { always = yes } } effect = { } }
+kuat_engineering_progrees_21= { potential = { from = { kuat_check_research_progress_engineering_value = { VALUE = 28.35 } } } allow = { hidden_trigger = { always = yes } } effect = { } }
+kuat_engineering_progrees_22= { potential = { from = { kuat_check_research_progress_engineering_value = { VALUE = 29.70 } } } allow = { hidden_trigger = { always = yes } } effect = { } }
+kuat_engineering_progrees_23= { potential = { from = { kuat_check_research_progress_engineering_value = { VALUE = 31.05 } } } allow = { hidden_trigger = { always = yes } } effect = { } }
+kuat_engineering_progrees_24= { potential = { from = { kuat_check_research_progress_engineering_value = { VALUE = 32.40 } } } allow = { hidden_trigger = { always = yes } } effect = { } }
+kuat_engineering_progrees_25= { potential = { from = { kuat_check_research_progress_engineering_value = { VALUE = 33.75 } } } allow = { hidden_trigger = { always = yes } } effect = { } }
+kuat_engineering_progrees_26= { potential = { from = { kuat_check_research_progress_engineering_value = { VALUE = 35.10 } } } allow = { hidden_trigger = { always = yes } } effect = { } }
+kuat_engineering_progrees_27= { potential = { from = { kuat_check_research_progress_engineering_value = { VALUE = 36.45 } } } allow = { hidden_trigger = { always = yes } } effect = { } }
+kuat_engineering_progrees_28= { potential = { from = { kuat_check_research_progress_engineering_value = { VALUE = 37.80 } } } allow = { hidden_trigger = { always = yes } } effect = { } }
+kuat_engineering_progrees_29= { potential = { from = { kuat_check_research_progress_engineering_value = { VALUE = 39.15 } } } allow = { hidden_trigger = { always = yes } } effect = { } }
+kuat_engineering_progrees_30= { potential = { from = { kuat_check_research_progress_engineering_value = { VALUE = 40.50 } } } allow = { hidden_trigger = { always = yes } } effect = { } }
+kuat_engineering_progrees_31= { potential = { from = { kuat_check_research_progress_engineering_value = { VALUE = 41.85 } } } allow = { hidden_trigger = { always = yes } } effect = { } }
+kuat_engineering_progrees_32= { potential = { from = { kuat_check_research_progress_engineering_value = { VALUE = 43.20 } } } allow = { hidden_trigger = { always = yes } } effect = { } }
+kuat_engineering_progrees_33= { potential = { from = { kuat_check_research_progress_engineering_value = { VALUE = 44.55 } } } allow = { hidden_trigger = { always = yes } } effect = { } }
+kuat_engineering_progrees_34= { potential = { from = { kuat_check_research_progress_engineering_value = { VALUE = 45.90 } } } allow = { hidden_trigger = { always = yes } } effect = { } }
+kuat_engineering_progrees_35= { potential = { from = { kuat_check_research_progress_engineering_value = { VALUE = 47.25 } } } allow = { hidden_trigger = { always = yes } } effect = { } }
+kuat_engineering_progrees_36= { potential = { from = { kuat_check_research_progress_engineering_value = { VALUE = 48.60 } } } allow = { hidden_trigger = { always = yes } } effect = { } }
+kuat_engineering_progrees_37= { potential = { from = { kuat_check_research_progress_engineering_value = { VALUE = 49.95 } } } allow = { hidden_trigger = { always = yes } } effect = { } }
+kuat_engineering_progrees_38= { potential = { from = { kuat_check_research_progress_engineering_value = { VALUE = 51.30 } } } allow = { hidden_trigger = { always = yes } } effect = { } }
+kuat_engineering_progrees_39= { potential = { from = { kuat_check_research_progress_engineering_value = { VALUE = 52.65 } } } allow = { hidden_trigger = { always = yes } } effect = { } }
+kuat_engineering_progrees_40= { potential = { from = { kuat_check_research_progress_engineering_value = { VALUE = 54.00 } } } allow = { hidden_trigger = { always = yes } } effect = { } }
+kuat_engineering_progrees_41= { potential = { from = { kuat_check_research_progress_engineering_value = { VALUE = 55.35 } } } allow = { hidden_trigger = { always = yes } } effect = { } }
+kuat_engineering_progrees_42= { potential = { from = { kuat_check_research_progress_engineering_value = { VALUE = 56.70 } } } allow = { hidden_trigger = { always = yes } } effect = { } }
+kuat_engineering_progrees_43= { potential = { from = { kuat_check_research_progress_engineering_value = { VALUE = 58.05 } } } allow = { hidden_trigger = { always = yes } } effect = { } }
+kuat_engineering_progrees_44= { potential = { from = { kuat_check_research_progress_engineering_value = { VALUE = 59.40 } } } allow = { hidden_trigger = { always = yes } } effect = { } }
+kuat_engineering_progrees_45= { potential = { from = { kuat_check_research_progress_engineering_value = { VALUE = 60.75 } } } allow = { hidden_trigger = { always = yes } } effect = { } }
+kuat_engineering_progrees_46= { potential = { from = { kuat_check_research_progress_engineering_value = { VALUE = 62.10 } } } allow = { hidden_trigger = { always = yes } } effect = { } }
+kuat_engineering_progrees_47= { potential = { from = { kuat_check_research_progress_engineering_value = { VALUE = 63.45 } } } allow = { hidden_trigger = { always = yes } } effect = { } }
+kuat_engineering_progrees_48= { potential = { from = { kuat_check_research_progress_engineering_value = { VALUE = 64.80 } } } allow = { hidden_trigger = { always = yes } } effect = { } }
+kuat_engineering_progrees_49= { potential = { from = { kuat_check_research_progress_engineering_value = { VALUE = 66.15 } } } allow = { hidden_trigger = { always = yes } } effect = { } }
+kuat_engineering_progrees_50= { potential = { from = { kuat_check_research_progress_engineering_value = { VALUE = 67.50 } } } allow = { hidden_trigger = { always = yes } } effect = { } }
+kuat_engineering_progrees_51= { potential = { from = { kuat_check_research_progress_engineering_value = { VALUE = 68.85 } } } allow = { hidden_trigger = { always = yes } } effect = { } }
+kuat_engineering_progrees_52= { potential = { from = { kuat_check_research_progress_engineering_value = { VALUE = 70.20 } } } allow = { hidden_trigger = { always = yes } } effect = { } }
+kuat_engineering_progrees_53= { potential = { from = { kuat_check_research_progress_engineering_value = { VALUE = 71.55 } } } allow = { hidden_trigger = { always = yes } } effect = { } }
+kuat_engineering_progrees_54= { potential = { from = { kuat_check_research_progress_engineering_value = { VALUE = 72.90 } } } allow = { hidden_trigger = { always = yes } } effect = { } }
+kuat_engineering_progrees_55= { potential = { from = { kuat_check_research_progress_engineering_value = { VALUE = 74.25 } } } allow = { hidden_trigger = { always = yes } } effect = { } }
+kuat_engineering_progrees_56= { potential = { from = { kuat_check_research_progress_engineering_value = { VALUE = 75.60 } } } allow = { hidden_trigger = { always = yes } } effect = { } }
+kuat_engineering_progrees_57= { potential = { from = { kuat_check_research_progress_engineering_value = { VALUE = 76.95 } } } allow = { hidden_trigger = { always = yes } } effect = { } }
+kuat_engineering_progrees_58= { potential = { from = { kuat_check_research_progress_engineering_value = { VALUE = 78.30 } } } allow = { hidden_trigger = { always = yes } } effect = { } }
+kuat_engineering_progrees_59= { potential = { from = { kuat_check_research_progress_engineering_value = { VALUE = 79.65 } } } allow = { hidden_trigger = { always = yes } } effect = { } }
+kuat_engineering_progrees_60= { potential = { from = { kuat_check_research_progress_engineering_value = { VALUE = 81.00 } } } allow = { hidden_trigger = { always = yes } } effect = { } }
+kuat_engineering_progrees_61= { potential = { from = { kuat_check_research_progress_engineering_value = { VALUE = 82.35 } } } allow = { hidden_trigger = { always = yes } } effect = { } }
+kuat_engineering_progrees_62= { potential = { from = { kuat_check_research_progress_engineering_value = { VALUE = 83.70 } } } allow = { hidden_trigger = { always = yes } } effect = { } }
+kuat_engineering_progrees_63= { potential = { from = { kuat_check_research_progress_engineering_value = { VALUE = 85.05 } } } allow = { hidden_trigger = { always = yes } } effect = { } }
+kuat_engineering_progrees_64= { potential = { from = { kuat_check_research_progress_engineering_value = { VALUE = 86.40 } } } allow = { hidden_trigger = { always = yes } } effect = { } }
+kuat_engineering_progrees_65= { potential = { from = { kuat_check_research_progress_engineering_value = { VALUE = 87.75 } } } allow = { hidden_trigger = { always = yes } } effect = { } }
+kuat_engineering_progrees_66= { potential = { from = { kuat_check_research_progress_engineering_value = { VALUE = 89.10 } } } allow = { hidden_trigger = { always = yes } } effect = { } }
+kuat_engineering_progrees_67= { potential = { from = { kuat_check_research_progress_engineering_value = { VALUE = 90.45 } } } allow = { hidden_trigger = { always = yes } } effect = { } }
+kuat_engineering_progrees_68= { potential = { from = { kuat_check_research_progress_engineering_value = { VALUE = 91.80 } } } allow = { hidden_trigger = { always = yes } } effect = { } }
+kuat_engineering_progrees_69= { potential = { from = { kuat_check_research_progress_engineering_value = { VALUE = 93.15 } } } allow = { hidden_trigger = { always = yes } } effect = { } }
+kuat_engineering_progrees_70= { potential = { from = { kuat_check_research_progress_engineering_value = { VALUE = 94.50 } } } allow = { hidden_trigger = { always = yes } } effect = { } }
+kuat_engineering_progrees_71= { potential = { from = { kuat_check_research_progress_engineering_value = { VALUE = 95.85 } } } allow = { hidden_trigger = { always = yes } } effect = { } }
+kuat_engineering_progrees_72= { potential = { from = { kuat_check_research_progress_engineering_value = { VALUE = 97.20 } } } allow = { hidden_trigger = { always = yes } } effect = { } }
+kuat_engineering_progrees_73= { potential = { from = { kuat_check_research_progress_engineering_value = { VALUE = 98.55 } } } allow = { hidden_trigger = { always = yes } } effect = { } }
+kuat_engineering_progrees_74= { potential = { from = { kuat_check_research_progress_engineering_value = { VALUE = 99.90 } } } allow = { hidden_trigger = { always = yes } } effect = { } }
