@@ -1,0 +1,38 @@
+every_fleet_in_system = {
+	limit = { 
+		is_in_combat = yes 
+		owner = { is_invisable_faction = no is_ai = no }
+		has_enable_flag_ship_system_true = yes 
+	}
+	if = { 
+		limit = { 
+			kuat_fleet_cap_occupy = { ID = $ID_3$ } 
+			solar_system = { check_variable = { which = kuat_support_battle_add_variable value >= $ID_3$ } }
+		} 
+		kuat_battle_kuat_star_flagship_base_calculate = { ID = $ID_3$ MULT = $ID_3$ }
+	}
+	else_if = { 
+		limit = { 
+			kuat_fleet_cap_occupy = { ID = $ID_2$ } 
+			solar_system = { check_variable = { which = kuat_support_battle_add_variable value >= $ID_2$ } }
+		}  
+		kuat_battle_kuat_star_flagship_base_calculate = { ID = $ID_2$ MULT = $ID_2$ }
+	}
+	else_if = { 
+		limit = { 
+			kuat_fleet_cap_occupy = { ID = $ID_1$ } 
+			solar_system = { check_variable = { which = kuat_support_battle_add_variable value >= $ID_1$ } }
+		} 
+		kuat_battle_kuat_star_flagship_base_calculate = { ID = $ID_1$ MULT = $ID_1$ }
+	}
+	else_if = {
+		limit = { kuat_fleet_cap_flag_condition = yes }
+		solar_system = { prev = { 
+			kuat_battle_remove_repetable_modifier_iep = yes
+			kuat_battle_kuat_star_flagship_base_fleet_clear_calculation = { ID = $ID_3$ }
+			kuat_battle_kuat_star_flagship_base_fleet_clear_calculation = { ID = $ID_2$ }
+			kuat_battle_kuat_star_flagship_base_fleet_clear_calculation = { ID = $ID_1$ }
+			kuat_battle_notification_suppliment_fleet = yes
+		} }
+	}
+}

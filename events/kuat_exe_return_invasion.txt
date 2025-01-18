@@ -5,18 +5,18 @@ event = {
 	hide_window = yes
 	is_triggered_only = yes
 	trigger = {
-		if = {
-			limit = { has_global_flag = kuat_non_legacy_trigger_eternal_return }
-			end_game_years_passed > 55
-			NOT = { has_global_flag = exe_return_invasion_seed }
-		}
-		else = {
-			OR = {
+		OR = {
+			AND = {
+				has_global_flag = kuat_non_legacy_trigger_eternal_return
+				end_game_years_passed > 55
+			}
+			AND = {
+				NOT = { has_global_flag = kuat_non_legacy_trigger_eternal_return }
 				has_global_flag = enbale_last_invasion
 				has_global_flag = enbale_recycle_last_invasion
 			}
-			NOT = { has_global_flag = exe_return_invasion_seed }
 		}
+		NOT = { has_global_flag = exe_return_invasion_seed }
 	}
 	immediate = {
 		event_target:global_event_country = { set_variable = { which = count_destroy_eternal_fleet value = 0 } }
@@ -182,26 +182,7 @@ event = {
 		set_global_flag = eternal_return_fleet_debug_check
 		last_created_country = { 
 			if = {
-				limit = {  
-					OR = {
-						exists = event_target:wg_crisis_country
-						exists = event_target:wg_crisis_2_country
-						exists = event_target:monolith_crisis_country
-						exists = event_target:return_kuat_awakening_country
-					}
-				}
-				set_faction_hostility = {
-					target = event_target:monolith_crisis_country
-					set_hostile = no set_friendly = yes
-				} 
-				set_faction_hostility = {
-					target = event_target:wg_crisis_country
-					set_hostile = no set_friendly = yes
-				} 
-				set_faction_hostility = {
-					target = event_target:wg_crisis_2_country
-					set_hostile = no set_friendly = yes
-				} 
+				limit = { exists = event_target:return_kuat_awakening_country }
 				set_faction_hostility = {
 					target = event_target:return_kuat_awakening_country
 					set_hostile = no set_friendly = yes
@@ -1540,9 +1521,6 @@ event = {
 	}
 	immediate = {
 		every_country = {
-			remove_country_flag = fire_first_find
-			remove_country_flag = second_first_find
-			remove_country_flag = third_first_find
 			clear_variable = num_vaild_system
 			clear_variable = num_finish
 		}

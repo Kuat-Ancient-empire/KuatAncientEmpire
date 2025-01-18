@@ -516,7 +516,7 @@ country_event = {
     }
     immediate = {
         set_country_flag = enable_the_F_system_line_stage_10
-        set_country_flag = enable_Name_boss_crisis_DC_BOSS_building_research
+        set_country_flag = kuat_research_Name_boss_crisis_DC_BOSS_building_research
     }
     option = { name = kuat_extramonster_expand.19.a }
     after = { country_event = { id = exe_return_invasion.40 days = 720 random = 720 } }
@@ -832,8 +832,8 @@ country_event = {
     title = "kuat_extramonster_expand.31.name"
     desc = "kuat_extramonster_expand.31.desc"
     picture_event_data = { room = ancient_knowledge_room }
-    custom_gui = "kuat_event_m_window"
-    custom_gui_option = "kuat_event_m_option"
+    custom_gui = "kuat_event_window"
+    custom_gui_option = "kuat_event_option"
     diplomatic = yes
     show_sound = event_celebration
     is_triggered_only = yes
@@ -843,7 +843,7 @@ country_event = {
     }
     option = { 
         name = kuat_extramonster_expand.31.a 
-        hidden_effect = { set_country_flag = enable_Name_boss_crisis_DB_BOSS_building_research }
+        hidden_effect = { set_country_flag = kuat_research_Name_boss_crisis_DB_BOSS_building_research }
     }
 }
 
@@ -904,95 +904,17 @@ country_event = {
         TECH_AREA = engineering TECH_MODIFIER = weapon_type_kinetic_weapon_fire_rate_mult
         ID = 3001
     }
-    #流浪者巡洋舰 圣堂
-    option = {
-        name = kuat_extramonster_expand.32.Name_boss_crisis_DC_BOSS
-        trigger = {
-            has_country_flag = enable_Name_boss_crisis_DC_BOSS_building_research
-            NOR = { 
-                has_country_flag = enable_Name_boss_crisis_DC_BOSS_building_research_finished 
-                has_country_flag = enable_Name_boss_crisis_DC_BOSS_building_researching
-            }
-        }
-        allow = {
-            custom_tooltip_fail = {
-                text = "kuat_extramonster_expand.32.FAIL"
-                kuat_is_any_researching = { engineering = yes }
-            }
-        }
-        hidden_effect = {
-            set_country_flag = enable_Name_boss_crisis_DC_BOSS_building_researching
-            set_variable = { which = kuat_tech_id_ship_engineering value = 1000 }
-            set_variable = { which = kuat_engineering_1000_tech_icon_resarch_req value = 1000000 }
-            set_variable = {  #nanotech_points_grow
-                which = kuat_engineering_1000_tech_icon_resarch_monthly_value
-                value = value:kuat_situation_research_technology_system_value|RESOURCE|engineering_research|
-            }
-            if = {
-                limit = { NOT = { has_country_flag = enable_Name_boss_crisis_DC_BOSS_building_researching_cancel_engineering_1000 } }
-                #started
-                kuat_tech_system_enable_start = { TECH_AREA = engineering ID = 1000 }
-                kuat_get_array_variable = {
-                    ARRAY = stored_kuat_engineering_1000_tech_points_array
-                    VARIABLE = kuat_tech_id_ship_engineering
-                    OUT = kuat_engineering_1000_tech_icon_resarch_perc
-                }
-                kuat_get_tech_save_research_value_addon = { TECH_AREA = engineering ID = 1000 }
-                #monlthy
-                kuat_calculate_tech_points_grow_started = { TECH_AREA = engineering ID = 1000 }
-            }
-            else = { kuat_get_array_variable = {
-                ARRAY = stored_kuat_engineering_1000_tech_points_array
-                VARIABLE = kuat_tech_id_ship_engineering
-                OUT = kuat_engineering_1000_tech_icon_resarch_perc
-            } }
-
-            country_event = { id = kuat_extramonster_expand.32 }
-        }
+    inline_script = { 
+        script = kuat_reasearch_event/kuat_system_research_normal_options 
+        REQ_VALUE = 1000000 
+        TECH_AREA = engineering KEY = Name_boss_crisis_DC_BOSS
+        ID = 1000
     }
-    option = {
-        name = kuat_extramonster_expand.32.Name_boss_crisis_DB_BOSS
-        trigger = {
-            has_country_flag = enable_Name_boss_crisis_DB_BOSS_building_research
-            NOR = { 
-                has_country_flag = enable_Name_boss_crisis_DB_BOSS_building_research_finished 
-                has_country_flag = enable_Name_boss_crisis_DB_BOSS_building_researching
-            }
-        }
-        allow = {
-            custom_tooltip_fail = {
-                text = "kuat_extramonster_expand.32.FAIL"
-                kuat_is_any_researching = { engineering = yes }
-            }
-        }
-        hidden_effect = {
-            set_country_flag = enable_Name_boss_crisis_DB_BOSS_building_researching
-            set_variable = { which = kuat_tech_id_ship_engineering value = 1001 }
-            set_variable = { which = kuat_engineering_1001_tech_icon_resarch_req value = 2000000 }
-            set_variable = {  #nanotech_points_grow
-                which = kuat_engineering_1001_tech_icon_resarch_monthly_value
-                value = value:kuat_situation_research_technology_system_value|RESOURCE|engineering_research|
-            }
-            if = {
-                limit = { NOT = { has_country_flag = enable_Name_boss_crisis_DB_BOSS_building_researching_cancel_engineering_1001 } }
-                #started
-                kuat_tech_system_enable_start = { TECH_AREA = engineering ID = 1001 }
-                kuat_get_array_variable = {
-                    ARRAY = stored_kuat_engineering_1001_tech_points_array
-                    VARIABLE = kuat_tech_id_ship_engineering
-                    OUT = kuat_engineering_1001_tech_icon_resarch_perc
-                }
-                kuat_get_tech_save_research_value_addon = { TECH_AREA = engineering ID = 1001 }
-                #monlthy
-                kuat_calculate_tech_points_grow_started = { TECH_AREA = engineering ID = 1001 }
-            }
-            else = { kuat_get_array_variable = {
-                ARRAY = stored_kuat_engineering_1001_tech_points_array
-                VARIABLE = kuat_tech_id_ship_engineering
-                OUT = kuat_engineering_1001_tech_icon_resarch_perc
-            } }
-            country_event = { id = kuat_extramonster_expand.32 }
-        }
+    inline_script = { 
+        script = kuat_reasearch_event/kuat_system_research_normal_options 
+        REQ_VALUE = 2000000 
+        TECH_AREA = engineering KEY = Name_boss_crisis_DB_BOSS
+        ID = 1001
     }
     option = { name = kuat_extramonster_expand.32.exit }
 }
@@ -1039,41 +961,17 @@ country_event = {
             TECH_AREA = engineering TECH_MODIFIER = weapon_type_kinetic_weapon_fire_rate_mult
             ID = 3001
         }
-        if = {
-            limit = { has_country_flag = enable_Name_boss_crisis_DC_BOSS_building_researching }
-            kuat_calculate_tech_points_grow = { TECH_AREA = engineering ID = 1000 }
-            if = {
-                limit = { kuat_rsearch_system_trigger = { TECH_AREA = engineering ID = 1000 VALUE = 99 } }
-                create_ship_design = { design = Name_boss_crisis_DC_BOSS }
-                add_ship_design = last_created_design
-                set_country_flag = enable_Name_boss_crisis_DC_BOSS_building_research_finished
-                kuat_clear_cur_resarch_system_perc = { TECH_AREA = engineering ID = 1000 }
-                remove_country_flag = enable_Name_boss_crisis_DC_BOSS_building_researching
-                remove_country_flag = enable_Name_boss_crisis_DC_BOSS_building_researching_cancel_engineering_1000
-                kuat_clear_array_variable = { ARRAY = stored_kuat_engineering_1000_tech_points_array VARIABLE = kuat_tech_id_ship_engineering }
-                if = {
-                    limit = { NOT = { has_active_event = { kuat_extramonster_expand.32 } } }
-                    country_event = { id = kuat_extramonster_expand.32 }
-                }
-            }
+        inline_script = { 
+            script = kuat_reasearch_event/kuat_system_research_normal_Config 
+            PERC = 99 
+            TECH_AREA = engineering KEY = Name_boss_crisis_DC_BOSS
+            ID = 1000
         }
-        if = {
-            limit = { has_country_flag = enable_Name_boss_crisis_DB_BOSS_building_researching }
-            kuat_calculate_tech_points_grow = { TECH_AREA = engineering ID = 1001 }
-            if = {
-                limit = { kuat_rsearch_system_trigger = { TECH_AREA = engineering ID = 1001 VALUE = 99 } }
-                create_ship_design = { design = Name_boss_crisis_DB_BOSS }
-                add_ship_design = last_created_design
-                set_country_flag = enable_Name_boss_crisis_DB_BOSS_building_research_finished
-                kuat_clear_cur_resarch_system_perc = { TECH_AREA = engineering ID = 1001 }
-                remove_country_flag = enable_Name_boss_crisis_DB_BOSS_building_researching
-                remove_country_flag = enable_Name_boss_crisis_DB_BOSS_building_researching_cancel_engineering_1001
-                kuat_clear_array_variable = { ARRAY = stored_kuat_engineering_1001_tech_points_array VARIABLE = kuat_tech_id_ship_engineering }
-                if = {
-                    limit = { NOT = { has_active_event = { kuat_extramonster_expand.32 } } }
-                    country_event = { id = kuat_extramonster_expand.32 }
-                }
-            }
+        inline_script = { 
+            script = kuat_reasearch_event/kuat_system_research_normal_Config 
+            PERC = 99 
+            TECH_AREA = engineering KEY = Name_boss_crisis_DB_BOSS
+            ID = 1001
         }
     }
 }

@@ -333,8 +333,8 @@ kuat_fleet_cap_occupy = {
 kuat_fleet_cap_flag_condition = {
 	NOR = {
 		has_fleet_flag = kuat_super_flagship_1_enough_support
-		has_fleet_flag = kuat_super_flagship_1.5_enough_support
-		has_fleet_flag = kuat_super_flagship_3_enough_support
+		has_fleet_flag = kuat_super_flagship_2_enough_support
+		has_fleet_flag = kuat_super_flagship_4_enough_support
 	}
 }
 
@@ -357,7 +357,7 @@ kuat_fleet_cap_TRIGGER_occupy_1 = {
 	}
 }
 
-kuat_fleet_cap_TRIGGER_occupy_1.5 = {
+kuat_fleet_cap_TRIGGER_occupy_2 = {
 	any_owned_ship = {
 		OR = {
 			is_ship_size = X308_Balletor
@@ -368,7 +368,7 @@ kuat_fleet_cap_TRIGGER_occupy_1.5 = {
 	}
 }
 
-kuat_fleet_cap_TRIGGER_occupy_3 = {
+kuat_fleet_cap_TRIGGER_occupy_4 = {
 	any_owned_ship = {
 		OR = {
 			is_ship_size = kuat_compellor
@@ -698,6 +698,7 @@ kuat_is_playable_country = {
 }
 
 kuat_is_enable_shadow_origin = {
+	is_player_country = yes
 	OR = {
 		has_origin = origin_kuat_shadow
 		has_country_flag = has_origin_kuat_shadow
@@ -705,6 +706,7 @@ kuat_is_enable_shadow_origin = {
 }
 
 kuat_is_enable_eternal_origin = {
+	is_player_country = yes
 	OR = {
 		has_origin = origin_eternalthrone
 		has_country_flag = has_origin_kuat_eternal
@@ -712,6 +714,7 @@ kuat_is_enable_eternal_origin = {
 }
 
 kuat_is_enable_apocalyptic_origin = {
+	is_player_country = yes
 	OR = {
 		has_origin = origin_kuat_apocalyptic
 		has_country_flag = has_origin_kuat_apocalyptic
@@ -835,14 +838,14 @@ kuat_check_research_progress_engineering_value = {
 			}
 		}
 		AND = {
-			has_country_flag = enable_Name_boss_crisis_DC_BOSS_building_researching
+			has_country_flag = kuat_research_tech_Name_boss_crisis_DC_BOSS_building
 			check_variable = {
 				which = kuat_engineering_1000_tech_icon_resarch_total_perc
 				value > $VALUE$
 			}
 		}
 		AND = {
-			has_country_flag = enable_Name_boss_crisis_DB_BOSS_building_researching
+			has_country_flag = kuat_research_tech_Name_boss_crisis_DB_BOSS_building
 			check_variable = {
 				which = kuat_engineering_1001_tech_icon_resarch_total_perc
 				value > $VALUE$
@@ -852,28 +855,46 @@ kuat_check_research_progress_engineering_value = {
 }
 
 kuat_is_any_researching = {
-	[[physics] NOR = {
-		has_country_flag = kuat_research_tech_repeatable_weapon_type_energy_damage
-		has_country_flag = kuat_research_tech_repeatable_weapon_type_energy_fire_rate
+	[[physics] if = {
+		limit = { always = $physics$ }
+		NOR = {
+			has_country_flag = kuat_research_tech_repeatable_weapon_type_energy_damage
+			has_country_flag = kuat_research_tech_repeatable_weapon_type_energy_fire_rate
+		}
+	} ]
+	[[society] if = {
+		limit = { always = $society$ }
+		NOR = {
+			has_country_flag = kuat_research_tech_repeatable_weapon_type_strike_craft_fire_damage
+			has_country_flag = kuat_research_tech_repeatable_weapon_type_strike_craft_fire_rate
+		}
 	}]
-	[[society] NOR = {
-		has_country_flag = kuat_research_tech_repeatable_weapon_type_strike_craft_fire_damage
-		has_country_flag = kuat_research_tech_repeatable_weapon_type_strike_craft_fire_rate
+	[[engineering] if = {
+		limit = { always = $engineering$ }
+		NOR = {
+			has_country_flag = kuat_research_tech_repeatable_weapon_type_kinetic_damage
+			has_country_flag = kuat_research_tech_repeatable_weapon_type_kinetic_fire_rate
+			has_country_flag = kuat_research_tech_Name_boss_crisis_DC_BOSS_building
+			has_country_flag = kuat_research_tech_Name_boss_crisis_DB_BOSS_building
+		}
+	} ]
+	[[ALL] if = {
+		limit = { always = $ALL$ }
+		OR = {
+			has_country_flag = kuat_research_tech_repeatable_weapon_type_energy_damage
+			has_country_flag = kuat_research_tech_repeatable_weapon_type_energy_fire_rate
+			has_country_flag = kuat_research_tech_repeatable_weapon_type_strike_craft_fire_damage
+			has_country_flag = kuat_research_tech_repeatable_weapon_type_strike_craft_fire_rate
+			has_country_flag = kuat_research_tech_repeatable_weapon_type_kinetic_damage
+			has_country_flag = kuat_research_tech_repeatable_weapon_type_kinetic_fire_rate
+			has_country_flag = kuat_research_tech_Name_boss_crisis_DC_BOSS_building
+			has_country_flag = kuat_research_tech_Name_boss_crisis_DB_BOSS_building
+		}
 	}]
-	[[engineering] NOR = {
-		has_country_flag = kuat_research_tech_repeatable_weapon_type_kinetic_damage
-		has_country_flag = kuat_research_tech_repeatable_weapon_type_kinetic_fire_rate
-		has_country_flag = enable_Name_boss_crisis_DC_BOSS_building_researching
-		has_country_flag = enable_Name_boss_crisis_DB_BOSS_building_researching
-	}]
-	[[ALL] OR = {
-		has_country_flag = kuat_research_tech_repeatable_weapon_type_energy_damage
-		has_country_flag = kuat_research_tech_repeatable_weapon_type_energy_fire_rate
-		has_country_flag = kuat_research_tech_repeatable_weapon_type_strike_craft_fire_damage
-		has_country_flag = kuat_research_tech_repeatable_weapon_type_strike_craft_fire_rate
-		has_country_flag = kuat_research_tech_repeatable_weapon_type_kinetic_damage
-		has_country_flag = kuat_research_tech_repeatable_weapon_type_kinetic_fire_rate
-		has_country_flag = enable_Name_boss_crisis_DC_BOSS_building_researching
-		has_country_flag = enable_Name_boss_crisis_DB_BOSS_building_researching
-	}]
+}
+
+kuat_is_enable_eternal_invasion = {
+	any_country = { kuat_is_enable_shadow_origin = yes }
+	NOT = { has_global_flag = will_be_upgrade_starforge }
+	NOT = { has_global_flag = exe_invasion_ban_hidden }
 }

@@ -5,9 +5,7 @@ event = {
 	hide_window = yes
 	is_triggered_only = yes
 	trigger = {
-		any_country = { kuat_is_enable_shadow_origin = yes }
-		NOT = { has_global_flag = will_be_upgrade_starforge }
-		NOT = { has_global_flag = exe_invasion_ban_hidden }
+		kuat_is_enable_eternal_invasion = yes
 		NOR = {
 			has_global_flag = exe_invasion_seed
 			exists = event_target:fallen_empire_kuat
@@ -48,9 +46,7 @@ event = {
 	hide_window = yes
 	is_triggered_only = yes
 	trigger = {
-		any_country = { kuat_is_enable_shadow_origin = yes }
-		NOT = { has_global_flag = will_be_upgrade_starforge }
-		NOT = { has_global_flag = exe_invasion_ban_hidden }
+		kuat_is_enable_eternal_invasion = yes
 
 		has_global_flag = exe_invasion_seed
 		NOT = { has_global_flag = exe_invasion_signs_cooldown }
@@ -95,9 +91,7 @@ event = {
 	hide_window = yes
 	is_triggered_only = yes
 	trigger = {
-		any_country = { kuat_is_enable_shadow_origin = yes }
-		NOT = { has_global_flag = will_be_upgrade_starforge }
-		NOT = { has_global_flag = exe_invasion_ban_hidden }
+		kuat_is_enable_eternal_invasion = yes
 
 		has_global_flag = exe_invasion_3_fired
 		NOT = { has_global_flag = exe_invasion_signs_cooldown }
@@ -147,9 +141,7 @@ event = {
 	hide_window = yes
 	is_triggered_only = yes
 	trigger = {
-		any_country = { kuat_is_enable_shadow_origin = yes }
-		NOT = { has_global_flag = will_be_upgrade_starforge }
-		NOT = { has_global_flag = exe_invasion_ban_hidden }
+		kuat_is_enable_eternal_invasion = yes
 
 		has_global_flag = exe_invasion_5_fired
 		NOT = { has_global_flag = exe_invasion_signs_cooldown }
@@ -200,9 +192,7 @@ event = {
 	hide_window = yes
 	is_triggered_only = yes
 	trigger = {
-		any_country = { kuat_is_enable_shadow_origin = yes }
-		NOT = { has_global_flag = will_be_upgrade_starforge }
-		NOT = { has_global_flag = exe_invasion_ban_hidden }
+		kuat_is_enable_eternal_invasion = yes
 		
 		has_global_flag = exe_invasion_7_fired
 		NOT = { has_global_flag = exe_invasion_signs_cooldown }
@@ -231,26 +221,7 @@ event = {
 		}
 		last_created_country = { 
 			if = {
-				limit = {  
-					OR = {
-						exists = event_target:wg_crisis_country
-						exists = event_target:wg_crisis_2_country
-						exists = event_target:monolith_crisis_country
-						exists = event_target:return_kuat_awakening_country
-					}
-				}
-				set_faction_hostility = {
-					target = event_target:monolith_crisis_country
-					set_hostile = no set_friendly = yes
-				} 
-				set_faction_hostility = {
-					target = event_target:wg_crisis_country
-					set_hostile = no set_friendly = yes
-				} 
-				set_faction_hostility = {
-					target = event_target:wg_crisis_2_country
-					set_hostile = no set_friendly = yes
-				} 
+				limit = { exists = event_target:return_kuat_awakening_country }
 				set_faction_hostility = {
 					target = event_target:return_kuat_awakening_country
 					set_hostile = no set_friendly = yes
@@ -2155,25 +2126,25 @@ country_event = {
 					set_variable = { which = kuat_support_battle_add_variable value = value:kuat_system_support_variable } 
 					prev = { 
 						kuat_battle_kuat_star_flagship_base_fleet_clear_calculation = { ID = 1 }
-						kuat_battle_kuat_star_flagship_base_fleet_clear_calculation = { ID = 1.5 }
-						kuat_battle_kuat_star_flagship_base_fleet_clear_calculation = { ID = 3 }
+						kuat_battle_kuat_star_flagship_base_fleet_clear_calculation = { ID = 2 }
+						kuat_battle_kuat_star_flagship_base_fleet_clear_calculation = { ID = 4 }
 					}
 					system_event = { id = exe_invasion.2502 days = 3 }
 				} }
 				#运算
 				if = { 
 					limit = { 
-						kuat_fleet_cap_occupy = { ID = 3 } 
-						solar_system = { check_variable = { which = kuat_support_battle_add_variable value >= 3 } }
+						kuat_fleet_cap_occupy = { ID = 4 } 
+						solar_system = { check_variable = { which = kuat_support_battle_add_variable value >= 4 } }
 					} 
-					kuat_battle_kuat_star_flagship_base_calculate = { ID = 3 MULT = 4 }
+					kuat_battle_kuat_star_flagship_base_calculate = { ID = 4 MULT = 4 }
 				}
 				else_if = { 
 					limit = { 
-						kuat_fleet_cap_occupy = { ID = 1.5 } 
-						solar_system = { check_variable = { which = kuat_support_battle_add_variable value >= 1.5 } }
+						kuat_fleet_cap_occupy = { ID = 2 } 
+						solar_system = { check_variable = { which = kuat_support_battle_add_variable value >= 2 } }
 					}  
-					kuat_battle_kuat_star_flagship_base_calculate = { ID = 1.5 MULT = 2 }
+					kuat_battle_kuat_star_flagship_base_calculate = { ID = 2 MULT = 2 }
 				}
 				else_if = { 
 					limit = { 
@@ -2187,8 +2158,8 @@ country_event = {
 					solar_system = { prev = { 
 						kuat_battle_remove_repetable_modifier_iep = yes
 						kuat_battle_kuat_star_flagship_base_fleet_clear_calculation = { ID = 1 }
-						kuat_battle_kuat_star_flagship_base_fleet_clear_calculation = { ID = 1.5 }
-						kuat_battle_kuat_star_flagship_base_fleet_clear_calculation = { ID = 3 }
+						kuat_battle_kuat_star_flagship_base_fleet_clear_calculation = { ID = 2 }
+						kuat_battle_kuat_star_flagship_base_fleet_clear_calculation = { ID = 4 }
 						kuat_battle_notification_suppliment_fleet = yes
 					} }
 				}
@@ -2562,8 +2533,8 @@ system_event = {
 			system_event = { id = exe_invasion.2502 days = 3 }
 			switch = {
 				trigger = has_star_flag
-				kuat_super_flagship_3_enough_support = { inline_script = { script = kuat_battle_event/kuat_exe_support_checksum ID = 3 } }
-				kuat_super_flagship_1.5_enough_support = { inline_script = { script = kuat_battle_event/kuat_exe_support_checksum ID = 1.5 } }
+				kuat_super_flagship_4_enough_support = { inline_script = { script = kuat_battle_event/kuat_exe_support_checksum ID = 4 } }
+				kuat_super_flagship_2_enough_support = { inline_script = { script = kuat_battle_event/kuat_exe_support_checksum ID = 2 } }
 				kuat_super_flagship_1_enough_support = { inline_script = { script = kuat_battle_event/kuat_exe_support_checksum ID = 1 } }
 			}
 		}
