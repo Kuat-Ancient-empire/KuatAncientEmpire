@@ -1,0 +1,18 @@
+if = {
+	limit = { has_country_flag = kuat_research_tech_$KEY$_building }
+	kuat_calculate_tech_points_grow = { TECH_AREA = $TECH_AREA$ ID = $ID$ }
+	if = {
+		limit = { kuat_rsearch_system_trigger = { TECH_AREA = $TECH_AREA$ ID = $ID$ VALUE = $PERC$ } }
+		create_ship_design = { design = $KEY$ }
+		add_ship_design = last_created_design
+		set_country_flag = kuat_research_tech_$KEY$_building_finished
+		kuat_clear_cur_resarch_system_perc = { TECH_AREA = $TECH_AREA$ ID = $ID$ }
+		remove_country_flag = kuat_research_tech_$KEY$_building
+		remove_country_flag = kuat_research_tech_$KEY$_building_cancel_$TECH_AREA$_$ID$
+		kuat_clear_array_variable = { ARRAY = stored_kuat_$TECH_AREA$_$ID$_tech_points_array VARIABLE = kuat_tech_id_ship_$TECH_AREA$ }
+		if = {
+			limit = { NOT = { has_active_event = { kuat_extramonster_expand.32 } } }
+			country_event = { id = kuat_extramonster_expand.32 }
+		}
+	}
+}
