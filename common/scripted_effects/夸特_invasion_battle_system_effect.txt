@@ -33,15 +33,17 @@ kuat_battle_eternal_increase_executor_power = {
 		kuat_battle_clear_ship_modifier = { modifier = shipclass_military_hull_mult DAYS = $DAYS$ subtract = @kuat_flagship_proection_mult }
 		kuat_battle_clear_ship_modifier = { modifier = ship_hull_regen_add_perc DAYS = $DAYS$ subtract = @kuat_flagship_proection_mult }
 
-		[[TYPE] if = { limit = { has_hp <= @$TYPE$_increase_hp_T9 } add_modifier = { modifier = $TYPE$_increase_hp_T9 days = $DAYS$ } }
-		else_if = { limit = { has_hp <= @$TYPE$_increase_hp_T8 } add_modifier = { modifier = $TYPE$_increase_hp_T8 days = $DAYS$ } }
-		else_if = { limit = { has_hp <= @$TYPE$_increase_hp_T7 } add_modifier = { modifier = $TYPE$_increase_hp_T7 days = $DAYS$ } }
-		else_if = { limit = { has_hp <= @$TYPE$_increase_hp_T6 } add_modifier = { modifier = $TYPE$_increase_hp_T6 days = $DAYS$ } }
-		else_if = { limit = { has_hp <= @$TYPE$_increase_hp_T5 } add_modifier = { modifier = $TYPE$_increase_hp_T5 days = $DAYS$ } }
-		else_if = { limit = { has_hp <= @$TYPE$_increase_hp_T4 } add_modifier = { modifier = $TYPE$_increase_hp_T4 days = $DAYS$ } }
-		else_if = { limit = { has_hp <= @$TYPE$_increase_hp_T3 } add_modifier = { modifier = $TYPE$_increase_hp_T3 days = $DAYS$ } }
-		else_if = { limit = { has_hp <= @$TYPE$_increase_hp_T2 } add_modifier = { modifier = $TYPE$_increase_hp_T2 days = $DAYS$ } }
-		else_if = { limit = { has_hp <= @$TYPE$_increase_hp_T1 } add_modifier = { modifier = $TYPE$_increase_hp_T1 days = $DAYS$ } }]
+		[[TYPE] 
+			if = { limit = { has_hp <= @$TYPE$_increase_hp_T9 } add_modifier = { modifier = $TYPE$_increase_hp_T9 days = $DAYS$ } }
+			else_if = { limit = { has_hp <= @$TYPE$_increase_hp_T8 } add_modifier = { modifier = $TYPE$_increase_hp_T8 days = $DAYS$ } }
+			else_if = { limit = { has_hp <= @$TYPE$_increase_hp_T7 } add_modifier = { modifier = $TYPE$_increase_hp_T7 days = $DAYS$ } }
+			else_if = { limit = { has_hp <= @$TYPE$_increase_hp_T6 } add_modifier = { modifier = $TYPE$_increase_hp_T6 days = $DAYS$ } }
+			else_if = { limit = { has_hp <= @$TYPE$_increase_hp_T5 } add_modifier = { modifier = $TYPE$_increase_hp_T5 days = $DAYS$ } }
+			else_if = { limit = { has_hp <= @$TYPE$_increase_hp_T4 } add_modifier = { modifier = $TYPE$_increase_hp_T4 days = $DAYS$ } }
+			else_if = { limit = { has_hp <= @$TYPE$_increase_hp_T3 } add_modifier = { modifier = $TYPE$_increase_hp_T3 days = $DAYS$ } }
+			else_if = { limit = { has_hp <= @$TYPE$_increase_hp_T2 } add_modifier = { modifier = $TYPE$_increase_hp_T2 days = $DAYS$ } }
+			else_if = { limit = { has_hp <= @$TYPE$_increase_hp_T1 } add_modifier = { modifier = $TYPE$_increase_hp_T1 days = $DAYS$ } }
+		]
 
 		if = { 
 			limit = { 
@@ -358,11 +360,7 @@ kuat_battle_setup_invinciable_protection_pragram = {
 	if = {
 		limit = { is_in_combat = yes }
 		every_owned_ship = {
-			if = { 
-				limit = { NOT = { has_ship_flag = fire_ship_var } } 
-				kuat_battle_random_list_eternal_fleet_rate = yes 
-				set_ship_flag = fire_ship_var
-			}
+			kuat_battle_random_list_eternal_fleet_rate = yes 
 			$KEY$ = { netrual = yes frendly = yes AUTO = yes }
 			set_ship_flag = is_modifiering 
 		}
@@ -375,11 +373,7 @@ kuat_battle_setup_invinciable_attacketion_pragram = {
 	if = {
 		limit = { is_in_combat = yes }
 		every_owned_ship = {
-			if = { 
-				limit = { NOT = { has_ship_flag = fire_ship_var } } 
-				kuat_battle_random_list_eternal_fleet_rate = yes 
-				set_ship_flag = fire_ship_var
-			}
+			kuat_battle_random_list_eternal_fleet_rate = yes 
 			$KEY$ = { netrual = yes hostile = yes }
 			set_ship_flag = is_modifiering 
 		}
@@ -396,11 +390,6 @@ kuat_battle_setup_dynamic_invinciable_protection_pragram = {
 			limit = { check_modifier_value = { 
 				modifier = kuat_damage_control_modifier value > 0 
 			} }
-			if = { 
-				limit = { NOT = { has_ship_flag = fire_ship_var } } 
-				kuat_battle_random_list_eternal_fleet_rate = yes 
-				set_ship_flag = fire_ship_var
-			}
 			$KEY$ = { netrual = yes frendly = yes AUTO = yes }
 			set_ship_flag = is_modifiering 
 		}
@@ -416,11 +405,6 @@ kuat_battle_setup_dynamic_invinciable_attacketion_pragram = {
 			limit = { check_modifier_value = { 
 				modifier = kuat_damage_control_hositle_modifier value > 0 
 			} }
-			if = { 
-				limit = { NOT = { has_ship_flag = fire_ship_var } } 
-				kuat_battle_random_list_eternal_fleet_rate = yes 
-				set_ship_flag = fire_ship_var
-			}
 			$KEY$ = { netrual = yes hostile = yes }
 			set_ship_flag = is_modifiering 
 		}
@@ -976,7 +960,6 @@ kuat_battle_clear_superlazer_system_fixed_ship = {
 	clear_variable = debug_super_lazer_weapon_type_kuat_superlazer_scale_weapon_fire_rate_mult_var
 	clear_variable = final_super_lazer_ship_fire_rate_mult_var
 	remove_modifier = debug_super_lazer_ship_fire_rate_mult_modifier
-	remove_ship_flag = fire_ship_var
 }
 
 # base modifier script
@@ -1373,7 +1356,6 @@ kuat_battle_remove_repetable_modifier_iep = {
 kuat_battle_remove_ship_modifier_trigger_flag = {
 	optimize_memory
 	remove_ship_flag = is_modifiering
-	remove_ship_flag = fire_ship_var
 	remove_ship_flag = kuat_runing_kuat_support_trigger_eternal_return
 }
 kuat_battle_remove_fleet_modifier_trigger_flag = {
