@@ -610,6 +610,11 @@ country_event = {
 			set_global_flag = exe_invasion_ban_hidden
 			kuat_unlock_all_gateway = yes
 			kuat_change_country_owner = { TARGET = root }
+			add_modifier = { modifier = final_ban_eternal_fleet days = -1 }
+			if = {
+				limit = { kuat_is_enable_apocalyptic_origin = yes }
+				country_event = { id = kuat_fallen_mission_reaction.24 days = 30 random = 120 }
+			}
 		}
 	} 
 	option = { #给科技，撤退
@@ -674,7 +679,7 @@ country_event = { #没有科技，不得不撤退
 	desc = kuat_fallen_mission_reaction.22.desc
 	picture_event_data = {
 		portrait = event_target:kuat_player_target_species
-		room = kuat_mega_shipyard_room
+		room = galactic_custodian_room
 	}
 	custom_gui = "kuat_event_diplomacy_window"
 	custom_gui_option = "kuat_event_diplomacy_option"
@@ -719,5 +724,88 @@ country_event = { #NOTHING
 		add_monthly_resource_mult = { resource = energy value = 12 max = 1000000 }
 		add_monthly_resource_mult = { resource = food value = 12 max = 1000000 }
 		add_monthly_resource_mult = { resource = consumer_goods value = 12 max = 1000000 }
+	}
+}
+
+#监护者恼羞成怒
+country_event = { 
+	id = kuat_fallen_mission_reaction.24
+	title = kuat_diplomatic.18.title
+	desc = kuat_fallen_mission_reaction.24.desc
+	picture_event_data = {
+		portrait = event_target:kuat_player_target_species
+		room = galactic_custodian_room
+	}
+	custom_gui = "kuat_event_diplomacy_window"
+	custom_gui_option = "kuat_event_diplomacy_option"
+	show_sound = event_default
+	is_triggered_only = yes
+	diplomatic = yes
+	option = {
+		name = kuat_fallen_mission_reaction.24.accept
+		end_event_chain = kuat_mission_total_chain
+		hidden_effect = {
+			set_global_flag = kuat_Overseen_Council_crisis_enable
+			if = {
+				limit = { exists = event_target:Kuat_F_Area_Guardian }
+				event_target:Kuat_F_Area_Guardian = { destroy_country = yes }
+				country_event = { id = kuat_fallen_mission_reaction.25 days = 1 }
+			}
+		}
+		response_text = kuat_fallen_mission_reaction.24.accept.res
+	}
+}
+
+#后裔通知玩家他们摧毁了监督者星系，需要我们再摧毁一个
+country_event = {
+	id = kuat_fallen_mission_reaction.25
+	title = kuat_fallen_mission_reaction.25.title
+	desc = kuat_fallen_mission_reaction.25.desc
+	picture_event_data = { room = no_video_feed_room }
+	custom_gui = "kuat_event_diplomacy_window"
+	custom_gui_option = "kuat_event_diplomacy_option"
+	show_sound = event_default
+	is_triggered_only = yes
+	diplomatic = yes
+	option = {
+		name = kuat_fallen_mission_reaction.25.accept
+		hidden_effect = { get_action_for_contrator_kuat_plague_alert = yes }
+		response_text = kuat_fallen_mission_reaction.25.accept.res
+	}
+	after = { country_event = { id = ag_kae_ge_invasion.104 days = 45 random = 120 } }
+}
+
+#后裔蛊惑玩家去打开星门
+country_event = {
+	id = kuat_fallen_mission_reaction.26
+	title = kuat_fallen_mission_reaction.26.title
+	desc = kuat_fallen_mission_reaction.26.desc
+	picture_event_data = { room = no_video_feed_room }
+	custom_gui = "kuat_event_diplomacy_window"
+	custom_gui_option = "kuat_event_diplomacy_option"
+	show_sound = event_default
+	is_triggered_only = yes
+	diplomatic = yes
+	option = {
+		name = kuat_fallen_mission_reaction.26.accept
+		hidden_effect = { get_action_for_contrator_kuat_plague_alert = yes }
+		response_text = kuat_fallen_mission_reaction.26.accept.res
+	}
+}
+
+#后裔告知玩家，监督者很快就会到来（乐子）
+country_event = {
+	id = kuat_fallen_mission_reaction.27
+	title = kuat_fallen_mission_reaction.27.title
+	desc = kuat_fallen_mission_reaction.27.desc
+	picture_event_data = { room = no_video_feed_room }
+	custom_gui = "kuat_event_diplomacy_window"
+	custom_gui_option = "kuat_event_diplomacy_option"
+	show_sound = event_default
+	is_triggered_only = yes
+	diplomatic = yes
+	option = {
+		name = kuat_fallen_mission_reaction.27.accept
+		hidden_effect = { get_action_for_contrator_kuat_plague_alert = yes }
 	}
 }

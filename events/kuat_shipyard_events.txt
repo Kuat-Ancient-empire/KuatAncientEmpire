@@ -49,12 +49,9 @@ country_event = {
 			custom_tooltip = {
 				fail_text = kuat_shipyard.1.a.opinion.tooltip
 				OR = {
+					kuat_is_enable_shadow_origin = yes
 					AND = {
-						kuat_is_enable_shadow_origin = yes
-						event_target:fallen_empire_kuat = { opinion = { who = root value >= -500 } }
-					}
-					AND = { 
-						NOT = { kuat_is_enable_shadow_origin = yes }
+						kuat_is_enable_shadow_origin = no
 						has_technology = tech_destroyers
 					}
 				}
@@ -560,7 +557,11 @@ event = {
 	hide_window = yes
 	is_triggered_only = yes
 	trigger = {
-		any_country = { kuat_is_enable_shadow_origin = yes is_ai = no }
+		NOT = { has_global_flag = exe_invasion_ban_hidden }
+		any_country = {
+			kuat_is_enable_shadow_origin = yes
+			is_player_country = yes
+		}
 		NOT = { exists = event_target:fallen_empire_kuat }
 		exists = event_target:kuat_shipyard_country
 	}

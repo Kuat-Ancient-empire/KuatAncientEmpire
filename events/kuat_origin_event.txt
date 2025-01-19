@@ -1,17 +1,4 @@
 namespace = kuat_origin
-country_event = {
-	id = kuat_origin.999
-	hide_window = yes
-	is_triggered_only = yes
-	trigger = { 
-		is_ai = no
-		kuat_is_enable_apocalyptic_origin = yes 
-	}
-	immediate = { 
-		set_global_flag = enable_origin_kuat_apocalyptic 
-	}
-}
-
 #Triggered on game start, for common start.
 country_event = {
 	id = kuat_origin.1
@@ -20,11 +7,13 @@ country_event = {
 	
 	trigger = {
 		NOT = { has_country_flag = fire_only_once_system }
-		kuat_is_enable_apocalyptic_origin = yes 
+		kuat_is_enable_apocalyptic_origin = yes
+		is_player_country = yes
 	}
 	
 	immediate = {
 		set_update_modifiers_batch = begin
+		set_global_flag = has_origin_kuatapocalyptic
 		set_country_flag = fire_only_once_system
 		random_system = {
 			limit = { has_star_flag = kuat_initial_origin_system }

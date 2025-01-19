@@ -39,7 +39,10 @@ is_kuat_fallen_empire = {
 is_kuat_crisis_country = {
 	OR = {
 		is_country_type = kuat_awakened_returned_empire
-		is_country_type = Kuat_Galatic_Empire_invasion_country	
+		AND = {
+			has_global_flag = has_origin_eternalthrone
+			is_country_type = Kuat_Galatic_Empire_invasion_country
+		}
 	}
 }
 
@@ -50,6 +53,10 @@ is_kuat_Overseer_Council_empire = {
 		is_country_type = Kuat_E_Area_Guardian
 		is_country_type = Kuat_F_Area_Guardian
 		is_country_type = kuat_OverSee_council_awakened_returned_empire
+		AND = {
+			has_global_flag = has_origin_kuatapocalyptic
+			is_country_type = Kuat_Galatic_Empire_invasion_country
+		}
 	}
 }
 
@@ -150,7 +157,10 @@ eternal_support_diplo_event_active = {
 
 can_communicate_with_kuat = {
 	if = {
-		limit = { kuat_is_enable_shadow_origin = yes }
+		limit = {
+			kuat_is_enable_shadow_origin = yes
+			NOT = { has_global_flag = exe_invasion_ban_hidden }
+		}
 		exists = event_target:fallen_empire_kuat
 		exists = event_target:kuat_shipyard_country
 		event_target:fallen_empire_kuat = {
