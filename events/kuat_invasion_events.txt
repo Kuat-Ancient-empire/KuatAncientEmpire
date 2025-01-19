@@ -1730,6 +1730,14 @@ country_event = {
 							}
 						}
 						else_if = {
+							limit = { root.from = { is_kuat_Overseer_Council_empire = yes } }
+							switch = {
+								trigger = is_ship_class
+								shipclass_military = { kuat_battle_disable_ship_at_health = { FLAG = enable_kuat_ship_inital Disable_health = 0.01 WHICH = KUAT_SHIP_HEALTH_VAR HEALTH = value:kuat_dynamic_exist_life_times } }
+								shipclass_starbase = { kuat_battle_disable_ship_at_health = { FLAG = enable_disable_starbase Disable_health = 0.01 WHICH = STARBASE_HEALTH_VAR HEALTH = value:kuat_dynamic_exist_life_times } }
+							}
+						}
+						else_if = {
 							limit = { root.from = { is_kuat_contractor_faction = yes } }
 							switch = {
 								trigger = is_ship_class
@@ -1827,14 +1835,6 @@ ship_event = {
 			kuat_battle_kuat_remove_starbase_station = yes
 		}
 		else_if = {
-			limit = { has_ship_flag = enable_kuat_ship_inital owner = { is_kuat_Overseer_Council_empire = yes } }
-			if = { 
-				limit = { check_variable = { which = KUAT_SHIP_HEALTH_VAR value > 0 } } 
-				kuat_battle_clear_ship_at_health = { REPAIR = yes INVERT_DISABLE = set_disabled WHICH = KUAT_SHIP_HEALTH_VAR }
-			} 
-			else = { kuat_battle_clear_ship_at_health = { REPAIR = yes INVERT_DISABLE = set_disabled Disable_health = -1 } }
-		}
-		else_if = {
 			limit = { has_ship_flag = enable_disable_starbase }
 			if = { 
 				limit = { check_variable = { which = STARBASE_HEALTH_VAR value > 0 } } 
@@ -1847,6 +1847,22 @@ ship_event = {
 			if = { 
 				limit = { check_variable = { which = DRFT_SHIP_HEALTH_VAR value > 0 } } 
 				kuat_battle_clear_ship_at_health = { REPAIR = yes INVERT_DISABLE = set_disabled WHICH = DRFT_SHIP_HEALTH_VAR }
+			} 
+			else = { kuat_battle_clear_ship_at_health = { REPAIR = yes INVERT_DISABLE = set_disabled Disable_health = -1 } }
+		}
+		else_if = {
+			limit = { has_ship_flag = enable_kuat_ship_inital owner = { is_kuat_crisis_country = yes } }
+			if = { 
+				limit = { check_variable = { which = KUAT_SHIP_HEALTH_VAR value > 0 } } 
+				kuat_battle_clear_ship_at_health = { REPAIR = yes INVERT_DISABLE = set_disabled WHICH = KUAT_SHIP_HEALTH_VAR }
+			} 
+			else = { kuat_battle_clear_ship_at_health = { REPAIR = yes INVERT_DISABLE = set_disabled Disable_health = -1 } }
+		}
+		else_if = {
+			limit = { has_ship_flag = enable_kuat_ship_inital owner = { is_kuat_Overseer_Council_empire = yes } }
+			if = { 
+				limit = { check_variable = { which = KUAT_SHIP_HEALTH_VAR value > 0 } } 
+				kuat_battle_clear_ship_at_health = { REPAIR = yes INVERT_DISABLE = set_disabled WHICH = KUAT_SHIP_HEALTH_VAR }
 			} 
 			else = { kuat_battle_clear_ship_at_health = { REPAIR = yes INVERT_DISABLE = set_disabled Disable_health = -1 } }
 		}
@@ -1870,7 +1886,7 @@ ship_event = {
 			else = { kuat_battle_clear_ship_at_health = { REPAIR = yes INVERT_DISABLE = set_disabled Disable_health = -1 } }
 		}
 		else_if = {
-			limit = { has_ship_flag = enable_kuat_none_ship_inital owner = { is_kuat_Overseer_Council_empire = no } }
+			limit = { has_ship_flag = enable_kuat_none_ship_inital owner = { is_kuat_crisis_country = no } }
 			if = { 
 				limit = { check_variable = { which = KUAT_NONE_SHIP_HEALTH_VAR value > 0 } } 
 				kuat_battle_clear_ship_at_health = { REPAIR = yes INVERT_DISABLE = set_disabled WHICH = KUAT_NONE_SHIP_HEALTH_VAR }
@@ -1981,7 +1997,7 @@ country_event = {
 			}
 		}
 		if = {
-			limit = { is_infinite_faction = yes }
+			limit = { OR = { is_infinite_faction = yes is_kuat_Overseer_Council_empire = yes } }
 			fromfrom = {
 				if = {  
 					limit = { NOT = { has_fleet_flag = random_list_eternal_fleet_rate_modifier } }
@@ -2002,7 +2018,7 @@ country_event = {
 				limit = { from = { is_invisable_faction = no } }
 				fromfromfrom = { if = {
 					limit = {
-						ROOT = { is_infinite_faction = yes }
+						ROOT = { OR = { is_infinite_faction = yes is_kuat_Overseer_Council_empire = yes } }
 						NOT = { has_fleet_flag = random_list_eternal_fleet_rate_placeholder }
 					}
 					set_fleet_flag = is_modifiering_fleet
