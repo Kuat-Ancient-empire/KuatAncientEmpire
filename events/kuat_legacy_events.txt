@@ -1259,6 +1259,8 @@ country_event = {
 				NOR = {
 					has_country_flag = kuat_legacy.104.setp.1
 					has_country_flag = kuat_legacy.104.setp.2
+					has_country_flag = enable_the_F_system_line_stage_1_ph1
+					has_country_flag = enable_the_F_system_line_stage_1_ph2
 				}
 			}
 			success_text = {
@@ -1268,6 +1270,14 @@ country_event = {
 			success_text = {
 				text = "kuat_legacy.104.2.desc"
 				has_country_flag = kuat_legacy.104.setp.2
+			}
+			success_text = {
+				text = "kuat_legacy.104.j.res"
+				has_country_flag = enable_the_F_system_line_stage_1_ph1
+			}
+			success_text = {
+				text = "kuat_legacy.104.k.res"
+				has_country_flag = enable_the_F_system_line_stage_1_ph2
 			}
 		}
 	}
@@ -1293,6 +1303,39 @@ country_event = {
 		limit = { check_variable = { which = KUAT_RELATION_CONTRACTOR_VAR value > 8 } }
 		set_variable = { which = KUAT_RELATION_CONTRACTOR_VAR value = 8 }
 	} }
+
+	#F星域中的护盾星球里隐藏着什么
+	option = {
+		name = kuat_legacy.104.j
+		trigger = {
+			has_country_flag = enable_the_F_system_line_stage_1
+			NOT = { has_country_flag = enable_the_F_system_line_stage_1_ph1 }
+		}
+		hidden_effect = {
+			set_country_flag = enable_the_F_system_line_stage_1_ph1
+			get_action_for_contrator_kuat_plague_alert = yes
+			country_event = { id = kuat_legacy.104 }
+		}
+	}
+	#要如何才能解除这个护盾
+	option = {
+		name = kuat_legacy.104.k
+		trigger = {
+			has_country_flag = enable_the_F_system_line_stage_1_ph1
+			NOT = { has_country_flag = enable_the_F_system_line_stage_1_ph2 }
+		}
+		hidden_effect = {
+			set_country_flag = enable_the_F_system_line_stage_1_ph2
+			enable_special_project = {
+				name = exe_enable_F_system_databank_stage_1
+				owner = root location = root.capital_scope
+			}
+			get_action_for_contrator_kuat_plague_alert = yes
+			country_event = { id = kuat_legacy.104 }
+		}
+	}
+
+
 	# improve relation message
 	option = { #endodia
 		name = kuat_legacy.104.a
@@ -1384,39 +1427,6 @@ country_event = {
 		response_text = kuat_legacy.104.h.res
 	}
 
-	#F星域中的护盾星球里隐藏着什么
-	option = {
-		name = kuat_legacy.104.j
-		trigger = {
-			has_country_flag = enable_the_F_system_line_stage_1
-			NOT = { has_country_flag = enable_the_F_system_line_stage_1_ph1 }
-		}
-		hidden_effect = {
-			set_country_flag = enable_the_F_system_line_stage_1_ph1
-			get_action_for_contrator_kuat_plague_alert = yes
-		}
-		is_dialog_only = yes
-		response_text = kuat_legacy.104.j.res
-	}
-	#要如何才能解除这个护盾
-	option = {
-		name = kuat_legacy.104.k
-		trigger = {
-			has_country_flag = enable_the_F_system_line_stage_1_ph1
-			NOT = { has_country_flag = enable_the_F_system_line_stage_1_ph2 }
-		}
-		hidden_effect = {
-			set_country_flag = enable_the_F_system_line_stage_1_ph2
-			enable_special_project = {
-				name = exe_enable_F_system_databank_stage_1
-				owner = root location = root.capital_scope
-			}
-			get_action_for_contrator_kuat_plague_alert = yes
-		}
-		is_dialog_only = yes
-		response_text = kuat_legacy.104.k.res
-	}
-
 	# inform and alert the plague
 	option = {
 		name = kuat_legacy.104.i
@@ -1442,15 +1452,17 @@ country_event = {
 	}
 
 	option = { name = kuat_shipyard.exit default_hide_option = yes }
-	after = { hidden_effect = { if = {
-		limit = { has_global_flag = kuat_plague_enable }
-		set_country_flag = Kuat_F_facility_area_over
+	after = { hidden_effect = {  
 		if = {
-			limit = { kuat_is_enable_apocalyptic_origin = yes }
-			country_event = { id = kuat_diplomatic.14 days = 10 random = 20 }
+			limit = { NOT = { has_country_flag = Kuat_F_facility_area_over } }
+			set_country_flag = Kuat_F_facility_area_over
+			if = {
+				limit = { kuat_is_enable_apocalyptic_origin = yes }
+				country_event = { id = kuat_diplomatic.14 days = 10 random = 20 }
+			}
+			kuat_create_toasto_message = { KEY = kuat_find_memory_cluds TARGET = this RECIPIENT = this }
 		}
-		kuat_create_toasto_message = { KEY = kuat_find_memory_cluds TARGET = this RECIPIENT = this }
-	} } }
+	} }
 }
 
 
