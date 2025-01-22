@@ -348,12 +348,19 @@ fleet_event = {
     is_triggered_only = yes
 
     immediate = {
-        from = { set_site_progress_locked = yes }
+        from = { 
+            set_site_progress_locked = yes 
+            save_global_event_target_as = kuat_extramonster_expand_stuck
+        }
     }
 
     after = {
-        from = { save_global_event_target_as = kuat_extramonster_expand_stuck }
-        hidden_effect = { root.owner = { country_event = { id = kuat_extramonster_expand.16 } } }
+        owner = { 
+            country_event = { 
+                id = kuat_extramonster_expand.16 
+                scopes = { from = root.from } 
+            } 
+        }
     }
 
     option = {
@@ -410,12 +417,12 @@ fleet_event = {
         name = kuat_extramonster_expand.15.a
         large_artifact_reward = yes
         hidden_effect = { root.owner = { 
-            set_country_flag = enable_the_F_system_line_stage_8 
             enable_special_project = {
                 name = exe_enable_the_F_system_line_stage_7
                 location = event_target:will_be_add_habitable_plague
                 owner = this
             }
+            set_country_flag = enable_the_F_system_line_stage_8 
         } }
     }
 }
@@ -431,7 +438,7 @@ country_event = {
     diplomatic = yes
     trigger = { 
         exists = event_target:kuat_contractor_country
-        exists = event_target:kuat_extramonster_expand_stuck 
+        from = { is_same_value = event_target:kuat_extramonster_expand_stuck }
     }
     option = {
         name = kuat_extramonster_expand.16.a
@@ -440,8 +447,7 @@ country_event = {
     after = {
         enable_special_project = {
             name = exe_enable_the_F_system_line_stage_7
-            location = event_target:kuat_extramonster_expand_stuck
-            owner = root
+            location = from owner = root
         }
         set_country_flag = enable_the_F_system_line_stage_7
     }
@@ -466,9 +472,7 @@ country_event = {
         response_text = kuat_extramonster_expand.17.a.res
     }
     after = {
-        event_target:kuat_extramonster_expand_stuck = {
-            set_site_progress_locked = no
-        }
+        event_target:kuat_extramonster_expand_stuck = { set_site_progress_locked = no }
     }
 }
 
