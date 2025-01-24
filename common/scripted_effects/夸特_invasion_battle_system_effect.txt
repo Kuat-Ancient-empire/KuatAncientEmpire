@@ -182,7 +182,6 @@ kuat_battle_remove_increase_hp_modifier = {
 kuat_battle_remove_executor_power = {
 	optimize_memory
 	remove_modifier = Eternal_submit
-	remove_modifier = superlazier_super_power_enhance
 	remove_ship_flag = kuat_has_eternal_increase_executor_power_temple
 	kuat_battle_remove_increase_hp_modifier = { TYPE = kt }
 	kuat_battle_remove_increase_hp_modifier = { TYPE = ee }
@@ -230,6 +229,7 @@ kuat_battle_remove_standard_modifier_system = {
 	remove_modifier = $TITLE$_component_lifesteal_add
 	remove_modifier = $TITLE$_ship_steal_defeated_ship_chance
 	remove_modifier = $TITLE$_fleet_capture_defeated_leader_chance
+	#remove_modifier = $TITLE$_ag_instant_kill_shot_add
 }
 
 kuat_battle_clear_repeatable_modifier = {
@@ -359,7 +359,7 @@ kuat_battle_setup_invinciable_protection_pragram = {
 		every_owned_ship = {
 			kuat_battle_random_list_eternal_fleet_rate = yes 
 			$KEY$ = { netrual = yes frendly = yes AUTO = yes }
-			set_ship_flag = is_modifiering 
+			set_ship_flag = kuat_is_modifiering
 		}
 		fleet_event = { id = $ID$ days = 1 }
 	}
@@ -372,7 +372,7 @@ kuat_battle_setup_invinciable_attacketion_pragram = {
 		every_owned_ship = {
 			kuat_battle_random_list_eternal_fleet_rate = yes 
 			$KEY$ = { netrual = yes hostile = yes }
-			set_ship_flag = is_modifiering 
+			set_ship_flag = kuat_is_modifiering 
 		}
 		fleet_event = { id = $ID$ days = 1 }
 	}
@@ -388,7 +388,7 @@ kuat_battle_setup_dynamic_invinciable_protection_pragram = {
 				modifier = kuat_damage_control_modifier value > 0 
 			} }
 			$KEY$ = { netrual = yes frendly = yes AUTO = yes }
-			set_ship_flag = is_modifiering 
+			set_ship_flag = kuat_is_modifiering 
 		}
 		fleet_event = { id = $ID$ days = 1 }
 	}
@@ -403,7 +403,7 @@ kuat_battle_setup_dynamic_invinciable_attacketion_pragram = {
 				modifier = kuat_damage_control_hositle_modifier value > 0 
 			} }
 			$KEY$ = { netrual = yes hostile = yes }
-			set_ship_flag = is_modifiering 
+			set_ship_flag = kuat_is_modifiering 
 		}
 		fleet_event = { id = $ID$ days = 1 }
 	}
@@ -547,10 +547,10 @@ kuat_battle_set_need_flagship_infinite_fleet_mult_modifier = {
 		kuat_battle_set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_shield_penetration_mult 		RELATION = "!=" OUTPUT_VALUE = value:kuat_dynamic_base_hostile_value|MULT|-1|		UNIT_VALUE = value:kuat_dynamic_base_hostile_value|MULT|1| }   
 		kuat_battle_set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_armor_penetration_mult 		RELATION = "!=" OUTPUT_VALUE = value:kuat_dynamic_base_hostile_value|MULT|-1|		UNIT_VALUE = value:kuat_dynamic_base_hostile_value|MULT|1| }   
 		kuat_battle_set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_disengage_chance_reduction 	RELATION = "!=" OUTPUT_VALUE = value:kuat_dynamic_base_hostile_value|MULT|1|		UNIT_VALUE = value:kuat_dynamic_base_hostile_value|MULT|-1| }   
-		kuat_battle_set_eternal_fleet_damage_modifier 					= { PARAMATER = ship_armor_damage_mult				RELATION = "!="	UNIT = origin		UNIT1 = large		UNIT2 = medium		UNIT3 = origin }  
-		kuat_battle_set_eternal_fleet_damage_modifier 					= { PARAMATER = ship_shield_damage_mult				RELATION = "!="	UNIT = origin		UNIT1 = large		UNIT2 = medium		UNIT3 = origin } 
-		kuat_battle_set_eternal_fleet_damage_modifier 					= { PARAMATER = ship_hull_damage_mult 				RELATION = "!="	UNIT = origin		UNIT1 = large		UNIT2 = medium		UNIT3 = origin }  
-		kuat_battle_set_eternal_fleet_damage_modifier 					= { PARAMATER = ship_weapon_damage 					RELATION = "!="	UNIT = origin		UNIT1 = large		UNIT2 = medium		UNIT3 = origin }
+		kuat_battle_set_eternal_fleet_damage_modifier 					= { PARAMATER = ship_armor_damage_mult				RELATION = "!="	UNIT = origin		UNIT1 = large		UNIT2 = medium		UNIT3 = large }  
+		kuat_battle_set_eternal_fleet_damage_modifier 					= { PARAMATER = ship_shield_damage_mult				RELATION = "!="	UNIT = origin		UNIT1 = large		UNIT2 = medium		UNIT3 = large } 
+		kuat_battle_set_eternal_fleet_damage_modifier 					= { PARAMATER = ship_hull_damage_mult 				RELATION = "!="	UNIT = origin		UNIT1 = large		UNIT2 = medium		UNIT3 = large }  
+		kuat_battle_set_eternal_fleet_damage_modifier 					= { PARAMATER = ship_weapon_damage 					RELATION = "!="	UNIT = origin		UNIT1 = large		UNIT2 = medium		UNIT3 = large }
 	]
 
 	[[frendly] 
@@ -605,10 +605,10 @@ kuat_battle_set_need_flagship_eternal_fleet_mult_modifier = {
 		kuat_battle_set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_shield_penetration_mult 		RELATION = "!=" OUTPUT_VALUE = value:kuat_dynamic_base_hostile_value|MULT|-1| 	UNIT_VALUE = value:kuat_dynamic_base_hostile_value|MULT|1| }
 		kuat_battle_set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_armor_penetration_mult 		RELATION = "!=" OUTPUT_VALUE = value:kuat_dynamic_base_hostile_value|MULT|-1| 	UNIT_VALUE = value:kuat_dynamic_base_hostile_value|MULT|1| }
 		kuat_battle_set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_disengage_chance_reduction 	RELATION = "!=" OUTPUT_VALUE = value:kuat_dynamic_base_hostile_value|MULT|1| 	UNIT_VALUE = value:kuat_dynamic_base_hostile_value|MULT|-1| }
-		kuat_battle_set_eternal_fleet_damage_modifier 					= { PARAMATER = ship_armor_damage_mult				RELATION = "!=" UNIT = origin		UNIT1 = max		UNIT2 = medium		UNIT3 = origin }
-		kuat_battle_set_eternal_fleet_damage_modifier 					= { PARAMATER = ship_shield_damage_mult				RELATION = "!="	UNIT = origin		UNIT1 = max		UNIT2 = medium		UNIT3 = origin }
-		kuat_battle_set_eternal_fleet_damage_modifier 					= { PARAMATER = ship_hull_damage_mult 				RELATION = "!="	UNIT = origin		UNIT1 = max		UNIT2 = medium		UNIT3 = origin }
-		kuat_battle_set_eternal_fleet_damage_modifier 					= { PARAMATER = ship_weapon_damage 					RELATION = "!="	UNIT = origin		UNIT1 = max		UNIT2 = medium		UNIT3 = origin }
+		kuat_battle_set_eternal_fleet_damage_modifier 					= { PARAMATER = ship_armor_damage_mult				RELATION = "!=" UNIT = origin		UNIT1 = max		UNIT2 = medium		UNIT3 = max }
+		kuat_battle_set_eternal_fleet_damage_modifier 					= { PARAMATER = ship_shield_damage_mult				RELATION = "!="	UNIT = origin		UNIT1 = max		UNIT2 = medium		UNIT3 = max }
+		kuat_battle_set_eternal_fleet_damage_modifier 					= { PARAMATER = ship_hull_damage_mult 				RELATION = "!="	UNIT = origin		UNIT1 = max		UNIT2 = medium		UNIT3 = max }
+		kuat_battle_set_eternal_fleet_damage_modifier 					= { PARAMATER = ship_weapon_damage 					RELATION = "!="	UNIT = origin		UNIT1 = max		UNIT2 = medium		UNIT3 = max }
 	] 
 
 	[[frendly] 
@@ -764,7 +764,7 @@ kuat_battle_set_eternal_fleet_standard_modifier = {
 		limit = { 
 			NOR = { 
 				has_ship_flag = $PARAMATER$_ship_cooldown 
-				has_ship_flag = is_modifiering
+				has_ship_flag = kuat_is_modifiering
 			}
 			check_modifier_value = { modifier = $PARAMATER$ value $RELATION$ $OUTPUT_VALUE$ }
 		}
@@ -777,7 +777,7 @@ kuat_battle_set_eternal_fleet_standard_modifier = {
 	} 
 	else_if = { 
 		limit = { 
-			has_ship_flag = is_modifiering 
+			has_ship_flag = kuat_is_modifiering
 			NOT = { has_ship_flag = $PARAMATER$_ship_cooldown }
 			check_modifier_value = { modifier = $PARAMATER$ value $RELATION$ $OUTPUT_VALUE$ }
 		}
@@ -801,13 +801,13 @@ kuat_battle_set_eternal_fleet_damage_modifier = {
 	if = {
 		limit = { NOR = { 
 			has_ship_flag = $PARAMATER$_ship_cooldown 
-			has_ship_flag = is_modifiering 
+			has_ship_flag = kuat_is_modifiering 
 		} }
 		kuat_battle_set_eternal_fleet_base_modifier = { PARAMATER = $PARAMATER$ UNIT = $UNIT$ }
 	} 
 	else_if = { 
 		limit = { 
-			has_ship_flag = is_modifiering 
+			has_ship_flag = kuat_is_modifiering 
 			NOT = { has_ship_flag = $PARAMATER$_ship_cooldown } 
 		}
 		if = {
@@ -873,7 +873,7 @@ kuat_battle_set_standard_battle_repeatable_modifier = {
 		limit = { 
 			NOR = { 
 				has_ship_flag = repeatable_$PARAMATER1$_ship_cooldown 
-				has_ship_flag = is_modifiering
+				has_ship_flag = kuat_is_modifiering
 			} 
 		}
 
@@ -890,7 +890,7 @@ kuat_battle_set_standard_battle_repeatable_modifier = {
 	} 
 	else_if = { 
 		limit = { 
-			has_ship_flag = is_modifiering
+			has_ship_flag = kuat_is_modifiering
 			NOT = { has_ship_flag = repeatable_$PARAMATER1$_ship_cooldown } 
 		}
 
@@ -919,7 +919,7 @@ kuat_battle_set_standard_battle_superlazer_weapon_keeping_modifier = {
 		limit = { 
 			NOR = { 
 				has_ship_flag = superlazer_$PARAMATER1$_ship_cooldown 
-				has_ship_flag = is_modifiering
+				has_ship_flag = kuat_is_modifiering
 			} 
 		}
 
@@ -931,7 +931,7 @@ kuat_battle_set_standard_battle_superlazer_weapon_keeping_modifier = {
 	} 
 	else_if = { 
 		limit = { 
-			has_ship_flag = is_modifiering
+			has_ship_flag = kuat_is_modifiering
 			NOT = { has_ship_flag = superlazer_$PARAMATER1$_ship_cooldown } 
 		}
 
@@ -946,18 +946,17 @@ kuat_battle_set_standard_battle_superlazer_weapon_keeping_modifier = {
 	}
 }
 
-kuat_battle_clear_superlazer_system_fixed_ship = {
-	optimize_memory
-	remove_ship_flag = is_modifiering_superlazer 
-	remove_ship_flag = is_modifiering_power_superlazer
-	remove_modifier = superlazier_super_power_enhance
-	clear_variable = super_lazer_ship_fire_rate_mult_var
-	remove_modifier = super_lazer_ship_fire_rate_mult_modifier
-	clear_variable = debug_super_lazer_ship_fire_rate_mult_var
-	clear_variable = debug_super_lazer_weapon_type_kuat_superlazer_scale_weapon_fire_rate_mult_var
-	clear_variable = final_super_lazer_ship_fire_rate_mult_var
-	remove_modifier = debug_super_lazer_ship_fire_rate_mult_modifier
-}
+# kuat_battle_clear_superlazer_system_fixed_ship = {
+# 	optimize_memory
+# 	remove_ship_flag = is_modifiering_superlazer 
+# 	remove_ship_flag = is_modifiering_power_superlazer
+# 	clear_variable = super_lazer_ship_fire_rate_mult_var
+# 	remove_modifier = super_lazer_ship_fire_rate_mult_modifier
+# 	clear_variable = debug_super_lazer_ship_fire_rate_mult_var
+# 	clear_variable = debug_super_lazer_weapon_type_kuat_superlazer_scale_weapon_fire_rate_mult_var
+# 	clear_variable = final_super_lazer_ship_fire_rate_mult_var
+# 	remove_modifier = debug_super_lazer_ship_fire_rate_mult_modifier
+# }
 
 # base modifier script
 kuat_battle_set_invasion_fleet_basic_modifier = { 
@@ -980,6 +979,7 @@ kuat_battle_clear_battleship_modifier_fixed_ship = {
 
 kuat_battle_remove_all_ship_modifier_change_basic_variable = {
 	optimize_memory
+	#kuat_battle_remove_ship_modifier_change_basic_variable = { PARAMATER = ag_instant_kill_shot_add }
 	kuat_battle_remove_ship_modifier_change_basic_variable = { PARAMATER = ship_hull_regen_add_static }
 	kuat_battle_remove_ship_modifier_change_basic_variable = { PARAMATER = ship_armor_regen_add_static }
 	kuat_battle_remove_ship_modifier_change_basic_variable = { PARAMATER = ship_shield_regen_add_static }
@@ -1352,12 +1352,13 @@ kuat_battle_remove_repetable_modifier_iep = {
 
 kuat_battle_remove_ship_modifier_trigger_flag = {
 	optimize_memory
-	remove_ship_flag = is_modifiering
+	remove_ship_flag = kuat_is_modifiering
 	remove_ship_flag = kuat_runing_kuat_support_trigger_eternal_return
 }
 kuat_battle_remove_fleet_modifier_trigger_flag = {
 	optimize_memory
 	fleet = {
+		every_owned_ship = { kuat_battle_remove_repetable_modifier_iep = yes }
 		kuat_battle_kuat_star_flagship_base_fleet_clear_calculation = { ID = 1 SCOPE = solar_system }
 		kuat_battle_kuat_star_flagship_base_fleet_clear_calculation = { ID = 2 SCOPE = solar_system }
 		kuat_battle_kuat_star_flagship_base_fleet_clear_calculation = { ID = 4 SCOPE = solar_system }
@@ -1711,6 +1712,7 @@ kuat_battle_kuat_star_flagship_base_calculate = {
 kuat_battle_kuat_star_flagship_clear_all_caculation = {
 	clear_variable = kuat_support_battle_add_variable 
 	every_fleet_in_system = {
+		every_owned_ship = { kuat_battle_remove_repetable_modifier_iep = yes }
 		kuat_battle_kuat_star_flagship_base_fleet_clear_calculation = { ID = 1 }
 		kuat_battle_kuat_star_flagship_base_fleet_clear_calculation = { ID = 2 }
 		kuat_battle_kuat_star_flagship_base_fleet_clear_calculation = { ID = 4 }
@@ -1748,6 +1750,7 @@ kuat_battle_notification_suppliment_fleet = {
 			recipient = owner
 			days = 30
 		}
+		every_owned_ship = { kuat_battle_clear_ship_repeatable_modifier = { multiply = 1 DAYS = -1 } }
 	}
 }
 
@@ -1884,6 +1887,7 @@ kuat_battle_disable_ship_at_health = {
 	[[WHICH] set_variable = { which = $WHICH$ value = $HEALTH$ }]
 }
 
+#ag_num_ship_killed_targets
 kuat_battle_clear_ship_at_health = {
 	optimize_memory
 	[[REPAIR] repair_ship = $REPAIR$ ] 
@@ -1891,6 +1895,7 @@ kuat_battle_clear_ship_at_health = {
 	[[INVERT_DISABLE] $INVERT_DISABLE$ = no ]
 	[[Disable_health] set_disable_at_health = $Disable_health$ remove_ship_flag = kuat_battle_disable_ship_at_health ]
 	[[WHICH] subtract_variable = { which = $WHICH$ value = 1 } ]
+	[[RELOAD] FROM = { change_variable = { which = ag_num_ship_killed_targets value = 1 } } ]
 	[[AG_TYPE] while = { count = $AG_TYPE$ ag_subtract_disable_at_health = { ag_type = common } remove_ship_flag = kuat_battle_disable_ship_at_health } ]
 }
 

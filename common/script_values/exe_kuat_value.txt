@@ -53,6 +53,37 @@
 # This means that you can input parameters into them, in a similar fashion as described in scripted_effects/99_advanced_documentation.txt
 # For format for doing so is value:my_value|PARAM1|value1|PARAM2|value2|.
 # Then you can use $PARAM1$ in the script value and it will replace it with value1
+kuat_superlazer_weapon_damage_factor_ship_base = {
+	base = 0
+	add = 1
+	add = $kuat_value$
+}
+kuat_superlazer_weapon_damage_factor_tags = {
+	base = 0
+	add = 1
+	add = modifier:ship_weapon_damage
+	add = modifier:$kuat_slot$_slot_weapon_damage_mult
+	modifier = { add = modifier:weapon_type_energy_weapon_damage_mult always = $kuat_energy$ }
+	modifier = { add = modifier:weapon_type_kinetic_weapon_damage_mult always = $kuat_kinetic$ }
+	modifier = { add = modifier:weapon_type_explosive_weapon_damage_mult always = $kuat_explosive$ }
+}
+kuat_superlazer_weapon_damage_factor_ship = {
+	base = 0
+	add = $kuat_damage_max$
+	divide = $kuat_damage_base$
+	divide = value:kuat_superlazer_weapon_damage_factor_ship_base|kuat_value|$kuat_ship_damage_buff$|
+	divide = value:kuat_superlazer_weapon_damage_factor_ship_base|kuat_value|modifier:ship_hull_damage_mult|
+	divide = $kuat_weapon_damage_buff$
+	subtract = value:kuat_superlazer_weapon_damage_factor_tags|kuat_slot|$kuat_slot$|kuat_energy|$kuat_energy$|kuat_kinetic|$kuat_kinetic$|kuat_explosive|$kuat_explosive$|
+	divide = modifier:kuat_superlazer_symbol
+	min = 0
+}
+kuat_superlazer_weapon_rate_factor_ship = {
+	base = 0
+	add = modifier:force_disparity_fire_rate_mult
+	add = modifier:ship_fire_rate_mult
+	add = modifier:$kuat_slot$_weapon_fire_rate_mult
+}
 
 kuat_shipyard_value = {
 	base = 1

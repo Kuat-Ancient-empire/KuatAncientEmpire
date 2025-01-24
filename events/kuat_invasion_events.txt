@@ -1484,80 +1484,52 @@ country_event = {
 	}
 }
 
-#eclipse or eternal flagship lazer fixed
-country_event = {
-	id = exe_invasion.110
-	hide_window = yes
-	is_triggered_only = yes
-	trigger = { fromfrom = { any_owned_ship = { OR = { 
-		is_ship_size = eclipse 
-		is_ship_size = eternal_flagship 
-	} } } }
-	immediate = {
-		if = {
-			limit = {  
-				is_player_country = yes from = { is_invisable_faction = no }
-			}
-			FROMFROM = { if = {
-				limit = { NOT = { has_fleet_flag = fire_only_once_temple_eclipse } }
-				every_owned_ship = {
-					limit = { 
-						NOT = { has_ship_flag = random_list_superlazer_rate_placeholder }
-						OR = { has_component = EE_SUPERLASER has_component = EXE_SUPERLASER } 
-					}
-					set_ship_flag = is_modifiering_superlazer
-					ship_event = { id = exe_invasion.112 }
-					set_timed_ship_flag = { flag = random_list_superlazer_rate_placeholder days = 1 }
-				}
-				set_timed_fleet_flag = { flag = fire_only_once_temple_eclipse days = 1 }
-			} }
-		}
-		FROMFROM = { if = {
-			limit = { NOT = { has_fleet_flag = fire_only_once_temple_eclipse_power } }
-			every_owned_ship = {
-				limit = { 
-					NOT = { has_ship_flag = is_modifiering_power_superlazer }
-					OR = { has_component = EE_SUPERLASER has_component = EXE_SUPERLASER } 
-				}
-				add_modifier = { modifier = superlazier_super_power_enhance }
-				set_ship_flag = is_modifiering_power_superlazer
-				ship_event = { id = exe_invasion.113 }
-			}
-			set_timed_fleet_flag = { flag = fire_only_once_temple_eclipse_power days = 1 }
-		} }
-	}
-}
+# #eclipse or eternal flagship lazer fixed
+# country_event = {
+# 	id = exe_invasion.110
+# 	hide_window = yes
+# 	is_triggered_only = yes
+# 	trigger = {  
+# 		fromfrom = { any_owned_ship = { OR = { 
+# 			is_ship_size = eclipse 
+# 			is_ship_size = eternal_flagship 
+# 		} } }
+# 		is_player_country = yes from = { is_invisable_faction = no }
+# 	}
+# 	immediate = {
+# 		FROMFROM = { if = {
+# 			limit = { NOT = { has_fleet_flag = fire_only_once_temple_eclipse } }
+# 			every_owned_ship = {
+# 				limit = { 
+# 					NOT = { has_ship_flag = random_list_superlazer_rate_placeholder }
+# 					OR = { has_component = EE_SUPERLASER has_component = EXE_SUPERLASER } 
+# 				}
+# 				set_ship_flag = is_modifiering_superlazer
+# 				ship_event = { id = exe_invasion.112 }
+# 				set_timed_ship_flag = { flag = random_list_superlazer_rate_placeholder days = 1 }
+# 			}
+# 			set_timed_fleet_flag = { flag = fire_only_once_temple_eclipse days = 1 }
+# 		} }
+# 	}
+# }
 
-ship_event = {
-	id = exe_invasion.112
-	hide_window = yes
-	is_triggered_only = yes
-	trigger = { has_ship_flag = is_modifiering_superlazer }
-	immediate = {
-		if = {
-			limit = { is_in_combat = yes }
-			kuat_battle_set_standard_battle_superlazer_weapon_keeping_modifier = {
-				PARAMATER1 = ship_fire_rate_mult
-				PARAMATER2 = weapon_type_kuat_superlazer_scale_weapon_fire_rate_mult
-			}
-			ship_event = { id = exe_invasion.112 days = 1 }
-		}
-		else = { kuat_battle_clear_superlazer_system_fixed_ship = yes }
-	}
-}
-ship_event = {
-	id = exe_invasion.113
-	hide_window = yes
-	is_triggered_only = yes
-	trigger = { has_ship_flag = is_modifiering_power_superlazer }
-	immediate = {
-		if = {
-			limit = { is_in_combat = yes }
-			ship_event = { id = exe_invasion.113 days = 3 }
-		}
-		else = { kuat_battle_clear_superlazer_system_fixed_ship = yes }
-	}
-}
+# ship_event = {
+# 	id = exe_invasion.112
+# 	hide_window = yes
+# 	is_triggered_only = yes
+# 	trigger = { has_ship_flag = is_modifiering_superlazer }
+# 	immediate = {
+# 		if = {
+# 			limit = { is_in_combat = yes }
+# 			kuat_battle_set_standard_battle_superlazer_weapon_keeping_modifier = {
+# 				PARAMATER1 = ship_fire_rate_mult
+# 				PARAMATER2 = weapon_type_kuat_superlazer_scale_weapon_fire_rate_mult
+# 			}
+# 			ship_event = { id = exe_invasion.112 days = 1 }
+# 		}
+# 		else = { kuat_battle_clear_superlazer_system_fixed_ship = yes }
+# 	}
+# }
 #flagship protection difficult
 country_event = {
 	id = exe_invasion.116
@@ -1838,7 +1810,7 @@ ship_event = {
 			limit = { has_ship_flag = enable_disable_starbase }
 			if = { 
 				limit = { check_variable = { which = STARBASE_HEALTH_VAR value > 0 } } 
-				kuat_battle_clear_ship_at_health = { REPAIR = yes INVERT_DISABLE = set_disabled WHICH = STARBASE_HEALTH_VAR }
+				kuat_battle_clear_ship_at_health = { REPAIR = yes INVERT_DISABLE = set_disabled WHICH = STARBASE_HEALTH_VAR RELOAD = yes }
 			} 
 			else = { kuat_battle_clear_ship_at_health = { REPAIR = yes INVERT_DISABLE = set_disabled Disable_health = -1 } }
 		}
@@ -1846,7 +1818,7 @@ ship_event = {
 			limit = { has_ship_flag = enable_drft_ship_inital }
 			if = { 
 				limit = { check_variable = { which = DRFT_SHIP_HEALTH_VAR value > 0 } } 
-				kuat_battle_clear_ship_at_health = { REPAIR = yes INVERT_DISABLE = set_disabled WHICH = DRFT_SHIP_HEALTH_VAR }
+				kuat_battle_clear_ship_at_health = { REPAIR = yes INVERT_DISABLE = set_disabled WHICH = DRFT_SHIP_HEALTH_VAR RELOAD = yes }
 			} 
 			else = { kuat_battle_clear_ship_at_health = { REPAIR = yes INVERT_DISABLE = set_disabled Disable_health = -1 } }
 		}
@@ -1854,7 +1826,7 @@ ship_event = {
 			limit = { has_ship_flag = enable_kuat_ship_inital owner = { is_kuat_crisis_country = yes } }
 			if = { 
 				limit = { check_variable = { which = KUAT_SHIP_HEALTH_VAR value > 0 } } 
-				kuat_battle_clear_ship_at_health = { REPAIR = yes INVERT_DISABLE = set_disabled WHICH = KUAT_SHIP_HEALTH_VAR }
+				kuat_battle_clear_ship_at_health = { REPAIR = yes INVERT_DISABLE = set_disabled WHICH = KUAT_SHIP_HEALTH_VAR RELOAD = yes }
 			} 
 			else = { kuat_battle_clear_ship_at_health = { REPAIR = yes INVERT_DISABLE = set_disabled Disable_health = -1 } }
 		}
@@ -1862,7 +1834,7 @@ ship_event = {
 			limit = { has_ship_flag = enable_kuat_ship_inital owner = { is_kuat_Overseer_Council_empire = yes } }
 			if = { 
 				limit = { check_variable = { which = KUAT_SHIP_HEALTH_VAR value > 0 } } 
-				kuat_battle_clear_ship_at_health = { REPAIR = yes INVERT_DISABLE = set_disabled WHICH = KUAT_SHIP_HEALTH_VAR }
+				kuat_battle_clear_ship_at_health = { REPAIR = yes INVERT_DISABLE = set_disabled WHICH = KUAT_SHIP_HEALTH_VAR RELOAD = yes }
 			} 
 			else = { kuat_battle_clear_ship_at_health = { REPAIR = yes INVERT_DISABLE = set_disabled Disable_health = -1 } }
 		}
@@ -1870,7 +1842,7 @@ ship_event = {
 			limit = { has_ship_flag = enable_Infinite_ship_inital owner = { is_infinite_faction = yes } }
 			if = { 
 				limit = { check_variable = { which = INFINITE_SHIP_HEALTH_VAR value > 0 } } 
-				kuat_battle_clear_ship_at_health = { REPAIR = yes INVERT_DISABLE = set_disabled WHICH = INFINITE_SHIP_HEALTH_VAR }
+				kuat_battle_clear_ship_at_health = { REPAIR = yes INVERT_DISABLE = set_disabled WHICH = INFINITE_SHIP_HEALTH_VAR RELOAD = yes }
 			} 
 			else = { kuat_battle_clear_ship_at_health = { REPAIR = yes INVERT_DISABLE = set_disabled Disable_health = -1 } }
 		}
@@ -1881,7 +1853,7 @@ ship_event = {
 					check_variable = { which = ETERNAL_SHIP_HEALTH_VAR value > 0 } 
 					exists = solar_system solar_system = { kuat_is_repair_system = no }
 				} 
-				kuat_battle_clear_ship_at_health = { REPAIR = yes INVERT_DISABLE = set_disabled WHICH = ETERNAL_SHIP_HEALTH_VAR }
+				kuat_battle_clear_ship_at_health = { REPAIR = yes INVERT_DISABLE = set_disabled WHICH = ETERNAL_SHIP_HEALTH_VAR RELOAD = yes }
 			} 
 			else = { kuat_battle_clear_ship_at_health = { REPAIR = yes INVERT_DISABLE = set_disabled Disable_health = -1 } }
 		}
@@ -1889,7 +1861,7 @@ ship_event = {
 			limit = { has_ship_flag = enable_kuat_none_ship_inital owner = { is_kuat_crisis_country = no } }
 			if = { 
 				limit = { check_variable = { which = KUAT_NONE_SHIP_HEALTH_VAR value > 0 } } 
-				kuat_battle_clear_ship_at_health = { REPAIR = yes INVERT_DISABLE = set_disabled WHICH = KUAT_NONE_SHIP_HEALTH_VAR }
+				kuat_battle_clear_ship_at_health = { REPAIR = yes INVERT_DISABLE = set_disabled WHICH = KUAT_NONE_SHIP_HEALTH_VAR RELOAD = yes }
 			} 
 			else = { kuat_battle_clear_ship_at_health = { REPAIR = yes INVERT_DISABLE = set_disabled Disable_health = -1 } }
 		}
@@ -1909,10 +1881,10 @@ ship_event = {
 					NOT = { has_ship_flag = kuat_flagship_disable_system_pending } 
 					has_ship_flag = kuat_executor_checkpoint 
 				}
-				kuat_battle_clear_ship_at_health = { REPAIR = yes INVERT_DISABLE = set_disabled AG_TYPE = 2 } 
+				kuat_battle_clear_ship_at_health = { REPAIR = yes INVERT_DISABLE = set_disabled AG_TYPE = 2 RELOAD = yes } 
 				set_timed_ship_flag = { flag = kuat_flagship_disable_system_pending days = 2 }
 			}
-			else = { kuat_battle_clear_ship_at_health = { REPAIR = yes INVERT_DISABLE = set_disabled AG_TYPE = 4 } }
+			else = { kuat_battle_clear_ship_at_health = { REPAIR = yes INVERT_DISABLE = set_disabled AG_TYPE = 4 RELOAD = yes } }
 		}
 	}
 }
@@ -2142,6 +2114,7 @@ country_event = {
 					limit = { NOT = { is_variable_set = kuat_support_battle_add_variable } }
 					set_variable = { which = kuat_support_battle_add_variable value = value:kuat_system_support_variable } 
 					prev = { 
+						every_owned_ship = { kuat_battle_remove_repetable_modifier_iep = yes }
 						kuat_battle_kuat_star_flagship_base_fleet_clear_calculation = { ID = 1 }
 						kuat_battle_kuat_star_flagship_base_fleet_clear_calculation = { ID = 2 }
 						kuat_battle_kuat_star_flagship_base_fleet_clear_calculation = { ID = 4 }
