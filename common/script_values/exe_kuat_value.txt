@@ -286,6 +286,26 @@ kuat_dynamic_base_hostile_value = {
 	mult = $MULT$
 }
 
+kuat_dynamic_base_range_value = {
+	base = 0
+	modifier = {
+		set = 3
+		has_global_flag = easy_exe_invasion
+	}
+	modifier = {
+		set = 2
+		has_global_flag = normal_exe_invasion
+	}
+	modifier = {
+		set = 1
+		OR = {
+			has_global_flag = difficult_exe_invasion
+			has_global_flag = ban_exe_invasion
+		}
+	}
+	mult = $MULT$
+}
+
 kuat_eternal_starkiller_base_target = {
 	base = 5
 	complex_trigger_modifier = {
@@ -356,25 +376,20 @@ kuat_get_boss_rest_life = {
 
 kuat_get_damage_control_modifier = {
 	base = 0
-	add = modifier:kuat_damage_control_modifier
+	add = modifier:$MODIFIER$
 	min = 0
-}
-
-kuat_get_damage_control_hositle_modifier = {
-	base = 0
-	add = modifier:kuat_damage_control_hositle_modifier
-	min = 0
+	max = 0.99
 }
 
 kuat_export_kuat_damage_control_modifier = {
 	base = 0
-	add = value:kuat_get_damage_control_modifier
+	add = value:kuat_get_damage_control_modifier|MODIFIER|kuat_damage_control_modifier|
 	mult = $MULT$
 }
 
 kuat_export_kuat_damage_control_hositle_modifier = {
 	base = 0
-	add = value:kuat_get_damage_control_hositle_modifier
+	add = value:kuat_get_damage_control_modifier|MODIFIER|kuat_damage_control_hositle_modifier|
 	mult = $MULT$
 }
 
