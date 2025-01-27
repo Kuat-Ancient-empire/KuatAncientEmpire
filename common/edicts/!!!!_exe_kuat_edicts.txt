@@ -131,7 +131,7 @@ kuat_reset_ship_data = {
 			every_controlled_fleet = {
 				limit = { has_fleet_flag = kuat_battle_disable_ship_at_health_ship_copy_target }
 				every_owned_ship = {
-					save_event_target_as = kuat_battle_disable_ship_at_health_ship
+					save_event_target_as = copy_ship
 					if = {
 						limit = { NOT = { exists = kuat_battle_disable_ship_at_health_ship_copy_@prev } }
 						create_fleet = {
@@ -139,17 +139,17 @@ kuat_reset_ship_data = {
 							effect = {
 								set_owner = prevprev.owner
 								create_ship = { 
-									design = event_target:kuat_battle_disable_ship_at_health_ship 
-									effect = { copy_flags_and_variables_from = event_target:kuat_battle_disable_ship_at_health_ship }
+									design = event_target:copy_ship 
+									effect = { copy_flags_and_variables_from = event_target:copy_ship }
 								}
 								save_global_event_target_as = kuat_battle_disable_ship_at_health_ship_copy_@prevprev
 								set_location = { target = prevprev distance = -1 angle = 0 }
 							}
 						}
 					}
-					else = { kuat_battle_disable_ship_at_health_ship_copy_@prev = { create_ship = { 
-						design = event_target:kuat_battle_disable_ship_at_health_ship 
-						effect = { copy_flags_and_variables_from = event_target:kuat_battle_disable_ship_at_health_ship }
+					else = { event_target:kuat_battle_disable_ship_at_health_ship_copy_@prev = { create_ship = { 
+						design = event_target:copy_ship 
+						effect = { copy_flags_and_variables_from = event_target:copy_ship }
 					} } }
 				}
 				clear_global_event_target = kuat_battle_disable_ship_at_health_ship_copy_@this
