@@ -2717,53 +2717,25 @@ country_event = {
 			custom_tooltip = "remove_ship_need_exists"
 			hidden_trigger = {
 				is_player_country = yes
-				OR = {
-					AND = {
-						any_controlled_fleet = {
-							num_ships = 1
-							NOT = { exists = leader }
-							is_ship_class = shipclass_military
-							has_enable_total_flagship_system_false = yes
-						}
-						NOT = { exists = event_target:eternal_fleet_country }
-					}
-					AND = {
-						any_controlled_fleet = {
-							num_ships < 20
-							NOT = { exists = leader }
-							is_ship_class = shipclass_military
-							has_enable_total_flagship_system_false = yes
-						}
-						exists = event_target:eternal_fleet_country
-					}
+				any_controlled_fleet = {
+					num_ships = 1
+					NOT = { exists = leader }
+					is_ship_class = shipclass_military
+					has_enable_total_flagship_system_false = yes
 				}
 			}
 		}
 		custom_tooltip = "remove_ship_need_exists_tooltip"
 		hidden_effect = {
 			every_controlled_fleet = {
-				if = {
-					limit = {
-						NOT = { exists = event_target:eternal_fleet_country }
-						num_ships = 1
-						is_ship_class = shipclass_military
-						NOT = { exists = leader }
-						has_enable_total_flagship_system_false = yes
-					}
-					delete_fleet = { target = this destroy_template = yes kill_leader = no }
-					root = { change_variable = { which = destroyed_fleet value = 1 } }
+				limit = {
+					num_ships = 1
+					is_ship_class = shipclass_military
+					NOT = { exists = leader }
+					has_enable_total_flagship_system_false = yes
 				}
-				if = {
-					limit = {
-						exists = event_target:eternal_fleet_country
-						num_ships < 20
-						is_ship_class = shipclass_military
-						NOT = { exists = leader }
-						has_enable_total_flagship_system_false = yes
-					}
-					delete_fleet = { target = this destroy_template = yes kill_leader = no }
-					root = { change_variable = { which = destroyed_fleet value = prev.trigger:num_ships } }
-				}
+				delete_fleet = { target = this destroy_template = yes kill_leader = no }
+				root = { change_variable = { which = destroyed_fleet value = prev.trigger:num_ships } }
 			}
 			if = {
 				limit = { is_variable_set = destroyed_fleet }

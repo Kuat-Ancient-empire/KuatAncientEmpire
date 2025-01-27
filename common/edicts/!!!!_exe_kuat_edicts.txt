@@ -28,6 +28,137 @@ kuat_settings_Menus = {
 	ai_weight = { weight = 0 }
 }
 
+kuat_remove_ship = {
+	length = 1
+	icon = "GFX_Eternal_fleet_setting_edict"
+	resources = { category = edicts }
+	potential = { has_global_flag = install_kuat_mod }
+	allow = {
+		custom_tooltip = "remove_ship_need_exists"
+		hidden_trigger = {
+			is_player_country = yes
+			any_controlled_fleet = {
+				num_ships = 1
+				NOT = { exists = leader }
+				is_ship_class = shipclass_military
+				has_enable_total_flagship_system_false = yes
+			}
+		}
+	}
+	effect = {
+		custom_tooltip = "remove_ship_need_exists_tooltip"
+		hidden_effect = {
+			every_controlled_fleet = {
+				limit = {
+					num_ships = 1
+					is_ship_class = shipclass_military
+					NOT = { exists = leader }
+					has_enable_total_flagship_system_false = yes
+				}
+				delete_fleet = { target = this destroy_template = yes kill_leader = no }
+				root = { change_variable = { which = destroyed_fleet value = prev.trigger:num_ships } }
+			}
+			if = {
+				limit = { is_variable_set = destroyed_fleet }
+				random_list = {
+					10 = { add_resource = { alloys = 3000 mult = destroyed_fleet } }
+					20 = { add_resource = { alloys = 2000 mult = destroyed_fleet } }
+					30 = { add_resource = { alloys = 1000 mult = destroyed_fleet } }
+					40 = { add_resource = { alloys = 500 mult = destroyed_fleet } }
+					50 = { add_resource = { alloys = 250 mult = destroyed_fleet } }
+					60 = { add_resource = { alloys = 125 mult = destroyed_fleet } }
+				}
+				reroll_random = yes
+				clear_variable = destroyed_fleet
+			}
+		}
+	}
+}
+
+kuat_reset_ship_data = {
+	length = 1
+	icon = "GFX_Eternal_fleet_setting_edict"
+	resources = { category = edicts }
+	potential = { has_global_flag = install_kuat_mod }
+	allow = {
+		custom_tooltip = "reset_ship_need_exists"
+		hidden_trigger = {
+			is_player_country = yes
+			any_controlled_fleet = { is_ship_class = shipclass_military is_in_combat = no }
+		}
+	}
+	effect = {
+		custom_tooltip = "reset_ship_need_exists_tooltip"
+		hidden_effect = {
+			if = {
+				limit = { any_controlled_fleet = {
+					num_ships = 1
+					NOT = { exists = leader }
+					is_ship_class = shipclass_military
+					has_enable_total_flagship_system_false = yes
+				} }
+				every_controlled_fleet = {
+					limit = {
+						num_ships = 1
+						is_ship_class = shipclass_military
+						NOT = { exists = leader }
+						has_enable_total_flagship_system_false = yes
+					}
+					delete_fleet = { target = this destroy_template = yes kill_leader = no }
+					root = { change_variable = { which = destroyed_fleet value = prev.trigger:num_ships } }
+				}
+				if = {
+					limit = { is_variable_set = destroyed_fleet }
+					random_list = {
+						10 = { add_resource = { alloys = 3000 mult = destroyed_fleet } }
+						20 = { add_resource = { alloys = 2000 mult = destroyed_fleet } }
+						30 = { add_resource = { alloys = 1000 mult = destroyed_fleet } }
+						40 = { add_resource = { alloys = 500 mult = destroyed_fleet } }
+						50 = { add_resource = { alloys = 250 mult = destroyed_fleet } }
+						60 = { add_resource = { alloys = 125 mult = destroyed_fleet } }
+					}
+					reroll_random = yes
+					clear_variable = destroyed_fleet
+				}
+			}
+			every_controlled_fleet = {
+				limit = { 
+					is_ship_class = shipclass_military 
+					is_in_combat = no
+				}
+				set_fleet_flag = kuat_battle_disable_ship_at_health_ship_copy_target
+			}
+			every_controlled_fleet = {
+				limit = { has_fleet_flag = kuat_battle_disable_ship_at_health_ship_copy_target }
+				every_owned_ship = {
+					save_event_target_as = kuat_battle_disable_ship_at_health_ship
+					if = {
+						limit = { NOT = { exists = kuat_battle_disable_ship_at_health_ship_copy_@prev } }
+						create_fleet = {
+							name = prev
+							effect = {
+								set_owner = prevprev.owner
+								create_ship = { 
+									design = event_target:kuat_battle_disable_ship_at_health_ship 
+									effect = { copy_flags_and_variables_from = event_target:kuat_battle_disable_ship_at_health_ship }
+								}
+								save_global_event_target_as = kuat_battle_disable_ship_at_health_ship_copy_@prevprev
+								set_location = { target = prevprev distance = -1 angle = 0 }
+							}
+						}
+					}
+					else = { kuat_battle_disable_ship_at_health_ship_copy_@prev = { create_ship = { 
+						design = event_target:kuat_battle_disable_ship_at_health_ship 
+						effect = { copy_flags_and_variables_from = event_target:kuat_battle_disable_ship_at_health_ship }
+					} } }
+				}
+				clear_global_event_target = kuat_battle_disable_ship_at_health_ship_copy_@this
+				delete_fleet = { target = this destroy_template = yes kill_leader = no }
+			}
+		}
+	}
+}
+
 #情报入口
 kuat_event_memory = {
 	length = -1
