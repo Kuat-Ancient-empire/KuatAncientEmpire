@@ -793,80 +793,80 @@ remove_array_variables = {
 # input: ARRAY 数组名, VALUE 需要对比的值
 # output: OUT(variable name)# 变量名(输出) 
 # 输出值：找到的索引
-find_array_variable = {
-	remove_country_flag = ARRAY_INDEX_NOT_FOUND
-	set_variable = { which = INDEX value = 0 }
-	while = {
-		limit = {
-			check_variable = { which = INDEX value < $ARRAY$ }
-			has_country_flag = FOUND_REQUIRE_ARRAY_INDEX
-		}
-		if = {
-			limit = { check_variable = { which = INDEX value = 0 }}
-			kuat_get_array = { ARRAY = $ARRAY$ INDEX = 0 OUT = TEMP_compare_value }
-		} 
-		else_if = {
-			limit = { always = yes }
-			kuat_get_digits = { ARRAY = INDEX VARIABLE = INDEX }
-			if = {
-				limit = { check_variable = { which = INDEX_DIGIT_1 value = 1 }}
-				kuat_get_array_variable_S2 = { ARRAY = $ARRAY$ OUT = TEMP_compare_value VARIABLE = INDEX INDEX = 1 }
-			} 
-			else_if = {
-				limit = { check_variable = { which = INDEX_DIGIT_1 value = 2 }}
-				kuat_get_array_variable_S2 = { ARRAY = $ARRAY$ OUT = TEMP_compare_value VARIABLE = INDEX INDEX = 2 }
-			} 
-			else_if = {
-				limit = { check_variable = { which = INDEX_DIGIT_1 value = 3 }}
-				kuat_get_array_variable_S2 = { ARRAY = $ARRAY$ OUT = TEMP_compare_value VARIABLE = INDEX INDEX = 3 }
-			} 
-			else_if = {
-				limit = { check_variable = { which = INDEX_DIGIT_1 value = 4 }}
-				kuat_get_array_variable_S2 = { ARRAY = $ARRAY$ OUT = TEMP_compare_value VARIABLE = INDEX INDEX = 4 }
-			} 
-			else_if = {
-				limit = { check_variable = { which = INDEX_DIGIT_1 value = 5 }}
-				kuat_get_array_variable_S2 = { ARRAY = $ARRAY$ OUT = TEMP_compare_value VARIABLE = INDEX INDEX = 5 }
-			} 
-			else_if = {
-				limit = { check_variable = { which = INDEX_DIGIT_1 value = 6 }}
-				kuat_get_array_variable_S2 = { ARRAY = $ARRAY$ OUT = TEMP_compare_value VARIABLE = INDEX INDEX = 6 }
-			} 
-			else_if = {
-				limit = { check_variable = { which = INDEX_DIGIT_1 value = 7 }}
-				kuat_get_array_variable_S2 = { ARRAY = $ARRAY$ OUT = TEMP_compare_value VARIABLE = INDEX INDEX = 7 }
-			} 
-			else_if = {
-				limit = { check_variable = { which = INDEX_DIGIT_1 value = 8 }}
-				kuat_get_array_variable_S2 = { ARRAY = $ARRAY$ OUT = TEMP_compare_value VARIABLE = INDEX INDEX = 8 }
-			} 
-			else_if = {
-				limit = { check_variable = { which = INDEX_DIGIT_1 value = 9 }}
-				kuat_get_array_variable_S2 = { ARRAY = $ARRAY$ OUT = TEMP_compare_value VARIABLE = INDEX INDEX = 9 }
-			}
-		}
-		remove_array_variables = { ARRAY = INDEX }
-		if = {
-			limit = { check_variable = { which = TEMP_compare_value value = $VALUE$ }}
-			set_country_flag = FOUND_REQUIRE_ARRAY_INDEX
-		} 
-		else_if = {
-			limit = { always = yes }
-			change_variable = { which = INDEX value = 1 }
-		}
-	}
-	if = {
-		limit = { check_variable = { which = INDEX value > $ARRAY$ }}
-		set_country_flag = ARRAY_INDEX_NOT_FOUND
-		set_variable = { which = $OUT$ value = 0 }
-	} 
-	else_if = {
-		limit = { always = yes }
-		set_variable = { which = $OUT$ value = INDEX }
-	}
-	clear_variable = INDEX
-	remove_country_flag = FOUND_REQUIRE_ARRAY_INDEX
-}
+# find_array_variable = {
+# 	remove_country_flag = ARRAY_INDEX_NOT_FOUND
+# 	set_variable = { which = INDEX value = 0 }
+# 	while = {
+# 		limit = {
+# 			check_variable = { which = INDEX value < $ARRAY$ }
+# 			has_country_flag = FOUND_REQUIRE_ARRAY_INDEX
+# 		}
+# 		if = {
+# 			limit = { check_variable = { which = INDEX value = 0 }}
+# 			kuat_get_array = { ARRAY = $ARRAY$ INDEX = 0 OUT = TEMP_compare_value }
+# 		} 
+# 		else_if = {
+# 			limit = { always = yes }
+# 			kuat_get_digits = { ARRAY = INDEX VARIABLE = INDEX }
+# 			if = {
+# 				limit = { check_variable = { which = INDEX_DIGIT_1 value = 1 }}
+# 				kuat_get_array_variable_S2 = { ARRAY = $ARRAY$ OUT = TEMP_compare_value VARIABLE = INDEX INDEX = 1 }
+# 			} 
+# 			else_if = {
+# 				limit = { check_variable = { which = INDEX_DIGIT_1 value = 2 }}
+# 				kuat_get_array_variable_S2 = { ARRAY = $ARRAY$ OUT = TEMP_compare_value VARIABLE = INDEX INDEX = 2 }
+# 			} 
+# 			else_if = {
+# 				limit = { check_variable = { which = INDEX_DIGIT_1 value = 3 }}
+# 				kuat_get_array_variable_S2 = { ARRAY = $ARRAY$ OUT = TEMP_compare_value VARIABLE = INDEX INDEX = 3 }
+# 			} 
+# 			else_if = {
+# 				limit = { check_variable = { which = INDEX_DIGIT_1 value = 4 }}
+# 				kuat_get_array_variable_S2 = { ARRAY = $ARRAY$ OUT = TEMP_compare_value VARIABLE = INDEX INDEX = 4 }
+# 			} 
+# 			else_if = {
+# 				limit = { check_variable = { which = INDEX_DIGIT_1 value = 5 }}
+# 				kuat_get_array_variable_S2 = { ARRAY = $ARRAY$ OUT = TEMP_compare_value VARIABLE = INDEX INDEX = 5 }
+# 			} 
+# 			else_if = {
+# 				limit = { check_variable = { which = INDEX_DIGIT_1 value = 6 }}
+# 				kuat_get_array_variable_S2 = { ARRAY = $ARRAY$ OUT = TEMP_compare_value VARIABLE = INDEX INDEX = 6 }
+# 			} 
+# 			else_if = {
+# 				limit = { check_variable = { which = INDEX_DIGIT_1 value = 7 }}
+# 				kuat_get_array_variable_S2 = { ARRAY = $ARRAY$ OUT = TEMP_compare_value VARIABLE = INDEX INDEX = 7 }
+# 			} 
+# 			else_if = {
+# 				limit = { check_variable = { which = INDEX_DIGIT_1 value = 8 }}
+# 				kuat_get_array_variable_S2 = { ARRAY = $ARRAY$ OUT = TEMP_compare_value VARIABLE = INDEX INDEX = 8 }
+# 			} 
+# 			else_if = {
+# 				limit = { check_variable = { which = INDEX_DIGIT_1 value = 9 }}
+# 				kuat_get_array_variable_S2 = { ARRAY = $ARRAY$ OUT = TEMP_compare_value VARIABLE = INDEX INDEX = 9 }
+# 			}
+# 		}
+# 		remove_array_variables = { ARRAY = INDEX }
+# 		if = {
+# 			limit = { check_variable = { which = TEMP_compare_value value = $VALUE$ }}
+# 			set_country_flag = FOUND_REQUIRE_ARRAY_INDEX
+# 		} 
+# 		else_if = {
+# 			limit = { always = yes }
+# 			change_variable = { which = INDEX value = 1 }
+# 		}
+# 	}
+# 	if = {
+# 		limit = { check_variable = { which = INDEX value > $ARRAY$ }}
+# 		set_country_flag = ARRAY_INDEX_NOT_FOUND
+# 		set_variable = { which = $OUT$ value = 0 }
+# 	} 
+# 	else_if = {
+# 		limit = { always = yes }
+# 		set_variable = { which = $OUT$ value = INDEX }
+# 	}
+# 	clear_variable = INDEX
+# 	remove_country_flag = FOUND_REQUIRE_ARRAY_INDEX
+# }
 
 # 根据某一个变量的值，清除数组内指定索引的值
 # clear variable in an array at the given index, which the index is a integer of a variable in game

@@ -356,8 +356,7 @@ kuat_battle_setup_invinciable_protection_pragram = {
 	optimize_memory
 	if = {
 		limit = { is_in_combat = yes }
-		every_owned_ship = {
-			kuat_battle_random_list_eternal_fleet_rate = yes 
+		every_owned_ship = { 
 			$KEY$ = { netrual = yes frendly = yes AUTO = yes }
 			set_ship_flag = kuat_is_modifiering
 		}
@@ -370,7 +369,6 @@ kuat_battle_setup_invinciable_attacketion_pragram = {
 	if = {
 		limit = { is_in_combat = yes }
 		every_owned_ship = {
-			kuat_battle_random_list_eternal_fleet_rate = yes 
 			$KEY$ = { netrual = yes hostile = yes }
 			set_ship_flag = kuat_is_modifiering 
 		}
@@ -1377,8 +1375,8 @@ kuat_battle_remove_fleet_modifier_trigger_flag = {
 		remove_fleet_flag = has_kuat_subflagship_system
 		remove_fleet_flag = has_kuat_disable_checkpoint
 		clear_variable = infinite_faction_battle_duplicate_ship
-		remove_fleet_flag = fire_fleet_var
 		remove_fleet_flag = is_modifiering_fleet
+		remove_fleet_flag = kuat_is_modifiering_fleet_repeatable
 	}
 }
 
@@ -1754,11 +1752,16 @@ kuat_battle_notification_suppliment_fleet = {
 				localization = KUAT_FLEET_NAME
 				scope = this
 			}
+			variable = {
+				type = name
+				localization = KUAT_CAPITAL_NAME
+				scope = owner.capital_scope
+			}
 			target = this
 			recipient = owner
 			days = 30
 		}
-		every_owned_ship = { kuat_battle_clear_ship_repeatable_modifier = { multiply = 1 DAYS = -1 } }
+		set_location = owner.capital_star
 	}
 }
 
