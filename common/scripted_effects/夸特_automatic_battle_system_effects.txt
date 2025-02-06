@@ -6,7 +6,6 @@ set_automatic_fleet_avaliable = {
 
 remove_automatic_fleet_avaliable = {
 	optimize_memory
-	root.owner = { subtract_variable = { which = fleet_id value = 1 } } clear_variable = fleet_id
 	clear_orders = yes clear_fleet_actions = this
 	remove_fleet_flag = kuat_auto_fleet_system
 	remove_fleet_flag = kuat_auto_cannot_find_path
@@ -145,218 +144,218 @@ fleet_execute_order_defender_automatic_action = {
 }
 
 #no use
-fleet_execute_order_none_use = {
-	optimize_memory
-	# queue_actions = {
-	# 	repeat = {
-	# 		effect = {
-	# 			id = millatry_automatic_action.0.effect
-	# 			if = {
-	# 				limit = { has_fleet_flag = kuat_auto_cannot_find_path }
-	# 				remove_automatic_fleet_avaliable = yes
-	# 				every_system = { clear_variable = kuat_fleet_id }
-	# 				remove_fleet_flag = kuat_auto_cannot_find_path
-	# 			}
-	# 		}
-	# 		find_closest_system = {
-	# 			trigger = {
-	# 				id = millatry_automatic_action.0.find_closest_system
-	# 				exists = starbase
-	# 				starbase = { controller = { is_same_value = $FRIENDLY_TARGET$ } }
-	# 				any_fleet_in_system = { is_ship_class = shipclass_military exists = controller controller = { is_at_war_with = $FRIENDLY_TARGET$ } }
-	# 			}
-	# 			found_system = { wait = 5 effect = {
-	# 				id = millatry_automatic_action.0.found_system
-	# 				ROOT = {  if = {
-	# 					limit = { is_in_combat = no NOT = { has_fleet_flag = kuat_auto_defence_fleet_temple } }
-	# 					set_location = { target = prev.star distance = 300 angle = random }
-	# 					set_timed_fleet_flag = { flag = kuat_auto_defence_fleet_temple days = 30 }
-	# 				} }
-	# 				every_fleet_in_system = {
-	# 					limit = { exists = controller controller = { is_at_war_with = $FRIENDLY_TARGET$ } }
-	# 					set_cloaking_active = no
-	# 				}
-	# 			} }
-	# 			failed = { find_closest_system = {
-	# 				trigger = {
-	# 					id = millatry_automatic_action.1.find_closest_system
-	# 					ROOT = { can_access_system = prev }
-	# 					exists = starbase
-	# 					starbase = { controller = { is_at_war_with = $FRIENDLY_TARGET$ } }
-	# 					check_variable = { which = kuat_fleet_id value < 1 }
-	# 				}
-	# 				found_system = {
-	# 					effect = {
-	# 						id = millatry_automatic_action.1.found_system
-	# 						set_variable = { which = kuat_fleet_id value = root.fleet_id }
-	# 					}
-	# 					move_to = this
-	# 					wait = 5
-	# 				}
-	# 				failed = { find_closest_system = {
-	# 					trigger = {
-	# 						id = millatry_automatic_action.2.find_closest_system
-	# 						ROOT = { can_access_system = prev }
-	# 						any_system_planet = {
-	# 							controller = { is_at_war_with = $FRIENDLY_TARGET$ }
-	# 							is_colony = yes
-	# 							count_fleet_in_orbit = {
-	# 								count = 0
-	# 								limit = {
-	# 									exists = controller
-	# 									is_ship_class = shipclass_military
-	# 									controller = { is_same_value = $FRIENDLY_TARGET$ }
-	# 								}
-	# 							}
-	# 						}
-	# 						check_variable = { which = kuat_fleet_id value < 1 }
-	# 					}
-	# 					found_system = {
-	# 						effect = {
-	# 							id = millatry_automatic_action.2.found_system
-	# 							set_variable = { which = kuat_fleet_id value = root.fleet_id }
-	# 						}
-	# 						move_to = this
-	# 						repeat = {
-	# 							while = {
-	# 								id = millatry_automatic_action.2.repeat
-	# 								any_system_planet = {
-	# 									controller = { is_at_war_with = $FRIENDLY_TARGET$ }
-	# 									is_colony = yes
-	# 									count_fleet_in_orbit = {
-	# 										count = 0
-	# 										limit = {
-	# 											exists = controller
-	# 											is_ship_class = shipclass_military
-	# 											controller = { is_same_value = $FRIENDLY_TARGET$ }
-	# 										}
-	# 									}
-	# 								}
-	# 							}
-	# 							find_closest_planet = {
-	# 								trigger = {
-	# 									id = millatry_automatic_action.2.find_closest_planet
-	# 									is_colony = yes
-	# 									controller = { is_at_war_with = $FRIENDLY_TARGET$ }
-	# 									count_fleet_in_orbit = {
-	# 										count = 0
-	# 										limit = {
-	# 											exists = controller
-	# 											is_ship_class = shipclass_military
-	# 											controller = { is_same_value = $FRIENDLY_TARGET$ }
-	# 										}
-	# 									}
-	# 								}
-	# 								found_planet = {
-	# 									orbit_planet = this
-	# 									effect = {
-	# 										id = millatry_automatic_action.2.found_planet
-	# 										ROOT = { set_fleet_flag = kuat_bombaring_fleet }
-	# 										set_planet_flag = kuat_bombardment_planet
-	# 									}
-	# 									repeat = {
-	# 										while = {
-	# 											id = millatry_automatic_action.2.repeat
-	# 											ROOT = { has_fleet_flag = kuat_bombaring_fleet }
-	# 										}
-	# 										effect = {
-	# 											id = millatry_automatic_action.2.effect
-	# 											if = {
-	# 												limit = { NOT = { controller = { is_at_war_with = $FRIENDLY_TARGET$ } } }
-	# 												ROOT = { remove_fleet_flag = kuat_bombaring_fleet }
-	# 												remove_planet_flag = kuat_bombardment_planet
-	# 											}
-	# 										}
-	# 										wait = 5
-	# 									}
-	# 								}
-	# 							}
-	# 							wait = 5
-	# 						}
-	# 						wait = 5
-	# 					}
-	# 					failed = { find_closest_system = {
-	# 						trigger = {
-	# 							id = millatry_automatic_action.3.find_closest_system
-	# 							ROOT = { can_access_system = prev }
-	# 							any_system_planet = {
-	# 								controller = { is_at_war_with = $FRIENDLY_TARGET$ }
-	# 								is_colony = yes
-	# 								count_fleet_in_orbit = {
-	# 									count = 0
-	# 									limit = {
-	# 										exists = controller
-	# 										is_ship_class = shipclass_military
-	# 										controller = { is_same_value = $FRIENDLY_TARGET$ }
-	# 									}
-	# 								}
-	# 							}
-	# 						}
-	# 						found_system = {
-	# 							move_to = this
-	# 							repeat = {
-	# 								while = {
-	# 									id = millatry_automatic_action.3.repeat
-	# 									any_system_planet = {
-	# 										controller = { is_at_war_with = $FRIENDLY_TARGET$ }
-	# 										is_colony = yes
-	# 										count_fleet_in_orbit = {
-	# 											count = 0
-	# 											limit = {
-	# 												exists = controller
-	# 												is_ship_class = shipclass_military
-	# 												controller = { is_same_value = $FRIENDLY_TARGET$ }
-	# 											}
-	# 										}
-	# 									}
-	# 								}
-	# 								find_closest_planet = {
-	# 									trigger = {
-	# 										id = millatry_automatic_action.4.find_closest_planet
-	# 										is_colony = yes
-	# 										controller = { is_at_war_with = $FRIENDLY_TARGET$ }
-	# 										count_fleet_in_orbit = {
-	# 											count = 0
-	# 											limit = {
-	# 												exists = controller
-	# 												is_ship_class = shipclass_military
-	# 												controller = { is_same_value = $FRIENDLY_TARGET$ }
-	# 											}
-	# 										}
-	# 									}
-	# 									found_planet = {
-	# 										orbit_planet = this
-	# 										effect = {
-	# 											id = millatry_automatic_action.4.found_planet
-	# 											ROOT = { set_fleet_flag = kuat_bombaring_fleet }
-	# 											set_planet_flag = kuat_bombardment_planet
-	# 										}
-	# 										repeat = {
-	# 											while = {
-	# 												id = millatry_automatic_action.5.repeat
-	# 												ROOT = { has_fleet_flag = kuat_bombaring_fleet }
-	# 											}
-	# 											effect = {
-	# 												id = millatry_automatic_action.5.effect
-	# 												if = {
-	# 													limit = { NOT = { controller = { is_at_war_with = $FRIENDLY_TARGET$ } } }
-	# 													ROOT = { remove_fleet_flag = kuat_bombaring_fleet }
-	# 													remove_planet_flag = kuat_bombardment_planet
-	# 												}
-	# 											}
-	# 											wait = 5
-	# 										}
-	# 									}
-	# 								}
-	# 								wait = 5
-	# 							}
-	# 							wait = 5
-	# 						}
-	# 						failed = { wait = 1 effect = { id = colossus_automatic_action.99.ftl ROOT = { set_fleet_flag = kuat_auto_cannot_find_path } } }
-	# 					} }
-	# 				} }
-	# 			} }
-	# 		}
-	# 	}
-	# }
-}
+# fleet_execute_order_none_use = {
+# 	optimize_memory
+# 	# queue_actions = {
+# 	# 	repeat = {
+# 	# 		effect = {
+# 	# 			id = millatry_automatic_action.0.effect
+# 	# 			if = {
+# 	# 				limit = { has_fleet_flag = kuat_auto_cannot_find_path }
+# 	# 				remove_automatic_fleet_avaliable = yes
+# 	# 				every_system = { clear_variable = kuat_fleet_id }
+# 	# 				remove_fleet_flag = kuat_auto_cannot_find_path
+# 	# 			}
+# 	# 		}
+# 	# 		find_closest_system = {
+# 	# 			trigger = {
+# 	# 				id = millatry_automatic_action.0.find_closest_system
+# 	# 				exists = starbase
+# 	# 				starbase = { controller = { is_same_value = $FRIENDLY_TARGET$ } }
+# 	# 				any_fleet_in_system = { is_ship_class = shipclass_military exists = controller controller = { is_at_war_with = $FRIENDLY_TARGET$ } }
+# 	# 			}
+# 	# 			found_system = { wait = 5 effect = {
+# 	# 				id = millatry_automatic_action.0.found_system
+# 	# 				ROOT = {  if = {
+# 	# 					limit = { is_in_combat = no NOT = { has_fleet_flag = kuat_auto_defence_fleet_temple } }
+# 	# 					set_location = { target = prev.star distance = 300 angle = random }
+# 	# 					set_timed_fleet_flag = { flag = kuat_auto_defence_fleet_temple days = 30 }
+# 	# 				} }
+# 	# 				every_fleet_in_system = {
+# 	# 					limit = { exists = controller controller = { is_at_war_with = $FRIENDLY_TARGET$ } }
+# 	# 					set_cloaking_active = no
+# 	# 				}
+# 	# 			} }
+# 	# 			failed = { find_closest_system = {
+# 	# 				trigger = {
+# 	# 					id = millatry_automatic_action.1.find_closest_system
+# 	# 					ROOT = { can_access_system = prev }
+# 	# 					exists = starbase
+# 	# 					starbase = { controller = { is_at_war_with = $FRIENDLY_TARGET$ } }
+# 	# 					check_variable = { which = kuat_fleet_id value < 1 }
+# 	# 				}
+# 	# 				found_system = {
+# 	# 					effect = {
+# 	# 						id = millatry_automatic_action.1.found_system
+# 	# 						set_variable = { which = kuat_fleet_id value = root.fleet_id }
+# 	# 					}
+# 	# 					move_to = this
+# 	# 					wait = 5
+# 	# 				}
+# 	# 				failed = { find_closest_system = {
+# 	# 					trigger = {
+# 	# 						id = millatry_automatic_action.2.find_closest_system
+# 	# 						ROOT = { can_access_system = prev }
+# 	# 						any_system_planet = {
+# 	# 							controller = { is_at_war_with = $FRIENDLY_TARGET$ }
+# 	# 							is_colony = yes
+# 	# 							count_fleet_in_orbit = {
+# 	# 								count = 0
+# 	# 								limit = {
+# 	# 									exists = controller
+# 	# 									is_ship_class = shipclass_military
+# 	# 									controller = { is_same_value = $FRIENDLY_TARGET$ }
+# 	# 								}
+# 	# 							}
+# 	# 						}
+# 	# 						check_variable = { which = kuat_fleet_id value < 1 }
+# 	# 					}
+# 	# 					found_system = {
+# 	# 						effect = {
+# 	# 							id = millatry_automatic_action.2.found_system
+# 	# 							set_variable = { which = kuat_fleet_id value = root.fleet_id }
+# 	# 						}
+# 	# 						move_to = this
+# 	# 						repeat = {
+# 	# 							while = {
+# 	# 								id = millatry_automatic_action.2.repeat
+# 	# 								any_system_planet = {
+# 	# 									controller = { is_at_war_with = $FRIENDLY_TARGET$ }
+# 	# 									is_colony = yes
+# 	# 									count_fleet_in_orbit = {
+# 	# 										count = 0
+# 	# 										limit = {
+# 	# 											exists = controller
+# 	# 											is_ship_class = shipclass_military
+# 	# 											controller = { is_same_value = $FRIENDLY_TARGET$ }
+# 	# 										}
+# 	# 									}
+# 	# 								}
+# 	# 							}
+# 	# 							find_closest_planet = {
+# 	# 								trigger = {
+# 	# 									id = millatry_automatic_action.2.find_closest_planet
+# 	# 									is_colony = yes
+# 	# 									controller = { is_at_war_with = $FRIENDLY_TARGET$ }
+# 	# 									count_fleet_in_orbit = {
+# 	# 										count = 0
+# 	# 										limit = {
+# 	# 											exists = controller
+# 	# 											is_ship_class = shipclass_military
+# 	# 											controller = { is_same_value = $FRIENDLY_TARGET$ }
+# 	# 										}
+# 	# 									}
+# 	# 								}
+# 	# 								found_planet = {
+# 	# 									orbit_planet = this
+# 	# 									effect = {
+# 	# 										id = millatry_automatic_action.2.found_planet
+# 	# 										ROOT = { set_fleet_flag = kuat_bombaring_fleet }
+# 	# 										set_planet_flag = kuat_bombardment_planet
+# 	# 									}
+# 	# 									repeat = {
+# 	# 										while = {
+# 	# 											id = millatry_automatic_action.2.repeat
+# 	# 											ROOT = { has_fleet_flag = kuat_bombaring_fleet }
+# 	# 										}
+# 	# 										effect = {
+# 	# 											id = millatry_automatic_action.2.effect
+# 	# 											if = {
+# 	# 												limit = { NOT = { controller = { is_at_war_with = $FRIENDLY_TARGET$ } } }
+# 	# 												ROOT = { remove_fleet_flag = kuat_bombaring_fleet }
+# 	# 												remove_planet_flag = kuat_bombardment_planet
+# 	# 											}
+# 	# 										}
+# 	# 										wait = 5
+# 	# 									}
+# 	# 								}
+# 	# 							}
+# 	# 							wait = 5
+# 	# 						}
+# 	# 						wait = 5
+# 	# 					}
+# 	# 					failed = { find_closest_system = {
+# 	# 						trigger = {
+# 	# 							id = millatry_automatic_action.3.find_closest_system
+# 	# 							ROOT = { can_access_system = prev }
+# 	# 							any_system_planet = {
+# 	# 								controller = { is_at_war_with = $FRIENDLY_TARGET$ }
+# 	# 								is_colony = yes
+# 	# 								count_fleet_in_orbit = {
+# 	# 									count = 0
+# 	# 									limit = {
+# 	# 										exists = controller
+# 	# 										is_ship_class = shipclass_military
+# 	# 										controller = { is_same_value = $FRIENDLY_TARGET$ }
+# 	# 									}
+# 	# 								}
+# 	# 							}
+# 	# 						}
+# 	# 						found_system = {
+# 	# 							move_to = this
+# 	# 							repeat = {
+# 	# 								while = {
+# 	# 									id = millatry_automatic_action.3.repeat
+# 	# 									any_system_planet = {
+# 	# 										controller = { is_at_war_with = $FRIENDLY_TARGET$ }
+# 	# 										is_colony = yes
+# 	# 										count_fleet_in_orbit = {
+# 	# 											count = 0
+# 	# 											limit = {
+# 	# 												exists = controller
+# 	# 												is_ship_class = shipclass_military
+# 	# 												controller = { is_same_value = $FRIENDLY_TARGET$ }
+# 	# 											}
+# 	# 										}
+# 	# 									}
+# 	# 								}
+# 	# 								find_closest_planet = {
+# 	# 									trigger = {
+# 	# 										id = millatry_automatic_action.4.find_closest_planet
+# 	# 										is_colony = yes
+# 	# 										controller = { is_at_war_with = $FRIENDLY_TARGET$ }
+# 	# 										count_fleet_in_orbit = {
+# 	# 											count = 0
+# 	# 											limit = {
+# 	# 												exists = controller
+# 	# 												is_ship_class = shipclass_military
+# 	# 												controller = { is_same_value = $FRIENDLY_TARGET$ }
+# 	# 											}
+# 	# 										}
+# 	# 									}
+# 	# 									found_planet = {
+# 	# 										orbit_planet = this
+# 	# 										effect = {
+# 	# 											id = millatry_automatic_action.4.found_planet
+# 	# 											ROOT = { set_fleet_flag = kuat_bombaring_fleet }
+# 	# 											set_planet_flag = kuat_bombardment_planet
+# 	# 										}
+# 	# 										repeat = {
+# 	# 											while = {
+# 	# 												id = millatry_automatic_action.5.repeat
+# 	# 												ROOT = { has_fleet_flag = kuat_bombaring_fleet }
+# 	# 											}
+# 	# 											effect = {
+# 	# 												id = millatry_automatic_action.5.effect
+# 	# 												if = {
+# 	# 													limit = { NOT = { controller = { is_at_war_with = $FRIENDLY_TARGET$ } } }
+# 	# 													ROOT = { remove_fleet_flag = kuat_bombaring_fleet }
+# 	# 													remove_planet_flag = kuat_bombardment_planet
+# 	# 												}
+# 	# 											}
+# 	# 											wait = 5
+# 	# 										}
+# 	# 									}
+# 	# 								}
+# 	# 								wait = 5
+# 	# 							}
+# 	# 							wait = 5
+# 	# 						}
+# 	# 						failed = { wait = 1 effect = { id = colossus_automatic_action.99.ftl ROOT = { set_fleet_flag = kuat_auto_cannot_find_path } } }
+# 	# 					} }
+# 	# 				} }
+# 	# 			} }
+# 	# 		}
+# 	# 	}
+# 	# }
+# }
