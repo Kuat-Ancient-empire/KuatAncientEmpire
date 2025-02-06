@@ -92,6 +92,34 @@ kuat_superlazer_weapon_rate_factor_ship = {
 	add = modifier:$kuat_slot$_slot_weapon_fire_rate_mult
 }
 
+kuat_get_revenue_hp_instant_perc = {
+	base = 1
+	subtract = trigger:has_hp_percentage
+	min = 0.2
+	max = 1
+}
+kuat_get_revenue_hp_lifetimes = {
+	base = 0
+	add = value:kuat_dynamic_exist_life_times
+	subtract = DRFT_SHIP_HEALTH_VAR
+	min = 0
+	max = value:kuat_dynamic_exist_life_times
+}
+kuat_get_revenue_hp_weapon_page = {
+	base = 0
+	add = value:kuat_get_revenue_hp_lifetimes
+	mult = value:kuat_get_revenue_hp_instant_perc
+}
+kuat_get_revenue_hp_weapon_total = {
+	base = 0
+	add = value:kuat_superlazer_weapon_damage_factor_tags|kuat_slot|$kuat_slot$|kuat_energy|$kuat_energy$|kuat_kinetic|$kuat_kinetic$|kuat_explosive|$kuat_explosive$|
+	mult = value:kuat_superlazer_weapon_damage_factor_ship_base|kuat_value|$kuat_ship_damage_buff$|
+	mult = value:kuat_superlazer_weapon_damage_factor_ship_base|kuat_value|modifier:ship_hull_damage_mult|
+	mult = $kuat_weapon_damage_buff$
+	mult = value:kuat_get_revenue_hp_weapon_page
+	max = value:kuat_superlazer_weapon_damage_factor_standard|kuat_damage_max|$kuat_damage_max$|kuat_damage_base|$kuat_damage_base$|
+}
+
 kuat_shipyard_value = {
 	base = 1
 	mult = value:kuat_shipyard_resource_rate_value
@@ -342,7 +370,7 @@ kuat_eternal_starkiller_base_target = {
 kuat_system_support_variable = {
 	base = 0
 	add = modifier:kuat_support_battle_add
-	factor = value:kuat_system_support_mult
+	mult = value:kuat_system_support_mult
 	min = 0
 }
 

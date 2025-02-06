@@ -259,7 +259,7 @@ country_event = {
 }
 
 fleet_event = {
-	id = ai_action.12
+	id = ai_action.13
 	hide_window = yes
 	is_triggered_only = yes
 	trigger = {
@@ -281,6 +281,69 @@ fleet_event = {
 		else_if = {
 			limit = { owner = { is_same_value = event_target:return_kuat_awakening_country } }
 			kuat_fleet_execute_order_1 = { OWNER_TARGET = event_target:return_kuat_awakening_country }
+		}
+	}
+}
+
+fleet_event = {
+	id = ai_action.12
+	hide_window = yes
+	is_triggered_only = yes
+	trigger = {
+		exists = this
+		has_fleet_flag = kuat_auto_fleet_system
+		exists = event_target:kuat_friendly_faction
+	}
+	immediate = {
+		kuat_exe_auto_fleet_action = { ID = ai_action TYPE = kuat_exe_auto OWNER = event_target:kuat_friendly_faction }
+	}
+}
+
+#Check every month to prevent bugs.
+event = {
+	id = ai_action.14
+	hide_window = yes
+	is_triggered_only = yes
+	trigger = {
+		exists = event_target:kuat_friendly_faction
+		any_galaxy_fleet = {
+			exists = owner
+			owner = { is_player_country = yes }
+			is_fleet_idle = yes
+			has_fleet_flag = kuat_auto_fleet_system
+			NAND = {
+				exists = orbit
+				orbit = {
+					NOT = { is_star = yes }
+					exists = owner
+					owner = { is_at_war_with = event_target:kuat_friendly_faction }
+					exists = controller
+					controller = { is_at_war_with = event_target:kuat_friendly_faction }
+				}
+			}
+		}
+	}
+	immediate = {
+		every_galaxy_fleet = {
+			limit = {
+				exists = owner
+				owner = { is_player_country = yes }
+				is_fleet_idle = yes
+				has_fleet_flag = kuat_auto_fleet_system
+				NAND = {
+					exists = orbit
+					orbit = {
+						NOT = { is_star = yes }
+						exists = owner
+						owner = { is_at_war_with = event_target:kuat_friendly_faction }
+						exists = controller
+						controller = { is_at_war_with = event_target:kuat_friendly_faction }
+					}
+				}
+			}
+			clear_orders = yes
+			clear_fleet_actions = this
+			fleet_event = { id = ai_action.12 days = 3 random = 2 }
 		}
 	}
 }
