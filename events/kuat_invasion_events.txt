@@ -817,7 +817,10 @@ planet_event = {
 	immediate = {
 		reset_planet = yes
 		destroy_colony = yes
-		owner = { country_event = { id = exe_invasion.34 } }
+		if = {
+			limit = { exists = owner }
+			owner = { country_event = { id = exe_invasion.34 } }
+		}
 		if = {
 			limit = { kuat_is_ringworld = yes }
 			spawn_ringworld_cracker_effect = yes
@@ -847,32 +850,32 @@ planet_event = {
 				amount = 1
 			}
 		}
-		solar_system = {
-			every_fleet_in_system = {
-				limit = {
-					exists = owner
-					owner = { is_eternal_faction = yes }
-					has_fleet_flag = ag_kuat_invasion_fleet
-					OR = {
-						AND = { exists = orbit orbit = { is_same_value = root } }
-						AND = {
-							is_fleet_idle = yes
-							NAND = {
-								exists = orbit
-								orbit = {
-									NOT = { is_star = yes }
-									exists = owner
-									owner = { is_hostile = event_target:eternal_fleet_country }
-								}
-							}
-						}
-					}
-				}
-				clear_orders = yes
-				clear_fleet_actions = this
-				fleet_event = { id = exe_invasion.12 days = 5 random = 15 }
-			}
-		}	
+		# solar_system = {
+		# 	every_fleet_in_system = {
+		# 		limit = {
+		# 			exists = owner
+		# 			owner = { is_eternal_faction = yes }
+		# 			has_fleet_flag = ag_kuat_invasion_fleet
+		# 			OR = {
+		# 				AND = { exists = orbit orbit = { is_same_value = root } }
+		# 				AND = {
+		# 					is_fleet_idle = yes
+		# 					NAND = {
+		# 						exists = orbit
+		# 						orbit = {
+		# 							NOT = { is_star = yes }
+		# 							exists = owner
+		# 							owner = { is_hostile = event_target:eternal_fleet_country }
+		# 						}
+		# 					}
+		# 				}
+		# 			}
+		# 		}
+		# 		clear_orders = yes
+		# 		clear_fleet_actions = this
+		# 		fleet_event = { id = exe_invasion.12 days = 5 random = 15 }
+		# 	}
+		# }	
 	}
 }
 
@@ -1574,7 +1577,7 @@ country_event = {
 		from = { if = {
 			limit = { NOT = { has_country_flag = kuat_flagship_system_repeatable_modifer_temple_@this } }
 			set_country_flag = kuat_flagship_system_repeatable_modifer_temple_@this
-			country_event = { id = exe_invasion.134 }
+			country_event = { id = exe_invasion.133 }
 		} }
 	}
 }
@@ -2152,39 +2155,12 @@ country_event = {
 	id = exe_invasion.133
 	hide_window = yes
 	is_triggered_only = yes
-	trigger = { 
-		is_invisable_faction = yes
-		has_country_flag = kuat_flagship_system_repeatable_modifer_temple_@this 
-	}
+	trigger = { has_country_flag = kuat_flagship_system_repeatable_modifer_temple_@this }
 	immediate = {
 		if = {
 			limit = { any_owned_fleet = { is_in_combat = yes } }
 			kuat_battle_random_list_eternal_fleet_rate = yes
 			country_event = { id = exe_invasion.133 days = 5 }
-			set_country_flag = kuat_is_modifiering
-		}
-		else = {
-			kuat_battle_remove_repeatable_modifier_base_and_change_base = yes
-			kuat_battle_remove_all_ship_modifier_change_basic_variable = yes
-			remove_country_flag = kuat_flagship_system_repeatable_modifer_temple_@this
-			remove_country_flag = kuat_is_modifiering
-		}
-	}
-}
-
-country_event = {
-	id = exe_invasion.134
-	hide_window = yes
-	is_triggered_only = yes
-	trigger = {
-		is_invisable_faction = no
-		has_country_flag = kuat_flagship_system_repeatable_modifer_temple_@this 
-	}
-	immediate = {
-		if = {
-			limit = { any_controlled_fleet = { is_in_combat = yes } }
-			kuat_battle_random_list_eternal_fleet_rate = yes
-			country_event = { id = exe_invasion.134 days = 5 }
 			set_country_flag = kuat_is_modifiering
 		}
 		else = {

@@ -505,7 +505,10 @@ planet_event = {
 	immediate = { 
 		reset_planet = yes
 		destroy_colony = yes
-		owner = { country_event = { id = kuat_extramonster.34 } } 
+		if = {
+			limit = { exists = owner }
+			owner = { country_event = { id = kuat_extramonster.34 } } 
+		}
 		every_country = {
 			limit = {
 				NOT = { is_same_value = event_target:kuat_contractor_hostile }
@@ -521,32 +524,32 @@ planet_event = {
 			limit = { from = { count_owned_fleet = { limit = { has_fleet_flag = kuat_contractor_invasion_fleet } count < 24 } } }
 			planet_event = { id = kuat_extramonster.11 }
 		}
-		solar_system = {
-			every_fleet_in_system = {
-				limit = {
-					exists = owner
-					owner = { is_kuat_contractor_faction = yes }
-					has_fleet_flag = kuat_contractor_invasion_fleet
-					OR = {
-						AND = { exists = orbit orbit = { is_same_value = root } }
-						AND = {
-							is_fleet_idle = yes
-							NAND = {
-								exists = orbit
-								orbit = {
-									NOT = { is_star = yes }
-									exists = owner
-									owner = { is_hostile = event_target:kuat_contractor_hostile }
-								}
-							}
-						}
-					}
-				}
-				clear_orders = yes
-				clear_fleet_actions = this
-				fleet_event = { id = kuat_extramonster.12 days = 1 random = 2 }
-			}
-		}	
+		# solar_system = {
+		# 	every_fleet_in_system = {
+		# 		limit = {
+		# 			exists = owner
+		# 			owner = { is_kuat_contractor_faction = yes }
+		# 			has_fleet_flag = kuat_contractor_invasion_fleet
+		# 			OR = {
+		# 				AND = { exists = orbit orbit = { is_same_value = root } }
+		# 				AND = {
+		# 					is_fleet_idle = yes
+		# 					NAND = {
+		# 						exists = orbit
+		# 						orbit = {
+		# 							NOT = { is_star = yes }
+		# 							exists = owner
+		# 							owner = { is_hostile = event_target:kuat_contractor_hostile }
+		# 						}
+		# 					}
+		# 				}
+		# 			}
+		# 		}
+		# 		clear_orders = yes
+		# 		clear_fleet_actions = this
+		# 		fleet_event = { id = kuat_extramonster.12 days = 1 random = 2 }
+		# 	}
+		# }	
 	}
 }
 

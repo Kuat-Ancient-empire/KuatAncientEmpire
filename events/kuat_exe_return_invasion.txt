@@ -1080,7 +1080,10 @@ planet_event = {
 	immediate = { 
 		reset_planet = yes
 		destroy_colony = yes
-		owner = { country_event = { id = exe_return_invasion.34 } } 
+		if = {
+			limit = { exists = owner }
+			owner = { country_event = { id = exe_return_invasion.34 } } 
+		}
 		if = {
 			limit = { kuat_is_ringworld = yes }
 			spawn_ringworld_cracker_effect = yes
@@ -1110,32 +1113,32 @@ planet_event = {
 				add_event_chain_counter = { event_chain = ag_return_eternal_chain counter = ag_exe_invasion_planet_destroyed amount = 1 }
 			}
 		}
-		solar_system = {
-			every_fleet_in_system = {
-				limit = {
-					exists = owner
-					owner = { is_eternal_faction = yes }
-					has_fleet_flag = ag_kuat_invasion_fleet
-					OR = {
-						AND = { exists = orbit orbit = { is_same_value = root } }
-						AND = {
-							is_fleet_idle = yes
-							NAND = {
-								exists = orbit
-								orbit = {
-									NOT = { is_star = yes }
-									exists = owner
-									owner = { is_hostile = event_target:eternal_fleet_country }
-								}
-							}
-						}
-					}
-				}
-				clear_orders = yes
-				clear_fleet_actions = this
-				fleet_event = { id = exe_return_invasion.12 days = 1 random = 2 }
-			}
-		}	
+		# solar_system = {
+		# 	every_fleet_in_system = {
+		# 		limit = {
+		# 			exists = owner
+		# 			owner = { is_eternal_faction = yes }
+		# 			has_fleet_flag = ag_kuat_invasion_fleet
+		# 			OR = {
+		# 				AND = { exists = orbit orbit = { is_same_value = root } }
+		# 				AND = {
+		# 					is_fleet_idle = yes
+		# 					NAND = {
+		# 						exists = orbit
+		# 						orbit = {
+		# 							NOT = { is_star = yes }
+		# 							exists = owner
+		# 							owner = { is_hostile = event_target:eternal_fleet_country }
+		# 						}
+		# 					}
+		# 				}
+		# 			}
+		# 		}
+		# 		clear_orders = yes
+		# 		clear_fleet_actions = this
+		# 		fleet_event = { id = exe_return_invasion.12 days = 1 random = 2 }
+		# 	}
+		# }	
 	}
 }
 
@@ -1178,7 +1181,10 @@ country_event = {
 	}
 	immediate = {
 		from = {
-			add_event_chain_counter = { event_chain = ag_exe_invasion_chain counter = ag_exe_invasion_ship_kill_by_us amount = 1 }
+			if = {
+				limit = { has_event_chain = ag_exe_invasion_chain }
+				add_event_chain_counter = { event_chain = ag_exe_invasion_chain counter = ag_exe_invasion_ship_kill_by_us amount = 1 }
+			}
 			if = {
 				limit = { has_event_chain = ag_return_eternal_chain }
 				add_event_chain_counter = { event_chain = ag_return_eternal_chain counter = ag_exe_invasion_ship_kill_by_us amount = 1 }
