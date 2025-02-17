@@ -57,16 +57,9 @@ kuat_battle_eternal_increase_executor_power = {
 kuat_battle_increase_ship_hp_effect_change = {
 	optimize_memory
 	every_owned_ship = {
-		if = {
-			limit = { kuat_is_kuat_ship = yes }
-			set_timed_ship_flag = { flag = kuat_executor_checkpoint days = $DAYS$ }
-			kuat_battle_eternal_increase_executor_power = { DAYS = $DAYS$ TYPE = $TYPE$ }
-		}
-		else_if = {
-			limit = { kuat_is_kuat_ship = no NOT = { has_modifier = Eternal_submit } }
-			set_timed_ship_flag = { flag = kuat_submit_checkpoint days = $DAYS$ }
-			add_modifier = { modifier = Eternal_submit days = $DAYS$ }
-		}
+		limit = { kuat_is_kuat_ship = yes }
+		set_timed_ship_flag = { flag = kuat_executor_checkpoint days = $DAYS$ }
+		kuat_battle_eternal_increase_executor_power = { DAYS = $DAYS$ TYPE = $TYPE$ }
 		ship_event = { id = exe_invasion.119 }
 	}
 }
@@ -181,7 +174,6 @@ kuat_battle_remove_increase_hp_modifier = {
 #旗舰与循环增益系统清理
 kuat_battle_remove_executor_power = {
 	optimize_memory
-	remove_modifier = Eternal_submit
 	remove_ship_flag = kuat_has_eternal_increase_executor_power_temple
 	kuat_battle_remove_increase_hp_modifier = { TYPE = kt }
 	kuat_battle_remove_increase_hp_modifier = { TYPE = ee }

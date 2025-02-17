@@ -370,12 +370,22 @@ kuat_eternal_starkiller_base_target = {
 kuat_system_support_variable = {
 	base = 0
 	add = modifier:kuat_support_battle_add
-	mult = value:kuat_system_support_mult
 	min = 0
 }
 
-kuat_system_support_mult = {
-	base = 1
+kuat_star_flagship_nonsupport_field_battle_times = {
+	base = 0
+	add = 4
+	mult = value:kuat_system_support_mult_variable|MODIFIER|kuat_system_support_mult|
+}
+
+kuat_system_support_mult_variable = {
+	base = 0
+	add = 1
+	modifier = {
+		add = modifier:$MODIFIER$
+		check_modifier_value = { modifier = $MODIFIER$ value > 0 }
+	}
 }
 
 kuat_find_eternal_progress = {
@@ -428,17 +438,6 @@ kuat_export_kuat_damage_control_hositle_modifier = {
 	mult = $MULT$
 }
 
-kuat_situation_research_technology_base_value = {
-	base = 0
-	complex_trigger_modifier = {
-		trigger = resource_stockpile_compare
-		trigger_scope = this
-		parameters = { resource = $RESOURCE$ }
-		mode = set
-	}
-	mult = 0.01
-}
-
 kuat_situation_research_technology_system_value = {
 	base = 0
 	complex_trigger_modifier = {
@@ -451,13 +450,8 @@ kuat_situation_research_technology_system_value = {
 
 kuat_situation_research_technology_value = {
 	base = 0
-	add = value:kuat_situation_research_technology_base_value|RESOURCE|engineering_research|
-	add = value:kuat_situation_research_technology_base_value|RESOURCE|physics_research|
-	add = value:kuat_situation_research_technology_base_value|RESOURCE|society_research|
-	divide = 3
-	square_root = yes
-	floor = yes
-	min = 40
+	add = 100
+	mult = value:kuat_system_support_mult_variable|MODIFIER|all_technology_research_speed|
 	max = 600
 }
 
