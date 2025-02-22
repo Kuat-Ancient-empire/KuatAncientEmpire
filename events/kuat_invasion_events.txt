@@ -1692,51 +1692,55 @@ country_event = {
 	hide_window = yes
 	is_triggered_only = yes
 	trigger = {
+		exists = fromfrom
 		OR = {
 			is_infinite_faction = yes
 			is_kuat_contractor_faction = yes
 		}
 		from = { is_invisable_faction = no is_player_country = yes }
+		fromfrom.fleet = { 
+			any_owned_ship = { OR = {
+				is_ship_size = Infinite_Mothership
+				is_ship_size = Drift_Flagship
+				is_ship_size = Spt_Flagship
+			} }
+		}
+		fromfrom = { NOT = { has_ship_flag = temple_infinite_faction_battle_duplicate_ship } }
 	}
-	immediate = { if = {
-		limit = { exists = fromfrom }
-		fromfrom = { random_list = {
-			1 = {
-				modifier = {
-					factor = 0
-					OR = {
-						root.fromfromfrom = { OR = {
-							NOT = { is_ship_class = shipclass_military }
-							kuat_is_kuat_ship = yes
-						} }
-						AND = {
-							exists = fleet
-							fleet = { check_variable = { which = count_infinite_faction_battle_duplicate_ship value >= 100 } }
-						}
-					}
+	immediate = { fromfrom = {  
+		if = {
+			limit = { ROOT = { is_infinite_faction = yes } }
+			fleet = { 
+				random_list = {
+					1 = { create_ship = { design = Name_boss_crisis_IC_0 } }
+					2 = { create_ship = { design = Name_boss_crisis_IC_1 } }
+					3 = { create_ship = { design = Name_boss_crisis_IC_2 } }
+					4 = { create_ship = { design = Name_boss_crisis_IC_3 } }
 				}
-				if = {
-					limit = { ROOT = { is_infinite_faction = yes } }
-					fleet = { 
-						random_list = {
-							1 = { create_ship = { design = Name_boss_crisis_IC_0 } }
-							2 = { create_ship = { design = Name_boss_crisis_IC_1 } }
-							3 = { create_ship = { design = Name_boss_crisis_IC_2 } }
-							4 = { create_ship = { design = Name_boss_crisis_IC_3 } }
-						}
-						change_variable = { which = count_infinite_faction_battle_duplicate_ship value = 1 }
-					}
-				}
-				else = { fleet = { 
-					random_list = {
-						1 = { create_ship = { design = Name_boss_crisis_DB_0 } }
-						2 = { create_ship = { design = Name_boss_crisis_DC_0 } }
-					}
-					change_variable = { which = count_infinite_faction_battle_duplicate_ship value = 1 }
-				} }
+				change_variable = { which = count_infinite_faction_battle_duplicate_ship value = 1 }
 			}
-			1 = { no_events = yes }
-		} }
+		}
+		else_if = {
+			limit = { ROOT = { is_country_type = kuat_contractor_hostile } }
+			fleet = {
+				random_list = {
+					1 = { create_ship = { design = Name_boss_crisis_DB_0 } }
+					2 = { create_ship = { design = Name_boss_crisis_DC_0 } }
+				}
+				change_variable = { which = count_infinite_faction_battle_duplicate_ship value = 1 }
+			}
+		}
+		else_if = {
+			limit = { ROOT = { is_country_type = kuat_contractor_support } }
+			fleet = {
+				random_list = {
+					1 = { create_ship = { design = Name_boss_crisis_SP_1 } }
+					2 = { create_ship = { design = Name_boss_crisis_SPC_1 } }
+				}
+				change_variable = { which = count_infinite_faction_battle_duplicate_ship value = 1 }
+			}
+		}
+		set_timed_ship_flag = { flag = temple_infinite_faction_battle_duplicate_ship days = 1 }
 	} }
 }
 

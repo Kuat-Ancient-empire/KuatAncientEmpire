@@ -34,3 +34,37 @@ entity = {
 	}
 	default_state = "explode_med_hp"
 }
+
+###	敌无人机	############################################################
+#	枪口
+entity = {
+	name = "exe_dirft_laser_beam_blue_MUZZLE_entity_L"
+	pdxmesh = "locator_mesh"
+	
+	default_state = "idle"
+	state = { name = "idle" state_time = 1.5 looping = no
+		event = { time = 0.0 particle = "exe_dirft_laser_beam_blue_MUZZLE"	sound = { soundeffect = laser_fire } }
+	}
+}
+#	命中	flare盖爆炸
+entity = {
+	name = "exe_dirft_laser_beam_blue_HIT_entity_L"
+	pdxmesh = "locator_mesh"
+	locator = { name = "fx"		position = { 0 0 0.19 } }
+	locator = { name = "exp"	position = { 0 0 0.19 } }
+	cull_radius = 1.0
+	state = { name = "explode_med_hp" state_time = 1.5 looping = no
+		event = { time = 0.035	node = "fx"	particle = "exe_dirft_laser_beam_blue_HIT" sound = { soundeffect = laser_hit } }
+	}
+	default_state = "explode_med_hp"
+}
+#	护盾
+entity = {
+	name = "exe_dirft_laser_beam_blue_SHIELD_entity_L"
+	pdxmesh = "locator_mesh"
+	cull_radius = 1.0
+	state = { name = "explode_med_hp" state_time = 1.5 looping = no
+		event = { time = 0.035 particle = "exe_dirft_laser_beam_blue_SHIELD" sound = { soundeffect = shield_hit } }
+	}
+	default_state = "explode_med_hp"
+}
