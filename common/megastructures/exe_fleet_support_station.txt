@@ -11,7 +11,40 @@ kuat_fleet_supporliment_center = {
     on_build_start = {}
     on_build_cancel = {}
     upgrade_from = { kuat_fleet_supporliment_center_ruined }
-    on_build_complete = { from = { country_event = { id = kuat_plague.0 days = 120 random = 720 } } }
+    on_build_complete = { from = { 
+        set_global_flag = kuat_plague_enable
+        country_event = { id = kuat_plague.0 days = 120 random = 720 } 
+    } }
+}
+
+kuat_fleet_supporliment_center_uppon = {
+    entity = "kuat_star_academy_entity"
+    construction_entity = "kuat_star_academy_entity"
+    portrait = "GFX_megastructure_construction_background"
+    place_entity_on_planet_plane = no
+    entity_offset = { x = -27 y = -27 }
+    build_time = 1
+    upgrade_desc = hide
+    potential = { has_country_flag = enable_the_F_system_line_stage_15 }
+    possible = {
+        custom_tooltip = { 
+            fail_text = executor_build.1008.check.resource
+            from = { resource_stockpile_compare = { resource = energy value > 50000 } }
+        }
+        custom_tooltip = { 
+            fail_text = executor_build.1008.check.flag
+            from = { NOT = { has_country_flag = kuat_storming_placing_selector_temple } }
+        }
+    }
+    country_modifier = { kuat_system_support_mult = 1 }
+    on_build_start = {}
+    on_build_cancel = {}
+    upgrade_from = { kuat_fleet_supporliment_center }
+    on_build_complete = { 
+        from = { kuat_storming_placing_selector = yes } 
+        remove_megastructure = fromfrom
+        spawn_megastructure = { type = kuat_fleet_supporliment_center planet = system_star }
+    }
 }
 
 kuat_fleet_supporliment_center_ruined = {
