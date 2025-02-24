@@ -46,9 +46,15 @@ kuat_battle_eternal_increase_executor_power = {
 		]
 
 		if = { 
-			limit = { kuat_is_flagship_system_protection = yes ag_is_ancient_titan_alt = no owner = { is_kuat_crisis_country = no } } 
+			limit = { 
+				kuat_is_disable_return_ship = yes 
+				owner = { is_kuat_crisis_country = no } 
+			} 
 			set_variable = { which = KUAT_NONE_SHIP_HEALTH_VAR value = 0 }
-			kuat_battle_disable_ship_at_health = { FLAG = enable_kuat_none_ship_inital Disable_health = 0.01 WHICH = KUAT_NONE_SHIP_HEALTH_VAR HEALTH = value:kuat_dynamic_exist_life_times }
+			kuat_battle_disable_ship_at_health = { 
+				FLAG = enable_kuat_none_ship_inital Disable_health = 0.01 
+				WHICH = KUAT_NONE_SHIP_HEALTH_VAR HEALTH = value:kuat_dynamic_exist_life_times 
+			}
 		}
 		set_timed_ship_flag = { flag = kuat_has_eternal_increase_executor_power_temple days = $DAYS$ }
 	}
@@ -1858,7 +1864,19 @@ kuat_battle_notification_suppliment_fleet = {
 			recipient = owner
 			days = 30
 		}
-		set_location = owner.capital_star
+		if = {
+			limit = {  
+				exists = owner
+				owner = { any_system_within_border = {
+					has_kuat_support_modifier_star_flag = yes
+				} }
+			}
+			owner = { random_system_within_border = {
+				limit = { has_kuat_support_modifier_star_flag = yes }
+				prevprev = { set_location = prev.star }
+			} }
+		}
+		else = { set_location = owner.capital_star }
 	}
 }
 
