@@ -466,6 +466,7 @@ kuat_is_disable_return_ship = {
 		unsc_is_kuat_flagship = yes
 		KZ_VOY_is_kuat_flagship = yes
 		kuat_is_mega_starbase = yes
+		ag_is_ancient_titan_alt = yes
 		AND = {
 			fleet = { has_fleet_flag = kuat_has_Drift_Flagship_fleet }
 			is_ship_size = Drift_Battleship
@@ -1005,4 +1006,16 @@ kuat_is_enable_eternal_invasion = {
 	any_country = { kuat_is_enable_shadow_origin = yes }
 	NOT = { has_global_flag = will_be_upgrade_starforge }
 	NOT = { has_global_flag = exe_invasion_ban_hidden }
+}
+
+kuat_exist_disable_type = {
+	exists = from
+	from = { is_scope_type = ship }
+	OR = {
+		AND = {
+			owner = { is_invisable_faction = yes }
+			from.owner = { OR = { is_player_country = yes is_invisable_faction = yes } }
+		}
+		owner = { is_player_country = yes }
+	}
 }
