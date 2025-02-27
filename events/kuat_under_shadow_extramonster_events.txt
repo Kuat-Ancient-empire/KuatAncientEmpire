@@ -1436,6 +1436,14 @@ country_event = {
 						clear_fleet_actions = this
 					}
 				}
+				else = {
+					every_owned_fleet = {
+						limit = { has_fleet_flag = kuat_contractor_invasion_fleet }
+						clear_orders = yes
+						clear_fleet_actions = this
+						set_location = event_target:will_be_add_habitable_plague
+					}
+				}
 			}
 			every_country = {
 				limit = { NOR = {
@@ -1446,17 +1454,28 @@ country_event = {
 				country_event = { id = kuat_extramonster.352 }
 			}
 		}
-		every_country = {
-			limit = { NOR = { 
-				is_same_value = event_target:kuat_contractor_hostile 
-				has_country_flag = trigger_ended_event_temple
-			} }
-			set_timed_country_flag = { flag = trigger_ended_event_temple days = 1 }
-			country_event = { id = kuat_extramonster.35 }
+		if = {
+			limit = {  
+				exists = event_target:kuat_contractor_hostile
+				event_target:kuat_contractor_hostile = {
+					count_owned_fleet = { count = 0 limit = { OR = { 
+						has_fleet_flag = kuat_contractor_defenced_fleet 
+						has_fleet_flag = kuat_contractor_invasion_fleet 
+					} } }
+				}
+			}
+			every_country = {
+				limit = { NOR = { 
+					is_same_value = event_target:kuat_contractor_hostile 
+					has_country_flag = trigger_ended_event_temple
+				} }
+				set_timed_country_flag = { flag = trigger_ended_event_temple days = 1 }
+				country_event = { id = kuat_extramonster.35 }
+			}
+			add_threat = { who = root amount = 50 }
+			set_global_flag = kuat_extramonster_ended
+			event_target:kuat_contractor_hostile  = { destroy_country = yes }
 		}
-		add_threat = { who = root amount = 50 }
-		set_global_flag = kuat_extramonster_ended
-		event_target:kuat_contractor_hostile  = { destroy_country = yes }
 		else = { country_event = { id = kuat_extramonster.393 days = 2 } }
 	}
 }
@@ -1829,7 +1848,7 @@ country_event = {
 			every_galaxy_fleet = {
 				limit = { has_fleet_flag = kuat_contractor_invasion_fleet }
 				clear_orders = yes clear_fleet_actions = this
-				set_location = event_target:will_be_add_habitable_plague
+				set_location = { target = event_target:will_be_add_habitable_plague distance = 20 angle = random }
 			}
 			country_event = { id = kuat_extramonster.354 days = 360 random = 720 }
 		}
