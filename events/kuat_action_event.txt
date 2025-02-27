@@ -285,20 +285,6 @@ fleet_event = {
 	}
 }
 
-fleet_event = {
-	id = ai_action.12
-	hide_window = yes
-	is_triggered_only = yes
-	trigger = {
-		exists = this
-		has_fleet_flag = kuat_auto_fleet_system
-		exists = event_target:kuat_friendly_faction
-	}
-	immediate = {
-		kuat_exe_auto_fleet_action = { ID = ai_action TYPE = kuat_exe_auto OWNER = event_target:kuat_friendly_faction }
-	}
-}
-
 #Check every month to prevent bugs.
 event = {
 	id = ai_action.14
@@ -315,8 +301,6 @@ event = {
 				exists = orbit
 				orbit = {
 					NOT = { is_star = yes }
-					exists = owner
-					owner = { is_at_war_with = event_target:kuat_friendly_faction }
 					exists = controller
 					controller = { is_at_war_with = event_target:kuat_friendly_faction }
 				}
@@ -334,8 +318,6 @@ event = {
 					exists = orbit
 					orbit = {
 						NOT = { is_star = yes }
-						exists = owner
-						owner = { is_at_war_with = event_target:kuat_friendly_faction }
 						exists = controller
 						controller = { is_at_war_with = event_target:kuat_friendly_faction }
 					}
@@ -343,7 +325,7 @@ event = {
 			}
 			clear_orders = yes
 			clear_fleet_actions = this
-			fleet_event = { id = ai_action.12 days = 3 random = 2 }
+			kuat_exe_auto_fleet_action = { TYPE = kuat_exe_auto OWNER = event_target:kuat_friendly_faction }
 		}
 	}
 }

@@ -449,11 +449,11 @@ fleet_event = {
 	immediate = {
 		if = {
 			limit = { exists = owner owner = { is_same_value = event_target:kuat_contractor_hostile } }
-			kuat_exe_invasion_fleet_action = { ID = kuat_extramonster TYPE = kuat_contractor OWNER = kuat_contractor_hostile }
+			kuat_exe_invasion_fleet_action = { TYPE = kuat_contractor OWNER = kuat_contractor_hostile }
 		}
 		else_if = {
 			limit = { exists = owner owner = { is_same_value =  event_target:kuat_contractor_support } }
-			kuat_exe_invasion_fleet_action = { ID = kuat_extramonster TYPE = kuat_ded_contractor OWNER = kuat_contractor_support }
+			kuat_exe_invasion_fleet_action = { TYPE = kuat_ded_contractor OWNER = kuat_contractor_support }
 		}
 	}
 }
@@ -486,7 +486,14 @@ country_event = {
 		fromfrom = {
 			clear_orders = yes
 			clear_fleet_actions = this
-			fleet_event = { id = kuat_extramonster.12 days = 3 random = 2 }
+			if = {
+				limit = { exists = owner owner = { is_same_value = event_target:kuat_contractor_hostile } }
+				kuat_exe_invasion_fleet_action = { TYPE = kuat_contractor OWNER = kuat_contractor_hostile }
+			}
+			else_if = {
+				limit = { exists = owner owner = { is_same_value =  event_target:kuat_contractor_support } }
+				kuat_exe_invasion_fleet_action = { TYPE = kuat_ded_contractor OWNER = kuat_contractor_support }
+			}
 		}
 	}
 }
@@ -519,7 +526,14 @@ country_event = {
 		from = {
 			clear_orders = yes
 			clear_fleet_actions = this
-			fleet_event = { id = kuat_extramonster.12 days = 3 random = 2 }
+			if = {
+				limit = { exists = owner owner = { is_same_value = event_target:kuat_contractor_hostile } }
+				kuat_exe_invasion_fleet_action = { TYPE = kuat_contractor OWNER = kuat_contractor_hostile }
+			}
+			else_if = {
+				limit = { exists = owner owner = { is_same_value =  event_target:kuat_contractor_support } }
+				kuat_exe_invasion_fleet_action = { TYPE = kuat_ded_contractor OWNER = kuat_contractor_support }
+			}
 		}
 	}
 }
@@ -634,7 +648,7 @@ event = {
 					}
 					clear_orders = yes
 					clear_fleet_actions = this
-					fleet_event = { id = kuat_extramonster.12 days = 3 random = 2 }
+					kuat_exe_invasion_fleet_action = { TYPE = kuat_contractor OWNER = kuat_contractor_hostile }
 				}
 			}
 		}
@@ -657,7 +671,7 @@ event = {
 					}
 					clear_orders = yes
 					clear_fleet_actions = this
-					fleet_event = { id = kuat_extramonster.12 days = 3 random = 2 }
+					kuat_exe_invasion_fleet_action = { TYPE = kuat_ded_contractor OWNER = kuat_contractor_support }
 				}
 			}
 		}
