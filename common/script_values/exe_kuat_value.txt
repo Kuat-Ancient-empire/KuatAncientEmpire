@@ -94,6 +94,19 @@ kuat_superlazer_weapon_rate_factor_ship = {
 	add = modifier:$kuat_slot$_slot_weapon_fire_rate_mult
 }
 
+kuat_instant_killer_weapon_damage_factor_ship = {
+	base = 0
+	add = $kuat_damage_max$
+	divide = $kuat_damage_base$
+	divide = value:kuat_superlazer_weapon_damage_factor_ship_base|kuat_value|$kuat_ship_damage_buff$|
+	divide = value:kuat_superlazer_weapon_damage_factor_ship_base|kuat_value|modifier:ship_hull_damage_mult|
+	divide = $kuat_weapon_damage_buff$
+	subtract = value:kuat_superlazer_weapon_damage_factor_tags|kuat_slot|$kuat_slot$|kuat_energy|$kuat_energy$|kuat_kinetic|$kuat_kinetic$|kuat_explosive|$kuat_explosive$|kuat_drftweapon|$kuat_drftweapon$|kuat_superlazer|$kuat_superlazer$|
+	divide = 1
+	min = 0
+	max = value:kuat_superlazer_weapon_damage_factor_standard|kuat_damage_max|$kuat_damage_max$|kuat_damage_base|$kuat_damage_base$|
+}
+
 kuat_get_revenue_hp_instant_perc = {
 	base = 1
 	subtract = trigger:has_hp_percentage
@@ -124,6 +137,9 @@ kuat_get_revenue_hp_weapon_total = {
 kuat_standard_ultil_modifier_factor = {
 	base = 0
 	add = modifier:$MODIFIER$
+	subtract = $ADD|0$
+	add = $SUBTRACT|0$
+	max = 922330000
 }
 
 kuat_shipyard_value = {
@@ -418,6 +434,7 @@ kuat_system_support_mult_variable = {
 		add = modifier:$MODIFIER$
 		check_modifier_value = { modifier = $MODIFIER$ value > 0 }
 	}
+	max = 922330000
 }
 
 kuat_find_eternal_progress = {
@@ -478,6 +495,7 @@ kuat_situation_research_technology_system_value = {
 		parameters = { resource = $RESOURCE$ }
 		mode = set
 	}
+	max = 922330000
 }
 
 kuat_situation_research_technology_value = {
