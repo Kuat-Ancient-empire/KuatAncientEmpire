@@ -1556,6 +1556,44 @@ country_event = {
 				limit = { kuat_is_flagship_size = { SIZE = Infinite_Mothership } }
 				set_fleet_flag = kuat_has_Infinite_Flagship_fleet
 			}
+			if = {
+				limit = { 
+					kuat_is_flagship_size = { SIZE = nebula_executor }
+					kuat_is_flagship_size = { SIZE = knight_hammer_executor }
+				}
+				set_fleet_flag = kuat_has_Executor_Flagship_fleet
+			}
+			if = {
+				limit = { 
+					OR = {
+						kuat_is_flagship_size = { SIZE = kuat_legator }
+						kuat_is_flagship_size = { SIZE = Annihilator }
+					}
+					kuat_is_flagship_size = { SIZE = X308_Balletor }
+				}
+				set_fleet_flag = kuat_has_artellary_Flagship_fleet
+			}
+			if = {
+				limit = { 
+					OR = {
+						kuat_is_flagship_size = { SIZE = kuat_sector }
+						kuat_is_flagship_size = { SIZE = Vengeance }
+					}
+					kuat_is_flagship_size = { SIZE = X308_Tyrant }
+				}
+				set_fleet_flag = kuat_has_Missle_Flagship_fleet
+			}
+			if = {
+				limit = { 
+					kuat_is_flagship_size = { SIZE = nebula_dominance }
+					kuat_is_flagship_size = { SIZE = X308_Titan }
+				}
+				set_fleet_flag = kuat_has_stricraft_Flagship_fleet
+				if = {
+					limit = { NOT = { is_variable_set = kuat_has_stricraft_Flagship_fleet_limited } }
+					set_variable = { which = kuat_has_stricraft_Flagship_fleet_limited value = trigger:num_ships }
+				}
+			}
 			every_owned_ship = {
 				limit = { kuat_is_kuat_ship = yes }
 				kuat_battle_eternal_increase_executor_power = { DAYS = -1 TYPE = ee }
@@ -1617,6 +1655,11 @@ fleet_event = {
 			remove_fleet_flag = kuat_has_Spt_Flagship_fleet
 			remove_fleet_flag = kuat_has_Drift_Flagship_fleet
 			remove_fleet_flag = kuat_has_Infinite_Flagship_fleet
+			remove_fleet_flag = kuat_has_Executor_Flagship_fleet
+			remove_fleet_flag = kuat_has_artellary_Flagship_fleet
+			remove_fleet_flag = kuat_has_Missle_Flagship_fleet
+			remove_fleet_flag = kuat_has_stricraft_Flagship_fleet
+			clear_variable = kuat_has_stricraft_Flagship_fleet_limited
 			every_owned_ship = { 
 				limit = { has_ship_flag = kuat_executor_checkpoint }
 				remove_ship_flag = kuat_executor_checkpoint 
@@ -1768,6 +1811,36 @@ country_event = {
 			}
 		}
 		set_timed_ship_flag = { flag = temple_infinite_faction_battle_duplicate_ship days = 1 }
+	} }
+}
+
+country_event = {
+	id = exe_invasion.126
+	hide_window = yes
+	is_triggered_only = yes
+	trigger = {
+		is_player_country = yes
+		exists = fromfrom.fleet
+		fromfrom.fleet = { 
+			has_fleet_flag = kuat_has_stricraft_Flagship_fleet 
+			check_variable = { which = kuat_has_stricraft_Flagship_fleet_limited value > 0 }
+			check_variable_arithmetic = { which = trigger:num_ships value < kuat_has_stricraft_Flagship_fleet_limited }
+		}
+		fromfrom = { NOT = { has_ship_flag = temple_dominence_faction_battle_duplicate_ship } }
+	}
+	immediate = { fromfrom = {
+		if = {
+			limit = { exists = fleet }
+			fleet = {  
+				random_list = {
+					1 = { create_ship = { design = Name_boss_crisis_HIGH_EMPIRE_BOSS } }
+					1 = { create_ship = { design = Name_criss_boss_Horriwer_BOSS } }
+					1 = { create_ship = { design = Name_criss_boss_Cavelry_BOSS } }
+				}
+				change_variable = { which = count_dominence_faction_battle_duplicate_ship value = 1 }
+			}
+		}
+		set_timed_ship_flag = { flag = temple_dominence_faction_battle_duplicate_ship days = 5 }
 	} }
 }
 
@@ -2286,33 +2359,106 @@ country_event = {
 	id = exe_invasion.146
 	hide_window = yes
 	is_triggered_only = yes
-	trigger = { 
-		OR = {
-			has_global_flag = difficult_exe_invasion
-			has_global_flag = ban_exe_invasion
-		}
-		fromfrom = { kuat_is_flagship = yes } 
-	}
+	trigger = { fromfrom = { kuat_is_flagship = yes } }
 	immediate = { fromfrom = { 
 		if = {
 			limit = { 
-				kuat_is_flagship_system_protection = yes 
+				is_ship_size = Drift_Flagship
 				fleet = { count_owned_ship = {
 					count = 0
-					limit = { NOT = { is_same_value = prevprev } kuat_is_flagship_system_protection = yes }
+					limit = { NOT = { is_same_value = prevprev } is_ship_size = Drift_Flagship }
 				} }
 			}
-			fleet = { remove_fleet_flag = has_kuat_flagship_system } 
+			fleet = { remove_fleet_flag = kuat_has_Drift_Flagship_fleet } 
 		}
-		else_if = {
+		if = {
 			limit = { 
-				kuat_is_sub_flagship_system_protection = yes 
+				is_ship_size = Spt_Flagship
 				fleet = { count_owned_ship = {
 					count = 0
-					limit = { NOT = { is_same_value = prevprev } kuat_is_sub_flagship_system_protection = yes }
+					limit = { NOT = { is_same_value = prevprev } is_ship_size = Spt_Flagship }
 				} }
 			}
-			fleet = { remove_fleet_flag = has_kuat_subflagship_system }
+			fleet = { remove_fleet_flag = kuat_has_Spt_Flagship_fleet } 
+		}
+		if = {
+			limit = { 
+				is_ship_size = Infinite_Mothership
+				fleet = { count_owned_ship = {
+					count = 0
+					limit = { NOT = { is_same_value = prevprev } is_ship_size = Infinite_Mothership }
+				} }
+			}
+			fleet = { remove_fleet_flag = kuat_has_Infinite_Flagship_fleet } 
+		}
+		if = {
+			limit = { 
+				OR = { is_ship_size = nebula_executor is_ship_size = knight_hammer_executor }
+				fleet = { count_owned_ship = {
+					count = 0
+					limit = { NOT = { is_same_value = prevprev } OR = { is_ship_size = nebula_executor is_ship_size = knight_hammer_executor } }
+				} }
+			}
+			fleet = { remove_fleet_flag = kuat_has_Executor_Flagship_fleet } 
+		}
+		if = {
+			limit = { 
+				OR = { is_ship_size = kuat_legator is_ship_size = Annihilator is_ship_size = X308_Balletor }
+				fleet = { count_owned_ship = {
+					count = 0
+					limit = { NOT = { is_same_value = prevprev } OR = { is_ship_size = kuat_legator is_ship_size = Annihilator is_ship_size = X308_Balletor } }
+				} }
+			}
+			fleet = { remove_fleet_flag = kuat_has_artellary_Flagship_fleet } 
+		}
+		if = {
+			limit = { 
+				OR = { is_ship_size = kuat_sector is_ship_size = Vengeance is_ship_size = X308_Tyrant }
+				fleet = { count_owned_ship = {
+					count = 0
+					limit = { NOT = { is_same_value = prevprev } OR = { is_ship_size = kuat_sector is_ship_size = Vengeance is_ship_size = X308_Tyrant } }
+				} }
+			}
+			fleet = { remove_fleet_flag = kuat_has_Missle_Flagship_fleet } 
+		}
+		if = {
+			limit = { 
+				OR = { is_ship_size = nebula_dominance is_ship_size = X308_Titan }
+				fleet = { count_owned_ship = {
+					count = 0
+					limit = { NOT = { is_same_value = prevprev } OR = { is_ship_size = nebula_dominance is_ship_size = X308_Titan } }
+				} }
+			}
+			fleet = { 
+				remove_fleet_flag = kuat_has_stricraft_Flagship_fleet 
+				clear_variable = kuat_has_stricraft_Flagship_fleet_limited
+			} 
+		}
+		if = {
+			limit = { OR = {
+				has_global_flag = difficult_exe_invasion
+				has_global_flag = ban_exe_invasion
+			} }
+			if = {
+				limit = { 
+					kuat_is_flagship_system_protection = yes 
+					fleet = { count_owned_ship = {
+						count = 0
+						limit = { NOT = { is_same_value = prevprev } kuat_is_flagship_system_protection = yes }
+					} }
+				}
+				fleet = { remove_fleet_flag = has_kuat_flagship_system } 
+			}
+			else_if = {
+				limit = { 
+					kuat_is_sub_flagship_system_protection = yes 
+					fleet = { count_owned_ship = {
+						count = 0
+						limit = { NOT = { is_same_value = prevprev } kuat_is_sub_flagship_system_protection = yes }
+					} }
+				}
+				fleet = { remove_fleet_flag = has_kuat_subflagship_system }
+			}
 		}
 	} }
 }

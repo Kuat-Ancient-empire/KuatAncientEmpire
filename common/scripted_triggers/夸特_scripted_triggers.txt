@@ -418,14 +418,15 @@ kuat_fleet_cap_TRIGGER_occupy_2 = {
 }
 
 kuat_fleet_cap_TRIGGER_occupy_4 = {
-	any_owned_ship = {
-		OR = {
+	OR = {
+		any_owned_ship = { OR = {
 			is_ship_size = kuat_compellor
-			is_ship_size = Infinite_Mothership
 			is_ship_size = eternal_flagship
-			is_ship_size = Drift_Flagship
-			is_ship_size = Spt_Flagship
-		}
+		} }
+		has_fleet_flag = kuat_has_Drift_Flagship_fleet
+		has_fleet_flag = kuat_has_Spt_Flagship_fleet
+		has_fleet_flag = kuat_has_Infinite_Flagship_fleet
+		has_fleet_flag = kuat_has_Executor_Flagship_fleet
 	}
 }
 
@@ -486,6 +487,7 @@ kuat_is_disable_return_ship = {
 			fleet = { has_fleet_flag = kuat_has_Infinite_Flagship_fleet }
 			OR = { is_ship_size = Infinite_battleship is_ship_size = Infinite_crusier }
 		}
+		kuat_is_special_exector_flagship = yes
 	}
 }
 kuat_is_flagship = {
@@ -509,6 +511,8 @@ kuat_is_flagship = {
 
 		#堡垒
 		kuat_is_mega_starbase = yes
+
+		kuat_is_special_exector_flagship = yes
 	}
 }
 kuat_is_flagship_system_protection = {
@@ -522,6 +526,8 @@ kuat_is_flagship_system_protection = {
 		ag_is_ancient_titan_alt = yes
 		kuat_is_addon_flagship = yes
 		kuat_is_mega_starbase = yes
+		
+		kuat_is_special_exector_flagship = yes
 	}
 }
 kuat_is_sub_flagship_system_protection = {
@@ -532,6 +538,8 @@ kuat_is_sub_flagship_system_protection = {
 		KZ_VOY_is_kuat_sub_flagship = yes
 		kuat_is_addon_sub_flagship = yes
 		kuat_is_mega_starbase = yes	
+
+		kuat_is_special_exector_flagship = yes
 	}
 }
 
@@ -1032,3 +1040,15 @@ kuat_exist_disable_type = {
 		owner = { is_player_country = yes }
 	}
 }
+
+#该类，每击杀敌人一艘舰船，可以为己方恢复一艘舰船，cd 5天
+kuat_is_strikcrafet_flagship_type = { fleet = { has_fleet_flag = kuat_has_stricraft_Flagship_fleet } }
+
+#该类，导弹伤害伤害增幅50% √
+kuat_is_torpitor_flagship_type = { fleet = { has_fleet_flag = kuat_has_Missle_Flagship_fleet } }
+
+#该类，重炮伤害增幅100% √
+kuat_is_artilletry_flagship_type = { fleet = { has_fleet_flag = kuat_has_artellary_Flagship_fleet } }
+
+#执行者舰队无需副旗舰,直接认定为超旗 √
+kuat_is_special_exector_flagship = { fleet = { has_fleet_flag = kuat_has_Executor_Flagship_fleet } }
