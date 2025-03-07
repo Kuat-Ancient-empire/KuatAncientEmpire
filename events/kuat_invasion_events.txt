@@ -2591,32 +2591,28 @@ event = {
 			has_technology = tech_kuat_command_center
 			has_global_flag = kuat_get_commandline_tech
 		} }
-		any_galaxy_planet = { 
-			exists = owner
-			kuat_is_not_allow_to_build_auto_planet = no 
-			owner = { 
-				is_ai = yes 
-				if = {
-					limit = { kuat_is_playable_country = no }
-					prev = { OR = { PR_prmt_trgr_HC = { MORE = 250 } num_unemployed > 25 } } 
-				}
-			} 
-		} 
 	}
 	immediate = {
 		every_galaxy_planet = {
 			limit = { 
 				exists = owner
+				owner = { is_ai = yes kuat_is_playable_country = yes }
 				kuat_is_not_allow_to_build_auto_planet = no 
-				owner = { 
-					is_ai = yes 
-					if = {
-						limit = { kuat_is_playable_country = no }
-						prev = { OR = { PR_prmt_trgr_HC = { MORE = 250 } num_unemployed > 25 } } 
-					}
-				} 
 			}
-			kuat_automatic_ai_colony = yes
+			if = {
+				limit = { 
+					exists = owner
+					owner = { 
+						is_nirvana_empire = no 
+						prev = { OR = { PR_prmt_trgr_HC = { MORE = 50 } num_unemployed > 5 } }
+					}
+				}
+				kuat_automatic_ai_colony = yes
+			}
+			if = {
+				limit = { exists = owner owner = { is_nirvana_empire = yes } }
+				kuat_automatic_ai_colony = yes
+			}
 		}
 	}
 }
