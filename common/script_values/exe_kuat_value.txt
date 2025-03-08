@@ -85,6 +85,7 @@ kuat_superlazer_weapon_damage_factor_ship = {
 	divide = $kuat_weapon_damage_buff$
 	subtract = value:kuat_superlazer_weapon_damage_factor_tags|kuat_slot|$kuat_slot$|kuat_energy|$kuat_energy$|kuat_kinetic|$kuat_kinetic$|kuat_explosive|$kuat_explosive$|kuat_drftweapon|$kuat_drftweapon$|kuat_superlazer|$kuat_superlazer$|
 	min = 0
+	divide = modifier:kuat_superlazer_symbol
 	max = value:kuat_superlazer_weapon_damage_factor_standard|kuat_damage_max|$kuat_damage_max$|kuat_damage_base|$kuat_damage_base$|
 }
 kuat_superlazer_weapon_rate_factor_ship = {
@@ -101,6 +102,7 @@ kuat_auto_adjust_damage_weapon_total = {
 	mult = value:kuat_superlazer_weapon_damage_factor_ship_base|kuat_value|modifier:ship_hull_damage_mult|
 	mult = $kuat_weapon_damage_buff$
 	min = 0
+	divide = modifier:$MODIFIER$
 	max = value:kuat_superlazer_weapon_damage_factor_standard|kuat_damage_max|$kuat_damage_max$|kuat_damage_base|$kuat_damage_base$|
 }
 
@@ -484,6 +486,7 @@ kuat_reapeatable_value_req = {
 	add = @repeatableTechBaseCost
 	add = value:kuat_reapeatable_value_base_req|MULT|$VALUE$|
 	mult = 2
+	min = @repeatableTechBaseCost
 }
 kuat_research_perc_screen = {
 	base = 0
@@ -522,4 +525,35 @@ kuat_damage_hp_value_limited = {
 	subtract = 2.0
 	floor = yes
 	min = 0.0
+}
+
+#kuat_$TECH_AREA$_$ID$_tech_icon_resarch_multipler_value  当前已累积的研究点数
+#kuat_$TECH_AREA$_$ID$_tech_icon_resarch_monthly_value  本月增长的研究点数
+#kuat_$TECH_AREA$_$ID$_tech_icon_resarch_perc  当前已研究科技的百分比
+#kuat_$TECH_AREA$_$ID$_tech_icon_resarch_req  当前科技需求的研究点数
+#kuat_appox_$TECH_AREA$_$ID$_research_perc_add 预计下个月增加的已研究科技的百分比
+#kuat_$TECH_AREA$_$ID$_tech_icon_resarch_total_perc 总百分比
+#kuat_transfer_$TECH_AREA$_research_max: 最大可转移的盈余点数 = 科技需求点数的10%
+kuat_calculate_tech_points_grow_started_value = {
+	base = 0
+	set = kuat_$TECH_AREA$_$ID$_tech_icon_resarch_multipler_value
+	add = kuat_$TECH_AREA$_$ID$_tech_icon_resarch_monthly_value
+	divide = kuat_$TECH_AREA$_$ID$_tech_icon_resarch_req
+	mult = 100
+	subtract = kuat_$TECH_AREA$_$ID$_tech_icon_resarch_perc
+	min = 0
+}
+kuat_calculate_tech_points_grow_value = {
+	base = 0
+	set = kuat_$TECH_AREA$_$ID$_tech_icon_resarch_multipler_value
+	divide = kuat_$TECH_AREA$_$ID$_tech_icon_resarch_req
+	mult = 100
+	min = 0
+}
+kuat_tech_system_enable_start_value = {
+	base = 0
+	set = kuat_extra_$TECH_AREA$_$ID$_points
+	divide = kuat_$TECH_AREA$_$ID$_tech_icon_resarch_req
+	mult = 100
+	min = 0
 }
