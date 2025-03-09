@@ -828,7 +828,9 @@ ship_event = {
 				}
 				random_system_planet = {
 					limit = { is_primary_star = yes }
-					set_planet_size = 18
+					set_planet_size = 25
+					change_pc = pc_kuat_white_hole
+					solar_system = { set_star_class = sc_kuat_white_hole }
 					root.fleet = { set_location = { target = prev distance = -1 angle = 0 } }
 				}
 				spawn_random_storm = { type = "kuat_support_celestic_storm" cosmic_storm_start_position = this immediate = yes }
@@ -874,10 +876,7 @@ country_event = {
 	immediate = {
 		fromfrom = {
 			if = {
-				limit = { OR = {
-					is_ship_size = exe_megastructure_starbase
-					is_ship_size = Drift_megastructure_starbase
-				} }
+				limit = { is_ship_size = exe_megastructure_starbase }
 				solar_system = {
 					set_star_class = sc_black_hole
 					star = {
@@ -887,6 +886,21 @@ country_event = {
 						last_created_ambient_object = { set_ambient_object_flag = destroyed_system_effect set_location = { target = prev  distance = 0  angle = random  } }
 						change_pc = pc_black_hole
 						set_planet_size = 18
+					}
+					every_ship_in_system = {
+						limit = { is_ship_class = shipclass_military exists = owner owner = { is_hostile = root } }
+						kuat_battle_kuat_damage_hp_percent = { value = 99 }
+					}
+				}
+			}
+			if = {
+				limit = { is_ship_size = Drift_megastructure_starbase }
+				solar_system = {
+					star = {
+						create_ambient_object = { type = "star_explosion" play_animation_once = yes location = this }
+						last_created_ambient_object = { set_location = { target = prev distance = 0 angle = random } }
+						create_ambient_object = { type = "destroyed_system" location = this }
+						last_created_ambient_object = { set_ambient_object_flag = destroyed_system_effect set_location = { target = prev  distance = 0  angle = random  } }
 					}
 					every_ship_in_system = {
 						limit = { is_ship_class = shipclass_military exists = owner owner = { is_hostile = root } }
