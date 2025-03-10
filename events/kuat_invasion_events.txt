@@ -2260,7 +2260,7 @@ country_event = {
 						NOT = { has_fleet_flag = kuat_star_flagship_nonsupport_battle_times_sutrat_placeholder }
 						kuat_fleet_cap_TRIGGER_occupy_4 = yes
 					}
-					every_owned_ship = { kuat_battle_clear_ship_repeatable_modifier = { multiply = -4 DAYS = 30 } }
+					every_owned_ship = { kuat_battle_flagship_clear_ship_repeatable_modifier = { multiply = -1 DAYS = 30 } }
 					subtract_variable = { which = kuat_star_flagship_nonsupport_battle_times value = 4 }
 					set_fleet_flag = kuat_star_flagship_nonsupport_battle_times_sutrat_placeholder
 				}
@@ -2270,7 +2270,7 @@ country_event = {
 						NOT = { has_fleet_flag = kuat_star_flagship_nonsupport_battle_times_sutrat_placeholder }
 						kuat_fleet_cap_TRIGGER_occupy_2 = yes
 					}
-					every_owned_ship = { kuat_battle_clear_ship_repeatable_modifier = { multiply = -2 DAYS = 30 } }
+					every_owned_ship = { kuat_battle_flagship_clear_ship_repeatable_modifier = { multiply = -0.75 DAYS = 30 } }
 					subtract_variable = { which = kuat_star_flagship_nonsupport_battle_times value = 2 }
 					set_fleet_flag = kuat_star_flagship_nonsupport_battle_times_sutrat_placeholder
 				}
@@ -2280,25 +2280,26 @@ country_event = {
 						NOT = { has_fleet_flag = kuat_star_flagship_nonsupport_battle_times_sutrat_placeholder }
 						kuat_fleet_cap_TRIGGER_occupy_1 = yes
 					}
-					every_owned_ship = { kuat_battle_clear_ship_repeatable_modifier = { multiply = -1 DAYS = 30 } }
+					every_owned_ship = { kuat_battle_flagship_clear_ship_repeatable_modifier = { multiply = -0.50 DAYS = 30 } }
 					subtract_variable = { which = kuat_star_flagship_nonsupport_battle_times value = 1 }
 					set_fleet_flag = kuat_star_flagship_nonsupport_battle_times_sutrat_placeholder
 				}
 				else = {
 					if = {
 						limit = {  
-							exists = owner
-							owner = { any_system_within_border = {
+							closest_system = {
+								use_bypasses = yes
 								has_kuat_support_modifier_star_flag = yes
-							} }
+							}
 						}
-						owner = { random_system_within_border = {
+						closest_system = {
+							use_bypasses = yes
 							limit = { has_kuat_support_modifier_star_flag = yes }
-							prevprev = { set_location = prev.star }
-						} }
+							prev = { set_location = prev.star }
+						}
 					}
 					else = { set_location = owner.capital_star }
-					every_owned_ship = { kuat_battle_clear_ship_repeatable_modifier = { multiply = 1 DAYS = 30 } }
+					every_owned_ship = { kuat_battle_flagship_clear_ship_repeatable_modifier = { multiply = 1 DAYS = 60 } }
 				}
 				fleet_event = { id = exe_invasion.2503 days = 60 }
 			}
@@ -2310,28 +2311,29 @@ country_event = {
 				}
 				if = {
 					limit = {
-						check_variable = { which = kuat_star_flagship_nonsupport_battle_times value >= 2 }
+						check_variable = { which = kuat_star_flagship_nonsupport_battle_times value >= 4 }
 						NOT = { has_fleet_flag = kuat_star_flagship_nonsupport_battle_times_sutrat_placeholder }
 					}
-					every_owned_ship = { kuat_battle_clear_ship_repeatable_modifier = { multiply = -1 DAYS = 30 } }
-					subtract_variable = { which = kuat_star_flagship_nonsupport_battle_times value = 2 }
+					every_owned_ship = { kuat_battle_flagship_clear_ship_repeatable_modifier = { multiply = -1 DAYS = 30 } }
+					subtract_variable = { which = kuat_star_flagship_nonsupport_battle_times value = 4 }
 					set_fleet_flag = kuat_star_flagship_nonsupport_battle_times_sutrat_placeholder
 				}
 				else = {
 					if = {
 						limit = {  
-							exists = owner
-							owner = { any_system_within_border = {
+							closest_system = {
+								use_bypasses = yes
 								has_kuat_support_modifier_star_flag = yes
-							} }
+							}
 						}
-						owner = { random_system_within_border = {
+						closest_system = {
+							use_bypasses = yes
 							limit = { has_kuat_support_modifier_star_flag = yes }
-							prevprev = { set_location = prev.star }
-						} }
+							prev = { set_location = prev.star }
+						}
 					}
 					else = { set_location = owner.capital_star }
-					every_owned_ship = { kuat_battle_clear_ship_repeatable_modifier = { multiply = 1 DAYS = 30 } }
+					every_owned_ship = { kuat_battle_clear_ship_repeatable_modifier = { multiply = 1 DAYS = 60 } }
 				}
 				fleet_event = { id = exe_invasion.2503 days = 60 }
 			}
