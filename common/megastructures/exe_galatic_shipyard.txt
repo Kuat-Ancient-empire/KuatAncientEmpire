@@ -42,6 +42,18 @@ BlackholeShipyard_1 = {
 			type = BlackholeShipyard planet = star owner = from
 			init_effect = { save_global_event_target_as = BlackholeShipyard } 
 		} 
+		if = {
+			limit = { NOT = { any_system_ambient_object = {
+				has_ambient_object_flag = kuat_base_system_gravity_storm
+			} } }
+			star = {
+				create_ambient_object = { type = kuat_gravity_storm location = this }
+				last_created_ambient_object = { 
+					set_ambient_object_flag = kuat_base_system_gravity_storm
+					set_location = { target = prev distance = 0 angle = random } 
+				}
+			}
+		}
 		from = { country_event = { id = executor_build.1010 } }
 	}
 	 
