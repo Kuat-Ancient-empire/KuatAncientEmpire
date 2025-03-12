@@ -46,7 +46,24 @@ kuat_fleet_supporliment_center_uppon = {
     on_build_start = {}
     on_build_cancel = {}
     upgrade_from = { kuat_fleet_supporliment_center }
-    on_build_complete = { from = { kuat_storming_placing_selector = yes } }
+    on_build_complete = { 
+        space_owner = { start_storm_area_placing = {
+            sacrifice_leader_with_ui = yes
+            cosmic_storm = kuat_support_shroud_storm
+            immediate = yes
+            reticle_radius = { base = 100 modifier = { mult = 1 } }
+            max_range = { base = 3000 modifier = { mult = 1 } }
+            on_confirm = {
+                add_resource = { energy = -50000 }
+                hidden_effect = { set_timed_country_flag = { flag = kuat_storming_placing_selector_temple days = 720 } }
+                last_created_cosmic_storm = { set_storm_flag = storm_kuat_support_shroud_storm_special_deployed }
+                country_event = { id = executor_build.1009 days = 720 }
+            }
+            on_cancel = { add_resource = { energy = 50000 } }
+        } }
+        remove_megastructure = fromfrom
+        spawn_megastructure = { type = kuat_fleet_supporliment_center planet = system_star owner = space_owner }
+    }
 }
 
 kuat_fleet_supporliment_center_ruined = {
