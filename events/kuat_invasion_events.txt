@@ -1594,10 +1594,20 @@ country_event = {
 					set_variable = { which = kuat_has_stricraft_Flagship_fleet_limited value = trigger:num_ships }
 				}
 			}
-			every_owned_ship = {
-				limit = { kuat_is_kuat_ship = yes }
-				kuat_battle_eternal_increase_executor_power = { DAYS = -1 TYPE = ee }
-				set_ship_flag = kuat_executor_checkpoint
+			if = {
+				limit = { kuat_is_flagship_size = { SIZE = kuat_compellor } }
+				every_owned_ship = {
+					limit = { kuat_is_kuat_ship = yes }
+					kuat_battle_eternal_increase_executor_power = { DAYS = -1 TYPE = cp }
+					set_ship_flag = kuat_executor_checkpoint
+				}
+			}
+			else = {
+				every_owned_ship = {
+					limit = { kuat_is_kuat_ship = yes }
+					kuat_battle_eternal_increase_executor_power = { DAYS = -1 TYPE = ee }
+					set_ship_flag = kuat_executor_checkpoint
+				}
 			}
 			set_fleet_flag = kuat_fleet_checkpoint
 			fleet_event = { id = exe_invasion.114 }
