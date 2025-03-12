@@ -102,29 +102,31 @@ kuat_auto_adjust_damage_weapon_total = {
 	mult = value:kuat_superlazer_weapon_damage_factor_ship_base|kuat_value|$kuat_ship_damage_buff$|
 	mult = value:kuat_superlazer_weapon_damage_factor_ship_base|kuat_value|modifier:ship_hull_damage_mult|
 	mult = $kuat_weapon_damage_buff$
-	min = 0
 	divide = modifier:$MODIFIER$
+	min = 0
 	max = value:kuat_superlazer_weapon_damage_factor_standard|kuat_damage_max|$kuat_damage_max$|kuat_damage_base|$kuat_damage_base$|
 }
 
-kuat_get_revenue_hp_instant_perc = {
-	base = 1
-	subtract = trigger:has_hp_percentage
-	min = 0.2
-	max = 1
-}
-kuat_get_revenue_hp_lifetimes = {
-	base = 0
-	add = value:kuat_dynamic_exist_life_times
-	subtract = DRFT_SHIP_HEALTH_VAR
-	min = 1
-	max = value:kuat_dynamic_exist_life_times
-}
+#DRFT_SHIP_HEALTH_VAR KUAT_NONE_SHIP_HEALTH_VAR
 kuat_get_revenue_hp_weapon_page = {
 	base = 0
-	add = value:kuat_get_revenue_hp_lifetimes
-	mult = value:kuat_get_revenue_hp_instant_perc
+	add = value:kuat_dynamic_exist_life_times
+	modifier = {
+		subtract = DRFT_SHIP_HEALTH_VAR
+		owner = { is_kuat_contractor_faction = yes }
+	}
+	modifier = {
+		subtract = KUAT_NONE_SHIP_HEALTH_VAR
+		owner = { is_player_country = yes }
+	}
+	modifier = {
+		set = 0
+		owner = { NOR = { is_kuat_contractor_faction = yes is_player_country = yes } }
+	}
+	min = 0
+	max = value:kuat_dynamic_exist_life_times
 }
+
 kuat_standard_ultil_modifier_factor = {
 	base = 0
 	add = modifier:$MODIFIER$
