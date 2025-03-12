@@ -214,37 +214,15 @@ kuat_dynamic_exist_commandline = {
 	add = event_target:global_event_country.kuat_dynamic_modifier_var 
 	floor = yes 
 }
-
-kuat_dynamic_exist_life_times = {
-	base = 0
-	add = event_target:global_event_country.kuat_dynamic_modifier_var 
-
-	mult = value:kuat_dynamic_exist_life_times_base_difficultly_factor
-
-	modifier = { mult = 0.5 owner = { is_kuat_fallen_empire = yes } }
-	modifier = { mult = 1.0 owner = { is_eternal_faction = yes } }
-	modifier = { mult = 1.5 owner = { OR = { is_infinite_faction = yes is_kuat_Overseer_Council_empire = yes } } }
-	modifier = { mult = 2.0 owner = { is_kuat_contractor_faction = yes } }
-
-	modifier = { mult = 2.0 is_ship_class = shipclass_starbase }
-	modifier = { mult = 2.0 has_ship_flag = kuat_contractor_super_capital_fleet }
-
-	modifier = { set = value:kuat_dynamic_exist_life_times_none_invisable_faction owner = { is_invisable_faction = no } }
-	modifier = { set = 3 ag_is_ancient_titan_alt = yes }
-
-	#special you can not defeated
-	modifier = { set = 10000000 owner = { is_country_type = Kuat_F_Area_Guardian } has_fleet_flag = Kuat_F_Area_Guardian_fleet }
-
-	min = 1
-	floor = yes 
-}
 kuat_dynamic_exist_life_times_base_difficultly_factor = {
 	base = 1
-	modifier = { mult = 0.2 has_global_flag = easy_exe_invasion }
-	modifier = { mult = 0.5 has_global_flag = normal_exe_invasion }
-	modifier = { mult = 0.7 has_global_flag = difficult_exe_invasion }
-	modifier = { mult = 1.0 has_global_flag = ban_exe_invasion }
-	min = 0.2
+	add = event_target:global_event_country.kuat_dynamic_modifier_var 
+	modifier = { mult = 0.5 owner = { is_galatic_empire = yes } }
+	modifier = { mult = 1.0 owner = { is_eternal_faction = yes } }
+	modifier = { mult = 1.5 owner = { is_infinite_faction = yes } }
+	modifier = { mult = 2.0 owner = { is_kuat_contractor_faction = yes } }
+	modifier = { mult = 2.0 is_ship_class = shipclass_starbase }
+	modifier = { mult = 2.0 has_ship_flag = kuat_contractor_super_capital_fleet }
 }
 kuat_dynamic_exist_life_times_none_invisable_faction = {
 	base = 0
@@ -255,6 +233,23 @@ kuat_dynamic_exist_life_times_none_invisable_faction = {
 	modifier = { mult = 4 OR = { is_ship_size = Drift_Crusier is_ship_size = Spt_Crusier is_ship_size = Infinite_crusier } }
 	modifier = { mult = 8 OR = { is_ship_size = Drift_Battleship is_ship_size = Spt_Battleship is_ship_size = Infinite_battleship } }
 	modifier = { mult = 3 is_ship_class = shipclass_starbase }
+}
+kuat_dynamic_exist_life_times = {
+	base = 0
+	modifier = {
+		set = value:kuat_dynamic_exist_life_times_base_difficultly_factor
+		owner = { is_invisable_faction = yes }
+	}
+	modifier = { 
+		set = value:kuat_dynamic_exist_life_times_none_invisable_faction 
+		owner = { is_invisable_faction = no } 
+	}
+
+	#special you can not defeated
+	modifier = { set = 10000000 owner = { is_country_type = Kuat_F_Area_Guardian } has_fleet_flag = Kuat_F_Area_Guardian_fleet }
+
+	min = 1
+	floor = yes 
 }
 
 kuat_dynamic_base_value = {
