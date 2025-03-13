@@ -133,7 +133,7 @@ kuat_exe_invasion_fleet_wandering_action = {
 							count_fleet_in_orbit = { count = 0 limit = {
 								exists = owner
 								owner = { is_same_value = event_target:$OWNER$ }
-								NOT = { is_same_value = root }
+								NOT = { is_same_value = prevprevprev }
 							} }
 						}
 						any_ship_in_system = {
@@ -196,70 +196,62 @@ kuat_exe_invasion_fleet_action = {
 	# 寻找所在星系目前没有己方单位的敌对星球
 	if = {
 		limit = {
-			root = {
-				exists = solar_system
-				solar_system = {
-					any_system_planet = {
-						exists = controller
-						controller = { is_hostile = event_target:$OWNER$ }
-						OR = {
-							is_colony = yes
-							is_under_colonization = yes
-						}
-						count_fleet_in_orbit = { count = 0 limit = {
-							exists = owner
-							owner = { is_same_value = event_target:$OWNER$ }
-							NOT = { is_same_value = root }
-						} }
+			exists = solar_system
+			solar_system = {
+				any_system_planet = {
+					exists = controller
+					controller = { is_hostile = event_target:$OWNER$ }
+					OR = {
+						is_colony = yes
+						is_under_colonization = yes
 					}
+					count_fleet_in_orbit = { count = 0 limit = {
+						exists = owner
+						owner = { is_same_value = event_target:$OWNER$ }
+						NOT = { is_same_value = prevprevprev }
+					} }
 				}
 			}
 		}
-		root = {
-			solar_system = {
-				random_system_planet = {
-					limit = {
-						exists = controller
-						controller = { is_hostile = event_target:$OWNER$ }
-						OR = {
-							is_colony = yes
-							is_under_colonization = yes
-						}
-						count_fleet_in_orbit = { count = 0 limit = {
-							exists = owner
-							owner = { is_same_value = event_target:$OWNER$ }
-							NOT = { is_same_value = root }
-						} }
+		solar_system = {
+			random_system_planet = {
+				limit = {
+					exists = controller
+					controller = { is_hostile = event_target:$OWNER$ }
+					OR = {
+						is_colony = yes
+						is_under_colonization = yes
 					}
-					prevprev = { auto_move_to_planet = { target = prev clear_auto_move_on_arrival = yes } }
+					count_fleet_in_orbit = { count = 0 limit = {
+						exists = owner
+						owner = { is_same_value = event_target:$OWNER$ }
+						NOT = { is_same_value = prevprevprev }
+					} }
 				}
+				prevprev = { auto_move_to_planet = { target = prev clear_auto_move_on_arrival = yes } }
 			}
 		}
 	}
 	# 寻找所在星系内敌对军事舰船
 	else_if = {
 		limit = {
-			root = {
-				exists = solar_system
-				solar_system = { any_ship_in_system = {
+			exists = solar_system
+			solar_system = { any_ship_in_system = {
+				exists = owner
+				owner = { is_hostile = event_target:$OWNER$ }
+				is_disabled = no is_ship_class = shipclass_military
+			} }
+		}
+		solar_system = {
+			random_fleet_in_system = {
+				limit = {
 					exists = owner
 					owner = { is_hostile = event_target:$OWNER$ }
-					is_disabled = no is_ship_class = shipclass_military
-				} }
-			}
-		}
-		root = {
-			solar_system = {
-				random_fleet_in_system = {
-					limit = {
-						exists = owner
-						owner = { is_hostile = event_target:$OWNER$ }
-						any_owned_ship = { is_disabled = no is_ship_class = shipclass_military }
-					}
-					prevprev = { 
-						auto_follow_fleet = { target = prev attack_fleet = yes } 
-						#set_fleet_flag = kuat_disable_other_fleet_in_system
-					}
+					any_owned_ship = { is_disabled = no is_ship_class = shipclass_military }
+				}
+				prevprev = { 
+					auto_follow_fleet = { target = prev attack_fleet = yes } 
+					#set_fleet_flag = kuat_disable_other_fleet_in_system
 				}
 			}
 		}
@@ -373,7 +365,7 @@ kuat_exe_invasion_fleet_action = {
 				has_star_flag = kuat_military_sublocal_home
 				count_fleet_in_system = {
 					count = 0
-					limit = { NOT = { is_same_value = root } has_fleet_flag = ag_kuat_invasion_fleet }
+					limit = { NOT = { is_same_value = prevprev } has_fleet_flag = ag_kuat_invasion_fleet }
 				}
 			}
 		}
@@ -382,7 +374,7 @@ kuat_exe_invasion_fleet_action = {
 				has_star_flag = kuat_military_sublocal_home
 				count_fleet_in_system = {
 					count = 0
-					limit = { NOT = { is_same_value = root } has_fleet_flag = ag_kuat_invasion_fleet }
+					limit = { NOT = { is_same_value = prevprev } has_fleet_flag = ag_kuat_invasion_fleet }
 				}
 			}
 			system_star = { prevprev = { auto_move_to_planet = { target = prev clear_auto_move_on_arrival = yes } } }
@@ -408,7 +400,7 @@ kuat_exe_invasion_fleet_action = {
 				closest_system = {
 					max_steps = 50
 					limit = {
-						NOT = { is_same_value = root.solar_system }
+						NOT = { is_same_value = prev.solar_system }
 						OR = {
 							AND = {
 								exists = starbase
@@ -427,7 +419,7 @@ kuat_exe_invasion_fleet_action = {
 								count_fleet_in_orbit = { count = 0 limit = {
 									exists = owner
 									owner = { is_same_value = event_target:$OWNER$ }
-									NOT = { is_same_value = root }
+									NOT = { is_same_value = prevprevprev }
 								} }
 							}
 						}
@@ -452,7 +444,7 @@ kuat_exe_invasion_fleet_action = {
 									count_fleet_in_orbit = { count = 0 limit = {
 										exists = owner
 										owner = { is_same_value = event_target:$OWNER$ }
-										NOT = { is_same_value = root }
+										NOT = { is_same_value = prevprevprev }
 									} }
 								}
 							}
@@ -467,7 +459,7 @@ kuat_exe_invasion_fleet_action = {
 									count_fleet_in_orbit = { count = 0 limit = {
 										exists = owner
 										owner = { is_same_value = event_target:$OWNER$ }
-										NOT = { is_same_value = root }
+										NOT = { is_same_value = prevprevprev }
 									} }
 								}
 								kuat_exe_invasion_jump_drive_planet_action = yes
@@ -482,7 +474,7 @@ kuat_exe_invasion_fleet_action = {
 					closest_system = {
 						max_steps = 50
 						limit = {
-							NOT = { is_same_value = root.solar_system }
+							NOT = { is_same_value = prev.solar_system }
 							OR = {
 								AND = {
 									exists = starbase
@@ -501,7 +493,7 @@ kuat_exe_invasion_fleet_action = {
 									count_fleet_in_orbit = { count = 0 limit = {
 										exists = owner
 										owner = { is_same_value = event_target:$OWNER$ }
-										NOT = { is_same_value = root }
+										NOT = { is_same_value = prevprevprev }
 									} }
 								}
 							}
@@ -525,7 +517,7 @@ kuat_exe_invasion_fleet_action = {
 										count_fleet_in_orbit = { count = 0 limit = {
 											exists = owner
 											owner = { is_same_value = event_target:$OWNER$ }
-											NOT = { is_same_value = root }
+											NOT = { is_same_value = prevprevprev }
 										} }
 									}
 								}
@@ -540,7 +532,7 @@ kuat_exe_invasion_fleet_action = {
 										count_fleet_in_orbit = { count = 0 limit = {
 											exists = owner
 											owner = { is_same_value = event_target:$OWNER$ }
-											NOT = { is_same_value = root }
+											NOT = { is_same_value = prevprevprev }
 										} }
 									}
 									kuat_exe_invasion_jump_drive_planet_action = yes
@@ -557,9 +549,9 @@ kuat_exe_invasion_fleet_action = {
 				# 25%概率去找10跳以内的空间站或者星球舰队
 				random_system = {
 					limit = {
-						NOT = { is_same_value = root.solar_system }
+						NOT = { is_same_value = prev.solar_system }
 						distance = {
-							source = root.solar_system
+							source = prev.solar_system
 							type = hyperlane
 							use_bypasses = yes
 							min_jumps = 1
@@ -580,7 +572,7 @@ kuat_exe_invasion_fleet_action = {
 								count_fleet_in_orbit = { count = 0 limit = {
 									exists = owner
 									owner = { is_same_value = event_target:$OWNER$ }
-									NOT = { is_same_value = root }
+									NOT = { is_same_value = prevprevprev }
 								} }
 							}
 						}
@@ -605,7 +597,7 @@ kuat_exe_invasion_fleet_action = {
 									count_fleet_in_orbit = { count = 0 limit = {
 										exists = owner
 										owner = { is_same_value = event_target:$OWNER$ }
-										NOT = { is_same_value = root }
+										NOT = { is_same_value = prevprevprev }
 									} }
 								}
 							}
@@ -620,7 +612,7 @@ kuat_exe_invasion_fleet_action = {
 									count_fleet_in_orbit = { count = 0 limit = {
 										exists = owner
 										owner = { is_same_value = event_target:$OWNER$ }
-										NOT = { is_same_value = root }
+										NOT = { is_same_value = prevprevprev }
 									} }
 								}
 								kuat_exe_invasion_jump_drive_planet_action = yes
@@ -633,9 +625,9 @@ kuat_exe_invasion_fleet_action = {
 				else = {
 					random_system = {
 						limit = {
-							NOT = { is_same_value = root.solar_system }
+							NOT = { is_same_value = prev.solar_system }
 							distance = {
-								source = root.solar_system
+								source = prev.solar_system
 								type = hyperlane
 								use_bypasses = yes
 								min_jumps = 1
@@ -659,7 +651,7 @@ kuat_exe_invasion_fleet_action = {
 									count_fleet_in_orbit = { count = 0 limit = {
 										exists = owner
 										owner = { is_same_value = event_target:$OWNER$ }
-										NOT = { is_same_value = root }
+										NOT = { is_same_value = prevprevprev }
 									} }
 								}
 							}
@@ -683,7 +675,7 @@ kuat_exe_invasion_fleet_action = {
 										count_fleet_in_orbit = { count = 0 limit = {
 											exists = owner
 											owner = { is_same_value = event_target:$OWNER$ }
-											NOT = { is_same_value = root }
+											NOT = { is_same_value = prevprevprev }
 										} }
 									}
 								}
@@ -698,7 +690,7 @@ kuat_exe_invasion_fleet_action = {
 										count_fleet_in_orbit = { count = 0 limit = {
 											exists = owner
 											owner = { is_same_value = event_target:$OWNER$ }
-											NOT = { is_same_value = root }
+											NOT = { is_same_value = prevprevprev }
 										} }
 									}
 									kuat_exe_invasion_jump_drive_planet_action = yes
@@ -716,7 +708,7 @@ kuat_exe_invasion_fleet_action = {
 				closest_system = {
 					max_steps = 50
 					limit = {
-						NOT = { is_same_value = root.solar_system }
+						NOT = { is_same_value = prev.solar_system }
 						any_ship_in_system = {
 							exists = owner
 							owner = { is_hostile = event_target:$OWNER$ }
@@ -745,7 +737,7 @@ kuat_exe_invasion_fleet_action = {
 					closest_system = {
 						max_steps = 50
 						limit = {
-							NOT = { is_same_value = root.solar_system }
+							NOT = { is_same_value = prev.solar_system }
 							any_ship_in_system = {
 								exists = owner
 								owner = { is_hostile = event_target:$OWNER$ }
@@ -776,9 +768,9 @@ kuat_exe_invasion_fleet_action = {
 				# 25%概率找10跳内未停用的敌对舰船
 				random_system = {
 					limit = {
-						NOT = { is_same_value = root.solar_system }
+						NOT = { is_same_value = prev.solar_system }
 						distance = {
-							source = root.solar_system
+							source = prev.solar_system
 							type = hyperlane
 							use_bypasses = yes
 							min_jumps = 1
@@ -811,9 +803,9 @@ kuat_exe_invasion_fleet_action = {
 				else = {
 					random_system = {
 						limit = {
-							NOT = { is_same_value = root.solar_system }
+							NOT = { is_same_value = prev.solar_system }
 							distance = {
-								source = root.solar_system
+								source = prev.solar_system
 								type = hyperlane
 								use_bypasses = yes
 								min_jumps = 1
@@ -2146,68 +2138,60 @@ kuat_exe_auto_fleet_action = {
 	# 寻找所在星系内敌对军事舰船
 	if = {
 		limit = {
-			root = {
-				exists = solar_system
-				solar_system = { any_ship_in_system = {
+			exists = solar_system
+			solar_system = { any_ship_in_system = {
+				exists = controller
+				controller = { is_at_war_with = $OWNER$ }
+				is_disabled = no is_ship_class = shipclass_military
+			} }
+		}
+		solar_system = {
+			random_fleet_in_system = {
+				limit = {
 					exists = controller
 					controller = { is_at_war_with = $OWNER$ }
-					is_disabled = no is_ship_class = shipclass_military
-				} }
-			}
-		}
-		root = {
-			solar_system = {
-				random_fleet_in_system = {
-					limit = {
-						exists = controller
-						controller = { is_at_war_with = $OWNER$ }
-						any_owned_ship = { is_disabled = no is_ship_class = shipclass_military }
-					}
-					prevprev = { auto_follow_fleet = { target = prev attack_fleet = yes } }
+					any_owned_ship = { is_disabled = no is_ship_class = shipclass_military }
 				}
+				prevprev = { auto_follow_fleet = { target = prev attack_fleet = yes } }
 			}
 		}
 	}
 	# 寻找所在星系目前没有己方单位的敌对星球
 	else_if = {
 		limit = {
-			root = {
-				exists = solar_system
-				solar_system = {
-					any_system_planet = {
-						exists = controller
-						controller = { is_at_war_with = $OWNER$ }
-						OR = {
-							is_colony = yes
-							is_under_colonization = yes
-						}
-						count_fleet_in_orbit = { count = 0 limit = {
-							exists = controller
-							controller = { is_same_value = event_target:$OWNER$ }
-							NOT = { is_same_value = root }
-						} }
+			exists = solar_system
+			solar_system = {
+				any_system_planet = {
+					exists = controller
+					controller = { is_at_war_with = $OWNER$ }
+					OR = {
+						is_colony = yes
+						is_under_colonization = yes
 					}
+					count_fleet_in_orbit = { count = 0 limit = {
+						exists = controller
+						controller = { is_same_value = event_target:$OWNER$ }
+						NOT = { is_same_value = prevprevprev }
+					} }
 				}
 			}
 		}
-		root = {
-			solar_system = {
-				random_system_planet = {
-					limit = {
-						exists = controller
-						controller = { is_at_war_with = $OWNER$ }
-						OR = {
-							is_colony = yes
-							is_under_colonization = yes
-						}
-						count_fleet_in_orbit = { count = 0 limit = {
-							exists = controller
-							controller = { is_same_value = event_target:$OWNER$ }
-							NOT = { is_same_value = root }
-						} }
+		solar_system = {
+			random_system_planet = {
+				limit = {
+					exists = controller
+					controller = { is_at_war_with = $OWNER$ }
+					OR = {
+						is_colony = yes
+						is_under_colonization = yes
 					}
-					prevprev = { auto_move_to_planet = { target = prev clear_auto_move_on_arrival = yes } }
+					count_fleet_in_orbit = { count = 0 limit = {
+						exists = controller
+						controller = { is_same_value = event_target:$OWNER$ }
+						NOT = { is_same_value = prevprevprev }
+					} }
 				}
+				prevprev = { auto_move_to_planet = { target = prev clear_auto_move_on_arrival = yes } }
 			}
 		}
 	}
@@ -2250,7 +2234,7 @@ kuat_exe_auto_fleet_action = {
 				closest_system = {
 					max_steps = 50
 					limit = {
-						NOT = { is_same_value = root.solar_system }
+						NOT = { is_same_value = prev.solar_system }
 						OR = {
 							AND = {
 								exists = starbase
@@ -2269,7 +2253,7 @@ kuat_exe_auto_fleet_action = {
 								count_fleet_in_orbit = { count = 0 limit = {
 									exists = controller
 									controller = { is_same_value = event_target:$OWNER$ }
-									NOT = { is_same_value = root }
+									NOT = { is_same_value = prevprevprev }
 								} }
 							}
 						}
@@ -2294,7 +2278,7 @@ kuat_exe_auto_fleet_action = {
 									count_fleet_in_orbit = { count = 0 limit = {
 										exists = controller
 										controller = { is_same_value = event_target:$OWNER$ }
-										NOT = { is_same_value = root }
+										NOT = { is_same_value = prevprevprev }
 									} }
 								}
 							}
@@ -2309,7 +2293,7 @@ kuat_exe_auto_fleet_action = {
 									count_fleet_in_orbit = { count = 0 limit = {
 										exists = controller
 										controller = { is_same_value = event_target:$OWNER$ }
-										NOT = { is_same_value = root }
+										NOT = { is_same_value = prevprevprev }
 									} }
 								}
 								kuat_exe_invasion_jump_drive_planet_action = yes
@@ -2324,7 +2308,7 @@ kuat_exe_auto_fleet_action = {
 					closest_system = {
 						max_steps = 50
 						limit = {
-							NOT = { is_same_value = root.solar_system }
+							NOT = { is_same_value = prev.solar_system }
 							OR = {
 								AND = {
 									exists = starbase
@@ -2343,7 +2327,7 @@ kuat_exe_auto_fleet_action = {
 									count_fleet_in_orbit = { count = 0 limit = {
 										exists = controller
 										controller = { is_same_value = event_target:$OWNER$ }
-										NOT = { is_same_value = root }
+										NOT = { is_same_value = prevprevprev }
 									} }
 								}
 							}
@@ -2367,7 +2351,7 @@ kuat_exe_auto_fleet_action = {
 										count_fleet_in_orbit = { count = 0 limit = {
 											exists = controller
 											controller = { is_same_value = event_target:$OWNER$ }
-											NOT = { is_same_value = root }
+											NOT = { is_same_value = prevprevprev }
 										} }
 									}
 								}
@@ -2382,7 +2366,7 @@ kuat_exe_auto_fleet_action = {
 										count_fleet_in_orbit = { count = 0 limit = {
 											exists = controller
 											controller = { is_same_value = event_target:$OWNER$ }
-											NOT = { is_same_value = root }
+											NOT = { is_same_value = prevprevprev }
 										} }
 									}
 									kuat_exe_invasion_jump_drive_planet_action = yes
@@ -2454,7 +2438,7 @@ kuat_exe_auto_fleet_action = {
 												count_fleet_in_orbit = { count = 0 limit = {
 													exists = controller
 													controller = { is_same_value = event_target:$OWNER$ }
-													NOT = { is_same_value = root }
+													NOT = { is_same_value = prevprevprev }
 												} }
 											}
 											any_ship_in_system = {
@@ -2516,9 +2500,9 @@ kuat_exe_auto_fleet_action = {
 				# 25%概率去找10跳以内的空间站或者星球舰队
 				random_system = {
 					limit = {
-						NOT = { is_same_value = root.solar_system }
+						NOT = { is_same_value = prev.solar_system }
 						distance = {
-							source = root.solar_system
+							source = prev.solar_system
 							type = hyperlane
 							use_bypasses = yes
 							min_jumps = 1
@@ -2539,7 +2523,7 @@ kuat_exe_auto_fleet_action = {
 								count_fleet_in_orbit = { count = 0 limit = {
 									exists = controller
 									controller = { is_same_value = event_target:$OWNER$ }
-									NOT = { is_same_value = root }
+									NOT = { is_same_value = prevprevprev }
 								} }
 							}
 						}
@@ -2564,7 +2548,7 @@ kuat_exe_auto_fleet_action = {
 									count_fleet_in_orbit = { count = 0 limit = {
 										exists = controller
 										controller = { is_same_value = event_target:$OWNER$ }
-										NOT = { is_same_value = root }
+										NOT = { is_same_value = prevprevprev }
 									} }
 								}
 							}
@@ -2579,7 +2563,7 @@ kuat_exe_auto_fleet_action = {
 									count_fleet_in_orbit = { count = 0 limit = {
 										exists = controller
 										controller = { is_same_value = event_target:$OWNER$ }
-										NOT = { is_same_value = root }
+										NOT = { is_same_value = prevprevprev }
 									} }
 								}
 								kuat_exe_invasion_jump_drive_planet_action = yes
@@ -2592,9 +2576,9 @@ kuat_exe_auto_fleet_action = {
 				else = {
 					random_system = {
 						limit = {
-							NOT = { is_same_value = root.solar_system }
+							NOT = { is_same_value = prev.solar_system }
 							distance = {
-								source = root.solar_system
+								source = prev.solar_system
 								type = hyperlane
 								use_bypasses = yes
 								min_jumps = 1
@@ -2618,7 +2602,7 @@ kuat_exe_auto_fleet_action = {
 									count_fleet_in_orbit = { count = 0 limit = {
 										exists = controller
 										controller = { is_same_value = event_target:$OWNER$ }
-										NOT = { is_same_value = root }
+										NOT = { is_same_value = prevprevprev }
 									} }
 								}
 							}
@@ -2642,7 +2626,7 @@ kuat_exe_auto_fleet_action = {
 										count_fleet_in_orbit = { count = 0 limit = {
 											exists = controller
 											controller = { is_same_value = event_target:$OWNER$ }
-											NOT = { is_same_value = root }
+											NOT = { is_same_value = prevprevprev }
 										} }
 									}
 								}
@@ -2657,7 +2641,7 @@ kuat_exe_auto_fleet_action = {
 										count_fleet_in_orbit = { count = 0 limit = {
 											exists = controller
 											controller = { is_same_value = event_target:$OWNER$ }
-											NOT = { is_same_value = root }
+											NOT = { is_same_value = prevprevprev }
 										} }
 									}
 									kuat_exe_invasion_jump_drive_planet_action = yes
@@ -2729,7 +2713,7 @@ kuat_exe_auto_fleet_action = {
 												count_fleet_in_orbit = { count = 0 limit = {
 													exists = controller
 													controller = { is_same_value = event_target:$OWNER$ }
-													NOT = { is_same_value = root }
+													NOT = { is_same_value = prevprevprev }
 												} }
 											}
 											any_ship_in_system = {
@@ -2792,7 +2776,7 @@ kuat_exe_auto_fleet_action = {
 				closest_system = {
 					max_steps = 50
 					limit = {
-						NOT = { is_same_value = root.solar_system }
+						NOT = { is_same_value = prev.solar_system }
 						any_ship_in_system = {
 							exists = controller
 							controller = { is_at_war_with = $OWNER$ }
@@ -2821,7 +2805,7 @@ kuat_exe_auto_fleet_action = {
 					closest_system = {
 						max_steps = 50
 						limit = {
-							NOT = { is_same_value = root.solar_system }
+							NOT = { is_same_value = prev.solar_system }
 							any_ship_in_system = {
 								exists = controller
 								controller = { is_at_war_with = $OWNER$ }
@@ -2907,7 +2891,7 @@ kuat_exe_auto_fleet_action = {
 												count_fleet_in_orbit = { count = 0 limit = {
 													exists = controller
 													controller = { is_same_value = event_target:$OWNER$ }
-													NOT = { is_same_value = root }
+													NOT = { is_same_value = prevprevprev }
 												} }
 											}
 											any_ship_in_system = {
@@ -2969,9 +2953,9 @@ kuat_exe_auto_fleet_action = {
 				# 25%概率找10跳内未停用的敌对舰船
 				random_system = {
 					limit = {
-						NOT = { is_same_value = root.solar_system }
+						NOT = { is_same_value = prev.solar_system }
 						distance = {
-							source = root.solar_system
+							source = prev.solar_system
 							type = hyperlane
 							use_bypasses = yes
 							min_jumps = 1
@@ -3004,9 +2988,9 @@ kuat_exe_auto_fleet_action = {
 				else = {
 					random_system = {
 						limit = {
-							NOT = { is_same_value = root.solar_system }
+							NOT = { is_same_value = prev.solar_system }
 							distance = {
-								source = root.solar_system
+								source = prev.solar_system
 								type = hyperlane
 								use_bypasses = yes
 								min_jumps = 1
@@ -3097,7 +3081,7 @@ kuat_exe_auto_fleet_action = {
 												count_fleet_in_orbit = { count = 0 limit = {
 													exists = controller
 													controller = { is_same_value = event_target:$OWNER$ }
-													NOT = { is_same_value = root }
+													NOT = { is_same_value = prevprevprev }
 												} }
 											}
 											any_ship_in_system = {
