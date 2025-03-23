@@ -111,7 +111,7 @@ planet_event = {
 			set_global_flag = kuat_plague_lvl_3
 			owner = { country_event = { id = kuat_plague.52 days = 1 } }
 		}
-		planet_event = { id = kuat_plague.2 days = 180 random = 180 }
+		planet_event = { id = kuat_plague.2 days = 1440 random = 720 }
 		planet_event = { id = kuat_plague.3 days = 90 random = 90 }
 		planet_event = { id = kuat_plague.4 days = 3651 }
 	}
@@ -137,7 +137,7 @@ planet_event = {
 				limit = { has_global_flag = kuat_plague_lvl_2 }
 				random_list = {
 					# NOT die
-					19 = {
+					15 = {
 						# crime
 						inline_script = kuat_plague_modifier/kuat_plague_sample
 						inline_script = kuat_plague_modifier/kuat_plafgue_trigger/kuat_plague_yes_immunes
@@ -147,7 +147,7 @@ planet_event = {
 						inline_script = kuat_plague_modifier/kuat_plague_sample_a
 						kuat_contractor_plague_kill_people = yes
 					}
-					1 = {
+					5 = {
 						modifier = {
 							mult = 0
 							solar_system = { NOT = { any_fleet_in_system = { is_ship_class = shipclass_military } } }
@@ -197,19 +197,7 @@ planet_event = {
 						# die
 						80 = {
 							inline_script = kuat_plague_modifier/kuat_plague_sample_a
-							planet_event = { id = kuat_plague.1 days = 90 random = 90 }
-						}
-						1 = {
-							modifier = {
-								mult = 0
-								solar_system = { NOT = { any_fleet_in_system = { is_ship_class = shipclass_military } } }
-							}
-							save_event_target_as = kuat_plague_zombie_country_fleet
-							solar_system = { random_fleet_in_system = {
-								limit = { is_ship_class = shipclass_military }
-								set_owner = event_target:kuat_plague_zombie_country
-								root.owner = { country_event = { id = kuat_plague.174 } }
-							} }
+							planet_event = { id = kuat_plague.1 days = 1 random = 365 }
 						}
 					}
 				}
@@ -1113,12 +1101,8 @@ country_event = {
 	after = {
 		every_owned_pop = {
 			limit = { 
-				species = { NOR = {
-					has_trait = kuat_species_trait_immune
-					is_archetype = LITHOID
-					is_archetype = MACHINE
-					is_archetype = ROBOT
-				} }
+				exists = species
+				species = { NOR = { has_trait = kuat_species_trait_immune } }
 			}
 			modify_species = { add_trait = kuat_species_trait_immune species = this }
 			species = { if = {
@@ -1164,12 +1148,8 @@ country_event = {
 	after = {
 		every_owned_pop = {
 			limit = { 
-				species = { NOR = {
-					has_trait = kuat_species_trait_immune
-					is_archetype = LITHOID
-					is_archetype = MACHINE
-					is_archetype = ROBOT
-				} }
+				exists = species
+				species = { NOR = { has_trait = kuat_species_trait_immune } }
 			}
 			modify_species = { add_trait = kuat_species_trait_immune species = this }
 			species = { if = {
