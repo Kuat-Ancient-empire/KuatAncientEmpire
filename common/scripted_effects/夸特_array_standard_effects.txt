@@ -64,6 +64,7 @@
 
 #设施一个数组，使其具备0-9的变量内容，并设置其规格 ARRAY:数组名 SIZE:数组规格 i0~i9:数组内的数值
 kuat_new_array = {
+	optimize_memory
 	set_variable = {
 		which = $ARRAY$
 		value = $SIZE$
@@ -86,6 +87,7 @@ kuat_new_array = {
 # 数组最大索引为9999
 # maximum index: 9999
 kuat_add_array = {
+	optimize_memory
 	if = {
 		limit = { check_variable = { which = $ARRAY$ value = 0 }}
 		kuat_set_array = { ARRAY = $ARRAY$ INDEX = 0 VALUE = $VALUE$ }
@@ -132,6 +134,7 @@ kuat_add_array = {
 	change_variable = { which = $ARRAY$ value = 1 }
 }
 kuat_add_array_set_digit_2 = {
+	optimize_memory
 	if = {
 		limit = { check_variable = { which = $ARRAY$_DIGITS value = 1 }}
 		kuat_add_array_set_variable = { ARRAY = $ARRAY$ INDEX = $INDEX$ VALUE = $VALUE$ }
@@ -180,6 +183,7 @@ kuat_add_array_set_digit_2 = {
 	}
 }
 kuat_add_array_set_digit_3 = {
+	optimize_memory
 	if = {
 		limit = { check_variable = { which = $ARRAY$_DIGITS value = 2 }}
 		kuat_add_array_set_variable = { ARRAY = $ARRAY$ VALUE = $VALUE$ INDEX = $INDEX$ }
@@ -228,6 +232,7 @@ kuat_add_array_set_digit_3 = {
 	}
 }
 kuat_add_array_set_digit_4 = {
+	optimize_memory
 	if = {
 		limit = { check_variable = { which = $ARRAY$_DIGITS value = 3 }}
 		kuat_add_array_set_variable = { ARRAY = $ARRAY$ VALUE = $VALUE$ INDEX = $INDEX$ }
@@ -278,6 +283,7 @@ kuat_add_array_set_digit_4 = {
 
 # set the variable when the index has four digits ( 1000~9999 )
 kuat_add_array_set_variable = {
+	optimize_memory
 	set_variable = {
 		which = $ARRAY$_$INDEX$
 		value = $VALUE$
@@ -296,6 +302,7 @@ kuat_add_array_set_variable = {
 # set the value in an array at the given index
 # input: ARRAY, VALUE, INDEX # 数组名，数值，索引
 kuat_set_array = {
+	optimize_memory
 	set_variable = {
 		which = $ARRAY$_$INDEX$
 		value = $VALUE$
@@ -306,6 +313,7 @@ kuat_set_array = {
 # input: ARRAY, VALUE, VARIABLE # 数组名，数值，索引（需要为一个变量）
 # output: variable ($ARRAY$_(variable value), $value$)
 kuat_set_array_variable = {
+	optimize_memory
 	inline_script = { 
         script = kuat_reasearch_event/kuat_set_array_variable_Config 
         ARRAY = $ARRAY$ VALUE = $VALUE$ VARIABLE = $VARIABLE$
@@ -366,6 +374,7 @@ kuat_set_array_variable = {
 }
 
 kuat_set_array_variable_S2 = {
+	optimize_memory
 	if = {
 		limit = { check_variable = { which = $VARIABLE$_DIGITS value = 1 }}
 		kuat_set_array = { ARRAY = $ARRAY$ VALUE = $VALUE$ INDEX = $INDEX$ }
@@ -415,6 +424,7 @@ kuat_set_array_variable_S2 = {
 }
 
 kuat_set_array_variable_S3 = {
+	optimize_memory
 	if = {
 		limit = { check_variable = { which = $VARIABLE$_DIGITS value = 2 }}
 		kuat_set_array = { ARRAY = $ARRAY$ VALUE = $VALUE$ INDEX = $INDEX$ }
@@ -464,6 +474,7 @@ kuat_set_array_variable_S3 = {
 }
 
 kuat_set_array_variable_S4 = {
+	optimize_memory
 	if = {
 		limit = { check_variable = { which = $VARIABLE$_DIGITS value = 3 }}
 		kuat_set_array = { ARRAY = $ARRAY$ VALUE = $VALUE$ INDEX = $INDEX$ }
@@ -517,6 +528,7 @@ kuat_set_array_variable_S4 = {
 # INPUT: VARIABLE
 # OUTPUT: ARRAY
 kuat_get_digits = {
+	optimize_memory
 	remove_array_variables = { ARRAY = $ARRAY$ }
 	set_variable = { which = $ARRAY$_TEMP value = $VARIABLE$ }
 	if = {
@@ -569,6 +581,7 @@ kuat_get_digits = {
 # input: ARRAY 数组名, INDEX 索引
 # output: OUT(variable name)# 变量名(输出)
 kuat_get_array = {
+	optimize_memory
 	set_variable = {
 		which = $OUT$
 		value = $ARRAY$_$INDEX$
@@ -580,6 +593,7 @@ kuat_get_array = {
 # input: ARRAY 数组名, VARIABLE(variable name) # 变量名(输入)
 # output: OUT(variable name) # 变量名(输出)
 kuat_get_array_variable = {
+	optimize_memory
 	inline_script = { 
         script = kuat_reasearch_event/kuat_get_array_variable_Config 
         ARRAY = $ARRAY$ OUT = $OUT$ VARIABLE = $VARIABLE$
@@ -631,6 +645,7 @@ kuat_get_array_variable = {
 }
 
 kuat_get_array_variable_S2 = {
+	optimize_memory
 	if = {
 		limit = { check_variable = { which = $VARIABLE$_DIGITS value = 1 }}
 		kuat_get_array = { ARRAY = $ARRAY$ OUT = $OUT$ INDEX = $INDEX$ }
@@ -680,6 +695,7 @@ kuat_get_array_variable_S2 = {
 }
 
 kuat_get_array_variable_S3 = {
+	optimize_memory
 	if = {
 		limit = { check_variable = { which = $VARIABLE$_DIGITS value = 2 }}
 		kuat_get_array = { ARRAY = $ARRAY$ OUT = $OUT$ INDEX = $INDEX$ }
@@ -729,6 +745,7 @@ kuat_get_array_variable_S3 = {
 }
 
 kuat_get_array_variable_S4 = {
+	optimize_memory
 	if = {
 		limit = { check_variable = { which = $VARIABLE$_DIGITS value = 3 }}
 		kuat_get_array = { ARRAY = $ARRAY$ OUT = $OUT$ INDEX = $INDEX$ }
@@ -778,6 +795,7 @@ kuat_get_array_variable_S4 = {
 }
 
 remove_array_variables = {
+	optimize_memory
 	clear_variable = $ARRAY$_DIGIT_1 
 	clear_variable = $ARRAY$_DIGIT_2 
 	clear_variable = $ARRAY$_DIGIT_3 
@@ -872,6 +890,7 @@ remove_array_variables = {
 # clear variable in an array at the given index, which the index is a integer of a variable in game
 # input: ARRAY, VARIABLE # 数组名，变量名
 kuat_clear_array_variable = {
+	optimize_memory
 	inline_script = { 
         script = kuat_reasearch_event/kuat_clear_array_variable_Config 
         ARRAY = $ARRAY$ VARIABLE = $VARIABLE$
@@ -928,6 +947,7 @@ kuat_clear_array_variable = {
 	# }
 }
 kuat_clear_array_set_digit_2 = {
+	optimize_memory
 	if = {
 		limit = { check_variable = { which = $VARIABLE$_DIGITS value = 1 }}
 		kuat_clear_array_variable_at_index = { ARRAY = $ARRAY$ INDEX = $INDEX$ }
@@ -976,6 +996,7 @@ kuat_clear_array_set_digit_2 = {
 	}
 }
 kuat_clear_array_set_digit_3 = {
+	optimize_memory
 	if = {
 		limit = { check_variable = { which = $VARIABLE$_DIGITS value = 2 }}
 		kuat_clear_array_variable_at_index = { ARRAY = $ARRAY$ INDEX = $INDEX$ }
@@ -1024,6 +1045,7 @@ kuat_clear_array_set_digit_3 = {
 	}
 }
 kuat_clear_array_set_digit_4 = {
+	optimize_memory
 	if = {
 		limit = { check_variable = { which = $VARIABLE$_DIGITS value = 3 }}
 		kuat_clear_array_variable_at_index = { ARRAY = $ARRAY$ INDEX = $INDEX$ }
@@ -1073,6 +1095,7 @@ kuat_clear_array_set_digit_4 = {
 }
 
 kuat_clear_array_variable_at_index = {
+	optimize_memory
 	clear_variable = $ARRAY$_$INDEX$
 	clear_variable = $ARRAY$_DIGIT_1
 	clear_variable = $ARRAY$_DIGIT_2
