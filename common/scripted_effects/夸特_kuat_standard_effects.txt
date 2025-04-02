@@ -869,6 +869,7 @@ flagship_building_check = {
 
 #((人口数+人口增长总额*0.2（1-10000）)*10%星球规模+年份)*阶段系数(0.1-1.0)
 kuat_automatic_ai_colony = {
+	optimize_memory
 	set_update_modifiers_batch = begin
 	owner = { save_event_target_as = changing_country }
 	set_planet_flag = has_building_kuat_command_center_auto
@@ -936,6 +937,7 @@ kuat_automatic_ai_colony = {
 }
 
 kuat_reset_auto_colony_variable = {
+	optimize_memory
 	if = {
 		limit = { OR = {
 			NOT = { has_building = building_kuat_command_center_auto }
@@ -1012,6 +1014,7 @@ kuat_reset_auto_colony_variable = {
 }
 
 kuat_move_auto_colony_data = {
+	optimize_memory
 	event_target:kuat_auto_planet_moving_target = {
 		change_variable = { 
 			which = planet_production_array_migrant 
@@ -1037,6 +1040,7 @@ kuat_move_auto_colony_data = {
 
 #shipyard
 create_kuat_shipyard_country = {
+	optimize_memory
 	create_country = {
 		name = "Name_Kuat_Shipyard"
 		type = kuat_shipyard
@@ -1071,6 +1075,7 @@ create_kuat_shipyard_country = {
 }
 
 kuat_rift_award = {
+	optimize_memory
 	add_monthly_resource_mult = {
 		resource = engineering_research
 		value = @tier3researchreward
@@ -1110,6 +1115,7 @@ kuat_astral_thread_large_reward = {
 }
 
 kuat_astral_thread_reward = {
+	optimize_memory
 	custom_tooltip = astral_threads_found
 	locked_random_list = {
 		1 = { kuat_add_resource_astral_threads = { VALUE = 60 ADD = $ADD$ } }
@@ -1119,6 +1125,7 @@ kuat_astral_thread_reward = {
 }
 
 kuat_add_resource_astral_threads = {
+	optimize_memory
 	if = {
 		limit = { check_variable = { which = astral_threads_scripted_rewards_mult value < 1 } }
 		set_variable = {
@@ -1134,6 +1141,7 @@ kuat_add_resource_astral_threads = {
 }
 
 kuat_enable_settings_hell_tradition = {
+	optimize_memory
 	if = {
 		limit = { NOT = { has_global_flag = ban_exe_invasion } }
 		remove_global_flag = normal_exe_invasion
@@ -1177,6 +1185,7 @@ kuat_enable_settings_hell_tradition = {
 }
 
 kuat_destroy_star_system = {
+	optimize_memory
 	fire_on_action = { on_action = on_destroy_star_system }
 	set_star_flag = star_cracked
 	set_star_class = sc_black_hole
@@ -1337,6 +1346,7 @@ kuat_destroy_star_system = {
 }
 
 destroy_system_everything_random = {
+	optimize_memory
 	random_system_within_border = {
 		limit = { any_system_planet = { is_colony = yes } }
 		every_system_planet = {
@@ -1603,6 +1613,7 @@ starkiller_destroyed_system_everything_random = {
 }
 
 kuat_unlock_all_gateway = {
+	optimize_memory
 	set_global_flag = kuat_shadow_war_prepare 
 	every_megastructure = {
 		limit = { is_megastructure_type = exe_outer_gate_disable }
@@ -1618,6 +1629,7 @@ kuat_unlock_all_gateway = {
 
 #optimize
 kuat_change_country_owner = {
+	optimize_memory
 	every_system = {
 		limit = {
 			exists = owner
@@ -1646,6 +1658,7 @@ kuat_change_country_owner = {
 }
 
 Kuat_auto_colony_reserve = {
+	optimize_memory
 	if = {
 		limit = { 
 			check_variable_arithmetic = { which = modifier:country_resource_max_add value >= 100000 }
@@ -1662,6 +1675,7 @@ Kuat_auto_colony_reserve = {
 }
 
 kuat_auto_colony_total_reserve = {
+	optimize_memory
 	Kuat_auto_colony_reserve = { TYPE = energy MULT = 0.5 }
 	Kuat_auto_colony_reserve = { TYPE = food MULT = 0.5 }
 	Kuat_auto_colony_reserve = { TYPE = minerals MULT = 0.5 }
@@ -1716,12 +1730,14 @@ kuat_auto_colony_total_reserve = {
 }
 
 kuat_str_auto_colony_total_reserve = {
+	optimize_memory
 	Kuat_auto_colony_reserve = { TYPE = energy MULT = 0.5 }
 	Kuat_auto_colony_reserve = { TYPE = food MULT = 0.5 }
 	Kuat_auto_colony_reserve = { TYPE = minerals MULT = 0.5 }
 }
 
 kuat_create_toasto_message = {
+	optimize_memory
 	create_message = {
 		type = $KEY$
 		localization = $KEY$_desc
