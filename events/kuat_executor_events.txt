@@ -1683,7 +1683,7 @@ country_event = {
 		hidden_effect = { create_fleet = {
 			effect = {
 				set_owner = prev
-				while = { count = 3 create_ship = { design = "Name_boss_EMPIRE" } }
+				while = { count = 3 create_ship = { design = "Name_boss_HIGH_EMPIRE" } }
 				add_modifier = { modifier = kuat_fleet_power }
 				set_fleet_stance = aggressive
 				set_fleet_bombardment_stance = indiscriminate
@@ -1879,7 +1879,7 @@ country_event = {
 				effect = {
 					set_owner = event_target:fallen_empire_kuat_fleet
 					create_ship = { design = "Name_boss_eclipse" }
-					while = { count = 48 create_ship = { design = "Name_boss_EMPIRE" } }
+					while = { count = 48 create_ship = { design = "Name_boss_HIGH_EMPIRE" } }
 					set_location = prev.capital_scope
 					set_fleet_flag = will_be_return_eclipse
 					save_event_target_as = return_eclipse_fleet
@@ -1934,7 +1934,7 @@ country_event = {
 				name = "Name_DFLEET"
 				effect = {
 					set_owner = event_target:fallen_empire_kuat_fleet
-					while = { count = 50 create_ship = { design = "Name_boss_EMPIRE" } }
+					while = { count = 50 create_ship = { design = "Name_boss_HIGH_EMPIRE" } }
 					set_location = prev.capital_scope
 					set_fleet_flag = will_be_return
 					save_event_target_as = return_fleet
@@ -2551,18 +2551,10 @@ country_event = {
 	id = executor_build.1006
 	hide_window = yes
 	is_triggered_only = yes
-	trigger = { any_owned_planet = { 
-		has_planet_flag = has_building_kuat_command_center_auto 
-		is_colony = yes
-		NOT = { is_planet_class = pc_cosmogenesis_world }
-	} }
+	trigger = { any_owned_planet = { has_planet_flag = has_building_kuat_command_center_auto } }
 	immediate = { 
 		every_owned_planet = {
-			limit = { 
-				has_planet_flag = has_building_kuat_command_center_auto 
-				is_colony = yes
-				NOT = { is_planet_class = pc_cosmogenesis_world }
-			}
+			limit = { has_planet_flag = has_building_kuat_command_center_auto }
 			kuat_reset_auto_colony_variable = yes
 		}
 	}
@@ -2649,13 +2641,9 @@ country_event = {
 				any_owned_planet = {
 					owner = {  
 						is_ai = no
-						OR = { 
-							has_technology = tech_kuat_command_center 
-							has_global_flag = kuat_get_commandline_tech 
-						}
+						has_technology = tech_kuat_command_center 
 					}
-					is_capital = no
-					PR_prmt_trgr_HC = { MORE = 9 }
+					PR_prmt_trgr_HC = { MORE = 19 }
 					kuat_is_not_allow_to_build_auto_planet = no
 				}
 			}
@@ -2665,13 +2653,9 @@ country_event = {
 				limit = {
 					owner = {  
 						is_ai = no
-						OR = { 
-							has_technology = tech_kuat_command_center 
-							has_global_flag = kuat_get_commandline_tech 
-						}
+						has_technology = tech_kuat_command_center 
 					}
-					is_capital = no
-					PR_prmt_trgr_HC = { MORE = 9 }
+					PR_prmt_trgr_HC = { MORE = 19 }
 					kuat_is_not_allow_to_build_auto_planet = no
 				}
 				select_decision = { name = Building_The_Kuat_Command_Line_Auto_planet }
@@ -2769,6 +2753,23 @@ country_event = {
 		every_cosmic_storm = { 
 			limit = { has_storm_flag = storm_kuat_support_shroud_storm_special_deployed } 
 			destroy_cosmic_storm = yes 
+		}
+		if = {
+			limit = { any_cosmic_storm = { NOR = {
+				is_storm_type = kuat_support_celestic_storm
+				is_storm_type = kuat_support_nexus_storm
+				is_storm_type = kuat_support_particle_storm
+				is_storm_type = kuat_support_shroud_storm
+			} } }
+			every_cosmic_storm = {
+				limit = { NOR = {
+					is_storm_type = kuat_support_celestic_storm
+					is_storm_type = kuat_support_nexus_storm
+					is_storm_type = kuat_support_particle_storm
+					is_storm_type = kuat_support_shroud_storm
+				} }
+				destroy_cosmic_storm = yes
+			}
 		}
 	}
 }

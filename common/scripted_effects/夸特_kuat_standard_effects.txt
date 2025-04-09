@@ -829,43 +829,43 @@ kuat_repeal_all_crisis_resolutions = {
 }
 
 #scope:ship
-flagship_building_check = {
-	optimize_memory
-	owner = {
-		set_variable = { which = SHIP_LIMIT_VAR_$SHIPSIZE$ value = 0 }
-		set_variable = { which = SHIP_LIMIT_STANDARD_VAR_$SHIPSIZE$ value = $SHIP_LIMIT$ }
-		if = { limit = { has_country_flag = all_flagship_building_limit_1 } set_variable = { which = SHIP_LIMIT_ADDON_VAR_$SHIPSIZE$ value = 1 } }
-		if = { limit = { has_country_flag = all_flagship_building_limit_2 } set_variable = { which = SHIP_LIMIT_ADDON_VAR_$SHIPSIZE$ value = 2 } }
-		if = { limit = { has_country_flag = all_flagship_building_limit_3 } set_variable = { which = SHIP_LIMIT_ADDON_VAR_$SHIPSIZE$ value = 3 } }
-		if = { limit = { has_country_flag = all_flagship_building_limit_4 } set_variable = { which = SHIP_LIMIT_ADDON_VAR_$SHIPSIZE$ value = 4 } }
-		if = { limit = { has_country_flag = all_flagship_building_limit_5 } set_variable = { which = SHIP_LIMIT_ADDON_VAR_$SHIPSIZE$ value = 5 } }
-		if = { limit = { has_country_flag = all_flagship_building_limit_6 } set_variable = { which = SHIP_LIMIT_ADDON_VAR_$SHIPSIZE$ value = 6 } }
-		if = { limit = { has_country_flag = all_flagship_building_limit_7 } set_variable = { which = SHIP_LIMIT_ADDON_VAR_$SHIPSIZE$ value = 7 } }
-		if = { limit = { has_country_flag = all_flagship_building_limit_8 } set_variable = { which = SHIP_LIMIT_ADDON_VAR_$SHIPSIZE$ value = 8 } }
-		if = { limit = { has_country_flag = all_flagship_building_limit_9 } set_variable = { which = SHIP_LIMIT_ADDON_VAR_$SHIPSIZE$ value = 9 } }
-		change_variable = { which = SHIP_LIMIT_VAR_$SHIPSIZE$ value = SHIP_LIMIT_STANDARD_VAR_$SHIPSIZE$ }
-		change_variable = { which = SHIP_LIMIT_VAR_$SHIPSIZE$ value = SHIP_LIMIT_ADDON_VAR_$SHIPSIZE$ }
-		if = {
-			limit = { any_owned_ship = { NOT = { is_same_value = prevprev } is_ship_size = $SHIPSIZE$ } }
-			export_trigger_value_to_variable = {
-				trigger = count_owned_ship
-				parameters = { limit = { NOT = { is_same_value = prevprev } is_ship_size = $SHIPSIZE$ } }
-				variable = system_active_check_$SHIPSIZE$
-			}
-		}
-		else_if = {
-			limit = { count_owned_ship = { limit = { NOT = { is_same_value = prevprev } is_ship_size = $SHIPSIZE$ } count = 0 } }
-			set_variable = { which = system_active_check_$SHIPSIZE$ value = 0 }
-		}
-		set_variable = { which = system_active_$SHIPSIZE$ value = system_active_check_$SHIPSIZE$ }
-		change_variable = { which = system_active_$SHIPSIZE$ value = 1 }
-	}
-	if = { 
-		limit = { owner = { check_variable = { which = system_active_$SHIPSIZE$ value > SHIP_LIMIT_VAR_$SHIPSIZE$ } } } 
-		owner = { subtract_variable = { which = system_active_$SHIPSIZE$ value = 1 } country_event = { id = kuat_starkiller.12 } add_resource = { alloys = 3500 } } 
-		destroy_ship = this 
-	}
-}
+# flagship_building_check = {
+# 	optimize_memory
+# 	owner = {
+# 		set_variable = { which = SHIP_LIMIT_VAR_$SHIPSIZE$ value = 0 }
+# 		set_variable = { which = SHIP_LIMIT_STANDARD_VAR_$SHIPSIZE$ value = $SHIP_LIMIT$ }
+# 		if = { limit = { has_country_flag = all_flagship_building_limit_1 } set_variable = { which = SHIP_LIMIT_ADDON_VAR_$SHIPSIZE$ value = 1 } }
+# 		if = { limit = { has_country_flag = all_flagship_building_limit_2 } set_variable = { which = SHIP_LIMIT_ADDON_VAR_$SHIPSIZE$ value = 2 } }
+# 		if = { limit = { has_country_flag = all_flagship_building_limit_3 } set_variable = { which = SHIP_LIMIT_ADDON_VAR_$SHIPSIZE$ value = 3 } }
+# 		if = { limit = { has_country_flag = all_flagship_building_limit_4 } set_variable = { which = SHIP_LIMIT_ADDON_VAR_$SHIPSIZE$ value = 4 } }
+# 		if = { limit = { has_country_flag = all_flagship_building_limit_5 } set_variable = { which = SHIP_LIMIT_ADDON_VAR_$SHIPSIZE$ value = 5 } }
+# 		if = { limit = { has_country_flag = all_flagship_building_limit_6 } set_variable = { which = SHIP_LIMIT_ADDON_VAR_$SHIPSIZE$ value = 6 } }
+# 		if = { limit = { has_country_flag = all_flagship_building_limit_7 } set_variable = { which = SHIP_LIMIT_ADDON_VAR_$SHIPSIZE$ value = 7 } }
+# 		if = { limit = { has_country_flag = all_flagship_building_limit_8 } set_variable = { which = SHIP_LIMIT_ADDON_VAR_$SHIPSIZE$ value = 8 } }
+# 		if = { limit = { has_country_flag = all_flagship_building_limit_9 } set_variable = { which = SHIP_LIMIT_ADDON_VAR_$SHIPSIZE$ value = 9 } }
+# 		change_variable = { which = SHIP_LIMIT_VAR_$SHIPSIZE$ value = SHIP_LIMIT_STANDARD_VAR_$SHIPSIZE$ }
+# 		change_variable = { which = SHIP_LIMIT_VAR_$SHIPSIZE$ value = SHIP_LIMIT_ADDON_VAR_$SHIPSIZE$ }
+# 		if = {
+# 			limit = { any_owned_ship = { NOT = { is_same_value = prevprev } is_ship_size = $SHIPSIZE$ } }
+# 			export_trigger_value_to_variable = {
+# 				trigger = count_owned_ship
+# 				parameters = { limit = { NOT = { is_same_value = prevprev } is_ship_size = $SHIPSIZE$ } }
+# 				variable = system_active_check_$SHIPSIZE$
+# 			}
+# 		}
+# 		else_if = {
+# 			limit = { count_owned_ship = { limit = { NOT = { is_same_value = prevprev } is_ship_size = $SHIPSIZE$ } count = 0 } }
+# 			set_variable = { which = system_active_check_$SHIPSIZE$ value = 0 }
+# 		}
+# 		set_variable = { which = system_active_$SHIPSIZE$ value = system_active_check_$SHIPSIZE$ }
+# 		change_variable = { which = system_active_$SHIPSIZE$ value = 1 }
+# 	}
+# 	if = { 
+# 		limit = { owner = { check_variable = { which = system_active_$SHIPSIZE$ value > SHIP_LIMIT_VAR_$SHIPSIZE$ } } } 
+# 		owner = { subtract_variable = { which = system_active_$SHIPSIZE$ value = 1 } country_event = { id = kuat_starkiller.12 } add_resource = { alloys = 3500 } } 
+# 		destroy_ship = this 
+# 	}
+# }
 
 #((人口数+人口增长总额*0.2（1-10000）)*10%星球规模+年份)*阶段系数(0.1-1.0)
 kuat_automatic_ai_colony = {
@@ -915,6 +915,15 @@ kuat_automatic_ai_colony = {
 	clear_planet_modifiers = yes
 	destroy_colony = yes
 
+	if = {
+		limit = { is_ringworld = yes }
+		change_pc = pc_kuat_auto_ringworld_habitable
+		set_planet_entity = { picture = pc_kuat_eternal_ringworld_habitable }
+	}
+	else = {
+		change_pc = pc_kuat_auto_city
+		set_planet_entity = { picture = pc_kuat_eternal_city }
+	}
 	add_building = building_kuat_command_center_auto
 	add_building = building_kuat_databank_auto
 	add_building = building_kuat_ancient_databank_auto
@@ -982,10 +991,6 @@ kuat_reset_auto_colony_variable = {
 	}
 
 	change_variable = { which = planet_production_array_pop_speed_total_dynamic value = planet_production_array_pop_speed_total }
-	if = {
-		limit = { check_variable = { which = planet_production_array_pop_speed_total_dynamic value > 10000 } }
-		set_variable = { which = planet_production_array_pop_speed_total_dynamic value = 10000 }
-	}
 	multiply_variable = { which = planet_production_array_pop_speed_total_dynamic value = 0.2 }
 
 	set_variable = { which = planet_production_array value = planet_production_array_base }
@@ -1004,8 +1009,6 @@ kuat_reset_auto_colony_variable = {
 	else_if = { limit = { years_passed >= 30 } multiply_variable = { which = planet_production_array value = 0.3 } }
 	else_if = { limit = { years_passed >= 20 } multiply_variable = { which = planet_production_array value = 0.2 } }
 	else = { multiply_variable = { which = planet_production_array value = 0.1 } }
-	if = { limit = { exists = owner owner = { is_ai = yes is_nirvana_empire = no } } multiply_variable = { which = planet_production_array value = 0.1 } }
-	if = { limit = { exists = owner owner = { is_ai = yes is_nirvana_empire = yes } } multiply_variable = { which = planet_production_array value = 0.2 } }
 	floor_variable = planet_production_array
 	if = {
 		limit = { is_variable_set = planet_production_array_migrant }

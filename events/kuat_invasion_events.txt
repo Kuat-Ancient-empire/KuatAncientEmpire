@@ -1261,7 +1261,7 @@ country_event = {
 		set_global_flag = easy_exe_invasion 
 		set_global_flag = enable_animal_trigger
 		set_global_flag = kuat_impulse_mod_settings_disable
-		set_global_flag = enable_ai_trigger
+		set_global_flag = enable_ftl_ship_animation
 		event_target:global_event_country = { 
 			set_variable = { which = exe_invasion_difficult_global_var value = 1 } 
 			if = {
@@ -1777,7 +1777,6 @@ country_event = {
 			check_variable = { which = count_infinite_faction_battle_duplicate_ship value < value:kuat_invasion_fleet_prec_value|MAX|100| }
 		}
 		fromfrom = { NOT = { has_ship_flag = temple_infinite_faction_battle_duplicate_ship } }
-		fromfromfrom.fleet = { NOT = { has_fleet_flag = has_kuat_subflagship_system } }
 	}
 	immediate = { fromfrom = {  
 		if = {
@@ -1833,14 +1832,11 @@ country_event = {
 	immediate = { fromfrom = {
 		if = {
 			limit = { exists = fleet }
-			fleet = {  
-				random_list = {
-					1 = { create_ship = { design = Name_boss_crisis_HIGH_EMPIRE_BOSS } }
-					1 = { create_ship = { design = Name_criss_boss_Horriwer_BOSS } }
-					1 = { create_ship = { design = Name_criss_boss_Cavelry_BOSS } }
-				}
-				change_variable = { which = count_dominence_faction_battle_duplicate_ship value = 1 }
-			}
+			fleet = { random_list = {
+				1 = { create_ship = { design = Name_boss_crisis_HIGH_EMPIRE_BOSS } }
+				1 = { create_ship = { design = Name_criss_boss_Horriwer_BOSS } }
+				1 = { create_ship = { design = Name_criss_boss_Cavelry_BOSS } }
+			} }
 		}
 		set_timed_ship_flag = { flag = temple_dominence_faction_battle_duplicate_ship days = 5 }
 	} }
@@ -2594,62 +2590,13 @@ country_event = {
 	option = { name = exe_invasion.141.b hidden_effect = { set_country_flag = fired_massege_leader } }
 }
 
-event = {
-	id = exe_invasion.9998
-	hide_window = yes
-	is_triggered_only = yes
-	trigger = {
-		years_passed > 25 
-		has_global_flag = enable_ai_trigger
-		any_playable_country = { OR = {
-			has_technology = tech_kuat_command_center
-			has_global_flag = kuat_get_commandline_tech
-		} }
-	}
-	immediate = {
-		every_galaxy_planet = {
-			limit = { 
-				exists = owner
-				owner = { is_ai = yes kuat_is_playable_country = yes }
-				kuat_is_not_allow_to_build_auto_planet = no 
-			}
-			if = {
-				limit = { 
-					exists = owner
-					owner = { 
-						is_nirvana_empire = no 
-						prev = { OR = { PR_prmt_trgr_HC = { MORE = 50 } num_unemployed > 5 } }
-					}
-				}
-				kuat_automatic_ai_colony = yes
-			}
-			if = {
-				limit = { exists = owner owner = { is_nirvana_empire = yes } }
-				kuat_automatic_ai_colony = yes
-			}
-		}
-	}
-}
-
 # Saving debug
 event = {
 	id = exe_invasion.9999
 	hide_window = yes
 	is_triggered_only = yes
-	trigger = { always = yes }
-	immediate = { 
-		if = {
-			limit = { any_galaxy_planet = { has_planet_flag = has_building_kuat_command_center_auto } }
-			every_galaxy_planet = {
-				limit = { has_planet_flag = has_building_kuat_command_center_auto }
-				kuat_reset_auto_colony_variable = yes
-			}
-		}
-		if = {
-			limit = { any_country = { has_country_flag = solarpunk_country } }
-			every_country = { limit = { has_country_flag = solarpunk_country } destroy_country = yes }
-		}
-	}
+	trigger = { any_country = { has_country_flag = solarpunk_country } }
+	immediate = { every_country = { limit = { has_country_flag = solarpunk_country } destroy_country = yes } }
 }
 
 #leader skill

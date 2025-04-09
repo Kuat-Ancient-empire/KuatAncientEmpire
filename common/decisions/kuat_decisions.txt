@@ -33,9 +33,9 @@ Building_The_Kuat_Command_Line = {
 		category = decisions
 		cost = { minerals = 5000 }
 	}
+	prerequisites = { tech_kuat_command_center }
 	potential = {
 		PR_prmt_trgr_HC = { MORE = 60 }
-		from = { has_technology = tech_kuat_command_center }
 		OR = {
 			has_building = building_system_capital
 			has_building = building_machine_system_capital
@@ -70,52 +70,23 @@ Building_The_Kuat_Command_Line_Auto_planet = {
 	owned_planets_only = yes
 	sound = event_air_raid_siren
 	icon = decision_arcology_project
-	enactment_time = 15
+	enactment_time = 1800
 	resources = { 
 		category = decisions 
-		cost = { unity = 100 }
+		cost = { unity = 100 minerals = 5000 }
 	}
+	prerequisites = { tech_kuat_command_center }
 	potential = {
-		from = {  
-			if = {
-				limit = { is_ai = no }
-				OR = { 
-					has_technology = tech_kuat_command_center 
-					has_global_flag = kuat_get_commandline_tech 
-				} 
-			}
-			else_if = {
-				limit = { is_ai = yes }
-				any_playable_country = { OR = { 
-					has_technology = tech_kuat_command_center 
-					has_global_flag = kuat_get_commandline_tech 
-				} } 
-				OR = {
-					AND = {
-						is_nirvana_empire = no
-						prev = { OR = { PR_prmt_trgr_HC = { MORE = 50 } num_unemployed > 5 } }
-					}
-					is_nirvana_empire = yes
-				}
-			}
-		}
 		kuat_is_not_allow_to_build_auto_planet = no
 	}
 	allow = {
 		custom_tooltip_fail = {
 			text = "Building_The_Kuat_Command_Line_Auto_planet_failed"
-			OR = { 
-				AND = { from = { is_ai = no } PR_prmt_trgr_HC = { MORE = 9 } }
-				AND = { from = { is_ai = yes } has_global_flag = enable_ai_trigger }
-			}
+			PR_prmt_trgr_HC = { MORE = 19 }
 		}
 	}
 	effect = { hidden_effect = { kuat_automatic_ai_colony = yes } }
-	ai_weight = { 
-		weight = 1
-		modifier = { factor = 0 has_global_flag = disable_ai_trigger }
-		modifier = { factor = 150000 years_passed >= 25 has_global_flag = enable_ai_trigger }
-	}
+	ai_weight = { weight = 0 }
 }
 
 #设置焦点
@@ -127,16 +98,13 @@ Bulding_kuat_auto_planet_focus_target = {
 		category = decisions 
 		cost = { unity = 100 }
 	}
+	prerequisites = { tech_kuat_command_center }
 	potential = {
 		from = {
 			is_ai = no
 			NOT = { any_owned_planet = {
 				has_planet_flag = kuat_auto_planet_moving_target
 			} }
-			OR = { 
-				has_technology = tech_kuat_command_center 
-				has_global_flag = kuat_get_commandline_tech 
-			}
 		}
 		has_planet_flag = has_building_kuat_command_center_auto
 	}
