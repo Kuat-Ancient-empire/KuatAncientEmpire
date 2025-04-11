@@ -2286,59 +2286,10 @@ country_event = {
 					subtract_variable = { which = kuat_star_flagship_nonsupport_battle_times value = 1 }
 					set_fleet_flag = kuat_star_flagship_nonsupport_battle_times_sutrat_placeholder
 				}
-				else = {
-					if = {
-						limit = {  
-							closest_system = {
-								use_bypasses = yes
-								has_kuat_support_modifier_star_flag = yes
-							}
-						}
-						closest_system = {
-							use_bypasses = yes
-							limit = { has_kuat_support_modifier_star_flag = yes }
-							prev = { set_location = prev.star }
-						}
-					}
-					else = { set_location = owner.capital_star }
-					every_owned_ship = { kuat_battle_flagship_clear_ship_repeatable_modifier = { multiply = 1 DAYS = 60 } }
-				}
+				else = { kuat_battle_reset_fleet = yes }
 				fleet_event = { id = exe_invasion.2503 days = 60 }
 			}
-			else_if = {
-				limit = { has_enable_flag_ship_system_true = no exists = solar_system }
-				if = {
-					limit = { NOT = { is_variable_set = kuat_star_flagship_nonsupport_battle_times } }
-					set_variable = { which = kuat_star_flagship_nonsupport_battle_times value = value:kuat_star_flagship_nonsupport_field_battle_times }
-				}
-				if = {
-					limit = {
-						check_variable = { which = kuat_star_flagship_nonsupport_battle_times value >= 4 }
-						NOT = { has_fleet_flag = kuat_star_flagship_nonsupport_battle_times_sutrat_placeholder }
-					}
-					every_owned_ship = { kuat_battle_flagship_clear_ship_repeatable_modifier = { multiply = -1 DAYS = 30 } }
-					subtract_variable = { which = kuat_star_flagship_nonsupport_battle_times value = 4 }
-					set_fleet_flag = kuat_star_flagship_nonsupport_battle_times_sutrat_placeholder
-				}
-				else = {
-					if = {
-						limit = {  
-							closest_system = {
-								use_bypasses = yes
-								has_kuat_support_modifier_star_flag = yes
-							}
-						}
-						closest_system = {
-							use_bypasses = yes
-							limit = { has_kuat_support_modifier_star_flag = yes }
-							prev = { set_location = prev.star }
-						}
-					}
-					else = { set_location = owner.capital_star }
-					every_owned_ship = { kuat_battle_clear_ship_repeatable_modifier = { multiply = 1 DAYS = 60 } }
-				}
-				fleet_event = { id = exe_invasion.2503 days = 60 }
-			}
+			else = { kuat_battle_reset_fleet = yes }
 			set_timed_fleet_flag = { flag = random_list_flagship_checksum_placeholder days = 1 }
 		} }
 	}
