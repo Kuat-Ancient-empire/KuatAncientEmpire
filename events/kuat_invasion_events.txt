@@ -1774,42 +1774,34 @@ country_event = {
 				is_ship_size = Drift_Flagship
 				is_ship_size = Spt_Flagship
 			} }
-			check_variable = { which = count_infinite_faction_battle_duplicate_ship value < value:kuat_invasion_fleet_prec_value|MAX|100| }
+			check_variable = { which = kuat_contractor_completed_ship_limited value > 0 }
+			check_variable_arithmetic = { which = trigger:num_ships value < kuat_contractor_completed_ship_limited }
 		}
 		fromfrom = { NOT = { has_ship_flag = temple_infinite_faction_battle_duplicate_ship } }
 	}
 	immediate = { fromfrom = {  
 		if = {
 			limit = { ROOT = { is_infinite_faction = yes } }
-			fleet = { 
-				random_list = {
-					1 = { create_ship = { design = Name_boss_crisis_IC_0 } }
-					2 = { create_ship = { design = Name_boss_crisis_IC_1 } }
-					3 = { create_ship = { design = Name_boss_crisis_IC_2 } }
-					4 = { create_ship = { design = Name_boss_crisis_IC_3 } }
-				}
-				change_variable = { which = count_infinite_faction_battle_duplicate_ship value = 1 }
-			}
+			fleet = { random_list = {
+				1 = { create_ship = { design = Name_boss_crisis_IC_0 } }
+				2 = { create_ship = { design = Name_boss_crisis_IC_1 } }
+				3 = { create_ship = { design = Name_boss_crisis_IC_2 } }
+				4 = { create_ship = { design = Name_boss_crisis_IC_3 } }
+			} }
 		}
 		else_if = {
 			limit = { ROOT = { is_country_type = kuat_contractor_hostile } }
-			fleet = {
-				random_list = {
-					1 = { create_ship = { design = Name_boss_crisis_DB_0 } }
-					2 = { create_ship = { design = Name_boss_crisis_DC_0 } }
-				}
-				change_variable = { which = count_infinite_faction_battle_duplicate_ship value = 1 }
-			}
+			fleet = { random_list = {
+				1 = { create_ship = { design = Name_boss_crisis_DB_0 } }
+				2 = { create_ship = { design = Name_boss_crisis_DC_0 } }
+			} }
 		}
 		else_if = {
 			limit = { ROOT = { is_country_type = kuat_contractor_support } }
-			fleet = {
-				random_list = {
-					1 = { create_ship = { design = Name_boss_crisis_SP_1 } }
-					2 = { create_ship = { design = Name_boss_crisis_SPC_1 } }
-				}
-				change_variable = { which = count_infinite_faction_battle_duplicate_ship value = 1 }
-			}
+			fleet = { random_list = {
+				1 = { create_ship = { design = Name_boss_crisis_SP_1 } }
+				2 = { create_ship = { design = Name_boss_crisis_SPC_1 } }
+			} }
 		}
 		set_timed_ship_flag = { flag = temple_infinite_faction_battle_duplicate_ship days = 1 }
 	} }
@@ -1838,7 +1830,7 @@ country_event = {
 				1 = { create_ship = { design = Name_criss_boss_Cavelry_BOSS } }
 			} }
 		}
-		set_timed_ship_flag = { flag = temple_dominence_faction_battle_duplicate_ship days = 5 }
+		set_timed_ship_flag = { flag = temple_dominence_faction_battle_duplicate_ship days = 1 }
 	} }
 }
 
@@ -1976,6 +1968,10 @@ country_event = {
 		fromfrom = { NAND = { root = { OR = { is_eternal_faction = yes is_galatic_empire = yes } } is_ship_size = exe_starbase } }
 	}
 	immediate = {
+		fromfrom = { if = {
+			limit = { NOT = { is_variable_set = kuat_contractor_completed_ship_limited } }
+			set_variable = { which = kuat_contractor_completed_ship_limited value = trigger:num_ships }
+		} }
 		if = {
 			limit = { 
 				is_kuat_contractor_faction = yes 
