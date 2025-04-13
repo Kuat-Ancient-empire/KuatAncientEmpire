@@ -1894,6 +1894,15 @@ ship_event = {
 				limit = { kuat_exist_disable_type = no }
 				kuat_battle_clear_ship_at_health = { REPAIR = yes INVERT_DISABLE = set_disabled }
 			}
+			else_if = {
+				limit = {  
+					kuat_is_flagship_system_protection = yes
+					exists = fleet fleet = { has_enable_flag_ship_system_false = yes }
+					NOT = { has_ship_flag = kuat_battle_clear_ship_at_health_invisable_times }
+				}
+				set_timed_ship_flag = { flag = kuat_battle_clear_ship_at_health_invisable_times days = 3 }
+				kuat_battle_clear_ship_at_health = { REPAIR = yes INVERT_DISABLE = set_disabled }
+			}
 			else_if = { 
 				limit = { kuat_exist_disable_type = yes check_variable = { which = KUAT_SHIP_HEALTH_VAR value > 0 } } 
 				kuat_battle_clear_ship_at_health = { REPAIR = yes INVERT_DISABLE = set_disabled WHICH = KUAT_SHIP_HEALTH_VAR RELOAD = yes }
@@ -1935,6 +1944,15 @@ ship_event = {
 			limit = { has_ship_flag = enable_kuat_none_ship_inital owner = { is_player_country = yes } }
 			if = {
 				limit = { kuat_exist_disable_type = no }
+				kuat_battle_clear_ship_at_health = { REPAIR = yes INVERT_DISABLE = set_disabled }
+			}
+			else_if = {
+				limit = {  
+					kuat_is_flagship_system_protection = yes
+					exists = fleet fleet = { has_enable_flag_ship_system_false = yes }
+					NOT = { has_ship_flag = kuat_battle_clear_ship_at_health_invisable_times }
+				}
+				set_timed_ship_flag = { flag = kuat_battle_clear_ship_at_health_invisable_times days = 3 }
 				kuat_battle_clear_ship_at_health = { REPAIR = yes INVERT_DISABLE = set_disabled }
 			}
 			else_if = { 
