@@ -197,16 +197,21 @@ kuat_infinite_create_clone_fleet_effect = {
     optimize_memory
     fromfrom = {
         every_owned_ship = {
+            limit = { NOT = { has_ship_flag = kuat_infinite_ship_created_agained } }
             save_event_target_as = ifinite_copy_ship
             if = {
                 limit = { NOT = { exists = event_target:kuat_battle_infinite_created_@prev } }
                 create_fleet = {
                     name = prev
                     effect = {
+                        set_fleet_flag = kuat_infinite_fleet_created_agained
                         set_owner = prevprev.owner
                         create_ship = { 
                             design = event_target:ifinite_copy_ship 
-                            effect = { copy_flags_and_variables_from = event_target:ifinite_copy_ship }
+                            effect = { 
+                                set_timed_ship_flag = { flag = kuat_infinite_ship_created_agained days = 1 }
+                                copy_flags_and_variables_from = event_target:ifinite_copy_ship 
+                            }
                         }
                         save_global_event_target_as = kuat_battle_infinite_created_@prevprev
                         set_location = { target = prevprev distance = 45 angle = 0 }
@@ -215,8 +220,12 @@ kuat_infinite_create_clone_fleet_effect = {
             }
             else = { event_target:kuat_battle_infinite_created_@prev = { create_ship = { 
                 design = event_target:ifinite_copy_ship 
-                effect = { copy_flags_and_variables_from = event_target:ifinite_copy_ship }
+                effect = { 
+                    copy_flags_and_variables_from = event_target:ifinite_copy_ship 
+                    set_timed_ship_flag = { flag = kuat_infinite_ship_created_agained days = 1 }
+                }
             } } }
+            set_timed_ship_flag = { flag = kuat_infinite_ship_created_agained days = 1 }
         }
         clear_global_event_target = kuat_battle_infinite_created_@this
         set_fleet_flag = kuat_infinite_fleet_created_agained
