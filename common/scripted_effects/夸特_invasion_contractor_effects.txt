@@ -361,15 +361,11 @@ kuat_contractor_randomlist_battle_duplcate_ship = {
 			parameters = { limit = { is_ship_class = shipclass_military kuat_is_kuat_ship = no } }
 			variable = count_drft_faction_battle_duplicate_ship
 		}
-		random_list = {
-			1 = { modifier = { factor = 0 NOT = { has_global_flag = kuat_impulse_mod_settings } } multiply_variable = { which = count_drft_faction_battle_duplicate_ship value = 1 } }
-			1 = { multiply_variable = { which = count_drft_faction_battle_duplicate_ship value = 0.10 } }
-			1 = { multiply_variable = { which = count_drft_faction_battle_duplicate_ship value = 0.15 } }
-			1 = { multiply_variable = { which = count_drft_faction_battle_duplicate_ship value = 0.20 } }
-			1 = { multiply_variable = { which = count_drft_faction_battle_duplicate_ship value = 0.25 } }
-			1 = { multiply_variable = { which = count_drft_faction_battle_duplicate_ship value = 0.30 } }
+		if = {
+			limit = { has_global_flag = kuat_impulse_mod_settings }
+			multiply_variable = { which = count_drft_faction_battle_duplicate_ship value = 1 }
 		}
-		reroll_random = yes
+		else = { multiply_variable = { which = count_drft_faction_battle_duplicate_ship value = 0.10 } }
 		floor_variable = count_drft_faction_battle_duplicate_ship
 		if = {
 			limit = { check_variable = { which = count_drft_faction_battle_duplicate_ship value < 1 } }
