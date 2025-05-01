@@ -1,10 +1,11 @@
 @rakata_guradian_fleet_count = 1
-@rakata_heavy_guradian_fleet_count = 2
+@rakata_heavy_guradian_fleet_count = 1
 #scope: swgs crisis
 create_Kuat_Rakata_crisis_fleet_and_admiral = {
     optimize_memory
     create_exe_invasion_fleet = {
         NAME = Name_DFLEET_II
+        flag_trigger = Kuat_Rakata_crisis_fleet_and_admiral
         is_boss = yes  can_disband = no
         Fleet_owner = event_target:Infinite_empire
         bombardment = indiscriminate
@@ -18,6 +19,7 @@ create_Kuat_Rakata_crisis_greater_fleet = {
     optimize_memory
     create_exe_invasion_fleet = {
         NAME = Name_DFLEET
+        flag_trigger = Kuat_Rakata_crisis_greater_fleet
         is_boss = yes  can_disband = no
         Fleet_owner = event_target:Infinite_empire
         bombardment = indiscriminate
@@ -30,6 +32,7 @@ create_Kuat_Worldship_Rakata_crisis_greater_fleet = {
     optimize_memory
     create_exe_invasion_fleet = {
         NAME = Name_DFLEET
+        flag_trigger = Kuat_Worldship_Rakata_crisis_greater_fleet
         is_boss = yes  can_disband = no
         Fleet_owner = event_target:Infinite_empire
         bombardment = indiscriminate
@@ -196,38 +199,42 @@ initialize_Kuat_Rakata_total_warp_portal_system_select = {
 kuat_infinite_create_clone_fleet_effect = {
     optimize_memory
     fromfrom = {
-        every_owned_ship = {
-            limit = { NOT = { has_ship_flag = kuat_infinite_ship_created_agained } }
-            save_event_target_as = ifinite_copy_ship
-            if = {
-                limit = { NOT = { exists = event_target:kuat_battle_infinite_created_@prev } }
-                create_fleet = {
-                    name = prev
-                    effect = {
-                        set_fleet_flag = kuat_infinite_fleet_created_agained
-                        set_owner = prevprev.owner
-                        create_ship = { 
-                            design = event_target:ifinite_copy_ship 
-                            effect = { 
-                                set_timed_ship_flag = { flag = kuat_infinite_ship_created_agained days = 1 }
-                                copy_flags_and_variables_from = event_target:ifinite_copy_ship 
-                            }
-                        }
-                        save_global_event_target_as = kuat_battle_infinite_created_@prevprev
-                        set_location = { target = prevprev distance = 45 angle = 0 }
-                    }
-                }
+        if = {
+            limit = { has_fleet_flag = Kuat_Rakata_crisis_fleet_and_admiral }
+            create_exe_invasion_fleet = {
+                NAME = Name_DFLEET_II_CLONE
+                is_boss = yes  can_disband = no
+                Fleet_owner = event_target:Infinite_empire
+                bombardment = indiscriminate
+                Infinite_Mothership = @infinite_invasion_flagship_num_T1 Infinite_Battleship = @infinite_invasion_Battleship_num_T2 Infinite_Crusier = @infinite_invasion_BattleCruser_num_T4 DIFF = 0
+                Location = prev DISTANCE = 65 flag = Kuat_Rakata_crisis_fleet_clone
+                Fleet_delayed_action = exe_invasion.2503 DAYS = 30
             }
-            else = { event_target:kuat_battle_infinite_created_@prev = { create_ship = { 
-                design = event_target:ifinite_copy_ship 
-                effect = { 
-                    copy_flags_and_variables_from = event_target:ifinite_copy_ship 
-                    set_timed_ship_flag = { flag = kuat_infinite_ship_created_agained days = 1 }
-                }
-            } } }
-            set_timed_ship_flag = { flag = kuat_infinite_ship_created_agained days = 1 }
         }
-        clear_global_event_target = kuat_battle_infinite_created_@this
+        else_if = {
+            limit = { has_fleet_flag = Kuat_Rakata_crisis_greater_fleet }
+            create_exe_invasion_fleet = {
+                NAME = Name_DFLEET_II_CLONE
+                is_boss = yes  can_disband = no
+                Fleet_owner = event_target:Infinite_empire
+                bombardment = indiscriminate
+                Infinite_Mothership = @infinite_invasion_flagship_num_T1 Infinite_Battleship = @infinite_invasion_Battleship_num_T3 Infinite_Crusier = @infinite_invasion_BattleCruser_num_T5 DIFF = 0
+                Location = prev DISTANCE = 65 flag = Kuat_Rakata_crisis_fleet_clone
+                Fleet_delayed_action = exe_invasion.2503 DAYS = 30
+            }
+        }
+        else_if = {
+            limit = { has_fleet_flag = Kuat_Worldship_Rakata_crisis_greater_fleet }
+            create_exe_invasion_fleet = {
+                NAME = Name_DFLEET_II_CLONE
+                is_boss = yes  can_disband = no
+                Fleet_owner = event_target:Infinite_empire
+                bombardment = indiscriminate
+                Infinite_Mothership = @infinite_invasion_flagship_num_T1 Infinite_Battleship = @infinite_invasion_Battleship_num_T3 Infinite_Crusier = @infinite_invasion_BattleCruser_num_T5 DIFF = 0
+                Location = prev DISTANCE = 65 flag = Kuat_Rakata_crisis_fleet_clone
+                Fleet_delayed_action = exe_invasion.2503 DAYS = 30
+            }
+        }
         set_fleet_flag = kuat_infinite_fleet_created_agained
     }
 }

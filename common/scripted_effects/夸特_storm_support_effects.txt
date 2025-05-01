@@ -2,7 +2,10 @@
 
 kuat_nexus_storm_add = {
 	optimize_memory
-	add_modifier = { modifier = "kuat_starbase_megastructure_around_system" }
+	if = {
+		limit = { NOT = { has_modifier = kuat_starbase_megastructure_around_system } }
+		add_modifier = { modifier = "kuat_starbase_megastructure_around_system" }
+	}
 	set_star_flag = kuat_starbase_megastructure_around_system
 	if = {
 		limit = { any_ship_in_system = { is_ship_size = Drift_megastructure_starbase } }
@@ -18,11 +21,7 @@ kuat_nexus_storm_add = {
 		}
 		last_created_ambient_object = {
 			set_ambient_object_flag = kuat_space_storm_object
-			set_location = {
-				target = prev
-				distance = 0
-				angle = random
-			}
+			set_location = { target = prev distance = 0 angle = random }
 		}
 	}
 }
