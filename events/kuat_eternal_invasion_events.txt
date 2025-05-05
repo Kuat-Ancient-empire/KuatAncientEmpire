@@ -1285,14 +1285,6 @@ country_event = {
 						set = 0
 						has_origin = origin_kuat_apocalyptic
 					}
-					set_country_flag = has_origin_kuat_eternal 
-					remove_country_flag = has_origin_kuat_shadow 
-				}
-				1 = { 
-					modifier = {
-						set = 0
-						has_origin = origin_kuat_apocalyptic
-					}
 					no_events = yes 
 				}
 			}
@@ -1547,6 +1539,10 @@ country_event = {
 				set_fleet_flag = kuat_has_Spt_Flagship_fleet
 			}
 			if = {
+				limit = { kuat_is_flagship_size = { SIZE = eternal_flagship } }
+				set_fleet_flag = kuat_has_Eternal_Flagship_fleet
+			}
+			if = {
 				limit = { kuat_is_flagship_size = { SIZE = Infinite_Mothership } }
 				set_fleet_flag = kuat_has_Infinite_Flagship_fleet
 			}
@@ -1652,8 +1648,19 @@ fleet_event = {
 		}
 		else = { 
 			kuat_battle_remove_executor_power_fleet = yes 
+			every_owned_ship = { 
+				if = {
+					limit = { has_ship_flag = kuat_executor_checkpoint }
+					remove_ship_flag = kuat_executor_checkpoint 
+				}
+				if = {
+					limit = { has_ship_flag = dominence_faction_battle_duplicate_ship }
+					destroy_ship = this
+				}
+			} 
 			remove_fleet_flag = kuat_fleet_checkpoint 
 			remove_fleet_flag = kuat_has_Spt_Flagship_fleet
+			remove_fleet_flag = kuat_has_Eternal_Flagship_fleet
 			remove_fleet_flag = kuat_has_Drift_Flagship_fleet
 			remove_fleet_flag = kuat_has_Infinite_Flagship_fleet
 			remove_fleet_flag = kuat_has_Executor_Flagship_fleet
@@ -1661,10 +1668,6 @@ fleet_event = {
 			remove_fleet_flag = kuat_has_Missle_Flagship_fleet
 			remove_fleet_flag = kuat_has_stricraft_Flagship_fleet
 			clear_variable = kuat_has_stricraft_Flagship_fleet_limited
-			every_owned_ship = { 
-				limit = { has_ship_flag = kuat_executor_checkpoint }
-				remove_ship_flag = kuat_executor_checkpoint 
-			} 
 		}
 	}
 }
@@ -1802,9 +1805,9 @@ country_event = {
 		if = {
 			limit = { exists = fleet }
 			fleet = { random_list = {
-				1 = { create_ship = { design = Name_boss_crisis_HIGH_EMPIRE_BOSS } }
-				1 = { create_ship = { design = Name_criss_boss_Horriwer_BOSS } }
-				1 = { create_ship = { design = Name_criss_boss_Cavelry_BOSS } }
+				1 = { create_ship = { design = Name_boss_crisis_HIGH_EMPIRE_BOSS effect = { set_ship_flag = dominence_faction_battle_duplicate_ship } } }
+				1 = { create_ship = { design = Name_criss_boss_Horriwer_BOSS effect = { set_ship_flag = dominence_faction_battle_duplicate_ship } } }
+				1 = { create_ship = { design = Name_criss_boss_Cavelry_BOSS effect = { set_ship_flag = dominence_faction_battle_duplicate_ship } } }
 			} }
 		}
 		set_timed_ship_flag = { flag = temple_dominence_faction_battle_duplicate_ship days = 1 }
@@ -1841,7 +1844,7 @@ ship_event = {
 			}
 			else_if = { 
 				limit = { kuat_exist_disable_type = yes check_variable = { which = STARBASE_HEALTH_VAR value > 0 } } 
-				kuat_battle_clear_ship_at_health = { REPAIR = yes INVERT_DISABLE = set_disabled WHICH = STARBASE_HEALTH_VAR RELOAD = yes }
+				kuat_battle_clear_ship_at_health = { REPAIR = yes INVERT_DISABLE = set_disabled WHICH = STARBASE_HEALTH_VAR }
 			} 
 			else = { kuat_battle_clear_ship_at_health = { REPAIR = yes INVERT_DISABLE = set_disabled Disable_health = -1 } }
 		}
@@ -1853,7 +1856,7 @@ ship_event = {
 			}
 			else_if = { 
 				limit = { kuat_exist_disable_type = yes check_variable = { which = DRFT_SHIP_HEALTH_VAR value > 0 } } 
-				kuat_battle_clear_ship_at_health = { REPAIR = yes INVERT_DISABLE = set_disabled WHICH = DRFT_SHIP_HEALTH_VAR RELOAD = yes }
+				kuat_battle_clear_ship_at_health = { REPAIR = yes INVERT_DISABLE = set_disabled WHICH = DRFT_SHIP_HEALTH_VAR }
 			} 
 			else = { kuat_battle_clear_ship_at_health = { REPAIR = yes INVERT_DISABLE = set_disabled Disable_health = -1 } }
 		}
@@ -1874,7 +1877,7 @@ ship_event = {
 			}
 			else_if = { 
 				limit = { kuat_exist_disable_type = yes check_variable = { which = KUAT_SHIP_HEALTH_VAR value > 0 } } 
-				kuat_battle_clear_ship_at_health = { REPAIR = yes INVERT_DISABLE = set_disabled WHICH = KUAT_SHIP_HEALTH_VAR RELOAD = yes }
+				kuat_battle_clear_ship_at_health = { REPAIR = yes INVERT_DISABLE = set_disabled WHICH = KUAT_SHIP_HEALTH_VAR }
 			} 
 			else = { kuat_battle_clear_ship_at_health = { REPAIR = yes INVERT_DISABLE = set_disabled Disable_health = -1 } }
 		}
@@ -1886,7 +1889,7 @@ ship_event = {
 			}
 			else_if = { 
 				limit = { kuat_exist_disable_type = yes check_variable = { which = INFINITE_SHIP_HEALTH_VAR value > 0 } } 
-				kuat_battle_clear_ship_at_health = { REPAIR = yes INVERT_DISABLE = set_disabled WHICH = INFINITE_SHIP_HEALTH_VAR RELOAD = yes }
+				kuat_battle_clear_ship_at_health = { REPAIR = yes INVERT_DISABLE = set_disabled WHICH = INFINITE_SHIP_HEALTH_VAR }
 			} 
 			else = { kuat_battle_clear_ship_at_health = { REPAIR = yes INVERT_DISABLE = set_disabled Disable_health = -1 } }
 		}
@@ -1904,7 +1907,7 @@ ship_event = {
 				} 
 				else_if = { 
 					limit = { kuat_exist_disable_type = yes check_variable = { which = ETERNAL_SHIP_HEALTH_VAR value > 0 } } 
-					kuat_battle_clear_ship_at_health = { REPAIR = yes INVERT_DISABLE = set_disabled WHICH = ETERNAL_SHIP_HEALTH_VAR RELOAD = yes }
+					kuat_battle_clear_ship_at_health = { REPAIR = yes INVERT_DISABLE = set_disabled WHICH = ETERNAL_SHIP_HEALTH_VAR }
 				}
 				else = { kuat_battle_clear_ship_at_health = { REPAIR = yes INVERT_DISABLE = set_disabled Disable_health = -1 } }
 			}
@@ -1926,7 +1929,7 @@ ship_event = {
 			}
 			else_if = { 
 				limit = { kuat_exist_disable_type = yes check_variable = { which = KUAT_NONE_SHIP_HEALTH_VAR value > 0 } } 
-				kuat_battle_clear_ship_at_health = { REPAIR = yes INVERT_DISABLE = set_disabled WHICH = KUAT_NONE_SHIP_HEALTH_VAR RELOAD = yes }
+				kuat_battle_clear_ship_at_health = { REPAIR = yes INVERT_DISABLE = set_disabled WHICH = KUAT_NONE_SHIP_HEALTH_VAR }
 			} 
 			else = { kuat_battle_clear_ship_at_health = { REPAIR = yes INVERT_DISABLE = set_disabled Disable_health = -1 } }
 		}
@@ -2167,7 +2170,7 @@ country_event = {
 					1 = { change_variable = { which = kuat_anti_ai_damage_hp_percent value = 8 } }
 					1 = { change_variable = { which = kuat_anti_ai_damage_hp_percent value = 9 } }
 				}
-				kuat_battle_kuat_damage_hp_percent = { value = kuat_anti_ai_damage_hp_percent }
+				kuat_battle_kuat_reduce_hp_percent = { value = kuat_anti_ai_damage_hp_percent }
 				clear_variable = kuat_anti_ai_damage_hp_percent
 			}
 		}
@@ -2258,6 +2261,16 @@ country_event = {
 				} }
 			}
 			fleet = { remove_fleet_flag = kuat_has_Spt_Flagship_fleet } 
+		}
+		if = {
+			limit = { 
+				is_ship_size = eternal_flagship
+				fleet = { count_owned_ship = {
+					count = 0
+					limit = { NOT = { is_same_value = prevprev } is_ship_size = eternal_flagship }
+				} }
+			}
+			fleet = { remove_fleet_flag = kuat_has_Eternal_Flagship_fleet } 
 		}
 		if = {
 			limit = { 

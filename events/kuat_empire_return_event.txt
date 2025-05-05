@@ -171,15 +171,15 @@ country_event = {
 			every_system_planet = {
 				if = {
 					limit = { is_colony = yes }
-					every_owned_pop = { kill_pop = yes }
+					every_owned_pop_group = { kill_pop_group = { pop_group = this } }
 					destroy_colony = yes
 				}
 				if = {
 					limit = { is_planet_class = pc_gaia }
-					every_owned_pop = { kill_pop = yes }
+					every_owned_pop_group = { kill_pop_group = { pop_group = this } }
 					set_controller = event_target:return_kuat_awakening_country
 					set_owner = event_target:return_kuat_awakening_country
-					create_pop = { species = event_target:return_kuat_awakening_country.owner_main_species }
+					create_pop_group = { species = event_target:return_kuat_awakening_country.owner_main_species }
 					add_district = district_city
 				}
 				if = {
@@ -202,7 +202,7 @@ country_event = {
 					change_pc = pc_gaia
 					set_controller = event_target:return_kuat_awakening_country
 					set_owner = event_target:return_kuat_awakening_country
-					create_pop = { species = event_target:return_kuat_awakening_country.owner_main_species }
+					create_pop_group = { species = event_target:return_kuat_awakening_country.owner_main_species }
 					add_district = district_city
 				}
 			}
@@ -644,29 +644,27 @@ country_event = {
 	id = exe_kuat_return.15
 	hide_window = yes
 	is_triggered_only = yes
-	trigger = { 
-		if = {
-			limit = { has_global_flag = has_origin_eternalthrone }
+	trigger = { OR = {
+		AND = {
 			has_global_flag = enable_attack_facility_Area
 			is_country_type = kuat_OverSee_council_awakened_returned_empire
 		}
-		else = { is_country_type = kuat_awakened_returned_empire }
-	}
+		is_country_type = kuat_awakened_returned_empire
+	} }
 	immediate = {
 		if = {
-			limit = { kuat_is_enable_eternal_origin = yes }
+			limit = { from = { kuat_is_enable_eternal_origin = yes } }
 			set_global_flag = eternal_throne_Overseer_Council_defeated_second 
 		}
 		else_if = {
-			limit = { kuat_is_enable_shadow_origin = yes }
+			limit = { from = { kuat_is_enable_shadow_origin = yes } }
 			set_global_flag = under_shadow_kuat_defeated_second 
 			if = {
-				limit = { kuat_is_enable_apocalyptic_origin = yes }
-				country_event = { id = kuat_diplomatic.17 days = 10 random = 20 }
+				limit = { from = { kuat_is_enable_apocalyptic_origin = yes } }
+				from = { country_event = { id = kuat_diplomatic.17 days = 10 random = 20 } }
 			}
 		}
-		every_country = {
-			limit = { is_ai = no }
+		from = {
 			country_event = { id = exe_kuat_return.16 }
 			kuat_create_toasto_message = { KEY = kuat_find_memory_cluds TARGET = this RECIPIENT = this }
 		}
@@ -675,7 +673,7 @@ country_event = {
 			federation = { every_member = { leave_alliance = { override_requirements = yes } } }
 		}
 		clear_global_event_target = kuat_Annihilate_country
-		remove_country_flag = kuat_Annihilate_country
+		from = { remove_country_flag = kuat_Annihilate_country }
 	}
 }
 
@@ -1366,7 +1364,7 @@ country_event = {
 					limit = { is_colonizable = yes }
 					set_controller = event_target:return_kuat_awakening_country
 					set_owner = event_target:return_kuat_awakening_country
-					create_pop = { species = event_target:return_kuat_awakening_country.owner_main_species }
+					create_pop_group = { species = event_target:return_kuat_awakening_country.owner_main_species }
 					add_district = district_city
 				}
 				if = {
@@ -1389,7 +1387,7 @@ country_event = {
 					change_pc = pc_gaia
 					set_controller = event_target:return_kuat_awakening_country
 					set_owner = event_target:return_kuat_awakening_country
-					create_pop = { species = event_target:return_kuat_awakening_country.owner_main_species }
+					create_pop_group = { species = event_target:return_kuat_awakening_country.owner_main_species }
 					add_district = district_city
 				}
 			}
@@ -1745,8 +1743,8 @@ country_event = {
 					limit = { kuat_is_flagship_system_protection = yes }
 					count > 16
 				}
-				exists = event_target:eternal_fleet_country
-				event_target:return_kuat_awakening_country = { check_variable = { which = Count_control_kuat_system value < 2 } }
+				#exists = event_target:eternal_fleet_country
+				check_variable = { which = Count_control_kuat_system value < 2 }
 			} }
 			country_event = { id = kuat_facility_return_invasion.19 days = 120 random = 240 }
 		}
@@ -1754,17 +1752,26 @@ country_event = {
 			country_event = { id = kuat_facility_return_invasion.18 days = 1 random = 7 }
 			country_event = { id = kuat_facility_return_invasion.19 days = 360 random = 360 }
 		}
-		event_target:return_kuat_awakening_country = {
-			set_variable = { which = Count_control_kuat_system value = 0 }
-			export_trigger_value_to_variable = {
-				trigger = count_system
-				parameters = { limit = {
-					kuat_is_kuat_system = yes
-					exists = starbase
-					starbase = { controller = { is_same_value = event_target:return_kuat_awakening_country } }	
+		export_trigger_value_to_variable = {
+			trigger = count_system
+			parameters = { limit = {
+				kuat_is_kuat_system = yes
+				exists = starbase
+				starbase = { controller = { is_same_value = root } }	
+			} }
+			variable = Count_control_kuat_system
+		}
+		if = {
+			limit = { check_variable = { which = Count_control_kuat_system value = 0 } }
+			every_country = {
+				limit = { is_at_war_with = root is_player_country = yes }
+				save_event_target_as = kuat_temple_country_destroyer
+				root = { fire_on_action = { 
+					on_action = on_country_destroyed 
+					scopes = { from = event_target:kuat_temple_country_destroyer } 
 				} }
-				variable = Count_control_kuat_system
 			}
+			destroy_country = yes 
 		}
 	}
 }

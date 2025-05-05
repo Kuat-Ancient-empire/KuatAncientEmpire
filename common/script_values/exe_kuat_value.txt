@@ -42,7 +42,7 @@
 # 		trigger = count_owned_planet
 # 		trigger_scope = owner 		#Lets you get the result of the trigger on a different scope. Default is "this"
 # 		parameters = { 				#Stick any further information necessary in here, like you'd do within the {} of the trigger normally
-# 			limit = { num_pops > 10 }
+# 			limit = { pop_amount > 10 }
 # 		}
 # 		mode = add 					#Allows all numerical operations
 # 		mult = 5 					#Multiplies the outcome by this. In this example, this means adding 5 for each planet with more than 10 pops
@@ -59,6 +59,12 @@ kuat_superlazer_weapon_damage_factor_ship_base = {
 	add = $kuat_value$
 	min = 1
 }
+kuat_superlazer_weapon_damage_multfactor_ship_base = {
+	base = 0
+	add = 1
+	subtract = $kuat_value$
+	min = 1
+}
 kuat_superlazer_weapon_damage_factor_standard = {
 	base = 0
 	add = $kuat_damage_max$
@@ -67,6 +73,7 @@ kuat_superlazer_weapon_damage_factor_standard = {
 kuat_superlazer_weapon_damage_factor_tags = {
 	base = 0
 	add = 1
+	subtract = modifier:ship_damage_reduction_add
 	add = modifier:ship_weapon_damage
 	add = modifier:$kuat_slot$_slot_weapon_damage_mult
 	add = modifier:shipclass_military_damage_mult
@@ -86,6 +93,7 @@ kuat_superlazer_weapon_damage_factor_ship = {
 	divide = $kuat_weapon_damage_buff$
 	subtract = value:kuat_superlazer_weapon_damage_factor_tags|kuat_slot|$kuat_slot$|kuat_energy|$kuat_energy$|kuat_kinetic|$kuat_kinetic$|kuat_explosive|$kuat_explosive$|kuat_drftweapon|$kuat_drftweapon$|kuat_superlazer|$kuat_superlazer$|
 	divide = modifier:kuat_superlazer_symbol
+	divide = value:kuat_superlazer_weapon_damage_multfactor_ship_base|kuat_value|modifier:ship_damage_reduction_mult|
 	min = 0
 	max = value:kuat_superlazer_weapon_damage_factor_standard|kuat_damage_max|$kuat_damage_max$|kuat_damage_base|$kuat_damage_base$|
 }
@@ -101,6 +109,7 @@ kuat_auto_adjust_damage_weapon_total = {
 	add = value:kuat_superlazer_weapon_damage_factor_tags|kuat_slot|$kuat_slot$|kuat_energy|$kuat_energy$|kuat_kinetic|$kuat_kinetic$|kuat_explosive|$kuat_explosive$|kuat_drftweapon|$kuat_drftweapon$|kuat_superlazer|$kuat_superlazer$|
 	mult = value:kuat_superlazer_weapon_damage_factor_ship_base|kuat_value|$kuat_ship_damage_buff$|
 	mult = value:kuat_superlazer_weapon_damage_factor_ship_base|kuat_value|modifier:ship_hull_damage_mult|
+	mult = value:kuat_superlazer_weapon_damage_multfactor_ship_base|kuat_value|modifier:ship_damage_reduction_mult|
 	mult = $kuat_weapon_damage_buff$
 	divide = modifier:$MODIFIER$
 	min = 0
@@ -222,12 +231,14 @@ kuat_dynamic_exist_commandline = {
 kuat_dynamic_exist_life_times_base_difficultly_factor = {
 	base = 1
 	add = event_target:global_event_country.kuat_dynamic_modifier_var 
-	modifier = { mult = 0.5 owner = { is_galatic_empire = yes } }
-	modifier = { mult = 1.0 owner = { is_eternal_faction = yes } }
-	modifier = { mult = 1.5 owner = { is_infinite_faction = yes } }
-	modifier = { mult = 2.0 owner = { is_kuat_contractor_faction = yes } }
-	modifier = { mult = 2.0 is_ship_class = shipclass_starbase }
-	modifier = { mult = 2.0 has_ship_flag = kuat_contractor_super_capital_fleet }
+	modifier = { mult = 1 owner = { is_kuat_fallen_empire = yes } }
+	modifier = { mult = 1 owner = { is_eternal_faction = yes } }
+	modifier = { mult = 2 owner = { is_kuat_Overseer_Council_empire = yes } }
+	modifier = { mult = 2 owner = { is_infinite_faction = yes } }
+	modifier = { mult = 3 owner = { is_kuat_contractor_faction = yes } }
+	modifier = { mult = 2 is_ship_class = shipclass_starbase }
+	modifier = { mult = 2 has_ship_flag = kuat_contractor_super_capital_fleet }
+	max = 9000000
 }
 kuat_dynamic_exist_life_times_none_invisable_faction = {
 	base = 0
@@ -235,9 +246,10 @@ kuat_dynamic_exist_life_times_none_invisable_faction = {
 	modifier = { add = 6 has_global_flag = normal_exe_invasion }
 	modifier = { add = 4 has_global_flag = difficult_exe_invasion }
 	modifier = { add = 2 has_global_flag = ban_exe_invasion }
-	modifier = { mult = 4 OR = { is_ship_size = Drift_Crusier is_ship_size = Spt_Crusier is_ship_size = Infinite_crusier } }
-	modifier = { mult = 8 OR = { is_ship_size = Drift_Battleship is_ship_size = Spt_Battleship is_ship_size = Infinite_battleship } }
-	modifier = { mult = 3 is_ship_class = shipclass_starbase }
+	modifier = { mult = 2 OR = { is_ship_size = Drift_Crusier is_ship_size = Spt_Crusier is_ship_size = Infinite_crusier } }
+	modifier = { mult = 4 OR = { is_ship_size = Drift_Battleship is_ship_size = Spt_Battleship is_ship_size = Infinite_battleship is_ship_size = eternal_battleship } }
+	modifier = { mult = 8 OR = { is_ship_size = Drift_Flagship is_ship_size = Spt_Flagship is_ship_size = Infinite_Mothership is_ship_size = eternal_flagship } }
+	modifier = { mult = 8 is_ship_class = shipclass_starbase }
 }
 kuat_dynamic_exist_life_times = {
 	base = 0
@@ -393,6 +405,10 @@ kuat_system_support_variable = {
 	modifier = {
 		mult = 2
 		any_fleet_in_system = { has_fleet_flag = kuat_station_player }
+	}
+	modifier = {
+		mult = 2
+		has_star_flag = kuat_mega_starbase_stormed_larged
 	}
 	min = 0
 }

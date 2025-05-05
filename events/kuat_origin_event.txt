@@ -34,13 +34,10 @@ country_event = {
 				remove_star_flag = ring_world_built
 				set_star_flag = empire_cluster
 			}
-			every_owned_pop = {
-				resettle_pop = {
-					pop = this
-					planet = event_target:new_home_planet
-				}
-				unemploy_pop = yes
-			}
+			every_owned_pop_group = { resettle_pop_group = {
+				POP_GROUP = this
+				PLANET = event_target:new_home_planet
+			} }
 		}
 		add_modifier = { modifier = being_kuat days = -1 }
 		kuat_orgin_initial_starbase_kuat_system = yes
@@ -80,11 +77,7 @@ country_event = {
 				add_building = building_kuat_resource_center
 				add_building = building_kuat_resource_center
 				add_building = building_kuat_resource_center
-				add_building = building_kuat_resource_center
-				add_building = building_kuat_resource_center
-				add_building = building_kuat_resource_center
-				add_building = building_kuat_resource_center
-				while = { count = 122 create_pop = { species = owner_main_species } }
+				while = { count = 100 create_pop_group = { species = owner_main_species } }
 				while = { count = 70 add_district = district_city }
 			}
 		}
@@ -105,7 +98,7 @@ country_event = {
 			}
 			remove_planet = yes
 		}
-		every_owned_pop_species = { set_species_homeworld = event_target:new_home_planet }
+		every_owned_pop_group_species = { set_species_homeworld = event_target:new_home_planet }
 		event_target:new_home_system_loc = {
 			create_fleet = {
 				effect = {
@@ -166,6 +159,7 @@ country_event = {
 			}
 			set_owner = root
 			set_controller = root
+			remove_all_districts = yes
 			remove_all_buildings = yes
 			add_building = building_kuat_command_center
 			add_building = building_kuat_databank
@@ -179,11 +173,7 @@ country_event = {
 			add_building = building_kuat_resource_center
 			add_building = building_kuat_resource_center
 			add_building = building_kuat_resource_center
-			add_building = building_kuat_resource_center
-			add_building = building_kuat_resource_center
-			add_building = building_kuat_resource_center
-			add_building = building_kuat_resource_center
-			while = { count = 122 create_pop = { species = owner_main_species } }
+			while = { count = 100 create_pop_group = { species = owner_main_species } }
 			while = { count = 70 add_district = district_city }
 		}
 		country_event = { id = kuat_origin.7 days = 1 }
@@ -236,16 +226,16 @@ country_event = {
 				set_capital = yes
 			}
 			event_target:previous_home_planet = {
-				every_owned_pop = {
-					resettle_pop = {
-						pop = this
-						planet = event_target:new_home_planet
+				every_owned_pop_group = {
+					resettle_pop_group = {
+						POP_GROUP = this
+						PLANET = event_target:new_home_planet
 					}
 				}
 				remove_planet = yes
 			}
 		}
-		capital_scope = { every_owned_pop = { unemploy_pop = yes } }
+		capital_scope = { every_owned_pop_group = { unemploy_pop = yes } }
 		every_planet_within_border = {
 			limit = {
 				has_deposit_for = shipclass_mining_station
@@ -275,7 +265,7 @@ country_event = {
 				every_fleet_in_system = { delete_fleet = this }
 				every_system_planet = {
 					limit = { is_colony = yes }
-					every_owned_pop = { kill_pop = yes }
+					every_owned_pop_group = { kill_pop_group = { pop_group = this } }
 					remove_all_buildings = yes
 					remove_all_districts = yes
 					destroy_colony = yes

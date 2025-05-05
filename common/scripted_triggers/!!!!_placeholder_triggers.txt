@@ -33,6 +33,9 @@ ag_is_ancient_system = { always = no }
 
 ag_is_ancient_titan_alt = { always = no }
 ag_is_buildable_ancient_ship = { always = no }
+ag_is_kuat_flagship = { always = no }
+ag_is_kuat_sub_flagship = { always = no }
+ag_is_standard_ship = { always = no }
 ###_|不明|	####################################################################
 is_socialism = { always = no }
 is_capitalism = { always = no }
@@ -183,16 +186,23 @@ has_apsr_modifiers = { always = no }
 ###	PR总人数
 # value:PR_sv_plnt_HC
 # PR_flg_plnt_VALID
-#_用法提示	可替换所有<星球域>和<国家域>的|num_pops|
-#			如果是星球域, "num_pops > X"	"num_pops >= X"	替换为	"PR_prmt_trgr_HC = { MORE = X }"
-#			如果是星球域, "num_pops < X"	"num_pops <= X"	替换为	"PR_prmt_trgr_HC = { LESS = X }"
+#_用法提示	可替换所有<星球域>和<国家域>的|pop_amount|
+#			如果是星球域, "pop_amount > X"	"pop_amount >= X"	替换为	"PR_prmt_trgr_HC = { MORE = X }"
+#			如果是星球域, "pop_amount < X"	"pop_amount <= X"	替换为	"PR_prmt_trgr_HC = { LESS = X }"
 #			如果是国家域, 括号中再添加一个	SCOPE = cntr
-#			如果是"num_pops ? X", X<5, 那么可以不替换, 影响不大
+#			如果是"pop_amount ? X", X<5, 那么可以不替换, 影响不大
 #_prmt	|MORE/LESS/SCOPE|
 PR_prmt_trgr_HC = {
-	[[MORE] num_pops > $MORE$ ]
-	[[LESS] num_pops < $LESS$ ]
+	[[MORE] pop_amount > $MORE$ ]
+	[[LESS] pop_amount < $LESS$ ]
 	[[SCOPE] NOT = { is_variable_set = $SCOPE$ } ]
+}
+
+kuat_is_addon_ship = {
+	OR = {
+		is_ship_size = Airpernia
+		is_ship_size = Airpernia_titan
+	}
 }
 
 KZ_VOY_kuat_ban_command_center_auto = { always = no }
