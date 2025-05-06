@@ -209,7 +209,7 @@ PixelShader =
 			vColor *= 1.0f - ( 0.25f * saturate( (vDist-vMid + vBlackBorderWidth)*vBlackBorderSharpness ) );
 			vColor[3] = saturate(vAlphaEdge + vAlphaFill) * vAlphaOuterEdge;
 
-			//Fade out based on Terra Incognita
+			// Fade out based on Terra Incognita
 			float2 vTIUV = ( v.vPos.xy + GALAXY_SIZE * 0.5f ) / GALAXY_SIZE;
 			vColor.a *= tex2D( TerraIncognitaTexture, vTIUV ).a;
 			
