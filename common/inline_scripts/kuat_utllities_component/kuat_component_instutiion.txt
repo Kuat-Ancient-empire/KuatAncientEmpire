@@ -8,7 +8,6 @@ scripted_action = {
 
 	button_clickable = {
 		custom_tooltip = {
-			NOT = { has_fleet_flag = kuat_mega_starbase_stormed_activated }
 			kuat_is_mega_starbase = yes
 		}
 	}
@@ -24,34 +23,6 @@ scripted_action = {
 
 	shortcut = "SHIFT+Q"
 	slot = 1
-}
-
-#收回补给风暴
-scripted_action = {
-	scope = self
-
-	button_visible = {
-		kuat_is_mega_starbase = yes
-	}
-
-	button_clickable = {
-		custom_tooltip = {
-			has_fleet_flag = kuat_mega_starbase_stormed_activated
-			kuat_is_mega_starbase = yes
-		}
-	}
-
-	name = on_kuat_mega_starbase_stormed_closed_activated
-	tooltip = kuat_mega_starbase_stormed_closed_button
-	icon = GFX_fleet_order_button_build_wormhole_station
-	icon_selected = GFX_fleet_order_button_build_wormhole_station_selected
-	activity_key = kuat_mega_starbase_stormed_closed_activity_key
-	context_menu_name = kuat_mega_starbase_stormed_closed_menu_title
-	progress_activity_key = kuat_mega_starbase_stormed_closed_progress_activity_key
-	cooldown = 1
-
-	shortcut = "SHIFT+W"
-	slot = 2
 }
 
 #补给超频
@@ -77,9 +48,9 @@ scripted_action = {
 	context_menu_name = kuat_mega_starbase_stormed_larged_menu_title
 	progress_activity_key = kuat_mega_starbase_stormed_larged_progress_activity_key
 	cooldown = 480
-
-	shortcut = "SHIFT+E"
-	slot = 3
+	cost = { alloys = 1000000 }
+	shortcut = "SHIFT+W"
+	slot = 2
 }
 
 #自爆
@@ -98,15 +69,15 @@ scripted_action = {
 
 	name = on_kuat_mega_starbase_stormed_explode_activated
 	tooltip = kuat_mega_starbase_stormed_explode_button
-	icon = GFX_fleet_order_button_ground_support_armageddon
-	icon_selected = GFX_fleet_order_button_ground_support_armageddon
+	icon = GFX_fleet_order_blow_up_planet_action
+	icon_selected = GFX_fleet_order_blow_up_planet_selected
 	activity_key = kuat_mega_starbase_stormed_explode_activity_key
 	context_menu_name = kuat_mega_starbase_stormed_explode_menu_title
 	progress_activity_key = kuat_mega_starbase_stormed_explode_progress_activity_key
 	cooldown = 1800
-
-	shortcut = "SHIFT+R"
-	slot = 4
+	cost = { alloys = 1000000 }
+	shortcut = "SHIFT+E"
+	slot = 3
 }
 
 #不完全自爆
@@ -125,13 +96,41 @@ scripted_action = {
 
 	name = on_kuat_mega_starbase_stormed_calling_activated
 	tooltip = kuat_mega_starbase_stormed_calling_button
-	icon = GFX_fleet_order_auto_construct
+	icon = GFX_fleet_action_button_assist_detection_selected
 	icon_selected = GFX_fleet_order_auto_construct_selected
 	activity_key = kuat_mega_starbase_stormed_calling_activity_key
 	context_menu_name = kuat_mega_starbase_stormed_calling_menu_title
 	progress_activity_key = kuat_mega_starbase_stormed_calling_progress_activity_key
 	cooldown = 30
+	cost = { alloys = 500000 }
+	shortcut = "SHIFT+R"
+	slot = 4
+}
 
-	shortcut = "SHIFT+T"
+#刷新舰队
+scripted_action = {
+	scope = self
+
+	button_visible = {
+		kuat_is_mega_starbase = yes
+	}
+
+	button_clickable = {
+		custom_tooltip = {
+			has_fleet_flag = kuat_mega_starbase_stormed_activated
+			kuat_is_mega_starbase = yes
+		}
+	}
+
+	name = on_kuat_mega_starbase_stormed_closed_activated
+	tooltip = kuat_mega_starbase_stormed_closed_button
+	icon = GFX_fleet_order_button_rally_armies_off
+	icon_selected = GFX_fleet_order_button_rally_armies_on
+	activity_key = kuat_mega_starbase_stormed_closed_activity_key
+	context_menu_name = kuat_mega_starbase_stormed_closed_menu_title
+	progress_activity_key = kuat_mega_starbase_stormed_closed_progress_activity_key
+	cooldown = 300
+	cost = { alloys = 1000000 }
+	shortcut = "SHIFT+S"
 	slot = 5
 }
