@@ -784,7 +784,7 @@ kuat_automatic_ai_colony = {
 		limit = { has_planet_flag = PR_flg_plnt_VALID }
 		set_variable = { which = planet_production_array_base value = value:PR_sv_plnt_HC }
 	}
-	else = { set_variable = { which = planet_production_array_base value = trigger:pop_amount } }
+	else = { set_variable = { which = planet_production_array_base value = trigger:kuat_pop_group } }
 
 	set_variable = { which = planet_production_array_pop_speed_total value = 0 }
 	
@@ -966,15 +966,15 @@ kuat_reset_auto_colony_variable = {
 		}
 	}
 	if = {
-		limit = { NOT = { pop_amount = 10 } NOT = { has_planet_flag = PR_flg_plnt_VALID } }
-		set_variable = { which = planet_temple_return_pop value = trigger:pop_amount }
+		limit = { NOT = { kuat_pop_group = 10 } NOT = { has_planet_flag = PR_flg_plnt_VALID } }
+		set_variable = { which = planet_temple_return_pop value = trigger:kuat_pop_group }
 		subtract_variable = { which = planet_temple_return_pop value = 10 }
 		multiply_variable = { which = planet_temple_return_pop value = -1 }
 		if = {
 			limit = { check_variable = { which = planet_temple_return_pop value > 0 } }
 			while = { 
 				count = planet_temple_return_pop create_pop_group = { species = owner_main_species } 
-				subtract_variable = { which = planet_production_array value = 5 }
+				subtract_variable = { which = planet_production_array value = 10 }
 			}
 		}
 		else_if = {
