@@ -77,13 +77,22 @@ ship_event = {
 	is_triggered_only = yes
 
 	trigger = {
-		owner = { is_kuat_contractor_faction = no }
 		exists = event_target:kuat_contractor_support
 		from = { has_star_flag = kuat_ded_white_hole_clock }
 	}
 
 	immediate = {
-		fleet = { destroy_fleet = { target = this destroy_template = yes kill_leader = no } }
+		if = {
+			limit = { exists = owner owner = { is_kuat_contractor_faction = no } }
+			fleet = { destroy_fleet = { target = this destroy_template = yes kill_leader = no } }
+		}
+		else = {
+			random_rim_system = {
+				limit = { NOT = { is_same_value = root.from } }
+				save_event_target_as = kuat_temple_target
+			}
+			fleet = { set_location = event_target:kuat_temple_target }
+		}
 	}
 }
 
@@ -1351,6 +1360,48 @@ country_event = {
 		name = kuat_extramonster.39.c.1 
 		trigger = { check_variable = { which = kuat_white_hole_star_enable value = 3 } }
 		response_text = kuat_extramonster.39.c.1.resp
+		hidden_effect = {
+			if = {
+				limit = { exists = event_target:kuat_contractor_support }
+				event_target:kuat_contractor_support = {
+					set_global_flag = kuat_ded_contractor_hostile_destroyed
+					set_country_type = kuat_contractor_support
+					set_faction_hostility = {
+						target = event_target:kuat_contractor_hostile
+						set_friendly = no set_hostile = yes set_neutral = no
+					}
+					every_system = {
+						limit = { has_star_flag = myst_system_5 }
+						remove_star_flag = ag_no_jump_in_system
+						remove_star_flag = kuat_ded_white_hole_clock
+					}
+					if = {
+						limit = { NOT = { exists = event_target:kuat_contractor_hostile } }
+						every_owned_fleet = {
+							limit = { has_fleet_flag = kuat_contractor_invasion_fleet }
+							clear_orders = yes
+							clear_fleet_actions = this
+						}
+					}
+					else = {
+						every_owned_fleet = {
+							limit = { has_fleet_flag = kuat_contractor_invasion_fleet }
+							clear_orders = yes
+							clear_fleet_actions = this
+							set_location = event_target:will_be_add_habitable_plague
+						}
+					}
+				}
+				every_country = {
+					limit = { NOR = {
+						is_same_value = event_target:kuat_contractor_hostile
+						has_country_flag = trigger_kuat_contractor_hostile_event_temple
+					} }
+					set_timed_country_flag = { flag = trigger_kuat_contractor_hostile_event_temple days = 1 }
+					country_event = { id = kuat_extramonster.352 }
+				}
+			}
+		}
 	}
 
 	#4
@@ -1438,46 +1489,6 @@ country_event = {
 				change_pc = pc_black_hole
 			}
 			set_star_flag = kuat_white_hole_rainforce_disable
-		}
-		if = {
-			limit = { exists = event_target:kuat_contractor_support }
-			event_target:kuat_contractor_support = {
-				set_global_flag = kuat_ded_contractor_hostile_destroyed
-				set_country_type = kuat_contractor_support
-				set_faction_hostility = {
-					target = event_target:kuat_contractor_hostile
-					set_friendly = no set_hostile = yes set_neutral = no
-				}
-				every_system = {
-					limit = { has_star_flag = myst_system_5 }
-					remove_star_flag = ag_no_jump_in_system
-					remove_star_flag = kuat_ded_white_hole_clock
-				}
-				if = {
-					limit = { NOT = { exists = event_target:kuat_contractor_hostile } }
-					every_owned_fleet = {
-						limit = { has_fleet_flag = kuat_contractor_invasion_fleet }
-						clear_orders = yes
-						clear_fleet_actions = this
-					}
-				}
-				else = {
-					every_owned_fleet = {
-						limit = { has_fleet_flag = kuat_contractor_invasion_fleet }
-						clear_orders = yes
-						clear_fleet_actions = this
-						set_location = event_target:will_be_add_habitable_plague
-					}
-				}
-			}
-			every_country = {
-				limit = { NOR = {
-					is_same_value = event_target:kuat_contractor_hostile
-					has_country_flag = trigger_kuat_contractor_hostile_event_temple
-				} }
-				set_timed_country_flag = { flag = trigger_kuat_contractor_hostile_event_temple days = 1 }
-				country_event = { id = kuat_extramonster.352 }
-			}
 		}
 		if = {
 			limit = {  

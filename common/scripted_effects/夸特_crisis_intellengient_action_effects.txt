@@ -80,7 +80,10 @@ kuat_exe_invasion_fleet_wandering_action = {
 		#周围星系随机设置目标
 		75 = {
 			solar_system = { random_neighbor_system = {
-				limit = { prevprev = { can_access_system = prev } }
+				limit = { 
+					prevprev = { can_access_system = prev } 
+					kuat_is_invisable_target_system = no
+				}
 				save_event_target_as = $TYPE$_invasion_fleet_wandering_action_target
 			} }
 			if = {
@@ -92,6 +95,7 @@ kuat_exe_invasion_fleet_wandering_action = {
 			else_if = {
 				limit = { any_system = {
 					prev = { can_access_system = prev }
+					kuat_is_invisable_target_system = no
 				} }
 				random_system = {
 					limit = { prev = { can_access_system = prev } }
@@ -119,6 +123,7 @@ kuat_exe_invasion_fleet_wandering_action = {
 			clear_variable = $TYPE$_fleet_none_target_var
 			random_system = {
 				limit = {
+					kuat_is_invisable_target_system = no
 					NOT = { is_same_value = prev.solar_system }
 					OR = {
 						AND = {
@@ -162,7 +167,10 @@ kuat_exe_invasion_fleet_wandering_action = {
 			} 
 			else = {
 				solar_system = { random_neighbor_system = {
-					limit = { prevprev = { can_access_system = prev } }
+					limit = { 
+						prevprev = { can_access_system = prev } 
+						kuat_is_invisable_target_system = no
+					}
 					save_event_target_as = $TYPE$_invasion_fleet_wandering_action_target
 				} }
 				if = {
@@ -174,6 +182,7 @@ kuat_exe_invasion_fleet_wandering_action = {
 				else_if = {
 					limit = { any_system = {
 						prev = { can_access_system = prev }
+						kuat_is_invisable_target_system = no
 					} }
 					random_system = {
 						limit = { prev = { can_access_system = prev } }
@@ -261,30 +270,36 @@ kuat_exe_invasion_fleet_action = {
 	# 寻找周围星系有无敌对单位
 	else_if = {
 		limit = {
-			solar_system = { any_neighbor_system = { OR = {
-				AND = {
-					exists = starbase
-					starbase = { exists = owner owner = { is_hostile = event_target:$OWNER$ } }
-				}
-				any_ship_in_system = {
-					exists = owner
-					owner = { is_hostile = event_target:$OWNER$ }
-					is_disabled = no is_ship_class = shipclass_military
-				}
-			} } }
+			solar_system = { any_neighbor_system = {  
+				OR = {
+					AND = {
+						exists = starbase
+						starbase = { exists = owner owner = { is_hostile = event_target:$OWNER$ } }
+					}
+					any_ship_in_system = {
+						exists = owner
+						owner = { is_hostile = event_target:$OWNER$ }
+						is_disabled = no is_ship_class = shipclass_military
+					}
+				}	
+				kuat_is_invisable_target_system = no
+			} }
 		}
 		solar_system = { random_neighbor_system = {
-			limit = { OR = {
-				AND = {
-					exists = starbase
-					starbase = { exists = owner owner = { is_hostile = event_target:$OWNER$ } }
-				}
-				any_ship_in_system = {
-					exists = owner
-					owner = { is_hostile = event_target:$OWNER$ }
-					is_disabled = no is_ship_class = shipclass_military
-				}
-			} }
+			limit = {  
+				OR = {
+					AND = {
+						exists = starbase
+						starbase = { exists = owner owner = { is_hostile = event_target:$OWNER$ } }
+					}
+					any_ship_in_system = {
+						exists = owner
+						owner = { is_hostile = event_target:$OWNER$ }
+						is_disabled = no is_ship_class = shipclass_military
+					}
+				}	
+				kuat_is_invisable_target_system = no
+			}
 			system_star = { prevprevprev = { auto_move_to_planet = { target = prev clear_auto_move_on_arrival = yes } } }
 		} }
 	}
@@ -425,6 +440,7 @@ kuat_exe_invasion_fleet_action = {
 								} }
 							}
 						}
+						kuat_is_invisable_target_system = no
 						prev = { can_access_system = prev }
 					}
 					save_event_target_as = $TYPE$_invasion_fleet_action_target
@@ -499,6 +515,7 @@ kuat_exe_invasion_fleet_action = {
 									} }
 								}
 							}
+							kuat_is_invisable_target_system = no
 						}
 						save_event_target_as = $TYPE$_invasion_fleet_action_target
 					}
@@ -578,6 +595,7 @@ kuat_exe_invasion_fleet_action = {
 								} }
 							}
 						}
+						kuat_is_invisable_target_system = no
 						prev = { can_access_system = prev }
 					}
 					save_event_target_as = $TYPE$_invasion_fleet_action_target
@@ -657,6 +675,7 @@ kuat_exe_invasion_fleet_action = {
 									} }
 								}
 							}
+							kuat_is_invisable_target_system = no
 						}
 						save_event_target_as = $TYPE$_invasion_fleet_action_target
 					}
@@ -716,6 +735,7 @@ kuat_exe_invasion_fleet_action = {
 							owner = { is_hostile = event_target:$OWNER$ }
 							is_disabled = no is_ship_class = shipclass_military
 						}
+						kuat_is_invisable_target_system = no
 						prev = { can_access_system = prev }
 					}
 					save_event_target_as = $TYPE$_invasion_fleet_action_target
@@ -745,6 +765,7 @@ kuat_exe_invasion_fleet_action = {
 								owner = { is_hostile = event_target:$OWNER$ }
 								is_disabled = no is_ship_class = shipclass_military
 							}
+							kuat_is_invisable_target_system = no
 						}
 						save_event_target_as = $TYPE$_invasion_fleet_action_target
 					}
@@ -783,6 +804,7 @@ kuat_exe_invasion_fleet_action = {
 							owner = { is_hostile = event_target:$OWNER$ }
 							is_disabled = no is_ship_class = shipclass_military
 						}
+						kuat_is_invisable_target_system = no
 						prev = { can_access_system = prev }
 					}
 					save_event_target_as = $TYPE$_invasion_fleet_action_target
@@ -818,6 +840,7 @@ kuat_exe_invasion_fleet_action = {
 								owner = { is_hostile = event_target:$OWNER$ }
 								is_disabled = no is_ship_class = shipclass_military
 							}
+							kuat_is_invisable_target_system = no
 						}
 						save_event_target_as = $TYPE$_invasion_fleet_action_target
 					}
