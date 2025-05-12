@@ -787,7 +787,7 @@ kuat_automatic_ai_colony = {
 		limit = { has_planet_flag = PR_flg_plnt_VALID }
 		set_variable = { which = planet_production_array_base value = value:PR_sv_plnt_HC }
 	}
-	else = { set_variable = { which = planet_production_array_base value = trigger:kuat_pop_group } }
+	else = { set_variable = { which = planet_production_array_base value = value:kuat_pop_amount } }
 
 	set_variable = { which = planet_production_array_pop_speed_total value = 0 }
 	
@@ -902,7 +902,7 @@ kuat_automatic_ai_colony = {
 	}
 
 	set_owner = event_target:changing_country
-	while = { count = 10 create_pop_group = { species = owner_main_species } }
+	create_pop_group = { size = 1000 species = owner_main_species }
 	add_modifier = { modifier = planet_population_control }
 	add_modifier = { modifier = planet_population_control_gestalt }
 	add_modifier = { modifier = planet_robot_assembly_control }
@@ -930,53 +930,56 @@ kuat_reset_auto_colony_variable = {
 		add_building = {
 			district = district_arcology_kuat_housing
 			building = building_kuat_command_center_auto
-			zone = zone_kuat_city
+			zone = zone_kuat_city_auto
 		}
 		add_building = {
 			district = district_arcology_kuat_housing
 			building = building_kuat_databank_auto
-			zone = zone_kuat_city
+			zone = zone_kuat_city_auto
 		}
 		add_building = {
 			district = district_arcology_eternal_Khaydarin
 			building = building_kuat_ancient_databank_auto
-			zone = slot_kuat_eternal_Khaydarin
+			zone = slot_kuat_eternal_Khaydarin_auto
 		}
 		add_building = {
 			district = district_arcology_kuat_Military
 			building = building_kuat_foundry_auto
-			zone = zone_kuat_Military
+			zone = zone_kuat_Military_auto
 		}
 		add_building = {
 			district = district_arcology_kuat_Military
 			building = building_kuat_resource_center_auto
-			zone = zone_kuat_Military
+			zone = zone_kuat_Military_auto
 		}
 		add_building = {
 			district = district_arcology_kuat_science
 			building = building_kuat_shield_auto
-			zone = zone_kuat_science
+			zone = zone_kuat_science_auto
 		}
 		add_building = {
 			district = district_arcology_kuat_Khaydarin
 			building = building_kuat_ground_yards_auto
-			zone = zone_kuat_Khaydarin
+			zone = zone_kuat_Khaydarin_auto
 		}
 		add_building = {
 			district = district_arcology_Kuat_civilian_industry
 			building = building_kuat_research_center_auto
-			zone = slot_kuat_industry
+			zone = zone_kuat_industry_auto
 		}
 	}
 	if = {
-		limit = { NOT = { kuat_pop_group = 10 } NOT = { has_planet_flag = PR_flg_plnt_VALID } }
-		set_variable = { which = planet_temple_return_pop value = trigger:kuat_pop_group }
+		limit = {  
+			NOT = { check_variable_arithmetic = { which = value:kuat_pop_amount value = 10 } }
+			NOT = { has_planet_flag = PR_flg_plnt_VALID } 
+		}
+		set_variable = { which = planet_temple_return_pop value = value:kuat_pop_amount }
 		subtract_variable = { which = planet_temple_return_pop value = 10 }
 		multiply_variable = { which = planet_temple_return_pop value = -1 }
 		if = {
 			limit = { check_variable = { which = planet_temple_return_pop value > 0 } }
 			while = { 
-				count = planet_temple_return_pop create_pop_group = { species = owner_main_species } 
+				count = planet_temple_return_pop create_pop_group = { size = 100 species = owner_main_species } 
 				subtract_variable = { which = planet_production_array value = 10 }
 			}
 		}
@@ -984,7 +987,7 @@ kuat_reset_auto_colony_variable = {
 			limit = { check_variable = { which = planet_temple_return_pop value < 0 } }
 			multiply_variable = { which = planet_temple_return_pop value = -1 }
 			while = { 
-				count = planet_temple_return_pop random_owned_pop_group = { kill_pop_group = { pop_group = this percentage = 1 } } 
+				count = planet_temple_return_pop random_owned_pop_group = { kill_pop_group = { pop_group = this amount = 100 } } 
 				change_variable = { which = planet_production_array value = 10 }
 			}
 		}
