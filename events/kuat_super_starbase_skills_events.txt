@@ -58,20 +58,6 @@ fleet_event = {
 	is_triggered_only = yes
 
 	trigger = {
-		kuat_is_mega_starbase = yes
-	}
-
-	immediate = {
-		create_starbase_invasion_battle_fleet = yes
-	}
-}
-
-fleet_event = {
-	id = kuat_starbase_skills.3
-	hide_window = yes
-	is_triggered_only = yes
-
-	trigger = {
 		any_owned_ship = {
 			any_cosmic_storm = {
 				has_storm_flag = storm_kuat_support_nexus_storm_exe_megastructure_starbase_@prev
@@ -90,100 +76,30 @@ fleet_event = {
 }
 
 fleet_event = {
+	id = kuat_starbase_skills.3
+	hide_window = yes
+	is_triggered_only = yes
+
+	trigger = {
+		kuat_is_mega_starbase = yes
+	}
+
+	immediate = {
+		create_starbase_super_invasion_battle_fleet = yes
+	}
+}
+
+fleet_event = {
 	id = kuat_starbase_skills.4
 	hide_window = yes
 	is_triggered_only = yes
 
 	trigger = {
-		exists = owner
+		kuat_is_mega_starbase = yes
 	}
 
 	immediate = {
-		random_owned_ship = {
-			if = {
-				limit = { OR = {
-					is_ship_size = exe_megastructure_starbase 
-					is_ship_size = Drift_megastructure_starbase
-				} }
-				solar_system = {
-					set_star_class = sc_black_hole
-					star = {
-						create_ambient_object = { type = "star_explosion" play_animation_once = yes location = this }
-						change_pc = pc_black_hole
-						set_planet_size = 18
-					}
-				}
-			}
-			if = {
-				limit = { is_ship_size = exe_megastructure_starbase }
-				every_cosmic_storm = { 
-					limit = { has_storm_flag = storm_kuat_support_nexus_storm_exe_megastructure_starbase_@prev } 
-					destroy_cosmic_storm = yes 
-				}
-			}
-			else_if = {
-				limit = { is_ship_size = Drift_megastructure_starbase }
-				every_cosmic_storm = { 
-					limit = { has_storm_flag = storm_kuat_support_celestic_storm_Drift_megastructure_starbase_@prev } 
-					destroy_cosmic_storm = yes 
-				}
-			}
-			else = {
-				every_cosmic_storm = { 
-					limit = { has_storm_flag = storm_kuat_support_particle_storm_swfo_supremacy_@prev } 
-					destroy_cosmic_storm = yes 
-				}
-			}
-		}
-		owner = { country_event = { id = kuat_starbase_skills.41 scopes = { from = root.solar_system fromfrom = root } } }
-	}
-}
-
-country_event = {
-	id = kuat_starbase_skills.41
-	hide_window = yes
-	is_triggered_only = yes
-	trigger = {
-		exists = fromfrom
-		fromfrom = { is_scope_type = fleet }
-	}
-	immediate = {
-		from = { every_system_planet = {
-			if = {
-				limit = { is_colony = yes }
-				destroy_colony = yes
-				remove_all_buildings = yes
-				remove_all_districts = yes
-				every_owned_pop_group = { kill_pop_group = { pop_group = this percentage = 1 } }
-				clear_planet_modifiers = yes
-			}
-			if = {
-				limit = { is_star = yes }
-				change_pc = pc_black_hole
-				solar_system = { 
-					set_star_class = sc_black_hole 
-					starkiller_destroyed_system_everything = yes 
-				}
-			}
-			else_if = {
-				limit = { kuat_is_ringworld = yes }
-				spawn_ringworld_cracker_effect = yes
-				change_pc = pc_ringworld_habitable_damaged
-			}
-			else_if = {
-				limit = { kuat_is_habitat = yes }
-				spawn_habitat_cracker_effect = yes
-				remove_planet = yes
-			}
-			else_if = {
-				limit = { has_modifier = "holy_planet" }
-				change_pc = pc_shattered
-				remove_modifier = "holy_planet"
-				add_modifier = { modifier = "ag_shattered_holy_planet" }
-			}
-			else = { change_pc = pc_shattered }
-		} }
-		fromfrom = { destroy_fleet = this }
+		create_starbase_gunpower_invasion_battle_fleet = yes
 	}
 }
 
@@ -193,73 +109,24 @@ fleet_event = {
 	is_triggered_only = yes
 
 	trigger = {
-		any_owned_ship = {
-			OR = {
-				is_ship_size = exe_megastructure_starbase 
-				is_ship_size = Drift_megastructure_starbase
-				is_ship_size = swfo_supremacy
-			}
-		}
+		kuat_is_mega_starbase = yes
 	}
 
 	immediate = {
-		random_owned_ship = {
-			if = {
-				limit = { OR = {
-					is_ship_size = exe_megastructure_starbase 
-					is_ship_size = Drift_megastructure_starbase
-				} }
-				solar_system = {
-					star = {
-						create_ambient_object = { type = "star_explosion" play_animation_once = yes location = this }
-						last_created_ambient_object = { set_location = { target = prev distance = 0 angle = random } }
-						create_ambient_object = { type = "destroyed_system" location = this }
-						last_created_ambient_object = { set_ambient_object_flag = destroyed_system_effect set_location = { target = prev  distance = 0  angle = random  } }
-					}
-					every_ship_in_system = {
-						limit = { is_ship_class = shipclass_military exists = owner owner = { is_hostile = root.owner } }
-						kuat_battle_kuat_damage_hp_percent = { value = 100 }
-					}
-				}
-			}
-			else = {
-				solar_system = {
-					star = {
-						create_ambient_object = { type = "star_explosion" play_animation_once = yes location = this }
-						last_created_ambient_object = { set_location = { target = prev distance = 0 angle = random } }
-						create_ambient_object = { type = "destroyed_system" location = this }
-						last_created_ambient_object = { set_ambient_object_flag = destroyed_system_effect set_location = { target = prev  distance = 0  angle = random  } }
-					}
-					every_ship_in_system = {
-						limit = { is_ship_class = shipclass_military exists = owner owner = { is_hostile = root.owner } }
-						kuat_battle_kuat_damage_hp_percent = { value = 100 }
-					}
-				}
-			}
-			subtract_variable = { which = STARBASE_HEALTH_VAR value = 1 }
-			else = { 
-				if = {
-					limit = { is_ship_size = exe_megastructure_starbase }
-					every_cosmic_storm = { 
-						limit = { has_storm_flag = storm_kuat_support_nexus_storm_exe_megastructure_starbase_@prev } 
-						destroy_cosmic_storm = yes 
-					}
-				}
-				else_if = {
-					limit = { is_ship_size = Drift_megastructure_starbase }
-					every_cosmic_storm = { 
-						limit = { has_storm_flag = storm_kuat_support_celestic_storm_Drift_megastructure_starbase_@prev } 
-						destroy_cosmic_storm = yes 
-					}
-				}
-				else = {
-					every_cosmic_storm = { 
-						limit = { has_storm_flag = storm_kuat_support_particle_storm_swfo_supremacy_@prev } 
-						destroy_cosmic_storm = yes 
-					}
-				}
-				destroy_ship = this 
-			}
-		}
+		create_starbase_carrier_invasion_battle_fleet = yes
+	}
+}
+
+fleet_event = {
+	id = kuat_starbase_skills.6
+	hide_window = yes
+	is_triggered_only = yes
+
+	trigger = {
+		kuat_is_mega_starbase = yes
+	}
+
+	immediate = {
+		create_starbase_missle_invasion_battle_fleet = yes
 	}
 }
