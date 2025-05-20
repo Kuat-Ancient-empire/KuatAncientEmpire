@@ -1220,7 +1220,10 @@ kuat_reset_auto_colony_variable = {
 			limit = { check_variable = { which = planet_temple_return_pop value < 0 } }
 			multiply_variable = { which = planet_temple_return_pop value = -1 }
 			while = { 
-				count = planet_temple_return_pop random_owned_pop_group = { kill_pop_group = { pop_group = this amount = 100 } } 
+				count = planet_temple_return_pop random_owned_pop_group = { 
+					limit = { pop_group_size > 100 } 
+					kill_pop_group = { pop_group = this amount = 100 } 
+				} 
 				change_variable = { which = planet_production_array value = 10 }
 			}
 		}
