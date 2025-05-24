@@ -787,63 +787,8 @@ kuat_repeal_all_crisis_resolutions = {
 }
 
 #((人口数+人口增长总额*0.2（1-10000）)*10%星球规模+年份)*阶段系数(0.1-1.0)
-kuat_automatic_initial_planet = {
-	clear_blockers = yes
+kuat_automatic_initial_planet_buildings = {
 	remove_all_buildings = yes
-	remove_all_districts = yes
-	clear_planet_modifiers = yes
-	destroy_colony = yes
-
-	if = {
-		limit = { is_ringworld = yes }
-		change_pc = pc_kuat_auto_ringworld_habitable
-	}
-	else = {
-		change_pc = pc_kuat_auto_city
-	}
-
-	add_district = district_arcology_kuat_housing
-	add_district = district_arcology_kuat_Military
-	add_district = district_arcology_kuat_science
-	add_district = district_arcology_kuat_Khaydarin
-	add_district = district_arcology_Kuat_civilian_industry
-	add_district = district_arcology_eternal_Khaydarin	
-
-	while = { limit = { free_district_slots > 1 } add_district = district_arcology_kuat_housing }
-
-	add_zone = {
-		district = district_arcology_kuat_housing
-		zone = zone_kuat_city
-	}
-	add_zone = {
-		district = district_arcology_kuat_housing
-		zone = zone_kuat_Military
-	}
-	add_zone = {
-		district = district_arcology_kuat_housing
-		zone = zone_kuat_science
-	}
-	add_zone = {
-		district = district_arcology_kuat_Military
-		zone = zone_kuat_Military
-	}
-	add_zone = {
-		district = district_arcology_kuat_science
-		zone = zone_kuat_science
-	}
-	add_zone = {
-		district = district_arcology_kuat_Khaydarin
-		zone = zone_kuat_Khaydarin
-	}
-	add_zone = {
-		district = district_arcology_Kuat_civilian_industry
-		zone = zone_kuat_industry
-	}
-	add_zone = {
-		district = district_arcology_eternal_Khaydarin
-		zone = zone_kuat_eternal_Khaydarin
-	}
-
 	add_building = {
 		district = district_arcology_kuat_housing
 		building = building_kuat_command_center_auto
@@ -988,6 +933,64 @@ kuat_automatic_initial_planet = {
 	}		
 }
 
+kuat_automatic_initial_planet_districts_and_zones_types = {
+	clear_blockers = yes
+	remove_all_buildings = yes
+	remove_all_districts = yes
+	clear_planet_modifiers = yes
+	destroy_colony = yes
+
+	if = {
+		limit = { is_ringworld = yes }
+		change_pc = pc_kuat_auto_ringworld_habitable
+	}
+	else = {
+		change_pc = pc_kuat_auto_city
+	}
+
+	add_district = district_arcology_kuat_housing
+	add_district = district_arcology_kuat_Military
+	add_district = district_arcology_kuat_science
+	add_district = district_arcology_kuat_Khaydarin
+	add_district = district_arcology_Kuat_civilian_industry
+	add_district = district_arcology_eternal_Khaydarin	
+
+	while = { limit = { free_district_slots > 1 } add_district = district_arcology_kuat_housing }
+
+	add_zone = {
+		district = district_arcology_kuat_housing
+		zone = zone_kuat_city
+	}
+	add_zone = {
+		district = district_arcology_kuat_housing
+		zone = zone_kuat_Military
+	}
+	add_zone = {
+		district = district_arcology_kuat_housing
+		zone = zone_kuat_science
+	}
+	add_zone = {
+		district = district_arcology_kuat_Military
+		zone = zone_kuat_Military
+	}
+	add_zone = {
+		district = district_arcology_kuat_science
+		zone = zone_kuat_science
+	}
+	add_zone = {
+		district = district_arcology_kuat_Khaydarin
+		zone = zone_kuat_Khaydarin
+	}
+	add_zone = {
+		district = district_arcology_Kuat_civilian_industry
+		zone = zone_kuat_industry
+	}
+	add_zone = {
+		district = district_arcology_eternal_Khaydarin
+		zone = zone_kuat_eternal_Khaydarin
+	}
+}
+
 kuat_automatic_ai_colony = {
 	optimize_memory
 	set_update_modifiers_batch = begin
@@ -1034,7 +1037,8 @@ kuat_automatic_ai_colony = {
 	if = { limit = { is_capital = yes } set_timed_planet_flag = { flag = destroy_colony_capital_temple days = 1 } }
 	every_owned_pop_group = { kill_pop_group = { pop_group = this percentage = 1 } }
 	if = { limit = { is_capital = no } clear_deposits = yes }
-	kuat_automatic_initial_planet = yes
+	kuat_automatic_initial_planet_districts_and_zones_types = yes
+	kuat_automatic_initial_planet_buildings = yes
 
 	set_owner = event_target:changing_country
 	create_pop_group = { size = 1000 species = owner_main_species }
@@ -1044,6 +1048,7 @@ kuat_automatic_ai_colony = {
 	add_modifier = { modifier = kuat_automatic_colony }
 	if = { limit = { has_planet_flag = destroy_colony_capital_temple } set_capital = yes }
 	set_planetary_ascension_tier = planet_production_ascension_tier
+	kuat_automatic_initial_planet_buildings = yes
 	kuat_reset_auto_colony_variable = yes
 	set_update_modifiers_batch = end
 }
@@ -1101,15 +1106,7 @@ kuat_reset_auto_colony_variable = {
 	}
 }
 
-kuat_move_auto_colony_data = {
-	optimize_memory
-	event_target:kuat_auto_planet_moving_target = {
-		change_variable = { 
-			which = planet_production_array_migrant 
-			value = prev.planet_production_array 
-		}
-		kuat_reset_auto_colony_variable = yes
-	}
+kuat_clear_automatic_planet = {
 	clear_variable = planet_production_array_base
 	clear_variable = planet_production_array_growpop_speed_base
 	clear_variable = planet_production_array_organicpop_speed_base
@@ -1124,6 +1121,18 @@ kuat_move_auto_colony_data = {
 	clear_planet_modifiers = yes
 	destroy_colony = yes
 	every_owned_pop_group = { kill_pop_group = { pop_group = this percentage = 1 } }
+}
+
+kuat_move_auto_colony_data = {
+	optimize_memory
+	event_target:kuat_auto_planet_moving_target = {
+		change_variable = { 
+			which = planet_production_array_migrant 
+			value = prev.planet_production_array 
+		}
+		kuat_reset_auto_colony_variable = yes
+	}
+	kuat_clear_automatic_planet = yes
 	remove_global_flag = Building_kuat_auto_planet_migrant_data_temple
 }
 
