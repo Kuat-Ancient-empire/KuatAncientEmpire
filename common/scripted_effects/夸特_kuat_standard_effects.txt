@@ -787,52 +787,7 @@ kuat_repeal_all_crisis_resolutions = {
 }
 
 #((人口数+人口增长总额*0.2（1-10000）)*10%星球规模+年份)*阶段系数(0.1-1.0)
-kuat_automatic_ai_colony = {
-	optimize_memory
-	set_update_modifiers_batch = begin
-	owner = { save_event_target_as = changing_country }
-	set_planet_flag = has_building_kuat_command_center_auto
-	set_variable = { which = planet_production_ascension_tier value = trigger:has_planetary_ascension_tier }
-	if = {
-		limit = { has_planet_flag = PR_flg_plnt_VALID }
-		set_variable = { which = planet_production_array_base value = value:PR_sv_plnt_HC }
-	}
-	else = { set_variable = { which = planet_production_array_base value = value:kuat_pop_amount } }
-
-	set_variable = { which = planet_production_array_pop_speed_total value = 0 }
-	
-	if = {
-		limit = { check_modifier_value = { modifier = bonus_pop_growth_mult value >= 0 } }
-		set_variable = { which = planet_production_array_growpop_speed_base value = modifier:bonus_pop_growth_mult }
-		change_variable = { which = planet_production_array_pop_speed_total value = planet_production_array_growpop_speed_base }
-	}
-	if = {
-		limit = { check_modifier_value = { modifier = logistic_growth_mult value >= 0 } }
-		set_variable = { which = planet_production_array_growpop_speed_base_logical value = modifier:logistic_growth_mult }
-		change_variable = { which = planet_production_array_pop_speed_total value = planet_production_array_growpop_speed_base_logical }
-	}
-	if = {
-		limit = { check_modifier_value = { modifier = bonus_pop_growth value >= 0 } }
-		set_variable = { which = planet_production_array_organicpop_speed_base value = modifier:bonus_pop_growth }
-		if = {
-			limit = { check_modifier_value = { modifier = bonus_pop_growth_mult value >= 0 } }
-			multiply_variable = { which = planet_production_array_organicpop_speed_base value = modifier:bonus_pop_growth_mult }
-		}
-		change_variable = { which = planet_production_array_pop_speed_total value = planet_production_array_organicpop_speed_base }
-	}
-	if = {
-		limit = { check_modifier_value = { modifier = planet_pop_assembly_add value >= 0 } }
-		set_variable = { which = planet_production_array_pop_speed_base value = modifier:planet_pop_assembly_add }
-		if = {
-			limit = { check_modifier_value = { modifier = planet_pop_assembly_mult value >= 0 } }
-			multiply_variable = { which = planet_production_array_pop_speed_base value = modifier:planet_pop_assembly_mult }
-		}
-		change_variable = { which = planet_production_array_pop_speed_total value = planet_production_array_pop_speed_base }
-	}
-
-	if = { limit = { is_capital = yes } set_timed_planet_flag = { flag = destroy_colony_capital_temple days = 1 } }
-	every_owned_pop_group = { kill_pop_group = { pop_group = this percentage = 1 } }
-	if = { limit = { is_capital = no } clear_deposits = yes }
+kuat_automatic_initial_planet = {
 	clear_blockers = yes
 	remove_all_buildings = yes
 	remove_all_districts = yes
@@ -1031,6 +986,55 @@ kuat_automatic_ai_colony = {
 		building = building_kuat_shield_auto
 		zone = zone_kuat_industry
 	}		
+}
+
+kuat_automatic_ai_colony = {
+	optimize_memory
+	set_update_modifiers_batch = begin
+	owner = { save_event_target_as = changing_country }
+	set_planet_flag = has_building_kuat_command_center_auto
+	set_variable = { which = planet_production_ascension_tier value = trigger:has_planetary_ascension_tier }
+	if = {
+		limit = { has_planet_flag = PR_flg_plnt_VALID }
+		set_variable = { which = planet_production_array_base value = value:PR_sv_plnt_HC }
+	}
+	else = { set_variable = { which = planet_production_array_base value = value:kuat_pop_amount } }
+
+	set_variable = { which = planet_production_array_pop_speed_total value = 0 }
+	
+	if = {
+		limit = { check_modifier_value = { modifier = bonus_pop_growth_mult value >= 0 } }
+		set_variable = { which = planet_production_array_growpop_speed_base value = modifier:bonus_pop_growth_mult }
+		change_variable = { which = planet_production_array_pop_speed_total value = planet_production_array_growpop_speed_base }
+	}
+	if = {
+		limit = { check_modifier_value = { modifier = logistic_growth_mult value >= 0 } }
+		set_variable = { which = planet_production_array_growpop_speed_base_logical value = modifier:logistic_growth_mult }
+		change_variable = { which = planet_production_array_pop_speed_total value = planet_production_array_growpop_speed_base_logical }
+	}
+	if = {
+		limit = { check_modifier_value = { modifier = bonus_pop_growth value >= 0 } }
+		set_variable = { which = planet_production_array_organicpop_speed_base value = modifier:bonus_pop_growth }
+		if = {
+			limit = { check_modifier_value = { modifier = bonus_pop_growth_mult value >= 0 } }
+			multiply_variable = { which = planet_production_array_organicpop_speed_base value = modifier:bonus_pop_growth_mult }
+		}
+		change_variable = { which = planet_production_array_pop_speed_total value = planet_production_array_organicpop_speed_base }
+	}
+	if = {
+		limit = { check_modifier_value = { modifier = planet_pop_assembly_add value >= 0 } }
+		set_variable = { which = planet_production_array_pop_speed_base value = modifier:planet_pop_assembly_add }
+		if = {
+			limit = { check_modifier_value = { modifier = planet_pop_assembly_mult value >= 0 } }
+			multiply_variable = { which = planet_production_array_pop_speed_base value = modifier:planet_pop_assembly_mult }
+		}
+		change_variable = { which = planet_production_array_pop_speed_total value = planet_production_array_pop_speed_base }
+	}
+
+	if = { limit = { is_capital = yes } set_timed_planet_flag = { flag = destroy_colony_capital_temple days = 1 } }
+	every_owned_pop_group = { kill_pop_group = { pop_group = this percentage = 1 } }
+	if = { limit = { is_capital = no } clear_deposits = yes }
+	kuat_automatic_initial_planet = yes
 
 	set_owner = event_target:changing_country
 	create_pop_group = { size = 1000 species = owner_main_species }
@@ -1047,165 +1051,7 @@ kuat_automatic_ai_colony = {
 kuat_reset_auto_colony_variable = {
 	optimize_memory
 	if = {
-		limit = { OR = {
-			NOT = { has_building = building_kuat_command_center_auto }
-			NOT = { has_building = building_kuat_databank_auto }
-			NOT = { has_building = building_kuat_ancient_databank_auto }
-			NOT = { has_building = building_kuat_foundry_auto }
-			NOT = { has_building = building_kuat_resource_center_auto }
-			NOT = { has_building = building_kuat_shield_auto }
-			NOT = { has_building = building_kuat_ground_yards_auto }
-			NOT = { has_building = building_kuat_research_center_auto }
-		} }
-		remove_all_buildings = yes
-		add_building = {
-			district = district_arcology_kuat_housing
-			building = building_kuat_command_center_auto
-			zone = zone_kuat_city
-		}
-		add_building = {
-			district = district_arcology_kuat_housing
-			building = building_kuat_databank_auto
-			zone = zone_kuat_city
-		}
-		add_building = {
-			district = district_arcology_kuat_housing
-			building = building_kuat_foundry_auto
-			zone = zone_kuat_city
-		}
-		add_building = {
-			district = district_arcology_kuat_housing
-			building = building_kuat_databank_auto
-			zone = zone_kuat_city
-		}
-		add_building = {
-			district = district_arcology_kuat_housing
-			building = building_kuat_foundry_auto
-			zone = zone_kuat_city
-		}	
-		add_building = {
-			district = district_arcology_kuat_housing
-			building = building_kuat_databank_auto
-			zone = zone_kuat_city
-		}
-
-		add_building = {
-			district = district_arcology_kuat_housing
-			building = building_kuat_resource_center_auto
-			zone = zone_kuat_Military
-		}
-		add_building = {
-			district = district_arcology_kuat_housing
-			building = building_kuat_resource_center_auto
-			zone = zone_kuat_Military
-		}
-		add_building = {
-			district = district_arcology_kuat_housing
-			building = building_kuat_resource_center_auto
-			zone = zone_kuat_Military
-		}
-
-		add_building = {
-			district = district_arcology_kuat_housing
-			building = building_kuat_research_center_auto
-			zone = zone_kuat_science
-		}
-		add_building = {
-			district = district_arcology_kuat_housing
-			building = building_kuat_research_center_auto
-			zone = zone_kuat_science
-		}
-		add_building = {
-			district = district_arcology_kuat_housing
-			building = building_kuat_research_center_auto
-			zone = zone_kuat_science
-		}
-
-		add_building = {
-			district = district_arcology_eternal_Khaydarin
-			building = building_kuat_ancient_databank_auto
-			zone = zone_kuat_eternal_Khaydarin
-		}
-		add_building = {
-			district = district_arcology_eternal_Khaydarin
-			building = building_kuat_ancient_databank_auto
-			zone = zone_kuat_eternal_Khaydarin
-		}
-		add_building = {
-			district = district_arcology_eternal_Khaydarin
-			building = building_kuat_ancient_databank_auto
-			zone = zone_kuat_eternal_Khaydarin
-		}
-
-		add_building = {
-			district = district_arcology_kuat_Military
-			building = building_kuat_resource_center_auto
-			zone = zone_kuat_Military
-		}
-		add_building = {
-			district = district_arcology_kuat_Military
-			building = building_kuat_resource_center_auto
-			zone = zone_kuat_Military
-		}
-		add_building = {
-			district = district_arcology_kuat_Military
-			building = building_kuat_resource_center_auto
-			zone = zone_kuat_Military
-		}
-
-		add_building = {
-			district = district_arcology_kuat_science
-			building = building_kuat_research_center_auto
-			zone = zone_kuat_science
-		}
-		add_building = {
-			district = district_arcology_kuat_science
-			building = building_kuat_research_center_auto
-			zone = zone_kuat_science
-		}
-		add_building = {
-			district = district_arcology_kuat_science
-			building = building_kuat_research_center_auto
-			zone = zone_kuat_science
-		}
-
-		add_building = {
-			district = district_arcology_kuat_Khaydarin
-			building = building_kuat_ground_yards_auto
-			zone = zone_kuat_Khaydarin
-		}
-		add_building = {
-			district = district_arcology_kuat_Khaydarin
-			building = building_kuat_ground_yards_auto
-			zone = zone_kuat_Khaydarin
-		}
-		add_building = {
-			district = district_arcology_kuat_Khaydarin
-			building = building_kuat_ground_yards_auto
-			zone = zone_kuat_Khaydarin
-		}
-
-		add_building = {
-			district = district_arcology_Kuat_civilian_industry
-			building = building_kuat_shield_auto
-			zone = zone_kuat_industry
-		}
-		add_building = {
-			district = district_arcology_Kuat_civilian_industry
-			building = building_kuat_shield_auto
-			zone = zone_kuat_industry
-		}
-		add_building = {
-			district = district_arcology_Kuat_civilian_industry
-			building = building_kuat_shield_auto
-			zone = zone_kuat_industry
-		}	
-	}
-	if = {
-		limit = {  
-			NOT = { check_variable_arithmetic = { which = value:kuat_pop_amount value = 10 } }
-			NOT = { has_planet_flag = PR_flg_plnt_VALID } 
-		}
+		limit = { NOT = { check_variable_arithmetic = { which = value:kuat_pop_amount value = 10 } } }
 		set_variable = { which = planet_temple_return_pop value = value:kuat_pop_amount }
 		subtract_variable = { which = planet_temple_return_pop value = 10 }
 		multiply_variable = { which = planet_temple_return_pop value = -1 }
