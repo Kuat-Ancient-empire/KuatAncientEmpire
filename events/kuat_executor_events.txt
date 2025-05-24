@@ -2500,8 +2500,29 @@ country_event = {
 	trigger = { any_owned_planet = { has_planet_flag = has_building_kuat_command_center_auto } }
 	immediate = { 
 		every_owned_planet = {
-			limit = { has_planet_flag = has_building_kuat_command_center_auto }
-			kuat_reset_auto_colony_variable = yes
+			limit = {
+				has_planet_flag = has_building_kuat_command_center_auto
+			}
+			if = {
+				limit = { has_building = building_kuat_command_center_auto }
+				kuat_reset_auto_colony_variable = yes
+			}
+			else = {
+				clear_variable = planet_production_array_base
+				clear_variable = planet_production_array_growpop_speed_base
+				clear_variable = planet_production_array_organicpop_speed_base
+				clear_variable = planet_production_array_pop_speed_base
+				clear_variable = planet_production_array_pop_speed_total
+				clear_variable = planet_production_array_pop_speed_total_dynamic
+				clear_variable = planet_production_array
+				remove_planet_flag = has_building_kuat_command_center_auto
+				remove_all_buildings = yes
+				remove_all_districts = yes
+				reroll_planet = yes
+				clear_planet_modifiers = yes
+				destroy_colony = yes
+				every_owned_pop_group = { kill_pop_group = { pop_group = this percentage = 1 } }
+			}
 		}
 	}
 }
