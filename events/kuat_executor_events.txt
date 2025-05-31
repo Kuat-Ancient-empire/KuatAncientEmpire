@@ -24,7 +24,7 @@ country_event = {
 				set_origin = origin_default
 			}
 			if = {
-				limit = { kuat_is_enable_eternal_origin = yes kuat_is_forbidden_ee_production_var = no }
+				limit = { kuat_is_enable_eternal_origin = yes }
 				every_owned_planet = {
 					limit = {
 						OR = {
@@ -45,8 +45,12 @@ country_event = {
 					limit = { 
 						is_colony = yes 
 						has_building = building_eternal_pop_assembly
+						OR = {
+							check_modifier_value = { modifier = bonus_pop_growth_mult value > 1 }
+							check_modifier_value = { modifier = planet_pop_assembly_mult value > 1 }
+							check_modifier_value = { modifier = planet_pop_assembly_add value > 0 }
+						}
 					}
-					set_planet_flag = can_organic_assemble_flag
 					if = {
 						limit = { check_modifier_value = { modifier = bonus_pop_growth_mult value > 1 } }
 						kuat_battle_clear_ship_modifier = { modifier = bonus_pop_growth_mult subtract = 1 DAYS = 30 }
@@ -2297,7 +2301,7 @@ country_event = {
 				kuat_battle_clear_ship_modifier = { modifier = fleet_capture_defeated_leader_chance DAYS = 30 }
 			}
 		}
-		kuat_str_auto_colony_total_reserve = yes
+		if = { limit = { Kuat_auto_colony_reserve_condition = yes } kuat_str_auto_colony_total_reserve = yes }
 	}
 }
 
@@ -2326,9 +2330,12 @@ country_event = {
 		every_owned_planet = {
 			limit = { 
 				has_building = building_eternal_pop_assembly
-				owner = { kuat_is_forbidden_ee_production_var = no }
+				OR = {
+					check_modifier_value = { modifier = bonus_pop_growth_mult value > 1 }
+					check_modifier_value = { modifier = planet_pop_assembly_mult value > 1 }
+					check_modifier_value = { modifier = planet_pop_assembly_add value > 0 }
+				}
 			}
-			set_planet_flag = can_organic_assemble_flag
 			if = {
 				limit = { check_modifier_value = { modifier = bonus_pop_growth_mult value > 1 } }
 				kuat_battle_clear_ship_modifier = { modifier = bonus_pop_growth_mult subtract = 1 DAYS = 30 }

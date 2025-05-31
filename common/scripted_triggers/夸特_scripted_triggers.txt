@@ -285,36 +285,50 @@ kuat_is_holy_world_planet = {
 	}
 }
 
-#舰船分类
+#舰船动画
 kuat_is_animation_ftl_ship = {
 	OR = {
-		is_ship_size = kuat_sector
-		is_ship_size = eclipse
-		is_ship_size = Annihilator
-		is_ship_size = Vengeance
-		is_ship_size = knight_hammer_executor
-		is_ship_size = nebula_executor
-		is_ship_size = nebula_dominance
-		is_ship_size = kuat_compellor	
-		is_ship_size = kuat_legator
-
-		is_ship_size = horrizone
-		is_ship_size = Imperial_star_destroyer
-		is_ship_size = high_Imperial_star_destroyer
-		is_ship_size = swfo_resurgent
-		is_ship_size = Aggressor
-
-		is_ship_size = X308_Balletor
-		is_ship_size = X308_Titan
-		is_ship_size = X308_Tyrant
-
-		is_ship_size = Cavelry
-
+		kuat_is_kuat_flagship = yes
+		kuat_is_kuat_superflagship = yes
+		kuat_is_imperial_standard_ship = yes
+		kuat_is_origin_standard_ship = yes
+		kuat_is_kuat_sub_flagship = yes
 		is_ship_size = swfo_supremacy
 	}
 }
+
+#舰种分类
+kuat_is_kuat_battleship = {
+	OR = {
+		kuat_is_kuat_sub_flagship = yes
+		is_ship_size = Imperial_star_destroyer
+		is_ship_size = high_Imperial_star_destroyer
+		is_ship_size = swfo_resurgent
+		is_ship_size = Drift_Battleship 
+		is_ship_size = Spt_Battleship 
+		is_ship_size = Infinite_battleship 
+		is_ship_size = eternal_battleship
+		is_ship_size = Venator_modifier_II
+		kuat_is_special_additive_standard_ship = yes
+	}
+}
+kuat_is_kuat_crusier = {
+	OR = {
+		is_ship_size = Drift_Crusier 
+		is_ship_size = Spt_Crusier 
+		is_ship_size = Infinite_crusier
+		is_ship_size = Cavelry
+		is_ship_size = horrizone
+		is_ship_size = Gladiator
+		is_ship_size = Aggressor
+		is_ship_size = Venator_modifier
+	}
+}
+
+#旗舰分类
 kuat_is_kuat_superflagship = {
 	OR = {
+		is_ship_size = Airpernia_titan
 		is_ship_size = kuat_compellor
 		is_ship_size = Infinite_Mothership
 		is_ship_size = eternal_flagship
@@ -343,23 +357,55 @@ kuat_is_kuat_sub_flagship = {
 }
 kuat_is_standard_ship = {
 	OR = {
+		kuat_is_special_additive_standard_ship = yes
+		kuat_is_origin_standard_ship = yes
+		kuat_is_imperial_standard_ship = yes
+		kuat_is_drift_standard_ship = yes
+		kuat_is_Spt_standard_ship = yes
+		kuat_is_Infinite_standard_ship = yes
+		kuat_is_eternal_standard_ship = yes
+	}
+}
+kuat_is_imperial_standard_ship = {
+	OR = {
 		is_ship_size = Cavelry
-		is_ship_size = Venator_modifier
-		is_ship_size = Venator_modifier_II
 		is_ship_size = horrizone
+		is_ship_size = Gladiator
 		is_ship_size = Imperial_star_destroyer
 		is_ship_size = high_Imperial_star_destroyer
 		is_ship_size = swfo_resurgent
-		is_ship_size = Aggressor
-		is_ship_size = eternal_battleship
-		is_ship_size = Infinite_crusier
-		is_ship_size = Infinite_battleship
-		is_ship_size = Drift_Battleship
-		is_ship_size = Drift_Crusier
-		is_ship_size = kuat_target_signal_ship
+	}
+}
+kuat_is_drift_standard_ship = {
+	OR = {
 		is_ship_size = Spt_Battleship
 		is_ship_size = Spt_Crusier
 	}
+}
+kuat_is_Spt_standard_ship = {
+	OR = {
+		is_ship_size = Drift_Battleship
+		is_ship_size = Drift_Crusier
+	}
+}
+kuat_is_Infinite_standard_ship = {
+	OR = {
+		is_ship_size = Infinite_crusier
+		is_ship_size = Infinite_battleship
+	}
+}
+kuat_is_eternal_standard_ship = {
+	is_ship_size = eternal_battleship
+}
+kuat_is_origin_standard_ship = {
+	OR = {
+		is_ship_size = Aggressor
+		is_ship_size = Venator_modifier
+		is_ship_size = Venator_modifier_II
+	}
+}
+kuat_is_special_additive_standard_ship = {
+	is_ship_size = Airpernia
 }
 kuat_is_mega_starbase = {
 	OR = {
@@ -413,7 +459,8 @@ kuat_fleet_cap_TRIGGER_occupy_2 = {
 
 kuat_fleet_cap_TRIGGER_occupy_4 = {
 	OR = {
-		any_owned_ship = { kuat_is_kuat_superflagship = yes }
+		has_fleet_flag = kuat_has_Airpernia_Flagship_fleet
+		has_fleet_flag = kuat_has_Imperial_Flagship_fleet
 		has_fleet_flag = kuat_has_Drift_Flagship_fleet
 		has_fleet_flag = kuat_has_Spt_Flagship_fleet
 		has_fleet_flag = kuat_has_Eternal_Flagship_fleet
@@ -462,35 +509,31 @@ kuat_is_kuat_ship = {
 }
 kuat_is_disable_return_ship = {
 	OR = {
-		#超旗
-		kuat_is_kuat_superflagship = yes
-
-		#旗舰
-		kuat_is_kuat_flagship = yes
-		ag_is_kuat_flagship = yes
-		swgs_is_kuat_flagship = yes
-		SRA_is_kuat_flagship = yes
-		spth_is_kuat_flagship = yes
-		nyto_is_kuat_flagship = yes
-		unsc_is_kuat_flagship = yes
-		KZ_VOY_is_kuat_flagship = yes
 		kuat_is_mega_starbase = yes
 
 		AND = {
+			fleet = { has_fleet_flag = kuat_has_Imperial_Flagship_fleet }
+			kuat_is_imperial_standard_ship = yes
+		}
+		AND = {
+			fleet = { has_fleet_flag = kuat_has_Airpernia_Flagship_fleet }
+			kuat_is_special_additive_standard_ship = yes
+		}
+		AND = {
 			fleet = { has_fleet_flag = kuat_has_Drift_Flagship_fleet }
-			OR = { is_ship_size = Drift_Battleship is_ship_size = Drift_Crusier }
+			kuat_is_drift_standard_ship = yes
 		}
 		AND = {
 			fleet = { has_fleet_flag = kuat_has_Spt_Flagship_fleet }
-			OR = { is_ship_size = Spt_Battleship is_ship_size = Spt_Crusier }
+			kuat_is_Spt_standard_ship = yes
 		}
 		AND = {
 			fleet = { has_fleet_flag = kuat_has_Eternal_Flagship_fleet }
-			is_ship_size = eternal_battleship
+			kuat_is_eternal_standard_ship = yes
 		}
 		AND = {
 			fleet = { has_fleet_flag = kuat_has_Infinite_Flagship_fleet }
-			OR = { is_ship_size = Infinite_battleship is_ship_size = Infinite_crusier }
+			kuat_is_Infinite_standard_ship = yes
 		}
 	}
 }
@@ -552,13 +595,6 @@ kuat_is_sub_flagship_system_protection = {
 	}
 }
 
-kuat_is_forbidden_ee_production_var = {
-	OR = { 
-		has_authority = auth_starshipgirls 
-		has_authority = auth_asharmdolls
-	}
-}
-
 has_enable_ai_battle_system = {
 	is_country_type = default  is_ai = yes
 	has_global_flag = ai_fighting_with_player_against_eternal
@@ -602,7 +638,7 @@ kuat_has_ship_flag = {
 	any_owned_ship = { has_ship_flag = $FLAG$ }
 }
 
-#starkiller base
+#弑星者基地
 kuat_is_ringworld = {
 	OR = {
 		is_ringworld = yes
@@ -624,7 +660,7 @@ kuat_is_habitat = {
 	}
 }
 
-#eternal check
+#永恒危机刷新检测
 retrun_first_station_check = {
 	optimize_memory
 	if = {
@@ -641,7 +677,6 @@ retrun_first_station_check = {
 		}
 	}
 }
-
 retrun_second_station_check = {
 	optimize_memory
 	if = {
@@ -658,7 +693,6 @@ retrun_second_station_check = {
 		}
 	}
 }
-
 retrun_third_station_check = {
 	optimize_memory
 	if = {
@@ -674,7 +708,7 @@ retrun_third_station_check = {
 	}
 }
 
-#kuat origin
+#夸特起源星系刷新
 eks_init_unflaged = {
 	NOR = {
 		has_star_flag = etenal_kuat_system_init_style_1_flaged
@@ -1022,16 +1056,16 @@ kuat_exist_disable_type = {
 }
 
 #该类，每击杀敌人一艘舰船，可以为己方恢复一艘舰船，cd 5天
-kuat_is_strikcrafet_flagship_type = { fleet = { has_fleet_flag = kuat_has_stricraft_Flagship_fleet } }
+kuat_is_strikcrafet_flagship_type = { OR = { is_ship_size = nebula_dominance is_ship_size = X308_Titan is_ship_size = eclipse } }
 
 #该类，导弹伤害伤害增幅50% √
-kuat_is_torpitor_flagship_type = { fleet = { has_fleet_flag = kuat_has_Missle_Flagship_fleet } }
+kuat_is_torpitor_flagship_type = { OR = { is_ship_size = kuat_sector is_ship_size = Vengeance is_ship_size = X308_Tyrant is_ship_size = eclipse } }
 
 #该类，重炮伤害增幅100% √
-kuat_is_artilletry_flagship_type = { fleet = { has_fleet_flag = kuat_has_artellary_Flagship_fleet } }
+kuat_is_artilletry_flagship_type = { OR = { is_ship_size = kuat_legator is_ship_size = Annihilator is_ship_size = X308_Balletor is_ship_size = eclipse } }
 
 #执行者舰队无需副旗舰,直接认定为超旗 √
-kuat_is_special_exector_flagship = { fleet = { has_fleet_flag = kuat_has_Executor_Flagship_fleet } }
+kuat_is_special_exector_flagship = { OR = { is_ship_size = nebula_executor is_ship_size = knight_hammer_executor } }
 
 
 kuat_is_invisable_target_system  = {
