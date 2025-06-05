@@ -1013,15 +1013,15 @@ kuat_is_enable_eternal_invasion = {
 
 kuat_exist_disable_type = {
 	exists = from
-	from = { is_scope_type = ship }
+	from = { 
+		is_scope_type = ship 
+		owner = { NOT = { is_same_value = prevprev.owner } }
+	}
+	NOT = { has_ship_flag = kuat_fleet_dynamic_modifier_times }
 	OR = {
 		AND = {
 			owner = { is_invisable_faction = yes }
 			from.owner = { OR = { is_player_country = yes is_invisable_faction = yes } }
-		}
-		AND = {
-			owner = { is_invisable_faction = yes }
-			from.owner = { NOT = { is_same_value = prev.owner } }
 		}
 		owner = { is_player_country = yes }
 	}

@@ -405,9 +405,6 @@ kuat_battle_setup_dynamic_invinciable_attacketion_pragram = {
 	if = {
 		limit = { is_in_combat = yes }
 		every_owned_ship = {
-			limit = { check_modifier_value = { 
-				modifier = kuat_damage_control_hositle_modifier value > 0 
-			} }
 			$KEY$ = { netrual = yes hostile = yes }
 			set_ship_flag = kuat_is_modifiering 
 		}
@@ -657,7 +654,6 @@ kuat_battle_set_modifier_control_eternal_fleet_mult_modifier = {
 
 	[[hostile] 
 		kuat_battle_set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_damage_reduction_mult 		 	RELATION = "!=" OUTPUT_VALUE = 0 	UNIT_VALUE = 0 }
-		kuat_battle_set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_weapon_range_mult 				RELATION = "!="  OUTPUT_VALUE = value:kuat_export_kuat_damage_control_hositle_modifier|MULT|-1| 		UNIT_VALUE = value:kuat_export_kuat_damage_control_hositle_modifier|MULT|1| }
 	]
 
 	[[frendly] 
@@ -762,7 +758,10 @@ kuat_battle_set_eternal_fleet_standard_modifier = {
 		add_modifier = { modifier = basic_$PARAMATER$ multiplier = $PARAMATER$_value }
 		if = { limit = { is_variable_set = $PARAMATER$_value } clear_variable = $PARAMATER$_value }
 		set_timed_ship_flag = { flag = $PARAMATER$_ship_cooldown days = 1 }
-		#fleet = { change_variable = { which = kuat_fleet_dynamic_modifier_times value = 1 } }
+		if = { 
+			limit = { NOT = { has_ship_flag = kuat_fleet_dynamic_modifier_times } } 
+			set_timed_ship_flag = { flag = kuat_fleet_dynamic_modifier_times days = 1 }
+		}
 	} 
 	else_if = { 
 		limit = { 
@@ -776,7 +775,10 @@ kuat_battle_set_eternal_fleet_standard_modifier = {
 		add_modifier = { modifier = change_basic_$PARAMATER$ multiplier = debug_change_$PARAMATER$_value }
 		if = { limit = { is_variable_set = change_$PARAMATER$_value } clear_variable = change_$PARAMATER$_value }
 		set_timed_ship_flag = { flag = $PARAMATER$_ship_cooldown days = 1 }
-		#fleet = { change_variable = { which = kuat_fleet_dynamic_modifier_times value = 1 } }
+		if = { 
+			limit = { NOT = { has_ship_flag = kuat_fleet_dynamic_modifier_times } } 
+			set_timed_ship_flag = { flag = kuat_fleet_dynamic_modifier_times days = 1 }
+		}
 	}
 }
 
@@ -1272,6 +1274,7 @@ kuat_battle_remove_repetable_modifier_iep = {
 
 kuat_battle_remove_ship_modifier_trigger_flag = {
 	optimize_memory
+	remove_ship_flag = kuat_fleet_dynamic_modifier_times
 	remove_ship_flag = kuat_is_modifiering
 }
 kuat_battle_remove_fleet_modifier_trigger_flag = {
@@ -1286,7 +1289,6 @@ kuat_battle_remove_fleet_modifier_trigger_flag = {
 	remove_fleet_flag = has_kuat_disable_checkpoint
 	clear_variable = infinite_faction_battle_duplicate_ship
 	remove_fleet_flag = is_modifiering_fleet
-	clear_variable = kuat_fleet_dynamic_modifier_times
 	remove_fleet_flag = has_total_kuat_flagship_system
 }
 
