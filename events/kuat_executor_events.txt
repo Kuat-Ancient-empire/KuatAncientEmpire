@@ -1140,98 +1140,98 @@ country_event = {
 ##########################
 ### 夸特的后备隐藏能源 ####
 ##########################
-country_event = {
-	id = executor_build.7
-	is_triggered_only = yes
-	hide_window = yes
-	trigger = {
-		has_country_flag = fallen_empire_kuat
-		fromfrom = { has_ship_flag = ship_ruins }
-	}
-	immediate = {
-		solar_system = { save_event_target_as = explode_kuat_system }
-		from = { country_event = { id = executor_build.701 } }
-	}
-}
+# country_event = {
+# 	id = executor_build.7
+# 	is_triggered_only = yes
+# 	hide_window = yes
+# 	trigger = {
+# 		has_country_flag = fallen_empire_kuat
+# 		fromfrom = { has_ship_flag = ship_ruins }
+# 	}
+# 	immediate = {
+# 		solar_system = { save_event_target_as = explode_kuat_system }
+# 		from = { country_event = { id = executor_build.701 } }
+# 	}
+# }
 
-country_event = {
-	id = executor_build.701
-	is_triggered_only = yes
-	hide_window = no
-	title = executor_build.701.title
-	desc = executor_build.701.desc
-	diplomatic = yes
-	picture_event_data = { room = exploding_ship_room }
-	custom_gui = "kuat_event_window"
-	custom_gui_option = "kuat_event_option"
-	immediate = { country_event = { id = executor_build.702 days = 30 } }
-	option = { name = executor_build.701.a }
-}
+# country_event = {
+# 	id = executor_build.701
+# 	is_triggered_only = yes
+# 	hide_window = no
+# 	title = executor_build.701.title
+# 	desc = executor_build.701.desc
+# 	diplomatic = yes
+# 	picture_event_data = { room = exploding_ship_room }
+# 	custom_gui = "kuat_event_window"
+# 	custom_gui_option = "kuat_event_option"
+# 	immediate = { country_event = { id = executor_build.702 days = 30 } }
+# 	option = { name = executor_build.701.a }
+# }
 
-country_event = {
-	id = executor_build.702
-	is_triggered_only = yes
-	hide_window = yes
-	immediate = {
-		event_target:explode_kuat_system = {
-			star = {
-				create_ambient_object = { type = "star_explosion" play_animation_once = yes location = this }
-				last_created_ambient_object = { set_location = { target = prev distance = 0 angle = random } }
-				create_ambient_object = { type = "destroyed_system" location = this }
-				last_created_ambient_object = { set_ambient_object_flag = destroyed_system_effect set_location = { target = prev  distance = 0  angle = random  } }
-			}
-			every_ship_in_system = { 
-				limit = { 
-					exists = owner owner = { is_kuat_fallen_empire = no } 
-					NOT = { is_variable_set = exe_megastructure_starbase_explode }
-				}
-				set_variable_to_random_value = {
-					which = exe_megastructure_starbase_explode
-					min = 10 max = 99 rounded = yes
-				}
-				kuat_battle_kuat_reduce_hp_percent = { value = exe_megastructure_starbase_explode }
-				clear_variable = exe_megastructure_starbase_explode
-			}
-		}
-		country_event = { id = executor_build.703 days = 30 }
-	}
-}
+# country_event = {
+# 	id = executor_build.702
+# 	is_triggered_only = yes
+# 	hide_window = yes
+# 	immediate = {
+# 		event_target:explode_kuat_system = {
+# 			star = {
+# 				create_ambient_object = { type = "star_explosion" play_animation_once = yes location = this }
+# 				last_created_ambient_object = { set_location = { target = prev distance = 0 angle = random } }
+# 				create_ambient_object = { type = "destroyed_system" location = this }
+# 				last_created_ambient_object = { set_ambient_object_flag = destroyed_system_effect set_location = { target = prev  distance = 0  angle = random  } }
+# 			}
+# 			every_ship_in_system = { 
+# 				limit = { 
+# 					exists = owner owner = { is_kuat_fallen_empire = no } 
+# 					NOT = { is_variable_set = exe_megastructure_starbase_explode }
+# 				}
+# 				set_variable_to_random_value = {
+# 					which = exe_megastructure_starbase_explode
+# 					min = 10 max = 99 rounded = yes
+# 				}
+# 				kuat_battle_kuat_reduce_hp_percent = { value = exe_megastructure_starbase_explode }
+# 				clear_variable = exe_megastructure_starbase_explode
+# 			}
+# 		}
+# 		country_event = { id = executor_build.703 days = 30 }
+# 	}
+# }
 
-country_event = {
-	id = executor_build.703
-	is_triggered_only = yes
-	hide_window = no
-	title = executor_build.703.title
-	desc = executor_build.703.desc
-	diplomatic = yes
-	picture_event_data = { room = machine_space_battle_room }
-	custom_gui = "kuat_event_m_window"
-	custom_gui_option = "kuat_event_m_option"
-	trigger = { exists = event_target:fallen_empire_kuat }
-	immediate = {
-		event_target:fallen_empire_kuat = {
-			every_system_within_border = {
-				limit = { has_star_flag = Kuat_system }
-				create_starbase = {
-					owner = event_target:fallen_empire_kuat
-					size = "starbase_citadel"
-					module = "shipyard"
-					module = "shipyard"
-					module = "shipyard"
-					module = "hangar_bay"
-					module = "gun_battery"
-					module = "gun_battery"
-					building = "target_uplink_computer"
-					building = "defense_grid"
-					building = "colossus_yards"
-					building = "titan_yards"
-				}
-				create_capital_reinforcements_fleet = yes
-			}
-		}
-	}
-	option = { name = OK }
-}
+# country_event = {
+# 	id = executor_build.703
+# 	is_triggered_only = yes
+# 	hide_window = no
+# 	title = executor_build.703.title
+# 	desc = executor_build.703.desc
+# 	diplomatic = yes
+# 	picture_event_data = { room = machine_space_battle_room }
+# 	custom_gui = "kuat_event_m_window"
+# 	custom_gui_option = "kuat_event_m_option"
+# 	trigger = { exists = event_target:fallen_empire_kuat }
+# 	immediate = {
+# 		event_target:fallen_empire_kuat = {
+# 			every_system_within_border = {
+# 				limit = { has_star_flag = Kuat_system }
+# 				create_starbase = {
+# 					owner = event_target:fallen_empire_kuat
+# 					size = "starbase_citadel"
+# 					module = "shipyard"
+# 					module = "shipyard"
+# 					module = "shipyard"
+# 					module = "hangar_bay"
+# 					module = "gun_battery"
+# 					module = "gun_battery"
+# 					building = "target_uplink_computer"
+# 					building = "defense_grid"
+# 					building = "colossus_yards"
+# 					building = "titan_yards"
+# 				}
+# 				create_capital_reinforcements_fleet = yes
+# 			}
+# 		}
+# 	}
+# 	option = { name = OK }
+# }
 
 ##########################
 #### 建造执行者要BB你 #####

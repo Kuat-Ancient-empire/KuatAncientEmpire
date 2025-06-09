@@ -187,8 +187,8 @@ create_kuat_defender_fleet = {
 			Fleet_owner = event_target:return_kuat_awakening_country
 			bombardment = indiscriminate
 
-			Eclipse = @kuat_invasion_flagship_num_T1
-			Tyrant = @kuat_invasion_flagship_num_T2
+			Impellor = @kuat_invasion_flagship_num_T1
+			Titan = @kuat_invasion_flagship_num_T2
 			Resugrant = @kuat_invasion_Battleship_num_T4  
 			high_Imperial = @kuat_invasion_BattleCruser_num_T4  
 			Cavelry = @kuat_invasion_Cruser_num_T4
@@ -202,7 +202,7 @@ create_kuat_defender_fleet = {
 			Fleet_owner = event_target:return_kuat_awakening_country
 			bombardment = indiscriminate
 			
-			Eclipse = @kuat_invasion_flagship_num_T1   
+			Impellor = @kuat_invasion_flagship_num_T1   
 			Balletor = @kuat_invasion_flagship_num_T2
 			Resugrant = @kuat_invasion_Battleship_num_T4  
 			high_Imperial = @kuat_invasion_BattleCruser_num_T4  
@@ -217,7 +217,7 @@ create_kuat_defender_fleet = {
 			Fleet_owner = event_target:return_kuat_awakening_country
 			bombardment = indiscriminate
 			
-			Eclipse = @kuat_invasion_flagship_num_T1   
+			Impellor = @kuat_invasion_flagship_num_T1   
 			Titan = @kuat_invasion_flagship_num_T2
 			Resugrant = @kuat_invasion_Battleship_num_T4  
 			high_Imperial = @kuat_invasion_BattleCruser_num_T4  
@@ -232,7 +232,7 @@ create_kuat_defender_fleet = {
 			Fleet_owner = event_target:return_kuat_awakening_country
 			bombardment = indiscriminate
 			
-			Eclipse = @kuat_invasion_flagship_num_T1   
+			Impellor = @kuat_invasion_flagship_num_T1   
 			Tyrant = @kuat_invasion_flagship_num_T2
 			Resugrant = @kuat_invasion_Battleship_num_T4  
 			high_Imperial = @kuat_invasion_BattleCruser_num_T4  
@@ -247,7 +247,7 @@ create_kuat_defender_fleet = {
 			Fleet_owner = event_target:return_kuat_awakening_country
 			bombardment = indiscriminate
 
-			Eclipse = @kuat_invasion_flagship_num_T1   
+			Impellor = @kuat_invasion_flagship_num_T1   
 			Balletor = @kuat_invasion_flagship_num_T2
 			Resugrant = @kuat_invasion_Battleship_num_T4  
 			high_Imperial = @kuat_invasion_BattleCruser_num_T4  
@@ -294,9 +294,11 @@ create_kuat_return_fleet_attacker = {
 create_random_list_return_kuat_fleet = {
 	optimize_memory
 	random_list = {
-		1 = {
-			modifier = { factor = 0 NOT = { has_global_flag = has_origin_eternalthrone } }
-			modifier = { factor = 5 has_global_flag = has_origin_eternalthrone }
+		1 = {  
+			modifier = {
+				exists = event_target:return_kuat_awakening_country
+				event_target:return_kuat_awakening_country = { is_kuat_Overseer_Council_empire = yes }
+			}
 			create_exe_invasion_fleet = {
 				NAME = Name_DFLEET_II
 				flag = return_kuat_attack_fleet
@@ -306,6 +308,29 @@ create_random_list_return_kuat_fleet = {
 
 				Compellor = @kuat_invasion_flagship_num_T1  
 				Balletor = @kuat_invasion_flagship_num_T2  
+				Resugrant = @kuat_invasion_Battleship_num_T4  
+				high_Imperial = @kuat_invasion_BattleCruser_num_T4  
+				Cavelry = @kuat_invasion_Cruser_num_T4
+				Harrower = @kuat_invasion_Cruser_num_T4  DIFF = $DIFF$
+
+				Location = prev.star Fleet_action = ai_action.13
+				CTL_TARGET = event_target:return_kuat_awakening_country
+			}
+		}
+		1 = {  
+			modifier = {
+				exists = event_target:return_kuat_awakening_country
+				event_target:return_kuat_awakening_country = { is_kuat_fallen_empire = yes }
+			}
+			create_exe_invasion_fleet = {
+				NAME = Name_DFLEET_II
+				flag = return_kuat_attack_fleet
+				is_boss = yes  can_disband = no
+				Fleet_owner = event_target:return_kuat_awakening_country
+				bombardment = indiscriminate
+
+				Impellor = @kuat_invasion_flagship_num_T1  
+				Titan = @kuat_invasion_flagship_num_T2  
 				Resugrant = @kuat_invasion_Battleship_num_T4  
 				high_Imperial = @kuat_invasion_BattleCruser_num_T4  
 				Cavelry = @kuat_invasion_Cruser_num_T4
@@ -556,8 +581,8 @@ create_capital_reinforcements_fleet = {
 			Fleet_owner = event_target:fallen_empire_kuat
 			bombardment = indiscriminate
 
-			Eclipse = @kuat_invasion_flagship_num_T1  
-			Tyrant = @kuat_invasion_flagship_num_T2  
+			Impellor = @kuat_invasion_flagship_num_T1  
+			Titan = @kuat_invasion_flagship_num_T2  
 			Resugrant = @kuat_invasion_Battleship_num_T4  
 			high_Imperial = @kuat_invasion_BattleCruser_num_T4
 			Cavelry = @kuat_invasion_Cruser_num_T4
@@ -601,8 +626,8 @@ create_capital_reinforcements_fleet = {
 			Fleet_owner = event_target:fallen_empire_kuat
 			bombardment = indiscriminate
 
-			Eclipse = @kuat_invasion_flagship_num_T1  
-			Tyrant = @kuat_invasion_flagship_num_T2  
+			Impellor = @kuat_invasion_flagship_num_T1  
+			Titan = @kuat_invasion_flagship_num_T2  
 			Resugrant = @kuat_invasion_Battleship_num_T4  
 			high_Imperial = @kuat_invasion_BattleCruser_num_T4  
 			Cavelry = @kuat_invasion_Cruser_num_T4
@@ -633,18 +658,16 @@ create_capital_kuat_fleet = {
 	create_exe_invasion_fleet = {
 		NAME = Name_DFLEET_II
 		is_boss = yes  can_disband = no
-		flag = executor_boss
 		Fleet_owner = event_target:fallen_empire_kuat
 		bombardment = indiscriminate
 
-		Eclipse = @kuat_invasion_flagship_num_T1  
-		Balletor = @kuat_invasion_flagship_num_T2  
+		Impellor = @kuat_invasion_flagship_num_T1  
+		Titan = @kuat_invasion_flagship_num_T2  
 		Resugrant = @kuat_invasion_Battleship_num_T4  
 		high_Imperial = @kuat_invasion_BattleCruser_num_T4  
 		Cavelry = @kuat_invasion_Cruser_num_T4
 		Harrower = @kuat_invasion_Cruser_num_T4  DIFF = 3
 
-		Flagship_flag = ship_ruins ship_class = eclipse
 		Location = event_target:fallen_empire_kuat.capital_scope
 	}
 }
@@ -657,8 +680,8 @@ create_kuat_system_fleet = {
 		Fleet_owner = event_target:fallen_empire_kuat
 		bombardment = indiscriminate
 
-		Legator = @kuat_invasion_flagship_num_T1 
-		Balletor = @kuat_invasion_flagship_num_T2  
+		Impellor = @kuat_invasion_flagship_num_T1 
+		Titan = @kuat_invasion_flagship_num_T2  
 		Resugrant = @kuat_invasion_Battleship_num_T4  
 		high_Imperial = @kuat_invasion_BattleCruser_num_T4  
 		Cavelry = @kuat_invasion_Cruser_num_T4
