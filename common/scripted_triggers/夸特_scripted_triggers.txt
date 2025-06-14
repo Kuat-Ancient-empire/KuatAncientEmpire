@@ -330,7 +330,6 @@ kuat_is_kuat_sub_flagship = {
 }
 kuat_is_standard_ship = {
 	OR = {
-		kuat_is_special_additive_standard_ship = yes
 		kuat_is_origin_standard_ship = yes
 		kuat_is_imperial_standard_ship = yes
 		kuat_is_drift_standard_ship = yes
@@ -375,10 +374,8 @@ kuat_is_origin_standard_ship = {
 		is_ship_size = Aggressor
 		is_ship_size = Venator_modifier
 		is_ship_size = Venator_modifier_II
+		is_ship_size = Airpernia
 	}
-}
-kuat_is_special_additive_standard_ship = {
-	is_ship_size = Airpernia
 }
 kuat_is_mega_starbase = {
 	OR = {
@@ -483,6 +480,7 @@ kuat_is_kuat_ship = {
 kuat_is_disable_return_ship = {
 	OR = {
 		kuat_is_mega_starbase = yes
+		kuat_is_kuat_superflagship = yes
 
 		AND = {
 			fleet = { has_fleet_flag = kuat_has_Imperial_Flagship_fleet }
@@ -490,7 +488,7 @@ kuat_is_disable_return_ship = {
 		}
 		AND = {
 			fleet = { has_fleet_flag = kuat_has_Airpernia_Flagship_fleet }
-			kuat_is_special_additive_standard_ship = yes
+			kuat_is_origin_standard_ship = yes
 		}
 		AND = {
 			fleet = { has_fleet_flag = kuat_has_Drift_Flagship_fleet }
@@ -1014,10 +1012,7 @@ kuat_is_enable_eternal_invasion = {
 
 kuat_exist_disable_type = {
 	exists = from
-	from = { 
-		is_scope_type = ship 
-		owner = { NOT = { is_same_value = prevprev.owner } }
-	}
+	from.owner = { NOT = { is_same_value = prev.owner } }
 	NOT = { has_ship_flag = kuat_fleet_dynamic_modifier_times }
 	OR = {
 		AND = {
