@@ -653,27 +653,38 @@ country_event = {
 	} }
 	immediate = {
 		if = {
-			limit = { from = { kuat_is_enable_eternal_origin = yes } }
+			limit = { any_country = {
+				kuat_is_enable_eternal_origin = yes
+			} }
 			set_global_flag = eternal_throne_Overseer_Council_defeated_second 
 		}
 		else_if = {
-			limit = { from = { kuat_is_enable_shadow_origin = yes } }
+			limit = { any_country = {
+				kuat_is_enable_shadow_origin = yes
+			} }
 			set_global_flag = under_shadow_kuat_defeated_second 
 			if = {
-				limit = { from = { kuat_is_enable_apocalyptic_origin = yes } }
-				from = { country_event = { id = kuat_diplomatic.17 days = 10 random = 20 } }
+				limit = { any_country = { kuat_is_enable_apocalyptic_origin = yes } }
+				random_country = {
+					limit = { kuat_is_enable_apocalyptic_origin = yes }
+					country_event = { id = kuat_diplomatic.17 days = 10 random = 20 }
+				}
 			}
 		}
-		from = {
+		random_country = {
+			limit = { is_player_country = yes }
 			country_event = { id = exe_kuat_return.16 }
 			kuat_create_toasto_message = { KEY = kuat_find_memory_cluds TARGET = this RECIPIENT = this }
 		}
-		if = {
-			limit = { has_federation = yes }
+		every_country = {
+			limit = { has_federation = yes is_player_country = yes }
 			federation = { every_member = { leave_alliance = { override_requirements = yes } } }
 		}
-		clear_global_event_target = kuat_Annihilate_country
-		from = { remove_country_flag = kuat_Annihilate_country }
+		random_country = {
+			limit = { has_country_flag = kuat_Annihilate_country }
+			remove_country_flag = kuat_Annihilate_country
+			clear_global_event_target = kuat_Annihilate_country
+		}
 	}
 }
 
@@ -1746,11 +1757,11 @@ country_event = {
 				#exists = event_target:eternal_fleet_country
 				check_variable = { which = Count_control_kuat_system value < 2 }
 			} }
-			country_event = { id = kuat_facility_return_invasion.19 days = 120 random = 240 }
+			country_event = { id = kuat_facility_return_invasion.19 days = 360 random = 360 }
 		}
 		else = {
 			country_event = { id = kuat_facility_return_invasion.18 days = 1 random = 7 }
-			country_event = { id = kuat_facility_return_invasion.19 days = 360 random = 360 }
+			country_event = { id = kuat_facility_return_invasion.19 days = 720 random = 720 }
 		}
 		export_trigger_value_to_variable = {
 			trigger = count_system
