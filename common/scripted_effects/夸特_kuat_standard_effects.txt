@@ -1168,8 +1168,11 @@ kuat_automatic_ai_colony = {
 	optimize_memory
 	set_update_modifiers_batch = begin
 	owner = { save_event_target_as = changing_country }
+
 	set_planet_flag = has_building_kuat_command_center_auto
+
 	set_variable = { which = planet_production_ascension_tier value = trigger:has_planetary_ascension_tier }
+
 	set_variable = { which = planet_production_array_base value = value:kuat_pop_amount }
 
 	set_variable = { which = planet_production_array_pop_speed_total value = 0 }
@@ -1204,8 +1207,11 @@ kuat_automatic_ai_colony = {
 	}
 
 	if = { limit = { is_capital = yes } set_timed_planet_flag = { flag = destroy_colony_capital_temple days = 1 } }
+
 	every_owned_pop_group = { kill_pop_group = { pop_group = this percentage = 1 } }
+
 	if = { limit = { is_capital = no } clear_deposits = yes }
+	
 	kuat_automatic_initial_planet_districts_and_zones_types = yes
 	if = {
 		limit = { event_target:changing_country = { is_ai = no } }
@@ -1214,19 +1220,26 @@ kuat_automatic_ai_colony = {
 	else = { kuat_automatic_ai_initial_planet_buildings = yes }
 
 	set_owner = event_target:changing_country
+
 	create_pop_group = { size = 1000 species = owner_main_species }
+
 	add_modifier = { modifier = planet_population_control }
 	add_modifier = { modifier = planet_population_control_gestalt }
 	add_modifier = { modifier = planet_robot_assembly_control }
 	add_modifier = { modifier = kuat_automatic_colony }
+
 	if = { limit = { has_planet_flag = destroy_colony_capital_temple } set_capital = yes }
+
 	set_planetary_ascension_tier = planet_production_ascension_tier
+
 	if = {
 		limit = { event_target:changing_country = { is_ai = no } }
 		kuat_automatic_initial_planet_buildings = yes
 	}
 	else = { kuat_automatic_ai_initial_planet_buildings = yes }
+
 	kuat_reset_auto_colony_variable = yes
+
 	set_update_modifiers_batch = end
 }
 
