@@ -8,8 +8,7 @@ kuat_is_not_allow_to_build_auto_planet = {
 		has_planet_flag = has_building_kuat_command_center_auto
 		is_planet_class = pc_cosmogenesis_world
 		KZ_VOY_kuat_ban_command_center_auto = yes
-		kuat_is_habitat = yes
-		has_planet_flag = kuat_ban_command_center_auto
+		kuat_is_habitat = yes is_artificial = yes
 	}
 }
 
@@ -684,10 +683,7 @@ kuat_is_ringworld = {
 
 kuat_is_habitat = {
 	optimize_memory
-	OR = {
-		uses_district_set = habitat
-		is_planet_class = pc_habitat
-	}
+	OR = { uses_district_set = habitat is_planet_class = pc_habitat }
 }
 
 #永恒危机刷新检测
@@ -1095,13 +1091,8 @@ kuat_exist_disable_type = {
 	exists = from
 	from.owner = { NOT = { is_same_value = prev.owner } }
 	NOT = { has_ship_flag = kuat_fleet_dynamic_modifier_times }
-	OR = {
-		AND = {
-			owner = { is_invisable_faction = yes }
-			from.owner = { OR = { is_player_country = yes is_invisable_faction = yes } }
-		}
-		owner = { is_player_country = yes }
-	}
+	exists = owner
+	owner = { OR = { is_invisable_faction = yes is_player_country = yes } }
 }
 
 #该类，每击杀敌人一艘舰船，可以为己方恢复一艘舰船，cd 5天

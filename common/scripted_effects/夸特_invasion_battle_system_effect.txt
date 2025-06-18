@@ -1287,6 +1287,7 @@ kuat_battle_remove_fleet_modifier_trigger_flag = {
 	clear_variable = infinite_faction_battle_duplicate_ship
 	remove_fleet_flag = is_modifiering_fleet
 	remove_fleet_flag = has_total_kuat_flagship_system
+	remove_fleet_flag = kuat_battle_anti_ai_damage_fleet
 }
 
 kuat_battle_remove_ship_modifier_change_basic_variable = {
@@ -1584,7 +1585,6 @@ kuat_battle_kuat_star_flagship_base_system_clear_calculation = {
 
 kuat_battle_kuat_star_flagship_base_fleet_clear_calculation = {
 	optimize_memory
-	remove_fleet_flag = kuat_battle_flagship_checksum_once_on_battle
 	remove_fleet_flag = kuat_super_flagship_$ID$_enough_support
 	remove_fleet_flag = kuat_super_flagship_$ID$_enough_support_@$SCOPE|prev$
 }
@@ -1610,19 +1610,7 @@ kuat_battle_notification_suppliment_fleet = {
 			recipient = owner
 			days = 30
 		}
-		if = {
-			limit = {  
-				exists = owner
-				owner = { any_system_within_border = {
-					has_kuat_support_modifier_star_flag = yes
-				} }
-			}
-			owner = { random_system_within_border = {
-				limit = { has_kuat_support_modifier_star_flag = yes }
-				prevprev = { set_location = prev.star }
-			} }
-		}
-		else = { set_location = owner.capital_star }
+		set_location = owner.capital_star
 	}
 }
 

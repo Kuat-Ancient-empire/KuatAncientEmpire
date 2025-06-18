@@ -958,6 +958,153 @@ kuat_automatic_initial_planet_buildings = {
 	}		
 }
 
+kuat_automatic_ai_initial_planet_buildings = {
+	optimize_memory
+	remove_all_buildings = yes
+	add_building = {
+		district = district_arcology_kuat_housing
+		building = building_kuat_ai_command_center_auto
+		zone = zone_kuat_city
+	}
+	add_building = {
+		district = district_arcology_kuat_housing
+		building = building_kuat_ai_databank_auto
+		zone = zone_kuat_city
+	}
+	add_building = {
+		district = district_arcology_kuat_housing
+		building = building_kuat_ai_foundry_auto
+		zone = zone_kuat_city
+	}
+	add_building = {
+		district = district_arcology_kuat_housing
+		building = building_kuat_ai_databank_auto
+		zone = zone_kuat_city
+	}
+	add_building = {
+		district = district_arcology_kuat_housing
+		building = building_kuat_ai_foundry_auto
+		zone = zone_kuat_city
+	}	
+	add_building = {
+		district = district_arcology_kuat_housing
+		building = building_kuat_ai_databank_auto
+		zone = zone_kuat_city
+	}
+
+	add_building = {
+		district = district_arcology_kuat_housing
+		building = building_kuat_ai_resource_center_auto
+		zone = zone_kuat_Military
+	}
+	add_building = {
+		district = district_arcology_kuat_housing
+		building = building_kuat_ai_resource_center_auto
+		zone = zone_kuat_Military
+	}
+	add_building = {
+		district = district_arcology_kuat_housing
+		building = building_kuat_ai_resource_center_auto
+		zone = zone_kuat_Military
+	}
+
+	add_building = {
+		district = district_arcology_kuat_housing
+		building = building_kuat_ai_research_center_auto
+		zone = zone_kuat_science
+	}
+	add_building = {
+		district = district_arcology_kuat_housing
+		building = building_kuat_ai_research_center_auto
+		zone = zone_kuat_science
+	}
+	add_building = {
+		district = district_arcology_kuat_housing
+		building = building_kuat_ai_research_center_auto
+		zone = zone_kuat_science
+	}
+
+	add_building = {
+		district = district_arcology_eternal_Khaydarin
+		building = building_kuat_ai_ancient_databank_auto
+		zone = zone_kuat_eternal_Khaydarin
+	}
+	add_building = {
+		district = district_arcology_eternal_Khaydarin
+		building = building_kuat_ai_ancient_databank_auto
+		zone = zone_kuat_eternal_Khaydarin
+	}
+	add_building = {
+		district = district_arcology_eternal_Khaydarin
+		building = building_kuat_ai_ancient_databank_auto
+		zone = zone_kuat_eternal_Khaydarin
+	}
+
+	add_building = {
+		district = district_arcology_kuat_Military
+		building = building_kuat_ai_resource_center_auto
+		zone = zone_kuat_Military
+	}
+	add_building = {
+		district = district_arcology_kuat_Military
+		building = building_kuat_ai_resource_center_auto
+		zone = zone_kuat_Military
+	}
+	add_building = {
+		district = district_arcology_kuat_Military
+		building = building_kuat_ai_resource_center_auto
+		zone = zone_kuat_Military
+	}
+
+	add_building = {
+		district = district_arcology_kuat_science
+		building = building_kuat_ai_research_center_auto
+		zone = zone_kuat_science
+	}
+	add_building = {
+		district = district_arcology_kuat_science
+		building = building_kuat_ai_research_center_auto
+		zone = zone_kuat_science
+	}
+	add_building = {
+		district = district_arcology_kuat_science
+		building = building_kuat_ai_research_center_auto
+		zone = zone_kuat_science
+	}
+
+	add_building = {
+		district = district_arcology_kuat_Khaydarin
+		building = building_kuat_ai_ground_yards_auto
+		zone = zone_kuat_Khaydarin
+	}
+	add_building = {
+		district = district_arcology_kuat_Khaydarin
+		building = building_kuat_ai_ground_yards_auto
+		zone = zone_kuat_Khaydarin
+	}
+	add_building = {
+		district = district_arcology_kuat_Khaydarin
+		building = building_kuat_ai_ground_yards_auto
+		zone = zone_kuat_Khaydarin
+	}
+
+	add_building = {
+		district = district_arcology_Kuat_civilian_industry
+		building = building_kuat_ai_shield_auto
+		zone = zone_kuat_industry
+	}
+	add_building = {
+		district = district_arcology_Kuat_civilian_industry
+		building = building_kuat_ai_shield_auto
+		zone = zone_kuat_industry
+	}
+	add_building = {
+		district = district_arcology_Kuat_civilian_industry
+		building = building_kuat_ai_shield_auto
+		zone = zone_kuat_industry
+	}		
+}
+
 kuat_automatic_initial_planet_districts_and_zones_types = {
 	optimize_memory
 	clear_blockers = yes
@@ -1060,7 +1207,11 @@ kuat_automatic_ai_colony = {
 	every_owned_pop_group = { kill_pop_group = { pop_group = this percentage = 1 } }
 	if = { limit = { is_capital = no } clear_deposits = yes }
 	kuat_automatic_initial_planet_districts_and_zones_types = yes
-	kuat_automatic_initial_planet_buildings = yes
+	if = {
+		limit = { event_target:changing_country = { is_ai = no } }
+		kuat_automatic_initial_planet_buildings = yes
+	}
+	else = { kuat_automatic_ai_initial_planet_buildings = yes }
 
 	set_owner = event_target:changing_country
 	create_pop_group = { size = 1000 species = owner_main_species }
@@ -1070,7 +1221,11 @@ kuat_automatic_ai_colony = {
 	add_modifier = { modifier = kuat_automatic_colony }
 	if = { limit = { has_planet_flag = destroy_colony_capital_temple } set_capital = yes }
 	set_planetary_ascension_tier = planet_production_ascension_tier
-	kuat_automatic_initial_planet_buildings = yes
+	if = {
+		limit = { event_target:changing_country = { is_ai = no } }
+		kuat_automatic_initial_planet_buildings = yes
+	}
+	else = { kuat_automatic_ai_initial_planet_buildings = yes }
 	kuat_reset_auto_colony_variable = yes
 	set_update_modifiers_batch = end
 }
@@ -1143,6 +1298,11 @@ kuat_clear_automatic_planet = {
 	reroll_planet = yes
 	clear_planet_modifiers = yes
 	destroy_colony = yes
+	random_list = {
+		80 = { change_pc = rl_habitable_normal }
+		19 = { change_pc = rl_habitable_special }
+		1 = { change_pc = rl_unhabitable_planets }
+	}
 	every_owned_pop_group = { kill_pop_group = { pop_group = this percentage = 1 } }
 }
 
