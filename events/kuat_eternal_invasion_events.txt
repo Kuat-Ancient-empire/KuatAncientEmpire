@@ -2112,13 +2112,14 @@ country_event = {
 			}
 			else = {  
 				if = {
-					limit = { is_player_country = yes }
+					limit = { exists = owner owner = { is_player_country = yes } }
 					set_location = owner.capital_star
 				}
 				else_if = {
-					limit = { is_player_country = no }
+					limit = { exists = owner owner = { is_player_country = yes } }
 					root.fromfrom = { set_fleet_flag = kuat_battle_anti_ai_damage_fleet }
 				}
+				else = { destroy_fleet = this }
 			}
 			set_timed_fleet_flag = { flag = random_list_flagship_checksum_placeholder days = 1 }
 		} }
