@@ -1092,20 +1092,32 @@ kuat_exist_disable_type = {
 	from.owner = { NOT = { is_same_value = prev.owner } }
 	NOT = { has_ship_flag = kuat_fleet_dynamic_modifier_times }
 	exists = owner
-	owner = { OR = { is_invisable_faction = yes is_player_country = yes } }
+	owner = { OR = { is_invisable_faction = yes kuat_is_player_country = yes } }
 }
 
 #该类，每击杀敌人一艘舰船，可以为己方恢复一艘舰船，cd 5天
-kuat_is_strikcrafet_flagship_type = { optimize_memory OR = { is_ship_size = nebula_dominance is_ship_size = X308_Titan is_ship_size = eclipse } }
+kuat_is_strikcrafet_flagship_type = { 
+	optimize_memory 
+	OR = { is_ship_size = nebula_dominance is_ship_size = X308_Titan is_ship_size = eclipse } 
+}
 
 #该类，导弹伤害伤害增幅50% √
-kuat_is_torpitor_flagship_type = { optimize_memory OR = { is_ship_size = kuat_sector is_ship_size = Vengeance is_ship_size = X308_Tyrant is_ship_size = eclipse } }
+kuat_is_torpitor_flagship_type = {
+	 optimize_memory 
+	 OR = { is_ship_size = kuat_sector is_ship_size = Vengeance is_ship_size = X308_Tyrant is_ship_size = eclipse } 
+	}
 
 #该类，重炮伤害增幅100% √
-kuat_is_artilletry_flagship_type = { optimize_memory OR = { is_ship_size = kuat_legator is_ship_size = Annihilator is_ship_size = X308_Balletor is_ship_size = eclipse } }
+kuat_is_artilletry_flagship_type = { 
+	optimize_memory 
+	OR = { is_ship_size = kuat_legator is_ship_size = Annihilator is_ship_size = X308_Balletor is_ship_size = eclipse } 
+}
 
 #执行者舰队无需副旗舰,直接认定为超旗 √
-kuat_is_special_exector_flagship = { optimize_memory OR = { is_ship_size = nebula_executor is_ship_size = knight_hammer_executor } }
+kuat_is_special_exector_flagship = { 
+	optimize_memory 
+	OR = { is_ship_size = nebula_executor is_ship_size = knight_hammer_executor } 
+}
 
 
 kuat_is_invisable_target_system  = {
@@ -1113,5 +1125,34 @@ kuat_is_invisable_target_system  = {
 	OR = { 
 		has_star_flag = kuat_ded_white_hole_star 
 		has_star_flag = kuat_white_hole_star
+	}
+}
+
+kuat_is_player_country = {
+	optimize_memory
+	OR = {
+		AND = {
+			NOT = { has_global_flag = kuat_set_forcetrigger_order_enable_crisis_eve_system  }
+			is_ai = no
+		}
+		AND = { 
+			has_global_flag = kuat_set_forcetrigger_order_enable_crisis_eve_system 
+			is_ai = yes
+		}
+	}
+}
+
+kuat_default_site_visible_trigger = {
+	optimize_memory
+	kuat_is_player_country = yes
+	OR = {
+		intel_level = {
+			level >= low
+			system = from.solar_system
+		}
+		AND = {
+			exists = from 
+			from.planet = { is_within_borders_of = root }
+		}
 	}
 }
