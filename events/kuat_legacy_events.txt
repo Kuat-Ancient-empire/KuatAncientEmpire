@@ -239,12 +239,25 @@ country_event = {
 	custom_gui_option = "kuat_event_m_option"
 	is_triggered_only = yes
 	immediate = {
-		random_planet_within_border = {
-			limit = {
-				is_planet_class = pc_gas_giant
-				NOT = { exists = archaeological_site }
+		if = {
+			limit = { any_planet_within_border = { 
+				is_planet_class = pc_gas_giant 
+				NOT = { exists = archaeological_site } 
+			} }
+			random_planet_within_border = {
+				limit = {
+					is_planet_class = pc_gas_giant
+					NOT = { exists = archaeological_site }
+				}
+				create_archaeological_site = kuat_lagacy_2
 			}
-			create_archaeological_site = kuat_lagacy_2
+		}
+		else = {
+			random_planet_within_border = {
+				limit = { kuat_is_legacy_arc_planet = yes }
+				change_pc = pc_gas_giant
+				create_archaeological_site = kuat_lagacy_2
+			}
 		}
 	}
 	option = { name = kuat_legacy.8.a }
