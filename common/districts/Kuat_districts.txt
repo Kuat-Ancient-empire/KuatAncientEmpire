@@ -62,7 +62,6 @@ district_arcology_kuat_housing = {
 		}
 		modifier = {
 			job_clerk_add = 600
-			#job_culture_worker_add = 200
 			job_healthcare_add = 200
 		}
 	}
@@ -165,7 +164,7 @@ district_arcology_kuat_Military = {
 		}
 		modifier = {
 			job_Kuat_foundry_add = 300
-			job_Kuat_artisan_add = 100
+			job_Kuat_artisan_add = 300
 		}
 	}
 
@@ -181,20 +180,23 @@ district_arcology_kuat_Military = {
 		modifier = { job_Kuat_foundry_add = 200 }
 	}
 
-	triggered_desc = {
-		trigger = {
+	triggered_planet_modifier = {
+		potential = {
 			exists = owner
-			owner = { is_regular_empire = yes }
+			OR = {
+				is_planet_class = pc_kuat_eternal_city
+				is_planet_class = pc_kuat_eternal_ringworld_habitable
+			}			
+			has_active_building = building_eternal_business_complex
 		}
-		text = job_Kuat_foundry_effect_desc
+		modifier = { job_Kuat_artisan_add = 200 }
 	}
 
 	triggered_desc = {
-		trigger = { 
-			exists = owner
-			owner = { is_gestalt = yes }
-		}
 		text = job_Kuat_foundry_effect_desc
+	}	
+	triggered_desc = {
+		text = job_Kuat_artisan_effect_desc
 	}		
 	
 	
@@ -279,9 +281,6 @@ district_arcology_kuat_science = {
 		}
 	}
 
-	triggered_desc = {
-		text = job_researcher_effect_desc
-	}
 	triggered_desc = {
 		text = job_Kuat_chief_researcher_effect_desc
 	}
@@ -417,7 +416,7 @@ district_arcology_Kuat_civilian_industry = {
 	}
 
 	planet_modifier = {
-		planet_housing_add = 1000
+		planet_housing_add = 1500
 	}
 
 	triggered_planet_modifier = {
@@ -432,7 +431,10 @@ district_arcology_Kuat_civilian_industry = {
 				is_planet_class = pc_kuat_eternal_ringworld_habitable
 			}			
 		}
-		modifier = { job_entertainer_add = 600 }
+		modifier = { 
+			job_entertainer_add = 600 
+			job_resort_worker_add = 600
+		}
 	}
 
 	triggered_planet_modifier = {
@@ -472,6 +474,10 @@ district_arcology_Kuat_civilian_industry = {
 			}			
 		}
 		text = job_entertainer_effect_desc
+	}
+
+	triggered_desc = {
+		text = job_resort_worker_effect_desc
 	}
 }
 
@@ -537,7 +543,7 @@ district_arcology_eternal_Khaydarin = {
 				is_planet_class = pc_kuat_eternal_ringworld_habitable
 			}			
 		}
-		text = job_soldier_effect_desc
+		text = job_Kuat_soldier_effect_desc
 	}
 
 	ai_weight = {

@@ -11,13 +11,11 @@ building_kuat_command_center = {
 	icon = building_kuat_command_center
 	potential = {
 		exists = owner
-		owner = {
-			OR = {
-				has_country_flag = kuat_can_buid_kuat_building
-				kuat_is_enable_apocalyptic_origin  = yes
-				is_kuat_fallen_empire = yes
-			}
-		}
+		owner = { OR = {
+			has_country_flag = kuat_can_buid_kuat_building
+			kuat_is_enable_apocalyptic_origin = yes
+			is_kuat_fallen_empire = yes
+		} }
 	}
 	building_sets = {
 		government
@@ -35,11 +33,11 @@ building_kuat_command_center = {
 		potential = { always = yes }
 		show_only_custom_tooltip = yes
 		custom_tooltip = "building_kuat_command_center_desc"
-		planet_jobs_produces_mult = 1
 		planet_crime_add = -100
 		planet_amenities_add = 10000
 		planet_stability_add = 100
 		planet_housing_add = 10000
+		district_automated_workforce = 0.75
 	}
 	convert_to = {
 		building_hive_major_capital
@@ -49,71 +47,34 @@ building_kuat_command_center = {
 	triggered_planet_modifier = {
 		potential = {
 			exists = owner
-			owner = { OR = {
-				is_country_type = kuat_fallen_empire
-				is_country_type = kuat_awakened_fallen_empire
-				is_country_type = kuat_awakened_returned_empire
-			} }
-		}
-		modifier = {
-			#job_head_researcher_add
-			job_physicist_add = 1000 
-        	job_biologist_add = 1000 
-        	job_engineer_add = 1000
-		}
-	}
-	triggered_planet_modifier = {
-		potential = {
-			exists = owner
-			owner = {
-				is_gestalt = no
-				NOR = {
-					is_country_type = kuat_fallen_empire
-					is_country_type = kuat_awakened_fallen_empire
-					is_country_type = kuat_awakened_returned_empire
-				}
-			}
+			owner = { is_gestalt = no }
 		}
 		modifier = { 
-			job_physicist_per_pop = 0.25 
-			job_biologist_per_pop = 0.25 
-			job_engineer_per_pop = 0.25
+			job_physicist_per_pop = 0.01 
+			job_biologist_per_pop = 0.01 
+			job_engineer_per_pop = 0.01
 		}
 	}
 	triggered_planet_modifier = {
 		potential = {
 			exists = owner
-			owner = {
-				is_machine_empire = yes
-				NOR = {
-					is_country_type = kuat_fallen_empire
-					is_country_type = kuat_awakened_fallen_empire
-					is_country_type = kuat_awakened_returned_empire
-				}
-			}
+			owner = { is_machine_empire = yes }
 		}
 		modifier = {
-			job_calculator_physicist_per_pop = 0.25
-			job_calculator_biologist_per_pop = 0.25
-			job_calculator_engineer_per_pop = 0.25
+			job_calculator_physicist_per_pop = 0.01
+			job_calculator_biologist_per_pop = 0.01
+			job_calculator_engineer_per_pop = 0.01
 		}
 	}
 	triggered_planet_modifier = {
 		potential = {
 			exists = owner
-			owner = {
-				is_hive_empire = yes
-				NOR = {
-					is_country_type = kuat_fallen_empire
-					is_country_type = kuat_awakened_fallen_empire
-					is_country_type = kuat_awakened_returned_empire
-				}
-			}
+			owner = { is_hive_empire = yes }
 		}
 		modifier = {
-			job_calculator_physicist_per_pop = 0.25
-			job_calculator_biologist_per_pop = 0.25
-			job_calculator_engineer_per_pop = 0.25
+			job_calculator_physicist_per_pop = 0.01
+			job_calculator_biologist_per_pop = 0.01
+			job_calculator_engineer_per_pop = 0.01
 		}
 	}
 	resources = {
@@ -452,10 +413,10 @@ building_kuat_foundry = {
 		upkeep = { food = 100 }
 	}
 	planet_modifier = {
-		planet_jobs_alloys_produces_mult = 1
-		planet_jobs_consumer_goods_produces_mult = 1
+		planet_jobs_alloys_produces_mult = 3
+		planet_jobs_consumer_goods_produces_mult = 3
 	}
-	prerequisites = { tech_kuat_founfry }
+	prerequisites = { tech_kuat_foundry }
 	upgrades = { }
 }
 
@@ -552,6 +513,7 @@ building_kuat_shield = {
 		society
 		engineering
 		unity
+		fortress
 	}
 	allow = { always = yes }
 	triggered_planet_modifier = {
@@ -663,6 +625,7 @@ building_kuat_ground_yards = {
 		society
 		engineering
 		unity
+		fortress
 	}
 	resources = {
 		category = planet_buildings
@@ -670,7 +633,7 @@ building_kuat_ground_yards = {
 		upkeep = { energy = 100 }
 	}
 	country_modifier = { 
-		starbase_shipyard_build_speed_mult = 0.5 
+		starbase_shipyard_build_speed_mult = 1
 	}
 	prerequisites = { tech_kuat_ground_yards }
 }
