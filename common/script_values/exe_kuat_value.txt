@@ -53,6 +53,28 @@
 # This means that you can input parameters into them, in a similar fashion as described in scripted_effects/99_advanced_documentation.txt
 # For format for doing so is value:my_value|PARAM1|value1|PARAM2|value2|.
 # Then you can use $PARAM1$ in the script value and it will replace it with value1
+kuat_enigmatic_encoder_defender_value = {
+	base = 0
+	add = trigger:has_max_hp
+	subtract = trigger:$TRIGGER$
+	divide = modifier:kuat_enigmatic_encoder_defender
+	floor = yes
+	max = value:kuat_enigmatic_encoder_defender_max|DIVIDE|$DIVIDE$|
+	min = value:kuat_enigmatic_encoder_defender_min|DIVIDE|$DIVIDE$|
+}
+
+kuat_enigmatic_encoder_defender_max = {
+	base = 0
+	add = 922330000
+	divide = $DIVIDE$
+}
+
+kuat_enigmatic_encoder_defender_min = {
+	base = 0
+	add = 10
+	divide = $DIVIDE$
+}
+
 kuat_superlazer_weapon_damage_factor_ship_base = {
 	base = 0
 	add = 1
@@ -130,7 +152,7 @@ kuat_get_revenue_hp_weapon_page = {
 	max = value:kuat_dynamic_exist_life_times
 }
 
-kuat_standard_ultil_modifier_factor = {
+kuat_standard_dynamic_modifier_factor = {
 	base = 0
 	add = modifier:$MODIFIER$
 	subtract = $ADD|0$
