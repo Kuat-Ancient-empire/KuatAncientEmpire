@@ -73,17 +73,23 @@ Building_The_Kuat_Command_Line_Auto_planet = {
 	enactment_time = 1800
 	resources = { 
 		category = decisions 
-		cost = { unity = 100 minerals = 5000 }
+		cost = { unity = 1000 minerals = 5000 }
 	}
-	prerequisites = { tech_kuat_command_center }
 	potential = {
-		from = { is_ai = no }
+		exists = owner
+		owner = {
+			kuat_is_allow_to_build_auto_planet_country = yes
+		}
+		NOR = {
+			is_planet_class = pc_kuat_eternal_city
+			is_planet_class = pc_kuat_eternal_ringworld_habitable
+		}
 		kuat_is_not_allow_to_build_auto_planet = no
 	}
 	allow = {
 		custom_tooltip_fail = {
 			text = "Building_The_Kuat_Command_Line_Auto_planet_failed"
-			PR_prmt_trgr_HC = { MORE = 1900 }
+			PR_prmt_trgr_HC = { MORE = 1000 }
 		}
 	}
 	effect = { hidden_effect = { kuat_automatic_ai_colony = yes } }
@@ -95,16 +101,25 @@ Building_The_Kuat_AI_Command_Line_Auto_planet = {
 	owned_planets_only = yes
 	sound = event_air_raid_siren
 	icon = decision_arcology_project
-	enactment_time = 1
 	resources = { 
 		category = decisions 
-		cost = { unity = 0 }
+		cost = { unity = 100 }
 	}
-	potential = { from = { is_ai = yes } }
+	potential = {
+		exists = owner
+		owner = {
+			kuat_is_allow_to_build_auto_planet_country = yes
+		}
+		OR = {
+			is_planet_class = pc_kuat_eternal_city
+			is_planet_class = pc_kuat_eternal_ringworld_habitable
+		}
+		kuat_is_not_allow_to_build_auto_planet = no
+	}
 	allow = {  
 		custom_tooltip_fail = {
 			text = "Building_The_Kuat_Command_Line_Auto_planet_failed"
-			kuat_is_not_allow_to_build_auto_planet = no
+			PR_prmt_trgr_HC = { MORE = 1000 }
 		}
 	}
 	effect = { hidden_effect = { kuat_automatic_ai_colony = yes } }
