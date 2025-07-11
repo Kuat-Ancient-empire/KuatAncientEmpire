@@ -810,7 +810,7 @@ kuat_repeal_all_crisis_resolutions = {
 	cancel_resolution = resolution_galactic_focus_crisis_return_eternal_fleet
 }
 
-#((人口数+人口增长总额*0.2（1-10000）)*10%星球规模+年份)*阶段系数(0.1-1.0)
+#（星球转化人口数+积累人口数）*(（1+星球岗位效率乘数）+星球岗位效率加数+（星球规模*0.1）)*阶段系数（年份/100）+其他星港迁移数
 kuat_automatic_initial_planet_buildings = {
 	optimize_memory
 	remove_all_buildings = yes
@@ -1175,37 +1175,6 @@ kuat_automatic_ai_colony = {
 
 	set_variable = { which = planet_production_array_base value = value:kuat_pop_amount }
 
-	set_variable = { which = planet_production_array_pop_speed_total value = 0 }
-	
-	if = {
-		limit = { check_modifier_value = { modifier = bonus_pop_growth_mult value >= 0 } }
-		set_variable = { which = planet_production_array_growpop_speed_base value = modifier:bonus_pop_growth_mult }
-		change_variable = { which = planet_production_array_pop_speed_total value = planet_production_array_growpop_speed_base }
-	}
-	if = {
-		limit = { check_modifier_value = { modifier = logistic_growth_mult value >= 0 } }
-		set_variable = { which = planet_production_array_growpop_speed_base_logical value = modifier:logistic_growth_mult }
-		change_variable = { which = planet_production_array_pop_speed_total value = planet_production_array_growpop_speed_base_logical }
-	}
-	if = {
-		limit = { check_modifier_value = { modifier = bonus_pop_growth value >= 0 } }
-		set_variable = { which = planet_production_array_organicpop_speed_base value = modifier:bonus_pop_growth }
-		if = {
-			limit = { check_modifier_value = { modifier = bonus_pop_growth_mult value >= 0 } }
-			multiply_variable = { which = planet_production_array_organicpop_speed_base value = modifier:bonus_pop_growth_mult }
-		}
-		change_variable = { which = planet_production_array_pop_speed_total value = planet_production_array_organicpop_speed_base }
-	}
-	if = {
-		limit = { check_modifier_value = { modifier = planet_pop_assembly_add value >= 0 } }
-		set_variable = { which = planet_production_array_pop_speed_base value = modifier:planet_pop_assembly_add }
-		if = {
-			limit = { check_modifier_value = { modifier = planet_pop_assembly_mult value >= 0 } }
-			multiply_variable = { which = planet_production_array_pop_speed_base value = modifier:planet_pop_assembly_mult }
-		}
-		change_variable = { which = planet_production_array_pop_speed_total value = planet_production_array_pop_speed_base }
-	}
-
 	if = { limit = { is_capital = yes } set_timed_planet_flag = { flag = destroy_colony_capital_temple days = 1 } }
 
 	every_owned_pop_group = { kill_pop_group = { pop_group = this percentage = 1 } }
@@ -1271,35 +1240,8 @@ kuat_reset_auto_colony_variable = {
 			}
 		}
 	}
-
-	change_variable = { which = planet_production_array_pop_speed_total_dynamic value = planet_production_array_pop_speed_total }
-	multiply_variable = { which = planet_production_array_pop_speed_total_dynamic value = 0.2 }
-
-	set_variable = { which = planet_production_array value = planet_production_array_base }
-	change_variable = { which = planet_production_array value = planet_production_array_pop_speed_total_dynamic }
-	multiply_variable = { which = planet_production_array value = trigger:planet_size }
-	multiply_variable = { which = planet_production_array value = 0.1 }
-	change_variable = { which = planet_production_array value = trigger:years_passed }
-
-	if = {
-		limit = { exists = owner owner = { is_ai = no } }
-		if = { limit = { years_passed >= 100 } multiply_variable = { which = planet_production_array value = 1.0 } }
-		else_if = { limit = { years_passed >= 90 } multiply_variable = { which = planet_production_array value = 0.9 } }
-		else_if = { limit = { years_passed >= 80 } multiply_variable = { which = planet_production_array value = 0.8 } }
-		else_if = { limit = { years_passed >= 70 } multiply_variable = { which = planet_production_array value = 0.7 } }
-		else_if = { limit = { years_passed >= 60 } multiply_variable = { which = planet_production_array value = 0.6 } }
-		else_if = { limit = { years_passed >= 50 } multiply_variable = { which = planet_production_array value = 0.5 } }
-		else_if = { limit = { years_passed >= 40 } multiply_variable = { which = planet_production_array value = 0.4 } }
-		else_if = { limit = { years_passed >= 30 } multiply_variable = { which = planet_production_array value = 0.3 } }
-		else_if = { limit = { years_passed >= 20 } multiply_variable = { which = planet_production_array value = 0.2 } }
-		else = { multiply_variable = { which = planet_production_array value = 0.1 } }
-	}
-	else = { multiply_variable = { which = planet_production_array value = 0.1 } }
-	floor_variable = planet_production_array
-	if = {
-		limit = { is_variable_set = planet_production_array_migrant }
-		change_variable = { which = planet_production_array value = planet_production_array_migrant }
-	}
+	change_variable = { which = planet_production_array_auto_caculation value = value:kuat_planet_auto_improve_amount }
+	set_variable = { which = planet_production_array value = value:kuat_planet_production_array }
 }
 
 kuat_clear_automatic_planet = {

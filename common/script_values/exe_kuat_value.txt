@@ -626,3 +626,76 @@ kuat_planet_half_building_amount = {
 	add = trigger:free_building_slots
 	mult = $MULT$
 }
+
+kuat_planet_production_array = {
+	base = 0
+	add = value:kuat_planet_production_array_base
+	mult = value:kuat_planet_production_array_bonus_workforce
+	modifier = { 
+		mult = value:kuat_planet_production_array_time_stage 
+		exists = owner owner = { is_ai = no }
+	}
+	modifier = {
+		mult = 0.1
+		exists = owner owner = { is_ai = yes }
+	}
+	modifier = {
+		add = planet_production_array_migrant
+		is_variable_set = planet_production_array_migrant
+	}
+	floor = yes
+}
+
+kuat_planet_production_array_base = {
+	base = 0
+	add = planet_production_array_base
+	add = planet_production_array_auto_caculation
+}
+
+kuat_planet_production_array_planet_size = {
+	base = 0
+	add = trigger:planet_size
+	mult = 0.1
+}
+
+kuat_planet_production_array_bonus_workforce = {
+	add = 0
+	add = value:kuat_system_support_mult_variable|MODIFIER|pop_bonus_workforce_mult|
+	add = modifier:pop_bonus_workforce_add
+	add = value:kuat_planet_production_array_planet_size
+}
+
+kuat_planet_production_array_time_stage = {
+	base = 0
+	add = trigger:years_passed
+	mult = 0.02
+	min = 0.1
+}
+
+kuat_planet_auto_improve_amount = {
+	base = 0
+	add = value:kuat_planet_auto_improve_tradition_amount
+	add = 100
+	divide = 2
+	floor = yes
+}
+
+kuat_planet_auto_improve_tradition_amount = {
+	base = 0
+	modifier = {
+		add = owner.trigger:num_ascension_perks
+		exists = owner
+	}
+	modifier = {
+		add = owner.trigger:num_tradition_categories
+		exists = owner
+	}
+	mult = 0.1
+}
+
+kuat_planet_pop_assembly_average_int = {
+	base = 0
+	add = trigger:free_housing
+	mult = 0.01
+	min = 0
+}
