@@ -1591,27 +1591,24 @@ kuat_battle_kuat_star_flagship_base_fleet_clear_calculation = {
 
 kuat_battle_notification_suppliment_fleet = {
 	optimize_memory
-	if = {
-		limit = { is_ship_class = shipclass_military }
-		create_message = {
-			type = kuat_fleet_suppilyment_lacked
-			localization = kuat_fleet_suppilyment_lacked_desc
-			variable = {
-				type = name
-				localization = KUAT_FLEET_NAME
-				scope = this
-			}
-			variable = {
-				type = name
-				localization = KUAT_CAPITAL_NAME
-				scope = owner.capital_scope
-			}
-			target = this
-			recipient = owner
-			days = 30
+	create_message = {
+		type = kuat_fleet_suppilyment_lacked
+		localization = kuat_fleet_suppilyment_lacked_desc
+		variable = {
+			type = name
+			localization = KUAT_FLEET_NAME
+			scope = this
 		}
-		set_location = owner.capital_star
+		variable = {
+			type = name
+			localization = KUAT_CAPITAL_NAME
+			scope = owner.capital_scope
+		}
+		target = this
+		recipient = owner
+		days = 30
 	}
+	set_location = owner.capital_star
 }
 
 kuat_battle_kuat_remove_starbase_station = {
@@ -1756,7 +1753,6 @@ kuat_battle_clear_ship_at_health = {
 	[[INVERT_DISABLE] $INVERT_DISABLE$ = no ]
 	[[Disable_health] set_disable_at_health = $Disable_health$ remove_ship_flag = kuat_battle_disable_ship_at_health ]
 	[[WHICH] subtract_variable = { which = $WHICH$ value = 1 } ]
-	[[AG_TYPE] while = { count = $AG_TYPE$ ag_subtract_disable_at_health = { ag_type = common } remove_ship_flag = kuat_battle_disable_ship_at_health } ]
 }
 
 kuat_battle_flagship_intial = {

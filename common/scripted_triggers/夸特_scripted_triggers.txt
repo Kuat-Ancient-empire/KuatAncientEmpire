@@ -1097,11 +1097,19 @@ kuat_is_enable_eternal_invasion = {
 
 kuat_exist_disable_type = {
 	optimize_memory
-	exists = from
-	from.owner = { NOT = { is_same_value = prev.owner } }
+	AND = {
+		exists = from.owner
+		from.owner = { NOT = { is_same_value = prev.owner } }
+	}
 	NOT = { has_ship_flag = kuat_fleet_dynamic_modifier_times }
-	exists = owner
-	owner = { OR = { is_invisable_faction = yes kuat_is_player_country = yes } }
+	AND = {
+		exists = owner
+		owner = { OR = { is_invisable_faction = yes kuat_is_player_country = yes } }
+	}
+	AND = {
+		exists = fleet
+		fleet = { NOT = { has_fleet_flag = kuat_battle_anti_ai_damage_fleet } }
+	}
 }
 
 #该类，每击杀敌人一艘舰船，可以为己方恢复一艘舰船，cd 5天

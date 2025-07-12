@@ -1648,51 +1648,55 @@ country_event = {
 		fromfromfrom = {
 			save_event_target_as = kuat_battle_disable_ship_at_health_ship
 			if = { 
-				limit = { exists = fleet }
-				fleet = { create_ship = { 
+				limit = { is_ship_class = shipclass_military }
+				fleet = { create_ship = {
+					name = event_target:kuat_battle_disable_ship_at_health_ship
 					design = event_target:kuat_battle_disable_ship_at_health_ship 
 					effect = { 
 						copy_flags_and_variables_from = event_target:kuat_battle_disable_ship_at_health_ship 
 						if = {
 							limit = { root.from = { is_galatic_empire = yes } }
-							switch = {
-								trigger = is_ship_class
-								shipclass_military = { kuat_battle_disable_ship_at_health = { FLAG = enable_kuat_ship_inital Disable_health = 0.01 WHICH = KUAT_SHIP_HEALTH_VAR HEALTH = value:kuat_dynamic_exist_life_times } }
-								shipclass_starbase = { kuat_battle_disable_ship_at_health = { FLAG = enable_disable_starbase Disable_health = 0.01 WHICH = STARBASE_HEALTH_VAR HEALTH = value:kuat_dynamic_exist_life_times } }
-							}
+							kuat_battle_disable_ship_at_health = { FLAG = enable_kuat_ship_inital Disable_health = 0.01 WHICH = KUAT_SHIP_HEALTH_VAR HEALTH = value:kuat_dynamic_exist_life_times }
 						}
 						else_if = {
 							limit = { root.from = { is_eternal_faction = yes } }
-							switch = {
-								trigger = is_ship_class
-								shipclass_military = { kuat_battle_disable_ship_at_health = { FLAG = enable_Eternal_ship_inital Disable_health = 0.01 WHICH = ETERNAL_SHIP_HEALTH_VAR HEALTH = value:kuat_dynamic_exist_life_times } }
-								shipclass_starbase = { kuat_battle_disable_ship_at_health = { FLAG = enable_disable_starbase Disable_health = 0.01 WHICH = STARBASE_HEALTH_VAR HEALTH = value:kuat_dynamic_exist_life_times } }
-							}
+							kuat_battle_disable_ship_at_health = { FLAG = enable_Eternal_ship_inital Disable_health = 0.01 WHICH = ETERNAL_SHIP_HEALTH_VAR HEALTH = value:kuat_dynamic_exist_life_times }
 						}
 						else_if = {
 							limit = { root.from = { is_infinite_faction = yes } }
-							switch = {
-								trigger = is_ship_class
-								shipclass_military = { kuat_battle_disable_ship_at_health = { FLAG = enable_Infinite_ship_inital Disable_health = 0.01 WHICH = INFINITE_SHIP_HEALTH_VAR HEALTH = value:kuat_dynamic_exist_life_times } }
-							}
+							kuat_battle_disable_ship_at_health = { FLAG = enable_Infinite_ship_inital Disable_health = 0.01 WHICH = INFINITE_SHIP_HEALTH_VAR HEALTH = value:kuat_dynamic_exist_life_times }
 						}
 						else_if = {
 							limit = { root.from = { is_kuat_contractor_faction = yes } }
-							switch = {
-								trigger = is_ship_class
-								shipclass_military = { kuat_battle_disable_ship_at_health = { FLAG = enable_drft_ship_inital Disable_health = 0.01 WHICH = DRFT_SHIP_HEALTH_VAR HEALTH = value:kuat_dynamic_exist_life_times } }
-								shipclass_starbase = { kuat_battle_disable_ship_at_health = { FLAG = enable_disable_starbase Disable_health = 0.01 WHICH = STARBASE_HEALTH_VAR HEALTH = value:kuat_dynamic_exist_life_times } }
-							}
+							kuat_battle_disable_ship_at_health = { FLAG = enable_drft_ship_inital Disable_health = 0.01 WHICH = DRFT_SHIP_HEALTH_VAR HEALTH = value:kuat_dynamic_exist_life_times }
 						}
 						else = {
-							switch = {
-								trigger = is_ship_class
-								shipclass_military = { kuat_battle_disable_ship_at_health = { FLAG = enable_kuat_none_ship_inital Disable_health = 0.01 WHICH = KUAT_NONE_SHIP_HEALTH_VAR HEALTH = value:kuat_dynamic_exist_life_times } }
-								shipclass_starbase = { kuat_battle_disable_ship_at_health = { FLAG = enable_disable_starbase Disable_health = 0.01 WHICH = STARBASE_HEALTH_VAR HEALTH = value:kuat_dynamic_exist_life_times } }
-							}
+							kuat_battle_disable_ship_at_health = { FLAG = enable_kuat_none_ship_inital Disable_health = 0.01 WHICH = KUAT_NONE_SHIP_HEALTH_VAR HEALTH = value:kuat_dynamic_exist_life_times }
 						}
 					}
 				} }
+			}
+			else_if = {
+				limit = { is_ship_class = shipclass_starbase }
+				root.from = {
+					create_fleet = {
+						name = event_target:kuat_battle_disable_ship_at_health_ship.fleet
+						settings = { spawn_debris = no can_disband = no }
+						effect = {
+							set_owner = prev
+							copy_flags_and_variables_from = event_target:kuat_battle_disable_ship_at_health_ship.fleet
+							create_ship = {
+								name = event_target:kuat_battle_disable_ship_at_health_ship
+								design = event_target:kuat_battle_disable_ship_at_health_ship
+								effect = {
+									copy_flags_and_variables_from = event_target:kuat_battle_disable_ship_at_health_ship
+									kuat_battle_disable_ship_at_health = { FLAG = enable_disable_starbase Disable_health = 0.01 WHICH = STARBASE_HEALTH_VAR HEALTH = value:kuat_dynamic_exist_life_times }
+								}
+							}
+							set_location = { target = event_target:kuat_battle_disable_ship_at_health_ship distance = 0 angle = random }
+						}
+					}
+				}
 			}
 		}
 	} }
@@ -2075,7 +2079,7 @@ country_event = {
 				NOT = { has_global_flag = kuat_set_forcetrigger_order_enable_crisis_eve_system }
 			}
 			country_event = {
-				id = exe_invasion.132 days = 1 
+				id = exe_invasion.132
 				scopes = { from = root.from fromfrom = root.fromfrom fromfromfrom = root.fromfromfrom }
 			}
 		}
@@ -2105,7 +2109,7 @@ country_event = {
 						kuat_battle_kuat_star_flagship_base_fleet_clear_calculation = { ID = 2 }
 						kuat_battle_kuat_star_flagship_base_fleet_clear_calculation = { ID = 4 }
 					}
-					system_event = { id = exe_invasion.2502 days = 1 }
+					system_event = { id = exe_invasion.2502 days = 2 }
 				} }
 				#运算
 				inline_script = { script = kuat_battle_event/kuat_exe_invasion_base_effect_checksum ID_3 = 4 ID_2 = 2 ID_1 = 1 }
@@ -2116,7 +2120,7 @@ country_event = {
 					set_location = owner.capital_star
 				}
 				else_if = {
-					limit = { exists = owner owner = { kuat_is_player_country = yes } }
+					limit = { exists = owner owner = { kuat_is_player_country = no } }
 					root.fromfrom = { set_fleet_flag = kuat_battle_anti_ai_damage_fleet }
 				}
 				else = { destroy_fleet = this }
