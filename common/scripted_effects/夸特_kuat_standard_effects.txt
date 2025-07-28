@@ -1111,7 +1111,15 @@ kuat_automatic_initial_planet_districts_and_zones_types = {
 	remove_all_buildings = yes
 	remove_all_districts = yes
 	clear_planet_modifiers = yes
-	destroy_colony = yes
+
+	if = {
+		limit = { NOT = { has_planet_flag = kuat_initial_colony_planet } }
+		every_owned_pop_group = { kill_all_pop = yes }
+		destroy_colony = yes
+	}
+	else = {
+		every_owned_pop_group = { kill_all_pop = yes }
+	}
 
 	if = {
 		limit = { is_ringworld = yes }
@@ -1176,8 +1184,6 @@ kuat_automatic_ai_colony = {
 	set_variable = { which = planet_production_array_base value = value:kuat_pop_amount }
 
 	if = { limit = { is_capital = yes } set_timed_planet_flag = { flag = destroy_colony_capital_temple days = 1 } }
-
-	every_owned_pop_group = { kill_pop_group = { pop_group = this percentage = 1 } }
 
 	if = { limit = { is_capital = no } clear_deposits = yes }
 	

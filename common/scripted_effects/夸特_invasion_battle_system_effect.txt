@@ -1501,15 +1501,6 @@ kuat_battle_kuat_copy_leader_learning_system = {
 	}
 }
 
-#scope: fleet
-kuat_battle_mult_half_variable = {
-	optimize_memory
-	export_trigger_value_to_variable = { trigger = count_owned_ship variable = $WHICH$ } #总
-	set_variable = { which = $WHICH$_half value = $WHICH$ } #检查总
-	multiply_variable = { which = $WHICH$_half value = $VALUE$ }
-	round_variable = $WHICH$_half
-}
-
 #补给系统
 kuat_battle_kuat_star_flagship_checksum = {
 	optimize_memory
@@ -1631,109 +1622,6 @@ kuat_battle_kuat_remove_starbase_station = {
 		entity_face_object = star
 		entity_offset = { min = 0 max = 0 }
 		entity_scale_to_size = yes scale = 0.10
-	}
-}
-
-kuat_battle_kuat_disable_checks_effect = {
-	optimize_memory
-	if = {
-		limit = { count_owned_ship = {
-			limit = { check_variable = { which = kuat_invsiable_faction_disables_times value > 10 } }
-			count >= kuat_fleet_invisiable_checkpoint_half 
-		} }
-		every_combatant_fleet = {
-			limit = { 
-				owner = { is_invisable_faction = no }
-				has_enable_total_flagship_system_false = yes
-				NOT = { has_fleet_flag = kuat_fleet_invisiable_checkpoint_half_temple }
-			}
-			while = {
-				count = kuat_fleet_invisiable_checkpoint_half
-				random_owned_ship = { limit = { kuat_is_flagship = no } destroy_ship = this }
-			}
-			set_timed_fleet_flag = { flag = kuat_fleet_invisiable_checkpoint_half_temple days = 1 }
-		}
-	}
-	else_if = {
-		limit = { count_owned_ship = {
-			limit = { check_variable = { which = kuat_invsiable_faction_disables_times value > 8 } }
-			count >= kuat_fleet_invisiable_checkpoint_half 
-		} }
-		while = {
-			count = 4
-			random_combatant_fleet = {
-				limit = { 
-					owner = { is_invisable_faction = no }
-					has_enable_total_flagship_system_false = yes
-					NOT = { has_fleet_flag = kuat_fleet_invisiable_checkpoint_half_temple }
-				}
-				while = {
-					count = kuat_fleet_invisiable_checkpoint_half
-					random_owned_ship = { limit = { kuat_is_flagship = no } destroy_ship = this }
-				}
-				set_timed_fleet_flag = { flag = kuat_fleet_invisiable_checkpoint_half_temple days = 1 }
-			}
-		}
-	}
-	else_if = {
-		limit = { count_owned_ship = {
-			limit = { check_variable = { which = kuat_invsiable_faction_disables_times value > 6 } }
-			count >= kuat_fleet_invisiable_checkpoint_half 
-		} }
-		while = {
-			count = 3
-			random_combatant_fleet = {
-				limit = { 
-					owner = { is_invisable_faction = no }
-					has_enable_total_flagship_system_false = yes
-					NOT = { has_fleet_flag = kuat_fleet_invisiable_checkpoint_half_temple }
-				}
-				while = {
-					count = kuat_fleet_invisiable_checkpoint_half
-					random_owned_ship = { limit = { kuat_is_flagship = no } destroy_ship = this }
-				}
-				set_timed_fleet_flag = { flag = kuat_fleet_invisiable_checkpoint_half_temple days = 1 }
-			}
-		}
-	}
-	else_if = {
-		limit = { count_owned_ship = {
-			limit = { check_variable = { which = kuat_invsiable_faction_disables_times value > 4 } }
-			count >= kuat_fleet_invisiable_checkpoint_half 
-		} }
-		while = {
-			count = 2
-			random_combatant_fleet = {
-				limit = { 
-					owner = { is_invisable_faction = no }
-					has_enable_total_flagship_system_false = yes
-					NOT = { has_fleet_flag = kuat_fleet_invisiable_checkpoint_half_temple }
-				}
-				while = {
-					count = kuat_fleet_invisiable_checkpoint_half
-					random_owned_ship = { limit = { kuat_is_flagship = no } destroy_ship = this }
-				}
-				set_timed_fleet_flag = { flag = kuat_fleet_invisiable_checkpoint_half_temple days = 1 }
-			}
-		}
-	}
-	else_if = {
-		limit = { count_owned_ship = {
-			limit = { check_variable = { which = kuat_invsiable_faction_disables_times value > 2 } }
-			count >= kuat_fleet_invisiable_checkpoint_half 
-		} }
-		random_combatant_fleet = {
-			limit = { 
-				owner = { is_invisable_faction = no }
-				has_enable_total_flagship_system_false = yes
-				NOT = { has_fleet_flag = kuat_fleet_invisiable_checkpoint_half_temple }
-			}
-			while = {
-				count = kuat_fleet_invisiable_checkpoint_half
-				random_owned_ship = { limit = { kuat_is_flagship = no } destroy_ship = this }
-			}
-			set_timed_fleet_flag = { flag = kuat_fleet_invisiable_checkpoint_half_temple days = 1 }
-		}
 	}
 }
 
