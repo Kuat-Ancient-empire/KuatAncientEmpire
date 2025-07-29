@@ -64,10 +64,8 @@ zone_kuat_Military = {
 
 	max_buildings = 3
 
-	included_building_sets = {
-		factory 
-		foundry
-		automation
+	include = {
+		all
 	}
 
 	exclude = {
@@ -109,10 +107,8 @@ zone_kuat_science = {
 
 	max_buildings = 3
 
-	included_building_sets = {
-		research
-		unity
-		automation
+	include = {
+		all
 	}
 
 	exclude = {
@@ -154,10 +150,8 @@ zone_kuat_Khaydarin = {
 
 	max_buildings = 3
 
-	included_building_sets = {
-		factory 
-		foundry
-		automation
+	include = {
+		all
 	}
 
 	exclude = {
@@ -195,16 +189,57 @@ zone_kuat_industry = {
 		}
 		job_entertainer_add = 300
 		job_resort_worker_add = 300
-		planet_housing_add = 600
+		job_trader_add = 300
+		planet_housing_add = 900
+	}
+
+	triggered_desc = {
+		trigger = {
+			exists = owner
+			owner = { is_regular_empire = yes }
+			NOT = { has_planet_flag = has_building_kuat_command_center_auto }	
+		}
+		text = job_entertainer_effect_desc
+	}
+
+	triggered_desc = {
+		trigger = {
+			exists = owner
+			owner = { is_regular_empire = yes }
+			NOT = { has_planet_flag = has_building_kuat_command_center_auto }	
+		}
+		text = job_resort_worker_effect_desc
 	}
 
 	max_buildings = 3
 
-	included_building_sets = {
-		factory 
-		foundry
-		automation
+	include = {
+		all
 	}
+
+	triggered_planet_modifier = {
+		potential = {
+			exists = owner
+			owner = {
+				is_regular_empire = yes
+				has_active_tradition = tr_mercantile_commercial_enterprise
+			}
+			NOT = { has_planet_flag = has_building_kuat_command_center_auto }
+		}
+		job_trader_add = 100
+		planet_housing_add = 100
+		mult = 0.50
+	}
+
+	triggered_desc = {
+		trigger = {
+			exists = owner
+			owner = { is_regular_empire = yes }
+			NOT = { has_planet_flag = has_building_kuat_command_center_auto }
+		}
+		text = job_trader_effect_desc
+	}
+
 
 	exclude = {
 		building_automation_city_1
@@ -231,10 +266,6 @@ zone_kuat_eternal_Khaydarin = {
 
 	max_buildings = 3
 
-	include = {
-		all
-	}
-
 	triggered_district_planet_modifier = {
 		potential = {
 			exists = owner
@@ -247,6 +278,10 @@ zone_kuat_eternal_Khaydarin = {
 
 	planet_modifier = {
 		zone_building_slots_add = 3
+	}
+
+	include = {
+		all
 	}
 
 	exclude = {

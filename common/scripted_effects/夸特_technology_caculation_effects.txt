@@ -5,15 +5,15 @@
 #kuat_appox_$TECH_AREA$_$ID$_research_perc_add 预计下个月增加的已研究科技的百分比
 #kuat_$TECH_AREA$_$ID$_tech_icon_resarch_total_perc 总百分比
 #kuat_transfer_$TECH_AREA$_research_max: 最大可转移的盈余点数 = 科技需求点数的10%
-kuat_calculate_tech_points_grow_started = {
+kuat_calculate_tech_points_monthly_progress_started = {
     optimize_memory
     set_variable = {
         which = kuat_appox_$TECH_AREA$_$ID$_research_perc_add
-        value = value:kuat_calculate_tech_points_grow_started_value|TECH_AREA|$TECH_AREA$|ID|$ID$|
+        value = value:kuat_calculate_tech_points_monthly_progress_started_value|TECH_AREA|$TECH_AREA$|ID|$ID$|
     }
 }
 
-kuat_calculate_tech_points_grow = {
+kuat_calculate_tech_points_currently_progress_started = {
     optimize_memory
     change_variable = {
         which = kuat_$TECH_AREA$_$ID$_tech_icon_resarch_multipler_value
@@ -22,12 +22,12 @@ kuat_calculate_tech_points_grow = {
     
     set_variable = {
         which = kuat_$TECH_AREA$_$ID$_tech_icon_resarch_perc
-        value = value:kuat_calculate_tech_points_grow_value|TECH_AREA|$TECH_AREA$|ID|$ID$|
+        value = value:kuat_calculate_tech_points_currently_progress_started_value|TECH_AREA|$TECH_AREA$|ID|$ID$|
     }
 
     set_variable = {
         which = kuat_appox_$TECH_AREA$_$ID$_research_perc_add
-        value = value:kuat_calculate_tech_points_grow_started_value|TECH_AREA|$TECH_AREA$|ID|$ID$|
+        value = value:kuat_calculate_tech_points_monthly_progress_started_value|TECH_AREA|$TECH_AREA$|ID|$ID$|
     }
 
     change_variable = {
@@ -52,7 +52,7 @@ kuat_get_tech_save_research_value_addon = {
     }
 }
 
-kuat_tech_system_enable_start = {
+kuat_tech_points_max_enable_started = {
     optimize_memory
     if = {
         limit = { check_variable = { which = kuat_$TECH_AREA$_$ID$_points_remain value > 0 } }
@@ -76,7 +76,7 @@ kuat_tech_system_enable_start = {
         set_variable = { which = kuat_$TECH_AREA$_$ID$_tech_icon_resarch_multipler_value value = kuat_extra_$TECH_AREA$_$ID$_points }
 
         # 计算该点数占科技所需点数的比例（转移的盈余点数/所需点数*100)
-        set_variable = { which = kuat_$TECH_AREA$_$ID$_tech_icon_resarch_perc value = value:kuat_calculate_tech_system_enable_start_value|TECH_AREA|$TECH_AREA$|ID|$ID$| }
+        set_variable = { which = kuat_$TECH_AREA$_$ID$_tech_icon_resarch_perc value = value:kuat_calculate_tech_points_max_enable_started_value|TECH_AREA|$TECH_AREA$|ID|$ID$| }
         change_variable = { which = kuat_$TECH_AREA$_$ID$_tech_icon_resarch_total_perc value = kuat_$TECH_AREA$_$ID$_tech_icon_resarch_perc }
     }
 }
