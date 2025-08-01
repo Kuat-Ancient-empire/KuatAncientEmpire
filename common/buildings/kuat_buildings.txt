@@ -8,7 +8,7 @@ building_kuat_command_center = {
 	position_priority = 0
 	category = government
 	exempt_from_ai_planet_specialization = yes
-	icon = building_kuat_command_center
+	
 	potential = {
 		exists = owner
 		owner = { OR = {
@@ -34,12 +34,16 @@ building_kuat_command_center = {
 		potential = { always = yes }
 		show_only_custom_tooltip = yes
 		custom_tooltip = "building_kuat_command_center_desc"
-		planet_crime_add = -100
-		planet_amenities_add = 10000
-		planet_stability_add = 100
-		planet_housing_add = 10000
+		planet_crime_add = -0.1
+		planet_amenities_add = 100
+		planet_stability_add = 0.1
+		planet_housing_add = 100
+		pop_bonus_workforce_add = 10
+		multiplier = planet.value:kuat_eternal_building_delay_caculation
+	}
+
+	planet_modifier = {
 		planet_max_branch_office_buildings_add = 4
-		pop_bonus_workforce_add = 1.0
 	}
 
 	triggered_planet_modifier = {
@@ -71,6 +75,7 @@ building_kuat_command_center = {
 			pop_bonus_workforce_mult = 0.2
 		}
 	}
+	
 	convert_to = {
 		building_hive_major_capital
 		building_machine_major_capital
@@ -82,9 +87,9 @@ building_kuat_command_center = {
 			owner = { is_gestalt = no }
 		}
 		modifier = { 
-			job_physicist_per_pop = 0.01
-			job_biologist_per_pop = 0.01
-			job_engineer_per_pop = 0.01
+			job_physicist_per_pop = 0.02
+			job_biologist_per_pop = 0.02
+			job_engineer_per_pop = 0.02
 		}
 	}
 	triggered_planet_modifier = {
@@ -93,9 +98,9 @@ building_kuat_command_center = {
 			owner = { is_machine_empire = yes }
 		}
 		modifier = {
-			job_calculator_physicist_per_pop = 0.01
-			job_calculator_biologist_per_pop = 0.01
-			job_calculator_engineer_per_pop = 0.01
+			job_calculator_physicist_per_pop = 0.02
+			job_calculator_biologist_per_pop = 0.02
+			job_calculator_engineer_per_pop = 0.02
 		}
 	}
 	triggered_planet_modifier = {
@@ -104,15 +109,21 @@ building_kuat_command_center = {
 			owner = { is_hive_empire = yes }
 		}
 		modifier = {
-			job_calculator_physicist_per_pop = 0.01
-			job_calculator_biologist_per_pop = 0.01
-			job_calculator_engineer_per_pop = 0.01
+			job_calculator_physicist_per_pop = 0.02
+			job_calculator_biologist_per_pop = 0.02
+			job_calculator_engineer_per_pop = 0.02
 		}
 	}
 	resources = {
 		category = planet_buildings
-		produces = { unity = 250 minerals = 150 food = 150 alloys = 150 }
-		upkeep = { energy = 1000 }
+		upkeep = { 
+			trigger = {
+				exists = owner
+				owner = { is_ai = no }
+			}
+			energy = 0.25 
+			multiplier = planet.value:kuat_eternal_building_delay_caculation
+		}
 	}
 	upgrades = { }
 }
@@ -154,9 +165,7 @@ building_kuat_databank = {
 		produces = {
 			trigger = {
 				exists = owner
-				owner = {
-					is_kuat_fallen_empire = yes
-				}
+				owner = { is_kuat_fallen_empire = yes }
 			}
 			physics_research = 300
 			society_research = 300
