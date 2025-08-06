@@ -537,17 +537,19 @@ kuat_get_digits = {
 		multiply_variable = { which = $ARRAY$_TEMP value = -1 }
 	}
 	set_variable = { which = $ARRAY$_DIGITS value = 1 }
+	
 	while = { # push the number to decimals until first digit is at the single digit (123 -> 1.23)
 		limit = { check_variable = { which = $ARRAY$_TEMP value >= 10 }}
 		divide_variable = { which = $ARRAY$_TEMP value = 10 }
 		change_variable = { which = $ARRAY$_DIGITS value = 1 }
 	}
-	floor_variable = $ARRAY$_TEMP
+
 	if = {
 		limit = { NOT = { check_variable = { which = $VARIABLE$ value = 0 }}}
 		while = {
 			count = $ARRAY$_DIGITS #3
 			set_variable = { which = $ARRAY$_TEMP_INT value = $ARRAY$_TEMP }
+			floor_variable = $ARRAY$_TEMP_INT
 			change_variable = { which = $ARRAY$_AT_DIGIT value = 1 }
 			subtract_variable = { which = $ARRAY$_TEMP value = $ARRAY$_TEMP_INT }
 
