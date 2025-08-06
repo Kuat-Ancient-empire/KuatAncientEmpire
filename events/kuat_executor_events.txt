@@ -23,32 +23,6 @@ country_event = {
 				} }
 				set_origin = origin_default
 			}
-			if = {
-				limit = { kuat_is_enable_eternal_origin = yes }
-				every_owned_planet = {
-					limit = { 
-						is_colony = yes 
-						has_building = building_eternal_pop_assembly
-						OR = {
-							check_modifier_value = { modifier = bonus_pop_growth_mult value > 1 }
-							check_modifier_value = { modifier = planet_pop_assembly_mult value > 1 }
-							check_modifier_value = { modifier = planet_pop_assembly_add value > 0 }
-						}
-					}
-					if = {
-						limit = { check_modifier_value = { modifier = bonus_pop_growth_mult value > 1 } }
-						kuat_battle_clear_ship_modifier = { modifier = bonus_pop_growth_mult subtract = 1 DAYS = 30 }
-					}
-					if = {
-						limit = { check_modifier_value = { modifier = planet_pop_assembly_mult value > 1 } }
-						kuat_battle_clear_ship_modifier = { modifier = planet_pop_assembly_mult subtract = 1 DAYS = 30 }
-					}
-					if = {
-						limit = { check_modifier_value = { modifier = planet_pop_assembly_add value > 0 } }
-						kuat_battle_clear_ship_modifier = { modifier = planet_pop_assembly_mult DAYS = 30 }
-					}
-				}
-			}
 		}
 		random_country = {
 			limit = { is_ai = no }
@@ -2300,30 +2274,12 @@ country_event = {
 	id = executor_build.1002
 	hide_window = yes
 	is_triggered_only = yes
-	trigger = { kuat_is_enable_eternal_origin = yes }
+	trigger = { 
+		kuat_is_enable_eternal_origin = yes 
+		exists = event_target:eternal_support_country 
+		has_communications = event_target:eternal_support_country 
+	}
 	immediate = { 
-		every_owned_planet = {
-			limit = { 
-				has_building = building_eternal_pop_assembly
-				OR = {
-					check_modifier_value = { modifier = bonus_pop_growth_mult value > 1 }
-					check_modifier_value = { modifier = planet_pop_assembly_mult value > 1 }
-					check_modifier_value = { modifier = planet_pop_assembly_add value > 0 }
-				}
-			}
-			if = {
-				limit = { check_modifier_value = { modifier = bonus_pop_growth_mult value > 1 } }
-				kuat_battle_clear_ship_modifier = { modifier = bonus_pop_growth_mult subtract = 1 DAYS = 30 }
-			}
-			if = {
-				limit = { check_modifier_value = { modifier = planet_pop_assembly_mult value > 1 } }
-				kuat_battle_clear_ship_modifier = { modifier = planet_pop_assembly_mult subtract = 1 DAYS = 30 }
-			}
-			if = {
-				limit = { check_modifier_value = { modifier = planet_pop_assembly_add value > 0 } }
-				kuat_battle_clear_ship_modifier = { modifier = planet_pop_assembly_mult DAYS = 30 }
-			}
-		}
 		if = {
 			limit = { 
 				exists = event_target:eternal_support_country 

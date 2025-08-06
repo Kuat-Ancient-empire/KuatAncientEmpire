@@ -1,0 +1,154 @@
+kuat_rsearch_system_trigger = {
+	optimize_memory
+	check_variable = {
+		which = kuat_$TECH_AREA$_$ID$_tech_icon_resarch_total_perc
+		value > $VALUE$
+	}
+}
+
+kuat_research_has_tech_name = {
+	optimize_memory
+	[[TECH] has_country_flag = kuat_research_$TECH$ ]
+	[[KEY] has_country_flag = kuat_research_tech_$KEY$_building ]
+	[[KEY_FINISH] has_country_flag = kuat_research_tech_$KEY_FINISH$_building_finished ]
+	[[KEY_RESEARCH] has_country_flag = kuat_research_tech_$KEY_RESEARCH$_building_research ]
+}
+
+kuat_research_has_tech_name_continue = {
+	optimize_memory
+	has_country_flag = kuat_research_$TECH$_continue
+}
+
+#加科技必要
+kuat_check_research_progress_physics_value = {
+	optimize_memory
+	OR = {
+		AND = {
+			kuat_research_has_tech_name = { TECH = tech_repeatable_weapon_type_energy_damage }
+			kuat_rsearch_system_trigger = { TECH_AREA = physics ID = 1000 VALUE = $VALUE$ }
+		}
+		AND = {
+			kuat_research_has_tech_name = { TECH = tech_repeatable_weapon_type_energy_fire_rate }
+			kuat_rsearch_system_trigger = { TECH_AREA = physics ID = 1001 VALUE = $VALUE$ }
+		}
+		AND = {
+			kuat_research_has_tech_name = { TECH = tech_repeatable_weapon_type_explosive_damage }
+			kuat_rsearch_system_trigger = { TECH_AREA = physics ID = 2000 VALUE = $VALUE$ }
+		}	
+		AND = {
+			kuat_research_has_tech_name = { TECH = tech_repeatable_weapon_type_explosive_fire_rate }
+			kuat_rsearch_system_trigger = { TECH_AREA = physics ID = 2001 VALUE = $VALUE$ }
+		}
+	}
+}
+
+kuat_check_research_progress_society_value = {
+	optimize_memory
+	OR = {
+		AND = {
+			kuat_research_has_tech_name = { TECH = tech_repeatable_weapon_type_strike_craft_fire_damage }
+			kuat_rsearch_system_trigger = { TECH_AREA = society ID = 2000 VALUE = $VALUE$ }
+		}
+		AND = {
+			kuat_research_has_tech_name = { TECH = tech_repeatable_weapon_type_strike_craft_fire_rate }
+			kuat_rsearch_system_trigger = { TECH_AREA = society ID = 2001 VALUE = $VALUE$ }
+		}
+		AND = {
+			kuat_research_has_tech_name = { KEY = find_solar_system_endodia }
+			kuat_rsearch_system_trigger = { TECH_AREA = society ID = 1000 VALUE = $VALUE$ }
+		}
+	}
+}
+
+kuat_check_research_progress_engineering_value = {
+	optimize_memory
+	OR = {
+		AND = {
+			kuat_research_has_tech_name = { TECH = tech_repeatable_weapon_type_kinetic_damage }
+			kuat_rsearch_system_trigger = { TECH_AREA = engineering ID = 3000 VALUE = $VALUE$ }
+		}
+		AND = {
+			kuat_research_has_tech_name = { TECH = tech_repeatable_weapon_type_kinetic_fire_rate }
+			kuat_rsearch_system_trigger = { TECH_AREA = engineering ID = 3001 VALUE = $VALUE$ }
+		}
+		AND = {
+			kuat_research_has_tech_name = { KEY = Name_boss_crisis_DC_BOSS }
+			kuat_rsearch_system_trigger = { TECH_AREA = engineering ID = 1000 VALUE = $VALUE$ }
+		}
+		AND = {
+			kuat_research_has_tech_name = { KEY = Name_boss_crisis_DB_BOSS }
+			kuat_rsearch_system_trigger = { TECH_AREA = engineering ID = 1001 VALUE = $VALUE$ }
+		}
+		AND = {
+			kuat_research_has_tech_name = { KEY = Name_boss_crisis_DF_BOSS }
+			kuat_rsearch_system_trigger = { TECH_AREA = engineering ID = 1002 VALUE = $VALUE$ }
+		}
+		AND = {
+			kuat_research_has_tech_name = { KEY = Name_boss_crisis_SP_BOSS }
+			kuat_rsearch_system_trigger = { TECH_AREA = engineering ID = 1003 VALUE = $VALUE$ }
+		}
+		AND = {
+			kuat_research_has_tech_name = { KEY = Name_boss_crisis_SPC_BOSS }
+			kuat_rsearch_system_trigger = { TECH_AREA = engineering ID = 1004 VALUE = $VALUE$ }
+		}
+		AND = {
+			kuat_research_has_tech_name = { KEY = Name_boss_crisis_SPF_BOSS }
+			kuat_rsearch_system_trigger = { TECH_AREA = engineering ID = 1005 VALUE = $VALUE$ }
+		}
+	}
+}
+
+#总控 加科技必要
+kuat_is_any_researching = {
+	optimize_memory
+	[[physics] if = {
+		limit = { always = $physics$ }
+		NOR = {
+			kuat_research_has_tech_name = { TECH = tech_repeatable_weapon_type_energy_damage }
+			kuat_research_has_tech_name = { TECH = tech_repeatable_weapon_type_energy_fire_rate }
+			kuat_research_has_tech_name = { TECH = tech_repeatable_weapon_type_explosive_damage }
+			kuat_research_has_tech_name = { TECH = tech_repeatable_weapon_type_explosive_fire_rate }
+		}
+	} ]
+	[[society] if = {
+		limit = { always = $society$ }
+		NOR = {
+			kuat_research_has_tech_name = { TECH = tech_repeatable_weapon_type_strike_craft_fire_damage }
+			kuat_research_has_tech_name = { TECH = tech_repeatable_weapon_type_strike_craft_fire_rate }
+			kuat_research_has_tech_name = { KEY = find_solar_system_endodia }
+		}
+	}]
+	[[engineering] if = {
+		limit = { always = $engineering$ }
+		NOR = {
+			kuat_research_has_tech_name = { TECH = tech_repeatable_weapon_type_kinetic_damage }
+			kuat_research_has_tech_name = { TECH = tech_repeatable_weapon_type_kinetic_fire_rate }
+			kuat_research_has_tech_name = { KEY = Name_boss_crisis_DC_BOSS }
+			kuat_research_has_tech_name = { KEY = Name_boss_crisis_DB_BOSS }
+			kuat_research_has_tech_name = { KEY = Name_boss_crisis_DF_BOSS }
+			kuat_research_has_tech_name = { KEY = Name_boss_crisis_SP_BOSS }
+			kuat_research_has_tech_name = { KEY = Name_boss_crisis_SPC_BOSS }
+			kuat_research_has_tech_name = { KEY = Name_boss_crisis_SPF_BOSS }
+		}
+	} ]
+	[[ALL] if = {
+		limit = { always = $ALL$ }
+		OR = {
+			kuat_research_has_tech_name = { TECH = tech_repeatable_weapon_type_energy_damage }
+			kuat_research_has_tech_name = { TECH = tech_repeatable_weapon_type_energy_fire_rate }
+			kuat_research_has_tech_name = { TECH = tech_repeatable_weapon_type_explosive_damage }
+			kuat_research_has_tech_name = { TECH = tech_repeatable_weapon_type_explosive_fire_rate }
+			kuat_research_has_tech_name = { TECH = tech_repeatable_weapon_type_strike_craft_fire_damage }
+			kuat_research_has_tech_name = { TECH = tech_repeatable_weapon_type_strike_craft_fire_rate }
+			kuat_research_has_tech_name = { TECH = tech_repeatable_weapon_type_kinetic_damage }
+			kuat_research_has_tech_name = { TECH = tech_repeatable_weapon_type_kinetic_fire_rate }
+			kuat_research_has_tech_name = { KEY = Name_boss_crisis_DC_BOSS }
+			kuat_research_has_tech_name = { KEY = Name_boss_crisis_DB_BOSS }
+			kuat_research_has_tech_name = { KEY = Name_boss_crisis_DF_BOSS }
+			kuat_research_has_tech_name = { KEY = Name_boss_crisis_SP_BOSS }
+			kuat_research_has_tech_name = { KEY = Name_boss_crisis_SPC_BOSS }
+			kuat_research_has_tech_name = { KEY = Name_boss_crisis_SPF_BOSS }
+			kuat_research_has_tech_name = { KEY = find_solar_system_endodia }
+		}
+	}]
+}
