@@ -33,17 +33,10 @@ kuat_battle_eternal_increase_executor_power = {
 		kuat_battle_clear_ship_modifier = { modifier = shipclass_military_hull_mult DAYS = $DAYS$ subtract = @kuat_flagship_proection_mult }
 		kuat_battle_clear_ship_modifier = { modifier = ship_hull_regen_add_perc DAYS = $DAYS$ subtract = @kuat_flagship_proection_mult }
 
-		[[TYPE] 
-			if = { limit = { has_hp <= @$TYPE$_increase_hp_T9 } add_modifier = { modifier = $TYPE$_increase_hp_T9 days = $DAYS$ } }
-			else_if = { limit = { has_hp <= @$TYPE$_increase_hp_T8 } add_modifier = { modifier = $TYPE$_increase_hp_T8 days = $DAYS$ } }
-			else_if = { limit = { has_hp <= @$TYPE$_increase_hp_T7 } add_modifier = { modifier = $TYPE$_increase_hp_T7 days = $DAYS$ } }
-			else_if = { limit = { has_hp <= @$TYPE$_increase_hp_T6 } add_modifier = { modifier = $TYPE$_increase_hp_T6 days = $DAYS$ } }
-			else_if = { limit = { has_hp <= @$TYPE$_increase_hp_T5 } add_modifier = { modifier = $TYPE$_increase_hp_T5 days = $DAYS$ } }
-			else_if = { limit = { has_hp <= @$TYPE$_increase_hp_T4 } add_modifier = { modifier = $TYPE$_increase_hp_T4 days = $DAYS$ } }
-			else_if = { limit = { has_hp <= @$TYPE$_increase_hp_T3 } add_modifier = { modifier = $TYPE$_increase_hp_T3 days = $DAYS$ } }
-			else_if = { limit = { has_hp <= @$TYPE$_increase_hp_T2 } add_modifier = { modifier = $TYPE$_increase_hp_T2 days = $DAYS$ } }
-			else_if = { limit = { has_hp <= @$TYPE$_increase_hp_T1 } add_modifier = { modifier = $TYPE$_increase_hp_T1 days = $DAYS$ } }
-		]
+		[[TYPE] add_modifier = { 
+			modifier = $TYPE$_increase_hp days = $DAYS$ 
+			multiplier = value:kuat_eternal_increase_hp_value 
+		} ]
 
 		if = { 
 			limit = { kuat_is_disable_return_ship = yes owner = { kuat_is_player_country = yes } } 
@@ -173,15 +166,7 @@ kuat_battle_flagship_clear_ship_repeatable_modifier = {
 
 kuat_battle_remove_increase_hp_modifier = {
 	optimize_memory
-	remove_modifier = $TYPE$_increase_hp_T9
-	remove_modifier = $TYPE$_increase_hp_T8
-	remove_modifier = $TYPE$_increase_hp_T7
-	remove_modifier = $TYPE$_increase_hp_T6
-	remove_modifier = $TYPE$_increase_hp_T5
-	remove_modifier = $TYPE$_increase_hp_T4
-	remove_modifier = $TYPE$_increase_hp_T3
-	remove_modifier = $TYPE$_increase_hp_T2
-	remove_modifier = $TYPE$_increase_hp_T1
+	remove_modifier = $TYPE$_increase_hp
 }
 
 #旗舰与循环增益系统清理
