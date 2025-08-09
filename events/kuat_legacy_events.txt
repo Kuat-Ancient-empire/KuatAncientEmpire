@@ -797,48 +797,24 @@ ship_event = {
 	id = kuat_legacy.45
 	hide_window = yes	
 	is_triggered_only = yes
-	trigger = { OR = {
-		is_ship_size = exe_megastructure_starbase
-		is_ship_size = Drift_megastructure_starbase
-	} }
+	trigger = { 
+		kuat_is_mega_starbase = yes 
+		kuat_is_movable_mega_starbase = no
+	}
 	immediate = {
 		solar_system = {
-			every_system = {
-				limit = { has_star_flag = has_starforge_avoid_entity }
-				if = {
-					limit = { root = { is_ship_size = exe_megastructure_starbase } }
-					random_system_planet = { limit = { is_primary_star = yes } change_pc = pc_black_hole set_planet_size = 18 }
-					set_star_class = sc_black_hole
-				}
-				remove_star_flag = has_starforge_avoid_entity
-			}
 			if = {
 				limit = { root = { is_ship_size = exe_megastructure_starbase } }
+				every_system = {
+					limit = { has_star_flag = has_starforge_avoid_entity }
+					random_system_planet = { limit = { is_primary_star = yes } change_pc = pc_black_hole set_planet_size = 18 }
+					set_star_class = sc_black_hole
+					remove_star_flag = has_starforge_avoid_entity
+				}
 				if = {
 					limit = { root.fleet = { has_fleet_flag = kuat_mega_starbase_stormed_activated } }
-					if = {
-						limit = { any_cosmic_storm = { NOR = {
-							is_storm_type = kuat_support_celestic_storm
-							is_storm_type = kuat_support_nexus_storm
-							is_storm_type = kuat_support_particle_storm
-							is_storm_type = kuat_support_shroud_storm
-						} } }
-						every_cosmic_storm = {
-							limit = { NOR = {
-								is_storm_type = kuat_support_celestic_storm
-								is_storm_type = kuat_support_nexus_storm
-								is_storm_type = kuat_support_particle_storm
-								is_storm_type = kuat_support_shroud_storm
-							} }
-							destroy_cosmic_storm = yes
-						}
-					}
-					every_cosmic_storm = { 
-						limit = { has_storm_flag = storm_kuat_support_nexus_storm_exe_megastructure_starbase_@root } 
-						destroy_cosmic_storm = yes 
-					}
-					spawn_random_storm = { type = "kuat_support_nexus_storm" cosmic_storm_start_position = this immediate = yes }
-					last_created_cosmic_storm = { set_storm_flag = storm_kuat_support_nexus_storm_exe_megastructure_starbase_@root set_storm_flag = storm_stormfall }
+					kuat_battle_clear_all_storm = yes
+					root = { kuat_battle_spawn_system_suppliment_storm = yes }
 				}
 				random_system_planet = {
 					limit = { is_primary_star = yes }
@@ -849,32 +825,11 @@ ship_event = {
 				set_star_flag = has_starforge_avoid_entity
 			}
 			if = {
-				limit = { root = { is_ship_size = Drift_megastructure_starbase } }
+				limit = { root = { is_ship_size = Drift_megastructure_starbase } }		
 				if = {
 					limit = { root.fleet = { has_fleet_flag = kuat_mega_starbase_stormed_activated } }
-					if = {
-						limit = { any_cosmic_storm = { NOR = {
-							is_storm_type = kuat_support_celestic_storm
-							is_storm_type = kuat_support_nexus_storm
-							is_storm_type = kuat_support_particle_storm
-							is_storm_type = kuat_support_shroud_storm
-						} } }
-						every_cosmic_storm = {
-							limit = { NOR = {
-								is_storm_type = kuat_support_celestic_storm
-								is_storm_type = kuat_support_nexus_storm
-								is_storm_type = kuat_support_particle_storm
-								is_storm_type = kuat_support_shroud_storm
-							} }
-							destroy_cosmic_storm = yes
-						}
-					}
-					every_cosmic_storm = { 
-						limit = { has_storm_flag = storm_kuat_support_celestic_storm_Drift_megastructure_starbase_@root } 
-						destroy_cosmic_storm = yes 
-					}
-					spawn_random_storm = { type = "kuat_support_celestic_storm" cosmic_storm_start_position = this immediate = yes }
-					last_created_cosmic_storm = { set_storm_flag = storm_kuat_support_celestic_storm_Drift_megastructure_starbase_@root set_storm_flag = storm_stormfall }
+					kuat_battle_clear_all_storm = yes
+					root = { kuat_battle_spawn_system_suppliment_storm = yes }
 				}
 				random_system_planet = {
 					limit = { is_primary_star = yes }
@@ -882,6 +837,13 @@ ship_event = {
 					change_pc = pc_kuat_white_hole
 					solar_system = { set_star_class = sc_kuat_white_hole }
 					root.fleet = { set_location = { target = prev distance = -1 angle = 0 } }
+				}
+			}
+			else = {
+				if = {
+					limit = { root.fleet = { has_fleet_flag = kuat_mega_starbase_stormed_activated } }
+					kuat_battle_clear_all_storm = yes
+					root = { kuat_battle_spawn_system_suppliment_storm = yes }
 				}
 			}
 		}
@@ -893,35 +855,15 @@ ship_event = {
 	hide_window = yes
 	is_triggered_only = yes
 	trigger = {
-		is_ship_size = swfo_supremacy
+		kuat_is_mega_starbase = yes 
+		kuat_is_movable_mega_starbase = yes
 		fleet = { has_fleet_flag = kuat_mega_starbase_stormed_activated }
 	}
 	immediate = {
 		from = { if = {
-			limit = { root = { is_ship_size = swfo_supremacy } }
-			if = {
-				limit = { any_cosmic_storm = { NOR = {
-					is_storm_type = kuat_support_celestic_storm
-					is_storm_type = kuat_support_nexus_storm
-					is_storm_type = kuat_support_particle_storm
-					is_storm_type = kuat_support_shroud_storm
-				} } }
-				every_cosmic_storm = {
-					limit = { NOR = {
-						is_storm_type = kuat_support_celestic_storm
-						is_storm_type = kuat_support_nexus_storm
-						is_storm_type = kuat_support_particle_storm
-						is_storm_type = kuat_support_shroud_storm
-					} }
-					destroy_cosmic_storm = yes
-				}
-			}
-			every_cosmic_storm = { 
-				limit = { has_storm_flag = storm_kuat_support_particle_storm_swfo_supremacy_@root } 
-				destroy_cosmic_storm = yes 
-			}
-			spawn_random_storm = { type = "kuat_support_particle_storm" cosmic_storm_start_position = this immediate = yes }
-			last_created_cosmic_storm = { set_storm_flag = storm_kuat_support_particle_storm_swfo_supremacy_@root set_storm_flag = storm_stormfall }
+			limit = { root = { kuat_is_movable_mega_starbase = yes } }
+			kuat_battle_clear_all_storm = yes
+			root = { kuat_battle_spawn_system_suppliment_storm = yes }
 		} }
 	}
 }
@@ -933,11 +875,7 @@ country_event = {
 	trigger = {
 		exists = fromfrom 
 		is_eternal_faction = no
-		fromfrom = { OR = {
-			is_ship_size = exe_megastructure_starbase
-			is_ship_size = swfo_supremacy
-			is_ship_size = Drift_megastructure_starbase
-		} }
+		fromfrom = { kuat_is_mega_starbase = yes }
 	}
 	immediate = {
 		fromfrom = {
@@ -974,25 +912,9 @@ country_event = {
 					}
 				}
 			}
-			if = {
-				limit = { is_ship_size = exe_megastructure_starbase }
-				every_cosmic_storm = { 
-					limit = { has_storm_flag = storm_kuat_support_nexus_storm_exe_megastructure_starbase_@prev } 
-					destroy_cosmic_storm = yes 
-				}
-			}
-			else_if = {
-				limit = { is_ship_size = Drift_megastructure_starbase }
-				every_cosmic_storm = { 
-					limit = { has_storm_flag = storm_kuat_support_celestic_storm_Drift_megastructure_starbase_@prev } 
-					destroy_cosmic_storm = yes 
-				}
-			}
-			else = {
-				every_cosmic_storm = { 
-					limit = { has_storm_flag = storm_kuat_support_particle_storm_swfo_supremacy_@prev } 
-					destroy_cosmic_storm = yes 
-				}
+			every_cosmic_storm = { 
+				limit = { has_storm_flag = storm_kuat_support_nexus_storm_random_list_@prev } 
+				destroy_cosmic_storm = yes 
 			}
 		}
 	}

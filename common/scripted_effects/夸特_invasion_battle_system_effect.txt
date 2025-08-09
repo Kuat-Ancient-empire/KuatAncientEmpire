@@ -1677,3 +1677,99 @@ kuat_battle_flagship_intial = {
 		}
 	}
 }
+
+kuat_battle_clear_all_storm = {
+	optimize_memory
+	if = {
+		limit = { any_cosmic_storm = { NOR = {
+			is_storm_type = kuat_support_celestic_storm
+			is_storm_type = kuat_support_nexus_storm
+			is_storm_type = kuat_support_particle_storm
+			is_storm_type = kuat_support_shroud_storm
+		} } }
+		every_cosmic_storm = {
+			limit = { NOR = {
+				is_storm_type = kuat_support_celestic_storm
+				is_storm_type = kuat_support_nexus_storm
+				is_storm_type = kuat_support_particle_storm
+				is_storm_type = kuat_support_shroud_storm
+			} }
+			destroy_cosmic_storm = yes
+		}
+	}
+}
+
+kuat_battle_spawn_system_suppliment_storm = {
+	optimize_memory
+	random_list = {
+		1 = {
+			modifier = {
+				set = 0
+				kuat_is_movable_mega_starbase = yes
+			}
+			solar_system = {
+				every_cosmic_storm = {
+					limit = {
+						has_storm_flag = storm_kuat_support_nexus_storm_random_list_@prevprev
+					}
+					destroy_cosmic_storm = yes
+				}
+				spawn_random_storm = {
+					type = "kuat_support_nexus_storm"
+					cosmic_storm_start_position = this
+					immediate = yes
+				}
+				last_created_cosmic_storm = {
+					set_storm_flag = storm_kuat_support_nexus_storm_random_list_@prevprev
+					set_storm_flag = storm_stormfall
+				}
+			}
+		}
+		1 = {
+			modifier = {
+				set = 0
+				kuat_is_movable_mega_starbase = yes
+			}
+			solar_system = {
+				every_cosmic_storm = {
+					limit = {
+						has_storm_flag = storm_kuat_support_nexus_storm_random_list_@prevprev
+					}
+					destroy_cosmic_storm = yes
+				}
+				spawn_random_storm = {
+					type = "kuat_support_celestic_storm"
+					cosmic_storm_start_position = this
+					immediate = yes
+				}
+				last_created_cosmic_storm = {
+					set_storm_flag = storm_kuat_support_nexus_storm_random_list_@prevprev
+					set_storm_flag = storm_stormfall
+				}
+			}
+		}
+		1 = {
+			modifier = {
+				mult = 999
+				kuat_is_movable_mega_starbase = yes
+			}
+			solar_system = {
+				every_cosmic_storm = {
+					limit = {
+						has_storm_flag = storm_kuat_support_nexus_storm_random_list_@prevprev
+					}
+					destroy_cosmic_storm = yes
+				}
+				spawn_random_storm = {
+					type = "kuat_support_particle_storm"
+					cosmic_storm_start_position = this
+					immediate = yes
+				}
+				last_created_cosmic_storm = {
+					set_storm_flag = storm_kuat_support_nexus_storm_random_list_@prevprev
+					set_storm_flag = storm_stormfall
+				}
+			}
+		}
+	}
+}
