@@ -1,10 +1,20 @@
-@ag_invisible_position = 23333
-@ag_event_window_background_invisible_height = 620
-@ag_event_window_background_height = 375
-@ag_alien_message_background_height = 140
-@ag_alien_message_height = 120
-@ag_option_list_y_pos = 370
-@ag_option_list_slider_x_pos = 8
+@kuat_invisible_position = 23333
+
+@kuat_event_window_background_invisible_height = 620
+@kuat_event_window_background_width = 490
+@kuat_event_window_background_height = 375
+@kuat_alien_message_background_height = 140
+@kuat_alien_message_height = 120
+@kuat_option_list_y_pos = 370
+@kuat_option_list_slider_x_pos = 8
+
+@kuat_event_window_background_invisible_height_scaled = 778
+@kuat_event_window_background_width_scaled = 615
+@kuat_event_window_background_height_scaled = 478
+@kuat_alien_message_background_height_scaled = 203
+@kuat_alien_message_height_scaled = 176
+@kuat_option_list_y_pos_scaled = 463
+@kuat_option_list_slider_x_pos_scaled = 18
 
 guiTypes = {
 	scrollbarType = {
@@ -84,41 +94,15 @@ guiTypes = {
 		}
 	}
 	containerWindowType = {
-		name = "kuat_event_m_option"
-		position = { x=0 y=0 }
-		size = { width = 490 height = 32 }
-		moveable = no
-		iconType = {
-			name = "option_bkacground"
-			spriteType = "GFX_kuat_button_option_background"
-			position = { x = -6 y = 5 }
-			alwaysTransparent = yes
-		}
-		buttonType = {
-			name = "option_button"
-			quadTextureSprite = "GFX_kuat_button_452_animated" 
-			position = { x=0 y=8 }
-			font = "cg_16b"
-			text = "OPTION_TEXT"
-		}
-		OverlappingElementsBoxType = {
-			name = "trigger_icons"
-			position = { x = 0  y = 2 }
-			size = { x=36 y= 28 }
-		}
-		OverlappingElementsBoxType = {
-			name = "effect_icons"
-			position = { x = 370 y = 8 }
-			size = { x = 43 y = 28 }
-			format = right
-		}
-	}
-	containerWindowType = {
 		name = "kuat_event_m_window"
 		orientation = center
 		origo = center
 		moveable = yes
-		size = { width = 490 height = @ag_event_window_background_invisible_height }
+		size = { width = @kuat_event_window_background_width height = @kuat_event_window_background_invisible_height }
+		if_scaled_resolution = {
+			min_height = 1440
+			size = { width = @kuat_event_window_background_width_scaled height = @kuat_event_window_background_invisible_height_scaled }
+		}
 		
 		background = {
 			name = "background"
@@ -130,7 +114,11 @@ guiTypes = {
 			orientation = UPPER_LEFT
 			origo = UPPER_LEFT
 			moveable = no
-			size = { width = 490 height = @ag_event_window_background_height }
+			size = { width = @kuat_event_window_background_width height = @kuat_event_window_background_height }
+			if_scaled_resolution = {
+				min_height = 1440
+				size = { width = @kuat_event_window_background_width_scaled height = @kuat_event_window_background_height_scaled }
+			}
 	
 			background = {
 				alwaysTransparent = yes
@@ -148,28 +136,37 @@ guiTypes = {
 			name = "empire_header_line"
 			quadTextureSprite = "GFX_kuat_line_long"
 			position = { x = 6 y = 25 }
+			if_scaled_resolution = {
+				min_height = 1440
+				position = { x = 15 y = 23 }
+				scale = 1.25
+			}
 			alwaysTransparent = yes
 		}
 		buttonType = {
 			name = "focus_button"
 			position = { x = 450 y = 12 }
+			if_scaled_resolution = {
+				min_height = 1440
+				position = { x = 575 y = 12 }
+			}			
 			spriteType = "GFX_kuat_button_focus_on"
-			buttonFont = "cg_16b"
+			buttonFont = "kuat_cg_16b"
 			shortcut = "q"
 		}
 		####################### HIDDEN ########################
 		buttonType = {
 			name = "close"
 			quadTextureSprite = "GFX_kuat_close_button"
-			position = { x= 0 y = @ag_invisible_position }
+			position = { x= 0 y = @kuat_invisible_position }
 			Orientation = "UPPER_RIGHT"
 			clicksound = "back_click"
 		}
 		instantTextBoxType = {
 			name = "heading"
-			font = "malgun_goth_24"
+			font = "kuat_malgun_goth_24"
 			text = "DIPLOMACY"
-			position = { x = 0 y = @ag_invisible_position }
+			position = { x = 0 y = @kuat_invisible_position }
 			maxWidth = 543
 			maxHeight = 22
 			fixedSize = yes
@@ -178,17 +175,29 @@ guiTypes = {
 		#######################################################
 		buttonType = {
 			name = "alien_message_background"
-			size = { x = 462 y = @ag_alien_message_background_height }
+			size = { x = 462 y = @kuat_alien_message_background_height }
 			position = { x = 13 y = 220 }
+			if_scaled_resolution = {
+				min_height = 1440
+				position = { x = 17 y = 255 }
+				size = { width = 575 height = @kuat_alien_message_background_height_scaled }
+			}		
 			spriteType = "GFX_kuat_tiles_dark_area_cut_8"
 			alwaysTransparent = yes
 		}
 		instantTextBoxType = {
 			name = "alien_message"
-			font = "cg_16b"
+			font = "kuat_cg_16b"
 			position = { x = 25 y = 232 }
 			maxWidth = 440
-			maxHeight = @ag_alien_message_height
+			maxHeight = @kuat_alien_message_height
+			if_scaled_resolution = {
+				min_height = 1440
+				font = "kuat_cg_16b_scaled"
+				position = { x = 30 y = 257 }
+				maxWidth = 563
+				maxHeight = @kuat_alien_message_height_scaled
+			}			
 			format = left
 			scrollbartype = "kuat_event_m_desc_standardlistbox_slider"
 			text_color_code = "E"
@@ -197,25 +206,25 @@ guiTypes = {
 		buttonType = {
 			name = "confirm_button"
 			quadTextureSprite = "GFX_standard_button_142_34_button"
-			position = { x= 0 y = @ag_invisible_position  }
+			position = { x= 0 y = @kuat_invisible_position  }
 			Orientation = "UPPER_RIGHT"
-			font = "cg_16b"
+			font = "kuat_cg_16b"
 			text = "MESSAGE_OK"
 			clicksound = "confirmation"
 		}
 		containerWindowType = {
 			name = "portrait_background"
-			position = { x = 0 y = @ag_invisible_position }
+			position = { x = 0 y = @kuat_invisible_position }
 			size = { width = 1 height = 1 }
 			clipping = yes
 			iconType = {
 				name = "event_picture"
 				spriteType = "GFX_diplomacy_portrait_frame"
-				position = { x = 0 y = @ag_invisible_position }
+				position = { x = 0 y = @kuat_invisible_position }
 			}
 			iconType = {
 				name = "portrait"
-				position = { x = 0 y = @ag_invisible_position }
+				position = { x = 0 y = @kuat_invisible_position }
 				spriteType = "GFX_portrait_character"
 			}	
 		}
@@ -223,6 +232,10 @@ guiTypes = {
 		containerWindowType = {
 			name = "portrait"
 			size = { width = 490 height = 620 }
+			if_scaled_resolution = {
+				min_height = 1440
+				size = { width = 615 height = 775 }
+			}			
 			position = { x = 0 y = -88 }
 			clipping = yes
 			iconType = {
@@ -230,7 +243,11 @@ guiTypes = {
 				position = { x = 21.5 y = 135.5 }
 				spriteType = "GFX_portrait_gamesetup_mask"
 				alwaysTransparent = yes
-				scale = 0.471
+				scale = 0.4775
+				if_scaled_resolution = {
+					min_height = 1440
+					scale = 0.596875
+				}
 			}
 			iconType = {
 				name = "black_frame"
@@ -240,6 +257,11 @@ guiTypes = {
 				position = { x = 0 y = 215 }
 				alwaystransparent = yes
 				scale = 0.471
+				if_scaled_resolution = {
+					min_height = 1440
+					position = { x = -5 y = 232 }
+					scale = 0.58875
+				}
 			}
 			iconType = {
 				name = "stripes_1"
@@ -248,26 +270,32 @@ guiTypes = {
 				centerPosition = yes
 				position = { x = 0 y = 215 }
 				alwaystransparent = yes
+				scale = 0.471
+				if_scaled_resolution = {
+					min_height = 1440
+					position = { x = -5 y = 232 }
+					scale = 0.58875
+				}				
 			}
 		####################### HIDDEN ########################
 			iconType = {
 				name = "city_frame"
 				spriteType = "GFX_kuat_diplomacy_portrait_frame"
-				position = { x = 0 y = @ag_invisible_position }
+				position = { x = 0 y = @kuat_invisible_position }
 				alwaysTransparent = yes
 			}
 		}
 		iconType = {
 			name = "empire_info_bg"
 			spriteType = "GFX_diplomacy_dark_fade_bg"
-			position = { x = 0 y = @ag_invisible_position }
+			position = { x = 0 y = @kuat_invisible_position }
 			alwaysTransparent = yes
 		}
 		instantTextBoxType={
 			name = "empire_name"
-			font = "malgun_goth_24"
+			font = "kuat_malgun_goth_24"
 			text = "Kammarian Galactic Concordat"
-			position = { x = 0 y = @ag_invisible_position }
+			position = { x = 0 y = @kuat_invisible_position }
 			maxWidth = 450
 			maxHeight = 16
 			format = LEFT
@@ -276,9 +304,9 @@ guiTypes = {
 		}
 		instantTextBoxType={
 			name = "empire_government_type"
-			font = "cg_16b"
+			font = "kuat_cg_16b"
 			text = "Autocracy"
-			position = { x = 0 y = @ag_invisible_position }
+			position = { x = 0 y = @kuat_invisible_position }
 			maxWidth = 250
 			maxHeight = 16
 			format = LEFT
@@ -287,9 +315,9 @@ guiTypes = {
 		}
 		instantTextBoxType={
 			name = "empire_personality_type"
-			font = "cg_16b"
+			font = "kuat_cg_16b"
 			text = "Despicable Neutrals"
-			position = { x = 0 y = @ag_invisible_position }
+			position = { x = 0 y = @kuat_invisible_position }
 			maxWidth = 250
 			maxHeight = 16
 			format = LEFT
@@ -297,7 +325,7 @@ guiTypes = {
 		}
 		OverlappingElementsBoxType = {
 			name = "empire_ethics_icons"
-			position = { x = 0 y = @ag_invisible_position }
+			position = { x = 0 y = @kuat_invisible_position }
 			size = { x = 240 y = 30 }
 			spacing = 2.0
 			format = left
@@ -305,15 +333,15 @@ guiTypes = {
 		buttonType = {
 			name = "empire_flag"
 			quadTextureSprite = "GFX_kuat_empire_flag_128_frame"
-			position = { x = 0 y = @ag_invisible_position }
+			position = { x = 0 y = @kuat_invisible_position }
 			orientation = UPPER_LEFT
 		}
 		containerWindowType = {
 			name = "leader_details"
-			position = { x = 0 y = @ag_invisible_position }
+			position = { x = 0 y = @kuat_invisible_position }
 			containerWindowType = {
 				name = "empire_traits_box"
-				position = { x = 0 y = @ag_invisible_position }
+				position = { x = 0 y = @kuat_invisible_position }
 				size = { width = 210 height = 75 }
 				background = {
 					name = "ethics_bg"
@@ -322,8 +350,8 @@ guiTypes = {
 			}
 			instantTextBoxType = {
 				name = "empire_traits_label"
-				position = { x = 0 y = @ag_invisible_position }
-				font = "cg_16b"
+				position = { x = 0 y = @kuat_invisible_position }
+				font = "kuat_cg_16b"
 				maxWidth = 230
 				maxHeight = 20
 				fixedSize = yes
@@ -334,13 +362,13 @@ guiTypes = {
 			}
 			overlappingElementsBoxType = {
 				name = "leader_traits"
-				position = { x = 0 y = @ag_invisible_position }
+				position = { x = 0 y = @kuat_invisible_position }
 				size = { x = 125 y = 330 }
 			}
 			instantTextBoxType = {
 				name = "leader_name"
-				position = { x = 0 y = @ag_invisible_position }
-				font = "cg_16b"
+				position = { x = 0 y = @kuat_invisible_position }
+				font = "kuat_cg_16b"
 				maxWidth = 330
 				maxHeight = 20
 				fixedSize = yes
@@ -350,8 +378,8 @@ guiTypes = {
 			}
 			instantTextBoxType = {
 				name = "leader_species"
-				position = { x = 0 y = @ag_invisible_position }
-				font = "cg_16b"
+				position = { x = 0 y = @kuat_invisible_position }
+				font = "kuat_cg_16b"
 				maxWidth = 330
 				maxHeight = 20
 				fixedSize = yes
@@ -361,7 +389,7 @@ guiTypes = {
 		}
 		containerWindowType = {
 			name = "opinion_window"
-			position = { x = 0 y = @ag_invisible_position }
+			position = { x = 0 y = @kuat_invisible_position }
 			size = { width = 94 height = 30 }
 			background = {
 				name = "opinion_bg"
@@ -370,15 +398,15 @@ guiTypes = {
 			iconType = {
 				name = "their_opinion_icon"
 				spriteType = "GFX_diplomacy_opinion"
-				position = { x = 0 y = @ag_invisible_position }
+				position = { x = 0 y = @kuat_invisible_position }
 				alwaysTransparent = yes
 			}
 		####################### HIDDEN ########################
 			instantTextBoxType = {
 				name = "their_opinion"
-				font = "cg_16b"
+				font = "kuat_cg_16b"
 				maxWidth = 40
-				position = { x = 0 y = @ag_invisible_position }
+				position = { x = 0 y = @kuat_invisible_position }
 				format = left
 				text = "100"
 				alwaysTransparent = yes
@@ -392,7 +420,11 @@ guiTypes = {
 			moveable = no
 			instantTextBoxType={
 				name = "action_title"
-				font = "malgun_goth_24"
+				font = "kuat_malgun_goth_24"
+				if_scaled_resolution = {
+					min_height = 1440
+					font = "kuat_malgun_goth_24_scaled"
+				}				
 				position = { x = 15 y = 5 }
 				maxWidth = 460
 				maxHeight = 32
@@ -400,8 +432,8 @@ guiTypes = {
 			}
 			instantTextBoxType={
 				name = "action_desc"
-				font = "malgun_goth_24"
-				position = { x = 0 y = @ag_invisible_position }
+				font = "kuat_malgun_goth_24"
+				position = { x = 0 y = @kuat_invisible_position }
 				maxWidth = 500
 				maxHeight = 180
 				Orientation = "UPPER_LEFT"
@@ -412,9 +444,15 @@ guiTypes = {
 		#######################################################
 			listboxType = {
 				name = "option_list"
-				position = { x = 0 y = @ag_option_list_y_pos }
+				position = { x = 0 y = @kuat_option_list_y_pos }
 				size = { x = 450 y = 240 }
-				offset = { x = @ag_option_list_slider_x_pos y = 0 }
+				offset = { x = @kuat_option_list_slider_x_pos y = 0 }
+				if_scaled_resolution = {
+					min_height = 1440
+					position = { x = 0 y = @kuat_option_list_y_pos_scaled }
+					size = { x = 568 y = 240 }
+					offset = { x = @kuat_option_list_slider_x_pos_scaled y = 8 }
+				}				
 				spacing = 1
 				scrollbartype = "kuat_event_m_standardlistbox_slider"
 				borderSize = { x = 0 y = 0 }

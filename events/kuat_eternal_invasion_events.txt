@@ -32,7 +32,7 @@ country_event = {
 	diplomatic = yes
 	picture_event_data = { room = satellite_in_orbit_room }
 	custom_gui = "kuat_event_m_window"
-	custom_gui_option = "kuat_event_m_option"
+	custom_gui_option = "kuat_event_option"
 	show_sound = event_sensor_ping
 	location = root.capital_scope
 	is_triggered_only = yes
@@ -78,7 +78,7 @@ country_event = {
 		room = Eternal_Empire_room
 	}
 	custom_gui = "kuat_event_m_window"
-	custom_gui_option = "kuat_event_m_option"
+	custom_gui_option = "kuat_event_option"
 	show_sound = event_yellow_alert
 	location = root.capital_scope
 	is_triggered_only = yes
@@ -128,7 +128,7 @@ country_event = {
 	diplomatic = yes
 	picture_event_data = { room = Eternal_Empire2_room }
 	custom_gui = "kuat_event_m_window"
-	custom_gui_option = "kuat_event_m_option"
+	custom_gui_option = "kuat_event_option"
 	show_sound = event_sensor_ping
 	location = root.capital_scope
 	is_triggered_only = yes
@@ -162,7 +162,7 @@ country_event = {
 	diplomatic = yes
 	picture_event_data = { room = Eternal_Empire5_room }
 	custom_gui = "kuat_event_m_window"
-	custom_gui_option = "kuat_event_m_option"
+	custom_gui_option = "kuat_event_option"
 	show_sound = event_yellow_alert
 	location = root.capital_scope
 	is_triggered_only = yes
@@ -408,7 +408,7 @@ country_event = {
 	diplomatic = yes
 	picture_event_data = { room = Eternal_Empire4_room }
 	custom_gui = "kuat_event_m_window"
-	custom_gui_option = "kuat_event_m_option"
+	custom_gui_option = "kuat_event_option"
 	show_sound = event_red_alert
 	location = root.capital_scope
 	is_triggered_only = yes
@@ -556,7 +556,7 @@ country_event = {
 	diplomatic = yes
 	picture_event_data = { room = black_hole_room }
 	custom_gui = "kuat_event_m_window"
-	custom_gui_option = "kuat_event_m_option"
+	custom_gui_option = "kuat_event_option"
 	show_sound = event_red_alert
 	is_triggered_only = yes
 	trigger = {
@@ -892,7 +892,7 @@ country_event = {
 	diplomatic = yes
 	picture_event_data = { room = nuclear_explosion_room }
 	custom_gui = "kuat_event_m_window"
-	custom_gui_option = "kuat_event_m_option"
+	custom_gui_option = "kuat_event_option"
 	show_sound = event_super_explosion
 	is_triggered_only = yes
 	option = { name = "exe_invasion.21.a" ai_chance = { weight = 100 } }
@@ -1161,7 +1161,7 @@ country_event = {
 	diplomatic = yes
 	picture_event_data = { room = drifting_gateway_room }
 	custom_gui = "kuat_event_m_window"
-	custom_gui_option = "kuat_event_m_option"
+	custom_gui_option = "kuat_event_option"
 	show_sound = event_mystic_reveal
 	is_triggered_only = yes
 	immediate = {
@@ -1201,7 +1201,7 @@ ship_event = {
 	diplomatic = yes
 	picture_event_data = { room = drifting_gateway_room }
 	custom_gui = "kuat_event_m_window"
-	custom_gui_option = "kuat_event_m_option"
+	custom_gui_option = "kuat_event_option"
 	show_sound = event_mystic_reveal
 	is_triggered_only = yes
 	trigger = { exists = event_target:exe_outer_gate_to_lock }
@@ -1655,7 +1655,7 @@ country_event = {
 					effect = { 
 						copy_flags_and_variables_from = event_target:kuat_battle_disable_ship_at_health_ship 
 						if = {
-							limit = { root.from = { is_galatic_empire = yes } }
+							limit = { root.from = { is_galatic_empire_faction = yes } }
 							kuat_battle_disable_ship_at_health = { FLAG = enable_kuat_ship_inital Disable_health = 0.01 WHICH = KUAT_SHIP_HEALTH_VAR HEALTH = value:kuat_dynamic_exist_life_times }
 						}
 						else_if = {
@@ -1812,7 +1812,7 @@ ship_event = {
 			else = { kuat_battle_clear_ship_at_health = { REPAIR = yes INVERT_DISABLE = set_disabled Disable_health = -1 } }
 		}
 		else_if = {
-			limit = { has_ship_flag = enable_kuat_ship_inital owner = { is_galatic_empire = yes } }
+			limit = { has_ship_flag = enable_kuat_ship_inital owner = { is_galatic_empire_faction = yes } }
 			if = {
 				limit = { kuat_exist_disable_type = no }
 				kuat_battle_clear_ship_at_health = { REPAIR = yes INVERT_DISABLE = set_disabled }
@@ -1896,7 +1896,7 @@ country_event = {
 	trigger = { 
 		is_invisable_faction = yes 
 		from = { is_invisable_faction = no }
-		fromfrom = { NAND = { root = { OR = { is_eternal_faction = yes is_galatic_empire = yes } } is_ship_size = exe_starbase } }
+		fromfrom = { NAND = { root = { OR = { is_eternal_faction = yes is_galatic_empire_faction = yes } } is_ship_size = exe_starbase } }
 	}
 	immediate = {
 		if = {
@@ -2036,7 +2036,7 @@ country_event = {
 			} }
 		}
 		if = {
-			limit = { is_galatic_empire = yes }
+			limit = { is_galatic_empire_faction = yes }
 			fromfrom = { if = {  
 				limit = { NOT = { has_fleet_flag = is_modifiering_fleet } }
 				set_fleet_flag = is_modifiering_fleet
@@ -2048,7 +2048,7 @@ country_event = {
 			} }
 			fromfromfrom = { if = {
 				limit = {
-					ROOT = { is_galatic_empire = yes }
+					ROOT = { is_galatic_empire_faction = yes }
 					NOT = { has_fleet_flag = is_modifiering_fleet }
 				}
 				set_fleet_flag = is_modifiering_fleet
@@ -2062,20 +2062,15 @@ country_event = {
 		#补给区
 		if = {
 			limit = { 
-				fromfrom = { NOR = {
-					is_ship_class = shipclass_colonizer
-					is_ship_class = shipclass_constructor
-					is_ship_class = shipclass_transport
-					is_ship_class = shipclass_science_ship
+				fromfrom = { OR = {
+					is_ship_class = shipclass_military
+					is_ship_class = shipclass_starbase
 				} }
 				OR = {
 					has_global_flag = difficult_exe_invasion
 					has_global_flag = ban_exe_invasion
 				}
-				fromfromfrom = { OR = {
-					is_ship_class = shipclass_military
-					is_ship_class = shipclass_military_special
-				} }
+				fromfromfrom = { is_ship_class = shipclass_military }
 				NOT = { has_global_flag = kuat_set_forcetrigger_order_enable_crisis_eve_system }
 			}
 			fromfrom = { set_timed_fleet_flag = { flag = kuat_battle_flagship_checksum_system_pending days = 1 } }
@@ -2117,14 +2112,58 @@ country_event = {
 			}
 			else = {  
 				if = {
-					limit = { exists = owner owner = { kuat_is_player_country = yes } }
+					limit = { exists = owner owner = { is_ai = no } }
 					set_location = owner.capital_star
 				}
 				else_if = {
-					limit = { exists = owner owner = { kuat_is_player_country = no } }
-					root.fromfrom = { set_fleet_flag = kuat_battle_anti_ai_damage_fleet }
+					limit = { exists = owner owner = { is_ai = yes } }
+					owner = {
+						if = { 
+							limit = { exists = capital_scope } 
+							prev = { clear_orders = yes clear_fleet_actions = this set_location = prev.capital_scope } 
+						}
+						else_if = {
+							limit = { any_owned_fleet = {
+								exists = solar_system NOT = { is_same_value = prevprev }
+							} }
+							random_owned_fleet = {
+								limit = { exists = solar_system NOT = { is_same_value = prevprev } }
+								prevprev = { clear_orders = yes clear_fleet_actions = this set_location = prev }
+							}
+						}
+						else_if = {
+							limit = {
+								any_system = { count_fleet_in_system = {
+									count = 0 limit = { exists = controller controller = { is_hostile = prevprevprev } }
+								} }
+							}
+							random_system = {
+								limit = { count_fleet_in_system = {
+									count = 0 limit = { exists = controller controller = { is_hostile = prevprevprev } }
+								} }
+								prevprev = { clear_orders = yes clear_fleet_actions = this set_location = prev.star }
+							}
+						}
+						else = { prev = { 
+							if = { 
+								limit = { can_go_mia = yes } 
+								clear_orders = yes 
+								clear_fleet_actions = this
+								set_mia = mia_emergency_ftl  
+							}
+							else = { destroy_fleet = this }
+						} }
+					}
 				}
-				else = { destroy_fleet = this }
+				else = { 
+					if = { 
+						limit = { can_go_mia = yes } 
+						clear_orders = yes 
+						clear_fleet_actions = this 
+						set_mia = mia_emergency_ftl 
+					} 
+					else = { destroy_fleet = this } 
+				}
 			}
 			set_timed_fleet_flag = { flag = random_list_flagship_checksum_placeholder days = 1 }
 		} }
@@ -2397,7 +2436,7 @@ country_event = {
 	diplomatic = yes
 	picture_event_data = { room = ancient_AI_room }
 	custom_gui = "kuat_event_m_window"
-	custom_gui_option = "kuat_event_m_option"
+	custom_gui_option = "kuat_event_option"
 	show_sound = event_red_alert
 	is_triggered_only = yes
 	trigger = { NOT = { has_country_flag = fired_massege_leader } }

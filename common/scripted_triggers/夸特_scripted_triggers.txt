@@ -37,7 +37,7 @@ kuat_is_crisis_faction = {
 	}
 }
 
-is_galatic_empire = {
+is_galatic_empire_faction = {
 	optimize_memory
 	OR = {
 		is_kuat_fallen_empire = yes
@@ -80,9 +80,8 @@ is_kuat_Overseer_Council_empire = {
 is_eternal_faction = {
 	optimize_memory
 	OR = {
-		is_country_type = eternal_fleet_country
-		is_country_type = eternal_support
-		is_country_type = eternal_support_guadian
+		is_eternal_guardian = yes
+		is_eternal_crisis = yes
 	}
 }
 
@@ -116,7 +115,7 @@ is_invisable_faction = {
 	optimize_memory
 	OR = {
 		is_kuat_contractor_faction = yes
-		is_galatic_empire = yes
+		is_galatic_empire_faction = yes
 		is_infinite_faction = yes
 		is_eternal_faction = yes
 	}
@@ -799,10 +798,7 @@ kuat_exist_disable_type = {
 	}
 	AND = {
 		exists = fleet
-		fleet = { NOR = { 
-			has_fleet_flag = kuat_battle_anti_ai_damage_fleet 
-			has_fleet_flag = kuat_battle_flagship_checksum_system_pending
-		} }
+		fleet = { NOT = { has_fleet_flag = kuat_battle_flagship_checksum_system_pending } }
 	}
 }
 
@@ -842,14 +838,8 @@ kuat_is_invisable_target_system  = {
 kuat_is_player_country = {
 	optimize_memory
 	OR = {
-		AND = {
-			NOT = { has_global_flag = kuat_set_forcetrigger_order_enable_crisis_eve_system  }
-			is_ai = no
-		}
-		AND = { 
-			has_global_flag = kuat_set_forcetrigger_order_enable_crisis_eve_system 
-			is_ai = yes
-		}
+		AND = { NOT = { has_global_flag = kuat_set_forcetrigger_order_enable_crisis_eve_system  } is_ai = no }
+		AND = { has_global_flag = kuat_set_forcetrigger_order_enable_crisis_eve_system is_ai = yes }
 	}
 }
 
