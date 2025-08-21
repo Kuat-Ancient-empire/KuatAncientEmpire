@@ -1581,14 +1581,6 @@ country_event = {
 			limit = { check_variable = { which = eternal_guardian_fleet_id value = root.fromfrom.fleet_id } }
 			set_variable = { which = eternal_guardian_fleet_id value = 0 }
 		}
-		event_target:Eternalempire = { if = {
-			limit = { is_variable_set = eternal_kuat_invasion_fleet_num }
-			subtract_variable = { which = eternal_kuat_invasion_fleet_num value = 1 }
-			if = {
-				limit = { check_variable = { which = eternal_kuat_invasion_fleet_num value <= 0 } }
-				set_variable = { which = eternal_kuat_invasion_fleet_num value = 0 }
-			}
-		} }
 	}
 }
 
@@ -1615,6 +1607,15 @@ country_event = {
 		set_global_flag = ag_kae_ge_invasion_ended
 		set_country_flag = ag_kae_ge_invasion_killer
 		stop_crisis_sound = yes
+		add_timeline_event = {
+			type = timeline_origin_specific
+			override_id = timeline_galatic_empire_destroyed
+			override_tooltip = "TIMELINE_EVENT_GALATIC_EMPIRE_DESTROYED_TOOLTIP"
+			override_types = { }
+			override_text = { "text:TIMELINE_EVENT_GALATIC_EMPIRE_DESTROYED" }
+			override_texture = { "background:GFX_evt_origin_eternalthrone" }
+			targets = { }
+		}
 		kuat_create_toasto_message = { KEY = kuat_find_memory_cluds TARGET = this RECIPIENT = this }
 		event_target:Kuat_Galatic_Empire_invasion_country = { destroy_country = yes }
 		if = {
@@ -1735,6 +1736,15 @@ country_event = {
 	is_triggered_only = yes
 	immediate = { 
 		set_country_flag = Kuat_E_facility_area_over
+		add_timeline_event = {
+			type = timeline_origin_specific
+			override_id = timeline_galatic_council_guardian_destroyed
+			override_tooltip = "TIMELINE_EVENT_GALATIC_COUNCIL_GUARDIAN_DESTROYED_TOOLTIP"
+			override_types = { }
+			override_text = { "text:TIMELINE_EVENT_GALATIC_COUNCIL_GUARDIAN_DESTROYED" }
+			override_texture = { "background:GFX_evt_origin_eternalthrone" }
+			targets = { }
+		}
 		kuat_create_toasto_message = { KEY = kuat_find_memory_cluds TARGET = this RECIPIENT = this }
 		end_event_chain = ag_legacy_invasion_chain 
 	}

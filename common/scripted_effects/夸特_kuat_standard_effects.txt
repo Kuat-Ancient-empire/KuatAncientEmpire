@@ -1108,14 +1108,11 @@ kuat_automatic_initial_planet_districts_and_zones_types = {
 	optimize_memory
 	clear_blockers = yes
 	clear_planet_modifiers = yes
+	every_owned_pop_group = { kill_all_pop = yes }
 
 	if = {
 		limit = { NOT = { has_planet_flag = kuat_initial_colony_planet } }
-		every_owned_pop_group = { kill_all_pop = yes }
 		destroy_colony = yes
-	}
-	else = {
-		every_owned_pop_group = { kill_all_pop = yes }
 	}
 
 	remove_all_buildings = yes
@@ -1174,7 +1171,6 @@ kuat_automatic_initial_planet_districts_and_zones_types = {
 
 kuat_automatic_ai_colony = {
 	optimize_memory
-	set_update_modifiers_batch = begin
 	owner = { save_event_target_as = changing_country }
 
 	set_planet_flag = has_building_kuat_command_center_auto
@@ -1208,16 +1204,26 @@ kuat_automatic_ai_colony = {
 	set_planetary_ascension_tier = planet_production_ascension_tier
 
 	if = {
-		limit = { event_target:changing_country = { is_ai = no } }
+		limit = { 
+			exists = event_target:changing_country
+			event_target:changing_country = { is_ai = no } 
+		}
 		kuat_automatic_initial_planet_buildings = yes
 	}
 	else = { kuat_automatic_ai_initial_planet_buildings = yes }
 
-	planet_event = { id = kuat_EEstart.2 }	
+	if = {
+		limit = { 
+			exists = event_target:changing_country
+			event_target:changing_country = { 
+				is_ai = no 
+				NOT = { has_country_flag = kuat_fire_eestart_once }
+			} 
+		}
+		planet_event = { id = kuat_EEstart.2 }
+	}	
 
 	kuat_reset_auto_colony_variable = yes
-
-	set_update_modifiers_batch = end
 }
 
 kuat_reset_auto_colony_variable = {

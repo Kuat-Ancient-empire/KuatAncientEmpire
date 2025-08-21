@@ -283,11 +283,34 @@ create_eternal_origin_player_eternal_fleet = {
 		Fleet_owner = event_target:eternal_fleet_controller
 		bombardment = indiscriminate
 		Eternal_battleship = @eternal_fleet_battleship_T0 Eternal_flagship = @eternal_fleet_flagship_T1  DIFF = BOSS
-		Location = prev
+		Location = event_target:create_eternal_origin_eternal_fleet_location.system_star
 	}
 }
 
+# this: country 
 create_mult_eternal_origin_eternal_fleet = {
 	optimize_memory
-	while = { count = $NUM$ create_eternal_origin_eternal_fleet = yes }
+	while = { 
+		count = $NUM$ 
+		random_system_within_border = {
+			limit = { any_system_planet = { is_colony = yes } }
+			weights = {
+				base = 100
+				modifier = {
+					subtract = 50
+					any_fleet_in_system = { has_fleet_flag = eternal_kuat_invasion_fleet }
+				}
+				modifier = {
+					add = 25
+					has_any_megastructure = yes
+				}
+				modifier = {
+					add = 25
+					any_system_planet = { OR = { is_capital = yes is_sector_capital = yes } }
+				}
+			}
+			save_event_target_as = create_eternal_origin_eternal_fleet_location
+		}
+		create_eternal_origin_eternal_fleet = yes 
+	}
 }
