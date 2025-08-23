@@ -1886,30 +1886,6 @@ kuat_change_country_owner = {
 	}
 }
 
-Kuat_auto_colony_reserve = {
-	optimize_memory
-	if = {
-		limit = { 
-			check_variable_arithmetic = { which = modifier:country_resource_max_add value >= 100000 }
-			resource_stockpile_compare = { resource = $TYPE$ value > modifier:country_resource_max_add } 
-		}
-		export_resource_stockpile_to_variable = { 
-			resource = $TYPE$
-			variable = Vop_resource_stockpile_compare_$TYPE$
-		}
-		multiply_variable = { which = Vop_resource_stockpile_compare_$TYPE$ value = $MULT$ }
-		add_resource = { $TYPE$ = -1 mult = Vop_resource_stockpile_compare_$TYPE$ }
-		clear_variable = Vop_resource_stockpile_compare_$TYPE$
-	}
-}
-
-kuat_str_auto_colony_total_reserve = {
-	optimize_memory
-	Kuat_auto_colony_reserve = { TYPE = energy MULT = 0.5 }
-	Kuat_auto_colony_reserve = { TYPE = food MULT = 0.5 }
-	Kuat_auto_colony_reserve = { TYPE = minerals MULT = 0.5 }
-}
-
 kuat_create_toasto_message = {
 	optimize_memory
 	create_message = {
