@@ -1965,7 +1965,8 @@ country_event = {
 			set_fleet_flag = kuat_enable_bossbar
 			random_owned_ship = {
 				limit = { is_ship_size = Drift_megastructure_starbase }
-				prevprev = { country_event = { id =  kuat_extramonster.400 scopes = { from = prev } } }
+				save_global_event_target_as = is_kuat_boss
+				prevprev = { country_event = { id =  kuat_extramonster.400 scopes = { from = event_target:is_kuat_boss } } }
 			}
 		}
 	}
@@ -2285,7 +2286,7 @@ country_event = {
 		name = kuat_extramonster.38.e
 		custom_tooltip = "kuat_extramonster.38.e.tooltip"
 		hidden_effect = { 
-			set_country_flag = kuat_research_Name_boss_crisis_DF_BOSS_building_research
+			kuat_research_set_tech_name = { KEY_RESEARCH = Name_boss_crisis_DF_BOSS }
 			remove_country_flag = fire_once_contact 
 			end_event_chain = kuat_contractor_exe_invasion_chain
 			random_system = {
@@ -2315,23 +2316,19 @@ country_event = {
 	title = Drift_megastructure_starbase
 	desc = Drift_megastructure_starbase
 	is_triggered_only = yes
-	immediate = {
-		from = { save_global_event_target_as = is_kuat_boss }
-	}
 	auto_opens = yes
 	major = yes
 	diplomatic = yes
 	custom_gui = kuat_bossbar
 	diplomatic_title = kuat_get_boss_name
 	abort_trigger = { OR = {
+		NOT = { exists = from }
 		NOT = { exists = event_target:is_kuat_boss }
-		event_target:is_kuat_boss = { OR = { is_in_combat = no has_hp = 0 } }
+		from = { NOT = { is_same_value = event_target:is_kuat_boss } }
+		event_target:is_kuat_boss = { OR = { is_in_combat = no has_hp <= 0 } }
 	} }
 	abort_effect = {
-		if = {
-			limit = { exists = from }
-			from.fleet = { remove_fleet_flag = kuat_enable_bossbar }
-		}
+		if = { limit = { exists = from } from.fleet = { remove_fleet_flag = kuat_enable_bossbar } }
 		clear_global_event_target = is_kuat_boss
 	}
 }
