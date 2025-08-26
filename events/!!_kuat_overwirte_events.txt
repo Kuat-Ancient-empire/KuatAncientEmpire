@@ -208,3 +208,39 @@ planet_event = {
 		owner = { country_event = { id = fircon.5045 scopes = { from = from } days = 5 } }
 	}
 }
+
+
+namespace = cstorms
+system_event = {
+	id = cstorms.1310
+	title = cstorms.1310.name
+	desc = cstorms.1310.desc
+	picture = GFX_evt_cosmic_storms_stormbound
+	show_sound = event_mysterious_signal
+	is_triggered_only = yes
+	fire_only_once = yes
+	location = this
+
+	trigger = { always = no }
+
+	option = {
+		name = INTRIGUING
+		owner = {
+			begin_event_chain = {
+				event_chain = cs_stormbound_chain
+				target = this
+			}
+
+			add_monthly_resource_mult = {
+				resource = physics_research
+				value = @tier2researchreward
+				min = @tier2researchmin
+				max = @tier2researchmax
+			}
+
+			hidden_effect = {
+				country_event = { id = cstorms.1311 days = 800 }
+			}
+		}
+	}
+}
