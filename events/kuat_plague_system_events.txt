@@ -147,18 +147,6 @@ planet_event = {
 						inline_script = kuat_plague_modifier/kuat_plague_sample_a
 						kuat_contractor_plague_kill_people = yes
 					}
-					5 = {
-						modifier = {
-							mult = 0
-							solar_system = { NOT = { any_fleet_in_system = { is_ship_class = shipclass_military } } }
-						}
-						save_event_target_as = kuat_plague_zombie_country_fleet
-						solar_system = { random_fleet_in_system = {
-							limit = { is_ship_class = shipclass_military }
-							set_owner = event_target:kuat_plague_zombie_country
-							root.owner = { country_event = { id = kuat_plague.174 } }
-						} }
-					}
 				}
 			}
 		}
@@ -1109,7 +1097,10 @@ country_event = {
 			} }
 		}
 		if = {
-			limit = { event_target:play_species = { is_same_value = root.owner_main_species } }
+			limit = { 
+				exists = event_target:play_species 
+				event_target:play_species = { is_same_value = root.owner_main_species } 
+			}
 			change_dominant_species = { species = event_target:play_species change_all = yes }
 		}
 	}
@@ -1191,8 +1182,9 @@ country_event = {
 		} }
 	}
 	after = {
-		event_target:kuat_plague_zombie_country = {
-			destroy_country = yes
+		if = {
+			limit = { exists = event_target:kuat_plague_zombie_country }
+			event_target:kuat_plague_zombie_country = { destroy_country = yes }
 		}
 	}
 }

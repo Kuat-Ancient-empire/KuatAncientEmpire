@@ -2325,7 +2325,10 @@ country_event = {
 		NOT = { exists = from }
 		NOT = { exists = event_target:is_kuat_boss }
 		from = { NOT = { is_same_value = event_target:is_kuat_boss } }
-		event_target:is_kuat_boss = { OR = { is_in_combat = no has_hp <= 0 } }
+		AND = {
+			exists = event_target:is_kuat_boss
+			event_target:is_kuat_boss = { OR = { is_in_combat = no has_hp <= 0 } }
+		}
 	} }
 	abort_effect = {
 		if = { limit = { exists = from } from.fleet = { remove_fleet_flag = kuat_enable_bossbar } }
