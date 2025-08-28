@@ -1,6 +1,35 @@
 @rakata_guradian_fleet_count = 1
 @rakata_heavy_guradian_fleet_count = 1
 #scope: swgs crisis
+create_Rakata_crisis_elternal_system_warbase = {
+	optimize_memory
+	set_star_flag = cannot_be_hit_by_aow_starfall_spear
+	set_star_flag = kuat_cannot_be_hit_by_starkillerbase
+	system_star = {
+		create_fleet = {
+			name = "Infinite_megastructure_starbase"
+			settings = { spawn_debris = no can_disband = no }
+			effect = {
+				set_owner = event_target:Infinite_empire
+				create_ship = { design = "NAME_INFINITE_STARBASE_MEGASTRUCTURE" effect = { 
+					kuat_battle_disable_ship_at_health = { 
+						FLAG = enable_disable_starbase 
+						Disable_health = 0.01 
+						WHICH = STARBASE_HEALTH_VAR 
+						HEALTH = value:kuat_dynamic_exist_life_times 
+					}
+					set_ship_flag = kuat_rakata_crisis_capital_fleet
+				} }
+				set_fleet_flag = kuat_rakata_crisis_starbase_hull_control
+				set_fleet_flag = kuat_rakata_crisis_capital_fleet
+				set_location = { target = prev distance = -1 angle = 0 }
+			}
+		}
+        create_ambient_object = { type = space_storm_1 location = this }
+		last_created_ambient_object = { set_location = { target = prev distance = 0 angle = random } }
+	}
+}
+
 create_Kuat_Rakata_crisis_fleet_and_admiral = {
     optimize_memory
     create_exe_invasion_fleet = {

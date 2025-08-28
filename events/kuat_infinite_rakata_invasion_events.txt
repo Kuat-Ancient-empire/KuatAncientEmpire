@@ -43,7 +43,7 @@ country_event = {
 			limit = { NOT = { has_star_flag = forbit_spawn_system } }
 			set_star_flag = Kuat_Rakata_first_warp_portal_system
 			save_global_event_target_as = Kuat_Rakata_first_warp_portal_system
-			random_system_planet = {
+			system_star = {
 				create_country = {
 					name = "Name_Infinite_Empire"
 					type = "Infinite_empire"
@@ -77,11 +77,6 @@ country_event = {
 						limit = { exists = starbase }
 						starbase = { fleet = { destroy_fleet = this } }
 					}
-					create_starbase = {
-						size = exe_starbase
-						owner = event_target:Infinite_empire
-						effect = { fleet = { set_event_locked = yes } }
-					}
 					system_event = { id = kuat_final_crisis_events.59 days = 30 }
 					set_star_flag = Kuat_Rakata_first_warp_portal
 				}
@@ -95,6 +90,7 @@ country_event = {
 					create_Kuat_Rakata_crisis_greater_fleet = yes
 				}
 			}
+			create_Rakata_crisis_elternal_system_warbase = yes
 		}
 		every_playable_country = {
 			if = {
@@ -625,7 +621,10 @@ planet_event = {
 	trigger = {
 		event_target:Infinite_empire = {
 			count_owned_ship = {
-				limit = { is_ship_size = exe_starbase }
+				limit = { OR = {
+					is_ship_size = exe_starbase
+					is_ship_size = Infinite_megastructure_starbase
+				} }
 				count > 0
 			}
 		}
@@ -656,7 +655,10 @@ planet_event = {
 	trigger = {
 		event_target:Infinite_empire = {
 			count_owned_ship = {
-				limit = { is_ship_size = exe_starbase }
+				limit = { OR = {
+					is_ship_size = exe_starbase
+					is_ship_size = Infinite_megastructure_starbase
+				} }
 				count > 0
 			}
 		}
@@ -687,7 +689,10 @@ planet_event = {
 	trigger = {
 		event_target:Infinite_empire = {
 			count_owned_ship = {
-				limit = { is_ship_size = exe_starbase }
+				limit = { OR = {
+					is_ship_size = exe_starbase
+					is_ship_size = Infinite_megastructure_starbase
+				} }
 				count > 0
 			}
 		}
@@ -718,7 +723,10 @@ planet_event = {
 	trigger = {
 		event_target:Infinite_empire = {
 			count_owned_ship = {
-				limit = { is_ship_size = exe_starbase }
+				limit = { OR = {
+					is_ship_size = exe_starbase
+					is_ship_size = Infinite_megastructure_starbase
+				} }
 				count > 0
 			}
 		}
@@ -761,7 +769,10 @@ country_event = {
 	is_triggered_only = yes
 	trigger = {
 		from = { is_infinite_faction = yes }
-		fromfromfrom = { is_ship_size = exe_starbase }
+		fromfromfrom = { OR = {
+			is_ship_size = exe_starbase
+			is_ship_size = Infinite_megastructure_starbase
+		} }
 	}
 	immediate = {
 		fromfromfrom.fleet = {
@@ -772,6 +783,21 @@ country_event = {
 				every_country = {
 					limit = { has_point_of_interest = { poi = Kuat_Rakata_invasion_poi.1 } }
 					remove_point_of_interest = Kuat_Rakata_invasion_poi.1
+				}
+				if = {
+					limit = { is_ship_size = Infinite_megastructure_starbase }
+					solar_system = {
+						star = {
+							create_ambient_object = { type = "star_explosion" play_animation_once = yes location = this }
+							last_created_ambient_object = { set_location = { target = prev distance = 0 angle = random } }
+							create_ambient_object = { type = "destroyed_system" location = this }
+							last_created_ambient_object = { set_ambient_object_flag = destroyed_system_effect set_location = { target = prev  distance = 0  angle = random  } }
+						}
+						every_ship_in_system = {
+							limit = { is_ship_class = shipclass_military exists = owner owner = { is_hostile = root.from } }
+							kuat_battle_kuat_reduce_hp_percent = { value = 99 }
+						}
+					}
 				}
 				if = {
 					# 第二节点未出现则马上刷出
@@ -801,6 +827,21 @@ country_event = {
 					limit = { has_point_of_interest = { poi = Kuat_Rakata_invasion_poi.2 } }
 					remove_point_of_interest = Kuat_Rakata_invasion_poi.2
 				}
+				if = {
+					limit = { is_ship_size = Infinite_megastructure_starbase }
+					solar_system = {
+						star = {
+							create_ambient_object = { type = "star_explosion" play_animation_once = yes location = this }
+							last_created_ambient_object = { set_location = { target = prev distance = 0 angle = random } }
+							create_ambient_object = { type = "destroyed_system" location = this }
+							last_created_ambient_object = { set_ambient_object_flag = destroyed_system_effect set_location = { target = prev  distance = 0  angle = random  } }
+						}
+						every_ship_in_system = {
+							limit = { is_ship_class = shipclass_military exists = owner owner = { is_hostile = root.from } }
+							kuat_battle_kuat_reduce_hp_percent = { value = 99 }
+						}
+					}
+				}		
 				if = {
 					# 若第一节点被破坏，特殊节点未出现，则马上刷出特殊节点
 					limit = {
@@ -833,6 +874,21 @@ country_event = {
 					remove_point_of_interest = Kuat_Rakata_invasion_poi.3
 				}
 				if = {
+					limit = { is_ship_size = Infinite_megastructure_starbase }
+					solar_system = {
+						star = {
+							create_ambient_object = { type = "star_explosion" play_animation_once = yes location = this }
+							last_created_ambient_object = { set_location = { target = prev distance = 0 angle = random } }
+							create_ambient_object = { type = "destroyed_system" location = this }
+							last_created_ambient_object = { set_ambient_object_flag = destroyed_system_effect set_location = { target = prev  distance = 0  angle = random  } }
+						}
+						every_ship_in_system = {
+							limit = { is_ship_class = shipclass_military exists = owner owner = { is_hostile = root.from } }
+							kuat_battle_kuat_reduce_hp_percent = { value = 99 }
+						}
+					}
+				}		
+				if = {
 					# 若特殊节点被破坏，第三节点未出现，则马上刷出第三节点
 					limit = {
 						has_global_flag = Kuat_Rakata_second_warp_portal_destroyed
@@ -864,6 +920,21 @@ country_event = {
 					limit = { has_point_of_interest = { poi = Kuat_Rakata_invasion_poi.4 } }
 					remove_point_of_interest = Kuat_Rakata_invasion_poi.4
 				}
+				if = {
+					limit = { is_ship_size = Infinite_megastructure_starbase }
+					solar_system = {
+						star = {
+							create_ambient_object = { type = "star_explosion" play_animation_once = yes location = this }
+							last_created_ambient_object = { set_location = { target = prev distance = 0 angle = random } }
+							create_ambient_object = { type = "destroyed_system" location = this }
+							last_created_ambient_object = { set_ambient_object_flag = destroyed_system_effect set_location = { target = prev  distance = 0  angle = random  } }
+						}
+						every_ship_in_system = {
+							limit = { is_ship_class = shipclass_military exists = owner owner = { is_hostile = root.from } }
+							kuat_battle_kuat_reduce_hp_percent = { value = 99 }
+						}
+					}
+				}		
 				if = {
 					# 所有节点被破坏
 					limit = {
@@ -910,7 +981,10 @@ event = {
 		has_global_flag = Kuat_Rakata_invasion_happened
 		event_target:Infinite_empire = {
 			count_owned_ship = {
-				limit = { is_ship_size = exe_starbase }
+				limit = { OR = {
+					is_ship_size = exe_starbase
+					is_ship_size = Infinite_megastructure_starbase
+				} }
 				count < 1
 			}
 		}
@@ -962,7 +1036,7 @@ country_event = {
 				limit = { check_variable = { which = Kuat_Rakata_total_warp_portal_system_var value < 2 } }
 				set_variable = { which = Kuat_Rakata_total_warp_portal_system_var value = 2 }
 			}
-			random_system_planet = {
+			system_star = {
 				spawn_rakata_fleets_insane_total = yes
 				ROOT = {
 					while = {
@@ -1010,7 +1084,7 @@ country_event = {
 			limit = { NOT = { has_star_flag = forbit_spawn_system } }
 			set_star_flag = Kuat_Rakata_second_warp_portal_system
 			save_global_event_target_as = Kuat_Rakata_second_warp_portal_system
-			random_system_planet = {
+			system_star = {
 				spawn_rakata_fleets_insane_1 = yes
 				ROOT = {
 					country_event = { id = kuat_final_crisis_events.41 days = 2 }
@@ -1022,11 +1096,7 @@ country_event = {
 				limit = { exists = starbase }
 				starbase = { fleet = { destroy_fleet = this } }
 			}
-			create_starbase = {
-				size = exe_starbase
-				owner = event_target:Infinite_empire
-				effect = { fleet = { set_event_locked = yes } }
-			}
+			create_Rakata_crisis_elternal_system_warbase = yes
 			system_event = { id = kuat_final_crisis_events.59 days = 30 }
 		}
 		every_playable_country = {
@@ -1056,7 +1126,7 @@ country_event = {
 			limit = { NOT = { has_star_flag = forbit_spawn_system } }
 			set_star_flag = Kuat_Rakata_third_warp_portal_system
 			save_global_event_target_as = Kuat_Rakata_third_warp_portal_system
-			random_system_planet = {
+			system_star = {
 				spawn_rakata_fleets_insane_2 = yes
 				ROOT = {
 					country_event = { id = kuat_final_crisis_events.42 days = 2 }
@@ -1068,11 +1138,7 @@ country_event = {
 				limit = { exists = starbase }
 				starbase = { fleet = { destroy_fleet = this } }
 			}
-			create_starbase = {
-				size = exe_starbase
-				owner = event_target:Infinite_empire
-				effect = { fleet = { set_event_locked = yes } }
-			}
+			create_Rakata_crisis_elternal_system_warbase = yes
 			system_event = { id = kuat_final_crisis_events.59 days = 30 }
 		}
 		every_playable_country = {

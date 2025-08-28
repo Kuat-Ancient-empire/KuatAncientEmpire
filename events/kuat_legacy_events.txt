@@ -866,6 +866,18 @@ ship_event = {
 					root.fleet = { set_location = { target = prev distance = -1 angle = 0 } }
 				}
 			}
+			if = {
+				limit = { root = { is_ship_size = Infinite_megastructure_starbase } }		
+				if = {
+					limit = { root.fleet = { has_fleet_flag = kuat_mega_starbase_stormed_activated } }
+					kuat_battle_clear_all_storm = yes
+					root = { kuat_battle_spawn_system_suppliment_storm = yes }
+				}
+				random_system_planet = {
+					limit = { is_primary_star = yes }
+					root.fleet = { set_location = { target = prev distance = -1 angle = 0 } }
+				}
+			}
 			else = {
 				if = {
 					limit = { root.fleet = { has_fleet_flag = kuat_mega_starbase_stormed_activated } }
@@ -926,6 +938,21 @@ country_event = {
 			}
 			if = {
 				limit = { is_ship_size = Drift_megastructure_starbase }
+				solar_system = {
+					star = {
+						create_ambient_object = { type = "star_explosion" play_animation_once = yes location = this }
+						last_created_ambient_object = { set_location = { target = prev distance = 0 angle = random } }
+						create_ambient_object = { type = "destroyed_system" location = this }
+						last_created_ambient_object = { set_ambient_object_flag = destroyed_system_effect set_location = { target = prev  distance = 0  angle = random  } }
+					}
+					every_ship_in_system = {
+						limit = { is_ship_class = shipclass_military exists = owner owner = { is_hostile = root } }
+						kuat_battle_kuat_reduce_hp_percent = { value = 99 }
+					}
+				}
+			}
+			if = {
+				limit = { is_ship_size = Infinite_megastructure_starbase }
 				solar_system = {
 					star = {
 						create_ambient_object = { type = "star_explosion" play_animation_once = yes location = this }
