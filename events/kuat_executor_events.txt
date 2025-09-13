@@ -371,7 +371,7 @@ fleet_event = {
 					country_event = { id = kuat_diplomatic.5 days = 10 random = 20 }
 				}
 				add_timeline_event = {
-					type = timeline_origin_specific
+					type = timeline_origin
 					override_id = timeline_endodia_legacy_01
 					override_tooltip = "TIMELINE_EVENT_ENDODIA_LEGACY_01_TOOLTIP"
 					override_types = { }
@@ -635,7 +635,7 @@ fleet_event = {
 			}
 			root.owner = { 
 				add_timeline_event = {
-					type = timeline_origin_specific
+					type = timeline_origin
 					override_id = timeline_endodia_legacy_02
 					override_tooltip = "TIMELINE_EVENT_ENDODIA_LEGACY_02_TOOLTIP"
 					override_types = { }
@@ -1004,7 +1004,7 @@ country_event = {
 			country_event = { id = kuat_diplomatic.15 days = 10 random = 20 }
 		}
 		add_timeline_event = {
-			type = timeline_origin_specific
+			type = timeline_origin
 			override_id = timeline_endodia_legacy_03
 			override_tooltip = "TIMELINE_EVENT_ENDODIA_LEGACY_03_TOOLTIP"
 			override_types = { }
@@ -1228,105 +1228,105 @@ country_event = {
 ##########################
 #### 建造执行者要BB你 #####
 ##########################
-ship_event = {
-	id = executor_build.9
-	hide_window = yes
-	is_triggered_only = yes
-	trigger = {
-		owner = { 
-			kuat_is_enable_shadow_origin = yes 
-			kuat_is_enable_apocalyptic_origin = no
-		}
-		is_ship_size = knight_hammer_executor
-	}
-	immediate = {
-		set_ship_flag = executor
-		if = {
-			limit = { exists = event_target:fallen_empire_kuat }
-			owner = { country_event = { id = executor_build.901 } }
-		}
-	}
-}
+# ship_event = {
+# 	id = executor_build.9
+# 	hide_window = yes
+# 	is_triggered_only = yes
+# 	trigger = {
+# 		owner = { 
+# 			kuat_is_enable_shadow_origin = yes 
+# 			kuat_is_enable_apocalyptic_origin = no
+# 		}
+# 		is_ship_size = knight_hammer_executor
+# 	}
+# 	immediate = {
+# 		set_ship_flag = executor
+# 		if = {
+# 			limit = { exists = event_target:fallen_empire_kuat }
+# 			owner = { country_event = { id = executor_build.901 } }
+# 		}
+# 	}
+# }
 
-country_event = {
-	id = executor_build.901
-	title = executor_build.901.title
-	desc = executor_build.901.desc
-	diplomatic = yes
-	is_triggered_only = yes
-	fire_only_once = yes
-	picture_event_data = {
-		portrait = event_target:kuat_player_target_species
-		planet_background = event_target:fallen_empire_kuat
-		graphical_culture = fallen_empire_01
-		city_level = event_target:fallen_empire_kuat
-		room = event_target:fallen_empire_kuat.ruler
-	}
-	custom_gui = "kuat_event_diplomacy_window"
-	custom_gui_option = "kuat_event_diplomacy_option"
-	trigger = { 
-		kuat_is_enable_apocalyptic_origin = no
-		any_country = { has_country_flag = fallen_empire_kuat } 
-	}
-	immediate = {
-		set_timed_country_flag = { flag = kuat_will_be_return_for_money years = 20 }
-		if = {
-			limit = { has_country_resource = { type = energy amount > 10000 } }
-			export_resource_stockpile_to_variable = { resource = energy variable = country_energy_tax_amount }
-			multiply_variable = { which = country_energy_tax_amount value = 0.5 }
-		}
-		else = { set_variable = { which = country_energy_tax_amount value = 5000 } }
-	}
-	option = {
-		name = executor_build.901.a
-		allow = { has_country_resource = { type = energy amount >= country_energy_tax_amount } }
-		add_resource = { energy = -1 mult = country_energy_tax_amount }
-		hidden_effect = { clear_variable = country_energy_tax_amount }
-		event_target:fallen_empire_kuat = { add_opinion_modifier = { who = prev modifier = opinion_kuat_shipc_can_get_1 } }
-	}
-	option = {
-		name = executor_build.901.b
-		hidden_effect = { clear_variable = country_energy_tax_amount }
-		event_target:fallen_empire_kuat = { add_opinion_modifier = { who = prev modifier = opinion_kuat_shipc_can_not_get } }
-	}
-}
+# country_event = {
+# 	id = executor_build.901
+# 	title = executor_build.901.title
+# 	desc = executor_build.901.desc
+# 	diplomatic = yes
+# 	is_triggered_only = yes
+# 	fire_only_once = yes
+# 	picture_event_data = {
+# 		portrait = event_target:kuat_player_target_species
+# 		planet_background = event_target:fallen_empire_kuat
+# 		graphical_culture = fallen_empire_01
+# 		city_level = event_target:fallen_empire_kuat
+# 		room = event_target:fallen_empire_kuat.ruler
+# 	}
+# 	custom_gui = "kuat_event_diplomacy_window"
+# 	custom_gui_option = "kuat_event_diplomacy_option"
+# 	trigger = { 
+# 		kuat_is_enable_apocalyptic_origin = no
+# 		any_country = { has_country_flag = fallen_empire_kuat } 
+# 	}
+# 	immediate = {
+# 		set_timed_country_flag = { flag = kuat_will_be_return_for_money years = 20 }
+# 		if = {
+# 			limit = { has_country_resource = { type = energy amount > 10000 } }
+# 			export_resource_stockpile_to_variable = { resource = energy variable = country_energy_tax_amount }
+# 			multiply_variable = { which = country_energy_tax_amount value = 0.5 }
+# 		}
+# 		else = { set_variable = { which = country_energy_tax_amount value = 5000 } }
+# 	}
+# 	option = {
+# 		name = executor_build.901.a
+# 		allow = { has_country_resource = { type = energy amount >= country_energy_tax_amount } }
+# 		add_resource = { energy = -1 mult = country_energy_tax_amount }
+# 		hidden_effect = { clear_variable = country_energy_tax_amount }
+# 		event_target:fallen_empire_kuat = { add_opinion_modifier = { who = prev modifier = opinion_kuat_shipc_can_get_1 } }
+# 	}
+# 	option = {
+# 		name = executor_build.901.b
+# 		hidden_effect = { clear_variable = country_energy_tax_amount }
+# 		event_target:fallen_empire_kuat = { add_opinion_modifier = { who = prev modifier = opinion_kuat_shipc_can_not_get } }
+# 	}
+# }
 
-country_event = {
-	id = executor_build.902
-	title = executor_build.901.title
-	desc = executor_build.902.desc
-	diplomatic = yes
-	picture_event_data = { room = clocks_room }
-	custom_gui = "kuat_event_m_window"
-	custom_gui_option = "kuat_event_option"
-	is_triggered_only = yes
-	trigger = {
-		kuat_is_enable_apocalyptic_origin = no
-		has_country_flag = kuat_will_be_return_for_money
-		any_owned_ship = { has_ship_flag = executor }
-		exists = event_target:fallen_empire_kuat
-	}
-	immediate = {
-		if = {
-			limit = { has_country_resource = { type = energy amount > 10000 } }
-			export_resource_stockpile_to_variable = { resource = energy variable = country_energy_tax_amount }
-			multiply_variable = { which = country_energy_tax_amount value = 0.5 }
-		}
-		else = { set_variable = { which = country_energy_tax_amount value = 5000 } }
-	}
-	option = {
-		name = executor_build.901.a
-		allow = { has_country_resource = { type = energy amount >= country_energy_tax_amount } }
-		add_resource = { energy = -1 mult = country_energy_tax_amount }
-		hidden_effect = { clear_variable = country_energy_tax_amount }
-		event_target:fallen_empire_kuat = { add_opinion_modifier = { who = prev modifier = opinion_kuat_shipc_can_get_1 } }
-	}
-	option = {
-		name = executor_build.901.b
-		hidden_effect = { clear_variable = country_energy_tax_amount }
-		event_target:fallen_empire_kuat = { add_opinion_modifier = { who = prev modifier = opinion_kuat_shipc_can_not_get } }
-	}
-}
+# country_event = {
+# 	id = executor_build.902
+# 	title = executor_build.901.title
+# 	desc = executor_build.902.desc
+# 	diplomatic = yes
+# 	picture_event_data = { room = clocks_room }
+# 	custom_gui = "kuat_event_m_window"
+# 	custom_gui_option = "kuat_event_option"
+# 	is_triggered_only = yes
+# 	trigger = {
+# 		kuat_is_enable_apocalyptic_origin = no
+# 		has_country_flag = kuat_will_be_return_for_money
+# 		any_owned_ship = { has_ship_flag = executor }
+# 		exists = event_target:fallen_empire_kuat
+# 	}
+# 	immediate = {
+# 		if = {
+# 			limit = { has_country_resource = { type = energy amount > 10000 } }
+# 			export_resource_stockpile_to_variable = { resource = energy variable = country_energy_tax_amount }
+# 			multiply_variable = { which = country_energy_tax_amount value = 0.5 }
+# 		}
+# 		else = { set_variable = { which = country_energy_tax_amount value = 5000 } }
+# 	}
+# 	option = {
+# 		name = executor_build.901.a
+# 		allow = { has_country_resource = { type = energy amount >= country_energy_tax_amount } }
+# 		add_resource = { energy = -1 mult = country_energy_tax_amount }
+# 		hidden_effect = { clear_variable = country_energy_tax_amount }
+# 		event_target:fallen_empire_kuat = { add_opinion_modifier = { who = prev modifier = opinion_kuat_shipc_can_get_1 } }
+# 	}
+# 	option = {
+# 		name = executor_build.901.b
+# 		hidden_effect = { clear_variable = country_energy_tax_amount }
+# 		event_target:fallen_empire_kuat = { add_opinion_modifier = { who = prev modifier = opinion_kuat_shipc_can_not_get } }
+# 	}
+# }
 
 
 ##########################
@@ -1860,7 +1860,7 @@ country_event = {
 				name = "Name_DFLEET"
 				effect = {
 					set_owner = event_target:fallen_empire_kuat_fleet
-					create_ship = { design = "Name_boss_eclipse" }
+					create_ship = { design = "NAME_KUAT_EXECUTOR" }
 					while = { count = 48 create_ship = { design = "Name_boss_HIGH_EMPIRE" } }
 					set_location = prev.capital_scope
 					set_fleet_flag = will_be_return_eclipse
@@ -2621,7 +2621,7 @@ country_event = {
 					num_ships = 1
 					NOT = { exists = leader }
 					is_ship_class = shipclass_military
-					has_enable_total_flagship_system_false = yes
+					kuat_fleet_anyone_not_has_validable_flagship_system = yes
 				}
 			}
 		}
@@ -2632,7 +2632,7 @@ country_event = {
 					num_ships = 1
 					is_ship_class = shipclass_military
 					NOT = { exists = leader }
-					has_enable_total_flagship_system_false = yes
+					kuat_fleet_anyone_not_has_validable_flagship_system = yes
 				}
 				delete_fleet = { target = this destroy_template = yes kill_leader = no }
 				root = { change_variable = { which = destroyed_fleet value = prev.trigger:num_ships } }
@@ -2815,7 +2815,7 @@ country_event = {
 	option = {
 		name = executor_build.1010.g
 		trigger = {
-			has_existing_ship_design = eclipse
+			has_existing_ship_design = kuat_eclipse
 		}
 		hidden_effect = {
 			event_target:BlackholeShipyard = { 
