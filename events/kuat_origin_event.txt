@@ -149,10 +149,8 @@ country_event = {
 				bombardment = indiscriminate
 				Dominance = @kuat_invasion_flagship_num_T1  
 				Titan = @kuat_invasion_flagship_num_T2  
-				Resugrant = @kuat_invasion_Battleship_num_T3  
-				Imperial = @kuat_invasion_BattleCruser_num_T3  
-				Gladiator = @kuat_invasion_Cruser_num_T4
-				Cavelry = @kuat_invasion_Cruser_num_T4
+				Imperial = @kuat_invasion_Battleship_num_T5  
+				Gladiator = @kuat_invasion_Cruser_num_T5
 				DIFF = BOSS
 				Location = prev.star
 				modifier = being_kuat_fleet	
@@ -498,59 +496,7 @@ country_event = {
 		hidden_effect = { 
 			subtract_variable = { which = eternal_bornus_var value = 30 }
 			capital_scope = {
-				random_list = {
-					1 = {
-						create_exe_invasion_fleet = {
-							is_boss = no  can_disband = yes is_composition = no
-							flag = kuat_origin_fleet
-							Fleet_owner = root
-							bombardment = indiscriminate
-							Legator = 1 
-							Balletor = 2  
-							high_Imperial = @kuat_invasion_Battleship_num_T4 
-							Resugrant = @kuat_invasion_Battleship_num_T4 
-							Harrower = @kuat_invasion_Cruser_num_T4
-							Cavelry = @kuat_invasion_Cruser_num_T4  
-							DIFF = BOSS
-							modifier = being_kuat_fleet
-							Location = prev
-						}
-					}
-					1 = {
-						create_exe_invasion_fleet = {
-							is_boss = no  can_disband = yes is_composition = no
-							flag = kuat_origin_fleet
-							Fleet_owner = root
-							bombardment = indiscriminate
-							Dominance = 1 
-							Titan = 2  
-							Imperial = @kuat_invasion_Battleship_num_T4  
-							Resugrant = @kuat_invasion_Battleship_num_T4 
-							Gladiator = @kuat_invasion_Cruser_num_T4    
-							Cavelry = @kuat_invasion_Cruser_num_T4  
-							DIFF = BOSS
-							modifier = being_kuat_fleet
-							Location = prev
-						}
-					}
-					1 = {
-						create_exe_invasion_fleet = {
-							is_boss = no  can_disband = yes is_composition = no
-							flag = kuat_origin_fleet
-							Fleet_owner = root
-							bombardment = indiscriminate
-							Venganza = 1 
-							Tyrant = 2  
-							high_Imperial = @kuat_invasion_Battleship_num_T4   
-							Resugrant = @kuat_invasion_Battleship_num_T4
-							Cavelry = @kuat_invasion_Cruser_num_T4  
-							Gladiator = @kuat_invasion_Cruser_num_T4
-							DIFF = BOSS
-							modifier = being_kuat_fleet
-							Location = prev
-						}
-					}
-				}
+				create_starbase_gunpower_invasion_battle_fleet = yes
 			}
 			create_message = {
 				type = "CONSTRUCTION_MESSAGE_TYPE"
@@ -568,26 +514,36 @@ country_event = {
 		allow = {
 			custom_tooltip = {
 				fail_text = kuat_origin.10.b.fail
-				check_variable = { which = eternal_bornus_var value >= 60 }
+				check_variable = { which = eternal_bornus_var value >= 30 }
 			}
 		}
 		hidden_effect = { 
-			subtract_variable = { which = eternal_bornus_var value = 60 }
+			subtract_variable = { which = eternal_bornus_var value = 30 }
 			capital_scope = {
-				create_exe_invasion_fleet = {
-					is_boss = no  can_disband = yes is_composition = no
-					Fleet_owner = root
-					flag = kuat_origin_fleet
-					bombardment = indiscriminate
-					Annihilator = 1  Balletor = 2  
-					high_Imperial = @kuat_invasion_Battleship_num_T4   
-					Resugrant = @kuat_invasion_Battleship_num_T4
-					Cavelry = @kuat_invasion_Cruser_num_T4  
-					Harrower = @kuat_invasion_Cruser_num_T4
-					DIFF = BOSS
-					modifier = being_kuat_fleet
-					Location = prev
-				}
+				create_starbase_missle_invasion_battle_fleet = yes
+			}
+			create_message = {
+				type = "CONSTRUCTION_MESSAGE_TYPE"
+				localization = "kuat_support_class_arrived_desc"
+				days = 30
+				target = root
+				variable = { type = name localization = "capital_planet" scope = root.capital_scope }
+			}
+			country_event = { id = kuat_origin.10 }
+		}
+	}
+	option = {
+		name = kuat_origin.10.d
+		allow = {
+			custom_tooltip = {
+				fail_text = kuat_origin.10.b.fail
+				check_variable = { which = eternal_bornus_var value >= 30 }
+			}
+		}
+		hidden_effect = { 
+			subtract_variable = { which = eternal_bornus_var value = 30 }
+			capital_scope = {
+				create_starbase_carrier_invasion_battle_fleet = yes
 			}
 			create_message = {
 				type = "CONSTRUCTION_MESSAGE_TYPE"
@@ -611,20 +567,7 @@ country_event = {
 		hidden_effect = { 
 			subtract_variable = { which = eternal_bornus_var value = 90 }
 			capital_scope = {
-				create_exe_invasion_fleet = {
-					is_boss = no  can_disband = yes is_composition = no
-					Fleet_owner = root
-					flag = kuat_origin_fleet
-					bombardment = indiscriminate 
-					Eclipse = @kuat_invasion_flagship_num_T1  
-					Resugrant = @kuat_invasion_Battleship_num_T4
-					high_Imperial = @kuat_invasion_BattleCruser_num_T4
-					Cavelry = @kuat_invasion_Cruser_num_T4
-					Harrower = @kuat_invasion_Cruser_num_T4
-					DIFF = BOSS
-					modifier = being_kuat_fleet
-					Location = prev
-				}
+				create_starbase_super_invasion_battle_fleet = yes
 			}
 			create_message = {
 				type = "CONSTRUCTION_MESSAGE_TYPE"
@@ -846,33 +789,6 @@ country_event = {
 	option = {
 		name = kuat_origin.15.d
 		hidden_effect = { 
-			if = {
-				limit = { NOT = { has_country_flag = fire_only_once } }
-				set_country_flag = fire_only_once
-				capital_scope = {
-					create_exe_invasion_fleet = {
-						is_boss = no  can_disband = yes is_composition = no
-						Fleet_owner = root
-						flag = kuat_origin_fleet
-						bombardment = indiscriminate
-						Eclipse = @kuat_invasion_flagship_num_T1  
-						Resugrant = @kuat_invasion_Battleship_num_T4
-						high_Imperial = @kuat_invasion_BattleCruser_num_T4
-						Cavelry = @kuat_invasion_Cruser_num_T4
-						Harrower = @kuat_invasion_Cruser_num_T4
-						DIFF = BOSS
-						modifier = being_kuat_fleet
-						Location = prev
-					}
-				}
-				create_message = {
-					type = "CONSTRUCTION_MESSAGE_TYPE"
-					localization = "kuat_support_class_arrived_desc"
-					days = 30
-					target = root
-					variable = { type = name localization = "capital_planet" scope = root.capital_scope }
-				}
-			}
 			set_country_flag = check_origin_kuat_area_4
 			if = {
 				limit = { check_variable = { which = var_origin_15 value < 5 } }
