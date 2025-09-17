@@ -109,22 +109,18 @@ create_exe_invasion_fleet = {
 				set_variable = { which = KUAT_SHIP_HEALTH_VAR value = 0 }
 				kuat_battle_disable_ship_at_health = { FLAG = enable_kuat_ship_inital Disable_health = 0.01 WHICH = KUAT_SHIP_HEALTH_VAR HEALTH = value:kuat_dynamic_exist_life_times }
 			} } }]
-
 			[[Executor] while = { count = $Executor$ create_ship = { design = NAME_KUAT_EXECUTOR_1 effect = {
 				set_variable = { which = KUAT_SHIP_HEALTH_VAR value = 0 }
 				kuat_battle_disable_ship_at_health = { FLAG = enable_kuat_ship_inital Disable_health = 0.01 WHICH = KUAT_SHIP_HEALTH_VAR HEALTH = value:kuat_dynamic_exist_life_times }
 			} } }]
-
 			[[Compellor] while = { count = $Compellor$ create_ship = { design = NAME_KUAT_COMPELLOR effect = {
 				set_variable = { which = KUAT_SHIP_HEALTH_VAR value = 0 }
 				kuat_battle_disable_ship_at_health = { FLAG = enable_kuat_ship_inital Disable_health = 0.01 WHICH = KUAT_SHIP_HEALTH_VAR HEALTH = value:kuat_dynamic_exist_life_times }
 			} } }]
-
 			[[Impellor] while = { count = $Impellor$ create_ship = { design = NAME_KUAT_IMPELLOR effect = {
 				set_variable = { which = KUAT_SHIP_HEALTH_VAR value = 0 }
 				kuat_battle_disable_ship_at_health = { FLAG = enable_kuat_ship_inital Disable_health = 0.01 WHICH = KUAT_SHIP_HEALTH_VAR HEALTH = value:kuat_dynamic_exist_life_times }
 			} } }]
-
 			[[Annihilator] while = { count = $Annihilator$ create_ship = { design = NAME_KUAT_Annihilator effect = {
 				set_variable = { which = KUAT_SHIP_HEALTH_VAR value = 0 }
 				kuat_battle_disable_ship_at_health = { FLAG = enable_kuat_ship_inital Disable_health = 0.01 WHICH = KUAT_SHIP_HEALTH_VAR HEALTH = value:kuat_dynamic_exist_life_times }
@@ -691,6 +687,20 @@ kuat_origin_give_all_ship_and_tech = {
 	if = {
 		limit = { NOT = { has_existing_ship_design = knight_hammer_executor } }
 		create_ship_design = { design = "NAME_KUAT_EXECUTOR" }
+		add_ship_design = last_created_design
+	}
+}
+
+kuat_origin_give_all_eternal_fleet_data = {
+	optimize_memory
+	if = {
+		limit = { NOT = { has_existing_ship_design = eternal_battleship } }
+		create_ship_design = { design = Name_boss_crisis_EBC_BOSS }
+		add_ship_design = last_created_design
+	}
+	if = {
+		limit = { NOT = { has_existing_ship_design = eternal_flagship } }
+		create_ship_design = { design = Name_boss_crisis_EFS_BOSS }
 		add_ship_design = last_created_design
 	}
 }
@@ -1881,5 +1891,31 @@ kuat_create_toasto_message = {
 		target = $TARGET$
 		recipient = $RECIPIENT$
 		days = 30
+	}
+}
+
+create_kuat_eternal_leader_effects = {
+	optimize_memory
+	create_leader = {
+		class = $CLASS$
+		species = root
+		name = "Name_Eternal_Support"
+		set_age = 199191919
+		immortal = yes
+		skill = 10
+		randomize_traits = no
+		traits = {
+			trait = leader_trait_eternal_learned_leader_legend
+		}
+		custom_description = "Name_Eternal_Support_Desc"
+		background_ethic = ethic_gestalt_consciousness
+		event_leader = yes	# prevents this leader from leading factions and winning elections
+		effect = {
+			freeze_leader_age = yes
+			set_gender = female
+			set_leader_flag = eternal_learned_leader
+			set_leader_flag = legendary_leader
+			change_leader_portrait = kuat01
+		}
 	}
 }

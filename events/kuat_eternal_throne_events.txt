@@ -816,34 +816,6 @@ country_event = {
 		is_dialog_only = yes
 		response_text = kuat_EEstart.10.d.res
 	}
-	#购买玩家舰队
-	option = {
-		name = kuat_EEstart.10.e
-		trigger = { has_global_flag = eternal_ended_A_rountine }
-		allow = {
-			fail_text = {
-				text = "kuat_EEstart.10.e.stockpile_not_enough"
-				resource_stockpile_compare = { resource = alloys value >= 20 mult = 500000 }
-			}
-			fail_text = {
-				text = "kuat_EEstart.10.e.fleet_exist"
-				count_owned_fleet = { count = 0 limit = { has_fleet_flag = eternal_kuat_player_fleet } }
-			}
-			fail_text = {
-				text = "kuat_EEstart.10.e.building_exist"
-				NOT = { has_country_flag = kuat_get_eternalfleet_windup }
-			}
-		}
-		hidden_effect = { 
-			add_resource = { alloys = -20 mult = 500000 }
-			set_timed_country_flag = { flag = kuat_get_eternalfleet_windup days = 720 }
-			clear_variable = country_energy_tax_amount
-			save_event_target_as = eternal_fleet_controller
-			event_target:zakuul_system = { system_star = { while = { count = 5 create_eternal_origin_player_eternal_fleet = yes } } }
-		}
-		response_text = kuat_EEstart.10.e.free
-		is_dialog_only = yes
-	}
 	option = {
 		name = kuat_shipyard.exit
 		default_hide_option = yes
