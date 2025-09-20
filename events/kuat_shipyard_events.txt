@@ -88,16 +88,7 @@ country_event = {
 	option = {
 		name = kuat_shipyard.shipbuild_fleet_designed
 		hidden_effect = {  
-			set_country_flag = build_all_sell_ship_for_design_fleet
-			set_country_flag = kuat_build_fifth_ships
-			set_country_flag = building_the_cavelry
-			set_country_flag = building_the_horriwer 
-			set_country_flag = building_the_empire
-			set_country_flag = building_the_resugrant
-
-			set_country_flag = building_the_donimance 
-			set_country_flag = building_the_Vengeance
-			set_country_flag = building_the_eclipse 
+			kuat_shipyard_set_all_flag = yes
 			random_list = {
 				1 = { country_event = { id = kuat_shipyard.31 } }
 				1 = { country_event = { id = kuat_shipyard.32 } }
@@ -217,21 +208,10 @@ country_event = {
 	is_triggered_only = yes
 	trigger = { can_communicate_with_kuat = yes }
 	immediate = {
-		random_list = {
-			1 = {
-				finisher_shipyard_output = {
-					TYPE = ISD_fleet_queue
-					DESIGN = Name_boss_HIGH_EMPIRE  ID = 233
-					FLAG = ISD_fleet_queue_notification_temple 
-				}
-			}
-			1 = {
-				finisher_shipyard_output = {
-					TYPE = ISD_fleet_queue
-					DESIGN = Name_boss_Xyston  ID = 233
-					FLAG = ISD_fleet_queue_notification_temple 
-				}
-			}
+		finisher_shipyard_output = {
+			TYPE = ISD_fleet_queue
+			DESIGN = Name_boss_HIGH_EMPIRE  ID = 233
+			FLAG = ISD_fleet_queue_notification_temple 
 		}
 	}
 }
@@ -244,6 +224,86 @@ country_event = {
 	immediate = { create_message = {
 		type = "CONSTRUCTION_MESSAGE_TYPE"
 		localization = "kuat_titan_arrived_desc"
+		days = 30
+		target = from
+		variable = { type = name localization = "capital_planet" scope = root.capital_scope }
+	} }
+}
+
+#Name_boss_Gladiator 角斗士
+country_event = {
+	id = kuat_shipyard.291
+	hide_window = yes
+	is_triggered_only = yes
+	trigger = {
+		can_communicate_with_kuat = yes
+		check_variable = { which = GSD_class_queue value > 0 }
+	}
+	immediate = { transformer_shipyard_output = { TYPE = GSD_fleet_queue SCREEN = GSD_class_queue } }
+}
+
+country_event = {
+	id = kuat_shipyard.292
+	hide_window = yes
+	is_triggered_only = yes
+	trigger = { can_communicate_with_kuat = yes }
+	immediate = {
+		finisher_shipyard_output = {
+			TYPE = GSD_fleet_queue
+			DESIGN = Name_boss_Gladiator  ID = 293
+			FLAG = GSD_fleet_queue_notification_temple 
+		}
+	}
+}
+
+country_event = {
+	id = kuat_shipyard.293
+	hide_window = yes
+	is_triggered_only = yes
+	trigger = { NOT = { has_country_flag = GSD_fleet_queue_notification_temple } }
+	immediate = { create_message = {
+		type = "CONSTRUCTION_MESSAGE_TYPE"
+		localization = "kuat_Gladiator_arrived_desc"
+		days = 30
+		target = from
+		variable = { type = name localization = "capital_planet" scope = root.capital_scope }
+	} }
+}
+
+#长矛到达
+country_event = {
+	id = kuat_shipyard.281
+	hide_window = yes
+	is_triggered_only = yes
+	trigger = {
+		can_communicate_with_kuat = yes
+		check_variable = { which = XSD_class_queue value > 0 }
+	}
+	immediate = { transformer_shipyard_output = { TYPE = XSD_fleet_queue SCREEN = XSD_class_queue } }
+}
+
+country_event = {
+	id = kuat_shipyard.282
+	hide_window = yes
+	is_triggered_only = yes
+	trigger = { can_communicate_with_kuat = yes }
+	immediate = {
+		finisher_shipyard_output = {
+			TYPE = XSD_fleet_queue
+			DESIGN = Name_boss_Xyston  ID = 283
+			FLAG = XSD_fleet_queue_notification_temple 
+		}
+	}
+}
+
+country_event = {
+	id = kuat_shipyard.283
+	hide_window = yes
+	is_triggered_only = yes
+	trigger = { NOT = { has_country_flag = XSD_fleet_queue_notification_temple } }
+	immediate = { create_message = {
+		type = "CONSTRUCTION_MESSAGE_TYPE"
+		localization = "kuat_Xyston_arrived_desc"
 		days = 30
 		target = from
 		variable = { type = name localization = "capital_planet" scope = root.capital_scope }
@@ -445,33 +505,13 @@ country_event = {
 			is_hostile = event_target:kuat_shipyard_country
 		}
 		OR = {
-			check_variable = { which = VSDD_class_queue value > 0 }
-			check_variable = { which = HSD_class_queue value > 0 }
-			check_variable = { which = ISD_class_queue value > 0 }
-			check_variable = { which = RSD_class_queue value > 0 }
-			check_variable = { which = DSDD_class_queue value > 0 }
-			check_variable = { which = ESDD_class_queue value > 0 }
-			check_variable = { which = VSDD_queue value > 0 }
-			check_variable = { which = HSD_queue value > 0 }
-			check_variable = { which = ISD_queue value > 0 }
-			check_variable = { which = RSD_queue value > 0 }
-			check_variable = { which = DSDD_queue value > 0 }
-			check_variable = { which = ESDD_queue value > 0 }
+			kuat_shipyard_check_all_variable = { TYPE = class_queue }
+			kuat_shipyard_check_all_variable = { TYPE = queue }
 		}
 	}
 	immediate = {
-		clear_variable = VSDD_class_queue
-		clear_variable = HSD_class_queue
-		clear_variable = ISD_class_queue
-		clear_variable = RSD_class_queue
-		clear_variable = DSDD_class_queue
-		clear_variable = ESDD_class_queue
-		clear_variable = VSDD_queue
-		clear_variable = HSD_queue
-		clear_variable = ISD_queue
-		clear_variable = RSD_queue
-		clear_variable = DSDD_queue
-		clear_variable = ESDD_queue
+		kuat_shipyard_clear_all_variable = { TYPE = queue }
+		kuat_shipyard_clear_all_variable = { TYPE = class_queue }
 	}
 	option = { name = kuat_shipyard.3.a }
 } 

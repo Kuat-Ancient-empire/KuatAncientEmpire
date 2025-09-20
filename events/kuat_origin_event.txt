@@ -19,10 +19,15 @@ country_event = {
 			limit = { has_star_flag = kuat_initial_origin_system }
 			kuat_origin_system_initial_creating = yes
 		}
-		event_target:Kuat_system_int = { random_system_planet = {
-			limit = { has_planet_flag = center_world }
+		random_galaxy_planet = {
+			limit = {
+				exists = solar_system
+				solar_system = { has_star_flag = Kuat_system_int }
+				has_planet_flag = center_world
+			}
 			save_event_target_as = new_home_planet
-		} }
+			solar_system = { save_event_target_as = new_home_planet_solar_system }
+		}
 		set_country_flag = kuat_starting_country
 		random_owned_planet = {
 			save_event_target_as = previous_home_planet
@@ -41,8 +46,11 @@ country_event = {
 			} }
 		}
 		add_modifier = { modifier = being_kuat days = -1 }
-		kuat_orgin_initial_starbase_kuat_system = yes
-		event_target:Kuat_system_int = {
+		every_system = {
+			limit = { has_star_flag = kuat_initial_system }
+			create_starbase = { size = starbase_outpost owner = root }
+		}
+		event_target:new_home_planet_solar_system = {
 			random_system_planet = {
 				limit = { is_star = yes }
 				save_event_target_as = new_home_system_loc
@@ -67,20 +75,7 @@ country_event = {
 				}
 				assign_leader = event_target:target_governor
 				remove_all_buildings = yes
-				# add_building = building_kuat_command_center
-				# add_building = building_kuat_databank
-				# add_building = building_kuat_shield
-				# add_building = building_kuat_foundry
-				# add_building = building_kuat_ground_yards
-				# add_building = building_kuat_resource_center
-				# add_building = building_kuat_resource_center
-				# add_building = building_kuat_resource_center
-				# add_building = building_kuat_resource_center
-				# add_building = building_kuat_resource_center
-				# add_building = building_kuat_resource_center
-				# add_building = building_kuat_resource_center
 				create_pop_group = { size = 10000 species = owner_main_species }
-				# while = { count = 70 add_district = district_city }
 				kuat_automatic_ai_colony = yes
 			}
 		}
@@ -165,20 +160,7 @@ country_event = {
 			set_controller = root
 			remove_all_districts = yes
 			remove_all_buildings = yes
-			# add_building = building_kuat_command_center
-			# add_building = building_kuat_databank
-			# add_building = building_kuat_shield
-			# add_building = building_kuat_foundry
-			# add_building = building_kuat_ground_yards
-			# add_building = building_kuat_resource_center
-			# add_building = building_kuat_resource_center
-			# add_building = building_kuat_resource_center
-			# add_building = building_kuat_resource_center
-			# add_building = building_kuat_resource_center
-			# add_building = building_kuat_resource_center
-			# add_building = building_kuat_resource_center
 			create_pop_group = { size = 10000 species = owner_main_species }
-			# while = { count = 70 add_district = district_city }
 			kuat_automatic_ai_colony = yes
 		}
 		country_event = { id = kuat_origin.7 days = 1 }
@@ -757,17 +739,11 @@ country_event = {
 	is_triggered_only = yes
 	diplomatic = yes
 	trigger = { kuat_is_enable_apocalyptic_origin = yes }
-	immediate = {
-		change_variable = { which = var_origin_15 value = 1 }
-	}
 	option = {
 		name = kuat_origin.15.a
 		hidden_effect = { 
 			set_country_flag = check_origin_kuat_area_1
-			if = {
-				limit = { check_variable = { which = var_origin_15 value < 5 } }
-				add_random_research_option = { add_progress = 1 } 
-			}
+			add_random_research_option = { add_progress = 1 }
 			remove_country_flag = check_origin_kuat_area_2
 			remove_country_flag = check_origin_kuat_area_3
 			remove_country_flag = check_origin_kuat_area_4
@@ -778,10 +754,7 @@ country_event = {
 		name = kuat_origin.15.b
 		hidden_effect = { 
 			set_country_flag = check_origin_kuat_area_2
-			if = {
-				limit = { check_variable = { which = var_origin_15 value < 5 } }
-				add_random_research_option = { add_progress = 1 } 
-			}
+			add_random_research_option = { add_progress = 1 }
 			remove_country_flag = check_origin_kuat_area_1
 			remove_country_flag = check_origin_kuat_area_3
 			remove_country_flag = check_origin_kuat_area_4
@@ -792,10 +765,7 @@ country_event = {
 		name = kuat_origin.15.c
 		hidden_effect = { 
 			set_country_flag = check_origin_kuat_area_3
-			if = {
-				limit = { check_variable = { which = var_origin_15 value < 5 } }
-				add_random_research_option = { add_progress = 1 } 
-			}
+			add_random_research_option = { add_progress = 1 }
 			remove_country_flag = check_origin_kuat_area_1
 			remove_country_flag = check_origin_kuat_area_2
 			remove_country_flag = check_origin_kuat_area_4
@@ -806,10 +776,7 @@ country_event = {
 		name = kuat_origin.15.d
 		hidden_effect = { 
 			set_country_flag = check_origin_kuat_area_4
-			if = {
-				limit = { check_variable = { which = var_origin_15 value < 5 } }
-				add_random_research_option = { add_progress = 1 } 
-			}
+			add_random_research_option = { add_progress = 1 }
 			remove_country_flag = check_origin_kuat_area_1
 			remove_country_flag = check_origin_kuat_area_2
 			remove_country_flag = check_origin_kuat_area_3
