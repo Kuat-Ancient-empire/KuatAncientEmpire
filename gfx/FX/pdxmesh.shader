@@ -1160,6 +1160,9 @@ PixelShader =
 		{
 			float4 UVLod = float4( (In.vUV0), 0.0f, PortraitMipLevel * 0.35f );
 
+		#ifdef CUSTOM_DIFFUSE
+			float4 vDiffuse = tex2Dlod( DiffuseMap, UVLod );
+		#else
 			#ifdef CLOTHES
 				float4 vDiffuse = tex2Dlod( PortraitClothes, UVLod );
 			#else
@@ -1210,6 +1213,7 @@ PixelShader =
 					}
 				#endif
 			#endif
+		#endif
 
 			#ifdef HUE_SHIFT
 				#ifdef USE_HUE_SHIFT_MASK
@@ -2703,7 +2707,7 @@ Effect PdxMeshAtmosphereStarSkinned
 	RasterizerState = "RasterizerStateBack"
 	BlendState = "BlendStateAdditiveBlend"
 	DepthStencilState = "DepthStencilNoZWrite"
-	Defines = { "IS_PLANET "IS_STAR"" }
+	Defines = { "IS_PLANET" "IS_STAR" }
 }
 
 Effect PdxMeshStar
@@ -2965,6 +2969,38 @@ Effect PdxMeshPortraitClothesSkinned
 	DepthStencilState = "DepthStencilNoZ"
 	RasterizerState = "RasterizerStateNoCulling"
 	Defines = { "CLOTHES" }
+}
+
+Effect PdxMeshPortraitCustomDiffuseAnimateUV
+{
+	VertexShader = "VertexPdxMeshPortraitStandard"
+	PixelShader = "PixelPdxMeshPortrait"
+	BlendState = "BlendStateAlphaBlendWriteAlpha";
+	DepthStencilState = "DepthStencilNoZ"
+	Defines = { "CUSTOM_DIFFUSE" "FLOWMAP" }
+}
+
+Effect PdxMeshPortraitCustomDiffuseAnimateUVSkinned
+{
+	VertexShader = "VertexPdxMeshPortraitStandardSkinned"
+	PixelShader = "PixelPdxMeshPortrait"
+	BlendState = "BlendStateAlphaBlendWriteAlpha";
+	DepthStencilState = "DepthStencilNoZ"
+	Defines = { "CUSTOM_DIFFUSE" "FLOWMAP" }
+}
+
+Effect PdxMeshPortraitCustomDiffuseAnimateUVShadow
+{
+	VertexShader = "VertexPdxMeshStandardShadow"
+	PixelShader = "PixelPdxMeshStandardShadow"
+	Defines = { "IS_SHADOW" }
+}
+
+Effect PdxMeshPortraitCustomDiffuseAnimateUVSkinnedShadow
+{
+	VertexShader = "VertexPdxMeshStandardSkinnedShadow"
+	PixelShader = "PixelPdxMeshStandardShadow"
+	Defines = { "IS_SHADOW" }
 }
 
 Effect PdxMeshPortraitHair
