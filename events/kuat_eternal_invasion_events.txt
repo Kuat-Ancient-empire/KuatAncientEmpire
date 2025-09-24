@@ -1555,29 +1555,6 @@ country_event = {
 		}
 	}
 }
-country_event = {
-	id = exe_invasion.117
-	hide_window = yes
-	is_triggered_only = yes
-	trigger = {
-		kuat_is_player_country = yes
-		from = { is_invisable_faction = yes }
-		NOT = { has_country_flag = kuat_flagship_system_repeatable_modifer_temple_@this }
-	}
-	immediate = {
-		#循环修正优化
-		if = {
-			limit = { NOT = { has_country_flag = kuat_flagship_system_repeatable_modifer_temple_@this } }
-			set_country_flag = kuat_flagship_system_repeatable_modifer_temple_@this
-			country_event = { id = exe_invasion.133 }
-		}
-		from = { if = {
-			limit = { NOT = { has_country_flag = kuat_flagship_system_repeatable_modifer_temple_@this } }
-			set_country_flag = kuat_flagship_system_repeatable_modifer_temple_@this
-			country_event = { id = exe_invasion.133 }
-		} }
-	}
-}
 
 fleet_event = {
 	id = exe_invasion.114
@@ -2177,27 +2154,6 @@ country_event = {
 }
 
 country_event = {
-	id = exe_invasion.133
-	hide_window = yes
-	is_triggered_only = yes
-	trigger = { has_country_flag = kuat_flagship_system_repeatable_modifer_temple_@this }
-	immediate = {
-		if = {
-			limit = { any_owned_fleet = { is_in_combat = yes } }
-			kuat_battle_random_list_eternal_fleet_rate = yes
-			country_event = { id = exe_invasion.133 days = 1 }
-			set_country_flag = kuat_is_modifiering
-		}
-		else = {
-			kuat_battle_remove_repeatable_modifier_base_and_change_base = yes
-			kuat_battle_remove_all_ship_modifier_change_basic_variable = yes
-			remove_country_flag = kuat_flagship_system_repeatable_modifer_temple_@this
-			remove_country_flag = kuat_is_modifiering
-		}
-	}
-}
-
-country_event = {
 	id = exe_invasion.146
 	hide_window = yes
 	is_triggered_only = yes
@@ -2336,12 +2292,12 @@ fleet_event = { inline_script = {
 fleet_event = { inline_script = { 
 	script = kuat_battle_event/kuat_exe_invasion_battle 
 	TYPE = kuat_battle_setup_invinciable_protection_pragram 
-	ID = exe_invasion.144 KEY = kuat_battle_set_easy_eternal_fleet_mult_modifier 		
+	ID = exe_invasion.144 KEY = kuat_battle_set_none_legacy_eternal_fleet_mult_modifier 		
 } }
 fleet_event = { inline_script = { 
 	script = kuat_battle_event/kuat_exe_invasion_battle 
 	TYPE = kuat_battle_setup_invinciable_attacketion_pragram 
-	ID = exe_invasion.142 KEY = kuat_battle_set_easy_eternal_fleet_mult_modifier 		
+	ID = exe_invasion.142 KEY = kuat_battle_set_none_legacy_eternal_fleet_mult_modifier 		
 } }
 
 #infinite
