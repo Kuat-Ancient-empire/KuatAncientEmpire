@@ -17,9 +17,6 @@ kuat_trigger_plague_scure_valid_planet = {
 
 kuat_trigger_plague_planet_has_non_immune_pop = {
 	optimize_memory
-	# i hope it should optimize for a bit
-	any_owned_species = { kuat_trigger_plague_is_immune_species = no }
-	# need it because check for pop flag
 	any_owned_pop_group = { kuat_trigger_plague_is_immune = no }
 }
 
@@ -55,5 +52,19 @@ kuat_trigger_plague_is_resist = {
 		has_trait = trait_cybernetic
 		has_trait = trait_latent_psionic
 		has_trait = trait_psionic
+	}
+}
+
+kuat_trigger_plague_is_psionic_aura_immune_system = {
+	optimize_memory
+	OR = {
+		any_system_planet = { 
+			is_colony = yes 
+			kuat_trigger_plague_planet_has_non_immune_pop = no 
+		}
+		AND = { 
+			has_megastructure = shroud_seal 
+			NOT = { any_system_planet = { is_colony = yes } } 
+		}
 	}
 }

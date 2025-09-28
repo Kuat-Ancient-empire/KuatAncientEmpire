@@ -1,0 +1,272 @@
+kuat_plague_aura = {
+	background = "GFX_aura_kuat_plague_background"
+	intensity_level = {
+		end = 1000000
+		rival_planet_modifier = { modifier = {
+			planet_jobs_produces_mult = -0.05
+			planet_stability_add = -5
+			pop_happiness = -0.05
+			planet_jobs_upkeep_mult = 0.05
+		} }
+		rival_fleet_modifier = { modifier = {
+			ships_upkeep_mult = 0.05
+            megastructures_upkeep_mult = 0.05
+			ship_ftl_jumpdrive_range_mult = -0.05
+		} }
+	}
+	intensity_level = {
+		end = 5000000
+		rival_planet_modifier = { modifier = {
+			planet_jobs_produces_mult = -0.15
+			planet_stability_add = -15
+			pop_happiness = -0.15
+			planet_jobs_upkeep_mult = 0.15
+		} }
+		rival_fleet_modifier = { modifier = {
+			ships_upkeep_mult = 0.15
+            megastructures_upkeep_mult = 0.15
+			ship_ftl_jumpdrive_range_mult = -0.15
+		} }
+	}
+    intensity_level = {
+        end = 10000000
+		rival_planet_modifier = { modifier = {
+			planet_jobs_produces_mult = -0.45
+			planet_stability_add = -45
+			pop_happiness = -0.45
+			planet_jobs_upkeep_mult = 0.45
+		} }
+		rival_fleet_modifier = { modifier = {
+			ships_upkeep_mult = 0.45
+            megastructures_upkeep_mult = 0.45
+			ship_ftl_jumpdrive_range_mult = -0.45
+		} }
+    }
+	on_start = {
+		set_star_flag = psionic_aura_ongoing
+        if = {
+            limit = { NOT = { any_system_ambient_object = { is_ambient_object_type = kuat_plague_storm_1 } } }
+            star = {
+                create_ambient_object = { type = "kuat_plague_storm_1" location = this }
+                last_created_ambient_object = { set_location = { target = prev distance = 0 angle = random } }
+            }
+        }
+		aura_owner = { set_visited = prev }
+		set_timed_star_flag = { flag = newly_spawned_psionic_aura months = 6 }
+		root = { save_event_target_as = winning_system }
+		every_neighbor_system = {
+			limit = {
+				has_psionic_aura = yes
+				aura_owner = { NOT = { is_same_value = root.aura_owner } }
+              	NOR = {
+					kuat_trigger_plague_is_psionic_aura_immune_system = yes
+					any_neighbor_system = { kuat_trigger_plague_is_psionic_aura_immune_system = yes } 
+				}
+			}
+			save_event_target_as = losing_system
+			event_target:winning_system = {
+				set_star_flag = aura_is_clashing_against_@event_target:losing_system
+				set_star_flag = aura_clash_winning_against_@event_target:losing_system
+			}
+			event_target:losing_system = {
+				set_star_flag = aura_is_clashing_against_@event_target:winning_system
+				aura_owner = { if = {
+					limit = { NOT = { has_country_flag = aura_clashing_event_triggered } }
+					set_country_flag = aura_clashing_event_triggered
+					country_event = { id = kuat_plague.174 scopes = { from = prev fromfrom = event_target:winning_system } } #瘟疫压迫
+				} }
+			}
+		}
+		if = {
+			limit = { exists = owner owner = { NOR = { is_same_value = root.aura_owner has_country_flag = has_encountered_kuat_plague_aura } } }
+			owner = {
+				country_event = { id = kuat_plague.175 scopes = { from = root fromfrom = root.aura_owner } } #瘟疫发现
+				set_country_flag = has_encountered_psionic_auras
+				set_country_flag = has_encountered_kuat_plague_aura
+				set_country_flag = has_encountered_end_aura
+			}
+		}
+		every_neighbor_system = {
+			limit = { exists = owner owner = { NOR = { is_same_value = root.aura_owner has_country_flag = has_encountered_kuat_plague_aura } } }
+			owner = {
+				country_event = { id = kuat_plague.175 scopes = { from = root fromfrom = root.aura_owner } } #瘟疫发现
+				set_country_flag = has_encountered_psionic_auras
+				set_country_flag = has_encountered_kuat_plague_aura
+				set_country_flag = has_encountered_end_aura
+			}
+		}
+	}
+	on_monthly = {
+        set_timed_star_flag = { flag = aura_clashing_on_monthly_check days = 20 }
+        root = { save_event_target_as = winning_system }
+        every_neighbor_system = {
+            limit = {
+                NOT = { has_star_flag = aura_clashing_on_monthly_check }
+                has_psionic_aura = yes
+                aura_owner = { NOT = { is_same_value = root.aura_owner } }
+            }
+            remove_star_flag = aura_is_clashing_against_@root
+            remove_star_flag = aura_clash_winning_against_@root
+            root = {
+                remove_star_flag = aura_is_clashing_against_@prev
+                remove_star_flag = aura_clash_winning_against_@prev
+            }
+            save_event_target_as = losing_system
+            event_target:winning_system = {
+                set_star_flag = aura_is_clashing_against_@event_target:losing_system
+                set_star_flag = aura_clash_winning_against_@event_target:losing_system
+            }
+            event_target:losing_system = {
+                set_star_flag = aura_is_clashing_against_@event_target:winning_system
+                aura_owner = { if = {
+                    limit = { NOT = { has_country_flag = aura_clashing_event_triggered } }
+                    set_country_flag = aura_clashing_event_triggered
+                    country_event = { id = kuat_plague.174 scopes = { from = prev fromfrom = event_target:winning_system } } #瘟疫压迫
+                } }
+            }
+            reroll_random = yes
+            #瘟疫效果
+			random_list = {
+				9 = { }
+				1 = {
+					modifier = {
+						set = 0
+						NOT = { any_system_planet = { kuat_trigger_plague_valid_planet = yes } }
+					}
+					random_system_planet = {
+						limit = { kuat_trigger_plague_valid_planet = yes }
+						planet_event = { id = kuat_plague.1 days = 1 random = 179 }
+					}
+				}
+			}
+        }
+	}
+	on_gain_level = {
+        custom_tooltip = "kuat_plague_aura_spread_effect"
+        if = {
+            limit = { has_psionic_aura = yes }
+            random_neighbor_system = {
+                limit = {
+                    has_psionic_aura = no
+					NOR = {
+						kuat_trigger_plague_is_psionic_aura_immune_system = yes
+						any_neighbor_system = { kuat_trigger_plague_is_psionic_aura_immune_system = yes } 
+					}
+                }
+                weights = {
+                    base = 1
+                    modifier = { add = value:count_adjacent_psionic_auras always = yes }
+                }
+                spawn_psionic_aura = { type = kuat_plague_aura owner = event_target:kuat_plague_zombie_country update_type = no }
+                reroll_random = yes
+				#瘟疫效果
+				random_list = {
+					9 = { }
+					1 = {
+						modifier = {
+							set = 0
+							NOT = { any_system_planet = { kuat_trigger_plague_valid_planet = yes } }
+						}
+						random_system_planet = {
+							limit = { kuat_trigger_plague_valid_planet = yes }
+							planet_event = { id = kuat_plague.1 days = 1 random = 179 }
+						}
+					}
+				}
+            }
+        }
+	}
+	on_lose_level = { }
+	on_progress_complete = {
+        custom_tooltip = "kuat_plague_aura_spread_effect"
+        if = {
+            limit = { has_psionic_aura = yes }
+            random_neighbor_system = {
+                limit = {
+                    has_psionic_aura = no
+					NOR = {
+						kuat_trigger_plague_is_psionic_aura_immune_system = yes
+						any_neighbor_system = { kuat_trigger_plague_is_psionic_aura_immune_system = yes } 
+					}
+                }
+                weights = {
+                    base = 1
+                    modifier = { add = value:count_adjacent_psionic_auras always = yes }
+                }
+                spawn_psionic_aura = { type = kuat_plague_aura owner = event_target:kuat_plague_zombie_country update_type = no }
+				#瘟疫效果
+				random_list = {
+					9 = { }
+					1 = {
+						modifier = {
+							set = 0
+							NOT = { any_system_planet = { kuat_trigger_plague_valid_planet = yes } }
+						}
+						random_system_planet = {
+							limit = { kuat_trigger_plague_valid_planet = yes }
+							planet_event = { id = kuat_plague.1 days = 1 random = 179 }
+						}
+					}
+				}
+            }
+        }
+	}
+	on_type_change = { random_system_ambient_object = { limit = { is_ambient_object_type = kuat_plague_storm_1 } destroy_ambient_object = this } }
+
+	on_vanish = {
+        remove_star_flag = psionic_aura_ongoing
+        random_system_ambient_object = { limit = { is_ambient_object_type = kuat_plague_storm_1 } destroy_ambient_object = this }
+        try_resolve_aura_clashing = yes
+	}
+
+    daily_decrease = { base = 0 }
+	
+	monthly_decrease = {
+		base = 0
+		modifier = {
+			subtract = value:kuat_plague_power_multipler|MULT|2| 
+			kuat_trigger_plague_is_psionic_aura_immune_system = yes  
+		}
+        modifier = { 
+			subtract = value:kuat_plague_power_multipler|MULT|0.5| 
+			any_neighbor_system = { kuat_trigger_plague_is_psionic_aura_immune_system = yes } 
+		}
+	}
+
+	increase_trigger = { NOT = { any_neighbor_system = { has_star_flag = aura_is_clashing_against_@root } } }
+
+	monthly_increase = {
+		base = 0
+		modifier = { 
+			add = value:kuat_plague_power_multipler|MULT|1| 
+			always = yes
+			desc = "KUAT_EFFECTED_BY_PLAGUE" 
+		}
+		modifier = {
+            factor = 0.8
+            OR = {
+                has_megastructure = shroud_seal
+                check_variable_arithmetic = { which = value:count_neighbor_shroud_seals value > 0 }
+            }
+            desc = "AFFECTED_BY_SHROUD_SEALS"
+        }
+        modifier = {
+            factor = 0.8
+            any_system_planet = { OR = {
+                has_active_building = building_psionic_suppressor
+                has_active_building = building_ancient_ward_2
+				has_active_building = building_psi_corps
+            } }
+            desc = "AFFECTED_BY_PSIONIC_SUPPRESSORS"
+        }
+		modifier = {
+            factor = 0.5
+			exists = space_owner
+            space_owner = { has_edict = kuat_plague_quarantine }
+            desc = "KUAT_AFFECTED_BY_CLINICS"
+        }
+	}
+		
+	aura_galaxy_texture = "gfx/map/kuat_fog/kuat_plague_aura.dds"
+	aura_hyperlane_texture = "gfx/map/psionic_auras/kuat_plague_hyperlane.dds"
+}

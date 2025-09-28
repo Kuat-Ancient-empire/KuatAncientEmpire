@@ -31,44 +31,11 @@ country_event = {
 				}
 			}
 		}
+		random_system = { 
+			limit = { has_star_flag = myst_system_7 }
+			spawn_psionic_aura = { type = kuat_plague_aura owner = event_target:kuat_plague_zombie_country update_type = no }
+		}
 		event_target:global_event_country = { set_variable = { which = kuat_plague_planet_num value = 0 } }
-		set_variable = { which = kuat_plague_power value = 4 }
-		if = {
-			limit = { is_difficulty > 0 }
-			change_variable = { which = kuat_plague_power value = 2 }
-		}
-		if = {
-			limit = { is_difficulty > 1 }
-			change_variable = { which = kuat_plague_power value = 4 }
-		}
-		if = {
-			limit = { is_difficulty > 2 }
-			change_variable = { which = kuat_plague_power value = 6 }
-		}
-		if = {
-			limit = { is_difficulty > 3 }
-			change_variable = { which = kuat_plague_power value = 8 }
-		}
-		if = {
-			limit = { is_difficulty > 4 }
-			change_variable = { which = kuat_plague_power value = 10 }
-		}
-		if = {
-			limit = { has_global_flag = difficult_exe_invasion }
-			multiply_variable = { which = kuat_plague_power value = 2 }
-		}
-		if = {
-			limit = { has_global_flag = ban_exe_invasion }
-			multiply_variable = { which = kuat_plague_power value = 4 }
-		}
-		while = {
-			count = kuat_plague_power
-			random_galaxy_planet = {
-				limit = { kuat_trigger_plague_valid_planet = yes }
-				planet_event = { id = kuat_plague.1 days = 1 random = 365 }
-			}
-		}
-		clear_variable = kuat_plague_power
 	}
 }
 
@@ -111,8 +78,8 @@ planet_event = {
 			set_global_flag = kuat_plague_lvl_3
 			owner = { country_event = { id = kuat_plague.52 days = 1 } }
 		}
-		planet_event = { id = kuat_plague.2 days = 1440 random = 720 }
-		planet_event = { id = kuat_plague.3 days = 90 random = 90 }
+		planet_event = { id = kuat_plague.2 days = 1440 random = 720 } #毁伤效果
+		planet_event = { id = kuat_plague.3 days = 90 random = 90 } #星系内传染
 		planet_event = { id = kuat_plague.4 days = 3651 }
 	}
 }
@@ -131,19 +98,18 @@ planet_event = {
 		}
 		else = {
 			set_timed_global_flag = { flag = kuat_plague.2_same_day days = 1 }
-			planet_event = { id = kuat_plague.2 days = 90 random = 180 }
+			planet_event = { id = kuat_plague.2 days = 180 random = 90 }
 			# kill someone
 			if = {
 				limit = { has_global_flag = kuat_plague_lvl_2 }
 				random_list = {
 					# NOT die
-					15 = {
-						# crime
+					3 = {
 						inline_script = kuat_plague_modifier/kuat_plague_sample
 						inline_script = kuat_plague_modifier/kuat_plafgue_trigger/kuat_plague_yes_immunes
 					}
 					# die
-					80 = {
+					7 = {
 						inline_script = kuat_plague_modifier/kuat_plague_sample_a
 						kuat_contractor_plague_kill_people = yes
 					}
@@ -153,12 +119,16 @@ planet_event = {
 	}
 }
 
-# send plague pulse 3
+# send plague pulse solar system
 planet_event = {
 	id = kuat_plague.3
 	hide_window = yes
 	is_triggered_only = yes
-	trigger = { kuat_trigger_plague_planet_pulse = yes }
+	trigger = { 
+		kuat_trigger_plague_planet_pulse = yes 
+		exists = solar_system
+		solar_system = { any_system_planet = { kuat_trigger_plague_valid_planet = yes } }
+	}
 	immediate = {
 		if = {
 			limit = { has_global_flag = kuat_plague.3_same_day }
@@ -166,26 +136,20 @@ planet_event = {
 		}
 		else = {
 			set_timed_global_flag = { flag = kuat_plague.3_same_day days = 1 }
-			planet_event = { id = kuat_plague.3 days = 540 random = 360 }
-			closest_system = {
-				max_steps = 10
-				limit = {
-					exists = owner
-					any_system_planet = { kuat_trigger_plague_valid_planet = yes }
-				}
+			planet_event = { id = kuat_plague.3 days = 90 random = 45 }
+			solar_system = {
 				random_system_planet = {
 					limit = { kuat_trigger_plague_valid_planet = yes }
 					random_list = {
-						# NOT die
-						19 = {
-							# crime
+						# NOT spread
+						7 = {
 							inline_script = kuat_plague_modifier/kuat_plague_sample
 							inline_script = kuat_plague_modifier/kuat_plafgue_trigger/kuat_plague_no_immunes
 						}
-						# die
-						80 = {
+						# spread
+						3 = {
 							inline_script = kuat_plague_modifier/kuat_plague_sample_a
-							planet_event = { id = kuat_plague.1 days = 1 random = 365 }
+							planet_event = { id = kuat_plague.1 days = 1 random = 179 }
 						}
 					}
 				}
@@ -353,7 +317,7 @@ planet_event = {
 	trigger = {
 		exists = owner
 		owner = { is_country_type = kuat_plague_endoira }
-		pop_amount = 0
+		pop_amount < 100
 		planet_devastation > 80
 	}
 	immediate = {
@@ -1171,7 +1135,7 @@ country_event = {
 	trigger = { 
 		has_event_chain = kuat_chain_plague_count
 		has_global_flag = kuat_plague_started
-		NOT = { any_owned_planet = { kuat_trigger_plague_scure_valid_planet = yes } } 
+		NOT = { any_system_within_border = { has_psionic_aura = kuat_plague_aura } }
 	}
 
 	option = {
@@ -1195,11 +1159,24 @@ country_event = {
 	title = kuat_plague.174.name
 	desc = kuat_plague.174.desc
 	diplomatic = yes
-	picture_event_data = { room = astral_rift_tiny_planet_room }
-	custom_gui = "kuat_event_m_window"
+	picture_event_data = { room = astral_rift_bleached_planet_2_room }
+	custom_gui = "kuat_event_window"
 	custom_gui_option = "kuat_event_option"
-	show_sound = event_red_alert
-	location = from
+	show_sound = event_psionic_aura
 	is_triggered_only = yes
 	option = { name = kuat_plague.174.a }
+}
+
+#fleet notification
+country_event = {
+	id = kuat_plague.175
+	title = kuat_plague.175.name
+	desc = kuat_plague.175.desc
+	diplomatic = yes
+	picture_event_data = { room = astral_rift_desert_ruins_third_chamber_room }
+	custom_gui = "kuat_event_window"
+	custom_gui_option = "kuat_event_option"
+	show_sound = event_end_of_the_cycle
+	is_triggered_only = yes
+	option = { name = kuat_plague.175.a }
 }
