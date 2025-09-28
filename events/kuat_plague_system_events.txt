@@ -33,6 +33,10 @@ country_event = {
 		}
 		random_system = { 
 			limit = { has_star_flag = myst_system_7 }
+			if = {
+				limit = { exists = space_owner }
+				space_owner = { set_country_flag = has_aura_kuat_plague_aura }
+			}
 			spawn_psionic_aura = { type = kuat_plague_aura owner = event_target:kuat_plague_zombie_country update_type = no }
 		}
 		event_target:global_event_country = { set_variable = { which = kuat_plague_planet_num value = 0 } }
@@ -1135,7 +1139,12 @@ country_event = {
 	trigger = { 
 		has_event_chain = kuat_chain_plague_count
 		has_global_flag = kuat_plague_started
+		has_country_flag = has_aura_kuat_plague_aura
 		NOT = { any_system_within_border = { has_psionic_aura = kuat_plague_aura } }
+	}
+
+	immediate = {
+		kuat_effect_plague_give_immune_tech_boost = yes
 	}
 
 	option = {
@@ -1146,6 +1155,28 @@ country_event = {
 		} }
 	}
 	after = {
+		every_owned_planet = {
+			limit = { has_planet_flag = kuat_plague_planet }
+			kuat_effect_plague_planet_clean = yes
+		}
+		every_owned_pop_group = {
+			limit = { 
+				exists = species
+				species = { NOR = { has_trait = kuat_species_trait_immune } }
+			}
+			modify_species = { add_trait = kuat_species_trait_immune species = this }
+			species = { if = {
+				limit = { is_same_species = root.owner_main_species }
+				save_event_target_as = play_species
+			} }
+		}
+		if = {
+			limit = { 
+				exists = event_target:play_species
+				event_target:play_species = { is_same_value = root.owner_main_species } 
+			}
+			change_dominant_species = { species = event_target:play_species change_all = yes }
+		}
 		if = {
 			limit = { exists = event_target:kuat_plague_zombie_country }
 			event_target:kuat_plague_zombie_country = { destroy_country = yes }
