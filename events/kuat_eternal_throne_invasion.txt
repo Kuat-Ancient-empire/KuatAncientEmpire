@@ -1840,25 +1840,7 @@ planet_event = {
 	}
 	immediate = {
 		owner = { country_event = { id = ag_kae_ge_invasion.232 } }
-		reset_planet = yes
-		destroy_colony = yes
-		if = {
-			limit = { kuat_is_ringworld = yes }
-			spawn_ringworld_cracker_effect = yes
-			change_pc = pc_ringworld_habitable_damaged
-		}
-		else_if = {
-			limit = { kuat_is_habitat = yes }
-			spawn_habitat_cracker_effect = yes
-			remove_planet = yes
-		}
-		else_if = {
-			limit = { has_modifier = "holy_planet" }
-			change_pc = pc_shattered
-			remove_modifier = "holy_planet"
-			add_modifier = { modifier = "ag_shattered_holy_planet" }
-		}
-		else = { change_pc = pc_broken }
+		kuat_destroy_colony = { PC = pc_broken }
 		every_country = {
 			if = {
 				limit = { has_event_chain = "ag_kae_ge_invasion_chain" }
@@ -2526,7 +2508,7 @@ country_event = {
 						min_jumps = 2
 						max_jumps = 5
 					}
-					kuat_is_create_system = no
+					kuat_is_kuat_system = no
 				}
 				spawn_megastructure = {
 					type = exe_outer_gate
@@ -2720,7 +2702,6 @@ country_event = {
 		hidden_effect = {
 			set_global_flag = eternal_support_country_channal
 			enable_special_project = { name = rakata_invasion_infinite_reward_project location = capital_scope owner =  root }
-			set_global_flag = fire_facility_return 
 			remove_country_flag = kuat_ag_kae_ge_invasion.258.d
 		}
 		response_text = ag_kae_ge_invasion.258.a.resp 
@@ -2732,7 +2713,6 @@ country_event = {
 		hidden_effect = {
 			set_global_flag = infinite_empire_channal
 			enable_special_project = { name = rakata_invasion_eternal_reward_project location = capital_scope owner =  root }
-			set_global_flag = fire_facility_return 
 			remove_country_flag = kuat_ag_kae_ge_invasion.258.d
 		}
 		response_text = ag_kae_ge_invasion.258.b.resp 
@@ -2763,8 +2743,12 @@ country_event = {
 			limit = { NOT = { is_ship_size = exe_megastructure_starbase } }
 			destroy_ship = this
 		} }
+		set_global_flag = fire_facility_return 
 	}
-	option = { name = "ag_kae_ge_invasion.259.a" }
+	option = { 
+		name = "ag_kae_ge_invasion.259.a" 
+		add_monthly_resource_mult = { resource = unity value = 12 }
+	}
 }
 
 country_event = {
@@ -2787,6 +2771,7 @@ country_event = {
 				change_planet_size = 16
 			}
 		}
+		set_global_flag = fire_facility_return 
 	}
 	option = { name = "ag_kae_ge_invasion.260.a" }
 }

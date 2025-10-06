@@ -1302,7 +1302,13 @@ kuat_battle_clear_ship_at_health = {
 	[[DISABLE] $DISABLE$ = yes ]
 	[[INVERT_DISABLE] $INVERT_DISABLE$ = no ]
 	[[Disable_health] set_disable_at_health = $Disable_health$ remove_ship_flag = kuat_battle_disable_ship_at_health ]
-	[[WHICH] subtract_variable = { which = $WHICH$ value = 1 } ]
+	[[WHICH] 
+		if = { 
+			limit = { NOT = { has_ship_flag = kuat_hited_by_superlazer } } 
+			subtract_variable = { which = $WHICH$ value = 1 } 
+		} 
+		else = { set_variable = { which = $WHICH$ value = 0 } }
+	]
 }
 
 kuat_battle_flagship_intial = {

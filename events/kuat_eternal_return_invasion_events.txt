@@ -724,46 +724,26 @@ fleet_event = {
 
 	trigger = { 
 		has_global_flag = exe_return_invasion_begin
-		NOR = {
-			has_global_flag = enable_the_eternal_starbase
-			has_global_flag = exe_return_invasion.333.a.back
-		}
-		from = { any_fleet_in_system = { has_fleet_flag = ag_kuat_invasion_starbase } }
-		exists = owner owner = { is_ai = no }
+		NOT = { has_global_flag = enable_the_eternal_starbase }
+		from = { has_star_flag = eternal_starbase_megastructure_in_system }
 	}
 
 	option = {
 		name = "exe_return_invasion.333.a"
 		hidden_effect = {  
-			owner = { every_owned_fleet = {
-				limit = { exists = solar_system solar_system = { is_same_value = root.from } }
-				set_location = prev.capital_scope
-			} }
-			set_global_flag = exe_return_invasion.333.a.back
+			if = {
+				limit = { exists = owner owner = { is_ai = no } }
+				set_location = owner.capital_scope
+			}
+			else_if = {
+				limit = { can_go_mia = yes }
+				clear_orders = yes clear_fleet_actions = this
+				set_mia = mia_return_home
+			}
+			else = { destroy_fleet = { destroy_template = yes target = this } }
 		}
 		ai_chance = { weight = 100 }
 		default_hide_option = yes
-	}
-}
-
-fleet_event = {
-	id = exe_return_invasion.334
-	hide_window = yes
-	is_triggered_only = yes
-
-	trigger = { 
-		NOT = { has_global_flag = enable_the_eternal_starbase } 
-		has_global_flag = exe_return_invasion_begin
-		from = { any_fleet_in_system = { has_fleet_flag = ag_kuat_invasion_starbase } }
-		exists = owner owner = { is_ai = no }
-		has_global_flag = exe_return_invasion.333.a.back
-	}
-	
-	immediate = {
-		owner = { every_owned_fleet = {
-			limit = { exists = solar_system solar_system = { is_same_value = root.from } }
-			set_location = prev.capital_scope
-		} }
 	}
 }
 
@@ -1065,29 +1045,11 @@ planet_event = {
 		from = { is_eternal_faction = yes }
 	}
 	immediate = { 
-		reset_planet = yes
-		destroy_colony = yes
 		if = {
 			limit = { exists = owner }
 			owner = { country_event = { id = exe_return_invasion.34 } } 
 		}
-		if = {
-			limit = { kuat_is_ringworld = yes }
-			spawn_ringworld_cracker_effect = yes
-			change_pc = pc_ringworld_habitable_damaged
-		}
-		else_if = {
-			limit = { kuat_is_habitat = yes }
-			spawn_habitat_cracker_effect = yes
-			remove_planet = yes
-		}
-		else_if = {
-			limit = { has_modifier = "holy_planet" }
-			change_pc = pc_shattered
-			remove_modifier = "holy_planet"
-			add_modifier = { modifier = "ag_shattered_holy_planet" }
-		}
-		else = { change_pc = pc_broken }
+		kuat_destroy_colony = { PC = pc_broken }
 		every_country = {
 			limit = {
 				NOT = { is_same_value = event_target:eternal_fleet_country }
