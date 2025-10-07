@@ -241,6 +241,16 @@ event = {
 			activate_fog_machine = eternal_invasion_dust
 			fog_machine_auto_tracking = yes
 		}
+		every_system = {
+			limit = { 
+				kuat_is_invasion_system = yes 
+				NOT = { has_star_flag = kuat_military_base_system_home_temple }
+			}
+			every_fleet_in_system = { destroy_fleet = { target = this destroy_template = yes kill_leader = yes } }
+			create_elternal_system_warbase = { LOCK = yes }
+			create_eternal_defensive_fleet = yes
+			set_timed_star_flag = { flag = kuat_military_base_system_home_temple days = 1 }
+		}
 		set_global_flag = eternal_fleet_debug_check
 		random_system = {
 			limit = { has_star_flag = Kuat_system }
@@ -413,11 +423,6 @@ country_event = {
 	location = root.capital_scope
 	is_triggered_only = yes
 	immediate = {
-		every_system = {
-			limit = { has_star_flag = kuat_military_base_system_home }
-			create_elternal_system_warbase = { LOCK = yes }
-			create_eternal_defensive_fleet = yes
-		}
 	}
 	option = {
 		name = "exe_invasion.10.a"
@@ -556,6 +561,8 @@ fleet_event = {
 	is_triggered_only = yes
 
 	trigger = { 
+		exists = owner
+		owner = { is_invisable_faction = no }
 		has_global_flag = exe_invasion_begin
 		NOT = { has_global_flag = exe_invasion_ended }
 		from = { has_star_flag = Kuat_empire_system }
