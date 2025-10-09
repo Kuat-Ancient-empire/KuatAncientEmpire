@@ -1,0 +1,53 @@
+key = $KEY$
+icon = $ICON$
+icon_frame = 1
+size = titanic
+type = instant
+power = $POWER$
+prio_projectile = yes
+damage = {
+	min = @[ standard_tuberlazer_damage_1 * $MULT$ ]
+	max = @[ standard_tuberlazer_damage_1 * $MULT$ ]
+}
+
+windup = {
+	min = $WINDUP_MIN$
+	max = $WINDUP_MAX$
+}
+firing_arc = 5.0
+min_range = 30
+
+accuracy = @TURBER_ACCURY
+tracking = @TURBER_TRAKIG
+total_fire_time = $TFT$
+range = $RANGE$
+component_set = $SET$
+projectile_gfx = $WEAPON_PROJECTILE$
+
+inline_script = {
+	script = kuat_weapon_event/$INLINE$
+	kuat_damage_max = $kuat_damage_max$
+	kuat_damage_base = @[ standard_tuberlazer_damage_1 * $MULT$ ]
+	kuat_ship_damage_buff = $kuat_ship_damage_buff$
+	kuat_weapon_damage_buff = $kuat_weapon_damage_buff$
+	kuat_slot = $kuat_slot$
+	kuat_energy = $kuat_energy$
+	kuat_drftweapon = $kuat_drftweapon$
+	kuat_kinetic = $kuat_kinetic$
+	kuat_explosive = $kuat_explosive$
+	kuat_superlazer = $kuat_superlazer$
+}
+
+target_type = $TYPE$
+target_focus = $FOCUS$
+on_hit = {
+	hidden_effect = { if = {
+		limit = { NOT = { has_ship_flag = kuat_hited_by_superlazer } }
+		set_timed_ship_flag = { flag = kuat_hited_by_superlazer days = 45 }
+	} }
+}
+tags = { weapon_type_kuat_superlazer_scale t_slot weapon_type_energy }
+ai_tags = { weapon_role_anti_hull }
+ship_limit = $ship_limit$
+armor_penetration = 15.0	
+shield_penetration = 15.0
