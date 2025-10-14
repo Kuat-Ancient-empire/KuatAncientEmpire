@@ -1,0 +1,136 @@
+
+key = kuat_$kuat_index$_$kuat_weapon_type$_$kuat_weapon_name$_$kuat_size$_$kuat_component_type$
+size = $kuat_size$
+inline_script = { script = components/kuat_template_damage_type_$kuat_extra_weapon_datas$ kuat_damage_type = $kuat_damage_type$ }
+
+icon = $kuat_icon$
+icon_frame = 1
+prio_projectile = $kuat_prio_projectile$
+
+power = @[ kuat_$kuat_index$_$kuat_weapon_type$_$kuat_weapon_name$_power * kuat_$kuat_index$_power_multiplier * kuat_component_$kuat_size$_power_factor * kuat_$kuat_component_type$_component_power_factor ]
+
+inline_script = {
+    script = components/kuat_mutation_weapon_damage_fixup_$kuat_mutation_weapon_fixup$
+    kuat_index = $kuat_index$
+    kuat_size = $kuat_size$
+    kuat_weapon_type = $kuat_weapon_type$
+    kuat_weapon_name = $kuat_weapon_name$
+    kuat_component_type = $kuat_component_type$
+}
+hull_damage = @kuat_$kuat_index$_$kuat_weapon_type$_$kuat_weapon_name$_hull_damage
+shield_damage = @kuat_$kuat_index$_$kuat_weapon_type$_$kuat_weapon_name$_shield_damage
+shield_penetration = @kuat_$kuat_index$_$kuat_weapon_type$_$kuat_weapon_name$_shield_penetration
+armor_damage = @kuat_$kuat_index$_$kuat_weapon_type$_$kuat_weapon_name$_armor_damage
+armor_penetration = @kuat_$kuat_index$_$kuat_weapon_type$_$kuat_weapon_name$_armor_penetration
+windup = {
+    min = @[ kuat_$kuat_index$_$kuat_weapon_type$_$kuat_weapon_name$_windup_min * kuat_$kuat_component_type$_$kuat_size$_component_windup_factor ]
+    max = @[ kuat_$kuat_index$_$kuat_weapon_type$_$kuat_weapon_name$_windup_max * kuat_$kuat_component_type$_$kuat_size$_component_windup_factor ]
+}
+
+target_type = target_enemies
+target_focus = spread	
+
+inline_script = {
+    script = components/kuat_mutation_weapon_cooldown_fixup_$kuat_mutation_weapon_fixup$
+    kuat_index = $kuat_index$
+    kuat_size = $kuat_size$
+    kuat_weapon_type = $kuat_weapon_type$
+    kuat_weapon_name = $kuat_weapon_name$
+    kuat_component_type = $kuat_component_type$
+}
+
+inline_script = {
+    script = components/kuat_mutation_weapon_range_fixup_$kuat_mutation_weapon_fixup$
+    kuat_index = $kuat_index$
+    kuat_size = $kuat_size$
+    kuat_weapon_type = $kuat_weapon_type$
+    kuat_weapon_name = $kuat_weapon_name$
+    kuat_component_type = $kuat_component_type$
+}
+min_range = @[ kuat_$kuat_index$_$kuat_weapon_type$_$kuat_weapon_name$_min_range * kuat_component_$kuat_size$_min_range_factor * kuat_global_weapon_range_factor ]
+accuracy = @[ kuat_$kuat_index$_$kuat_weapon_type$_$kuat_weapon_name$_accuracy * kuat_$kuat_index$_accuracy_multiplier ]
+tracking = @[ ( kuat_$kuat_index$_$kuat_weapon_type$_$kuat_weapon_name$_tracking + kuat_component_$kuat_size$_tracking_bonus ) * kuat_$kuat_index$_tracking_multiplier ]
+
+inline_script = { 
+    script = components/kuat_template_firing_arc_$kuat_has_firing_arc$ 
+    kuat_index = $kuat_index$ 
+    kuat_weapon_type = $kuat_weapon_type$ 
+    kuat_weapon_name = $kuat_weapon_name$ 
+}
+
+size_damage_factor = @[ kuat_$kuat_index$_$kuat_weapon_type$_$kuat_weapon_name$_size_damage_factor * kuat_$kuat_index$_size_damage_multiplier ]
+
+inline_script = {
+    script = components/kuat_extra_weapon_data_$kuat_extra_weapon_datas$
+    kuat_index = $kuat_index$
+    kuat_size = $kuat_size$
+    kuat_weapon_type = $kuat_weapon_type$
+    kuat_weapon_name = $kuat_weapon_name$
+    kuat_component_type = $kuat_component_type$
+}
+
+inline_script = components/kuat_template_is_$kuat_component_type$
+inline_script = { 
+    script = components/kuat_template_tech_overwrite_$kuat_tech_overwrite$ 
+    kuat_index = $kuat_index$ 
+    kuat_weapon_type = $kuat_weapon_type$ 
+    kuat_weapon_name = $kuat_weapon_name$ 
+    kuat_tech = $kuat_tech$ 
+}
+
+projectile_gfx = $kuat_projectile_gfx$
+tags = { $kuat_weapon_tag$ $kuat_extra_tag$ }
+ai_tags = { $kuat_ai_tags$ }
+
+resources = {
+    category = ship_components
+    cost = {
+        $kuat_standard_cost$
+        mult = @[ kuat_$kuat_index$_$kuat_weapon_type$_$kuat_weapon_name$_standard_cost * kuat_$kuat_index$_cost_multiplier * kuat_component_$kuat_size$_power_factor ]
+    }
+    cost = {
+        $kuat_rare_cost$
+        mult = @[ kuat_$kuat_index$_$kuat_weapon_type$_$kuat_weapon_name$_rare_cost * kuat_$kuat_index$_cost_multiplier * kuat_component_$kuat_size$_power_factor ]
+    }
+    upkeep = {
+        $kuat_standard_upkeep$
+        mult = @[ kuat_$kuat_index$_$kuat_weapon_type$_$kuat_weapon_name$_standard_cost * kuat_$kuat_index$_cost_multiplier * kuat_component_standard_upkeep_factor * kuat_component_$kuat_size$_power_factor ]
+    }
+    upkeep = {
+        $kuat_rare_upkeep$
+        mult = @[ kuat_$kuat_index$_$kuat_weapon_type$_$kuat_weapon_name$_standard_cost * kuat_$kuat_index$_cost_multiplier * kuat_component_rare_upkeep_factor * kuat_component_$kuat_size$_power_factor ]
+    }
+    inline_script = {
+        script = components/kuat_$kuat_component_type$_component_dynamic_cost
+        kuat_cost = @[ kuat_$kuat_index$_$kuat_weapon_type$_$kuat_weapon_name$_dynamic_cost * kuat_$kuat_index$_cost_multiplier * kuat_component_$kuat_size$_power_factor ]
+    }
+}
+
+inline_script = { 
+    script = components/kuat_template_component_set_overwrite_$kuat_component_set_overwrite$ 
+    kuat_index = $kuat_index$ 
+    kuat_weapon_type = $kuat_weapon_type$ 
+    kuat_weapon_name = $kuat_weapon_name$ 
+    kuat_component_type = $kuat_component_type$ 
+    kuat_component_set = $kuat_component_set$ 
+}
+
+inline_script = { 
+    script = components/kuat_template_upgrades_$kuat_has_upgrade$ 
+    kuat_upgrade_key = $kuat_upgrade_key$ 
+    kuat_size = $kuat_size$ 
+    kuat_type = $kuat_component_type$ 
+}
+
+ai_weight = {
+    weight = $kuat_ai_weight$
+    $kuat_weight_modifier$
+}
+
+
+inline_script = { 
+    script = components/kuat_template_component_size_restriction_$kuat_component_set_size_restriction$ 
+    kuat_shipsize = $kuat_shipsize$ 
+}
+
+valid_for_country = { $kuat_trigger$ }

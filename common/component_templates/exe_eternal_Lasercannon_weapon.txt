@@ -1,667 +1,674 @@
-#MK1双联装小型穿透激光
+#
+# 武器名：kuat_$kuat_index$_$kuat_weapon_type$_$kuat_weapon_name$_$kuat_size$_$kuat_component_type$
+# component_set：kuat_$kuat_index$_$kuat_weapon_type$_$kuat_weapon_name$_$kuat_component_type$_set
+# 图标：GFX_ship_part_kuat_$kuat_index$_$kuat_weapon_type$_$kuat_weapon_name$_$kuat_size$_$kuat_component_type$
+# 科技：tech_kuat_$kuat_index$_$kuat_weapon_type$_$kuat_weapon_name$
+# 由于组件不能一个inline注册多个，所以需要写多份并在kuat_size和kuat_component_type上做差分，其他属性会自动计算。
 weapon_component_template = {
-	type = instant
-	
-	key = "ETIM_SMALL_ETM_MK1_LASER_CANNON"
-	size = small
-	#entity = "small_kinetic_gun_entity"
-	
-	icon = "GFX_ship_part_etim_laser_blue_01"
-	icon_frame = 1
-	
-	damage = { min = 1.0 max = 200.0 }
-	windup = { min = 7 max = 13 }
-	total_fire_time = 20
-	range = 100.0
-	accuracy = @TURBER_ACCURY
-	tracking = @TURBER_TRAKIG
+    inline_script = {
+        script = components/kuat_template_common_weapon
+		kuat_icon = "GFX_ship_part_etim_laser_blue_01"					# 图标
+        kuat_index = ETIM													# 名称字符串1
+        kuat_weapon_type = LASER_CANNON										# 名称字符串2
+        kuat_weapon_name = ETM_MK1											# 名称字符串3
+        kuat_size = small													# 武器规格，会自动放进名称里(titanic,extra_large,large,medium,small,point_defence)
+        kuat_component_type = standard_ship									# 舰船分类，会自动放进组件名称和component_set里(standard_ship代表普通舰船，bio_ship代表生物舰船，mutation代表动物朋友)
+        kuat_damage_type = instant											# 伤害类型，包含(instant,missile和point_defence)
+        kuat_prio_projectile = no
+        kuat_mutation_weapon_fixup = no										# 动物朋友武器的x槽伤害修正，如果原型武器是x就写extra_large,否则写no,类似的取值有torpedo,missile,point_defence和strike_craft，至于为什么这么多差分，要问蠢驴。
+        kuat_weapon_tag = "weapon_type_explosive"						# 默认带了难度修正所以tag有前后之分，以移除
+        kuat_extra_tag = "s_slot"
+        kuat_ai_tags = "weapon_role_anti_hull"
+        kuat_projectile_gfx = "sws_laser_cannon_small_purple"
+        kuat_standard_cost = "energy = 1.0"									# 1.0即按倍率乘算。
+        kuat_rare_cost = "alloys = 1.0"
+        kuat_standard_upkeep = "energy = 0.1"
+        kuat_rare_upkeep = "alloys = 0.2"
+        kuat_has_upgrade = yes																		# 有上级组件写yes
+        kuat_upgrade_key = "ETIM_LASER_CANNON_ETM_MK2"												# 写上级组件的$kuat_index$_$kuat_weapon_type$_$kuat_weapon_name$
+        kuat_ai_weight = "1"
+        kuat_weight_modifier = "modifier = { factor = 5000 is_ai = no } modifier = { factor = 0 is_ai = yes }"
+        kuat_extra_weapon_datas = "no"																# 是导弹写missile，是舰载机写strike_craft，否则写no。
 
-	shield_penetration = 1.0
-	armor_penetration = 1.0
-	
-	power = -5.00
-	target_type = target_enemies
-	target_focus = spread	
-	resources = {
-		category = ship_components
-		cost = {
-			alloys = @s_t1_cost
-		}
-		upkeep = {
-			energy = @s_t1_upkeep_energy
-			alloys = @s_t1_upkeep_alloys
-		}
-	}
-	ai_weight = { weight = 1 modifier = { factor = 5000 is_ai = no } modifier = { factor = 0 is_ai = yes } }
-	prerequisites = { "tr_eternal_laser_mk1_cannon" }
-	component_set = "ETIM_ETM_MK1_LASER_CANNON"
-	projectile_gfx = "sws_laser_cannon_small_purple"
-	upgrades_to = ETIM_SMALL_ETM_MK2_LASER_CANNON
-	tags = { weapon_type_kinetic s_slot }
-	ai_tags = { weapon_role_anti_shield }
-}
-#MK2双联装小型穿透激光
-weapon_component_template = {
-	type = instant
-	
-	key = "ETIM_SMALL_ETM_MK2_LASER_CANNON"
-	size = small
-	#entity = "small_kinetic_gun_entity"
-	
-	icon = "GFX_ship_part_etim_laser_blue_02"
-	icon_frame = 1
-	
-	damage = { min = 1.0 max = 300.0 }
-	windup = { min = 7 max = 13 }
-	total_fire_time = 20
-	range = 100.0
-	accuracy = @TURBER_ACCURY
-	tracking = @TURBER_TRAKIG
-	
-	shield_penetration = 1.0
-	armor_penetration = 1.0
-	
-	power = -5.00
-	target_type = target_enemies
-	target_focus = spread	
-	resources = {
-		category = ship_components
-		cost = {
-			alloys = @s_t1_cost
-		}
-		upkeep = {
-			energy = @s_t1_upkeep_energy
-			alloys = @s_t1_upkeep_alloys
-		}
-	}
-	ai_weight = { weight = 1 modifier = { factor = 5000 is_ai = no } modifier = { factor = 0 is_ai = yes } }
-	prerequisites = { "tr_eternal_laser_mk2_cannon" }
-	component_set = "ETIM_ETM_MK2_LASER_CANNON"
-	projectile_gfx = "sws_laser_cannon_small_purple"
-	upgrades_to = ETIM_SMALL_ETM_MK3_LASER_CANNON
-	tags = { weapon_type_kinetic s_slot }
-	ai_tags = { weapon_role_anti_shield }
-}
-#MK3双联装小型穿透激光
-weapon_component_template = {
-	type = instant
-	
-	key = "ETIM_SMALL_ETM_MK3_LASER_CANNON"
-	size = small
-	#entity = "small_kinetic_gun_entity"
-	
-	icon = "GFX_ship_part_etim_laser_blue_03"
-	icon_frame = 1
-	
-	damage = { min = 1 max = 400 }
-	windup = { min = 7 max = 13 }
-	total_fire_time = 20
-	range = 100
-	accuracy = @TURBER_ACCURY
-	tracking = @TURBER_TRAKIG
-	
-	shield_penetration = 1.0
-	armor_penetration = 1.0
-	
-	power = -5.00
-	target_type = target_enemies
-	target_focus = spread	
-	resources = {
-		category = ship_components
-		cost = {
-			alloys = @s_t1_cost
-		}
-		upkeep = {
-			energy = @s_t1_upkeep_energy
-			alloys = @s_t1_upkeep_alloys
-		}
-	}
-	ai_weight = { weight = 1 modifier = { factor = 5000 is_ai = no } modifier = { factor = 0 is_ai = yes } }
-	prerequisites = { "tr_eternal_laser_mk3_cannon" }
-	component_set = "ETIM_ETM_MK3_LASER_CANNON"
-	projectile_gfx = "sws_laser_cannon_small_purple"
-	upgrades_to = ETIM_SMALL_ETM_MK4_LASER_CANNON
-	tags = { weapon_type_kinetic s_slot }
-	ai_tags = { weapon_role_anti_shield }
-}
-#MK4双联装小型穿透激光
-weapon_component_template = {
-	type = instant
-	
-	key = "ETIM_SMALL_ETM_MK4_LASER_CANNON"
-	size = small
-	#entity = "small_kinetic_gun_entity"
-	
-	icon = "GFX_ship_part_etim_laser_blue_04"
-	icon_frame = 1
-	
-	damage = { min = 1 max = 500 }
-	windup = { min = 7 max = 13 }
-	total_fire_time = 20
-	range = 100
-	accuracy = @TURBER_ACCURY
-	tracking = @TURBER_TRAKIG
-	shield_penetration = 1.0
-	armor_penetration = 1.0
-	
-	power = -5.00
-	target_type = target_enemies
-	target_focus = spread	
-	resources = {
-		category = ship_components
-		cost = {
-			alloys = @s_t1_cost
-		}
-		upkeep = {
-			energy = @s_t1_upkeep_energy
-			alloys = @s_t1_upkeep_alloys
-		}
-	}
-	ai_weight = { weight = 1 modifier = { factor = 5000 is_ai = no } modifier = { factor = 0 is_ai = yes } }
-	prerequisites = { "tr_eternal_laser_mk4_cannon" }
-	component_set = "ETIM_ETM_MK4_LASER_CANNON"
-	projectile_gfx = "sws_heavy_laser_cannon_entity_small_purple"
-	upgrades_to = ETIM_SMALL_ETM_MK5_LASER_CANNON
-	tags = { weapon_type_kinetic s_slot }
-	ai_tags = { weapon_role_anti_shield }
-}
-#MK5双联装小型穿透激光
-weapon_component_template = {
-	type = instant
-	
-	key = "ETIM_SMALL_ETM_MK5_LASER_CANNON"
-	size = small
-	#entity = "small_kinetic_gun_entity"
-	
-	icon = "GFX_ship_part_etim_laser_blue_05"
-	icon_frame = 1
-	
-	damage = { min = 1 max = 600 }
-	windup = { min = 7 max = 13 }
-	total_fire_time = 20
-	range = 100
-	accuracy = @TURBER_ACCURY
-	tracking = @TURBER_TRAKIG
-	shield_penetration = 1.0
-	armor_penetration = 1.0
-	
-	power = -5.00
-	target_type = target_enemies
-	target_focus = spread	
-	resources = {
-		category = ship_components
-		cost = {
-			alloys = @s_t1_cost
-		}
-		upkeep = {
-			energy = @s_t1_upkeep_energy
-			alloys = @s_t1_upkeep_alloys
-		}
-	}
-	ai_weight = { weight = 1 modifier = { factor = 5000 is_ai = no } modifier = { factor = 0 is_ai = yes } }
-	prerequisites = { "tr_eternal_laser_mk5_cannon" }
-	component_set = "ETIM_ETM_MK5_LASER_CANNON"
-	projectile_gfx = "sws_heavy_laser_cannon_entity_small_purple"
-	tags = { weapon_type_kinetic s_slot }
-	ai_tags = { weapon_role_anti_shield }
-}
+        kuat_tech_overwrite = yes																	# 写yes强制覆盖科技的key
+        kuat_tech = "tr_eternal_laser_mk1_cannon"
 
+        kuat_component_set_overwrite = yes															# 写yes强制覆盖component_set的key
+        kuat_component_set = "ETIM_ETM_MK1_LASER_CANNON"
 
-#MK1双联装中型穿透激光
-weapon_component_template = {
-	type = instant
-	
-	key = "ETIM_MEDIUM_ETM_MK1_LASER_CANNON"
-	size = medium
-	#entity = "medium_kinetic_gun_entity"
-	
-	icon = "GFX_ship_part_etim_laser_blue_01"
-	icon_frame = 1
-	
-	damage = { min = 1.0 max = 400.0 }
-	windup = { min = 7 max = 13 }
-	total_fire_time = 20
-	range = 200.0
-	accuracy = @TURBER_ACCURY
-	tracking = @TURBER_TRAKIG
-	shield_penetration = 1.0
-	armor_penetration = 1.0
-	
-	power = -30.00
-	target_type = target_enemies
-	target_focus = spread	
-	resources = {
-		category = ship_components
-		cost = {
-			alloys = @m_t1_cost
-		}
-		upkeep = {
-			energy = @m_t1_upkeep_energy
-			alloys = @m_t1_upkeep_alloys
-		}
-	}
-	ai_weight = { weight = 1 modifier = { factor = 5000 is_ai = no } modifier = { factor = 0 is_ai = yes } }
-	prerequisites = { "tr_eternal_laser_mk1_cannon" }
-	component_set = "ETIM_ETM_MK1_LASER_CANNON"
-	projectile_gfx = "sws_laser_cannon_medium_purple"
-	upgrades_to = ETIM_MEDIUM_ETM_MK2_LASER_CANNON
-	tags = { weapon_type_kinetic m_slot }
-	ai_tags = { weapon_role_anti_shield }
-}
-#MK2双联装中型穿透激光
-weapon_component_template = {
-	type = instant
-	
-	key = "ETIM_MEDIUM_ETM_MK2_LASER_CANNON"
-	size = medium
-	#entity = "medium_kinetic_gun_entity"
-	
-	icon = "GFX_ship_part_etim_laser_blue_02"
-	icon_frame = 1
-	
-	damage = { min = 1.0 max = 600.0 }
-	windup = { min = 7 max = 13 }
-	total_fire_time = 20
-	range = 200.0
-	accuracy = @TURBER_ACCURY
-	tracking = @TURBER_TRAKIG
-	shield_penetration = 1.0
-	armor_penetration = 1.0
-	
-	power = -30.00
-	target_type = target_enemies
-	target_focus = spread	
-	resources = {
-		category = ship_components
-		cost = {
-			alloys = @m_t1_cost
-		}
-		upkeep = {
-			energy = @m_t1_upkeep_energy
-			alloys = @m_t1_upkeep_alloys
-		}
-	}
-	ai_weight = { weight = 1 modifier = { factor = 5000 is_ai = no } modifier = { factor = 0 is_ai = yes } }
-	prerequisites = { "tr_eternal_laser_mk2_cannon" }
-	component_set = "ETIM_ETM_MK2_LASER_CANNON"
-	projectile_gfx = "sws_laser_cannon_medium_purple"
-	upgrades_to = ETIM_MEDIUM_ETM_MK3_LASER_CANNON
-	tags = { weapon_type_kinetic m_slot }
-	ai_tags = { weapon_role_anti_shield }
-}
-#MK3双联装中型穿透激光
-weapon_component_template = {
-	type = instant
-	
-	key = "ETIM_MEDIUM_ETM_MK3_LASER_CANNON"
-	size = medium
-	#entity = "medium_kinetic_gun_entity"
-	
-	icon = "GFX_ship_part_etim_laser_blue_03"
-	icon_frame = 1
-	
-	damage = { min = 1 max = 800 }
-	windup = { min = 7 max = 13 }
-	total_fire_time = 20
-	range = 200
-	accuracy = @TURBER_ACCURY
-	tracking = @TURBER_TRAKIG
-	shield_penetration = 1.0
-	armor_penetration = 1.0
-	
-	power = -30.00
-	target_type = target_enemies
-	target_focus = spread	
-	resources = {
-		category = ship_components
-		cost = {
-			alloys = @m_t1_cost
-		}
-		upkeep = {
-			energy = @m_t1_upkeep_energy
-			alloys = @m_t1_upkeep_alloys
-		}
-	}
-	ai_weight = { weight = 1 modifier = { factor = 5000 is_ai = no } modifier = { factor = 0 is_ai = yes } }
-	prerequisites = { "tr_eternal_laser_mk3_cannon" }
-	component_set = "ETIM_ETM_MK3_LASER_CANNON"
-	projectile_gfx = "sws_laser_cannon_medium_purple"
-	upgrades_to = ETIM_MEDIUM_ETM_MK4_LASER_CANNON
-	tags = { weapon_type_kinetic m_slot }
-	ai_tags = { weapon_role_anti_shield }
-}
-#MK4双联装中型穿透激光
-weapon_component_template = {
-	type = instant
-	
-	key = "ETIM_MEDIUM_ETM_MK4_LASER_CANNON"
-	size = medium
-	#entity = "medium_kinetic_gun_entity"
-	
-	icon = "GFX_ship_part_etim_laser_blue_04"
-	icon_frame = 1
-	
-	damage = { min = 1 max = 1000 }
-	windup = { min = 7 max = 13 }
-	total_fire_time = 20
-	range = 200
-	accuracy = @TURBER_ACCURY
-	tracking = @TURBER_TRAKIG
-	shield_penetration = 1.0
-	armor_penetration = 1.0
-	
-	power = -30.00
-	target_type = target_enemies
-	target_focus = spread	
-	resources = {
-		category = ship_components
-		cost = {
-			alloys = @m_t1_cost
-		}
-		upkeep = {
-			energy = @m_t1_upkeep_energy
-			alloys = @m_t1_upkeep_alloys
-		}
-	}
-	ai_weight = { weight = 1 modifier = { factor = 5000 is_ai = no } modifier = { factor = 0 is_ai = yes } }
-	prerequisites = { "tr_eternal_laser_mk4_cannon" }
-	component_set = "ETIM_ETM_MK4_LASER_CANNON"
-	projectile_gfx = "sws_heavy_laser_cannon_entity_medium_purple"
-	upgrades_to = ETIM_MEDIUM_ETM_MK5_LASER_CANNON
-	tags = { weapon_type_kinetic m_slot }
-	ai_tags = { weapon_role_anti_shield }
-}
-#MK5双联装中型穿透激光
-weapon_component_template = {
-	type = instant
-	
-	key = "ETIM_MEDIUM_ETM_MK5_LASER_CANNON"
-	size = medium
-	#entity = "medium_kinetic_gun_entity"
-	
-	icon = "GFX_ship_part_etim_laser_blue_05"
-	icon_frame = 1
-	
-	damage = { min = 1 max = 1200 }
-	windup = { min = 7 max = 13 }
-	total_fire_time = 20
-	range = 200
-	accuracy = @TURBER_ACCURY
-	tracking = @TURBER_TRAKIG
-	shield_penetration = 1.0
-	armor_penetration = 1.0
-	
-	power = -30.00
-	target_type = target_enemies
-	target_focus = spread	
-	resources = {
-		category = ship_components
-		cost = {
-			alloys = @m_t1_cost
-		}
-		upkeep = {
-			energy = @m_t1_upkeep_energy
-			alloys = @m_t1_upkeep_alloys
-		}
-	}
-	ai_weight = { weight = 1 modifier = { factor = 5000 is_ai = no } modifier = { factor = 0 is_ai = yes } }
-	prerequisites = { "tr_eternal_laser_mk5_cannon" }
-	component_set = "ETIM_ETM_MK5_LASER_CANNON"
-	projectile_gfx = "sws_heavy_laser_cannon_entity_medium_purple"
-	tags = { weapon_type_kinetic m_slot }
-	ai_tags = { weapon_role_anti_shield }
-}
+        kuat_has_firing_arc = no																	# 写yes才有发射角度
 
-#MK1双联装大型穿透激光
-weapon_component_template = {
-	type = instant
-	
-	key = "ETIM_LARGE_ETM_MK1_LASER_CANNON"
-	size = large
-	#entity = "large_kinetic_gun_entity"
-	
-	icon = "GFX_ship_part_etim_laser_blue_01"
-	icon_frame = 1
-	
-	damage = { min = 1.0 max = 600.0 }
-	windup = { min = 7 max = 13 }
-	total_fire_time = 20
-	range = 300.0
-	accuracy = @TURBER_ACCURY
-	tracking = @TURBER_TRAKIG
-	shield_penetration = 1.0
-	armor_penetration = 1.0
-	
-	power = -30.00
-	target_type = target_enemies
-	target_focus = spread	
-	resources = {
-		category = ship_components
-		cost = {
-			alloys = @l_t1_cost
-		}
-		upkeep = {
-			energy = @l_t1_upkeep_energy
-			alloys = @l_t1_upkeep_alloys
-		}
-	}
-	ai_weight = { weight = 1 modifier = { factor = 5000 is_ai = no } modifier = { factor = 0 is_ai = yes } }
-	prerequisites = { "tr_eternal_laser_mk1_cannon" }
-	component_set = "ETIM_ETM_MK1_LASER_CANNON"
-	upgrades_to = ETIM_LARGE_ETM_MK2_LASER_CANNON
-	projectile_gfx = "sws_laser_cannon_large_purple"
-	tags = { weapon_type_kinetic l_slot }
-	ai_tags = { weapon_role_anti_shield }
-}
-#MK2双联装大型穿透激光
-weapon_component_template = {
-	type = instant
-	
-	key = "ETIM_LARGE_ETM_MK2_LASER_CANNON"
-	size = large
-	#entity = "large_kinetic_gun_entity"
-	
-	icon = "GFX_ship_part_etim_laser_blue_02"
-	icon_frame = 1
-	
-	damage = { min = 1.0 max = 900.0 }
-	windup = { min = 7 max = 13 }
-	total_fire_time = 20
-	range = 300.0
-	accuracy = @TURBER_ACCURY
-	tracking = @TURBER_TRAKIG
-	shield_penetration = 1.0
-	armor_penetration = 1.0
-	
-	power = -30.00
-	target_type = target_enemies
-	target_focus = spread	
-	resources = {
-		category = ship_components
-		cost = {
-			alloys = @l_t1_cost
-		}
-		upkeep = {
-			energy = @l_t1_upkeep_energy
-			alloys = @l_t1_upkeep_alloys
-		}
-	}
-	ai_weight = { weight = 1 modifier = { factor = 5000 is_ai = no } modifier = { factor = 0 is_ai = yes } }
-	prerequisites = { "tr_eternal_laser_mk2_cannon" }
-	component_set = "ETIM_ETM_MK2_LASER_CANNON"
-	upgrades_to = ETIM_LARGE_ETM_MK3_LASER_CANNON
-	projectile_gfx = "sws_laser_cannon_large_purple"
-	tags = { weapon_type_kinetic l_slot }
-	ai_tags = { weapon_role_anti_shield }
-}
-#MK3双联装大型穿透激光
-weapon_component_template = {
-	type = instant
-	
-	key = "ETIM_LARGE_ETM_MK3_LASER_CANNON"
-	size = large
-	#entity = "large_kinetic_gun_entity"
-	
-	icon = "GFX_ship_part_etim_laser_blue_03"
-	icon_frame = 1
-	
-	damage = { min = 1 max = 1200 }
-	windup = { min = 7 max = 13 }
-	total_fire_time = 20
-	range = 300
-	accuracy = @TURBER_ACCURY
-	tracking = @TURBER_TRAKIG
-	shield_penetration = 1.0
-	armor_penetration = 1.0
-	
-	power = -30.00
-	target_type = target_enemies
-	target_focus = spread	
-	resources = {
-		category = ship_components
-		cost = {
-			alloys = @l_t1_cost
-		}
-		upkeep = {
-			energy = @l_t1_upkeep_energy
-			alloys = @l_t1_upkeep_alloys
-		}
-	}
-	ai_weight = { weight = 1 modifier = { factor = 5000 is_ai = no } modifier = { factor = 0 is_ai = yes } }
-	prerequisites = { "tr_eternal_laser_mk3_cannon" }
-	component_set = "ETIM_ETM_MK3_LASER_CANNON"
-	projectile_gfx = "sws_laser_cannon_large_purple"
-	upgrades_to = ETIM_LARGE_ETM_MK4_LASER_CANNON
-	tags = { weapon_type_kinetic l_slot }
-	ai_tags = { weapon_role_anti_shield }
-}
-#MK3双联装大型穿透激光
-weapon_component_template = {
-	type = instant
-	
-	key = "ETIM_LARGE_ETM_MK4_LASER_CANNON"
-	size = large
-	#entity = "large_kinetic_gun_entity"
-	
-	icon = "GFX_ship_part_etim_laser_blue_04"
-	icon_frame = 1
-	
-	damage = { min = 1 max = 1500 }
-	windup = { min = 7 max = 13 }
-	total_fire_time = 20
-	range = 300
-	accuracy = @TURBER_ACCURY
-	tracking = @TURBER_TRAKIG
-	shield_penetration = 1.0
-	armor_penetration = 1.0
-	
-	power = -30.00
-	target_type = target_enemies
-	target_focus = spread	
-	resources = {
-		category = ship_components
-		cost = {
-			alloys = @l_t1_cost
-		}
-		upkeep = {
-			energy = @l_t1_upkeep_energy
-			alloys = @l_t1_upkeep_alloys
-		}
-	}
-	ai_weight = { weight = 1 modifier = { factor = 5000 is_ai = no } modifier = { factor = 0 is_ai = yes } }
-	prerequisites = { "tr_eternal_laser_mk4_cannon" }
-	component_set = "ETIM_ETM_MK4_LASER_CANNON"
-	projectile_gfx = "sws_heavy_laser_cannon_entity_large_purple"
-	upgrades_to = ETIM_LARGE_ETM_MK5_LASER_CANNON
-	tags = { weapon_type_kinetic l_slot }
-	ai_tags = { weapon_role_anti_shield }
-}
-#MK3双联装大型穿透激光
-weapon_component_template = {
-	type = instant
-	
-	key = "ETIM_LARGE_ETM_MK5_LASER_CANNON"
-	size = large
-	#entity = "large_kinetic_gun_entity"
-	
-	icon = "GFX_ship_part_etim_laser_blue_05"
-	icon_frame = 1
-	
-	damage = { min = 1 max = 1800 }
-	windup = { min = 7 max = 13 }
-	total_fire_time = 20
-	range = 300
-	accuracy = @TURBER_ACCURY
-	tracking = @TURBER_TRAKIG
-	shield_penetration = 1.0
-	armor_penetration = 1.0
-	
-	power = -30.00
-	target_type = target_enemies
-	target_focus = spread	
-	resources = {
-		category = ship_components
-		cost = {
-			alloys = @l_t1_cost
-		}
-		upkeep = {
-			energy = @l_t1_upkeep_energy
-			alloys = @l_t1_upkeep_alloys
-		}
-	}
-	ai_weight = { weight = 1 modifier = { factor = 5000 is_ai = no } modifier = { factor = 0 is_ai = yes } }
-	prerequisites = { "tr_eternal_laser_mk5_cannon" }
-	component_set = "ETIM_ETM_MK5_LASER_CANNON"
-	projectile_gfx = "sws_heavy_laser_cannon_entity_large_purple"
-	tags = { weapon_type_kinetic l_slot }
-	ai_tags = { weapon_role_anti_shield }
+		kuat_component_set_size_restriction = no
+		kuat_shipsize = ""
+
+		kuat_trigger = "always = yes"
+    }
 }
 
 weapon_component_template = {
-	key = "ETIM_CONCUSSION_MISSILE"
-	size = torpedo
-	
-	icon = "GFX_ship_part_etim_concussion_missile"
-	icon_frame = 1
-	type = missile
-	
-	damage = { min = 1 max = 999 }
-	windup = { min = 10 max = 90 }
-	total_fire_time = 50
-	range = 300
-	accuracy = @TURBER_ACCURY
-	tracking = @TURBER_TRAKIG
+    inline_script = {
+        script = components/kuat_template_common_weapon
+		kuat_icon = "GFX_ship_part_etim_laser_blue_02"					# 图标
+        kuat_index = ETIM													# 名称字符串1
+        kuat_weapon_type = LASER_CANNON										# 名称字符串2
+        kuat_weapon_name = ETM_MK2											# 名称字符串3
+        kuat_size = small													# 武器规格，会自动放进名称里(titanic,extra_large,large,medium,small,point_defence)
+        kuat_component_type = standard_ship									# 舰船分类，会自动放进组件名称和component_set里(standard_ship代表普通舰船，bio_ship代表生物舰船，mutation代表动物朋友)
+        kuat_damage_type = instant											# 伤害类型，包含(instant,missile和point_defence)
+        kuat_prio_projectile = no
+        kuat_mutation_weapon_fixup = no										# 动物朋友武器的x槽伤害修正，如果原型武器是x就写extra_large,否则写no,类似的取值有torpedo,missile,point_defence和strike_craft，至于为什么这么多差分，要问蠢驴。
+        kuat_weapon_tag = "weapon_type_explosive"						# 默认带了难度修正所以tag有前后之分，以移除
+        kuat_extra_tag = "s_slot"
+        kuat_ai_tags = "weapon_role_anti_hull"
+        kuat_projectile_gfx = "sws_laser_cannon_small_purple"
+        kuat_standard_cost = "energy = 1.0"									# 1.0即按倍率乘算。
+        kuat_rare_cost = "alloys = 1.0"
+        kuat_standard_upkeep = "energy = 0.1"
+        kuat_rare_upkeep = "alloys = 0.2"
+        kuat_has_upgrade = yes																		# 有上级组件写yes
+        kuat_upgrade_key = "ETIM_LASER_CANNON_ETM_MK3"												# 写上级组件的$kuat_index$_$kuat_weapon_type$_$kuat_weapon_name$
+        kuat_ai_weight = "1"
+        kuat_weight_modifier = "modifier = { factor = 5000 is_ai = no } modifier = { factor = 0 is_ai = yes }"
+        kuat_extra_weapon_datas = "no"																# 是导弹写missile，是舰载机写strike_craft，否则写no。
 
-	size_damage_factor = 1
+        kuat_tech_overwrite = yes																	# 写yes强制覆盖科技的key
+        kuat_tech = "tr_eternal_laser_mk2_cannon"
 
-	shield_penetration = 1.0
-	armor_penetration = 1.0
+        kuat_component_set_overwrite = yes															# 写yes强制覆盖component_set的key
+        kuat_component_set = "ETIM_ETM_MK2_LASER_CANNON"
 
-	missile_speed = 35
-	missile_evasion = 0
-	missile_health = 50
-	missile_armor = 50
-	missile_shield = 50
-	missile_retarget_range = 100
-	
-	resources = {
-		category = ship_components
-		cost = {
-			alloys = @xl_t5_cost
-		}		
-		upkeep = {
-			energy = @s_t1_upkeep_energy
-			alloys = @s_t1_upkeep_alloys
-		}
-	}
+        kuat_has_firing_arc = no																	# 写yes才有发射角度
 
-	target_type = target_enemies
-	target_focus = spread	
-	
-	inline_script = {
+		kuat_component_set_size_restriction = no
+		kuat_shipsize = ""
+
+		kuat_trigger = "always = yes"
+    }
+}
+
+weapon_component_template = {
+    inline_script = {
+        script = components/kuat_template_common_weapon
+		kuat_icon = "GFX_ship_part_etim_laser_blue_03"					# 图标
+        kuat_index = ETIM													# 名称字符串1
+        kuat_weapon_type = LASER_CANNON										# 名称字符串2
+        kuat_weapon_name = ETM_MK3											# 名称字符串3
+        kuat_size = small													# 武器规格，会自动放进名称里(titanic,extra_large,large,medium,small,point_defence)
+        kuat_component_type = standard_ship									# 舰船分类，会自动放进组件名称和component_set里(standard_ship代表普通舰船，bio_ship代表生物舰船，mutation代表动物朋友)
+        kuat_damage_type = instant											# 伤害类型，包含(instant,missile和point_defence)
+        kuat_prio_projectile = no
+        kuat_mutation_weapon_fixup = no										# 动物朋友武器的x槽伤害修正，如果原型武器是x就写extra_large,否则写no,类似的取值有torpedo,missile,point_defence和strike_craft，至于为什么这么多差分，要问蠢驴。
+        kuat_weapon_tag = "weapon_type_explosive"						# 默认带了难度修正所以tag有前后之分，以移除
+        kuat_extra_tag = "s_slot"
+        kuat_ai_tags = "weapon_role_anti_hull"
+        kuat_projectile_gfx = "sws_laser_cannon_small_purple"
+        kuat_standard_cost = "energy = 1.0"									# 1.0即按倍率乘算。
+        kuat_rare_cost = "alloys = 1.0"
+        kuat_standard_upkeep = "energy = 0.1"
+        kuat_rare_upkeep = "alloys = 0.2"
+        kuat_has_upgrade = yes																		# 有上级组件写yes
+        kuat_upgrade_key = "ETIM_LASER_CANNON_ETM_MK4"												# 写上级组件的$kuat_index$_$kuat_weapon_type$_$kuat_weapon_name$
+        kuat_ai_weight = "1"
+        kuat_weight_modifier = "modifier = { factor = 5000 is_ai = no } modifier = { factor = 0 is_ai = yes }"
+        kuat_extra_weapon_datas = "no"																# 是导弹写missile，是舰载机写strike_craft，否则写no。
+
+        kuat_tech_overwrite = yes																	# 写yes强制覆盖科技的key
+        kuat_tech = "tr_eternal_laser_mk3_cannon"
+
+        kuat_component_set_overwrite = yes															# 写yes强制覆盖component_set的key
+        kuat_component_set = "ETIM_ETM_MK3_LASER_CANNON"
+
+        kuat_has_firing_arc = no																	# 写yes才有发射角度
+
+		kuat_component_set_size_restriction = no
+		kuat_shipsize = ""
+
+		kuat_trigger = "always = yes"
+    }
+}
+
+weapon_component_template = {
+    inline_script = {
+        script = components/kuat_template_common_weapon
+		kuat_icon = "GFX_ship_part_etim_laser_blue_04"					# 图标
+        kuat_index = ETIM													# 名称字符串1
+        kuat_weapon_type = LASER_CANNON										# 名称字符串2
+        kuat_weapon_name = ETM_MK4											# 名称字符串3
+        kuat_size = small													# 武器规格，会自动放进名称里(titanic,extra_large,large,medium,small,point_defence)
+        kuat_component_type = standard_ship									# 舰船分类，会自动放进组件名称和component_set里(standard_ship代表普通舰船，bio_ship代表生物舰船，mutation代表动物朋友)
+        kuat_damage_type = instant											# 伤害类型，包含(instant,missile和point_defence)
+        kuat_prio_projectile = no
+        kuat_mutation_weapon_fixup = no										# 动物朋友武器的x槽伤害修正，如果原型武器是x就写extra_large,否则写no,类似的取值有torpedo,missile,point_defence和strike_craft，至于为什么这么多差分，要问蠢驴。
+        kuat_weapon_tag = "weapon_type_explosive"						# 默认带了难度修正所以tag有前后之分，以移除
+        kuat_extra_tag = "s_slot"
+        kuat_ai_tags = "weapon_role_anti_hull"
+        kuat_projectile_gfx = "sws_heavy_laser_cannon_entity_small_purple"
+        kuat_standard_cost = "energy = 1.0"									# 1.0即按倍率乘算。
+        kuat_rare_cost = "alloys = 1.0"
+        kuat_standard_upkeep = "energy = 0.1"
+        kuat_rare_upkeep = "alloys = 0.2"
+        kuat_has_upgrade = yes																		# 有上级组件写yes
+        kuat_upgrade_key = "ETIM_LASER_CANNON_ETM_MK5"												# 写上级组件的$kuat_index$_$kuat_weapon_type$_$kuat_weapon_name$
+        kuat_ai_weight = "1"
+        kuat_weight_modifier = "modifier = { factor = 5000 is_ai = no } modifier = { factor = 0 is_ai = yes }"
+        kuat_extra_weapon_datas = "no"																# 是导弹写missile，是舰载机写strike_craft，否则写no。
+
+        kuat_tech_overwrite = yes																	# 写yes强制覆盖科技的key
+        kuat_tech = "tr_eternal_laser_mk4_cannon"
+
+        kuat_component_set_overwrite = yes															# 写yes强制覆盖component_set的key
+        kuat_component_set = "ETIM_ETM_MK4_LASER_CANNON"
+
+        kuat_has_firing_arc = no																	# 写yes才有发射角度
+
+		kuat_component_set_size_restriction = no
+		kuat_shipsize = ""
+
+		kuat_trigger = "always = yes"
+    }
+}
+
+weapon_component_template = {
+    inline_script = {
+        script = components/kuat_template_common_weapon
+		kuat_icon = "GFX_ship_part_etim_laser_blue_05"					# 图标
+        kuat_index = ETIM													# 名称字符串1
+        kuat_weapon_type = LASER_CANNON										# 名称字符串2
+        kuat_weapon_name = ETM_MK5											# 名称字符串3
+        kuat_size = small													# 武器规格，会自动放进名称里(titanic,extra_large,large,medium,small,point_defence)
+        kuat_component_type = standard_ship									# 舰船分类，会自动放进组件名称和component_set里(standard_ship代表普通舰船，bio_ship代表生物舰船，mutation代表动物朋友)
+        kuat_damage_type = instant											# 伤害类型，包含(instant,missile和point_defence)
+        kuat_prio_projectile = no
+        kuat_mutation_weapon_fixup = no										# 动物朋友武器的x槽伤害修正，如果原型武器是x就写extra_large,否则写no,类似的取值有torpedo,missile,point_defence和strike_craft，至于为什么这么多差分，要问蠢驴。
+        kuat_weapon_tag = "weapon_type_explosive"						# 默认带了难度修正所以tag有前后之分，以移除
+        kuat_extra_tag = "s_slot"
+        kuat_ai_tags = "weapon_role_anti_hull"
+        kuat_projectile_gfx = "sws_heavy_laser_cannon_entity_small_purple"
+        kuat_standard_cost = "energy = 1.0"									# 1.0即按倍率乘算。
+        kuat_rare_cost = "alloys = 1.0"
+        kuat_standard_upkeep = "energy = 0.1"
+        kuat_rare_upkeep = "alloys = 0.2"
+
+        kuat_has_upgrade = no																		# 有上级组件写yes
+        kuat_upgrade_key = ""																		# 写上级组件的$kuat_index$_$kuat_weapon_type$_$kuat_weapon_name$
+
+        kuat_ai_weight = "1"
+        kuat_weight_modifier = "modifier = { factor = 5000 is_ai = no } modifier = { factor = 0 is_ai = yes }"
+        kuat_extra_weapon_datas = "no"																# 是导弹写missile，是舰载机写strike_craft，否则写no。
+
+        kuat_tech_overwrite = yes																	# 写yes强制覆盖科技的key
+        kuat_tech = "tr_eternal_laser_mk5_cannon"
+
+        kuat_component_set_overwrite = yes															# 写yes强制覆盖component_set的key
+        kuat_component_set = "ETIM_ETM_MK5_LASER_CANNON"
+
+        kuat_has_firing_arc = no																	# 写yes才有发射角度
+
+		kuat_component_set_size_restriction = no
+		kuat_shipsize = ""
+
+		kuat_trigger = "always = yes"
+    }
+}
+
+weapon_component_template = {
+    inline_script = {
+        script = components/kuat_template_common_weapon
+		kuat_icon = "GFX_ship_part_etim_laser_blue_01"					# 图标
+        kuat_index = ETIM													# 名称字符串1
+        kuat_weapon_type = LASER_CANNON										# 名称字符串2
+        kuat_weapon_name = ETM_MK1											# 名称字符串3
+        kuat_size = medium													# 武器规格，会自动放进名称里(titanic,extra_large,large,medium,small,point_defence)
+        kuat_component_type = standard_ship									# 舰船分类，会自动放进组件名称和component_set里(standard_ship代表普通舰船，bio_ship代表生物舰船，mutation代表动物朋友)
+        kuat_damage_type = instant											# 伤害类型，包含(instant,missile和point_defence)
+        kuat_prio_projectile = no
+        kuat_mutation_weapon_fixup = no										# 动物朋友武器的x槽伤害修正，如果原型武器是x就写extra_large,否则写no,类似的取值有torpedo,missile,point_defence和strike_craft，至于为什么这么多差分，要问蠢驴。
+        kuat_weapon_tag = "weapon_type_explosive"						# 默认带了难度修正所以tag有前后之分，以移除
+        kuat_extra_tag = "m_slot"
+        kuat_ai_tags = "weapon_role_anti_hull"
+        kuat_projectile_gfx = "sws_laser_cannon_medium_purple"
+        kuat_standard_cost = "energy = 1.0"									# 1.0即按倍率乘算。
+        kuat_rare_cost = "alloys = 1.0"
+        kuat_standard_upkeep = "energy = 0.1"
+        kuat_rare_upkeep = "alloys = 0.2"
+        kuat_has_upgrade = yes																		# 有上级组件写yes
+        kuat_upgrade_key = "ETIM_LASER_CANNON_ETM_MK2"												# 写上级组件的$kuat_index$_$kuat_weapon_type$_$kuat_weapon_name$
+        kuat_ai_weight = "1"
+        kuat_weight_modifier = "modifier = { factor = 5000 is_ai = no } modifier = { factor = 0 is_ai = yes }"
+        kuat_extra_weapon_datas = "no"																# 是导弹写missile，是舰载机写strike_craft，否则写no。
+
+        kuat_tech_overwrite = yes																	# 写yes强制覆盖科技的key
+        kuat_tech = "tr_eternal_laser_mk1_cannon"
+
+        kuat_component_set_overwrite = yes															# 写yes强制覆盖component_set的key
+        kuat_component_set = "ETIM_ETM_MK1_LASER_CANNON"
+
+        kuat_has_firing_arc = no																	# 写yes才有发射角度
+
+		kuat_component_set_size_restriction = no
+		kuat_shipsize = ""
+
+		kuat_trigger = "always = yes"
+    }
+}
+
+weapon_component_template = {
+    inline_script = {
+        script = components/kuat_template_common_weapon
+		kuat_icon = "GFX_ship_part_etim_laser_blue_02"					# 图标
+        kuat_index = ETIM													# 名称字符串1
+        kuat_weapon_type = LASER_CANNON										# 名称字符串2
+        kuat_weapon_name = ETM_MK2											# 名称字符串3
+        kuat_size = medium													# 武器规格，会自动放进名称里(titanic,extra_large,large,medium,small,point_defence)
+        kuat_component_type = standard_ship									# 舰船分类，会自动放进组件名称和component_set里(standard_ship代表普通舰船，bio_ship代表生物舰船，mutation代表动物朋友)
+        kuat_damage_type = instant											# 伤害类型，包含(instant,missile和point_defence)
+        kuat_prio_projectile = no
+        kuat_mutation_weapon_fixup = no										# 动物朋友武器的x槽伤害修正，如果原型武器是x就写extra_large,否则写no,类似的取值有torpedo,missile,point_defence和strike_craft，至于为什么这么多差分，要问蠢驴。
+        kuat_weapon_tag = "weapon_type_explosive"						# 默认带了难度修正所以tag有前后之分，以移除
+        kuat_extra_tag = "m_slot"
+        kuat_ai_tags = "weapon_role_anti_hull"
+        kuat_projectile_gfx = "sws_laser_cannon_medium_purple"
+        kuat_standard_cost = "energy = 1.0"									# 1.0即按倍率乘算。
+        kuat_rare_cost = "alloys = 1.0"
+        kuat_standard_upkeep = "energy = 0.1"
+        kuat_rare_upkeep = "alloys = 0.2"
+        kuat_has_upgrade = yes																		# 有上级组件写yes
+        kuat_upgrade_key = "ETIM_LASER_CANNON_ETM_MK3"												# 写上级组件的$kuat_index$_$kuat_weapon_type$_$kuat_weapon_name$
+        kuat_ai_weight = "1"
+        kuat_weight_modifier = "modifier = { factor = 5000 is_ai = no } modifier = { factor = 0 is_ai = yes }"
+        kuat_extra_weapon_datas = "no"																# 是导弹写missile，是舰载机写strike_craft，否则写no。
+
+        kuat_tech_overwrite = yes																	# 写yes强制覆盖科技的key
+        kuat_tech = "tr_eternal_laser_mk2_cannon"
+
+        kuat_component_set_overwrite = yes															# 写yes强制覆盖component_set的key
+        kuat_component_set = "ETIM_ETM_MK2_LASER_CANNON"
+
+        kuat_has_firing_arc = no																	# 写yes才有发射角度
+
+		kuat_component_set_size_restriction = no
+		kuat_shipsize = ""
+
+		kuat_trigger = "always = yes"
+    }
+}
+
+weapon_component_template = {
+    inline_script = {
+        script = components/kuat_template_common_weapon
+		kuat_icon = "GFX_ship_part_etim_laser_blue_03"					# 图标
+        kuat_index = ETIM													# 名称字符串1
+        kuat_weapon_type = LASER_CANNON										# 名称字符串2
+        kuat_weapon_name = ETM_MK3											# 名称字符串3
+        kuat_size = medium													# 武器规格，会自动放进名称里(titanic,extra_large,large,medium,small,point_defence)
+        kuat_component_type = standard_ship									# 舰船分类，会自动放进组件名称和component_set里(standard_ship代表普通舰船，bio_ship代表生物舰船，mutation代表动物朋友)
+        kuat_damage_type = instant											# 伤害类型，包含(instant,missile和point_defence)
+        kuat_prio_projectile = no
+        kuat_mutation_weapon_fixup = no										# 动物朋友武器的x槽伤害修正，如果原型武器是x就写extra_large,否则写no,类似的取值有torpedo,missile,point_defence和strike_craft，至于为什么这么多差分，要问蠢驴。
+        kuat_weapon_tag = "weapon_type_explosive"						# 默认带了难度修正所以tag有前后之分，以移除
+        kuat_extra_tag = "m_slot"
+        kuat_ai_tags = "weapon_role_anti_hull"
+        kuat_projectile_gfx = "sws_laser_cannon_medium_purple"
+        kuat_standard_cost = "energy = 1.0"									# 1.0即按倍率乘算。
+        kuat_rare_cost = "alloys = 1.0"
+        kuat_standard_upkeep = "energy = 0.1"
+        kuat_rare_upkeep = "alloys = 0.2"
+        kuat_has_upgrade = yes																		# 有上级组件写yes
+        kuat_upgrade_key = "ETIM_LASER_CANNON_ETM_MK4"												# 写上级组件的$kuat_index$_$kuat_weapon_type$_$kuat_weapon_name$
+        kuat_ai_weight = "1"
+        kuat_weight_modifier = "modifier = { factor = 5000 is_ai = no } modifier = { factor = 0 is_ai = yes }"
+        kuat_extra_weapon_datas = "no"																# 是导弹写missile，是舰载机写strike_craft，否则写no。
+
+        kuat_tech_overwrite = yes																	# 写yes强制覆盖科技的key
+        kuat_tech = "tr_eternal_laser_mk3_cannon"
+
+        kuat_component_set_overwrite = yes															# 写yes强制覆盖component_set的key
+        kuat_component_set = "ETIM_ETM_MK3_LASER_CANNON"
+
+        kuat_has_firing_arc = no																	# 写yes才有发射角度
+
+		kuat_component_set_size_restriction = no
+		kuat_shipsize = ""
+
+		kuat_trigger = "always = yes"
+    }
+}
+
+weapon_component_template = {
+    inline_script = {
+        script = components/kuat_template_common_weapon
+		kuat_icon = "GFX_ship_part_etim_laser_blue_04"					# 图标
+        kuat_index = ETIM													# 名称字符串1
+        kuat_weapon_type = LASER_CANNON										# 名称字符串2
+        kuat_weapon_name = ETM_MK4											# 名称字符串3
+        kuat_size = medium													# 武器规格，会自动放进名称里(titanic,extra_large,large,medium,small,point_defence)
+        kuat_component_type = standard_ship									# 舰船分类，会自动放进组件名称和component_set里(standard_ship代表普通舰船，bio_ship代表生物舰船，mutation代表动物朋友)
+        kuat_damage_type = instant											# 伤害类型，包含(instant,missile和point_defence)
+        kuat_prio_projectile = no
+        kuat_mutation_weapon_fixup = no										# 动物朋友武器的x槽伤害修正，如果原型武器是x就写extra_large,否则写no,类似的取值有torpedo,missile,point_defence和strike_craft，至于为什么这么多差分，要问蠢驴。
+        kuat_weapon_tag = "weapon_type_explosive"						# 默认带了难度修正所以tag有前后之分，以移除
+        kuat_extra_tag = "m_slot"
+        kuat_ai_tags = "weapon_role_anti_hull"
+        kuat_projectile_gfx = "sws_heavy_laser_cannon_entity_medium_purple"
+        kuat_standard_cost = "energy = 1.0"									# 1.0即按倍率乘算。
+        kuat_rare_cost = "alloys = 1.0"
+        kuat_standard_upkeep = "energy = 0.1"
+        kuat_rare_upkeep = "alloys = 0.2"
+        kuat_has_upgrade = yes																		# 有上级组件写yes
+        kuat_upgrade_key = "ETIM_LASER_CANNON_ETM_MK5"												# 写上级组件的$kuat_index$_$kuat_weapon_type$_$kuat_weapon_name$
+        kuat_ai_weight = "1"
+        kuat_weight_modifier = "modifier = { factor = 5000 is_ai = no } modifier = { factor = 0 is_ai = yes }"
+        kuat_extra_weapon_datas = "no"																# 是导弹写missile，是舰载机写strike_craft，否则写no。
+
+        kuat_tech_overwrite = yes																	# 写yes强制覆盖科技的key
+        kuat_tech = "tr_eternal_laser_mk4_cannon"
+
+        kuat_component_set_overwrite = yes															# 写yes强制覆盖component_set的key
+        kuat_component_set = "ETIM_ETM_MK4_LASER_CANNON"
+
+        kuat_has_firing_arc = no																	# 写yes才有发射角度
+
+		kuat_component_set_size_restriction = no
+		kuat_shipsize = ""
+
+		kuat_trigger = "always = yes"
+    }
+}
+
+weapon_component_template = {
+    inline_script = {
+        script = components/kuat_template_common_weapon
+		kuat_icon = "GFX_ship_part_etim_laser_blue_05"					# 图标
+        kuat_index = ETIM													# 名称字符串1
+        kuat_weapon_type = LASER_CANNON										# 名称字符串2
+        kuat_weapon_name = ETM_MK5											# 名称字符串3
+        kuat_size = medium													# 武器规格，会自动放进名称里(titanic,extra_large,large,medium,small,point_defence)
+        kuat_component_type = standard_ship									# 舰船分类，会自动放进组件名称和component_set里(standard_ship代表普通舰船，bio_ship代表生物舰船，mutation代表动物朋友)
+        kuat_damage_type = instant											# 伤害类型，包含(instant,missile和point_defence)
+        kuat_prio_projectile = no
+        kuat_mutation_weapon_fixup = no										# 动物朋友武器的x槽伤害修正，如果原型武器是x就写extra_large,否则写no,类似的取值有torpedo,missile,point_defence和strike_craft，至于为什么这么多差分，要问蠢驴。
+        kuat_weapon_tag = "weapon_type_explosive"						# 默认带了难度修正所以tag有前后之分，以移除
+        kuat_extra_tag = "m_slot"
+        kuat_ai_tags = "weapon_role_anti_hull"
+        kuat_projectile_gfx = "sws_heavy_laser_cannon_entity_medium_purple"
+        kuat_standard_cost = "energy = 1.0"									# 1.0即按倍率乘算。
+        kuat_rare_cost = "alloys = 1.0"
+        kuat_standard_upkeep = "energy = 0.1"
+        kuat_rare_upkeep = "alloys = 0.2"
+
+        kuat_has_upgrade = no																		# 有上级组件写yes
+        kuat_upgrade_key = ""																		# 写上级组件的$kuat_index$_$kuat_weapon_type$_$kuat_weapon_name$
+		
+        kuat_ai_weight = "1"
+        kuat_weight_modifier = "modifier = { factor = 5000 is_ai = no } modifier = { factor = 0 is_ai = yes }"
+        kuat_extra_weapon_datas = "no"																# 是导弹写missile，是舰载机写strike_craft，否则写no。
+
+        kuat_tech_overwrite = yes																	# 写yes强制覆盖科技的key
+        kuat_tech = "tr_eternal_laser_mk5_cannon"
+
+        kuat_component_set_overwrite = yes															# 写yes强制覆盖component_set的key
+        kuat_component_set = "ETIM_ETM_MK5_LASER_CANNON"
+
+        kuat_has_firing_arc = no																	# 写yes才有发射角度
+
+		kuat_component_set_size_restriction = no
+		kuat_shipsize = ""
+
+		kuat_trigger = "always = yes"
+    }
+}
+
+weapon_component_template = {
+    inline_script = {
+        script = components/kuat_template_common_weapon
+		kuat_icon = "GFX_ship_part_etim_laser_blue_01"					# 图标
+        kuat_index = ETIM													# 名称字符串1
+        kuat_weapon_type = LASER_CANNON										# 名称字符串2
+        kuat_weapon_name = ETM_MK1											# 名称字符串3
+        kuat_size = large													# 武器规格，会自动放进名称里(titanic,extra_large,large,medium,small,point_defence)
+        kuat_component_type = standard_ship									# 舰船分类，会自动放进组件名称和component_set里(standard_ship代表普通舰船，bio_ship代表生物舰船，mutation代表动物朋友)
+        kuat_damage_type = instant											# 伤害类型，包含(instant,missile和point_defence)
+        kuat_prio_projectile = no
+        kuat_mutation_weapon_fixup = no										# 动物朋友武器的x槽伤害修正，如果原型武器是x就写extra_large,否则写no,类似的取值有torpedo,missile,point_defence和strike_craft，至于为什么这么多差分，要问蠢驴。
+        kuat_weapon_tag = "weapon_type_explosive"						# 默认带了难度修正所以tag有前后之分，以移除
+        kuat_extra_tag = "l_slot"
+        kuat_ai_tags = "weapon_role_anti_hull"
+        kuat_projectile_gfx = "sws_laser_cannon_large_purple"
+        kuat_standard_cost = "energy = 1.0"									# 1.0即按倍率乘算。
+        kuat_rare_cost = "alloys = 1.0"
+        kuat_standard_upkeep = "energy = 0.1"
+        kuat_rare_upkeep = "alloys = 0.2"
+        kuat_has_upgrade = yes																		# 有上级组件写yes
+        kuat_upgrade_key = "ETIM_LASER_CANNON_ETM_MK2"												# 写上级组件的$kuat_index$_$kuat_weapon_type$_$kuat_weapon_name$
+        kuat_ai_weight = "1"
+        kuat_weight_modifier = "modifier = { factor = 5000 is_ai = no } modifier = { factor = 0 is_ai = yes }"
+        kuat_extra_weapon_datas = "no"																# 是导弹写missile，是舰载机写strike_craft，否则写no。
+
+        kuat_tech_overwrite = yes																	# 写yes强制覆盖科技的key
+        kuat_tech = "tr_eternal_laser_mk1_cannon"
+
+        kuat_component_set_overwrite = yes															# 写yes强制覆盖component_set的key
+        kuat_component_set = "ETIM_ETM_MK1_LASER_CANNON"
+
+        kuat_has_firing_arc = no																	# 写yes才有发射角度
+
+		kuat_component_set_size_restriction = no
+		kuat_shipsize = ""
+
+		kuat_trigger = "always = yes"
+    }
+}
+
+weapon_component_template = {
+    inline_script = {
+        script = components/kuat_template_common_weapon
+		kuat_icon = "GFX_ship_part_etim_laser_blue_02"					# 图标
+        kuat_index = ETIM													# 名称字符串1
+        kuat_weapon_type = LASER_CANNON										# 名称字符串2
+        kuat_weapon_name = ETM_MK2											# 名称字符串3
+        kuat_size = large													# 武器规格，会自动放进名称里(titanic,extra_large,large,medium,small,point_defence)
+        kuat_component_type = standard_ship									# 舰船分类，会自动放进组件名称和component_set里(standard_ship代表普通舰船，bio_ship代表生物舰船，mutation代表动物朋友)
+        kuat_damage_type = instant											# 伤害类型，包含(instant,missile和point_defence)
+        kuat_prio_projectile = no
+        kuat_mutation_weapon_fixup = no										# 动物朋友武器的x槽伤害修正，如果原型武器是x就写extra_large,否则写no,类似的取值有torpedo,missile,point_defence和strike_craft，至于为什么这么多差分，要问蠢驴。
+        kuat_weapon_tag = "weapon_type_explosive"						# 默认带了难度修正所以tag有前后之分，以移除
+        kuat_extra_tag = "l_slot"
+        kuat_ai_tags = "weapon_role_anti_hull"
+        kuat_projectile_gfx = "sws_laser_cannon_large_purple"
+        kuat_standard_cost = "energy = 1.0"									# 1.0即按倍率乘算。
+        kuat_rare_cost = "alloys = 1.0"
+        kuat_standard_upkeep = "energy = 0.1"
+        kuat_rare_upkeep = "alloys = 0.2"
+        kuat_has_upgrade = yes																		# 有上级组件写yes
+        kuat_upgrade_key = "ETIM_LASER_CANNON_ETM_MK3"												# 写上级组件的$kuat_index$_$kuat_weapon_type$_$kuat_weapon_name$
+        kuat_ai_weight = "1"
+        kuat_weight_modifier = "modifier = { factor = 5000 is_ai = no } modifier = { factor = 0 is_ai = yes }"
+        kuat_extra_weapon_datas = "no"																# 是导弹写missile，是舰载机写strike_craft，否则写no。
+
+        kuat_tech_overwrite = yes																	# 写yes强制覆盖科技的key
+        kuat_tech = "tr_eternal_laser_mk2_cannon"
+
+        kuat_component_set_overwrite = yes															# 写yes强制覆盖component_set的key
+        kuat_component_set = "ETIM_ETM_MK2_LASER_CANNON"
+
+        kuat_has_firing_arc = no																	# 写yes才有发射角度
+
+		kuat_component_set_size_restriction = no
+		kuat_shipsize = ""
+
+		kuat_trigger = "always = yes"
+    }
+}
+
+weapon_component_template = {
+    inline_script = {
+        script = components/kuat_template_common_weapon
+		kuat_icon = "GFX_ship_part_etim_laser_blue_03"					# 图标
+        kuat_index = ETIM													# 名称字符串1
+        kuat_weapon_type = LASER_CANNON										# 名称字符串2
+        kuat_weapon_name = ETM_MK3											# 名称字符串3
+        kuat_size = large													# 武器规格，会自动放进名称里(titanic,extra_large,large,medium,small,point_defence)
+        kuat_component_type = standard_ship									# 舰船分类，会自动放进组件名称和component_set里(standard_ship代表普通舰船，bio_ship代表生物舰船，mutation代表动物朋友)
+        kuat_damage_type = instant											# 伤害类型，包含(instant,missile和point_defence)
+        kuat_prio_projectile = no
+        kuat_mutation_weapon_fixup = no										# 动物朋友武器的x槽伤害修正，如果原型武器是x就写extra_large,否则写no,类似的取值有torpedo,missile,point_defence和strike_craft，至于为什么这么多差分，要问蠢驴。
+        kuat_weapon_tag = "weapon_type_explosive"						# 默认带了难度修正所以tag有前后之分，以移除
+        kuat_extra_tag = "l_slot"
+        kuat_ai_tags = "weapon_role_anti_hull"
+        kuat_projectile_gfx = "sws_laser_cannon_large_purple"
+        kuat_standard_cost = "energy = 1.0"									# 1.0即按倍率乘算。
+        kuat_rare_cost = "alloys = 1.0"
+        kuat_standard_upkeep = "energy = 0.1"
+        kuat_rare_upkeep = "alloys = 0.2"
+        kuat_has_upgrade = yes																		# 有上级组件写yes
+        kuat_upgrade_key = "ETIM_LASER_CANNON_ETM_MK4"												# 写上级组件的$kuat_index$_$kuat_weapon_type$_$kuat_weapon_name$
+        kuat_ai_weight = "1"
+        kuat_weight_modifier = "modifier = { factor = 5000 is_ai = no } modifier = { factor = 0 is_ai = yes }"
+        kuat_extra_weapon_datas = "no"																# 是导弹写missile，是舰载机写strike_craft，否则写no。
+
+        kuat_tech_overwrite = yes																	# 写yes强制覆盖科技的key
+        kuat_tech = "tr_eternal_laser_mk3_cannon"
+
+        kuat_component_set_overwrite = yes															# 写yes强制覆盖component_set的key
+        kuat_component_set = "ETIM_ETM_MK3_LASER_CANNON"
+
+        kuat_has_firing_arc = no																	# 写yes才有发射角度
+
+		kuat_component_set_size_restriction = no
+		kuat_shipsize = ""
+
+		kuat_trigger = "always = yes"
+    }
+}
+
+weapon_component_template = {
+    inline_script = {
+        script = components/kuat_template_common_weapon
+		kuat_icon = "GFX_ship_part_etim_laser_blue_04"					# 图标
+        kuat_index = ETIM													# 名称字符串1
+        kuat_weapon_type = LASER_CANNON										# 名称字符串2
+        kuat_weapon_name = ETM_MK4											# 名称字符串3
+        kuat_size = large													# 武器规格，会自动放进名称里(titanic,extra_large,large,medium,small,point_defence)
+        kuat_component_type = standard_ship									# 舰船分类，会自动放进组件名称和component_set里(standard_ship代表普通舰船，bio_ship代表生物舰船，mutation代表动物朋友)
+        kuat_damage_type = instant											# 伤害类型，包含(instant,missile和point_defence)
+        kuat_prio_projectile = no
+        kuat_mutation_weapon_fixup = no										# 动物朋友武器的x槽伤害修正，如果原型武器是x就写extra_large,否则写no,类似的取值有torpedo,missile,point_defence和strike_craft，至于为什么这么多差分，要问蠢驴。
+        kuat_weapon_tag = "weapon_type_explosive"						# 默认带了难度修正所以tag有前后之分，以移除
+        kuat_extra_tag = "l_slot"
+        kuat_ai_tags = "weapon_role_anti_hull"
+        kuat_projectile_gfx = "sws_heavy_laser_cannon_entity_large_purple"
+        kuat_standard_cost = "energy = 1.0"									# 1.0即按倍率乘算。
+        kuat_rare_cost = "alloys = 1.0"
+        kuat_standard_upkeep = "energy = 0.1"
+        kuat_rare_upkeep = "alloys = 0.2"
+        kuat_has_upgrade = yes																		# 有上级组件写yes
+        kuat_upgrade_key = "ETIM_LASER_CANNON_ETM_MK5"												# 写上级组件的$kuat_index$_$kuat_weapon_type$_$kuat_weapon_name$
+        kuat_ai_weight = "1"
+        kuat_weight_modifier = "modifier = { factor = 5000 is_ai = no } modifier = { factor = 0 is_ai = yes }"
+        kuat_extra_weapon_datas = "no"																# 是导弹写missile，是舰载机写strike_craft，否则写no。
+
+        kuat_tech_overwrite = yes																	# 写yes强制覆盖科技的key
+        kuat_tech = "tr_eternal_laser_mk4_cannon"
+
+        kuat_component_set_overwrite = yes															# 写yes强制覆盖component_set的key
+        kuat_component_set = "ETIM_ETM_MK4_LASER_CANNON"
+
+        kuat_has_firing_arc = no																	# 写yes才有发射角度
+
+		kuat_component_set_size_restriction = no
+		kuat_shipsize = ""
+
+		kuat_trigger = "always = yes"
+    }
+}
+
+weapon_component_template = {
+    inline_script = {
+        script = components/kuat_template_common_weapon
+		kuat_icon = "GFX_ship_part_etim_laser_blue_05"					# 图标
+        kuat_index = ETIM													# 名称字符串1
+        kuat_weapon_type = LASER_CANNON										# 名称字符串2
+        kuat_weapon_name = ETM_MK5											# 名称字符串3
+        kuat_size = large													# 武器规格，会自动放进名称里(titanic,extra_large,large,medium,small,point_defence)
+        kuat_component_type = standard_ship									# 舰船分类，会自动放进组件名称和component_set里(standard_ship代表普通舰船，bio_ship代表生物舰船，mutation代表动物朋友)
+        kuat_damage_type = instant											# 伤害类型，包含(instant,missile和point_defence)
+        kuat_prio_projectile = no
+        kuat_mutation_weapon_fixup = no										# 动物朋友武器的x槽伤害修正，如果原型武器是x就写extra_large,否则写no,类似的取值有torpedo,missile,point_defence和strike_craft，至于为什么这么多差分，要问蠢驴。
+        kuat_weapon_tag = "weapon_type_explosive"						# 默认带了难度修正所以tag有前后之分，以移除
+        kuat_extra_tag = "l_slot"
+        kuat_ai_tags = "weapon_role_anti_hull"
+        kuat_projectile_gfx = "sws_heavy_laser_cannon_entity_large_purple"
+        kuat_standard_cost = "energy = 1.0"									# 1.0即按倍率乘算。
+        kuat_rare_cost = "alloys = 1.0"
+        kuat_standard_upkeep = "energy = 0.1"
+        kuat_rare_upkeep = "alloys = 0.2"
+
+        kuat_has_upgrade = no																		# 有上级组件写yes
+        kuat_upgrade_key = ""																		# 写上级组件的$kuat_index$_$kuat_weapon_type$_$kuat_weapon_name$
+		
+        kuat_ai_weight = "1"
+        kuat_weight_modifier = "modifier = { factor = 5000 is_ai = no } modifier = { factor = 0 is_ai = yes }"
+        kuat_extra_weapon_datas = "no"																# 是导弹写missile，是舰载机写strike_craft，否则写no。
+
+        kuat_tech_overwrite = yes																	# 写yes强制覆盖科技的key
+        kuat_tech = "tr_eternal_laser_mk5_cannon"
+
+        kuat_component_set_overwrite = yes															# 写yes强制覆盖component_set的key
+        kuat_component_set = "ETIM_ETM_MK5_LASER_CANNON"
+
+        kuat_has_firing_arc = no																	# 写yes才有发射角度
+
+		kuat_component_set_size_restriction = no
+		kuat_shipsize = ""
+
+		kuat_trigger = "always = yes"
+    }
+}
+
+weapon_component_template = {
+    inline_script = {
+        script = components/kuat_template_common_weapon
+		kuat_icon = "GFX_ship_part_etim_concussion_missile"			        # 图标
+        kuat_index = ETIM													# 名称字符串1
+        kuat_weapon_type = CONCUSSION_MISSILE							    # 名称字符串2
+        kuat_weapon_name = ETM_MKF											# 名称字符串3
+        kuat_size = torpedo											        # 武器规格，会自动放进名称里(titanic,extra_large,large,medium,small,point_defence)
+        kuat_component_type = standard_ship									# 舰船分类，会自动放进组件名称和component_set里(standard_ship代表普通舰船，bio_ship代表生物舰船，mutation代表动物朋友)
+        kuat_damage_type = missile											# 伤害类型，包含(instant,missile和point_defence)
+        kuat_prio_projectile = no
+        kuat_mutation_weapon_fixup = no										# 动物朋友武器的x槽伤害修正，如果原型武器是x就写extra_large,否则写no,类似的取值有torpedo,missile,point_defence和strike_craft，至于为什么这么多差分，要问蠢驴。
+        kuat_weapon_tag = "weapon_type_kinetic weapon_type_energy"			# 默认带了难度修正所以tag有前后之分，以移除
+        kuat_extra_tag = "weapon_type_kuat_missile_ki_scale g_slot"
+        kuat_ai_tags = "weapon_role_anti_hull"
+        kuat_projectile_gfx = "exe_medium_concussion_h_missile"
+        kuat_standard_cost = "energy = 1.0"									# 1.0即按倍率乘算。
+        kuat_rare_cost = "alloys = 1.0"
+        kuat_standard_upkeep = "energy = 0.1"
+        kuat_rare_upkeep = "alloys = 0.2"
+
+        kuat_has_upgrade = no																		# 有上级组件写yes
+        kuat_upgrade_key = ""																		# 写上级组件的$kuat_index$_$kuat_weapon_type$_$kuat_weapon_name$
+		
+        kuat_ai_weight = "1"
+        kuat_weight_modifier = "modifier = { factor = 5000 is_ai = no } modifier = { factor = 0 is_ai = yes }"
+        kuat_extra_weapon_datas = "missile"																# 是导弹写missile，是舰载机写strike_craft，否则写no。
+
+        kuat_tech_overwrite = yes																	# 写yes强制覆盖科技的key
+        kuat_tech = "tr_eternal_concussion_missile"
+
+        kuat_component_set_overwrite = no															# 写yes强制覆盖component_set的key
+
+        kuat_has_firing_arc = no																	# 写yes才有发射角度
+
+		kuat_component_set_size_restriction = no
+		kuat_shipsize = ""
+
+		kuat_trigger = "always = yes"
+    }
+   	inline_script = {
 		script = kuat_weapon_event/kuat_missle_weapon_destroyed
-		kuat_damage_max = 100000
-		kuat_damage_base = 1000
+		kuat_damage_max = @kuat_ETIM_CONCUSSION_MISSILE_ETM_MKF_total_damage_max
+		kuat_damage_base = @kuat_ETIM_CONCUSSION_MISSILE_ETM_MKF_damage_max
 		kuat_ship_damage_buff = 0
 		kuat_weapon_damage_buff = 1
 		kuat_slot = g
@@ -670,51 +677,50 @@ weapon_component_template = {
 		kuat_kinetic = yes
 		kuat_explosive = no
 		kuat_superlazer = no
-	}
-	
-	power = -26
-	ai_weight = { weight = 1 modifier = { factor = 5000 is_ai = no } modifier = { factor = 0 is_ai = yes } }
-	prerequisites = { "tr_eternal_concussion_missile" }
-	component_set = "ETIM_CONCUSSION_MISSILE"
-	projectile_gfx = "exe_medium_concussion_h_missile"
-	tags = { weapon_type_kinetic weapon_type_energy g_slot weapon_type_kuat_missile_ki_scale }
-	ai_tags = { weapon_role_anti_hull }
+	} 
 }
 
 weapon_component_template = {
-	key = "ETIM_DEFENCE_TURBO"
-	size = point_defence
-	#entity = "small_laser_gun_entity"
-	
-	icon = "GFX_ship_part_etim_defence_turbo"
-	icon_frame = 1
-	
-	damage = { min = 1 max = 99 }
-	windup = { min = 1 max = 5 }
-	total_fire_time = 2
-	range = 50.0
-	shield_penetration = 1.0
-	armor_penetration = 1.0
-	accuracy = 1.0
-	tracking = 1.0
-	power = -30
-	
-	target_type = target_enemies
-	target_focus = spread
+    inline_script = {
+        script = components/kuat_template_common_weapon
+		kuat_icon = "GFX_ship_part_etim_defence_turbo"			            # 图标
+        kuat_index = ETIM													# 名称字符串1
+        kuat_weapon_type = DEFENCE_TURBO							        # 名称字符串2
+        kuat_weapon_name = ETM_MKF											# 名称字符串3
+        kuat_size = point_defence											# 武器规格，会自动放进名称里(titanic,extra_large,large,medium,small,point_defence)
+        kuat_component_type = standard_ship									# 舰船分类，会自动放进组件名称和component_set里(standard_ship代表普通舰船，bio_ship代表生物舰船，mutation代表动物朋友)
+        kuat_damage_type = point_defence									# 伤害类型，包含(instant,missile和point_defence)
+        kuat_prio_projectile = no
+        kuat_mutation_weapon_fixup = no										# 动物朋友武器的x槽伤害修正，如果原型武器是x就写extra_large,否则写no,类似的取值有torpedo,missile,point_defence和strike_craft，至于为什么这么多差分，要问蠢驴。
+        kuat_weapon_tag = "weapon_type_energy"			                    # 默认带了难度修正所以tag有前后之分，以移除
+        kuat_extra_tag = "weapon_type_point_defense"
+        kuat_ai_tags = "weapon_role_point_defense"
+        kuat_projectile_gfx = "sws_pd_turbolaser_blue"
+        kuat_standard_cost = "energy = 1.0"									# 1.0即按倍率乘算。
+        kuat_rare_cost = "alloys = 1.0"
+        kuat_standard_upkeep = "energy = 0.1"
+        kuat_rare_upkeep = "alloys = 0.2"
 
-	resources = {
-		category = ship_components
-		cost = { alloys = 15 }
-	}
-	
-	ai_weight = { weight = 1 modifier = { factor = 5000 is_ai = no } modifier = { factor = 0 is_ai = yes } }
-	prerequisites = { "tr_eternal_defence_turbo" }
-	component_set = "ETIM_DEFENCE_TURBO"
-	type = point_defence
-	projectile_gfx = "sws_pd_turbolaser_blue"
-	tags = { weapon_type_point_defense weapon_type_energy }
-	point_defence_targets = { "missile" "strike_craft" }
-	ai_tags = { weapon_role_point_defense }	
+        kuat_has_upgrade = no																		# 有上级组件写yes
+        kuat_upgrade_key = ""																		# 写上级组件的$kuat_index$_$kuat_weapon_type$_$kuat_weapon_name$
+		
+        kuat_ai_weight = "1"
+        kuat_weight_modifier = "modifier = { factor = 5000 is_ai = no } modifier = { factor = 0 is_ai = yes }"
+        kuat_extra_weapon_datas = "no"																# 是导弹写missile，是舰载机写strike_craft，否则写no。
+
+        kuat_tech_overwrite = yes																	# 写yes强制覆盖科技的key
+        kuat_tech = "tr_eternal_defence_turbo"
+
+        kuat_component_set_overwrite = no															# 写yes强制覆盖component_set的key
+
+        kuat_has_firing_arc = no																	# 写yes才有发射角度
+
+		kuat_component_set_size_restriction = no
+		kuat_shipsize = ""
+
+		kuat_trigger = "always = yes"
+    }
+    point_defence_targets = { "missile" "strike_craft" }
 }
 
 weapon_component_template = {
