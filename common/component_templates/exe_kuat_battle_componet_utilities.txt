@@ -152,7 +152,7 @@ utility_component_template = {
 }
 
 utility_component_template = {
-	key = "EXE_STARBASE_MEAGASTRUCTRUE_AUX_1"
+	key = "EXE_STARBASE_MEAGASTRUCTRUE_AUX"
 	size = medium
 	icon = "GFX_executor_ship_part_aux_system"
 	icon_frame = 1
@@ -165,11 +165,11 @@ utility_component_template = {
 		radius = @kuat_shipAuraRange
 		apply_on = ships
 		stack_info = {
-			id = aura_eternal_station_buffer_control_buff
-			priority = 5
+			id = aura_eternal_ship_buffer_control_buff
+			priority = 50
 		}
 		modifier = {
-			kuat_damage_control_modifier = 0.3
+			kuat_damage_control_modifier = 0.50
 		}
 		graphics = {
 			area_effect = { entity = "kuat_ship_aura_repair_entity" dynamic_scale = yes }
@@ -180,17 +180,19 @@ utility_component_template = {
 }
 
 utility_component_template = {
-	key = "EXE_VENATOR_MODIFER_AUX_1"
+	key = "EXE_VENATOR_MODIFER_SELF_AUX"
 	size = medium
 	icon = "GFX_executor_ship_part_aux_system"
 	icon_frame = 1
-	power = 400
+	power = 100
 	component_set = "ship_aura_components"
-	hidden = yes
-	ship_modifier = { ship_tracking_mult = 1 }
+	prerequisites = { tech_kuat_THRUSTER }
+	size_restriction = { Venator_modifier Venator_modifier_II }
+	modifier = { kuat_damage_control_modifier = 0.05 }
 }
+
 utility_component_template = {
-	key = "EXE_VENATOR_MODIFER_AUX_2"
+	key = "EXE_VENATOR_MODIFER_AUX"
 	size = medium
 	icon = "GFX_executor_ship_part_aux_system"
 	icon_frame = 1
@@ -203,10 +205,10 @@ utility_component_template = {
 		apply_on = ships
 		stack_info = {
 			id = aura_eternal_ship_buffer_control_buff
-			priority = 5
+			priority = 25
 		}
 		modifier = {
-			kuat_damage_control_modifier = 0.2
+			kuat_damage_control_modifier = 0.25
 		}
 		graphics = {
 			area_effect = { entity = "kuat_ship_aura_repair_entity" dynamic_scale = yes }
@@ -256,6 +258,31 @@ utility_component_template = {
 	}
 
 	hidden = yes
+	component_set = "KUAT_ENIGMATIC_ENCODER"
+
+	ship_modifier = {
+		ship_armor_add = 10
+		ship_shield_add = 10
+	}
+
+	inline_script = kuat_weapon_event/kuat_aux_sheild_and_armor_destroyed
+
+	ai_weight = { weight = 4000 }
+}
+
+utility_component_template = {
+	key = "KUAT_ENIGMATIC_ENCODER_VENATOR"
+	size = aux
+	icon = "GFX_ship_part_kuat_enigmatic_encoder"
+	icon_frame = 1
+	power = -50
+	resources = {
+		category = ship_components
+		cost = { alloys = 20 }
+	}
+
+	prerequisites = { tech_kuat_THRUSTER }
+	size_restriction = { Venator_modifier Venator_modifier_II }
 	component_set = "KUAT_ENIGMATIC_ENCODER"
 
 	ship_modifier = {
