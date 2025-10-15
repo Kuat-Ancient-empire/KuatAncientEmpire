@@ -572,15 +572,17 @@ fleet_event = {
 		name = "exe_return_invasion.333.a"
 		hidden_effect = {  
 			if = {
-				limit = { exists = owner owner = { is_ai = no } }
-				set_location = owner.capital_scope
+				limit = { 
+					exists = owner owner = { is_ai = no } 
+					solar_system = { is_capital_system = no } 
+				}
+				set_location = owner.capital_star
 			}
 			else_if = {
 				limit = { can_go_mia = yes }
-				clear_orders = yes clear_fleet_actions = this
-				set_mia = mia_return_home
+				clear_orders = yes clear_fleet_actions = this set_mia = mia_return_home 
 			}
-			else = { destroy_fleet = { destroy_template = yes target = this } }
+			else = { destroy_fleet = { target = this destroy_template = yes kill_leader = yes } }
 		}
 		ai_chance = { weight = 100 }
 		default_hide_option = yes
@@ -2115,54 +2117,17 @@ country_event = {
 			}
 			else = {  
 				if = {
-					limit = { exists = owner owner = { is_ai = no } }
+					limit = { 
+						exists = owner owner = { is_ai = no } 
+						solar_system = { is_capital_system = no } 
+					}
 					set_location = owner.capital_star
 				}
 				else_if = {
-					limit = { exists = owner owner = { is_ai = yes } }
-					owner = {
-						if = { 
-							limit = { exists = capital_scope } 
-							prev = { clear_orders = yes clear_fleet_actions = this set_location = prev.capital_scope } 
-						}
-						else_if = {
-							limit = { any_owned_fleet = {
-								exists = solar_system NOT = { is_same_value = prevprev }
-							} }
-							random_owned_fleet = {
-								limit = { exists = solar_system NOT = { is_same_value = prevprev } }
-								prevprev = { clear_orders = yes clear_fleet_actions = this set_location = prev }
-							}
-						}
-						else_if = {
-							limit = {
-								any_system = { count_fleet_in_system = {
-									count = 0 limit = { exists = controller controller = { is_hostile = prevprevprev } }
-								} }
-							}
-							random_system = {
-								limit = { count_fleet_in_system = {
-									count = 0 limit = { exists = controller controller = { is_hostile = prevprevprev } }
-								} }
-								prevprev = { clear_orders = yes clear_fleet_actions = this set_location = prev.star }
-							}
-						}
-						else = { prev = { 
-							if = { 
-								limit = { can_go_mia = yes } 
-								clear_orders = yes clear_fleet_actions = this set_mia = mia_return_home 
-							}
-							else = { destroy_fleet = this }
-						} }
-					}
+					limit = { can_go_mia = yes }
+					clear_orders = yes clear_fleet_actions = this set_mia = mia_return_home 
 				}
-				else = { 
-					if = { 
-						limit = { can_go_mia = yes } 
-						clear_orders = yes clear_fleet_actions = this set_mia = mia_return_home 
-					} 
-					else = { destroy_fleet = this } 
-				}
+				else = { destroy_fleet = { target = this destroy_template = yes kill_leader = yes } }
 			}
 			set_timed_fleet_flag = { flag = random_list_flagship_checksum_placeholder days = 1 }
 		} }

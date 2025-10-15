@@ -731,15 +731,17 @@ fleet_event = {
 		name = "exe_return_invasion.333.a"
 		hidden_effect = {  
 			if = {
-				limit = { exists = owner owner = { is_ai = no } }
-				set_location = owner.capital_scope
+				limit = { 
+					exists = owner owner = { is_ai = no } 
+					solar_system = { is_capital_system = no } 
+				}
+				set_location = owner.capital_star
 			}
 			else_if = {
 				limit = { can_go_mia = yes }
-				clear_orders = yes clear_fleet_actions = this
-				set_mia = mia_return_home
+				clear_orders = yes clear_fleet_actions = this set_mia = mia_return_home 
 			}
-			else = { destroy_fleet = { destroy_template = yes target = this } }
+			else = { destroy_fleet = { target = this destroy_template = yes kill_leader = yes } }
 		}
 		ai_chance = { weight = 100 }
 		default_hide_option = yes
