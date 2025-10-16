@@ -2866,3 +2866,32 @@ country_event = {
 		}
 	}
 }
+
+country_event = {
+	id = executor_build.1011
+	hide_window = yes
+	is_triggered_only = yes
+	trigger = {
+		from = { is_defensive_army = yes }
+		fromfromfrom = {
+			exists = owner
+			owner  = { is_same_value = root }
+			has_planet_flag = has_building_kuat_command_center_auto
+			OR = {
+				has_building = building_kuat_command_center_auto
+				has_building = building_kuat_ai_command_center_auto
+			}
+			check_variable = { which = planet_production_array value > 2 }
+		}
+	}
+
+	immediate = {
+		create_army_on_planet = {
+			PLANET = fromfromfrom
+			OWNER = root
+			TYPE = kuat_auto_planet_defender
+			SPECIES = root.from.species
+		}
+		fromfromfrom = { subtract_variable = { which = planet_production_array value = 2 } }
+	}
+}
