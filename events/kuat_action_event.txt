@@ -310,3 +310,70 @@ event = {
 		}
 	}
 }
+
+fleet_event = {
+	id = ai_action.6
+	hide_window = yes
+	is_triggered_only = yes
+	trigger = {
+		is_scope_type = fleet 
+		OR = {
+			is_ship_class = shipclass_military
+			is_ship_class = shipclass_military_special
+			is_ship_class = shipclass_transport
+		} 
+		NOT = { has_fleet_flag = fire_kuat_fleet_defense_action }
+	}
+	immediate = {
+		if = {
+			limit = { has_fleet_flag = fire_kuat_fleet_attack_action }
+			remove_fleet_flag = fire_kuat_fleet_attack_action
+			remove_automatic_fleet_avaliable = yes
+		}
+		else = {
+			set_fleet_flag = fire_kuat_fleet_attack_action
+			owner = { save_global_event_target_as = kuat_friendly_faction }
+			switch = {
+				trigger = is_ship_class
+				shipclass_military = { set_automatic_fleet_avaliable = {
+					TYPE = millatry_automatic_action
+					FRIENDLY_TARGET = event_target:kuat_friendly_faction
+				} }
+				shipclass_military_special = { set_automatic_fleet_avaliable = { 
+					TYPE = colossus_automatic_action  
+					FRIENDLY_TARGET = event_target:kuat_friendly_faction 
+				} }
+				shipclass_transport = { set_automatic_fleet_avaliable = { 
+					TYPE = transport_automatic_action  
+					FRIENDLY_TARGET = event_target:kuat_friendly_faction 
+				} }
+			}
+		}
+	}
+}
+
+fleet_event = {
+	id = ai_action.9
+	hide_window = yes
+	is_triggered_only = yes
+	trigger = {
+		is_scope_type = fleet 
+		is_ship_class = shipclass_military
+		NOT = { has_fleet_flag = fire_kuat_fleet_attack_action }
+	}
+	immediate = {
+		if = {
+			limit = { has_fleet_flag = fire_kuat_fleet_defense_action }
+			remove_fleet_flag = fire_kuat_fleet_defense_action
+			remove_automatic_fleet_avaliable = yes 
+		}
+		else = {
+			set_fleet_flag = fire_kuat_fleet_defense_action
+			owner = { save_global_event_target_as = kuat_friendly_faction }
+			set_automatic_fleet_avaliable = { 
+				TYPE = defender_automatic_action  
+				FRIENDLY_TARGET = event_target:kuat_friendly_faction 
+			}
+		}
+	}
+}

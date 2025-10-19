@@ -59,34 +59,7 @@ create_elternal_system_warbase = {
 	system_star = {
 		set_planet_size = -1
 		set_planet_entity = { entity = starforge_avoid_entity }
-		if = {
-			limit = { OR = {
-				has_global_flag = difficult_exe_invasion
-				has_global_flag = ban_exe_invasion
-			} }
-			create_fleet = {
-				name = "Name_Eternal_station_fleet"
-				settings = { spawn_debris = no can_disband = no }
-				effect = {
-					set_owner = event_target:eternal_fleet_country
-					create_ship = { design = "NAME_EXE_STARBASE_MEGASTRUCTURE_1" effect = { 
-						set_variable = { which = STARBASE_HEALTH_VAR value = 0 }
-						kuat_battle_disable_ship_at_health = { 
-							FLAG = enable_disable_starbase 
-							Disable_health = 0.01 
-							WHICH = STARBASE_HEALTH_VAR 
-							HEALTH = value:kuat_dynamic_exist_life_times 
-						}
-						set_ship_flag = ag_kuat_invasion_starbase
-					} }
-					set_location = { target = prev distance = -1 angle = 0 }
-					set_fleet_flag = ag_kuat_invasion_starbase
-					set_fleet_flag = kuat_eternal_starbase_hull_control
-					[[LOCK] set_event_locked = $LOCK$ ]
-				}
-			}
-		} 
-		else = { create_fleet = {
+		create_fleet = {
 			name = "Name_Eternal_station_fleet"
 			settings = { spawn_debris = no can_disband = no }
 			effect = {
@@ -106,7 +79,7 @@ create_elternal_system_warbase = {
 				set_fleet_flag = kuat_eternal_starbase_hull_control
 				[[LOCK] set_event_locked = $LOCK$ ]
 			}
-		} }
+		}
 		create_ambient_object = { type = "contingency_1" location = this }
 		last_created_ambient_object = {
 			set_ambient_object_flag = space_storm_object

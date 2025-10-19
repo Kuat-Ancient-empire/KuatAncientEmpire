@@ -1,0 +1,63 @@
+#自动作战
+scripted_action = {
+	scope = self
+
+	button_visible = {
+		OR = {
+			is_ship_class = shipclass_military
+			is_ship_class = shipclass_military_special
+			is_ship_class = shipclass_transport
+		}
+	}
+
+	button_clickable = {
+		custom_tooltip = {
+			text = "kuat_fleet_attack_action_allow"
+			OR = {
+				AND = { exists = owner owner = { is_at_war = yes } }
+				has_fleet_flag = fire_kuat_fleet_attack_action
+			}
+		}
+		custom_tooltip = {
+			text = "kuat_fleet_attack_defender_allow"
+			NOT = { has_fleet_flag = fire_kuat_fleet_defense_action }
+		}
+	}
+
+	name = on_kuat_auto_dreadnought_fleet_action_activated
+	tooltip = kuat_auto_dreadnought_fleet_action_button
+	icon = GFX_fleet_action_kuat_icon_fleet_auto_action
+	icon_selected = GFX_fleet_action_kuat_icon_fleet_auto_action
+	activity_key = kuat_auto_dreadnought_fleet_action_activity_key
+	context_menu_name = kuat_auto_dreadnought_fleet_action_menu_title
+	progress_activity_key = kuat_auto_dreadnought_fleet_action_progress_activity_key
+	cooldown = 1
+	shortcut = "SHIFT+A"
+	slot = 1
+}
+
+scripted_action = {
+	scope = self
+
+	button_visible = {
+		is_ship_class = shipclass_military
+	}
+
+	button_clickable = {
+		custom_tooltip = {
+			text = "kuat_fleet_attack_defender_allow"
+			NOT = { has_fleet_flag = fire_kuat_fleet_attack_action }
+		}
+	}
+
+	name = on_kuat_auto_dreadnought_defender_action_activated
+	tooltip = kuat_auto_dreadnought_defender_action_button
+	icon = GFX_fleet_action_kuat_icon_fleet_defender_action
+	icon_selected = GFX_fleet_action_kuat_icon_fleet_defender_action
+	activity_key = kuat_auto_dreadnought_defender_action_activity_key
+	context_menu_name = kuat_auto_dreadnought_defender_action_menu_title
+	progress_activity_key = kuat_auto_dreadnought_defender_action_progress_activity_key
+	cooldown = 1
+	shortcut = "SHIFT+D"
+	slot = 2
+}
