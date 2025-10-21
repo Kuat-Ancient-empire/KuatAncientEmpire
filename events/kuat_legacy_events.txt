@@ -2,17 +2,6 @@ namespace = kuat_legacy
 @standard_lower_days = 5
 @standard_event_days = 10
 @standard_random_days = 15
-country_event = {
-	id = kuat_legacy.0
-	hide_window = yes
-	is_triggered_only = yes
-	trigger = {
-		kuat_is_player_country = yes
-		kuat_is_enable_shadow_origin = yes
-	}
-	immediate = { start_situation = { type = situation_legacy_pretext_action target = root } }
-}
-
 #GAIA ARCHITECT
 country_event = {
 	id = kuat_legacy.1
@@ -628,7 +617,20 @@ ship_event = {
 	hide_window = no
 	is_triggered_only = yes
 	title = kuat_legacy.21.title
-	desc = kuat_legacy.21.desc
+	desc = {
+		trigger = {
+			exists = owner
+			owner = { kuat_is_post_apocalyptic_kuat_origin = no }
+		}
+		text = kuat_legacy.21.desc
+	}
+	desc = {
+		trigger = {
+			exists = owner
+			owner = { kuat_is_post_apocalyptic_kuat_origin = yes }
+		}
+		text = kuat_legacy.21.kuat_post_apocalyptic_legacy.desc
+	}
 	diplomatic = yes
 	picture_event_data = { room = black_hole_room }
 	custom_gui = "kuat_event_m_window"
@@ -636,13 +638,13 @@ ship_event = {
 	trigger = {
 		fromfrom = { 
 			has_country_flag = fire_the_legacy_kuat_stage_4 
-			NOT = { has_country_flag = kuat_fire_legacy_21_once }
+			NOT = { has_country_flag = fired_the_legacy_kuat_stage_4 }
 		}
 		from = { has_star_flag = myst_system_1 }
 	}
 	immediate = {
 		fromfrom = {
-			set_country_flag = kuat_fire_legacy_21_once
+			set_country_flag = fired_the_legacy_kuat_stage_4
 			add_event_chain_counter = {
 				event_chain = ag_legacy_invasion_chain
 				counter = ag_legacy_system_amount
@@ -663,7 +665,20 @@ fleet_event = {
 	id = kuat_legacy.22
 	hide_window = no
 	title = "kuat_legacy.22.title"
-	desc = "kuat_legacy.22.desc"
+	desc = {
+		trigger = {
+			exists = owner
+			owner = { kuat_is_post_apocalyptic_kuat_origin = no }
+		}
+		text = kuat_legacy.22.desc
+	}
+	desc = {
+		trigger = {
+			exists = owner
+			owner = { kuat_is_post_apocalyptic_kuat_origin = yes }
+		}
+		text = kuat_legacy.22.kuat_post_apocalyptic_legacy.desc
+	}
 	picture = GFX_evt_habitable_dig_site
 	show_sound = event_wind_ruins
 	is_triggered_only = yes
@@ -686,7 +701,20 @@ fleet_event = {
 	id = kuat_legacy.23
 	hide_window = no
 	title = "kuat_legacy.23.title"
-	desc = "kuat_legacy.23.desc"
+	desc = {
+		trigger = {
+			exists = owner
+			owner = { kuat_is_post_apocalyptic_kuat_origin = no }
+		}
+		text = kuat_legacy.23.desc
+	}
+	desc = {
+		trigger = {
+			exists = owner
+			owner = { kuat_is_post_apocalyptic_kuat_origin = yes }
+		}
+		text = kuat_legacy.23.kuat_post_apocalyptic_legacy.desc
+	}	
 	picture = GFX_evt_physics_research
 	show_sound = event_wind_ruins
 	is_triggered_only = yes
@@ -709,7 +737,20 @@ fleet_event = {
 	id = kuat_legacy.24
 	hide_window = no
 	title = "kuat_legacy.24.title"
-	desc = "kuat_legacy.24.desc"
+	desc = {
+		trigger = {
+			exists = owner
+			owner = { kuat_is_post_apocalyptic_kuat_origin = no }
+		}
+		text = kuat_legacy.24.desc
+	}
+	desc = {
+		trigger = {
+			exists = owner
+			owner = { kuat_is_post_apocalyptic_kuat_origin = yes }
+		}
+		text = kuat_legacy.24.kuat_post_apocalyptic_legacy.desc
+	}	
 	picture = GFX_evt_sapient_AI
 	is_triggered_only = yes
 	show_sound = event_wind_ruins
@@ -732,7 +773,20 @@ fleet_event = {
 	id = kuat_legacy.25
 	hide_window = no
 	title = "kuat_legacy.25.title"
-	desc = "kuat_legacy.25.desc"
+	desc = {
+		trigger = {
+			exists = owner
+			owner = { kuat_is_post_apocalyptic_kuat_origin = no }
+		}
+		text = kuat_legacy.25.desc
+	}
+	desc = {
+		trigger = {
+			exists = owner
+			owner = { kuat_is_post_apocalyptic_kuat_origin = yes }
+		}
+		text = kuat_legacy.25.kuat_post_apocalyptic_legacy.desc
+	}		
 	show_sound = event_wind_ruins
 	picture = GFX_evt_junkheap
 	is_triggered_only = yes
@@ -749,7 +803,21 @@ fleet_event = {
 		name = kuat_legacy.25.a
 		small_artifact_reward = yes
 		hidden_effect = { root.owner = {
-			country_event = { id = kuat_legacy.49 days = @standard_event_days random = @standard_random_days }
+			if = {
+				limit = { kuat_is_post_apocalyptic_kuat_origin = no }
+				country_event = { 
+					id = kuat_legacy.49 
+					days = @standard_event_days 
+					random = @standard_random_days 
+				}
+			}
+			else = {
+				country_event = { 
+					id = kuat_post_apocalyptic_legacy.5
+					days = @standard_event_days 
+					random = @standard_random_days 
+				}
+			}
 			set_country_flag = fire_the_legacy_kuat_stage_5
 			if = {
 				limit = { NOT = { has_technology = tech_hyper_drive_1 } }
@@ -772,7 +840,18 @@ fleet_event = {
 country_event = {
 	id = kuat_legacy.43
 	title = "kuat_lagacy.251.name"
-	desc = "kuat_lagacy.251.desc"
+	desc = {
+		trigger = {
+			kuat_is_post_apocalyptic_kuat_origin = no
+		}
+		text = kuat_lagacy.251.desc
+	}
+	desc = {
+		trigger = {
+			kuat_is_post_apocalyptic_kuat_origin = yes
+		}
+		text = kuat_lagacy.251.kuat_post_apocalyptic_legacy.desc
+	}	
 	diplomatic = yes
 	fire_only_once = yes
 	picture_event_data = { room = contingency_planet_room }
@@ -784,10 +863,19 @@ country_event = {
 		#event_target:will_be_add_ringworld = { kuat_has_researcher = yes }
 	}
 	mean_time_to_happen = { months = 1 }
-	immediate = { start_situation = {
-		type = situation_unlocked_the_A_Area
-		target = this
-	} }
+	immediate = { 
+		if = {
+			limit = { kuat_is_post_apocalyptic_kuat_origin = no }
+			start_situation = { type = situation_unlocked_the_A_Area target = this }
+		}
+		else = {
+			enable_special_project = {
+				name = kuat_post_apocalyptic_kuat_eternal_starbase
+				location = event_target:will_be_add_ringworld
+				owner = root
+			}
+		}
+	}
 	after = {
 		if = {
 			limit = { 
@@ -1541,18 +1629,29 @@ fleet_event = {
 	id = kuat_legacy.181
 	title = kuat_legacy.181.name
 	desc = {
-		trigger = { from.planet = {
-			is_same_value = event_target:ancient_shadow_place
-		} }
-		text = kuat_legacy.181.desc
+		trigger = {
+			success_text = {
+				text = kuat_legacy.181.desc
+				exists = owner owner = { kuat_is_post_apocalyptic_kuat_origin = no }
+				from.planet = { is_same_value = event_target:ancient_shadow_place }
+			}
+			success_text = {
+				text = kuat_legacy.181.b.desc
+				exists = owner owner = { kuat_is_post_apocalyptic_kuat_origin = no }
+				from.planet = { is_same_value = event_target:ancient_shadow_place_B }
+			}
+			success_text = {
+				text = kuat_legacy.181.kuat_post_apocalyptic_legacy.desc
+				exists = owner owner = { kuat_is_post_apocalyptic_kuat_origin = yes }
+				from.planet = { is_same_value = event_target:ancient_shadow_place }
+			}
+			success_text = {
+				text = kuat_legacy.181.b.kuat_post_apocalyptic_legacy.desc
+				exists = owner owner = { kuat_is_post_apocalyptic_kuat_origin = yes }
+				from.planet = { is_same_value = event_target:ancient_shadow_place_B }
+			}
+		}
 	}
-	desc = {
-		trigger = { from.planet = {
-			is_same_value = event_target:ancient_shadow_place_B
-		} }
-		text = kuat_legacy.181.b.desc
-	}
-	desc = kuat_legacy.181.desc
 	picture = GFX_evt_ringworld
 	is_triggered_only = yes
 	show_sound = event_wind_ruins
@@ -1575,17 +1674,29 @@ fleet_event = {
 	id = kuat_legacy.182
 	title = kuat_legacy.182.name
 	desc = {
-		trigger = { from.planet = {
-			is_same_value = event_target:ancient_shadow_place
-		} }
-		text = kuat_legacy.182.desc
-	}
-	desc = {
-		trigger = { from.planet = {
-			is_same_value = event_target:ancient_shadow_place_B
-		} }
-		text = kuat_legacy.182.b.desc
-	}
+		trigger = {
+			success_text = {
+				text = kuat_legacy.182.desc
+				exists = owner owner = { kuat_is_post_apocalyptic_kuat_origin = no }
+				from.planet = { is_same_value = event_target:ancient_shadow_place }
+			}
+			success_text = {
+				text = kuat_legacy.182.b.desc
+				exists = owner owner = { kuat_is_post_apocalyptic_kuat_origin = no }
+				from.planet = { is_same_value = event_target:ancient_shadow_place_B }
+			}
+			success_text = {
+				text = kuat_legacy.182.kuat_post_apocalyptic_legacy.desc
+				exists = owner owner = { kuat_is_post_apocalyptic_kuat_origin = yes }
+				from.planet = { is_same_value = event_target:ancient_shadow_place }
+			}
+			success_text = {
+				text = kuat_legacy.182.b.kuat_post_apocalyptic_legacy.desc
+				exists = owner owner = { kuat_is_post_apocalyptic_kuat_origin = yes }
+				from.planet = { is_same_value = event_target:ancient_shadow_place_B }
+			}
+		}
+	}	
 	picture = GFX_evt_burning_settlement
 	is_triggered_only = yes
 	archaeology = yes
@@ -1608,17 +1719,29 @@ fleet_event = {
 	id = kuat_legacy.183
 	title = kuat_legacy.183.name
 	desc = {
-		trigger = { from.planet = {
-			is_same_value = event_target:ancient_shadow_place
-		} }
-		text = kuat_legacy.183.desc
-	}
-	desc = {
-		trigger = { from.planet = {
-			is_same_value = event_target:ancient_shadow_place_B
-		} }
-		text = kuat_legacy.183.b.desc
-	}
+		trigger = {
+			success_text = {
+				text = kuat_legacy.183.desc
+				exists = owner owner = { kuat_is_post_apocalyptic_kuat_origin = no }
+				from.planet = { is_same_value = event_target:ancient_shadow_place }
+			}
+			success_text = {
+				text = kuat_legacy.183.b.desc
+				exists = owner owner = { kuat_is_post_apocalyptic_kuat_origin = no }
+				from.planet = { is_same_value = event_target:ancient_shadow_place_B }
+			}
+			success_text = {
+				text = kuat_legacy.183.kuat_post_apocalyptic_legacy.desc
+				exists = owner owner = { kuat_is_post_apocalyptic_kuat_origin = yes }
+				from.planet = { is_same_value = event_target:ancient_shadow_place }
+			}
+			success_text = {
+				text = kuat_legacy.183.b.kuat_post_apocalyptic_legacy.desc
+				exists = owner owner = { kuat_is_post_apocalyptic_kuat_origin = yes }
+				from.planet = { is_same_value = event_target:ancient_shadow_place_B }
+			}
+		}
+	}	
 	picture = GFX_evt_dead_city
 	is_triggered_only = yes
 	archaeology = yes
@@ -1641,17 +1764,29 @@ fleet_event = {
 	id = kuat_legacy.184
 	title = kuat_legacy.184.name
 	desc = {
-		trigger = { from.planet = {
-			is_same_value = event_target:ancient_shadow_place
-		} }
-		text = kuat_legacy.184.desc
-	}
-	desc = {
-		trigger = { from.planet = {
-			is_same_value = event_target:ancient_shadow_place_B
-		} }
-		text = kuat_legacy.184.b.desc
-	}
+		trigger = {
+			success_text = {
+				text = kuat_legacy.184.desc
+				exists = owner owner = { kuat_is_post_apocalyptic_kuat_origin = no }
+				from.planet = { is_same_value = event_target:ancient_shadow_place }
+			}
+			success_text = {
+				text = kuat_legacy.184.b.desc
+				exists = owner owner = { kuat_is_post_apocalyptic_kuat_origin = no }
+				from.planet = { is_same_value = event_target:ancient_shadow_place_B }
+			}
+			success_text = {
+				text = kuat_legacy.184.kuat_post_apocalyptic_legacy.desc
+				exists = owner owner = { kuat_is_post_apocalyptic_kuat_origin = yes }
+				from.planet = { is_same_value = event_target:ancient_shadow_place }
+			}
+			success_text = {
+				text = kuat_legacy.184.b.kuat_post_apocalyptic_legacy.desc
+				exists = owner owner = { kuat_is_post_apocalyptic_kuat_origin = yes }
+				from.planet = { is_same_value = event_target:ancient_shadow_place_B }
+			}
+		}
+	}	
 	picture = GFX_evt_relic_world_building
 	is_triggered_only = yes
 	archaeology = yes
@@ -1674,17 +1809,29 @@ fleet_event = {
 	id = kuat_legacy.185
 	title = kuat_legacy.185.name
 	desc = {
-		trigger = { from.planet = {
-			is_same_value = event_target:ancient_shadow_place
-		} }
-		text = kuat_legacy.185.desc
-	}
-	desc = {
-		trigger = { from.planet = {
-			is_same_value = event_target:ancient_shadow_place_B
-		} }
-		text = kuat_legacy.185.b.desc
-	}
+		trigger = {
+			success_text = {
+				text = kuat_legacy.185.desc
+				exists = owner owner = { kuat_is_post_apocalyptic_kuat_origin = no }
+				from.planet = { is_same_value = event_target:ancient_shadow_place }
+			}
+			success_text = {
+				text = kuat_legacy.185.b.desc
+				exists = owner owner = { kuat_is_post_apocalyptic_kuat_origin = no }
+				from.planet = { is_same_value = event_target:ancient_shadow_place_B }
+			}
+			success_text = {
+				text = kuat_legacy.185.kuat_post_apocalyptic_legacy.desc
+				exists = owner owner = { kuat_is_post_apocalyptic_kuat_origin = yes }
+				from.planet = { is_same_value = event_target:ancient_shadow_place }
+			}
+			success_text = {
+				text = kuat_legacy.185.b.kuat_post_apocalyptic_legacy.desc
+				exists = owner owner = { kuat_is_post_apocalyptic_kuat_origin = yes }
+				from.planet = { is_same_value = event_target:ancient_shadow_place_B }
+			}
+		}
+	}	
 	picture = GFX_evt_sapient_AI
 	is_triggered_only = yes
 	archaeology = yes
@@ -1707,17 +1854,29 @@ fleet_event = {
 	id = kuat_legacy.186
 	title = kuat_legacy.186.name
 	desc = {
-		trigger = { from.planet = {
-			is_same_value = event_target:ancient_shadow_place
-		} }
-		text = kuat_legacy.186.desc
-	}
-	desc = {
-		trigger = { from.planet = {
-			is_same_value = event_target:ancient_shadow_place_B
-		} }
-		text = kuat_legacy.186.b.desc
-	}
+		trigger = {
+			success_text = {
+				text = kuat_legacy.186.desc
+				exists = owner owner = { kuat_is_post_apocalyptic_kuat_origin = no }
+				from.planet = { is_same_value = event_target:ancient_shadow_place }
+			}
+			success_text = {
+				text = kuat_legacy.186.b.desc
+				exists = owner owner = { kuat_is_post_apocalyptic_kuat_origin = no }
+				from.planet = { is_same_value = event_target:ancient_shadow_place_B }
+			}
+			success_text = {
+				text = kuat_legacy.186.kuat_post_apocalyptic_legacy.desc
+				exists = owner owner = { kuat_is_post_apocalyptic_kuat_origin = yes }
+				from.planet = { is_same_value = event_target:ancient_shadow_place }
+			}
+			success_text = {
+				text = kuat_legacy.186.b.kuat_post_apocalyptic_legacy.desc
+				exists = owner owner = { kuat_is_post_apocalyptic_kuat_origin = yes }
+				from.planet = { is_same_value = event_target:ancient_shadow_place_B }
+			}
+		}
+	}	
 	picture = GFX_evt_engineering_research
 	is_triggered_only = yes
 	archaeology = yes
@@ -1739,7 +1898,30 @@ fleet_event = {
 fleet_event = {
 	id = kuat_legacy.192
 	title = kuat_legacy.192.name
-	desc = kuat_legacy.192.desc
+	desc = {
+		trigger = {
+			success_text = {
+				text = kuat_legacy.192.desc
+				exists = owner owner = { kuat_is_post_apocalyptic_kuat_origin = no }
+				from.planet = { is_same_value = event_target:ancient_shadow_place }
+			}
+			success_text = {
+				text = kuat_legacy.192.b.desc
+				exists = owner owner = { kuat_is_post_apocalyptic_kuat_origin = no }
+				from.planet = { is_same_value = event_target:ancient_shadow_place_B }
+			}
+			success_text = {
+				text = kuat_legacy.192.kuat_post_apocalyptic_legacy.desc
+				exists = owner owner = { kuat_is_post_apocalyptic_kuat_origin = yes }
+				from.planet = { is_same_value = event_target:ancient_shadow_place }
+			}
+			success_text = {
+				text = kuat_legacy.192.b.kuat_post_apocalyptic_legacy.desc
+				exists = owner owner = { kuat_is_post_apocalyptic_kuat_origin = yes }
+				from.planet = { is_same_value = event_target:ancient_shadow_place_B }
+			}
+		}
+	}	
 	picture = GFX_evt_ancient_databank
 	is_triggered_only = yes
 	archaeology = yes
@@ -1760,75 +1942,89 @@ fleet_event = {
 					has_country_flag = ancient_shadow_place_B 
 					prev.from.planet = { is_same_value = event_target:ancient_shadow_place_B }
 				} 
-				hidden_effect = { 
-					if = {
-						limit = { is_multiplayer = no }
+				if = {
+					limit = { kuat_is_post_apocalyptic_kuat_origin = no }
+					custom_tooltip = "ancient_shadow_place_B"
+					hidden_effect = {
 						give_technology = { tech = tech_kuat_reactor }
 						give_technology = { tech = tech_kuat_THRUSTER }
 						give_technology = { tech = tech_exe_jump_drive }
 						start_situation = { type = situation_research_B_facility_technology target = this }
-					} 
-					else = {  
-						every_playable_country = {
-							limit = { is_ai = no }
-							give_technology = { tech = tech_kuat_reactor }
-							give_technology = { tech = tech_kuat_THRUSTER }
-							give_technology = { tech = tech_exe_jump_drive }
-							start_situation = { type = situation_research_B_facility_technology target = this }
-						}
-					} 
+					}
 				}
-				set_country_flag = Kuat_B_facility_area_over
-				if = {
-					limit = { kuat_is_enable_apocalyptic_origin = yes }
-					country_event = { id = kuat_diplomatic.10 days = 10 random = 20 }
+				else = {
+					custom_tooltip = "ancient_shadow_place_B_post_apocalyptic"
+					hidden_effect = {
+						give_technology = { tech = tech_kuat_reactor }
+						give_technology = { tech = tech_kuat_THRUSTER }
+						give_technology = { tech = tech_exe_jump_drive }
+						create_ship_design = { design = "Name_boss_HIGH_EMPIRE" }
+						add_ship_design = last_created_design
+						create_ship_design = { design = "Name_boss_Xyston" }
+						add_ship_design = last_created_design
+						create_ship_design = { design = "Name_boss_Resugrant" }
+						add_ship_design = last_created_design
+					}
 				}
-				add_timeline_event = {
-					type = timeline_origin
-					override_id = timeline_event_kuat_leagacy_05
-					override_tooltip = "TIMELINE_EVENT_KUAT_LEGACY_05_TOOLTIP"
-					override_types = { }
-					override_text = { "text:TIMELINE_EVENT_KUAT_LEGACY_05" }
-					override_texture = { "background:GFX_evt_ship_in_orbit_3" }
-					targets = { }
-				}				
-				kuat_create_toasto_message = { KEY = kuat_find_memory_cluds TARGET = root.from RECIPIENT = this }
+				hidden_effect = { 
+					set_country_flag = Kuat_B_facility_area_over
+					if = {
+						limit = { kuat_is_enable_apocalyptic_origin = yes }
+						country_event = { id = kuat_diplomatic.10 days = 10 random = 20 }
+					}
+					add_timeline_event = {
+						type = timeline_origin
+						override_id = timeline_event_kuat_leagacy_05
+						override_tooltip = "TIMELINE_EVENT_KUAT_LEGACY_05_TOOLTIP"
+						override_types = { }
+						override_text = { "text:TIMELINE_EVENT_KUAT_LEGACY_05" }
+						override_texture = { "background:GFX_evt_ship_in_orbit_3" }
+						targets = { }
+					}				
+					kuat_create_toasto_message = { KEY = kuat_find_memory_cluds TARGET = root.from RECIPIENT = this }	
+				}
 			} 
 			if = {
 				limit = { 
 					has_country_flag = ancient_shadow_place 
 					prev.from.planet = { is_same_value = event_target:ancient_shadow_place }
 				} 
-				custom_tooltip = "ancient_shadow_place"
-				hidden_effect = {
-					if = {
-						limit = { is_multiplayer = yes }
-						every_playable_country = {
-							limit = { is_ai = no }
-							set_country_flag = can_have_starbase_country
-							add_research_option = tech_kuat_starbase
-						}
-					} 
-					else = { 
+				if = {
+					limit = { kuat_is_post_apocalyptic_kuat_origin = no }
+					custom_tooltip = "ancient_shadow_place"
+					hidden_effect = {
 						set_country_flag = can_have_starbase_country
 						add_research_option = tech_kuat_starbase 
 					}
 				}
-				set_country_flag = Kuat_A_facility_area_over
-				if = {
-					limit = { kuat_is_enable_apocalyptic_origin = yes }
-					country_event = { id = kuat_diplomatic.9 days = 10 random = 20 }
+				else = {
+					custom_tooltip = "ancient_shadow_place_post_apocalyptic"
+					hidden_effect = {
+						create_ship_design = { design = "Name_boss_Horriwer" }
+						add_ship_design = last_created_design
+						create_ship_design = { design = "Name_boss_Gladiator" }
+						add_ship_design = last_created_design
+						create_ship_design = { design = "Name_boss_Cavelry" }
+						add_ship_design = last_created_design
+					}
 				}
-				add_timeline_event = {
-					type = timeline_origin
-					override_id = timeline_event_kuat_leagacy_06
-					override_tooltip = "TIMELINE_EVENT_KUAT_LEGACY_06_TOOLTIP"
-					override_types = { }
-					override_text = { "text:TIMELINE_EVENT_KUAT_LEGACY_06" }
-					override_texture = { "background:GFX_evt_ship_in_orbit_3" }
-					targets = { }
-				}					
-				kuat_create_toasto_message = { KEY = kuat_find_memory_cluds TARGET = root.from RECIPIENT = this }
+				hidden_effect = {
+					set_country_flag = Kuat_A_facility_area_over
+					if = {
+						limit = { kuat_is_enable_apocalyptic_origin = yes }
+						country_event = { id = kuat_diplomatic.9 days = 10 random = 20 }
+					}
+					add_timeline_event = {
+						type = timeline_origin
+						override_id = timeline_event_kuat_leagacy_06
+						override_tooltip = "TIMELINE_EVENT_KUAT_LEGACY_06_TOOLTIP"
+						override_types = { }
+						override_text = { "text:TIMELINE_EVENT_KUAT_LEGACY_06" }
+						override_texture = { "background:GFX_evt_ship_in_orbit_3" }
+						targets = { }
+					}					
+					kuat_create_toasto_message = { KEY = kuat_find_memory_cluds TARGET = root.from RECIPIENT = this }
+				}
 			} 
 		}
 	}
@@ -1869,7 +2065,20 @@ ship_event = {
 	hide_window = no
 	is_triggered_only = yes
 	title = kuat_legacy.50.title
-	desc = kuat_legacy.50.desc
+	desc = {
+		trigger = {
+			exists = owner
+			owner = { kuat_is_post_apocalyptic_kuat_origin = no }
+		}
+		text = kuat_legacy.50.desc
+	}
+	desc = {
+		trigger = {
+			exists = owner
+			owner = { kuat_is_post_apocalyptic_kuat_origin = yes }
+		}
+		text = kuat_legacy.50.kuat_post_apocalyptic_legacy.desc
+	}
 	diplomatic = yes
 	picture_event_data = { room = star_neutron_room }
 	custom_gui = "kuat_event_window"
@@ -1877,7 +2086,7 @@ ship_event = {
 	trigger = {
 		fromfrom = { 
 			has_country_flag = fire_the_legacy_kuat_stage_5 
-			NOT = { has_country_flag = kuat_fire_legacy_50_once }
+			NOT = { has_country_flag = fired_the_legacy_kuat_stage_5 }
 		}
 		from = { has_star_flag = myst_system_2 }
 	}
@@ -1888,7 +2097,7 @@ ship_event = {
 				counter = ag_legacy_system_amount
 				amount = 1
 			}
-			set_country_flag = kuat_fire_legacy_50_once
+			set_country_flag = fired_the_legacy_kuat_stage_5
 		}
 	}
 	option = {
@@ -1904,7 +2113,20 @@ fleet_event = {
 	id = kuat_legacy.51
 	hide_window = no
 	title = "kuat_legacy.51.title"
-	desc = "kuat_legacy.51.desc"
+	desc = {
+		trigger = {
+			exists = owner
+			owner = { kuat_is_post_apocalyptic_kuat_origin = no }
+		}
+		text = kuat_legacy.51.desc
+	}
+	desc = {
+		trigger = {
+			exists = owner
+			owner = { kuat_is_post_apocalyptic_kuat_origin = yes }
+		}
+		text = kuat_legacy.51.kuat_post_apocalyptic_legacy.desc
+	}
 	picture = GFX_evt_ship_in_orbit_2
 	show_sound = event_wind_ruins
 	is_triggered_only = yes
@@ -1927,7 +2149,20 @@ fleet_event = {
 	id = kuat_legacy.52
 	hide_window = no
 	title = "kuat_legacy.52.title"
-	desc = "kuat_legacy.52.desc"
+	desc = {
+		trigger = {
+			exists = owner
+			owner = { kuat_is_post_apocalyptic_kuat_origin = no }
+		}
+		text = kuat_legacy.52.desc
+	}
+	desc = {
+		trigger = {
+			exists = owner
+			owner = { kuat_is_post_apocalyptic_kuat_origin = yes }
+		}
+		text = kuat_legacy.52.kuat_post_apocalyptic_legacy.desc
+	}
 	picture = GFX_evt_habitable_dig_site
 	is_triggered_only = yes
 	show_sound = event_wind_ruins
@@ -1950,7 +2185,20 @@ fleet_event = {
 	id = kuat_legacy.53
 	hide_window = no
 	title = "kuat_legacy.53.title"
-	desc = "kuat_legacy.53.desc"
+	desc = {
+		trigger = {
+			exists = owner
+			owner = { kuat_is_post_apocalyptic_kuat_origin = no }
+		}
+		text = kuat_legacy.53.desc
+	}
+	desc = {
+		trigger = {
+			exists = owner
+			owner = { kuat_is_post_apocalyptic_kuat_origin = yes }
+		}
+		text = kuat_legacy.53.kuat_post_apocalyptic_legacy.desc
+	}
 	picture = GFX_evt_drilling_for_gas
 	is_triggered_only = yes
 	show_sound = event_wind_ruins
@@ -1973,7 +2221,20 @@ fleet_event = {
 	id = kuat_legacy.54
 	hide_window = no
 	title = "kuat_legacy.54.title"
-	desc = "kuat_legacy.54.desc"
+	desc = {
+		trigger = {
+			exists = owner
+			owner = { kuat_is_post_apocalyptic_kuat_origin = no }
+		}
+		text = kuat_legacy.54.desc
+	}
+	desc = {
+		trigger = {
+			exists = owner
+			owner = { kuat_is_post_apocalyptic_kuat_origin = yes }
+		}
+		text = kuat_legacy.54.kuat_post_apocalyptic_legacy.desc
+	}
 	picture = GFX_evt_sapient_AI
 	is_triggered_only = yes
 	show_sound = event_wind_ruins
@@ -1996,7 +2257,20 @@ fleet_event = {
 	id = kuat_legacy.55
 	hide_window = no
 	title = "kuat_legacy.55.title"
-	desc = "kuat_legacy.55.desc"
+	desc = {
+		trigger = {
+			exists = owner
+			owner = { kuat_is_post_apocalyptic_kuat_origin = no }
+		}
+		text = kuat_legacy.55.desc
+	}
+	desc = {
+		trigger = {
+			exists = owner
+			owner = { kuat_is_post_apocalyptic_kuat_origin = yes }
+		}
+		text = kuat_legacy.55.kuat_post_apocalyptic_legacy.desc
+	}
 	picture = GFX_evt_ancient_alien_temple
 	is_triggered_only = yes
 	show_sound = event_wind_ruins
@@ -2013,7 +2287,20 @@ fleet_event = {
 	id = kuat_legacy.56
 	hide_window = no
 	title = "kuat_legacy.56.title"
-	desc = "kuat_legacy.56.desc"
+	desc = {
+		trigger = {
+			exists = owner
+			owner = { kuat_is_post_apocalyptic_kuat_origin = no }
+		}
+		text = kuat_legacy.56.desc
+	}
+	desc = {
+		trigger = {
+			exists = owner
+			owner = { kuat_is_post_apocalyptic_kuat_origin = yes }
+		}
+		text = kuat_legacy.56.kuat_post_apocalyptic_legacy.desc
+	}
 	picture = GFX_evt_ancient_databank
 	is_triggered_only = yes
 	show_sound = event_wind_ruins
@@ -2023,19 +2310,28 @@ fleet_event = {
 	option = {
 		name = kuat_legacy.56.a
 		hidden_effect = {
-			root.owner = { set_country_flag = fire_the_legacy_kuat_stage_6 }
-			if = {
-				limit = { is_multiplayer = yes }
-				every_playable_country = {
-					limit = { is_ai = no }
-					give_technology = { tech = tech_kuat_databank message = no }
+			root.owner = { 
+				set_country_flag = fire_the_legacy_kuat_stage_6
+				give_technology = { tech = tech_kuat_databank message = no }
+				if = {
+					limit = { kuat_is_post_apocalyptic_kuat_origin = no }
+					country_event = { 
+						id = kuat_legacy.57 
+						days = @standard_event_days 
+						random = @standard_random_days 
+					} 
 				}
-			}
-			else = { root.owner = { give_technology = { tech = tech_kuat_databank message = no } } }
-			root.owner = { country_event = { id = kuat_legacy.57 days = @standard_event_days random = @standard_random_days } }
-			event_target:will_be_add_habitable_damaged = { 
-				change_pc = pc_ringworld_habitable 
-				add_deposit = d_str_kuat_spring
+				else = {
+					country_event = { 
+						id = kuat_post_apocalyptic_legacy.6
+						days = @standard_event_days 
+						random = @standard_random_days 
+					} 
+				}
+				event_target:will_be_add_habitable_damaged = { 
+					change_pc = pc_ringworld_habitable 
+					add_deposit = d_str_kuat_spring
+				}
 			}
 		}
 		small_artifact_reward = yes
@@ -2045,7 +2341,18 @@ fleet_event = {
 country_event = {
 	id = kuat_legacy.74
 	title = "kuat_lagacy.251.name"
-	desc = "kuat_lagacy.74.desc"
+	desc = {
+		trigger = {
+			kuat_is_post_apocalyptic_kuat_origin = no
+		}
+		text = kuat_lagacy.74.desc
+	}
+	desc = {
+		trigger = {
+			kuat_is_post_apocalyptic_kuat_origin = yes
+		}
+		text = kuat_lagacy.74.kuat_post_apocalyptic_legacy.desc
+	}	
 	diplomatic = yes
 	fire_only_once = yes
 	picture_event_data = { room = contingency_planet_room }
@@ -2057,10 +2364,20 @@ country_event = {
 		#event_target:will_be_add_habitable_damaged = { kuat_has_researcher = yes }
 	}
 	mean_time_to_happen = { months = 1 }
-	immediate = { start_situation = {
-		type = situation_unlocked_the_B_Area
-		target = this
-	} }
+	immediate = {  
+		if = {
+			limit = { kuat_is_post_apocalyptic_kuat_origin = no }
+			start_situation = { type = situation_unlocked_the_B_Area target = this }
+		}
+		else = {
+			enable_special_project = {
+				name = kuat_post_apocalyptic_kuat_eternal_ship
+				location = event_target:will_be_add_ringworld
+				owner = root
+			}
+			set_country_flag = kuat_unlock_the_flagship_designable
+		}
+	}
 	after = {
 		if = {
 			limit = { 
@@ -2158,7 +2475,20 @@ ship_event = {
 	hide_window = no
 	is_triggered_only = yes
 	title = kuat_legacy.50.title
-	desc = kuat_legacy.58.desc
+	desc = {
+		trigger = {
+			exists = owner
+			owner = { kuat_is_post_apocalyptic_kuat_origin = no }
+		}
+		text = kuat_legacy.58.desc
+	}
+	desc = {
+		trigger = {
+			exists = owner
+			owner = { kuat_is_post_apocalyptic_kuat_origin = yes }
+		}
+		text = kuat_legacy.58.kuat_post_apocalyptic_legacy.desc
+	}
 	diplomatic = yes
 	picture_event_data = { room = star_pulsar_room }
 	custom_gui = "kuat_event_window"
@@ -2166,13 +2496,13 @@ ship_event = {
 	trigger = {
 		fromfrom = { 
 			has_country_flag = fire_the_legacy_kuat_stage_6 
-			NOT = { has_country_flag = kuat_fire_legacy_58_once }
+			NOT = { has_country_flag = fired_the_legacy_kuat_stage_6 }
 		}
 		from = { has_star_flag = myst_system_3 }
 	}
 	immediate = {
 		fromfrom = { 
-			set_country_flag = kuat_fire_legacy_58_once
+			set_country_flag = fired_the_legacy_kuat_stage_6
 			add_event_chain_counter = {
 				event_chain = ag_legacy_invasion_chain
 				counter = ag_legacy_system_amount
@@ -2186,7 +2516,25 @@ ship_event = {
 planet_event = {
 	id = kuat_legacy.59
 	is_triggered_only = yes
-	hide_window = yes
+	title = kuat_legacy.60.title
+	desc = {
+		trigger = {
+			exists = from
+			from = { kuat_is_post_apocalyptic_kuat_origin = no }
+		}
+		text = kuat_legacy.60.desc
+	}
+	desc = {
+		trigger = {
+			exists = from
+			from = { kuat_is_post_apocalyptic_kuat_origin = yes }
+		}
+		text = kuat_legacy.60.kuat_post_apocalyptic_legacy.desc
+	}	
+	diplomatic = yes
+	picture_event_data = { room = glitchy_matrix_room }
+	custom_gui = "kuat_event_m_window"
+	custom_gui_option = "kuat_event_option"
 	trigger = {
 		NOT = { has_global_flag = executor_build.8012.fired }
 		has_planet_flag = will_be_add_3
@@ -2198,19 +2546,7 @@ planet_event = {
 			location = this
 			owner = from
 		}
-		from = { country_event = { id = kuat_legacy.60 } }
 	}
-}
-
-country_event = {
-	id = kuat_legacy.60
-	is_triggered_only = yes
-	title = kuat_legacy.60.title
-	desc = kuat_legacy.60.desc
-	diplomatic = yes
-	picture_event_data = { room = glitchy_matrix_room }
-	custom_gui = "kuat_event_m_window"
-	custom_gui_option = "kuat_event_option"
 	option = { name = kuat_legacy.25.a }
 }
 
@@ -2240,7 +2576,20 @@ fleet_event = {
 	id = kuat_legacy.62
 	hide_window = no
 	title = "kuat_legacy.62.title"
-	desc = "kuat_legacy.62.desc"
+	desc = {
+		trigger = {
+			exists = owner
+			owner = { kuat_is_post_apocalyptic_kuat_origin = no }
+		}
+		text = kuat_legacy.62.desc
+	}
+	desc = {
+		trigger = {
+			exists = owner
+			owner = { kuat_is_post_apocalyptic_kuat_origin = yes }
+		}
+		text = kuat_legacy.62.kuat_post_apocalyptic_legacy.desc
+	}		
 	picture = GFX_evt_big_landing_ship
 	is_triggered_only = yes
 	show_sound = event_wind_ruins
@@ -2260,7 +2609,20 @@ fleet_event = {
 	id = kuat_legacy.63
 	hide_window = no
 	title = "kuat_legacy.63.title"
-	desc = "kuat_legacy.63.desc"
+	desc = {
+		trigger = {
+			exists = owner
+			owner = { kuat_is_post_apocalyptic_kuat_origin = no }
+		}
+		text = kuat_legacy.63.desc
+	}
+	desc = {
+		trigger = {
+			exists = owner
+			owner = { kuat_is_post_apocalyptic_kuat_origin = yes }
+		}
+		text = kuat_legacy.63.kuat_post_apocalyptic_legacy.desc
+	}	
 	picture = GFX_evt_city_ruins
 	is_triggered_only = yes
 	show_sound = event_wind_ruins
@@ -2280,7 +2642,20 @@ fleet_event = {
 	id = kuat_legacy.64
 	hide_window = no
 	title = "kuat_legacy.64.title"
-	desc = "kuat_legacy.64.desc"
+	desc = {
+		trigger = {
+			exists = owner
+			owner = { kuat_is_post_apocalyptic_kuat_origin = no }
+		}
+		text = kuat_legacy.64.desc
+	}
+	desc = {
+		trigger = {
+			exists = owner
+			owner = { kuat_is_post_apocalyptic_kuat_origin = yes }
+		}
+		text = kuat_legacy.64.kuat_post_apocalyptic_legacy.desc
+	}	
 	picture = GFX_evt_habitable_dig_site
 	is_triggered_only = yes
 	show_sound = event_wind_ruins
@@ -2300,7 +2675,20 @@ fleet_event = {
 	id = kuat_legacy.65
 	hide_window = no
 	title = "kuat_legacy.65.title"
-	desc = "kuat_legacy.65.desc"
+	desc = {
+		trigger = {
+			exists = owner
+			owner = { kuat_is_post_apocalyptic_kuat_origin = no }
+		}
+		text = kuat_legacy.65.desc
+	}
+	desc = {
+		trigger = {
+			exists = owner
+			owner = { kuat_is_post_apocalyptic_kuat_origin = yes }
+		}
+		text = kuat_legacy.65.kuat_post_apocalyptic_legacy.desc
+	}	
 	picture = GFX_evt_dead_city
 	is_triggered_only = yes
 	show_sound = event_wind_ruins
@@ -2323,7 +2711,20 @@ fleet_event = {
 	id = kuat_legacy.66
 	hide_window = no
 	title = "kuat_legacy.66.title"
-	desc = "kuat_legacy.66.desc"
+	desc = {
+		trigger = {
+			exists = owner
+			owner = { kuat_is_post_apocalyptic_kuat_origin = no }
+		}
+		text = kuat_legacy.66.desc
+	}
+	desc = {
+		trigger = {
+			exists = owner
+			owner = { kuat_is_post_apocalyptic_kuat_origin = yes }
+		}
+		text = kuat_legacy.66.kuat_post_apocalyptic_legacy.desc
+	}	
 	picture = GFX_evt_em_war_3
 	is_triggered_only = yes
 	show_sound = event_wind_ruins
@@ -2338,24 +2739,34 @@ fleet_event = {
 	
 	option = {
 		name = kuat_legacy.66.a
-		hidden_effect = {
-			root.owner = { 
-				set_country_flag = fire_the_legacy_kuat_stage_7 
-				country_event = { id = executor_build.1107 days = 1 random = 3 }
-			}
-			if = {
-				limit = { is_multiplayer = yes }
-				every_playable_country = {
-					limit = { is_ai = no }
+		if = {
+			limit = { exists = owner owner = { kuat_is_post_apocalyptic_kuat_origin = no } }
+			hidden_effect = {
+				root.owner = { 
+					set_country_flag = fire_the_legacy_kuat_stage_7 
+					country_event = { id = executor_build.1107 days = 1 random = 3 }
 					give_technology = { tech = tech_kuat_shield message = no }
+					if = {
+						limit = { kuat_is_enable_shadow_origin = yes }
+						country_event = { id = kuat_legacy.26 days = @standard_event_days random = @standard_random_days }
+					}
 				}
+				event_target:will_be_add_ringworld_shielded = { change_pc = pc_ringworld_habitable add_deposit = d_str_kuat_spring }
 			}
-			else = { root.owner = { give_technology = { tech = tech_kuat_shield message = no } } }
-			root.owner = { if = {
-				limit = { kuat_is_enable_shadow_origin = yes }
-				country_event = { id = kuat_legacy.26 days = @standard_event_days random = @standard_random_days }
+		}
+		else = {
+			custom_tooltip = "kuat_legacy_post_apocalyptic_C_reward"
+			hidden_effect = { root.owner = {
+				set_country_flag = fire_the_legacy_kuat_stage_7 
+				give_technology = { tech = tech_kuat_shield message = no }
+				create_ship_design = { design = "Name_boss_X308_Balletor" }
+				add_ship_design = last_created_design
+				create_ship_design = { design = "Name_boss_X308_Titan" }
+				add_ship_design = last_created_design
+				create_ship_design = { design = "NAME_KUAT_Tyrant" }
+				add_ship_design = last_created_design			
+				event_target:will_be_add_ringworld_shielded = { change_pc = pc_ringworld_habitable add_deposit = d_str_kuat_spring }
 			} }
-			event_target:will_be_add_ringworld_shielded = { change_pc = pc_ringworld_habitable add_deposit = d_str_kuat_spring }
 		}
 		large_artifact_reward = yes
 	}
@@ -2365,7 +2776,18 @@ fleet_event = {
 country_event = {
 	id = kuat_legacy.90
 	title = "kuat_lagacy.251.name"
-	desc = "kuat_lagacy.90.desc"
+	desc = {
+		trigger = {
+			kuat_is_post_apocalyptic_kuat_origin = no
+		}
+		text = kuat_lagacy.90.desc
+	}
+	desc = {
+		trigger = {
+			kuat_is_post_apocalyptic_kuat_origin = yes
+		}
+		text = kuat_lagacy.90.kuat_post_apocalyptic_legacy.desc
+	}		
 	diplomatic = yes
 	fire_only_once = yes
 	picture_event_data = { room = contingency_planet_room }
@@ -2373,7 +2795,20 @@ country_event = {
 	custom_gui_option = "kuat_event_option"
 	trigger = { has_country_flag = fire_the_legacy_kuat_stage_7 }
 	mean_time_to_happen = { months = 1 }
-	immediate = { start_situation = { type = situation_unlocked_the_C_Area target = this } }
+	immediate = { 
+		if = {
+			limit = { kuat_is_post_apocalyptic_kuat_origin = no }
+			start_situation = { type = situation_unlocked_the_C_Area target = this } 
+		}
+		else = {
+			enable_special_project = {
+				name = kuat_post_apocalyptic_kuat_C_facility
+				location = event_target:will_be_add_ringworld_shielded
+				owner = root
+			}
+			set_country_flag = kuat_unlock_the_flagship_designable
+		}	
+	}
 	after = {
 		if = {
 			limit = { 
@@ -2440,7 +2875,20 @@ ship_event = {
 	hide_window = no
 	is_triggered_only = yes
 	title = kuat_legacy.50.title
-	desc = kuat_legacy.68.desc
+	desc = {
+		trigger = {
+			exists = owner
+			owner = { kuat_is_post_apocalyptic_kuat_origin = no }
+		}
+		text = kuat_legacy.68.desc
+	}
+	desc = {
+		trigger = {
+			exists = owner
+			owner = { kuat_is_post_apocalyptic_kuat_origin = yes }
+		}
+		text = kuat_legacy.68.kuat_post_apocalyptic_legacy.desc
+	}
 	diplomatic = yes
 	picture_event_data = { room = black_hole_room }
 	custom_gui = "kuat_event_window"
@@ -2448,7 +2896,7 @@ ship_event = {
 	trigger = {
 		fromfrom = { 
 			has_country_flag = fire_the_legacy_kuat_stage_7 
-			NOT = { has_country_flag = kuat_fire_legacy_68_once }
+			NOT = { has_country_flag = fired_the_legacy_kuat_stage_7 }
 		}
 		from = { has_star_flag = myst_system_4 }
 	}
@@ -2459,7 +2907,7 @@ ship_event = {
 				counter = ag_legacy_system_amount
 				amount = 1
 			}
-			set_country_flag = kuat_fire_legacy_68_once
+			set_country_flag = fired_the_legacy_kuat_stage_7
 		}
 	}
 	option = { name = kuat_legacy.25.a }
@@ -2473,7 +2921,16 @@ planet_event = {
 		has_planet_flag = myst_system_4
 		from = { has_country_flag = fire_the_legacy_kuat_stage_7 }
 	}
-	immediate = { from = { country_event = { id = kuat_legacy.70 } } }
+	immediate = {  
+		if = {
+			limit = { from = { kuat_is_post_apocalyptic_kuat_origin = no } }
+			from = { country_event = { id = kuat_legacy.70 } }
+		}
+		else_if = {
+			limit = { from = { kuat_is_post_apocalyptic_kuat_origin = yes } }
+			from = { country_event = { id = kuat_post_apocalyptic_legacy.13 } }
+		}
+	}
 }
 
 country_event = {
@@ -3059,19 +3516,10 @@ country_event = {
 				country_event = { id = executor_build.1101 days = 3 }
 				set_global_flag = kuat_war_goal
 			}
-			if = {
-				limit = { is_multiplayer = yes }
-				every_playable_country = {
-					limit = { is_ai = no }
-					enable_special_project = {
-						name = exe_legacy_unlock_the_millitary_eclipse
-						location = capital_scope owner = this
-					}
-				}
-			} else = { enable_special_project = {
+			enable_special_project = {
 				name = exe_legacy_unlock_the_millitary_eclipse
 				location = capital_scope owner = this
-			} }
+			}
 			set_country_flag = Kuat_regular_kuat_exist_facility_area_over
 			if = {
 				limit = { kuat_is_enable_apocalyptic_origin = yes }
@@ -3120,19 +3568,10 @@ country_event = {
 				country_event = { id = executor_build.1101 days = 3 }
 				set_global_flag = kuat_war_goal
 			}
-			if = {
-				limit = { is_multiplayer = yes }
-				every_playable_country = {
-					limit = { is_ai = no }
-					enable_special_project = {
-						name = exe_legacy_unlock_the_millitary_eclipse
-						location = capital_scope owner = this
-					}
-				}
-			} else = { enable_special_project = {
+			enable_special_project = {
 				name = exe_legacy_unlock_the_millitary_eclipse
 				location = capital_scope owner = this
-			} }
+			}
 			set_country_flag = Kuat_regular_kuat_exist_facility_area_over
 			if = {
 				limit = { kuat_is_enable_apocalyptic_origin = yes }
@@ -3181,19 +3620,10 @@ country_event = {
 				country_event = { id = executor_build.1101 days = 3 }
 				set_global_flag = kuat_war_goal
 			}
-			if = {
-				limit = { is_multiplayer = yes }
-				every_playable_country = {
-					limit = { is_ai = no }
-					enable_special_project = {
-						name = exe_legacy_unlock_the_millitary_eclipse
-						location = capital_scope owner = this
-					}
-				}
-			} else = { enable_special_project = {
+			enable_special_project = {
 				name = exe_legacy_unlock_the_millitary_eclipse
 				location = capital_scope owner = this
-			} }
+			}
 			set_country_flag = Kuat_regular_kuat_exist_facility_area_over
 			if = {
 				limit = { kuat_is_enable_apocalyptic_origin = yes }
@@ -3242,19 +3672,10 @@ country_event = {
 				country_event = { id = executor_build.1101 days = 3 }
 				set_global_flag = kuat_war_goal
 			}
-			if = {
-				limit = { is_multiplayer = yes }
-				every_playable_country = {
-					limit = { is_ai = no }
-					enable_special_project = {
-						name = exe_legacy_unlock_the_millitary_eclipse
-						location = capital_scope owner = this
-					}
-				}
-			} else = { enable_special_project = {
+			enable_special_project = {
 				name = exe_legacy_unlock_the_millitary_eclipse
 				location = capital_scope owner = this
-			} }
+			}
 			set_country_flag = Kuat_regular_kuat_exist_facility_area_over
 			if = {
 				limit = { kuat_is_enable_apocalyptic_origin = yes }
@@ -3375,6 +3796,7 @@ country_event = {
 	custom_gui_option = "kuat_event_diplomacy_option"
 	is_triggered_only = yes
 	trigger = {
+		kuat_is_post_apocalyptic_kuat_origin = no
 		has_global_flag = starkillerbase_not_passed
 		exists = event_target:kuat_firebase_country
 	}
@@ -3423,6 +3845,7 @@ country_event = {
 	custom_gui_option = "kuat_event_diplomacy_option"
 	is_triggered_only = yes
 	trigger = {
+		kuat_is_post_apocalyptic_kuat_origin = no
 		from = {
 			OR = {
 				is_country_type = kuat_fire_base_hositle
@@ -3758,7 +4181,7 @@ country_event = {
 			every_system_within_border = {
 				limit = { is_capital_system = yes }
 				every_system_planet = {
-					limit = { OR = { is_colony = yes is_capital = yes is_star = yes } }
+					limit = { is_star = yes }
 					set_planet_flag = starkiller_attack_built_target
 					prev = { spawn_megastructure = {
 						type = kuat_starkiller_marker_0

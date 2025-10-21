@@ -1127,7 +1127,13 @@ situation_legacy_pretext_action = {
 	fail_icon = GFX_situation_outcome_meh
 	on_progress_complete = {
 		custom_tooltip = situation_unknown_outcome_approach
-		hidden_effect = { target = { set_country_flag = start_discoveryancientkuat } }
+		hidden_effect = { target = { 
+			if = {
+				limit = { kuat_is_post_apocalyptic_kuat_origin = no }
+				set_country_flag = start_discoveryancientkuat 
+			}
+			else = { set_country_flag = start_discoveryancientkuat_post_apocalyptic }
+		} }
 		destroy_situation = this
 	}
 	stages = {
@@ -1206,16 +1212,6 @@ situation_legacy_pretext_action = {
 		name = "situation_hositile_altitude_station"
 		icon = GFX_situation_approach_research
 		icon_background = GFX_situation_approach_bg_red
-		resources = {
-			category = situations
-			upkeep = {
-				trigger = { NOT = { current_stage = stage_1 } }
-				physics_research = 0.25
-				society_research = 0.25
-				engineering_research = 0.25
-				multiplier = target.value:kuat_pop_amount
-			}
-		}
 		on_select = { custom_tooltip = approach_outcome_tooltip }
 	}
 	#neutral
@@ -1254,9 +1250,9 @@ situation_legacy_pretext_action = {
 			}
 			upkeep = {
 				trigger = { NOT = { current_stage = stage_1 } }
-				physics_research = 0.25
-				society_research = 0.25
-				engineering_research = 0.25
+				physics_research = 0.50
+				society_research = 0.50
+				engineering_research = 0.50
 				multiplier = target.value:kuat_pop_amount
 			}
 		}
@@ -1276,24 +1272,54 @@ situation_legacy_pretext_action = {
 		}
 	}
 	monthly_progress = {
-		base = 3
+		base = 5
 		modifier = {
 			mult = 2
 			desc = "situation_facility_research_processing_faster_desc"
-			target = { kuat_is_enable_shadow_origin = yes exists = event_target:fallen_empire_kuat has_technology = tech_sensors_4 }
+			target = { 
+				kuat_is_enable_shadow_origin = yes 
+				exists = event_target:fallen_empire_kuat 
+				has_technology = tech_sensors_4 
+			}
 		}
 		modifier = {
-			mult = 10
+			mult = 4
 			desc = "situation_facility_research_processing_faster_desc"
-			target = { kuat_is_enable_eternal_origin = yes exists = event_target:eternal_support_country }
+			target = { 
+				kuat_is_enable_eternal_origin = yes 
+				exists = event_target:eternal_support_country 
+			}
+		}
+		modifier = {
+			mult = 4
+			desc = "situation_facility_research_processing_faster_desc"
+			target = { 
+				kuat_is_post_apocalyptic_kuat_origin = yes
+				exists = event_target:kuat_post_support_country 
+			}
+		}
+		modifier = {
+			mult = 0.5
+			current_situation_approach = situation_netural_altitude_station
+			desc = "situation_facility_research_processing_slower_desc"
+		}
+		modifier = {
+			mult = 2.0
+			current_situation_approach = situation_friendly_altitude_station
+			desc = "situation_facility_research_processing_faster_desc"
 		}
 		modifier = {
 			set = 0
+			current_situation_approach = situation_hositile_altitude_station
 			desc = "situation_facility_research_processing_slower_desc"
-			current_stage = stage_8
+		} 
+		modifier = {
+			set = 0
+			desc = "situation_facility_research_processing_slower_desc"
 			target = { NOR = {
 				AND = { kuat_is_enable_shadow_origin = yes exists = event_target:fallen_empire_kuat }
 				AND = { kuat_is_enable_eternal_origin = yes exists = event_target:eternal_support_country }
+				AND = { kuat_is_post_apocalyptic_kuat_origin = yes exists = event_target:kuat_post_support_country }
 			} }
 		}
 		modifier = {
@@ -1301,7 +1327,7 @@ situation_legacy_pretext_action = {
 			desc = "situation_facility_legacy_progress_stop_noplanet_desc"
 			current_stage = stage_8
 			target = { NOT = { any_planet_within_border = { kuat_is_legacy_arc_planet = yes } } }
-		}
+		}		
 	}
 	abort_trigger = { NOT = { exists = owner } }
 }

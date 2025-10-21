@@ -20,6 +20,7 @@ country_event = {
 					has_origin = origin_kuat_apocalyptic
 					has_origin = origin_eternalthrone
 					has_origin = origin_kuat_shadow
+					has_origin = origin_post_apocalyptic_kuat
 				} }
 				set_origin = origin_default
 			}
@@ -47,14 +48,18 @@ country_event = {
 					limit = { 
 						is_ai = no 
 						kuat_is_enable_shadow_origin = yes 
-						kuat_is_enable_apocalyptic_origin = no 
 					}
-					remove_country_flag = human_1 remove_country_flag = human_2 
-					set_country_flag = custom_start_screen
-					set_country_flag = origin_kuat_shadow_flag 
-					create_kuat_shipyard_country = yes
+					if = {
+						limit = { kuat_is_enable_apocalyptic_origin = no }
+						remove_country_flag = human_1 remove_country_flag = human_2 
+						set_country_flag = custom_start_screen
+						set_country_flag = origin_kuat_shadow_flag 
+						create_kuat_shipyard_country = yes	
+					}
+					country_event = { id = executor_build.1 }
+					country_event = { id = executor_build.2 } 
+					start_situation = { type = situation_legacy_pretext_action target = this }
 				}
-				country_event = { id = executor_build.2 } 
 				country_event = { id = executor_build.3 days = 30 } 
 			}
 		}
@@ -62,6 +67,13 @@ country_event = {
 			limit = { any_country = { is_ai = no kuat_is_enable_eternal_origin = yes } }
 			every_playable_country = {
 				limit = { is_ai = no kuat_is_enable_eternal_origin = yes }
+				remove_country_flag = human_1 remove_country_flag = human_2 set_country_flag = custom_start_screen
+			}
+		}
+		else_if = {
+			limit = { any_country = { is_ai = no kuat_is_post_apocalyptic_kuat_origin = yes } }
+			every_playable_country = {
+				limit = { is_ai = no kuat_is_post_apocalyptic_kuat_origin = yes }
 				remove_country_flag = human_1 remove_country_flag = human_2 set_country_flag = custom_start_screen
 			}
 		}
@@ -1016,7 +1028,6 @@ country_event = {
 	}
 	option = {
 		name = executor_build.501.a
-		give_technology = { tech = tech_kuat_noway }
 		hidden_effect = {
 			if = {
 				limit = { NOT = { has_existing_ship_design = nebula_executor } }
@@ -2354,14 +2365,6 @@ planet_event = {
 		hidden_effect = { 
 			while = { limit = { free_district_slots > 0 } add_district = district_arcology_kuat_housing } 
 			if = { limit = { free_building_slots > 0 owner = { kuat_is_enable_eternal_origin = yes } } add_building = building_eternal_pop_assembly }
-			if = { limit = { free_building_slots > 0 owner = { is_nirvana_empire_council = yes } } add_building = building_cloud_castle }
-			if = { limit = { free_building_slots > 0 owner = { is_nirvana_empire_dragon = yes } } add_building = building_aurora_shrine }
-			if = { limit = { free_building_slots > 0 owner = { kuat_has_swgs_tech = { TECH = swgs_tech_starshipgirls_assembly_plant } } } add_building = swgs_building_starshipgirls_assembly_plant }
-			if = { limit = { free_building_slots > 0 owner = { kuat_has_swgs_tech = { TECH = swgs_tech_building_eddy_monument } } } add_building = swgs_building_eddy_monument }
-			if = { limit = { free_building_slots > 0 owner = { kuat_has_swgs_tech = { TECH = swgs_tech_coordinated_operations } } } add_building = swgs_building_fleet_academy }
-			if = { limit = { free_building_slots > 0 owner = { kuat_has_swgs_tech = { TRAT = swg_trait_dark_side } } } add_building = swgs_building_trial_court }
-			if = { limit = { free_building_slots > 0 owner = { kuat_has_swgs_tech = { TRAT = swg_trait_ligth_side } } } add_building = swgs_building_jedi_temple }
-			if = { limit = { free_building_slots > 0 owner = { kuat_has_swgs_tech = { TECH = swgs_tech_coordinated_operations } } } add_building = swgs_building_fleetlink }
 			if = { limit = { owner = { has_technology = tr_eternal_building_research_center } } while = { count = value:kuat_planet_half_building_amount|MULT|1| add_building = building_eternal_research_center } }
 		}
 	}
@@ -2370,11 +2373,6 @@ planet_event = {
 		hidden_effect = { 
 			while = { limit = { free_district_slots > 0 } add_district = district_arcology_kuat_science } 
 			if = { limit = { free_building_slots > 0 owner = { kuat_is_enable_eternal_origin = yes } } add_building = building_eternal_pop_assembly }
-			if = { limit = { free_building_slots > 0 owner = { is_nirvana_empire_council = yes } } add_building = building_cloud_castle }
-			if = { limit = { free_building_slots > 0 owner = { is_nirvana_empire_dragon = yes } } add_building = building_aurora_shrine }
-			if = { limit = { free_building_slots > 0 owner = { kuat_has_swgs_tech = { TECH = swgs_tech_starshipgirls_assembly_plant } } } add_building = swgs_building_starshipgirls_assembly_plant }
-			if = { limit = { free_building_slots > 0 owner = { kuat_has_swgs_tech = { TECH = swgs_tech_building_eddy_monument } } } add_building = swgs_building_eddy_monument }
-			if = { limit = { free_building_slots > 0 owner = { kuat_has_swgs_tech = { TECH = swgs_tech_coordinated_operations } } } add_building = swgs_building_fleetlink }
 			if = { limit = { owner = { has_technology = tr_eternal_building_research_center } } while = { count = value:kuat_planet_half_building_amount|MULT|1| add_building = building_eternal_research_center } }
 		} 
 	}
@@ -2383,11 +2381,6 @@ planet_event = {
 		hidden_effect = { 
 			while = { limit = { free_district_slots > 0 } add_district = district_arcology_kuat_Military }
 			if = { limit = { free_building_slots > 0 owner = { kuat_is_enable_eternal_origin = yes } } add_building = building_eternal_pop_assembly }
-			if = { limit = { free_building_slots > 0 owner = { is_nirvana_empire_council = yes } } add_building = building_cloud_castle }
-			if = { limit = { free_building_slots > 0 owner = { is_nirvana_empire_dragon = yes } } add_building = building_aurora_shrine }
-			if = { limit = { free_building_slots > 0 owner = { kuat_has_swgs_tech = { TECH = swgs_tech_starshipgirls_assembly_plant } } } add_building = swgs_building_starshipgirls_assembly_plant }
-			if = { limit = { free_building_slots > 0 owner = { kuat_has_swgs_tech = { TECH = swgs_tech_building_eddy_monument } } } add_building = swgs_building_eddy_monument }
-			if = { limit = { free_building_slots > 0 owner = { kuat_has_swgs_tech = { TECH = swgs_tech_coordinated_operations } } } add_building = swgs_building_fleetlink }
 			if = { limit = { free_building_slots > 0 owner = { has_technology = tr_eternal_building_volatile } } add_building = building_eternal_volatile_focer }
 			if = { limit = { free_building_slots > 0 owner = { has_technology = tr_eternal_building_exotic } } add_building = building_eternal_exotic_focer }
 			if = { limit = { free_building_slots > 0 owner = { has_technology = tr_eternal_building_crystals } } add_building = building_eternal_crystals_focer }
@@ -2400,11 +2393,6 @@ planet_event = {
 		hidden_effect = { 
 			while = { limit = { free_district_slots > 0 } add_district = district_arcology_kuat_Khaydarin } 
 			if = { limit = { free_building_slots > 0 owner = { kuat_is_enable_eternal_origin = yes } } add_building = building_eternal_pop_assembly }
-			if = { limit = { free_building_slots > 0 owner = { is_nirvana_empire_council = yes } } add_building = building_cloud_castle }
-			if = { limit = { free_building_slots > 0 owner = { is_nirvana_empire_dragon = yes } } add_building = building_aurora_shrine }
-			if = { limit = { free_building_slots > 0 owner = { kuat_has_swgs_tech = { TECH = swgs_tech_starshipgirls_assembly_plant } } } add_building = swgs_building_starshipgirls_assembly_plant }
-			if = { limit = { free_building_slots > 0 owner = { kuat_has_swgs_tech = { TECH = swgs_tech_building_eddy_monument } } } add_building = swgs_building_eddy_monument }
-			if = { limit = { free_building_slots > 0 owner = { kuat_has_swgs_tech = { TECH = swgs_tech_coordinated_operations } } } add_building = swgs_building_fleetlink }
 			if = { limit = { owner = { has_technology = tr_eternal_building_research_center } } while = { count = value:kuat_planet_half_building_amount|MULT|1| add_building = building_eternal_research_center } }
 		}
 	}
@@ -2413,11 +2401,6 @@ planet_event = {
 		hidden_effect = { 
 			while = { limit = { free_district_slots > 0 } add_district = district_arcology_Kuat_civilian_industry }
 			if = { limit = { free_building_slots > 0 owner = { kuat_is_enable_eternal_origin = yes } } add_building = building_eternal_pop_assembly }
-			if = { limit = { free_building_slots > 0 owner = { is_nirvana_empire_council = yes } } add_building = building_cloud_castle }
-			if = { limit = { free_building_slots > 0 owner = { is_nirvana_empire_dragon = yes } } add_building = building_aurora_shrine }
-			if = { limit = { free_building_slots > 0 owner = { kuat_has_swgs_tech = { TECH = swgs_tech_starshipgirls_assembly_plant } } } add_building = swgs_building_starshipgirls_assembly_plant }
-			if = { limit = { free_building_slots > 0 owner = { kuat_has_swgs_tech = { TECH = swgs_tech_building_eddy_monument } } } add_building = swgs_building_eddy_monument }
-			if = { limit = { free_building_slots > 0 owner = { kuat_has_swgs_tech = { TECH = swgs_tech_coordinated_operations } } } add_building = swgs_building_fleetlink }
 			if = { limit = { owner = { has_technology = tr_eternal_building_research_center } } while = { count = value:kuat_planet_half_building_amount|MULT|1| add_building = building_eternal_research_center } }
 		}
 	}
@@ -2426,13 +2409,6 @@ planet_event = {
 		hidden_effect = { 
 			while = { limit = { free_district_slots > 0 } add_district = district_arcology_eternal_Khaydarin } 
 			if = { limit = { free_building_slots > 0 owner = { kuat_is_enable_eternal_origin = yes } } add_building = building_eternal_pop_assembly }
-			if = { limit = { free_building_slots > 0 owner = { is_nirvana_empire_council = yes } } add_building = building_cloud_castle }
-			if = { limit = { free_building_slots > 0 owner = { is_nirvana_empire_dragon = yes } } add_building = building_aurora_shrine }
-			if = { limit = { free_building_slots > 0 owner = { kuat_has_swgs_tech = { TECH = swgs_tech_starshipgirls_assembly_plant } } } add_building = swgs_building_starshipgirls_assembly_plant }
-			if = { limit = { free_building_slots > 0 owner = { kuat_has_swgs_tech = { TECH = swgs_tech_building_eddy_monument } } } add_building = swgs_building_eddy_monument }
-			if = { limit = { free_building_slots > 0 owner = { kuat_has_swgs_tech = { TECH = swgs_tech_coordinated_operations } } } add_building = swgs_building_fleet_academy }
-			if = { limit = { free_building_slots > 0 owner = { kuat_has_swgs_tech = { TRAT = swg_trait_dark_side } } } add_building = swgs_building_trial_court }
-			if = { limit = { free_building_slots > 0 owner = { kuat_has_swgs_tech = { TRAT = swg_trait_ligth_side } } } add_building = swgs_building_jedi_temple }
 			if = { limit = { owner = { has_technology = tr_eternal_building_research_center } } while = { count = value:kuat_planet_half_building_amount|MULT|1| add_building = building_eternal_research_center } }
 		}
 	}

@@ -73,6 +73,7 @@ kuat_set_forcetrigger_order_enable_shadow = {
 			kuat_is_enable_apocalyptic_origin = yes
 			kuat_is_enable_shadow_origin = yes
 			kuat_is_enable_eternal_origin = yes
+			kuat_is_post_apocalyptic_kuat_origin = yes
 		} 
 	} }
 	effect = {
@@ -97,6 +98,7 @@ kuat_set_forcetrigger_order_enable_eternal = {
 			kuat_is_enable_apocalyptic_origin = yes
 			kuat_is_enable_shadow_origin = yes
 			kuat_is_enable_eternal_origin = yes
+			kuat_is_post_apocalyptic_kuat_origin = yes
 		} 
 	} }
 	effect = {
@@ -302,6 +304,7 @@ kuat_set_difficulty_easy = {
 			kuat_is_enable_apocalyptic_origin = yes
 			kuat_is_enable_shadow_origin = yes 
 			kuat_is_enable_eternal_origin = yes
+			kuat_is_post_apocalyptic_kuat_origin = yes
 		}
 	} } }
 	effect = {
@@ -330,6 +333,7 @@ kuat_set_difficulty_easy_alt = {
 		kuat_is_enable_apocalyptic_origin = yes
 		kuat_is_enable_shadow_origin = yes 
 		kuat_is_enable_eternal_origin = yes
+		kuat_is_post_apocalyptic_kuat_origin = yes
 	} } } }
 	effect = {
 		custom_tooltip = "kuat_set_difficulty_botton.easy"
@@ -345,6 +349,7 @@ kuat_set_difficulty_normal = {
 			kuat_is_enable_apocalyptic_origin = yes
 			kuat_is_enable_shadow_origin = yes 
 			kuat_is_enable_eternal_origin = yes
+			kuat_is_post_apocalyptic_kuat_origin = yes
 		}
 	} } }
 	effect = {
@@ -385,6 +390,7 @@ kuat_set_difficulty_hard_1 = {
 		kuat_is_enable_apocalyptic_origin = yes
 		kuat_is_enable_shadow_origin = yes 
 		kuat_is_enable_eternal_origin = yes
+		kuat_is_post_apocalyptic_kuat_origin = yes
 	} } } }
 	effect = {
 		custom_tooltip = "kuat_set_difficulty_botton.hard"
@@ -410,6 +416,7 @@ kuat_set_difficulty_hard_1_alt = {
 		kuat_is_enable_apocalyptic_origin = yes
 		kuat_is_enable_shadow_origin = yes 
 		kuat_is_enable_eternal_origin = yes
+		kuat_is_post_apocalyptic_kuat_origin = yes
 	} } } }
 	effect = {
 		custom_tooltip = "kuat_set_difficulty_botton.hard"
@@ -424,6 +431,7 @@ kuat_set_difficulty_ban = {
 		kuat_is_enable_shadow_origin = yes 
 		kuat_is_enable_apocalyptic_origin = yes
 		kuat_is_enable_eternal_origin = yes
+		kuat_is_post_apocalyptic_kuat_origin = yes
 	} } } }
 	effect = {
 		custom_tooltip = "kuat_set_difficulty_botton.ban"
@@ -449,6 +457,7 @@ kuat_set_difficulty_ban_alt = {
 		kuat_is_enable_apocalyptic_origin = yes
 		kuat_is_enable_shadow_origin = yes 
 		kuat_is_enable_eternal_origin = yes
+		kuat_is_post_apocalyptic_kuat_origin = yes
 	} } } }
 	effect = {
 		custom_tooltip = "kuat_set_difficulty_botton.ban"
@@ -490,12 +499,22 @@ kuat_set_check_two_1 = {
 #animal trigger
 kuat_animal_trigger_group = {
 	potential = { always = yes }
-	allow = { hidden_trigger = { from = { OR = { kuat_is_enable_eternal_origin = yes kuat_is_enable_shadow_origin = yes kuat_is_enable_apocalyptic_origin = yes } } } }
+	allow = { hidden_trigger = { from = { OR = { 
+		kuat_is_enable_eternal_origin = yes 
+		kuat_is_enable_shadow_origin = yes 
+		kuat_is_enable_apocalyptic_origin = yes 
+		kuat_is_post_apocalyptic_kuat_origin = yes
+	} } } }
 	effect = { }
 }
 kuat_animal_trigger_enable = {
 	potential = { NOT = { has_global_flag = enable_animal_trigger } }
-	allow = { hidden_trigger = { from = { OR = { kuat_is_enable_eternal_origin = yes kuat_is_enable_shadow_origin = yes kuat_is_enable_apocalyptic_origin = yes } } } }
+	allow = { hidden_trigger = { from = { OR = { 
+		kuat_is_enable_eternal_origin = yes 
+		kuat_is_enable_shadow_origin = yes 
+		kuat_is_enable_apocalyptic_origin = yes 
+		kuat_is_post_apocalyptic_kuat_origin = yes
+	} } } }
 	effect = { hidden_effect = {
 		remove_global_flag = disable_animal_trigger
 		remove_global_flag = enable_animal_trigger
@@ -536,16 +555,46 @@ kuat_animal_trigger_enable = {
 			}
 			else = { kuat_Uts02_create_faction_species = yes }
 		}
+		else_if = {
+			limit = { kuat_is_post_apocalyptic_kuat_origin = yes }
+			if = {
+				limit = { OR = {
+					exists = event_target:CHECK_UTS02_LEADER
+					exists = event_target:CHECK_UTS01_LEADER
+				} }
+				clear_global_event_target = UTS01_LEADER
+				random_galaxy_species = {
+					limit = { is_same_value = event_target:CHECK_UTS01_LEADER }
+					save_global_event_target_as = UTS01_LEADER
+				}
+				clear_global_event_target = UTS02_LEADER
+				random_galaxy_species = {
+					limit = { is_same_value = event_target:CHECK_UTS02_LEADER }
+					save_global_event_target_as = UTS02_LEADER
+				}
+			}
+			else = { kuat_Uts01_create_faction_species = yes kuat_Uts02_create_faction_species = yes }
+		}
 	} }
 }
 kuat_animal_trigger_enable_alt = {
 	potential = { hidden_trigger = { has_global_flag = enable_animal_trigger } }
-	allow = { hidden_trigger = { from = { OR = { kuat_is_enable_eternal_origin = yes kuat_is_enable_shadow_origin = yes kuat_is_enable_apocalyptic_origin = yes } } } }
+	allow = { hidden_trigger = { from = { OR = { 
+		kuat_is_enable_eternal_origin = yes 
+		kuat_is_enable_shadow_origin = yes 
+		kuat_is_enable_apocalyptic_origin = yes
+		kuat_is_post_apocalyptic_kuat_origin = yes 
+	} } } }
 	effect = { }
 }
 kuat_animal_trigger_disable = {
 	potential = { NOT = { has_global_flag = disable_animal_trigger } }
-	allow = { hidden_trigger = { from = { OR = { kuat_is_enable_eternal_origin = yes kuat_is_enable_shadow_origin = yes kuat_is_enable_apocalyptic_origin = yes } } } }
+	allow = { hidden_trigger = { from = { OR = { 
+		kuat_is_enable_eternal_origin = yes 
+		kuat_is_enable_shadow_origin = yes 
+		kuat_is_enable_apocalyptic_origin = yes
+		kuat_is_post_apocalyptic_kuat_origin = yes 
+	} } } }
 	effect = { hidden_effect = {
 		remove_global_flag = disable_animal_trigger
 		remove_global_flag = enable_animal_trigger
@@ -560,13 +609,25 @@ kuat_animal_trigger_disable = {
 			clear_global_event_target = UTS02_LEADER
 			from = { ruler = { save_global_event_target_as = UTS02_LEADER } }
 		}
+		else_if = {
+			limit = { kuat_is_post_apocalyptic_kuat_origin = yes }
+			clear_global_event_target = UTS01_LEADER
+			from = { ruler = { save_global_event_target_as = UTS01_LEADER } }
+			clear_global_event_target = UTS02_LEADER
+			from = { ruler = { save_global_event_target_as = UTS02_LEADER } }
+		}
 		clear_global_event_target = ETERNAL_LEADER
 		from = { ruler = { save_global_event_target_as = ETERNAL_LEADER } }
 	} }
 }
 kuat_animal_trigger_disable_alt = {
 	potential = { hidden_trigger = { has_global_flag = disable_animal_trigger } }
-	allow = { hidden_trigger = { from = { OR = { kuat_is_enable_eternal_origin = yes kuat_is_enable_shadow_origin = yes kuat_is_enable_apocalyptic_origin = yes } } } }
+	allow = { hidden_trigger = { from = { OR = { 
+		kuat_is_enable_eternal_origin = yes 
+		kuat_is_enable_shadow_origin = yes 
+		kuat_is_enable_apocalyptic_origin = yes 
+		kuat_is_post_apocalyptic_kuat_origin = yes
+	} } } }
 	effect = { }
 }
 
