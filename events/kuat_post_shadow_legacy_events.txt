@@ -59,6 +59,12 @@ country_event = {
 					target = root
 					set_hostile = no set_friendly = yes
 				}
+				set_subject_of = {
+					who = root
+					preset = preset_vassal
+					allow_instant_negotiation = yes
+					use_demanded_terms = no
+				}
 				set_country_flag = protected_from_queen_storm
 				save_global_event_target_as = kuat_post_support_country 
 			}
@@ -92,18 +98,11 @@ country_event = {
 		trigger = {
 			success_text = {
 				text = "kuat_post_apocalyptic_legacy.2.0.desc"
-				NOR = {
-					has_country_flag = kuat_post_apocalyptic_legacy.2.setp.1
-					has_country_flag = kuat_post_apocalyptic_legacy.2.setp.2
-				}
+				NOT = { has_country_flag = kuat_post_apocalyptic_legacy.2.setp.1 }
 			}
 			success_text = {
 				text = "kuat_post_apocalyptic_legacy.2.1.desc"
 				has_country_flag = kuat_post_apocalyptic_legacy.2.setp.1
-			}
-			success_text = {
-				text = "kuat_post_apocalyptic_legacy.2.2.desc"
-				has_country_flag = kuat_post_apocalyptic_legacy.2.setp.2
 			}
 		}
 	}
@@ -133,9 +132,7 @@ country_event = {
 	option = { #who are you
 		name = kuat_post_apocalyptic_legacy.2.a
 		hidden_effect = { 
-			remove_country_flag = kuat_post_apocalyptic_legacy.2.setp.2
 			set_country_flag = kuat_post_apocalyptic_legacy.2.setp.1
-			get_action_for_contrator_kuat_plague_alert = yes
 		}
 		is_dialog_only = yes
 		response_text = kuat_post_apocalyptic_legacy.2.a.res
@@ -143,9 +140,7 @@ country_event = {
 	option = { #where am I
 		name = kuat_post_apocalyptic_legacy.2.b
 		hidden_effect = { 
-			remove_country_flag = kuat_post_apocalyptic_legacy.2.setp.2
 			set_country_flag = kuat_post_apocalyptic_legacy.2.setp.1
-			get_action_for_contrator_kuat_plague_alert = yes
 		}
 		is_dialog_only = yes
 		response_text = kuat_post_apocalyptic_legacy.2.b.res
@@ -153,9 +148,7 @@ country_event = {
 	option = { #what happened here
 		name = kuat_post_apocalyptic_legacy.2.c
 		hidden_effect = { 
-			remove_country_flag = kuat_post_apocalyptic_legacy.2.setp.2
 			set_country_flag = kuat_post_apocalyptic_legacy.2.setp.1
-			get_action_for_contrator_kuat_plague_alert = yes
 		}
 		is_dialog_only = yes
 		response_text = kuat_post_apocalyptic_legacy.2.c.res
@@ -163,9 +156,7 @@ country_event = {
 	option = { #why are you doing this
 		name = kuat_post_apocalyptic_legacy.2.d
 		hidden_effect = { 
-			remove_country_flag = kuat_post_apocalyptic_legacy.2.setp.2
 			set_country_flag = kuat_post_apocalyptic_legacy.2.setp.1
-			get_action_for_contrator_kuat_plague_alert = yes
 		}
 		is_dialog_only = yes
 		response_text = kuat_post_apocalyptic_legacy.2.d.res
@@ -173,15 +164,15 @@ country_event = {
 	option = { #how to do
 		name = kuat_post_apocalyptic_legacy.2.e
 		hidden_effect = { 
-			remove_country_flag = kuat_post_apocalyptic_legacy.2.setp.1
-			set_country_flag = kuat_post_apocalyptic_legacy.2.setp.2
-			get_action_for_contrator_kuat_plague_alert = yes
+			set_country_flag = kuat_post_apocalyptic_legacy.2.setp.1
 		}
 		is_dialog_only = yes
 		response_text = kuat_post_apocalyptic_legacy.2.e.res
 	}
 
 	option = { name = kuat_shipyard.exit default_hide_option = yes }
+
+	after = { remove_country_flag = kuat_post_apocalyptic_legacy.2.setp.1 }
 }
 
 #找A区
