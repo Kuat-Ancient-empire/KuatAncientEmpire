@@ -96,34 +96,42 @@ country_event = {
 	hide_window = yes
 	is_triggered_only = yes
 	immediate = {
-		every_galaxy_planet = {
-			limit = { has_planet_flag = starkiller_attack_built_target }
-			if = {
-				limit = { is_colony = yes }
-				owner = {
-					if = {
-						limit = { NOT = { exists = event_target:eternal_fleet_country } }
-						add_opinion_modifier = {
-							who = root
-							modifier = opinion_starkillerbase_broke_our_system_planet_target
+		if = {
+			limit = { OR = {
+				NOT = { has_global_flag = has_origin_post_apocalyptic_kuat }
+				has_global_flag = kuat_post_origin_cover_the_starkiller
+			} }
+			every_galaxy_planet = {
+				limit = { has_planet_flag = starkiller_attack_built_target }
+				if = {
+					limit = { is_colony = yes }
+					owner = {
+						if = {
+							limit = { NOT = { exists = event_target:eternal_fleet_country } }
+							add_opinion_modifier = {
+								who = root
+								modifier = opinion_starkillerbase_broke_our_system_planet_target
+							}
+							set_timed_country_flag = { flag = fire_once_war days = 1 }
+							declare_war = { target = root attacker_war_goal = wg_colossus }
 						}
-						set_timed_country_flag = { flag = fire_once_war days = 1 }
-						declare_war = { target = root attacker_war_goal = wg_colossus }
+						add_static_war_exhaustion = {
+							attacker = root location = prev
+							value_for_planet_destruction = 1
+						}
 					}
-					add_static_war_exhaustion = {
-						attacker = root location = prev
-						value_for_planet_destruction = 1
-					}
+					kuat_destroy_colony = { PC = pc_shattered }
 				}
-				kuat_destroy_colony = { PC = pc_shattered }
+				if = {
+					limit = { is_star = yes exists = solar_system }
+					solar_system = { starkiller_destroyed_system_everything = yes }
+				}
 			}
-			if = {
-				limit = { is_star = yes }
-				change_pc = pc_black_hole
-				solar_system = {  
-					set_star_class = sc_black_hole  
-					starkiller_destroyed_system_everything = yes 
-				}
+		}
+		else = {
+			random_playable_country = {
+				limit =  { kuat_is_post_apocalyptic_kuat_origin = yes }
+				country_event = { id = kuat_post_apocalyptic_legacy.17 }
 			}
 		}
 		every_megastructure = {
@@ -294,7 +302,7 @@ country_event = {
 				remove_megastructure = this
 			}
 			every_system_planet = {
-				limit = { OR = { is_colony = yes is_capital = yes is_star = yes } }
+				limit = { is_star = yes }
 				prev = { spawn_megastructure = {
 					type = kuat_starkiller_marker_0
 					owner = root coords_from = prev

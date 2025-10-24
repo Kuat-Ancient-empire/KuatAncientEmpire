@@ -600,7 +600,17 @@ country_event = {
 			}
 			event_target:kuat_firebase_country = {
 				set_country_type = kuat_fire_base_hositle
-				country_event = { id = kuat_post_apocalyptic_legacy.17 }
+				random_owned_megastructure = {
+					limit = { is_megastructure_type = kuat_starkillerbase_1 }
+					upgrade_megastructure_to = kuat_starkillerbase_15
+					finish_upgrade = yes
+				}
+				random_owned_megastructure = {
+					limit = { is_megastructure_type = kuat_starkillerbase_15 }
+					upgrade_megastructure_to = kuat_starkillerbase_a
+					finish_upgrade = yes
+				}
+				country_event = { id = kuat_starkiller.1 }
 			}
 		}
 		response_text = kuat_post_apocalyptic_legacy.16.what.response
@@ -609,26 +619,82 @@ country_event = {
 
 country_event = {
 	id = kuat_post_apocalyptic_legacy.17
-	hide_window = yes
+	title = "kuat_post_apocalyptic_legacy.17.title"
+	desc = {
+		trigger = {
+			success_text = {
+				text = "kuat_post_apocalyptic_legacy.17.0.desc"
+				NOT = { has_country_flag = kuat_post_apocalyptic_legacy.17.setp.1 }
+			}
+			success_text = {
+				text = "kuat_post_apocalyptic_legacy.17.1.desc"
+				has_country_flag = kuat_post_apocalyptic_legacy.17.setp.1
+			}
+		}
+	}
+	custom_gui = "kuat_event_diplomacy_window"
+	custom_gui_option = "kuat_event_diplomacy_option"
+	picture_event_data = {
+		portrait = event_target:UTS01_LEADER
+		room = galactic_custodian_room
+	}
+	location = event_target:kuat_post_support_country
 	is_triggered_only = yes
+	diplomatic = yes
+	
 	trigger = { 
 		kuat_is_post_apocalyptic_kuat_origin = yes 
-		exists = event_target:kuat_firebase_country 
-		any_owned_megastructure = { is_megastructure_type = kuat_starkillerbase_1 }
+		exists = event_target:kuat_post_support_country
 	}
+
 	immediate = {
-		random_owned_megastructure = {
-			limit = { is_megastructure_type = kuat_starkillerbase_1 }
-			upgrade_megastructure_to = kuat_starkillerbase_15
-			finish_upgrade = yes
-		}
-		random_owned_megastructure = {
-			limit = { is_megastructure_type = kuat_starkillerbase_15 }
-			upgrade_megastructure_to = kuat_starkillerbase_a
-			finish_upgrade = yes
-		}
-		country_event = { id = kuat_starkiller.1 }
+		set_global_flag = kuat_post_origin_cover_the_starkiller
 	}
+
+	option = { #who are you
+		name = kuat_post_apocalyptic_legacy.17.a
+		hidden_effect = { 
+			set_country_flag = kuat_post_apocalyptic_legacy.17.setp.1
+		}
+		is_dialog_only = yes
+		response_text = kuat_post_apocalyptic_legacy.17.a.res
+	}
+	option = { #where am I
+		name = kuat_post_apocalyptic_legacy.17.b
+		hidden_effect = { 
+			set_country_flag = kuat_post_apocalyptic_legacy.17.setp.1
+		}
+		is_dialog_only = yes
+		response_text = kuat_post_apocalyptic_legacy.17.b.res
+	}
+	option = { #what happened here
+		name = kuat_post_apocalyptic_legacy.17.c
+		hidden_effect = { 
+			set_country_flag = kuat_post_apocalyptic_legacy.17.setp.1
+		}
+		is_dialog_only = yes
+		response_text = kuat_post_apocalyptic_legacy.17.c.res
+	}
+	option = { #why are you doing this
+		name = kuat_post_apocalyptic_legacy.17.d
+		hidden_effect = { 
+			set_country_flag = kuat_post_apocalyptic_legacy.17.setp.1
+		}
+		is_dialog_only = yes
+		response_text = kuat_post_apocalyptic_legacy.17.d.res
+	}
+	option = { #how to do
+		name = kuat_post_apocalyptic_legacy.17.e
+		hidden_effect = { 
+			set_country_flag = kuat_post_apocalyptic_legacy.17.setp.1
+		}
+		is_dialog_only = yes
+		response_text = kuat_post_apocalyptic_legacy.17.e.res
+	}
+
+	option = { name = kuat_shipyard.exit default_hide_option = yes }
+
+	after = { remove_country_flag = kuat_post_apocalyptic_legacy.17.setp.1 }
 }
 
 country_event = {
