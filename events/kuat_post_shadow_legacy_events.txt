@@ -81,7 +81,7 @@ country_event = {
 			Resugrant = @kuat_invasion_Battleship_num_T5
 			Cavelry = @kuat_invasion_Cruser_num_T5
 			DIFF = BOSS
-			modifier = being_kuat_fleet_origin
+			modifier = being_kuat_fleet
 			Location = prev.capital_scope
 		}
 	}
@@ -120,54 +120,37 @@ country_event = {
 		kuat_is_post_apocalyptic_kuat_origin = yes 
 		exists = event_target:kuat_post_support_country
 		OR = {
-			NOT = { has_active_event = { kuat_post_apocalyptic_legacy.2 } }
+			NOT = { 
+				has_active_event = { 
+					kuat_post_apocalyptic_legacy.2 
+					kuat_post_apocalyptic_legacy.18 
+				} 
+			}
 			from = { is_same_value = root }
 		}
 		OR = {
-			from = { is_country_type = kuat_support }
+			from = { is_same_value = event_target:kuat_post_support_country }
 			from = { is_same_value = root }
 		}
 	}
 
-	option = { #who are you
-		name = kuat_post_apocalyptic_legacy.2.a
-		hidden_effect = { 
-			set_country_flag = kuat_post_apocalyptic_legacy.2.setp.1
-		}
-		is_dialog_only = yes
-		response_text = kuat_post_apocalyptic_legacy.2.a.res
+	option = {
+		name = kuat_post_apocalyptic_legacy.18.a
+		hidden_effect = { country_event = { id = kuat_post_apocalyptic_legacy.18 } }
 	}
-	option = { #where am I
-		name = kuat_post_apocalyptic_legacy.2.b
+	option = {
+		name = kuat_post_apocalyptic_legacy.18.b
+		trigger = { 
+			has_country_flag = Kuat_D_facility_area_over 
+			count_owned_leader = {
+				count < 1
+				limit = { has_leader_flag = kuat_post_shadow_leader }
+			}
+		}
 		hidden_effect = { 
+			create_kuat_post_shadow_leader_effects = { CLASS = commander }
 			set_country_flag = kuat_post_apocalyptic_legacy.2.setp.1
 		}
-		is_dialog_only = yes
-		response_text = kuat_post_apocalyptic_legacy.2.b.res
-	}
-	option = { #what happened here
-		name = kuat_post_apocalyptic_legacy.2.c
-		hidden_effect = { 
-			set_country_flag = kuat_post_apocalyptic_legacy.2.setp.1
-		}
-		is_dialog_only = yes
-		response_text = kuat_post_apocalyptic_legacy.2.c.res
-	}
-	option = { #why are you doing this
-		name = kuat_post_apocalyptic_legacy.2.d
-		hidden_effect = { 
-			set_country_flag = kuat_post_apocalyptic_legacy.2.setp.1
-		}
-		is_dialog_only = yes
-		response_text = kuat_post_apocalyptic_legacy.2.d.res
-	}
-	option = { #how to do
-		name = kuat_post_apocalyptic_legacy.2.e
-		hidden_effect = { 
-			set_country_flag = kuat_post_apocalyptic_legacy.2.setp.1
-		}
-		is_dialog_only = yes
-		response_text = kuat_post_apocalyptic_legacy.2.e.res
 	}
 
 	option = { name = kuat_shipyard.exit default_hide_option = yes }
@@ -561,7 +544,13 @@ country_event = {
 	option = { 
 		name = kuat_post_apocalyptic_legacy.15.a 
 		custom_tooltip = "kuat_post_apocalyptic_kuat_origin_give_all_ship_and_tech"
-		hidden_effect = { kuat_origin_give_all_ship_and_tech = yes }
+		hidden_effect = { 
+			kuat_origin_give_all_ship_and_tech = yes 
+			event_target:kuat_post_support_country = {
+				every_owned_fleet = { set_owner = root }
+			}
+			create_kuat_post_shadow_leader_effects = { CLASS = commander }
+		}
 	}
 }
 
@@ -616,12 +605,6 @@ country_event = {
 		}
 		response_text = kuat_post_apocalyptic_legacy.16.what.response
 	}
-	option = {
-		#你等着，孬种
-		name = "kuat_post_apocalyptic_legacy.16.exist"
-		response_text = kuat_post_apocalyptic_legacy.16.exist.response
-		default_hide_option = yes
-	}
 }
 
 country_event = {
@@ -650,68 +633,78 @@ country_event = {
 
 country_event = {
 	id = kuat_post_apocalyptic_legacy.18
-	title = "kuat_post_apocalyptic_legacy.18.title"
-	desc = "kuat_post_apocalyptic_legacy.18.desc"
-	diplomatic = yes
-	picture_event_data = { 
-		portrait = event_target:kuat_player_target_species
-		room = galactic_custodian_room 
+	title = "kuat_post_apocalyptic_legacy.2.title"
+	desc = {
+		trigger = {
+			success_text = {
+				text = "kuat_post_apocalyptic_legacy.2.0.desc"
+				NOT = { has_country_flag = kuat_post_apocalyptic_legacy.2.setp.1 }
+			}
+			success_text = {
+				text = "kuat_post_apocalyptic_legacy.2.1.desc"
+				has_country_flag = kuat_post_apocalyptic_legacy.2.setp.1
+			}
+		}
 	}
 	custom_gui = "kuat_event_diplomacy_window"
 	custom_gui_option = "kuat_event_diplomacy_option"
+	picture_event_data = {
+		portrait = event_target:ETERNAL_LEADER
+		room = galactic_custodian_room
+	}
+	location = event_target:kuat_post_support_country
 	is_triggered_only = yes
-	trigger = {
-		kuat_is_post_apocalyptic_kuat_origin = yes
-		from = {
-			OR = {
-				is_country_type = kuat_fire_base_hositle
-				is_country_type = kuat_fire_base
-			}
-		}
-		OR = {
-			kuat_fire_base_diplo_event_active = no
-			from = { is_same_value = root }
-		}
-		has_global_flag = starkillerbase_not_passed
-		has_global_flag = starkillerbase_contact
-		exists = event_target:kuat_firebase_country
+	diplomatic = yes
+	
+	trigger = { 
+		kuat_is_post_apocalyptic_kuat_origin = yes 
+		exists = event_target:kuat_post_support_country
 	}
-	option = {
-		#你们这群走狗，竟然敢来这里！
-		name = "kuat_post_apocalyptic_legacy.16.who"
+
+	option = { #who are you
+		name = kuat_post_apocalyptic_legacy.2.a
+		hidden_effect = { 
+			set_country_flag = kuat_post_apocalyptic_legacy.2.setp.1
+		}
 		is_dialog_only = yes
-		response_text = kuat_post_apocalyptic_legacy.16.who.response
+		response_text = kuat_post_apocalyptic_legacy.2.a.res
 	}
-	option = {
-		#话不投机半句多，开战！
-		name = "kuat_post_apocalyptic_legacy.16.what"
-		hidden_effect = {
-			set_country_flag = kuat_legacy_87_continue
-			every_system_within_border = {
-				limit = { is_capital_system = yes }
-				every_system_planet = {
-					limit = { is_star = yes }
-					set_planet_flag = starkiller_attack_built_target
-					prev = { spawn_megastructure = {
-						type = kuat_starkiller_marker_0
-						owner = event_target:kuat_firebase_country coords_from = prev
-						init_effect = { set_megastructure_flag = kuat_starkiller_marker_0_upgrade_@event_target:kuat_firebase_country }
-					} }
-				}
-			}
-			event_target:kuat_firebase_country = {
-				set_country_type = kuat_fire_base_hositle
-				country_event = { id = kuat_post_apocalyptic_legacy.17 }
-			}
+	option = { #where am I
+		name = kuat_post_apocalyptic_legacy.2.b
+		hidden_effect = { 
+			set_country_flag = kuat_post_apocalyptic_legacy.2.setp.1
 		}
-		response_text = kuat_post_apocalyptic_legacy.16.what.response
+		is_dialog_only = yes
+		response_text = kuat_post_apocalyptic_legacy.2.b.res
 	}
-	option = {
-		#你等着，孬种
-		name = "kuat_post_apocalyptic_legacy.16.exist"
-		response_text = kuat_post_apocalyptic_legacy.16.exist.response
-		default_hide_option = yes
+	option = { #what happened here
+		name = kuat_post_apocalyptic_legacy.2.c
+		hidden_effect = { 
+			set_country_flag = kuat_post_apocalyptic_legacy.2.setp.1
+		}
+		is_dialog_only = yes
+		response_text = kuat_post_apocalyptic_legacy.2.c.res
 	}
+	option = { #why are you doing this
+		name = kuat_post_apocalyptic_legacy.2.d
+		hidden_effect = { 
+			set_country_flag = kuat_post_apocalyptic_legacy.2.setp.1
+		}
+		is_dialog_only = yes
+		response_text = kuat_post_apocalyptic_legacy.2.d.res
+	}
+	option = { #how to do
+		name = kuat_post_apocalyptic_legacy.2.e
+		hidden_effect = { 
+			set_country_flag = kuat_post_apocalyptic_legacy.2.setp.1
+		}
+		is_dialog_only = yes
+		response_text = kuat_post_apocalyptic_legacy.2.e.res
+	}
+
+	option = { name = kuat_shipyard.exit default_hide_option = yes }
+
+	after = { remove_country_flag = kuat_post_apocalyptic_legacy.2.setp.1 }
 }
 
 country_event = {
