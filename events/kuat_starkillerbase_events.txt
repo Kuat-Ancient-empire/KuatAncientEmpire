@@ -79,14 +79,14 @@ country_event = {
 	hide_window = yes
 	is_triggered_only = yes
 	immediate = {
-		country_event = { id = kuat_starkiller.6 days = 15 }
+		country_event = { id = kuat_starkiller.6 days = 29 }
 		every_megastructure = {
 			limit = { has_megastructure_flag = kuat_starkiller_marker_0_upgrade_@root }
 			upgrade_megastructure_to = kuat_starkiller_marker_1
 			finish_upgrade = yes
 			set_megastructure_flag = kuat_starkiller_marker_1_upgrade_@root
 		}
-		country_event = { id = kuat_starkiller.11 days = 14 }
+		country_event = { id = kuat_starkiller.11 days = 28 }
 	}
 }
 
@@ -112,7 +112,6 @@ country_event = {
 								who = root
 								modifier = opinion_starkillerbase_broke_our_system_planet_target
 							}
-							set_timed_country_flag = { flag = fire_once_war days = 1 }
 							declare_war = { target = root attacker_war_goal = wg_colossus }
 						}
 						add_static_war_exhaustion = {
@@ -131,7 +130,10 @@ country_event = {
 		else = {
 			random_playable_country = {
 				limit =  { kuat_is_post_apocalyptic_kuat_origin = yes }
-				country_event = { id = kuat_post_apocalyptic_legacy.17 }
+				prev = {
+					declare_war = { target = prev attacker_war_goal = wg_colossus }
+				}
+				country_event = { id = kuat_post_apocalyptic_legacy.17 days = 5 }
 			}
 		}
 		every_megastructure = {
@@ -171,17 +173,13 @@ country_event = {
 		#reset variable
 		event_target:starkillerbase_location = { clear_variable = starkiller_target }
 		if = {
-			limit = { has_global_flag = starkillerbase_not_passed }
+			limit = { OR = {
+				NOT = { has_global_flag = has_origin_post_apocalyptic_kuat }
+				has_global_flag = kuat_post_origin_cover_the_starkiller
+			} }
 			remove_global_flag = starkillerbase_not_passed
 		}
 	}
-}
-
-system_event = {
-	id = kuat_starkiller.8
-	hide_window = yes
-	is_triggered_only = yes
-	immediate = { every_system_ambient_object = { destroy_ambient_object = this } }
 }
 
 country_event = {
@@ -204,15 +202,7 @@ country_event = {
 			limit = { is_megastructure_type = kuat_starkillerbase_1 }
 			remove_megastructure = this
 		}
-		from = {  
-			if = {
-				limit = { kuat_is_post_apocalyptic_kuat_origin = no }
-				country_event = { id = kuat_starkiller.10 }
-			}
-			else = {
-				country_event = { id = kuat_post_apocalyptic_legacy.19 }
-			}
-		}
+		from = { country_event = { id = kuat_starkiller.10 } }
 	}
 }
 
