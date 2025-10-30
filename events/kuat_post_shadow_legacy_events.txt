@@ -638,13 +638,11 @@ country_event = {
 		portrait = event_target:UTS01_LEADER
 		room = galactic_custodian_room
 	}
-	location = event_target:kuat_post_support_country
 	is_triggered_only = yes
 	diplomatic = yes
 	
 	trigger = { 
 		kuat_is_post_apocalyptic_kuat_origin = yes 
-		exists = event_target:kuat_post_support_country
 	}
 
 	immediate = {
@@ -1152,4 +1150,58 @@ country_event = {
 			kuat_create_toasto_message = { KEY = kuat_find_memory_cluds TARGET = this RECIPIENT = this }
 		}
 	} }
+}
+
+
+country_event = {
+	id = kuat_post_apocalyptic_legacy.23
+	title = "kuat_post_apocalyptic_legacy.23.title"
+	desc = "kuat_post_apocalyptic_legacy.23.desc"
+	custom_gui = "kuat_event_diplomacy_window"
+	custom_gui_option = "kuat_event_diplomacy_option"
+	picture_event_data = {
+		portrait = event_target:UTS01_LEADER
+		room = galactic_custodian_room
+	}
+	is_triggered_only = yes
+	diplomatic = yes
+	
+	trigger = { 
+		kuat_is_post_apocalyptic_kuat_origin = yes 
+		has_global_flag = kuat_ded_contractor_support_destroyed
+	}
+
+	option = { #who are you
+		name = kuat_post_apocalyptic_legacy.23.a
+		is_dialog_only = yes
+		hidden_effect = { 
+			set_country_flag = kuat_post_apocalyptic_legacy.23.setp.1
+		}
+		response_text = kuat_post_apocalyptic_legacy.23.a.res
+	}
+	option = { #where am I
+		name = kuat_post_apocalyptic_legacy.23.b
+		is_dialog_only = yes
+		hidden_effect = { 
+			set_country_flag = kuat_post_apocalyptic_legacy.23.setp.1
+		}
+		response_text = kuat_post_apocalyptic_legacy.23.b.res
+	}
+	option = { #what happened here
+		name = kuat_post_apocalyptic_legacy.23.c
+		is_dialog_only = yes
+		hidden_effect = { 
+			set_country_flag = kuat_post_apocalyptic_legacy.23.setp.1
+		}
+		response_text = kuat_post_apocalyptic_legacy.23.c.res
+	}
+
+	option = { 
+		name = kuat_post_apocalyptic_legacy.23.f 
+		hidden_effect = {
+			remove_country_flag = kuat_post_apocalyptic_legacy.23.setp.1
+		}
+		response_text = kuat_post_apocalyptic_legacy.17.f.res
+		default_hide_option = yes 
+	}
 }
