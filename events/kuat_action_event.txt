@@ -5,10 +5,17 @@ country_event = {
 	hide_window = yes
 	is_triggered_only = yes
 	trigger = {
-		has_country_flag = fallen_empire_kuat
+		exists = event_target:fallen_empire_kuat 
+		is_same_value = event_target:fallen_empire_kuat 
 		is_at_war = yes
-		NOT = { any_owned_fleet = { has_fleet_flag = base_kuat_attack_fleet } }
-		NOR = { has_global_flag = wind_up_for_attack_fleet }
+		OR = {
+			AND = {
+				NOT = { has_global_flag = has_origin_post_apocalyptic }
+				NOT = { any_owned_fleet = { has_fleet_flag = base_kuat_attack_fleet } }
+			}
+			has_global_flag = has_origin_post_apocalyptic
+		}
+		NOT = { has_global_flag = wind_up_for_attack_fleet }
 	}
 	immediate = {
 		every_country = {
@@ -20,7 +27,11 @@ country_event = {
 		}
 		if = {
 			limit = { NOT = { has_global_flag = wind_up_for_attack_fleet } }
-			create_kuat_defender_and_attack_fleet = yes
+			if = {
+				limit = { NOT = { has_global_flag = has_origin_post_apocalyptic } }
+				create_kuat_defender_and_attack_fleet = yes
+			}
+			else = { create_post_kuat_defender_and_attack_fleet = yes }
 			set_timed_global_flag = { flag = wind_up_for_attack_fleet days = 360 }
 		}	
 	}
@@ -220,7 +231,7 @@ country_event = {
 	hide_window = yes
 	is_triggered_only = yes
 	trigger = {
-		is_galatic_empire_faction = yes
+		is_first_galatic_empire_faction = yes
 		FROMFROM = { OR = {
 			has_fleet_flag = defensive_galaxy_fleet
 			has_fleet_flag = base_kuat_attack_fleet
@@ -243,7 +254,7 @@ fleet_event = {
 	trigger = {
 		exists = owner
 		owner = { 
-			is_galatic_empire_faction = yes 
+			is_first_galatic_empire_faction = yes 
 			is_at_war = yes
 		}
 		OR = {
@@ -253,11 +264,17 @@ fleet_event = {
 	}
 	immediate = { 
 		if = {
-			limit = { owner = { is_same_value = event_target:fallen_empire_kuat } }
+			limit = { 
+				exists = event_target:fallen_empire_kuat
+				owner = { is_same_value = event_target:fallen_empire_kuat } 
+			}
 			kuat_fleet_execute_order_1 = { OWNER_TARGET = event_target:fallen_empire_kuat }
 		}
 		else_if = {
-			limit = { owner = { is_same_value = event_target:return_kuat_awakening_country } }
+			limit = { 
+				exists = event_target:return_kuat_awakening_country
+				owner = { is_same_value = event_target:return_kuat_awakening_country } 
+			}
 			kuat_fleet_execute_order_1 = { OWNER_TARGET = event_target:return_kuat_awakening_country }
 		}
 	}

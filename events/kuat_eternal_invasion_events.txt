@@ -244,7 +244,10 @@ event = {
 		every_system = {
 			limit = { 
 				kuat_is_invasion_system = yes 
-				NOT = { has_star_flag = kuat_military_base_system_home_temple }
+				NOR = { 
+					has_star_flag = kuat_military_base_system_home_temple 
+					has_star_flag = Kuat_system_int_4
+				}
 			}
 			every_fleet_in_system = { destroy_fleet = { target = this destroy_template = yes kill_leader = yes } }
 			create_elternal_system_warbase = { LOCK = yes }
@@ -1241,9 +1244,19 @@ country_event = {
 				text = "exe_invasion.1000.eternal.desc"
 			}
 			success_text = {
+				kuat_is_enable_apocalyptic_origin = yes
+				text = "exe_invasion.1000.apocalyptic.desc"
+			}
+			success_text = {
+				kuat_is_enable_post_apocalyptic_origin = yes
+				text = "exe_invasion.1000.post_apocalyptic.desc"
+			}
+			success_text = {
 				NOR = {
 					kuat_is_enable_eternal_origin = yes
 					kuat_is_enable_shadow_origin = yes
+					kuat_is_enable_apocalyptic_origin = yes
+					kuat_is_enable_post_apocalyptic_origin = yes
 				}
 				text = "exe_invasion.1000.none.desc"
 			}
@@ -1639,7 +1652,7 @@ country_event = {
 					effect = { 
 						copy_flags_and_variables_from = event_target:kuat_battle_disable_ship_at_health_ship 
 						if = {
-							limit = { root.from = { is_galatic_empire_faction = yes } }
+							limit = { root.from = { is_first_galatic_empire_faction = yes } }
 							kuat_battle_disable_ship_at_health = { FLAG = enable_kuat_ship_inital Disable_health = 0.01 WHICH = KUAT_SHIP_HEALTH_VAR HEALTH = value:kuat_dynamic_exist_life_times }
 						}
 						else_if = {
@@ -1796,7 +1809,7 @@ ship_event = {
 			else = { kuat_battle_clear_ship_at_health = { REPAIR = yes INVERT_DISABLE = set_disabled Disable_health = -1 } }
 		}
 		else_if = {
-			limit = { has_ship_flag = enable_kuat_ship_inital owner = { is_galatic_empire_faction = yes } }
+			limit = { has_ship_flag = enable_kuat_ship_inital owner = { is_first_galatic_empire_faction = yes } }
 			if = {
 				limit = { kuat_exist_disable_type = no }
 				kuat_battle_clear_ship_at_health = { REPAIR = yes INVERT_DISABLE = set_disabled }
@@ -1880,7 +1893,7 @@ country_event = {
 	trigger = { 
 		is_invisable_faction = yes 
 		from = { is_invisable_faction = no }
-		fromfrom = { NAND = { root = { OR = { is_eternal_faction = yes is_galatic_empire_faction = yes } } is_ship_size = exe_starbase } }
+		fromfrom = { NAND = { root = { OR = { is_eternal_faction = yes is_first_galatic_empire_faction = yes } } is_ship_size = exe_starbase } }
 	}
 	immediate = {
 		if = {
@@ -2020,7 +2033,7 @@ country_event = {
 			} }
 		}
 		if = {
-			limit = { is_galatic_empire_faction = yes }
+			limit = { is_first_galatic_empire_faction = yes }
 			fromfrom = { if = {  
 				limit = { NOT = { has_fleet_flag = is_modifiering_fleet } }
 				set_fleet_flag = is_modifiering_fleet
@@ -2032,7 +2045,7 @@ country_event = {
 			} }
 			fromfromfrom = { if = {
 				limit = {
-					ROOT = { is_galatic_empire_faction = yes }
+					ROOT = { is_first_galatic_empire_faction = yes }
 					NOT = { has_fleet_flag = is_modifiering_fleet }
 				}
 				set_fleet_flag = is_modifiering_fleet

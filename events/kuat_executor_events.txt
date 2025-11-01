@@ -86,7 +86,7 @@ country_event = {
 			}
 			every_playable_country = {
 				limit = { is_ai = no kuat_is_enable_apocalyptic_origin = yes }
-				set_country_flag = can_pass_by set_country_flag = can_pass_inner_by
+				set_country_flag = kaut_allow_pass_star_gate
 			}
 			every_megastructure = { limit = { is_megastructure_type = exe_outer_gate } activate_gateway = this }
 		}
@@ -739,7 +739,8 @@ ship_event = {
 			}
 			every_playable_country = {
 				limit = { is_ai = no }
-				set_country_flag = can_pass_by set_country_flag = can_pass_inner_by country_event = { id = executor_build.46 }
+				set_country_flag = kaut_allow_pass_star_gate
+				country_event = { id = executor_build.46 }
 			}
 			every_megastructure = { limit = { is_megastructure_type = exe_outer_gate } activate_gateway = this }
 		}
@@ -1119,12 +1120,14 @@ country_event = {
 	trigger = { exists = event_target:fallen_empire_kuat }
 	option = {
 		name = executor_build.601.a
-		hidden_effect = { event_target:fallen_empire_kuat = { 
-			declare_war = {
-				target = event_target:target_for_kuat
-				name = "Name_kuat_war"
-				attacker_war_goal = Kuat_total_war
-			} }
+		hidden_effect = { 
+			event_target:fallen_empire_kuat = { 
+				declare_war = {
+					target = event_target:target_for_kuat
+					name = "Name_kuat_war"
+					attacker_war_goal = Kuat_total_war
+				} 
+			}
 			if = {
 				limit = { any_owned_fleet = { has_fleet_flag = defensive_galaxy_fleet } }
 				every_owned_fleet = {
@@ -1780,7 +1783,6 @@ country_event = {
 		OR = {
 			from = { is_same_value = root }
 			from = { is_country_type = kuat_fleet }
-			from = { is_country_type = kuat_fleet_hostile }
 			from = { is_country_type = kuat_shipyard }
 		}
 	}
@@ -2131,7 +2133,7 @@ country_event = {
 			}
 			every_playable_country = {
 				limit = { is_ai = no }
-				set_country_flag = can_pass_by set_country_flag = can_pass_inner_by
+				set_country_flag = kaut_allow_pass_star_gate
 			}
 			every_megastructure = { limit = { is_megastructure_type = exe_outer_gate } activate_gateway = this }
 		}
