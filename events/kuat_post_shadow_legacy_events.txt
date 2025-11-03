@@ -550,9 +550,11 @@ country_event = {
 	title = "kuat_post_apocalyptic_legacy.16.title"
 	desc = "kuat_post_apocalyptic_legacy.16.desc"
 	diplomatic = yes
-	picture_event_data = { 
+	picture_event_data = {
 		portrait = event_target:kuat_player_target_species
-		room = galactic_custodian_room 
+		graphical_culture = event_target:kuat_player_target_country
+		city_level = event_target:kuat_player_target_country
+		room = galactic_custodian_room
 	}
 	custom_gui = "kuat_event_diplomacy_window"
 	custom_gui_option = "kuat_event_diplomacy_option"
@@ -802,9 +804,9 @@ country_event = {
 	title = "kuat_post_apocalyptic_legacy.19.title"
 	desc = "kuat_post_apocalyptic_legacy.19.desc"
 	diplomatic = yes
-	picture_event_data = { 
+	picture_event_data = {
 		portrait = event_target:kuat_player_target_species
-		room = galactic_custodian_room 
+		room = galactic_custodian_room
 	}
 	custom_gui = "kuat_event_diplomacy_window"
 	custom_gui_option = "kuat_event_diplomacy_option"
@@ -1400,9 +1402,7 @@ country_event = {
 	diplomatic = yes
 	picture_event_data = {
 		portrait = event_target:kuat_player_target_species
-		graphical_culture = event_target:kuat_player_target_species
-		city_level = event_target:kuat_player_target_species
-		room = event_target:kuat_player_target_species
+		room = galactic_custodian_room
 	}
 	custom_gui = "kuat_event_diplomacy_window"
 	custom_gui_option = "kuat_event_diplomacy_option"
@@ -1441,9 +1441,7 @@ country_event = {
 	diplomatic = yes
 	picture_event_data = {
 		portrait = event_target:kuat_player_target_species
-		graphical_culture = event_target:kuat_player_target_species
-		city_level = event_target:kuat_player_target_species
-		room = event_target:kuat_player_target_species
+		room = galactic_custodian_room
 	}
 	custom_gui = "kuat_event_diplomacy_window"
 	custom_gui_option = "kuat_event_diplomacy_option"
@@ -1453,7 +1451,7 @@ country_event = {
 		is_country_type = kuat_center_cluster_gurdian
 	}
 	immediate = {
-		set_global_flag = kuat_post_apocalyptic_enable_eternal_invasion_and_galatic_return
+		set_global_flag = kuat_post_apocalyptic_Overseer_Council_defeated_first
 	}
 	option = { 
 		name = kuat_post_apocalyptic_legacy.30.a 
@@ -1481,7 +1479,7 @@ country_event = {
 			limit = { kuat_is_enable_post_apocalyptic_origin = yes }
 			country_event = { id = kuat_post_apocalyptic_legacy.32 }
 		}
-		set_global_flag = kuat_post_apocalyptic_enable_eternal_invasion_and_galatic_return
+		set_global_flag = kuat_post_apocalyptic_Overseer_Council_defeated_first
 	}
 }
 
@@ -1493,9 +1491,7 @@ country_event = {
 	diplomatic = yes
 	picture_event_data = {
 		portrait = event_target:kuat_player_target_species
-		graphical_culture = event_target:kuat_player_target_species
-		city_level = event_target:kuat_player_target_species
-		room = event_target:kuat_player_target_species
+		room = galactic_custodian_room
 	}
 	custom_gui = "kuat_event_diplomacy_window"
 	custom_gui_option = "kuat_event_diplomacy_option"
@@ -1531,7 +1527,7 @@ country_event = {
 	trigger = {
 		exists = event_target:eternal_support_country
 		kuat_is_enable_post_apocalyptic_origin = yes
-		has_global_flag = kuat_post_apocalyptic_enable_eternal_invasion_and_galatic_return
+		has_global_flag = kuat_post_apocalyptic_Overseer_Council_defeated_first
 	}
 	option = {
 		name = kuat_post_apocalyptic_legacy.33.a
@@ -1548,6 +1544,7 @@ country_event = {
 		is_dialog_only = yes
 		response_text = kuat_post_apocalyptic_legacy.33.c.res
 	}
+	immediate = { set_global_flag = fire_facility_return }
 	option = { name = kuat_shipyard.exit default_hide_option = yes }
 }
 
@@ -1558,9 +1555,7 @@ country_event = {
 	desc = kuat_post_apocalyptic_legacy.34.desc
 	picture_event_data = {
 		portrait = event_target:kuat_player_target_species
-		graphical_culture = event_target:kuat_player_target_species
-		city_level = event_target:kuat_player_target_species
-		room = event_target:kuat_player_target_species
+		room = galactic_custodian_room
 	}
 	custom_gui = "kuat_event_diplomacy_window"
 	custom_gui_option = "kuat_event_diplomacy_option"
@@ -1572,4 +1567,136 @@ country_event = {
 		from = { is_country_type = kuat_center_cluster_gurdian }
 	}
 	option = { name = kuat_shipyard.exit default_hide_option = yes }
+}
+
+#双子座：协助击败监督者议会二阶段
+country_event = {
+	id = kuat_post_apocalyptic_legacy.35
+	title = "kuat_post_apocalyptic_legacy.35.title"
+	desc = "kuat_post_apocalyptic_legacy.35.desc"
+	diplomatic = yes
+	picture_event_data = {
+		portrait = event_target:UTS01_LEADER
+		room = Eternal_Empire_room
+	}
+	custom_gui = "kuat_event_diplomacy_window"
+	custom_gui_option = "kuat_event_diplomacy_option"
+	show_sound = event_wind_ruins
+	is_triggered_only = yes
+	trigger = { kuat_is_enable_post_apocalyptic_origin = yes }
+	#What about the Eternal Fleet
+	option = { 
+		name = kuat_post_apocalyptic_legacy.35.a 
+		is_dialog_only = yes
+		response_text = kuat_post_apocalyptic_legacy.35.a.resp 
+	}
+	#Can you control them?
+	option = { 
+		name = kuat_post_apocalyptic_legacy.35.b 
+		is_dialog_only = yes
+		response_text = kuat_post_apocalyptic_legacy.35.b.resp 
+	}
+	#What can i do for you
+	option = { 
+		name = kuat_post_apocalyptic_legacy.35.c 
+		is_dialog_only = yes
+		response_text = kuat_post_apocalyptic_legacy.35.c.resp 
+	}
+	#双子座协助
+	option = { 
+		name = kuat_post_apocalyptic_legacy.35.d 
+		response_text = kuat_post_apocalyptic_legacy.35.d.resp 
+		hidden_effect = { set_country_flag = kuat_post_apocalyptic_Gemini_ennded_A }
+		add_modifier = { modifier = kuat_eternal_support_A }
+		add_monthly_resource_mult = { resource = unity value = 12 }
+	}
+	#双子座不协助
+	option = { 
+		name = kuat_post_apocalyptic_legacy.35.e 
+		response_text = kuat_post_apocalyptic_legacy.35.e.resp 
+		hidden_effect = { set_country_flag = kuat_post_apocalyptic_Gemini_ennded_B }
+		add_modifier = { modifier = kuat_eternal_support_B }
+		add_monthly_resource_mult = { resource = unity value = 12 }
+	}
+}
+
+#后裔给出选择，白羊座的复活与否
+country_event = {
+	id = kuat_post_apocalyptic_legacy.36
+	title = "kuat_post_apocalyptic_legacy.36.title"
+	desc = "kuat_post_apocalyptic_legacy.36.desc"
+	diplomatic = yes
+	picture_event_data = { room = astral_rift_bleached_planet_2_room }
+	custom_gui = "kuat_event_diplomacy_window"
+	custom_gui_option = "kuat_event_diplomacy_option"
+	show_sound = event_wind_ruins
+	is_triggered_only = yes
+	trigger = { has_global_flag = kuat_post_apocalyptic_enable_dam_of_the_galatic_empire }
+	#What about the Eternal Fleet
+	option = { 
+		name = kuat_post_apocalyptic_legacy.36.a 
+		is_dialog_only = yes
+		response_text = kuat_post_apocalyptic_legacy.36.a.resp 
+	}
+	#Can you control them?
+	option = { 
+		name = kuat_post_apocalyptic_legacy.36.b 
+		is_dialog_only = yes
+		response_text = kuat_post_apocalyptic_legacy.36.b.resp 
+	}
+	#What can i do for you
+	option = { 
+		name = kuat_post_apocalyptic_legacy.36.c 
+		is_dialog_only = yes
+		response_text = kuat_post_apocalyptic_legacy.36.c.resp 
+	}
+	#接受复活白羊座，则剧烈加强监督者议会的舰队
+	option = { 
+		name = kuat_post_apocalyptic_legacy.36.d 
+		response_text = kuat_post_apocalyptic_legacy.36.d.resp 
+		hidden_effect = { 
+			set_global_flag = kuat_post_apocalyptic_Aries_ended_A
+			if = { #上传数据——新白羊座
+				limit = { has_country_flag = kuat_post_apocalyptic_Gemini_ennded_A }
+			}
+			else_if = { #上传数据——发疯白羊座
+				limit = { has_country_flag = kuat_post_apocalyptic_Gemini_ennded_B }
+			}
+		}
+	}
+	#拒绝复活白羊座，则削弱监督者议会的舰队
+	option = { 
+		name = kuat_post_apocalyptic_legacy.36.e 
+		response_text = kuat_post_apocalyptic_legacy.36.e.resp 
+		hidden_effect = { set_global_flag = kuat_post_apocalyptic_Aries_ended_B }
+	}
+}
+
+#打完永恒回归，双子座的影响
+country_event = {
+	id = kuat_post_apocalyptic_legacy.37
+	title = "kuat_post_apocalyptic_legacy.37.title"
+	desc = "kuat_post_apocalyptic_legacy.37.desc"
+	diplomatic = yes
+	picture_event_data = {
+		portrait = event_target:UTS01_LEADER
+		room = Eternal_Empire_room
+	}
+	custom_gui = "kuat_event_diplomacy_window"
+	custom_gui_option = "kuat_event_diplomacy_option"
+	show_sound = event_wind_ruins
+	is_triggered_only = yes
+	trigger = { has_country_flag = kuat_post_apocalyptic_Gemini_ennded_A }
+	#Final fire
+	option = { 
+		name = kuat_post_apocalyptic_legacy.37.a 
+		trigger = { has_country_flag = kuat_post_apocalyptic_Gemini_ennded_A }
+		response_text = kuat_post_apocalyptic_legacy.37.a.resp 
+	}
+	#Final fire
+	option = { 
+		name = kuat_post_apocalyptic_legacy.37.b 
+		trigger = { has_country_flag = kuat_post_apocalyptic_Gemini_ennded_B }
+		response_text = kuat_post_apocalyptic_legacy.37.b.resp 
+	}
 }

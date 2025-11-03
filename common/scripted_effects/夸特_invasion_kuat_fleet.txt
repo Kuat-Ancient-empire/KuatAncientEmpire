@@ -20,48 +20,53 @@ create_kuat_awakening_fleet = {
 #RETURN FLEET
 create_kuat_return_fleet_defender = {
 	optimize_memory
-	if = { limit = { has_global_flag = has_origin_eternalthrone }
-		every_system_within_border = { 
-			limit = { kuat_is_kuat_system = yes  }
-			create_council_defender_fleet = yes
-		}
-	}
-	else = { every_system_within_border = { 
-		limit = { OR = { 
-			has_star_flag = kuat_military_base_system_home 
+	every_system_within_border = { 
+		limit = { 
 			kuat_is_kuat_system = yes 
-		} }
+			NOT = { has_star_flag = kuat_is_kuat_system_temple }
+		}
 		create_kuat_defender_fleet = yes
-	} }
-}
-
-create_council_defender_fleet = {
-	optimize_memory
-	create_exe_invasion_fleet = {
-		NAME = Name_DFLEET_II
-		is_boss = yes  can_disband = no
-		Fleet_owner = event_target:return_kuat_awakening_country
-		bombardment = indiscriminate
-		Compellor = @kuat_invasion_flagship_num_T1  
-		Balletor = @kuat_invasion_flagship_num_T2
-		Xyston = @kuat_invasion_Battleship_num_T5  
-		Harrower = @kuat_invasion_Cruser_num_T5  
-		DIFF = 3 Location = prev.star
+		set_timed_star_flag = { flag = kuat_is_kuat_system_temple days = 1 }
 	}
 }
 
 create_kuat_defender_fleet = {
 	optimize_memory
-	create_exe_invasion_fleet = {
-		NAME = Name_DFLEET_II
-		is_boss = yes  can_disband = no
-		Fleet_owner = event_target:return_kuat_awakening_country
-		bombardment = indiscriminate
-		Impellor = @kuat_invasion_flagship_num_T1
-		Titan = @kuat_invasion_flagship_num_T2
-		Imperial = @kuat_invasion_Battleship_num_T5  
-		Gladiator = @kuat_invasion_Cruser_num_T5 
-		DIFF = 3 Location = prev.star
+	random_list = {
+		1 = {
+			modifier = {
+				set = 0
+				has_global_flag = has_origin_eternalthrone
+			}
+			create_exe_invasion_fleet = {
+				NAME = Name_DFLEET_II
+				is_boss = yes  can_disband = no
+				Fleet_owner = event_target:return_kuat_awakening_country
+				bombardment = indiscriminate
+				Impellor = @kuat_invasion_flagship_num_T1
+				Titan = @kuat_invasion_flagship_num_T2
+				Imperial = @kuat_invasion_Battleship_num_T5  
+				Gladiator = @kuat_invasion_Cruser_num_T5 
+				DIFF = 3 Location = prev.star
+			}
+		}
+		1 = {
+			modifier = {
+				set = 0
+				NOT = { has_global_flag = has_origin_eternalthrone }
+			}
+			create_exe_invasion_fleet = {
+				NAME = Name_DFLEET_II
+				is_boss = yes  can_disband = no
+				Fleet_owner = event_target:return_kuat_awakening_country
+				bombardment = indiscriminate
+				Compellor = @kuat_invasion_flagship_num_T1  
+				Balletor = @kuat_invasion_flagship_num_T2
+				Xyston = @kuat_invasion_Battleship_num_T5  
+				Harrower = @kuat_invasion_Cruser_num_T5  
+				DIFF = 3 Location = prev.star
+			}
+		}
 	}
 }
 
@@ -81,10 +86,7 @@ create_kuat_return_fleet_attacker = {
 					NOT = { exists = space_owner }
 				}
 			}
-			set_timed_star_flag = {
-				flag = has_create_random_list_return_kuat_fleet
-				days = 1
-			}
+			set_timed_star_flag = { flag = has_create_random_list_return_kuat_fleet days = 1 }
 			create_random_list_return_kuat_fleet = yes
 		}
 	}
@@ -243,10 +245,10 @@ create_kuat_return_starbase = {
 	create_ship_design = { design = "NAME_KUAT_Starbase" }
 	add_ship_design = last_created_design
 	every_system = {
-		limit = { OR = {
-			has_star_flag = kuat_military_base_system_home
-			kuat_is_kuat_system = yes
-		} }
+		limit = { 
+			kuat_is_kuat_system = yes 
+			NOT = { has_star_flag = kuat_is_kuat_system_temple }
+		}
 		if = {
 			limit = { exists = starbase }
 			every_fleet_in_system = {
@@ -255,10 +257,7 @@ create_kuat_return_starbase = {
 			}
 		}
 		else = { create_starbase = { owner = event_target:return_kuat_awakening_country size = exe_starbase } }
-		if = {
-			limit = { has_megastructure = BlackholeShipyard }
-			event_target:BlackholeShipyard = { set_owner = event_target:return_kuat_awakening_country }
-		}
+		set_timed_star_flag = { flag = kuat_is_kuat_system_temple days = 1 }
 	}
 }
 

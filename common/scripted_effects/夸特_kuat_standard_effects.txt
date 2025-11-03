@@ -1664,3 +1664,20 @@ kuat_destroy_colony = {
 	remove_modifier = "dangerous_wildlife"
 	remove_planet_flag = ruins_planet
 }
+
+kuat_create_eternal_inhibor_station = {
+	optimize_memory
+	every_system_ambient_object = {
+		limit = { is_ambient_object_type = kuat_gateway_entity_object }
+		destroy_ambient_object = this
+		prev.star = { create_ambient_object = {
+			type = kuat_gateway_disbale_entity_object
+			location = this
+			use_3d_location = yes
+			entity_offset = { min = 0 max = 0 }
+			entity_offset_angle = { min = 0 max = 0 }
+			entity_offset_height = { min = 0 max = 0 }
+			scale = 1
+		} }
+	}
+}
