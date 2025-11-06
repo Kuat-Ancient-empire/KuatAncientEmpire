@@ -970,6 +970,10 @@ country_event = {
 		trigger = { kuat_is_enable_apocalyptic_origin = yes }
 		text = "ag_kae_ge_invasion.202.a.desc"
 	}
+	desc = {
+		trigger = { kuat_is_enable_post_apocalyptic_origin = yes }
+		text = "ag_kae_ge_invasion.202.a.post_apocalyptic.desc"
+	}	
 	diplomatic = yes
 	picture_event_data = { room = satellite_in_orbit_room }
 	custom_gui = "kuat_event_m_window"
@@ -990,6 +994,10 @@ country_event = {
 		trigger = { kuat_is_enable_apocalyptic_origin = yes }
 		text = "ag_kae_ge_invasion.203.a.desc"
 	}
+	desc = {
+		trigger = { kuat_is_enable_post_apocalyptic_origin = yes }
+		text = "ag_kae_ge_invasion.203.a.post_apocalyptic.desc"
+	}		
 	diplomatic = yes
 	picture_event_data = { room = Eternal_Empire_room }
 	custom_gui = "kuat_event_m_window"
@@ -1010,6 +1018,10 @@ country_event = {
 		trigger = { kuat_is_enable_apocalyptic_origin = yes }
 		text = "ag_kae_ge_invasion.204.a.desc"
 	}
+	desc = {
+		trigger = { kuat_is_enable_post_apocalyptic_origin = yes }
+		text = "ag_kae_ge_invasion.204.a.post_apocalyptic.desc"
+	}		
 	diplomatic = yes
 	picture_event_data = { room = Eternal_Empire2_room }
 	custom_gui = "kuat_event_m_window"
@@ -1030,6 +1042,10 @@ country_event = {
 		trigger = { kuat_is_enable_apocalyptic_origin = yes }
 		text = "ag_kae_ge_invasion.205.a.desc"
 	}
+	desc = {
+		trigger = { kuat_is_enable_post_apocalyptic_origin = yes }
+		text = "ag_kae_ge_invasion.205.a.post_apocalyptic.desc"
+	}			
 	diplomatic = yes
 	picture_event_data = { room = Eternal_Empire5_room }
 	custom_gui = "kuat_event_m_window"
@@ -1050,6 +1066,10 @@ country_event = {
 		trigger = { kuat_is_enable_apocalyptic_origin = yes }
 		text = "ag_kae_ge_invasion.206.a.desc"
 	}
+	desc = {
+		trigger = { kuat_is_enable_post_apocalyptic_origin = yes }
+		text = "ag_kae_ge_invasion.206.a.post_apocalyptic.desc"
+	}	
 	diplomatic = yes
 	picture_event_data = { room = satellite_in_orbit_room }
 	custom_gui = "kuat_event_m_window"
@@ -1078,6 +1098,11 @@ country_event = {
 				set_global_flag = ag_kae_ge_invasion_207_mutex
 				event_target:global_event_country = { country_event = { id = ag_kae_ge_invasion.211 days = 30 } }
 			}
+			if = {
+				limit = { kuat_is_enable_post_apocalyptic_origin = yes NOT = { has_global_flag = ag_kae_ge_invasion_207_mutex } }
+				set_global_flag = ag_kae_ge_invasion_207_mutex
+				event_target:global_event_country = { country_event = { id = ag_kae_ge_invasion.211 days = 30 } }
+			}
 		}
 	}
 }
@@ -1093,6 +1118,10 @@ country_event = {
 		trigger = { kuat_is_enable_apocalyptic_origin = yes  }
 		text = "ag_kae_ge_invasion.207.a.desc"
 	}
+	desc = {
+		trigger = { kuat_is_enable_post_apocalyptic_origin = yes  }
+		text = "ag_kae_ge_invasion.207.a.post_apocalyptic.desc"
+	}	
 	picture_event_data = {
 		portrait = event_target:kuat_player_target_species
 		room = galactic_custodian_room
@@ -1143,6 +1172,15 @@ country_event = {
 			event_target:global_event_country = { country_event = { id = ag_kae_ge_invasion.211 days = 30 } }
 		} }
 	}
+	option = {
+		name = "ag_kae_ge_invasion.207.d"
+		trigger = { kuat_is_enable_post_apocalyptic_origin = yes NOT = { has_global_flag = ag_kae_ge_invasion_207_mutex } }
+		hidden_effect = { if = {
+			limit = { kuat_is_enable_post_apocalyptic_origin = yes NOT = { has_global_flag = ag_kae_ge_invasion_207_mutex } }
+			set_global_flag = ag_kae_ge_invasion_207_mutex
+			event_target:global_event_country = { country_event = { id = ag_kae_ge_invasion.211 days = 30 } }
+		} }
+	}	
 }
 country_event = {
 	id = ag_kae_ge_invasion.208
@@ -1382,6 +1420,10 @@ country_event = {
 		trigger = { kuat_is_enable_apocalyptic_origin = yes }
 		text = "ag_kae_ge_invasion.212.a.desc"
 	}
+	desc = {
+		trigger = { kuat_is_enable_post_apocalyptic_origin = yes }
+		text = "ag_kae_ge_invasion.212.a.post_apocalyptic.desc"
+	}	
 	diplomatic = yes
 	picture_event_data = { room = Eternal_Empire2_room }
 	custom_gui = "kuat_event_m_window"
@@ -1421,6 +1463,22 @@ country_event = {
 		}
 		hidden_effect = { add_event_chain_counter = { event_chain = "ag_kae_oc_invasion_chain" counter = ag_kae_ge_invasion_portal amount = 2 } }
 	}
+	option = {
+		name = "ag_kae_ge_invasion.212.c"
+		trigger = { kuat_is_enable_post_apocalyptic_origin = yes }
+		if = {
+			limit = { NOT = { has_event_chain = "ag_kae_pc_invasion_chain" } }
+			begin_event_chain = { event_chain = "ag_kae_pc_invasion_chain" target = root }
+		}
+		create_point_of_interest = {
+			id = ag_kae_pc_invasion_secondary_portal_poi_1
+			name = ag_kae_pc_invasion_secondary_portal_poi
+			desc = ag_kae_pc_invasion_secondary_portal_poi_desc
+			event_chain = "ag_kae_pc_invasion_chain"
+			location = event_target:ag_kae_portal_system.star
+		}
+		hidden_effect = { add_event_chain_counter = { event_chain = "ag_kae_pc_invasion_chain" counter = ag_kae_ge_invasion_portal amount = 2 } }
+	}	
 }
 country_event = {
 	id = ag_kae_ge_invasion.213
@@ -1433,6 +1491,10 @@ country_event = {
 		trigger = { kuat_is_enable_apocalyptic_origin = yes }
 		text = "ag_kae_ge_invasion.213.a.desc"
 	}
+	desc = {
+		trigger = { kuat_is_enable_post_apocalyptic_origin = yes }
+		text = "ag_kae_ge_invasion.213.a.post_apocalyptic.desc"
+	}		
 	diplomatic = yes
 	picture_event_data = { room = Eternal_Empire2_room }
 	custom_gui = "kuat_event_m_window"
@@ -1474,6 +1536,23 @@ country_event = {
 		}
 		hidden_effect = { add_event_chain_counter = { event_chain = "ag_kae_oc_invasion_chain" counter = ag_kae_ge_invasion_portal amount = 1 } }
 	}
+	option = {
+		name = "ag_kae_ge_invasion.213.c"
+		trigger = { kuat_is_enable_post_apocalyptic_origin = yes }
+		if = {
+			limit = { NOT = { has_event_chain = "ag_kae_pc_invasion_chain" } }
+			begin_event_chain = { event_chain = "ag_kae_pc_invasion_chain" target = root }
+			hidden_effect = { add_event_chain_counter = { event_chain = "ag_kae_pc_invasion_chain" counter = ag_kae_ge_invasion_portal amount = 2 } }
+		}
+		create_point_of_interest = {
+			id = ag_kae_pc_invasion_secondary_portal_poi_2
+			name = ag_kae_pc_invasion_secondary_portal_poi
+			desc = ag_kae_pc_invasion_secondary_portal_poi_desc
+			event_chain = "ag_kae_pc_invasion_chain"
+			location = event_target:ag_kae_portal_system.star
+		}
+		hidden_effect = { add_event_chain_counter = { event_chain = "ag_kae_pc_invasion_chain" counter = ag_kae_ge_invasion_portal amount = 1 } }
+	}	
 }
 country_event = {
 	id = ag_kae_ge_invasion.214
@@ -1486,6 +1565,10 @@ country_event = {
 		trigger = { kuat_is_enable_apocalyptic_origin = yes }
 		text = "ag_kae_ge_invasion.214.a.desc"
 	}
+	desc = {
+		trigger = { kuat_is_enable_post_apocalyptic_origin = yes }
+		text = "ag_kae_ge_invasion.214.a.post_apocalyptic.desc"
+	}			
 	diplomatic = yes
 	picture_event_data = { room = Eternal_Empire2_room }
 	custom_gui = "kuat_event_m_window"
@@ -1527,6 +1610,23 @@ country_event = {
 		}
 		hidden_effect = { add_event_chain_counter = { event_chain = "ag_kae_oc_invasion_chain" counter = ag_kae_ge_invasion_portal amount = 1 } }
 	}
+	option = {
+		name = "ag_kae_ge_invasion.214.c"
+		trigger = { kuat_is_enable_post_apocalyptic_origin = yes }
+		if = {
+			limit = { NOT = { has_event_chain = "ag_kae_pc_invasion_chain" } }
+			begin_event_chain = { event_chain = "ag_kae_pc_invasion_chain" target = root }
+			hidden_effect = { add_event_chain_counter = { event_chain = "ag_kae_pc_invasion_chain" counter = ag_kae_ge_invasion_portal amount = 3 } }
+		}
+		create_point_of_interest = {
+			id = ag_kae_pc_invasion_secondary_portal_poi_3
+			name = ag_kae_pc_invasion_secondary_portal_poi
+			desc = ag_kae_pc_invasion_secondary_portal_poi_desc
+			event_chain = "ag_kae_pc_invasion_chain"
+			location = event_target:ag_kae_portal_system.star
+		}
+		hidden_effect = { add_event_chain_counter = { event_chain = "ag_kae_pc_invasion_chain" counter = ag_kae_ge_invasion_portal amount = 1 } }
+	}	
 }
 country_event = {
 	id = ag_kae_ge_invasion.215
@@ -1539,6 +1639,10 @@ country_event = {
 		trigger = { kuat_is_enable_apocalyptic_origin = yes }
 		text = "ag_kae_ge_invasion.215.a.desc"
 	}
+	desc = {
+		trigger = { kuat_is_enable_post_apocalyptic_origin = yes }
+		text = "ag_kae_ge_invasion.215.a.post_apocalyptic.desc"
+	}			
 	diplomatic = yes
 	picture_event_data = { room = Eternal_Empire2_room }
 	custom_gui = "kuat_event_m_window"
@@ -1580,6 +1684,23 @@ country_event = {
 		}
 		hidden_effect = { add_event_chain_counter = { event_chain = "ag_kae_oc_invasion_chain" counter = ag_kae_ge_invasion_portal amount = 1 } }
 	}
+	option = {
+		name = "ag_kae_ge_invasion.215.c"
+		trigger = { kuat_is_enable_post_apocalyptic_origin = yes }
+		if = {
+			limit = { NOT = { has_event_chain = "ag_kae_pc_invasion_chain" } }
+			begin_event_chain = { event_chain = "ag_kae_pc_invasion_chain" target = root }
+			hidden_effect = { add_event_chain_counter = { event_chain = "ag_kae_pc_invasion_chain" counter = ag_kae_ge_invasion_portal amount = 4 } }
+		}
+		create_point_of_interest = {
+			id = ag_kae_pc_invasion_secondary_portal_poi_4
+			name = ag_kae_pc_invasion_secondary_portal_poi
+			desc = ag_kae_pc_invasion_secondary_portal_poi_desc
+			event_chain = "ag_kae_pc_invasion_chain"
+			location = event_target:ag_kae_portal_system.star
+		}
+		hidden_effect = { add_event_chain_counter = { event_chain = "ag_kae_pc_invasion_chain" counter = ag_kae_ge_invasion_portal amount = 1 } }
+	}		
 }
 country_event = {
 	id = ag_kae_ge_invasion.216
@@ -1592,6 +1713,10 @@ country_event = {
 		trigger = { kuat_is_enable_apocalyptic_origin = yes }
 		text = "ag_kae_ge_invasion.216.a.desc"
 	}
+	desc = {
+		trigger = { kuat_is_enable_post_apocalyptic_origin = yes }
+		text = "ag_kae_ge_invasion.216.a.post_apocalyptic.desc"
+	}				
 	diplomatic = yes
 	picture_event_data = { room = Eternal_Empire2_room }
 	custom_gui = "kuat_event_m_window"
@@ -1633,6 +1758,23 @@ country_event = {
 		}
 		hidden_effect = { add_event_chain_counter = { event_chain = "ag_kae_oc_invasion_chain" counter = ag_kae_ge_invasion_portal amount = 1 } }
 	}
+	option = {
+		name = "ag_kae_ge_invasion.216.c"
+		trigger = { kuat_is_enable_post_apocalyptic_origin = yes }
+		if = {
+			limit = { NOT = { has_event_chain = "ag_kae_pc_invasion_chain" } }
+			begin_event_chain = { event_chain = "ag_kae_pc_invasion_chain" target = root }
+			hidden_effect = { add_event_chain_counter = { event_chain = "ag_kae_pc_invasion_chain" counter = ag_kae_ge_invasion_portal amount = 5 } }
+		}
+		create_point_of_interest = {
+			id = ag_kae_pc_invasion_secondary_portal_poi_5
+			name = ag_kae_pc_invasion_secondary_portal_poi
+			desc = ag_kae_pc_invasion_secondary_portal_poi_desc
+			event_chain = "ag_kae_pc_invasion_chain"
+			location = event_target:ag_kae_portal_system.star
+		}
+		hidden_effect = { add_event_chain_counter = { event_chain = "ag_kae_pc_invasion_chain" counter = ag_kae_ge_invasion_portal amount = 1 } }
+	}			
 }
 country_event = {
 	id = ag_kae_ge_invasion.217
@@ -1645,6 +1787,10 @@ country_event = {
 		trigger = { kuat_is_enable_apocalyptic_origin = yes }
 		text = "ag_kae_ge_invasion.217.a.desc"
 	}
+	desc = {
+		trigger = { kuat_is_enable_post_apocalyptic_origin = yes }
+		text = "ag_kae_ge_invasion.217.a.post_apocalyptic.desc"
+	}		
 	diplomatic = yes
 	picture_event_data = { room = Eternal_Empire2_room }
 	custom_gui = "kuat_event_m_window"
@@ -1686,6 +1832,23 @@ country_event = {
 		}
 		hidden_effect = { add_event_chain_counter = { event_chain = "ag_kae_oc_invasion_chain" counter = ag_kae_ge_invasion_portal amount = 1 } }
 	}
+	option = {
+		name = "ag_kae_ge_invasion.217.c"
+		trigger = { kuat_is_enable_post_apocalyptic_origin = yes }
+		if = {
+			limit = { NOT = { has_event_chain = "ag_kae_pc_invasion_chain" } }
+			begin_event_chain = { event_chain = "ag_kae_pc_invasion_chain" target = root }
+			hidden_effect = { add_event_chain_counter = { event_chain = "ag_kae_pc_invasion_chain" counter = ag_kae_ge_invasion_portal amount = 6 } }
+		}
+		create_point_of_interest = {
+			id = ag_kae_pc_invasion_secondary_portal_poi_6
+			name = ag_kae_pc_invasion_secondary_portal_poi
+			desc = ag_kae_pc_invasion_secondary_portal_poi_desc
+			event_chain = "ag_kae_pc_invasion_chain"
+			location = event_target:ag_kae_portal_system.star
+		}
+		hidden_effect = { add_event_chain_counter = { event_chain = "ag_kae_pc_invasion_chain" counter = ag_kae_ge_invasion_portal amount = 1 } }
+	}		
 }
 
 # Eternal Guardian Action
@@ -1732,6 +1895,10 @@ country_event = {
 		trigger = { kuat_is_enable_apocalyptic_origin = yes }
 		text = "ag_kae_ge_invasion.220.a.desc"
 	}
+	desc = {
+		trigger = { kuat_is_enable_post_apocalyptic_origin = yes }
+		text = "ag_kae_ge_invasion.220.a.post_apocalyptic.desc"
+	}	
 	picture_event_data = { room = metropolis_room }
 	show_sound = event_celebration
 	diplomatic = yes
@@ -1797,6 +1964,12 @@ country_event = {
 			limit = { kuat_is_enable_apocalyptic_origin = yes }
 			set_global_flag = kuat_apocalytic_origin_corperation_over
 			win = yes end_event_chain = ag_kae_oc_invasion_chain
+		}
+		if = {
+			limit = { kuat_is_enable_post_apocalyptic_origin = yes }
+			set_global_flag = kuat_post_apocalyptic_Overseer_Council_defeated_final
+			end_event_chain = ag_kae_pc_invasion_chain
+			country_event = { id = kuat_post_apocalyptic_legacy.44 days = 1 random = 2 }
 		}
 	}
 	after = { hidden_effect = {
@@ -1935,6 +2108,10 @@ country_event = {
 					limit = { has_event_chain = "ag_kae_oc_invasion_chain" }
 					add_event_chain_counter = { event_chain = "ag_kae_oc_invasion_chain" counter = ag_kae_ge_invasion_victim amount = 1 }
 				}
+				if = {
+					limit = { has_event_chain = "ag_kae_pc_invasion_chain" }
+					add_event_chain_counter = { event_chain = "ag_kae_pc_invasion_chain" counter = ag_kae_ge_invasion_victim amount = 1 }
+				}	
 			}
 		}
 		else = {
@@ -1946,6 +2123,10 @@ country_event = {
 				limit = { has_event_chain = "ag_kae_oc_invasion_chain" }
 				add_event_chain_counter = { event_chain = "ag_kae_oc_invasion_chain" counter = ag_kae_ge_invasion_ship_kill_by_us amount = 1 }
 			}
+			if = {
+				limit = { has_event_chain = "ag_kae_pc_invasion_chain" }
+				add_event_chain_counter = { event_chain = "ag_kae_pc_invasion_chain" counter = ag_kae_ge_invasion_ship_kill_by_us amount = 1 }
+			}
 			every_country = {
 				if = {
 					limit = { has_event_chain = "ag_kae_ge_invasion_chain" NOT = { is_same_value = root } }
@@ -1954,6 +2135,10 @@ country_event = {
 				if = {
 					limit = { has_event_chain = "ag_kae_oc_invasion_chain" NOT = { is_same_value = root } }
 					add_event_chain_counter = { event_chain = "ag_kae_oc_invasion_chain" counter = ag_kae_ge_invasion_ship_kill_by_other amount = 1 }
+				}
+				if = {
+					limit = { has_event_chain = "ag_kae_pc_invasion_chain" NOT = { is_same_value = root } }
+					add_event_chain_counter = { event_chain = "ag_kae_pc_invasion_chain" counter = ag_kae_ge_invasion_ship_kill_by_other amount = 1 }
 				}
 			}
 		}
@@ -1984,6 +2169,10 @@ planet_event = {
 			if = {
 				limit = { has_event_chain = "ag_kae_oc_invasion_chain" }
 				add_event_chain_counter = { event_chain = "ag_kae_oc_invasion_chain" counter = ag_kae_ge_invasion_planet_destroyed amount = 1 }
+			}
+			if = {
+				limit = { has_event_chain = "ag_kae_pc_invasion_chain" }
+				add_event_chain_counter = { event_chain = "ag_kae_pc_invasion_chain" counter = ag_kae_ge_invasion_planet_destroyed amount = 1 }
 			}
 		}
 		solar_system = {
@@ -2048,28 +2237,40 @@ country_event = {
 
 	desc = {
 		trigger = {
-			kuat_is_enable_apocalyptic_origin = yes
+			OR = {
+				kuat_is_enable_apocalyptic_origin = yes
+				kuat_is_enable_post_apocalyptic_origin = yes
+			}
 			from = { kuat_is_event_borderment_ringworld = no }
 		}
 		text = "ag_kae_ge_invasion.232.a.a.desc"
 	}
 	desc = {
 		trigger = {
-			kuat_is_enable_apocalyptic_origin = yes
+			OR = {
+				kuat_is_enable_apocalyptic_origin = yes
+				kuat_is_enable_post_apocalyptic_origin = yes
+			}
 			from = { kuat_is_ringworld = yes }
 		}
 		text = "ag_kae_ge_invasion.232.b.a.desc"
 	}
 	desc = {
 		trigger = {
-			kuat_is_enable_apocalyptic_origin = yes
+			OR = {
+				kuat_is_enable_apocalyptic_origin = yes
+				kuat_is_enable_post_apocalyptic_origin = yes
+			}
 			from = { is_planet_class = pc_habitat }
 		}
 		text = "ag_kae_ge_invasion.232.c.a.desc"
 	}
 	desc = {
 		trigger = {
-			kuat_is_enable_apocalyptic_origin = yes
+			OR = {
+				kuat_is_enable_apocalyptic_origin = yes
+				kuat_is_enable_post_apocalyptic_origin = yes
+			}
 			from = { kuat_is_holy_world_planet = yes }
 		}
 		text = "ag_kae_ge_invasion.232.d.a.desc"
@@ -2154,6 +2355,18 @@ country_event = {
 					else_if = { limit = { solar_system = { has_star_flag = ag_kae_portal_system_6 } } prev = { remove_point_of_interest = ag_kae_oc_invasion_secondary_portal_poi_6 } }
 				}
 			}
+			if = {
+				limit = { has_event_chain = "ag_kae_pc_invasion_chain" }
+				add_event_chain_counter = { event_chain = "ag_kae_pc_invasion_chain" counter = ag_kae_ge_invasion_portal amount = -1 }
+				root.fromfromfrom = {
+					if = { limit = { solar_system = { has_star_flag = ag_kae_portal_system_1 } } prev = { remove_point_of_interest = ag_kae_oc_invasion_secondary_portal_poi_1 } }
+					else_if = { limit = { solar_system = { has_star_flag = ag_kae_portal_system_2 } } prev = { remove_point_of_interest = ag_kae_oc_invasion_secondary_portal_poi_2 } }
+					else_if = { limit = { solar_system = { has_star_flag = ag_kae_portal_system_3 } } prev = { remove_point_of_interest = ag_kae_oc_invasion_secondary_portal_poi_3 } }
+					else_if = { limit = { solar_system = { has_star_flag = ag_kae_portal_system_4 } } prev = { remove_point_of_interest = ag_kae_oc_invasion_secondary_portal_poi_4 } }
+					else_if = { limit = { solar_system = { has_star_flag = ag_kae_portal_system_5 } } prev = { remove_point_of_interest = ag_kae_oc_invasion_secondary_portal_poi_5 } }
+					else_if = { limit = { solar_system = { has_star_flag = ag_kae_portal_system_6 } } prev = { remove_point_of_interest = ag_kae_oc_invasion_secondary_portal_poi_6 } }
+				}
+			}
 		}
 		if = {
 			limit = { fromfromfrom = { has_ship_flag = ag_kae_ge_secondary_portal } }
@@ -2184,6 +2397,10 @@ country_event = {
 		trigger = { kuat_is_enable_apocalyptic_origin = yes }
 		text = "ag_kae_ge_invasion.235.a.desc"
 	}
+	desc = {
+		trigger = { kuat_is_enable_post_apocalyptic_origin = yes }
+		text = "ag_kae_ge_invasion.235.a.post_apocalyptic.desc"
+	}	
 	picture_event_data = { room = Eternal_Empire_room }
 	show_sound = event_space_battle
 	diplomatic = yes
@@ -2204,6 +2421,10 @@ country_event = {
 		trigger = { kuat_is_enable_apocalyptic_origin = yes }
 		text = "ag_kae_ge_invasion.236.a.desc"
 	}
+	desc = {
+		trigger = { kuat_is_enable_post_apocalyptic_origin = yes }
+		text = "ag_kae_ge_invasion.236.a.post_apocalyptic.desc"
+	}		
 	picture_event_data = { room = Eternal_Empire_room }
 	show_sound = event_space_battle
 	diplomatic = yes
@@ -2224,6 +2445,10 @@ country_event = {
 		trigger = { kuat_is_enable_apocalyptic_origin = yes }
 		text = "ag_kae_ge_invasion.237.a.desc"
 	}
+	desc = {
+		trigger = { kuat_is_enable_post_apocalyptic_origin = yes }
+		text = "ag_kae_ge_invasion.237.a.post_apocalyptic.desc"
+	}			
 	picture_event_data = { room = Eternal_Empire_room }
 	show_sound = event_space_battle
 	diplomatic = yes
@@ -2232,10 +2457,21 @@ country_event = {
 	is_triggered_only = yes
 	option = {
 		name = "ag_kae_ge_invasion.237.a"
-		event_target:ag_kae_target_planet = { 
-			enable_special_project = {
-				name = "ag_kae_end_ge_invasion_project"
-				owner = root location = this
+		if = {
+			limit = { kuat_is_enable_post_apocalyptic_origin = no }
+			event_target:ag_kae_target_planet = { 
+				enable_special_project = {
+					name = "ag_kae_end_ge_invasion_project"
+					owner = root location = this
+				}
+			}
+		}
+		else = {
+			event_target:ag_kae_target_planet = { 
+				enable_special_project = {
+					name = "kuat_post_apocalyptic_end_ge_invasion_project"
+					owner = root location = this
+				}
 			}
 		}
 	}
@@ -2252,6 +2488,10 @@ country_event = {
 		trigger = { kuat_is_enable_apocalyptic_origin = yes }
 		text = "ag_kae_ge_invasion.238.a.desc"
 	}
+	desc = {
+		trigger = { kuat_is_enable_post_apocalyptic_origin = yes }
+		text = "ag_kae_ge_invasion.238.a.post_apocalyptic.desc"
+	}			
 	picture_event_data = { room = Eternal_Empire_room }
 	show_sound = event_space_battle
 	diplomatic = yes
@@ -2259,15 +2499,28 @@ country_event = {
 	custom_gui_option = "kuat_event_option"
 	is_triggered_only = yes
 	option = { name = "ag_kae_ge_invasion.238.a" }
-	after = { if = {
-		limit = { root.from = {
-			NOT = { has_special_project = ag_kae_end_ge_invasion_project }
-		} }
-		event_target:ag_kae_target_planet = { enable_special_project = {
-			name = "ag_kae_end_ge_invasion_project"
-			owner = root.from location = this
-		} }
-	} }
+	after = {  
+		if = {
+			limit = { root.from = {
+				kuat_is_enable_post_apocalyptic_origin = no 
+				NOT = { has_special_project = ag_kae_end_ge_invasion_project }
+			} }
+			event_target:ag_kae_target_planet = { enable_special_project = {
+				name = "ag_kae_end_ge_invasion_project"
+				owner = root.from location = this
+			} }
+		}
+		else_if = {
+			limit = { root.from = {
+				kuat_is_enable_post_apocalyptic_origin = yes 
+				NOT = { has_special_project = ag_kae_end_ge_invasion_project }
+			} }
+			event_target:ag_kae_target_planet = { enable_special_project = {
+				name = "kuat_post_apocalyptic_end_ge_invasion_project"
+				owner = root.from location = this
+			} }
+		}
+	}
 }
 
 # Crisis' fleet action.
