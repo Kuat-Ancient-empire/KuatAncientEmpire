@@ -66,7 +66,10 @@ kuat_enigmatic_encoder_defender_value = {
 kuat_has_max_shield_hp = {
 	base = 0
 	add = trigger:has_shield_hp
-	divide = trigger:has_shield_percentage
+	modifier = {
+		divide = trigger:has_shield_percentage
+		has_shield_percentage > 0
+	}
 	min = 0
 }
 
@@ -125,7 +128,10 @@ kuat_auto_adjust_damage_weapon_total = {
 	mult = value:kuat_superlazer_weapon_damage_factor_ship_base|kuat_value|$kuat_ship_damage_buff$|
 	mult = value:kuat_superlazer_weapon_damage_factor_ship_base|kuat_value|modifier:ship_hull_damage_mult|
 	mult = $kuat_weapon_damage_buff$
-	divide = modifier:$MODIFIER$
+	modifier = {
+		divide = modifier:$MODIFIER$
+		check_modifier_value = { modifier = $MODIFIER$ value > 0 }
+	}
 	min = 0
 	max = value:kuat_superlazer_weapon_damage_factor_standard|kuat_damage_max|$kuat_damage_max$|kuat_damage_base|$kuat_damage_base$|
 }
@@ -136,13 +142,13 @@ kuat_get_revenue_hp_weapon_page = {
 	add = value:kuat_dynamic_exist_life_times
 	modifier = {
 		subtract = DRFT_SHIP_HEALTH_VAR
-		exists = owner
-		owner = { is_kuat_contractor_faction = yes }
+		is_variable_set = DRFT_SHIP_HEALTH_VAR
+		exists = owner owner = { is_kuat_contractor_faction = yes }
 	}
 	modifier = {
 		subtract = KUAT_NONE_SHIP_HEALTH_VAR
-		exists = owner
-		owner = { kuat_is_player_country = yes }
+		is_variable_set = KUAT_NONE_SHIP_HEALTH_VAR
+		exists = owner owner = { kuat_is_player_country = no }
 	}
 	modifier = {
 		set = 0
@@ -332,7 +338,7 @@ kuat_dynamic_base_special_difficult_not_has_subflagship = {
 	}
 }
 
-kuat_dynamic_base_special_difficult = {
+kuat_dynamic_base_special_value = {
 	base = 0
 	modifier = {
 		set = value:kuat_dynamic_base_special_difficult_has_subflagship

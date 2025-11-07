@@ -1589,14 +1589,8 @@ fleet_event = {
 		else = { 
 			kuat_battle_remove_executor_power_fleet = yes 
 			every_owned_ship = { 
-				if = {
-					limit = { has_ship_flag = kuat_executor_checkpoint }
-					remove_ship_flag = kuat_executor_checkpoint 
-				}
-				if = {
-					limit = { has_ship_flag = dominence_faction_battle_duplicate_ship }
-					destroy_ship = this
-				}
+				remove_ship_flag = kuat_executor_checkpoint
+				if = { limit = { has_ship_flag = dominence_faction_battle_duplicate_ship } destroy_ship = this }
 			} 
 			remove_fleet_flag = kuat_fleet_checkpoint 
 			#fleet tag
@@ -1719,15 +1713,15 @@ country_event = {
 		if = {
 			limit = { ROOT = { is_country_type = kuat_contractor_hostile } }
 			fleet = { random_list = {
-				1 = { create_ship = { design = Name_boss_crisis_DB_0 } }
-				2 = { create_ship = { design = Name_boss_crisis_DC_0 } }
+				1 = { create_ship = { design = Name_boss_crisis_DB_3 } }
+				2 = { create_ship = { design = Name_boss_crisis_DC_3 } }
 			} }
 		}
 		else_if = {
 			limit = { ROOT = { is_country_type = kuat_contractor_support } }
 			fleet = { random_list = {
-				1 = { create_ship = { design = Name_boss_crisis_SP_1 } }
-				2 = { create_ship = { design = Name_boss_crisis_SPC_1 } }
+				1 = { create_ship = { design = Name_boss_crisis_SP_3 } }
+				2 = { create_ship = { design = Name_boss_crisis_SPC_3 } }
 			} }
 		}
 		set_timed_ship_flag = { flag = temple_infinite_faction_battle_duplicate_ship days = 3 }
@@ -1876,14 +1870,17 @@ country_event = {
 	trigger = { 
 		is_invisable_faction = yes 
 		from = { is_invisable_faction = no }
-		fromfrom = { NAND = { root = { OR = { is_eternal_faction = yes is_first_galatic_empire_faction = yes } } is_ship_size = exe_starbase } }
+		fromfrom = { NAND = { 
+			root = { OR = { 
+				is_eternal_faction = yes 
+				is_first_galatic_empire_faction = yes 
+			} } 
+			is_ship_size = exe_starbase 
+		} }
 	}
 	immediate = {
 		if = {
-			limit = { 
-				is_kuat_contractor_faction = yes 
-				from = { kuat_is_player_country = yes }
-			}
+			limit = { is_kuat_contractor_faction = yes }
 			if = {
 				limit = { fromfrom = { NOT = { is_variable_set = kuat_contractor_completed_ship_limited } } }
 				fromfrom = { set_variable = { which = kuat_contractor_completed_ship_limited value = trigger:num_ships } }
