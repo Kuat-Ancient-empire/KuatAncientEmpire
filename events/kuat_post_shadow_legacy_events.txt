@@ -2191,6 +2191,8 @@ country_event = {
 	}
 	option = {
 		name = kuat_shipyard.exit
+		tooltip = { win = yes }
+		hidden_effect = { win = yes }
 		default_hide_option = yes
 	}
 }
@@ -2265,5 +2267,147 @@ country_event = {
 	option = { 
 		name = kuat_facility_return_invasion.25.b.scientist 
 		hidden_effect = { create_kuat_eternal_Aries_leader_effects = { CLASS = scientist } }
+	}
+}
+
+country_event = {
+	id = kuat_post_apocalyptic_legacy.53
+	title = "kuat_post_apocalyptic_legacy.53.title"
+	desc = "kuat_post_apocalyptic_legacy.53.desc"
+	diplomatic = yes
+	picture_event_data = { room = astral_rift_vortex_room }
+	custom_gui = "kuat_event_window"
+	custom_gui_option = "kuat_event_option"
+	show_sound = event_airlock
+	is_triggered_only = yes
+
+	option = {
+		name = crisis.7516.a
+		tooltip = { win = yes }
+		hidden_effect = { country_event = { id = kuat_post_apocalyptic_legacy.54 days = 5 } }
+		custom_tooltip = crisis.7516.tt
+	}
+}
+
+country_event = {
+	id = kuat_post_apocalyptic_legacy.54
+	title = "kuat_post_apocalyptic_legacy.54.title"
+	desc = "kuat_post_apocalyptic_legacy.54.desc"
+	diplomatic = yes
+	picture_event_data = {
+		portrait = event_target:UTS01_LEADER
+		room = Eternal_Empire_room
+	}
+	custom_gui = "kuat_event_diplomacy_window"
+	custom_gui_option = "kuat_event_diplomacy_option"
+	show_sound = event_airlock
+	is_triggered_only = yes
+	option = { 
+		name = kuat_post_apocalyptic_legacy.54.a  
+		hidden_effect = { country_event = { id = kuat_post_apocalyptic_legacy.55 days = 5 } }
+	}
+}
+
+country_event = {
+	id = kuat_post_apocalyptic_legacy.55
+	title = "kuat_post_apocalyptic_legacy.55.title"
+	desc = "kuat_post_apocalyptic_legacy.55.desc"
+	diplomatic = yes
+	picture_event_data = {
+		portrait = event_target:ETERNAL_LEADER
+		room = galactic_custodian_room
+	}
+	custom_gui = "kuat_event_diplomacy_window"
+	custom_gui_option = "kuat_event_diplomacy_option"
+	show_sound = event_airlock
+	is_triggered_only = yes
+	option = { 
+		name = kuat_post_apocalyptic_legacy.55.a 
+		tooltip = { win = yes }
+	}
+	after = {
+		hidden_effect = {
+			make_fallen_empire = yes
+			if = {
+				limit = { galaxy_size = tiny }
+				while = { #Destroy ~10% random stars, for good measure
+					count = 18
+					random_system = {
+						limit = {
+							NOR = {
+								is_star_class = sc_black_hole
+								any_system_planet = { pop_amount > 0 }
+							}
+						}
+						kuat_destroy_star_system = yes
+					}
+				}
+			}
+			else_if = {
+				limit = { galaxy_size = small }
+				while = { #Destroy ~10% random stars, for good measure
+					count = 36
+					random_system = {
+						limit = {
+							NOR = {
+								is_star_class = sc_black_hole
+								any_system_planet = { pop_amount > 0 }
+							}
+						}
+						kuat_destroy_star_system = yes
+					}
+				}
+			}
+			else_if = {
+				limit = { galaxy_size = medium }
+				while = { #Destroy ~10% random stars, for good measure
+					count = 52
+					random_system = {
+						limit = {
+							NOR = {
+								is_star_class = sc_black_hole
+								any_system_planet = { pop_amount > 0 }
+							}
+						}
+						kuat_destroy_star_system = yes
+					}
+				}
+			}
+			else_if = {
+				limit = { galaxy_size = large }
+				while = { #Destroy ~10% random stars, for good measure
+					count = 70
+					random_system = {
+						limit = {
+							NOR = {
+								is_star_class = sc_black_hole
+								any_system_planet = { pop_amount > 0 }
+							}
+						}
+						kuat_destroy_star_system = yes
+					}
+				}
+			}
+			else_if = {
+				limit = { galaxy_size = huge }
+				while = { #Destroy ~10% random stars, for good measure
+					count = 88
+					random_system = {
+						limit = {
+							NOR = {
+								is_star_class = sc_black_hole
+								any_system_planet = { pop_amount > 0 }
+							}
+						}
+						kuat_destroy_star_system = yes
+					}
+				}
+			}
+			date_distortion = yes
+			event_target:kuat_post_support_country = { destroy_country = yes }
+			event_target:eternal_support_country = { destroy_country = yes }
+			event_target:global_event_country = { country_event = { id = crisis.7519 days = 30 } }
+		}
+		win = yes
 	}
 }
