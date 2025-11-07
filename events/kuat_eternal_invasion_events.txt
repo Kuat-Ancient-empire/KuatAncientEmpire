@@ -1327,6 +1327,26 @@ country_event = {
 				}
 				else = { kuat_Uts02_create_faction_species = yes }
 			}
+			else_if = {
+				limit = { kuat_is_enable_post_apocalyptic_origin = yes }
+				if = {
+					limit = { OR = {
+						exists = event_target:CHECK_UTS02_LEADER
+						exists = event_target:CHECK_UTS01_LEADER
+					} }
+					clear_global_event_target = UTS01_LEADER
+					random_galaxy_species = {
+						limit = { is_same_value = event_target:CHECK_UTS01_LEADER }
+						save_global_event_target_as = UTS01_LEADER
+					}
+					clear_global_event_target = UTS02_LEADER
+					random_galaxy_species = {
+						limit = { is_same_value = event_target:CHECK_UTS02_LEADER }
+						save_global_event_target_as = UTS02_LEADER
+					}
+				}
+				else = { kuat_Uts01_create_faction_species = yes kuat_Uts02_create_faction_species = yes }
+			}
 		} }
 	}
 }
