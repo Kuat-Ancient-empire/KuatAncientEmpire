@@ -16,8 +16,12 @@ country_event = {
 	trigger = {
 		is_ai = no
 		can_communicate_with_kuat = yes
-		kuat_shipyard_diplo_event_active = no
 		OR = {
+			kuat_shipyard_diplo_event_active = no
+			from = { is_same_value = root }
+		}
+		OR = {
+			from = { is_same_value = root }
 			from = { is_country_type = kuat_shipyard }
 			from = { is_country_type = kuat_fleet }
 		}
@@ -30,7 +34,10 @@ country_event = {
 				fail_text = kuat_shipyard.1.b.opinion.tooltip
 				is_ai = no
 				can_communicate_with_kuat_fleet = yes
-				kuat_fleet_diplo_event_active = no
+				OR = {
+					kuat_fleet_diplo_event_active = no
+					from = { is_same_value = root }
+				}
 			}
 		}
 		hidden_effect = { country_event = { id = executor_build.802 } }
