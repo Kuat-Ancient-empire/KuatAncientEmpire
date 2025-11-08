@@ -163,6 +163,7 @@ kuat_battle_remove_standard_modifier_system = {
 	remove_modifier = $TITLE$_ship_damage_reduction_add
 	remove_modifier = $TITLE$_ship_armor_penetration_add
 	remove_modifier = $TITLE$_ship_shield_penetration_add
+	remove_modifier = $TITLE$_damage_vs_country_type_default_mult
 }
 
 kuat_battle_clear_repeatable_modifier = {
@@ -180,6 +181,11 @@ kuat_battle_clear_repeatable_modifier = {
 kuat_battle_remove_repetable_modifier = {
 	optimize_memory
 	remove_modifier = $TITLE$_weapon_type_$TYPE$_weapon_damage_mult
+	remove_modifier = $TITLE$_weapon_type_$TYPE$_weapon_fire_rate_mult
+}
+
+kuat_battle_remove_repetable_modifier_insert = {
+	optimize_memory
 	remove_modifier = $TITLE$_weapon_type_$TYPE$_weapon_fire_rate_mult
 }
 
@@ -285,10 +291,7 @@ kuat_battle_set_none_legacy_eternal_fleet_mult_modifier = {
 		kuat_battle_set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_armor_hardening_add 			 		RELATION = "<" 	OUTPUT_VALUE = value:kuat_dynamic_base_value|SUBTRACT|0|MULT|1| } 
 		kuat_battle_set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_shield_hardening_add 			 		RELATION = "<" 	OUTPUT_VALUE = value:kuat_dynamic_base_value|SUBTRACT|0|MULT|1| }
 		kuat_battle_set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_weapon_damage							RELATION = "<"  OUTPUT_VALUE = value:kuat_dynamic_base_value|SUBTRACT|0|MULT|1|	} 
-		kuat_battle_set_eternal_fleet_standard_modifier 				= { PARAMATER = weapon_type_energy_weapon_damage_mult		RELATION = "<"  OUTPUT_VALUE = value:kuat_dynamic_base_value|SUBTRACT|0|MULT|1|	} 
-		kuat_battle_set_eternal_fleet_standard_modifier 				= { PARAMATER = weapon_type_kinetic_weapon_damage_mult		RELATION = "<"  OUTPUT_VALUE = value:kuat_dynamic_base_value|SUBTRACT|0|MULT|1|	} 
-		kuat_battle_set_eternal_fleet_standard_modifier 				= { PARAMATER = weapon_type_explosive_weapon_damage_mult	RELATION = "<"  OUTPUT_VALUE = value:kuat_dynamic_base_value|SUBTRACT|0|MULT|1|	} 
-		kuat_battle_set_eternal_fleet_standard_modifier 				= { PARAMATER = weapon_type_strike_craft_weapon_damage_mult	RELATION = "<"  OUTPUT_VALUE = value:kuat_dynamic_base_value|SUBTRACT|0|MULT|1|	} 
+		kuat_battle_set_eternal_fleet_standard_modifier 				= { PARAMATER = damage_vs_country_type_default_mult			RELATION = "<"  OUTPUT_VALUE = value:kuat_dynamic_base_value|SUBTRACT|0|MULT|1|	} 
 		kuat_battle_set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_armor_damage_mult 						RELATION = "<"  OUTPUT_VALUE = value:kuat_dynamic_base_value|SUBTRACT|4|MULT|1| }
 		kuat_battle_set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_shield_damage_mult 					RELATION = "<"  OUTPUT_VALUE = value:kuat_dynamic_base_value|SUBTRACT|4|MULT|1| }
 		kuat_battle_set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_hull_damage_mult						RELATION = "<"  OUTPUT_VALUE = value:kuat_dynamic_base_value|SUBTRACT|4|MULT|1| }
@@ -298,24 +301,24 @@ kuat_battle_set_none_legacy_eternal_fleet_mult_modifier = {
 #流浪
 kuat_battle_set_not_need_flagship_contractor_fleet_mult_modifier = {
 	optimize_memory
-	kuat_battle_set_standard_battle_repeatable_rate_to_damage_modifier = { TYPE = explosive 		OUTPUT_VALUE = 0 RATE = @kuat_battle_rate_to_damage_modifier_rate }
-	kuat_battle_set_standard_battle_repeatable_rate_to_damage_modifier = { TYPE = kinetic 			OUTPUT_VALUE = 0 RATE = @kuat_battle_rate_to_damage_modifier_rate }
-	kuat_battle_set_standard_battle_repeatable_rate_to_damage_modifier = { TYPE = energy 			OUTPUT_VALUE = 0 RATE = @kuat_battle_rate_to_damage_modifier_rate }
-	kuat_battle_set_standard_battle_repeatable_rate_to_damage_modifier = { TYPE = strike_craft 		OUTPUT_VALUE = 0 RATE = @kuat_battle_rate_to_damage_modifier_rate }
-	kuat_battle_set_standard_battle_repeatable_rate_to_damage_modifier = { TYPE = gravity 			OUTPUT_VALUE = 0 RATE = @kuat_battle_rate_to_damage_modifier_rate }
-	kuat_battle_set_standard_battle_repeatable_rate_to_damage_modifier = { TYPE = psionic 			OUTPUT_VALUE = 0 RATE = @kuat_battle_rate_to_damage_modifier_rate }
-	kuat_battle_set_standard_battle_repeatable_rate_to_damage_modifier = { TYPE = anti_psionic 		OUTPUT_VALUE = 0 RATE = @kuat_battle_rate_to_damage_modifier_rate }
-	kuat_battle_set_standard_battle_repeatable_rate_to_damage_modifier = { TYPE = SRA_SRA 			OUTPUT_VALUE = 0 RATE = @kuat_battle_rate_to_damage_modifier_rate }
-	kuat_battle_set_standard_battle_repeatable_rate_to_damage_modifier = { TYPE = SRA_RE_Core 		OUTPUT_VALUE = 0 RATE = @kuat_battle_rate_to_damage_modifier_rate }
-	kuat_battle_set_standard_battle_repeatable_rate_to_damage_modifier = { TYPE = H.D.energy 		OUTPUT_VALUE = 0 RATE = @kuat_battle_rate_to_damage_modifier_rate }
-	kuat_battle_set_standard_battle_repeatable_rate_to_damage_modifier = { TYPE = HD.M.kinetic 		OUTPUT_VALUE = 0 RATE = @kuat_battle_rate_to_damage_modifier_rate }
-	kuat_battle_set_standard_battle_repeatable_rate_to_damage_modifier = { TYPE = PrimaMateria 		OUTPUT_VALUE = 0 RATE = @kuat_battle_rate_to_damage_modifier_rate }
-	kuat_battle_set_standard_battle_repeatable_rate_to_damage_modifier = { TYPE = sr_uf 			OUTPUT_VALUE = 0 RATE = @kuat_battle_rate_to_damage_modifier_rate }
-	kuat_battle_set_standard_battle_repeatable_rate_to_damage_modifier = { TYPE = lingli 			OUTPUT_VALUE = 0 RATE = @kuat_battle_rate_to_damage_modifier_rate }
-	kuat_battle_set_standard_battle_repeatable_rate_to_damage_modifier = { TYPE = nano 				OUTPUT_VALUE = 0 RATE = @kuat_battle_rate_to_damage_modifier_rate }
-	kuat_battle_set_standard_battle_repeatable_rate_to_damage_modifier = { TYPE = KZ_VOY_magic 		OUTPUT_VALUE = 0 RATE = @kuat_battle_rate_to_damage_modifier_rate }
-	kuat_battle_set_standard_battle_repeatable_rate_to_damage_modifier = { TYPE = KZ_VOY_temporal 	OUTPUT_VALUE = 0 RATE = @kuat_battle_rate_to_damage_modifier_rate }
-	kuat_battle_set_standard_battle_repeatable_rate_to_damage_modifier = { TYPE = ge_void_energy 	OUTPUT_VALUE = 0 RATE = @kuat_battle_rate_to_damage_modifier_rate }
+	kuat_battle_set_standard_battle_repeatable_rate_to_damage_modifier = { TYPE = explosive 		OUTPUT_VALUE = 0 }
+	kuat_battle_set_standard_battle_repeatable_rate_to_damage_modifier = { TYPE = kinetic 			OUTPUT_VALUE = 0 }
+	kuat_battle_set_standard_battle_repeatable_rate_to_damage_modifier = { TYPE = energy 			OUTPUT_VALUE = 0 }
+	kuat_battle_set_standard_battle_repeatable_rate_to_damage_modifier = { TYPE = strike_craft 		OUTPUT_VALUE = 0 }
+	kuat_battle_set_standard_battle_repeatable_rate_to_damage_modifier = { TYPE = gravity 			OUTPUT_VALUE = 0 }
+	kuat_battle_set_standard_battle_repeatable_rate_to_damage_modifier = { TYPE = psionic 			OUTPUT_VALUE = 0 }
+	kuat_battle_set_standard_battle_repeatable_rate_to_damage_modifier = { TYPE = anti_psionic 		OUTPUT_VALUE = 0 }
+	kuat_battle_set_standard_battle_repeatable_rate_to_damage_modifier = { TYPE = SRA_SRA 			OUTPUT_VALUE = 0 }
+	kuat_battle_set_standard_battle_repeatable_rate_to_damage_modifier = { TYPE = SRA_RE_Core 		OUTPUT_VALUE = 0 }
+	kuat_battle_set_standard_battle_repeatable_rate_to_damage_modifier = { TYPE = H.D.energy 		OUTPUT_VALUE = 0 }
+	kuat_battle_set_standard_battle_repeatable_rate_to_damage_modifier = { TYPE = HD.M.kinetic 		OUTPUT_VALUE = 0 }
+	kuat_battle_set_standard_battle_repeatable_rate_to_damage_modifier = { TYPE = PrimaMateria 		OUTPUT_VALUE = 0 }
+	kuat_battle_set_standard_battle_repeatable_rate_to_damage_modifier = { TYPE = sr_uf 			OUTPUT_VALUE = 0 }
+	kuat_battle_set_standard_battle_repeatable_rate_to_damage_modifier = { TYPE = lingli 			OUTPUT_VALUE = 0 }
+	kuat_battle_set_standard_battle_repeatable_rate_to_damage_modifier = { TYPE = nano 				OUTPUT_VALUE = 0 }
+	kuat_battle_set_standard_battle_repeatable_rate_to_damage_modifier = { TYPE = KZ_VOY_magic 		OUTPUT_VALUE = 0 }
+	kuat_battle_set_standard_battle_repeatable_rate_to_damage_modifier = { TYPE = KZ_VOY_temporal 	OUTPUT_VALUE = 0 }
+	kuat_battle_set_standard_battle_repeatable_rate_to_damage_modifier = { TYPE = ge_void_energy 	OUTPUT_VALUE = 0 }
 
 	kuat_battle_set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_speed_mult 					 RELATION = "!=" OUTPUT_VALUE = 0 }
 	kuat_battle_set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_fire_rate_mult 				 RELATION = "!=" OUTPUT_VALUE = 0 }
@@ -356,10 +359,7 @@ kuat_battle_set_not_need_flagship_contractor_fleet_mult_modifier = {
 		kuat_battle_set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_armor_hardening_add 			 		RELATION = "<" 	OUTPUT_VALUE = value:kuat_dynamic_base_value|SUBTRACT|0|MULT|1| } 
 		kuat_battle_set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_shield_hardening_add 			 		RELATION = "<" 	OUTPUT_VALUE = value:kuat_dynamic_base_value|SUBTRACT|0|MULT|1| }
 		kuat_battle_set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_weapon_damage							RELATION = "<"  OUTPUT_VALUE = value:kuat_dynamic_base_value|SUBTRACT|0|MULT|1|	} 
-		kuat_battle_set_eternal_fleet_standard_modifier 				= { PARAMATER = weapon_type_energy_weapon_damage_mult		RELATION = "<"  OUTPUT_VALUE = value:kuat_dynamic_base_value|SUBTRACT|0|MULT|1|	} 
-		kuat_battle_set_eternal_fleet_standard_modifier 				= { PARAMATER = weapon_type_kinetic_weapon_damage_mult		RELATION = "<"  OUTPUT_VALUE = value:kuat_dynamic_base_value|SUBTRACT|0|MULT|1|	} 
-		kuat_battle_set_eternal_fleet_standard_modifier 				= { PARAMATER = weapon_type_explosive_weapon_damage_mult	RELATION = "<"  OUTPUT_VALUE = value:kuat_dynamic_base_value|SUBTRACT|0|MULT|1|	} 
-		kuat_battle_set_eternal_fleet_standard_modifier 				= { PARAMATER = weapon_type_strike_craft_weapon_damage_mult	RELATION = "<"  OUTPUT_VALUE = value:kuat_dynamic_base_value|SUBTRACT|0|MULT|1|	} 
+		kuat_battle_set_eternal_fleet_standard_modifier 				= { PARAMATER = damage_vs_country_type_default_mult			RELATION = "<"  OUTPUT_VALUE = value:kuat_dynamic_base_value|SUBTRACT|0|MULT|1|	} 
 		kuat_battle_set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_armor_damage_mult 						RELATION = "<"  OUTPUT_VALUE = value:kuat_dynamic_base_value|SUBTRACT|2|MULT|1| }
 		kuat_battle_set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_shield_damage_mult 					RELATION = "<"  OUTPUT_VALUE = value:kuat_dynamic_base_value|SUBTRACT|2|MULT|1| }
 		kuat_battle_set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_hull_damage_mult						RELATION = "<"  OUTPUT_VALUE = value:kuat_dynamic_base_value|SUBTRACT|2|MULT|1| }
@@ -370,24 +370,24 @@ kuat_battle_set_not_need_flagship_contractor_fleet_mult_modifier = {
 kuat_battle_set_need_flagship_infinite_fleet_mult_modifier = {
 	optimize_memory
 
-	kuat_battle_set_standard_battle_repeatable_rate_to_damage_modifier = { TYPE = explosive 		OUTPUT_VALUE = 0 RATE = @kuat_battle_rate_to_damage_modifier_rate }
-	kuat_battle_set_standard_battle_repeatable_rate_to_damage_modifier = { TYPE = kinetic 			OUTPUT_VALUE = 0 RATE = @kuat_battle_rate_to_damage_modifier_rate }
-	kuat_battle_set_standard_battle_repeatable_rate_to_damage_modifier = { TYPE = energy 			OUTPUT_VALUE = 0 RATE = @kuat_battle_rate_to_damage_modifier_rate }
-	kuat_battle_set_standard_battle_repeatable_rate_to_damage_modifier = { TYPE = strike_craft 		OUTPUT_VALUE = 0 RATE = @kuat_battle_rate_to_damage_modifier_rate }
-	kuat_battle_set_standard_battle_repeatable_rate_to_damage_modifier = { TYPE = gravity 			OUTPUT_VALUE = 0 RATE = @kuat_battle_rate_to_damage_modifier_rate }
-	kuat_battle_set_standard_battle_repeatable_rate_to_damage_modifier = { TYPE = psionic 			OUTPUT_VALUE = 0 RATE = @kuat_battle_rate_to_damage_modifier_rate }
-	kuat_battle_set_standard_battle_repeatable_rate_to_damage_modifier = { TYPE = anti_psionic 		OUTPUT_VALUE = 0 RATE = @kuat_battle_rate_to_damage_modifier_rate }
-	kuat_battle_set_standard_battle_repeatable_rate_to_damage_modifier = { TYPE = SRA_SRA 			OUTPUT_VALUE = 0 RATE = @kuat_battle_rate_to_damage_modifier_rate }
-	kuat_battle_set_standard_battle_repeatable_rate_to_damage_modifier = { TYPE = SRA_RE_Core 		OUTPUT_VALUE = 0 RATE = @kuat_battle_rate_to_damage_modifier_rate }
-	kuat_battle_set_standard_battle_repeatable_rate_to_damage_modifier = { TYPE = H.D.energy 		OUTPUT_VALUE = 0 RATE = @kuat_battle_rate_to_damage_modifier_rate }
-	kuat_battle_set_standard_battle_repeatable_rate_to_damage_modifier = { TYPE = HD.M.kinetic 		OUTPUT_VALUE = 0 RATE = @kuat_battle_rate_to_damage_modifier_rate }
-	kuat_battle_set_standard_battle_repeatable_rate_to_damage_modifier = { TYPE = PrimaMateria 		OUTPUT_VALUE = 0 RATE = @kuat_battle_rate_to_damage_modifier_rate }
-	kuat_battle_set_standard_battle_repeatable_rate_to_damage_modifier = { TYPE = sr_uf 			OUTPUT_VALUE = 0 RATE = @kuat_battle_rate_to_damage_modifier_rate }
-	kuat_battle_set_standard_battle_repeatable_rate_to_damage_modifier = { TYPE = lingli 			OUTPUT_VALUE = 0 RATE = @kuat_battle_rate_to_damage_modifier_rate }
-	kuat_battle_set_standard_battle_repeatable_rate_to_damage_modifier = { TYPE = nano 				OUTPUT_VALUE = 0 RATE = @kuat_battle_rate_to_damage_modifier_rate }
-	kuat_battle_set_standard_battle_repeatable_rate_to_damage_modifier = { TYPE = KZ_VOY_magic 		OUTPUT_VALUE = 0 RATE = @kuat_battle_rate_to_damage_modifier_rate }
-	kuat_battle_set_standard_battle_repeatable_rate_to_damage_modifier = { TYPE = KZ_VOY_temporal 	OUTPUT_VALUE = 0 RATE = @kuat_battle_rate_to_damage_modifier_rate }
-	kuat_battle_set_standard_battle_repeatable_rate_to_damage_modifier = { TYPE = ge_void_energy 	OUTPUT_VALUE = 0 RATE = @kuat_battle_rate_to_damage_modifier_rate }
+	kuat_battle_set_standard_battle_repeatable_rate_to_damage_modifier = { TYPE = explosive 		OUTPUT_VALUE = 0 }
+	kuat_battle_set_standard_battle_repeatable_rate_to_damage_modifier = { TYPE = kinetic 			OUTPUT_VALUE = 0 }
+	kuat_battle_set_standard_battle_repeatable_rate_to_damage_modifier = { TYPE = energy 			OUTPUT_VALUE = 0 }
+	kuat_battle_set_standard_battle_repeatable_rate_to_damage_modifier = { TYPE = strike_craft 		OUTPUT_VALUE = 0 }
+	kuat_battle_set_standard_battle_repeatable_rate_to_damage_modifier = { TYPE = gravity 			OUTPUT_VALUE = 0 }
+	kuat_battle_set_standard_battle_repeatable_rate_to_damage_modifier = { TYPE = psionic 			OUTPUT_VALUE = 0 }
+	kuat_battle_set_standard_battle_repeatable_rate_to_damage_modifier = { TYPE = anti_psionic 		OUTPUT_VALUE = 0 }
+	kuat_battle_set_standard_battle_repeatable_rate_to_damage_modifier = { TYPE = SRA_SRA 			OUTPUT_VALUE = 0 }
+	kuat_battle_set_standard_battle_repeatable_rate_to_damage_modifier = { TYPE = SRA_RE_Core 		OUTPUT_VALUE = 0 }
+	kuat_battle_set_standard_battle_repeatable_rate_to_damage_modifier = { TYPE = H.D.energy 		OUTPUT_VALUE = 0 }
+	kuat_battle_set_standard_battle_repeatable_rate_to_damage_modifier = { TYPE = HD.M.kinetic 		OUTPUT_VALUE = 0 }
+	kuat_battle_set_standard_battle_repeatable_rate_to_damage_modifier = { TYPE = PrimaMateria 		OUTPUT_VALUE = 0 }
+	kuat_battle_set_standard_battle_repeatable_rate_to_damage_modifier = { TYPE = sr_uf 			OUTPUT_VALUE = 0 }
+	kuat_battle_set_standard_battle_repeatable_rate_to_damage_modifier = { TYPE = lingli 			OUTPUT_VALUE = 0 }
+	kuat_battle_set_standard_battle_repeatable_rate_to_damage_modifier = { TYPE = nano 				OUTPUT_VALUE = 0 }
+	kuat_battle_set_standard_battle_repeatable_rate_to_damage_modifier = { TYPE = KZ_VOY_magic 		OUTPUT_VALUE = 0 }
+	kuat_battle_set_standard_battle_repeatable_rate_to_damage_modifier = { TYPE = KZ_VOY_temporal 	OUTPUT_VALUE = 0 }
+	kuat_battle_set_standard_battle_repeatable_rate_to_damage_modifier = { TYPE = ge_void_energy 	OUTPUT_VALUE = 0 }
 
 	kuat_battle_set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_speed_mult 					 RELATION = "!=" OUTPUT_VALUE = 0 }
 	kuat_battle_set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_fire_rate_mult 				 RELATION = "!=" OUTPUT_VALUE = 0 }
@@ -428,10 +428,7 @@ kuat_battle_set_need_flagship_infinite_fleet_mult_modifier = {
 		kuat_battle_set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_armor_hardening_add 			 		RELATION = "<" 	OUTPUT_VALUE = value:kuat_dynamic_base_value|SUBTRACT|0|MULT|1| } 
 		kuat_battle_set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_shield_hardening_add 			 		RELATION = "<" 	OUTPUT_VALUE = value:kuat_dynamic_base_value|SUBTRACT|0|MULT|1| }
 		kuat_battle_set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_weapon_damage							RELATION = "<"  OUTPUT_VALUE = value:kuat_dynamic_base_value|SUBTRACT|0|MULT|1|	} 
-		kuat_battle_set_eternal_fleet_standard_modifier 				= { PARAMATER = weapon_type_energy_weapon_damage_mult		RELATION = "<"  OUTPUT_VALUE = value:kuat_dynamic_base_value|SUBTRACT|0|MULT|1|	} 
-		kuat_battle_set_eternal_fleet_standard_modifier 				= { PARAMATER = weapon_type_kinetic_weapon_damage_mult		RELATION = "<"  OUTPUT_VALUE = value:kuat_dynamic_base_value|SUBTRACT|0|MULT|1|	} 
-		kuat_battle_set_eternal_fleet_standard_modifier 				= { PARAMATER = weapon_type_explosive_weapon_damage_mult	RELATION = "<"  OUTPUT_VALUE = value:kuat_dynamic_base_value|SUBTRACT|0|MULT|1|	} 
-		kuat_battle_set_eternal_fleet_standard_modifier 				= { PARAMATER = weapon_type_strike_craft_weapon_damage_mult	RELATION = "<"  OUTPUT_VALUE = value:kuat_dynamic_base_value|SUBTRACT|0|MULT|1|	} 
+		kuat_battle_set_eternal_fleet_standard_modifier 				= { PARAMATER = damage_vs_country_type_default_mult			RELATION = "<"  OUTPUT_VALUE = value:kuat_dynamic_base_value|SUBTRACT|0|MULT|1|	} 		
 		kuat_battle_set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_armor_damage_mult 						RELATION = "<"  OUTPUT_VALUE = value:kuat_dynamic_base_value|SUBTRACT|2|MULT|1| }
 		kuat_battle_set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_shield_damage_mult 					RELATION = "<"  OUTPUT_VALUE = value:kuat_dynamic_base_value|SUBTRACT|2|MULT|1| }
 		kuat_battle_set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_hull_damage_mult						RELATION = "<"  OUTPUT_VALUE = value:kuat_dynamic_base_value|SUBTRACT|2|MULT|1| }
@@ -441,24 +438,24 @@ kuat_battle_set_need_flagship_infinite_fleet_mult_modifier = {
 #永恒
 kuat_battle_set_need_flagship_eternal_fleet_mult_modifier = {
 	optimize_memory
-	kuat_battle_set_standard_battle_repeatable_rate_to_damage_modifier = { TYPE = explosive 		OUTPUT_VALUE = 0 RATE = @kuat_battle_rate_to_damage_modifier_rate }
-	kuat_battle_set_standard_battle_repeatable_rate_to_damage_modifier = { TYPE = kinetic 			OUTPUT_VALUE = 0 RATE = @kuat_battle_rate_to_damage_modifier_rate }
-	kuat_battle_set_standard_battle_repeatable_rate_to_damage_modifier = { TYPE = energy 			OUTPUT_VALUE = 0 RATE = @kuat_battle_rate_to_damage_modifier_rate }
-	kuat_battle_set_standard_battle_repeatable_rate_to_damage_modifier = { TYPE = strike_craft 		OUTPUT_VALUE = 0 RATE = @kuat_battle_rate_to_damage_modifier_rate }
-	kuat_battle_set_standard_battle_repeatable_rate_to_damage_modifier = { TYPE = gravity 			OUTPUT_VALUE = 0 RATE = @kuat_battle_rate_to_damage_modifier_rate }
-	kuat_battle_set_standard_battle_repeatable_rate_to_damage_modifier = { TYPE = psionic 			OUTPUT_VALUE = 0 RATE = @kuat_battle_rate_to_damage_modifier_rate }
-	kuat_battle_set_standard_battle_repeatable_rate_to_damage_modifier = { TYPE = anti_psionic 		OUTPUT_VALUE = 0 RATE = @kuat_battle_rate_to_damage_modifier_rate }
-	kuat_battle_set_standard_battle_repeatable_rate_to_damage_modifier = { TYPE = SRA_SRA 			OUTPUT_VALUE = 0 RATE = @kuat_battle_rate_to_damage_modifier_rate }
-	kuat_battle_set_standard_battle_repeatable_rate_to_damage_modifier = { TYPE = SRA_RE_Core 		OUTPUT_VALUE = 0 RATE = @kuat_battle_rate_to_damage_modifier_rate }
-	kuat_battle_set_standard_battle_repeatable_rate_to_damage_modifier = { TYPE = H.D.energy 		OUTPUT_VALUE = 0 RATE = @kuat_battle_rate_to_damage_modifier_rate }
-	kuat_battle_set_standard_battle_repeatable_rate_to_damage_modifier = { TYPE = HD.M.kinetic 		OUTPUT_VALUE = 0 RATE = @kuat_battle_rate_to_damage_modifier_rate }
-	kuat_battle_set_standard_battle_repeatable_rate_to_damage_modifier = { TYPE = PrimaMateria 		OUTPUT_VALUE = 0 RATE = @kuat_battle_rate_to_damage_modifier_rate }
-	kuat_battle_set_standard_battle_repeatable_rate_to_damage_modifier = { TYPE = sr_uf 			OUTPUT_VALUE = 0 RATE = @kuat_battle_rate_to_damage_modifier_rate }
-	kuat_battle_set_standard_battle_repeatable_rate_to_damage_modifier = { TYPE = lingli 			OUTPUT_VALUE = 0 RATE = @kuat_battle_rate_to_damage_modifier_rate }
-	kuat_battle_set_standard_battle_repeatable_rate_to_damage_modifier = { TYPE = nano 				OUTPUT_VALUE = 0 RATE = @kuat_battle_rate_to_damage_modifier_rate }
-	kuat_battle_set_standard_battle_repeatable_rate_to_damage_modifier = { TYPE = KZ_VOY_magic 		OUTPUT_VALUE = 0 RATE = @kuat_battle_rate_to_damage_modifier_rate }
-	kuat_battle_set_standard_battle_repeatable_rate_to_damage_modifier = { TYPE = KZ_VOY_temporal 	OUTPUT_VALUE = 0 RATE = @kuat_battle_rate_to_damage_modifier_rate }
-	kuat_battle_set_standard_battle_repeatable_rate_to_damage_modifier = { TYPE = ge_void_energy 	OUTPUT_VALUE = 0 RATE = @kuat_battle_rate_to_damage_modifier_rate }
+	kuat_battle_set_standard_battle_repeatable_rate_to_damage_modifier = { TYPE = explosive 		OUTPUT_VALUE = 0 }
+	kuat_battle_set_standard_battle_repeatable_rate_to_damage_modifier = { TYPE = kinetic 			OUTPUT_VALUE = 0 }
+	kuat_battle_set_standard_battle_repeatable_rate_to_damage_modifier = { TYPE = energy 			OUTPUT_VALUE = 0 }
+	kuat_battle_set_standard_battle_repeatable_rate_to_damage_modifier = { TYPE = strike_craft 		OUTPUT_VALUE = 0 }
+	kuat_battle_set_standard_battle_repeatable_rate_to_damage_modifier = { TYPE = gravity 			OUTPUT_VALUE = 0 }
+	kuat_battle_set_standard_battle_repeatable_rate_to_damage_modifier = { TYPE = psionic 			OUTPUT_VALUE = 0 }
+	kuat_battle_set_standard_battle_repeatable_rate_to_damage_modifier = { TYPE = anti_psionic 		OUTPUT_VALUE = 0 }
+	kuat_battle_set_standard_battle_repeatable_rate_to_damage_modifier = { TYPE = SRA_SRA 			OUTPUT_VALUE = 0 }
+	kuat_battle_set_standard_battle_repeatable_rate_to_damage_modifier = { TYPE = SRA_RE_Core 		OUTPUT_VALUE = 0 }
+	kuat_battle_set_standard_battle_repeatable_rate_to_damage_modifier = { TYPE = H.D.energy 		OUTPUT_VALUE = 0 }
+	kuat_battle_set_standard_battle_repeatable_rate_to_damage_modifier = { TYPE = HD.M.kinetic 		OUTPUT_VALUE = 0 }
+	kuat_battle_set_standard_battle_repeatable_rate_to_damage_modifier = { TYPE = PrimaMateria 		OUTPUT_VALUE = 0 }
+	kuat_battle_set_standard_battle_repeatable_rate_to_damage_modifier = { TYPE = sr_uf 			OUTPUT_VALUE = 0 }
+	kuat_battle_set_standard_battle_repeatable_rate_to_damage_modifier = { TYPE = lingli 			OUTPUT_VALUE = 0 }
+	kuat_battle_set_standard_battle_repeatable_rate_to_damage_modifier = { TYPE = nano 				OUTPUT_VALUE = 0 }
+	kuat_battle_set_standard_battle_repeatable_rate_to_damage_modifier = { TYPE = KZ_VOY_magic 		OUTPUT_VALUE = 0 }
+	kuat_battle_set_standard_battle_repeatable_rate_to_damage_modifier = { TYPE = KZ_VOY_temporal 	OUTPUT_VALUE = 0 }
+	kuat_battle_set_standard_battle_repeatable_rate_to_damage_modifier = { TYPE = ge_void_energy 	OUTPUT_VALUE = 0 }
 
 	kuat_battle_set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_speed_mult 					 RELATION = "!=" OUTPUT_VALUE = 0 }
 	kuat_battle_set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_fire_rate_mult 				 RELATION = "!=" OUTPUT_VALUE = 0 }
@@ -499,10 +496,7 @@ kuat_battle_set_need_flagship_eternal_fleet_mult_modifier = {
 		kuat_battle_set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_armor_hardening_add 			 		RELATION = "<" 	OUTPUT_VALUE = value:kuat_dynamic_base_value|SUBTRACT|0|MULT|1| } 
 		kuat_battle_set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_shield_hardening_add 			 		RELATION = "<" 	OUTPUT_VALUE = value:kuat_dynamic_base_value|SUBTRACT|0|MULT|1| }
 		kuat_battle_set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_weapon_damage							RELATION = "<"  OUTPUT_VALUE = value:kuat_dynamic_base_value|SUBTRACT|0|MULT|1|	} 
-		kuat_battle_set_eternal_fleet_standard_modifier 				= { PARAMATER = weapon_type_energy_weapon_damage_mult		RELATION = "<"  OUTPUT_VALUE = value:kuat_dynamic_base_value|SUBTRACT|0|MULT|1|	} 
-		kuat_battle_set_eternal_fleet_standard_modifier 				= { PARAMATER = weapon_type_kinetic_weapon_damage_mult		RELATION = "<"  OUTPUT_VALUE = value:kuat_dynamic_base_value|SUBTRACT|0|MULT|1|	} 
-		kuat_battle_set_eternal_fleet_standard_modifier 				= { PARAMATER = weapon_type_explosive_weapon_damage_mult	RELATION = "<"  OUTPUT_VALUE = value:kuat_dynamic_base_value|SUBTRACT|0|MULT|1|	} 
-		kuat_battle_set_eternal_fleet_standard_modifier 				= { PARAMATER = weapon_type_strike_craft_weapon_damage_mult	RELATION = "<"  OUTPUT_VALUE = value:kuat_dynamic_base_value|SUBTRACT|0|MULT|1|	} 
+		kuat_battle_set_eternal_fleet_standard_modifier 				= { PARAMATER = damage_vs_country_type_default_mult			RELATION = "<"  OUTPUT_VALUE = value:kuat_dynamic_base_value|SUBTRACT|0|MULT|1|	} 		
 		kuat_battle_set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_armor_damage_mult 						RELATION = "<"  OUTPUT_VALUE = value:kuat_dynamic_base_value|SUBTRACT|3|MULT|1| }
 		kuat_battle_set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_shield_damage_mult 					RELATION = "<"  OUTPUT_VALUE = value:kuat_dynamic_base_value|SUBTRACT|3|MULT|1| }
 		kuat_battle_set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_hull_damage_mult						RELATION = "<"  OUTPUT_VALUE = value:kuat_dynamic_base_value|SUBTRACT|3|MULT|1| }
@@ -512,24 +506,24 @@ kuat_battle_set_need_flagship_eternal_fleet_mult_modifier = {
 #监护者
 kuat_battle_set_modifier_control_eternal_fleet_mult_modifier = {
 	optimize_memory
-	kuat_battle_set_standard_battle_repeatable_rate_to_damage_modifier = { TYPE = explosive 		OUTPUT_VALUE = 0 RATE = @kuat_battle_rate_to_damage_modifier_rate }
-	kuat_battle_set_standard_battle_repeatable_rate_to_damage_modifier = { TYPE = kinetic 			OUTPUT_VALUE = 0 RATE = @kuat_battle_rate_to_damage_modifier_rate }
-	kuat_battle_set_standard_battle_repeatable_rate_to_damage_modifier = { TYPE = energy 			OUTPUT_VALUE = 0 RATE = @kuat_battle_rate_to_damage_modifier_rate }
-	kuat_battle_set_standard_battle_repeatable_rate_to_damage_modifier = { TYPE = strike_craft 		OUTPUT_VALUE = 0 RATE = @kuat_battle_rate_to_damage_modifier_rate }
-	kuat_battle_set_standard_battle_repeatable_rate_to_damage_modifier = { TYPE = gravity 			OUTPUT_VALUE = 0 RATE = @kuat_battle_rate_to_damage_modifier_rate }
-	kuat_battle_set_standard_battle_repeatable_rate_to_damage_modifier = { TYPE = psionic 			OUTPUT_VALUE = 0 RATE = @kuat_battle_rate_to_damage_modifier_rate }
-	kuat_battle_set_standard_battle_repeatable_rate_to_damage_modifier = { TYPE = anti_psionic 		OUTPUT_VALUE = 0 RATE = @kuat_battle_rate_to_damage_modifier_rate }
-	kuat_battle_set_standard_battle_repeatable_rate_to_damage_modifier = { TYPE = SRA_SRA 			OUTPUT_VALUE = 0 RATE = @kuat_battle_rate_to_damage_modifier_rate }
-	kuat_battle_set_standard_battle_repeatable_rate_to_damage_modifier = { TYPE = SRA_RE_Core 		OUTPUT_VALUE = 0 RATE = @kuat_battle_rate_to_damage_modifier_rate }
-	kuat_battle_set_standard_battle_repeatable_rate_to_damage_modifier = { TYPE = H.D.energy 		OUTPUT_VALUE = 0 RATE = @kuat_battle_rate_to_damage_modifier_rate }
-	kuat_battle_set_standard_battle_repeatable_rate_to_damage_modifier = { TYPE = HD.M.kinetic 		OUTPUT_VALUE = 0 RATE = @kuat_battle_rate_to_damage_modifier_rate }
-	kuat_battle_set_standard_battle_repeatable_rate_to_damage_modifier = { TYPE = PrimaMateria 		OUTPUT_VALUE = 0 RATE = @kuat_battle_rate_to_damage_modifier_rate }
-	kuat_battle_set_standard_battle_repeatable_rate_to_damage_modifier = { TYPE = sr_uf 			OUTPUT_VALUE = 0 RATE = @kuat_battle_rate_to_damage_modifier_rate }
-	kuat_battle_set_standard_battle_repeatable_rate_to_damage_modifier = { TYPE = lingli 			OUTPUT_VALUE = 0 RATE = @kuat_battle_rate_to_damage_modifier_rate }
-	kuat_battle_set_standard_battle_repeatable_rate_to_damage_modifier = { TYPE = nano 				OUTPUT_VALUE = 0 RATE = @kuat_battle_rate_to_damage_modifier_rate }
-	kuat_battle_set_standard_battle_repeatable_rate_to_damage_modifier = { TYPE = KZ_VOY_magic 		OUTPUT_VALUE = 0 RATE = @kuat_battle_rate_to_damage_modifier_rate }
-	kuat_battle_set_standard_battle_repeatable_rate_to_damage_modifier = { TYPE = KZ_VOY_temporal 	OUTPUT_VALUE = 0 RATE = @kuat_battle_rate_to_damage_modifier_rate }
-	kuat_battle_set_standard_battle_repeatable_rate_to_damage_modifier = { TYPE = ge_void_energy 	OUTPUT_VALUE = 0 RATE = @kuat_battle_rate_to_damage_modifier_rate }
+	kuat_battle_set_standard_battle_repeatable_rate_to_damage_modifier = { TYPE = explosive 		OUTPUT_VALUE = 0 }
+	kuat_battle_set_standard_battle_repeatable_rate_to_damage_modifier = { TYPE = kinetic 			OUTPUT_VALUE = 0 }
+	kuat_battle_set_standard_battle_repeatable_rate_to_damage_modifier = { TYPE = energy 			OUTPUT_VALUE = 0 }
+	kuat_battle_set_standard_battle_repeatable_rate_to_damage_modifier = { TYPE = strike_craft 		OUTPUT_VALUE = 0 }
+	kuat_battle_set_standard_battle_repeatable_rate_to_damage_modifier = { TYPE = gravity 			OUTPUT_VALUE = 0 }
+	kuat_battle_set_standard_battle_repeatable_rate_to_damage_modifier = { TYPE = psionic 			OUTPUT_VALUE = 0 }
+	kuat_battle_set_standard_battle_repeatable_rate_to_damage_modifier = { TYPE = anti_psionic 		OUTPUT_VALUE = 0 }
+	kuat_battle_set_standard_battle_repeatable_rate_to_damage_modifier = { TYPE = SRA_SRA 			OUTPUT_VALUE = 0 }
+	kuat_battle_set_standard_battle_repeatable_rate_to_damage_modifier = { TYPE = SRA_RE_Core 		OUTPUT_VALUE = 0 }
+	kuat_battle_set_standard_battle_repeatable_rate_to_damage_modifier = { TYPE = H.D.energy 		OUTPUT_VALUE = 0 }
+	kuat_battle_set_standard_battle_repeatable_rate_to_damage_modifier = { TYPE = HD.M.kinetic 		OUTPUT_VALUE = 0 }
+	kuat_battle_set_standard_battle_repeatable_rate_to_damage_modifier = { TYPE = PrimaMateria 		OUTPUT_VALUE = 0 }
+	kuat_battle_set_standard_battle_repeatable_rate_to_damage_modifier = { TYPE = sr_uf 			OUTPUT_VALUE = 0 }
+	kuat_battle_set_standard_battle_repeatable_rate_to_damage_modifier = { TYPE = lingli 			OUTPUT_VALUE = 0 }
+	kuat_battle_set_standard_battle_repeatable_rate_to_damage_modifier = { TYPE = nano 				OUTPUT_VALUE = 0 }
+	kuat_battle_set_standard_battle_repeatable_rate_to_damage_modifier = { TYPE = KZ_VOY_magic 		OUTPUT_VALUE = 0 }
+	kuat_battle_set_standard_battle_repeatable_rate_to_damage_modifier = { TYPE = KZ_VOY_temporal 	OUTPUT_VALUE = 0 }
+	kuat_battle_set_standard_battle_repeatable_rate_to_damage_modifier = { TYPE = ge_void_energy 	OUTPUT_VALUE = 0 }
 
 	kuat_battle_set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_steal_defeated_ship_chance 	 RELATION = "!=" OUTPUT_VALUE = 0 }
 	kuat_battle_set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_monthly_hull_damage 	 		 RELATION = "!=" OUTPUT_VALUE = 0 }
@@ -567,24 +561,24 @@ kuat_battle_set_modifier_control_eternal_fleet_mult_modifier = {
 #标准（夸特）
 kuat_battle_set_standard_crisis_fleet_mult_modifier = {
 	optimize_memory
-	kuat_battle_set_standard_battle_repeatable_rate_to_damage_modifier = { TYPE = explosive 		OUTPUT_VALUE = 0 RATE = @kuat_battle_rate_to_damage_modifier_rate }
-	kuat_battle_set_standard_battle_repeatable_rate_to_damage_modifier = { TYPE = kinetic 			OUTPUT_VALUE = 0 RATE = @kuat_battle_rate_to_damage_modifier_rate }
-	kuat_battle_set_standard_battle_repeatable_rate_to_damage_modifier = { TYPE = energy 			OUTPUT_VALUE = 0 RATE = @kuat_battle_rate_to_damage_modifier_rate }
-	kuat_battle_set_standard_battle_repeatable_rate_to_damage_modifier = { TYPE = strike_craft 		OUTPUT_VALUE = 0 RATE = @kuat_battle_rate_to_damage_modifier_rate }
-	kuat_battle_set_standard_battle_repeatable_rate_to_damage_modifier = { TYPE = gravity 			OUTPUT_VALUE = 0 RATE = @kuat_battle_rate_to_damage_modifier_rate }
-	kuat_battle_set_standard_battle_repeatable_rate_to_damage_modifier = { TYPE = psionic 			OUTPUT_VALUE = 0 RATE = @kuat_battle_rate_to_damage_modifier_rate }
-	kuat_battle_set_standard_battle_repeatable_rate_to_damage_modifier = { TYPE = anti_psionic 		OUTPUT_VALUE = 0 RATE = @kuat_battle_rate_to_damage_modifier_rate }
-	kuat_battle_set_standard_battle_repeatable_rate_to_damage_modifier = { TYPE = SRA_SRA 			OUTPUT_VALUE = 0 RATE = @kuat_battle_rate_to_damage_modifier_rate }
-	kuat_battle_set_standard_battle_repeatable_rate_to_damage_modifier = { TYPE = SRA_RE_Core 		OUTPUT_VALUE = 0 RATE = @kuat_battle_rate_to_damage_modifier_rate }
-	kuat_battle_set_standard_battle_repeatable_rate_to_damage_modifier = { TYPE = H.D.energy 		OUTPUT_VALUE = 0 RATE = @kuat_battle_rate_to_damage_modifier_rate }
-	kuat_battle_set_standard_battle_repeatable_rate_to_damage_modifier = { TYPE = HD.M.kinetic 		OUTPUT_VALUE = 0 RATE = @kuat_battle_rate_to_damage_modifier_rate }
-	kuat_battle_set_standard_battle_repeatable_rate_to_damage_modifier = { TYPE = PrimaMateria 		OUTPUT_VALUE = 0 RATE = @kuat_battle_rate_to_damage_modifier_rate }
-	kuat_battle_set_standard_battle_repeatable_rate_to_damage_modifier = { TYPE = sr_uf 			OUTPUT_VALUE = 0 RATE = @kuat_battle_rate_to_damage_modifier_rate }
-	kuat_battle_set_standard_battle_repeatable_rate_to_damage_modifier = { TYPE = lingli 			OUTPUT_VALUE = 0 RATE = @kuat_battle_rate_to_damage_modifier_rate }
-	kuat_battle_set_standard_battle_repeatable_rate_to_damage_modifier = { TYPE = nano 				OUTPUT_VALUE = 0 RATE = @kuat_battle_rate_to_damage_modifier_rate }
-	kuat_battle_set_standard_battle_repeatable_rate_to_damage_modifier = { TYPE = KZ_VOY_magic 		OUTPUT_VALUE = 0 RATE = @kuat_battle_rate_to_damage_modifier_rate }
-	kuat_battle_set_standard_battle_repeatable_rate_to_damage_modifier = { TYPE = KZ_VOY_temporal 	OUTPUT_VALUE = 0 RATE = @kuat_battle_rate_to_damage_modifier_rate }
-	kuat_battle_set_standard_battle_repeatable_rate_to_damage_modifier = { TYPE = ge_void_energy 	OUTPUT_VALUE = 0 RATE = @kuat_battle_rate_to_damage_modifier_rate }
+	kuat_battle_set_standard_battle_repeatable_rate_to_damage_modifier = { TYPE = explosive 		OUTPUT_VALUE = 0 }
+	kuat_battle_set_standard_battle_repeatable_rate_to_damage_modifier = { TYPE = kinetic 			OUTPUT_VALUE = 0 }
+	kuat_battle_set_standard_battle_repeatable_rate_to_damage_modifier = { TYPE = energy 			OUTPUT_VALUE = 0 }
+	kuat_battle_set_standard_battle_repeatable_rate_to_damage_modifier = { TYPE = strike_craft 		OUTPUT_VALUE = 0 }
+	kuat_battle_set_standard_battle_repeatable_rate_to_damage_modifier = { TYPE = gravity 			OUTPUT_VALUE = 0 }
+	kuat_battle_set_standard_battle_repeatable_rate_to_damage_modifier = { TYPE = psionic 			OUTPUT_VALUE = 0 }
+	kuat_battle_set_standard_battle_repeatable_rate_to_damage_modifier = { TYPE = anti_psionic 		OUTPUT_VALUE = 0 }
+	kuat_battle_set_standard_battle_repeatable_rate_to_damage_modifier = { TYPE = SRA_SRA 			OUTPUT_VALUE = 0 }
+	kuat_battle_set_standard_battle_repeatable_rate_to_damage_modifier = { TYPE = SRA_RE_Core 		OUTPUT_VALUE = 0 }
+	kuat_battle_set_standard_battle_repeatable_rate_to_damage_modifier = { TYPE = H.D.energy 		OUTPUT_VALUE = 0 }
+	kuat_battle_set_standard_battle_repeatable_rate_to_damage_modifier = { TYPE = HD.M.kinetic 		OUTPUT_VALUE = 0 }
+	kuat_battle_set_standard_battle_repeatable_rate_to_damage_modifier = { TYPE = PrimaMateria 		OUTPUT_VALUE = 0 }
+	kuat_battle_set_standard_battle_repeatable_rate_to_damage_modifier = { TYPE = sr_uf 			OUTPUT_VALUE = 0 }
+	kuat_battle_set_standard_battle_repeatable_rate_to_damage_modifier = { TYPE = lingli 			OUTPUT_VALUE = 0 }
+	kuat_battle_set_standard_battle_repeatable_rate_to_damage_modifier = { TYPE = nano 				OUTPUT_VALUE = 0 }
+	kuat_battle_set_standard_battle_repeatable_rate_to_damage_modifier = { TYPE = KZ_VOY_magic 		OUTPUT_VALUE = 0 }
+	kuat_battle_set_standard_battle_repeatable_rate_to_damage_modifier = { TYPE = KZ_VOY_temporal 	OUTPUT_VALUE = 0 }
+	kuat_battle_set_standard_battle_repeatable_rate_to_damage_modifier = { TYPE = ge_void_energy 	OUTPUT_VALUE = 0 }
 
 	kuat_battle_set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_speed_mult 					 RELATION = "!=" OUTPUT_VALUE = 0 }
 	kuat_battle_set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_fire_rate_mult 				 RELATION = "!=" OUTPUT_VALUE = 0 }
@@ -625,10 +619,7 @@ kuat_battle_set_standard_crisis_fleet_mult_modifier = {
 		kuat_battle_set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_armor_hardening_add 			 		RELATION = "<" 	OUTPUT_VALUE = value:kuat_dynamic_base_value|SUBTRACT|0|MULT|1| }
 		kuat_battle_set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_shield_hardening_add 			 		RELATION = "<" 	OUTPUT_VALUE = value:kuat_dynamic_base_value|SUBTRACT|0|MULT|1| }
 		kuat_battle_set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_weapon_damage							RELATION = "<"  OUTPUT_VALUE = value:kuat_dynamic_base_value|SUBTRACT|0|MULT|1|	}
-		kuat_battle_set_eternal_fleet_standard_modifier 				= { PARAMATER = weapon_type_energy_weapon_damage_mult		RELATION = "<"  OUTPUT_VALUE = value:kuat_dynamic_base_value|SUBTRACT|0|MULT|1|	}
-		kuat_battle_set_eternal_fleet_standard_modifier 				= { PARAMATER = weapon_type_kinetic_weapon_damage_mult		RELATION = "<"  OUTPUT_VALUE = value:kuat_dynamic_base_value|SUBTRACT|0|MULT|1|	}
-		kuat_battle_set_eternal_fleet_standard_modifier 				= { PARAMATER = weapon_type_explosive_weapon_damage_mult	RELATION = "<"  OUTPUT_VALUE = value:kuat_dynamic_base_value|SUBTRACT|0|MULT|1|	} 
-		kuat_battle_set_eternal_fleet_standard_modifier 				= { PARAMATER = weapon_type_strike_craft_weapon_damage_mult	RELATION = "<"  OUTPUT_VALUE = value:kuat_dynamic_base_value|SUBTRACT|0|MULT|1|	}
+		kuat_battle_set_eternal_fleet_standard_modifier 				= { PARAMATER = damage_vs_country_type_default_mult			RELATION = "<"  OUTPUT_VALUE = value:kuat_dynamic_base_value|SUBTRACT|0|MULT|1|	} 		
 		kuat_battle_set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_armor_damage_mult 						RELATION = "<"  OUTPUT_VALUE = value:kuat_dynamic_base_value|SUBTRACT|3|MULT|1| }
 		kuat_battle_set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_shield_damage_mult 					RELATION = "<"  OUTPUT_VALUE = value:kuat_dynamic_base_value|SUBTRACT|3|MULT|1| }
 		kuat_battle_set_eternal_fleet_standard_modifier 				= { PARAMATER = ship_hull_damage_mult						RELATION = "<"  OUTPUT_VALUE = value:kuat_dynamic_base_value|SUBTRACT|3|MULT|1| }
@@ -653,7 +644,7 @@ kuat_battle_set_eternal_fleet_standard_modifier = {
 		set_variable = { which = $PARAMATER$_value value = modifier:$PARAMATER$ }
 		subtract_variable = { which = $PARAMATER$_value value = $OUTPUT_VALUE$ }
 		add_modifier = { modifier = basic_$PARAMATER$ multiplier = $PARAMATER$_value }
-		clear_variable = $PARAMATER$_value
+		if = { limit = { is_variable_set = $PARAMATER$_value } clear_variable = $PARAMATER$_value }
 		set_timed_ship_flag = { flag = $PARAMATER$_ship_cooldown days = 1 }
 		if = { 
 			limit = { NOT = { has_ship_flag = kuat_fleet_dynamic_modifier_times } } 
@@ -670,7 +661,7 @@ kuat_battle_set_eternal_fleet_standard_modifier = {
 		subtract_variable = { which = change_$PARAMATER$_value value = $OUTPUT_VALUE$ }
 		change_variable = { which = debug_change_$PARAMATER$_value value = change_$PARAMATER$_value }
 		add_modifier = { modifier = change_basic_$PARAMATER$ multiplier = debug_change_$PARAMATER$_value }
-		clear_variable = change_$PARAMATER$_value
+		if = { limit = { is_variable_set = change_$PARAMATER$_value } clear_variable = change_$PARAMATER$_value }
 		set_timed_ship_flag = { flag = $PARAMATER$_ship_cooldown days = 1 }
 		if = { 
 			limit = { NOT = { has_ship_flag = kuat_fleet_dynamic_modifier_times } } 
@@ -691,54 +682,35 @@ kuat_battle_set_standard_battle_repeatable_rate_to_damage_modifier = {
 				has_ship_flag = repeatable_weapon_type_$TYPE$_weapon_fire_rate_mult_ship_cooldown 
 				has_ship_flag = kuat_is_modifiering
 			} 
-			check_modifier_value = { modifier = weapon_type_$TYPE$_weapon_fire_rate_mult value != $OUTPUT_VALUE$ }
+			NOT = { check_modifier_value = { modifier = weapon_type_$TYPE$_weapon_fire_rate_mult value = $OUTPUT_VALUE$ } }
 		}
 
 		set_variable = { 
 			which = weapon_type_$TYPE$_weapon_fire_rate_mult_value 
 			value = modifier:weapon_type_$TYPE$_weapon_fire_rate_mult 
 		}
-		subtract_variable = { 
-			which = weapon_type_$TYPE$_weapon_fire_rate_mult_value 
-			value = $OUTPUT_VALUE$ 
-		}
+		subtract_variable = { which = weapon_type_$TYPE$_weapon_fire_rate_mult_value value = $OUTPUT_VALUE$ }	
 		add_modifier = { 
 			modifier = basic_weapon_type_$TYPE$_weapon_fire_rate_mult 
 			multiplier = weapon_type_$TYPE$_weapon_fire_rate_mult_value 
+		}	
+		if = {
+			limit = { is_variable_set = weapon_type_$TYPE$_weapon_fire_rate_mult_value }		
+			clear_variable = weapon_type_$TYPE$_weapon_fire_rate_mult_value 
 		}
-
-		set_variable = { 
-			which = weapon_type_$TYPE$_weapon_damage_mult_value 
-			value = weapon_type_$TYPE$_weapon_fire_rate_mult_value 
-		}
-		multiply_variable = { 
-			which = weapon_type_$TYPE$_weapon_damage_mult_value 
-			value = $RATE$ 
-		}
-		add_modifier = { 
-			modifier = basic_weapon_type_$TYPE$_weapon_damage_mult 
-			multiplier = weapon_type_$TYPE$_weapon_damage_mult_value 
-		}
-
-		clear_variable = weapon_type_$TYPE$_weapon_fire_rate_mult_value 
-		clear_variable = weapon_type_$TYPE$_weapon_damage_mult_value
 		set_timed_ship_flag = { flag = repeatable_weapon_type_$TYPE$_weapon_fire_rate_mult_ship_cooldown days = 1 }
 	} 
 	else_if = { 
 		limit = { 
 			has_ship_flag = kuat_is_modifiering
 			NOT = { has_ship_flag = repeatable_weapon_type_$TYPE$_weapon_fire_rate_mult_ship_cooldown } 
-			check_modifier_value = { modifier = weapon_type_$TYPE$_weapon_fire_rate_mult value != $OUTPUT_VALUE$ }
+			NOT = { check_modifier_value = { modifier = weapon_type_$TYPE$_weapon_fire_rate_mult value = $OUTPUT_VALUE$ } }
 		}
-
 		set_variable = { 
 			which = change_weapon_type_$TYPE$_weapon_fire_rate_mult_value 
 			value = modifier:weapon_type_$TYPE$_weapon_fire_rate_mult 
 		}
-		subtract_variable = { 
-			which = change_weapon_type_$TYPE$_weapon_fire_rate_mult_value 
-			value = $OUTPUT_VALUE$ 
-		}
+		subtract_variable = { which = change_weapon_type_$TYPE$_weapon_fire_rate_mult_value value = $OUTPUT_VALUE$ }
 		change_variable = { 
 			which = debug_change_weapon_type_$TYPE$_weapon_fire_rate_mult_value 
 			value = change_weapon_type_$TYPE$_weapon_fire_rate_mult_value 
@@ -747,26 +719,10 @@ kuat_battle_set_standard_battle_repeatable_rate_to_damage_modifier = {
 			modifier = change_basic_weapon_type_$TYPE$_weapon_fire_rate_mult 
 			multiplier = debug_change_weapon_type_$TYPE$_weapon_fire_rate_mult_value 
 		}
-
-		set_variable = { 
-			which = change_weapon_type_$TYPE$_weapon_damage_mult_value 
-			value = change_weapon_type_$TYPE$_weapon_fire_rate_mult_value 
+		if = {
+			limit = { is_variable_set = change_weapon_type_$TYPE$_weapon_fire_rate_mult_value }	
+			clear_variable = change_weapon_type_$TYPE$_weapon_fire_rate_mult_value 
 		}
-		multiply_variable = { 
-			which = change_weapon_type_$TYPE$_weapon_damage_mult_value 
-			value = $RATE$ 
-		}
-		change_variable = { 
-			which = debug_change_weapon_type_$TYPE$_weapon_damage_mult_value 
-			value = change_weapon_type_$TYPE$_weapon_damage_mult_value 
-		}
-		add_modifier = { 
-			modifier = change_basic_weapon_type_$TYPE$_weapon_damage_mult 
-			multiplier = debug_change_weapon_type_$TYPE$_weapon_damage_mult_value 
-		}
-
-		clear_variable = change_weapon_type_$TYPE$_weapon_fire_rate_mult_value 
-		clear_variable = change_weapon_type_$TYPE$_weapon_damage_mult_value
 		set_timed_ship_flag = { flag = repeatable_weapon_type_$TYPE$_weapon_fire_rate_mult_ship_cooldown days = 1 }
 	}
 }
@@ -830,6 +786,7 @@ kuat_battle_remove_all_ship_modifier_change_basic_variable = {
 	kuat_battle_remove_ship_modifier_change_basic_variable = { PARAMATER = component_lifesteal_add }
 	kuat_battle_remove_ship_modifier_change_basic_variable = { PARAMATER = ship_steal_defeated_ship_chance }
 	kuat_battle_remove_ship_modifier_change_basic_variable = { PARAMATER = ship_monthly_hull_damage }
+	kuat_battle_remove_ship_modifier_change_basic_variable = { PARAMATER = damage_vs_country_type_default_mult }	
 	kuat_battle_remove_ship_modifier_change_basic_variable = { PARAMATER = fleet_capture_defeated_leader_chance }
 	kuat_battle_remove_ship_modifier_change_basic_variable = { PARAMATER = ship_armor_penetration_add }
 	kuat_battle_remove_ship_modifier_change_basic_variable = { PARAMATER = ship_shield_penetration_add }
@@ -856,43 +813,43 @@ kuat_battle_remove_all_ship_modifier_change_basic_variable = {
 
 kuat_battle_remove_repeatable_modifier_base_and_change_base = {
 	optimize_memory
-	kuat_battle_remove_repetable_modifier = { TITLE = change_basic TYPE = explosive }
-	kuat_battle_remove_repetable_modifier = { TITLE = change_basic TYPE = kinetic }
-	kuat_battle_remove_repetable_modifier = { TITLE = change_basic TYPE = energy }
-	kuat_battle_remove_repetable_modifier = { TITLE = change_basic TYPE = strike_craft }
-	kuat_battle_remove_repetable_modifier = { TITLE = change_basic TYPE = gravity }
-	kuat_battle_remove_repetable_modifier = { TITLE = change_basic TYPE = psionic }
-	kuat_battle_remove_repetable_modifier = { TITLE = change_basic TYPE = anti_psionic }
-	kuat_battle_remove_repetable_modifier = { TITLE = change_basic TYPE = SRA_SRA }
-	kuat_battle_remove_repetable_modifier = { TITLE = change_basic TYPE = SRA_RE_Core }
-	kuat_battle_remove_repetable_modifier = { TITLE = change_basic TYPE = H.D.energy }
-	kuat_battle_remove_repetable_modifier = { TITLE = change_basic TYPE = HD.M.kinetic }
-	kuat_battle_remove_repetable_modifier = { TITLE = change_basic TYPE = PrimaMateria }
-	kuat_battle_remove_repetable_modifier = { TITLE = change_basic TYPE = sr_uf }
-	kuat_battle_remove_repetable_modifier = { TITLE = change_basic TYPE = lingli }
-	kuat_battle_remove_repetable_modifier = { TITLE = change_basic TYPE = nano }
-	kuat_battle_remove_repetable_modifier = { TITLE = change_basic TYPE = KZ_VOY_magic }
-	kuat_battle_remove_repetable_modifier = { TITLE = change_basic TYPE = KZ_VOY_temporal }
-	kuat_battle_remove_repetable_modifier = { TITLE = change_basic TYPE = ge_void_energy }
+	kuat_battle_remove_repetable_modifier_insert = { TITLE = change_basic TYPE = explosive }
+	kuat_battle_remove_repetable_modifier_insert = { TITLE = change_basic TYPE = kinetic }
+	kuat_battle_remove_repetable_modifier_insert = { TITLE = change_basic TYPE = energy }
+	kuat_battle_remove_repetable_modifier_insert = { TITLE = change_basic TYPE = strike_craft }
+	kuat_battle_remove_repetable_modifier_insert = { TITLE = change_basic TYPE = gravity }
+	kuat_battle_remove_repetable_modifier_insert = { TITLE = change_basic TYPE = psionic }
+	kuat_battle_remove_repetable_modifier_insert = { TITLE = change_basic TYPE = anti_psionic }
+	kuat_battle_remove_repetable_modifier_insert = { TITLE = change_basic TYPE = SRA_SRA }
+	kuat_battle_remove_repetable_modifier_insert = { TITLE = change_basic TYPE = SRA_RE_Core }
+	kuat_battle_remove_repetable_modifier_insert = { TITLE = change_basic TYPE = H.D.energy }
+	kuat_battle_remove_repetable_modifier_insert = { TITLE = change_basic TYPE = HD.M.kinetic }
+	kuat_battle_remove_repetable_modifier_insert = { TITLE = change_basic TYPE = PrimaMateria }
+	kuat_battle_remove_repetable_modifier_insert = { TITLE = change_basic TYPE = sr_uf }
+	kuat_battle_remove_repetable_modifier_insert = { TITLE = change_basic TYPE = lingli }
+	kuat_battle_remove_repetable_modifier_insert = { TITLE = change_basic TYPE = nano }
+	kuat_battle_remove_repetable_modifier_insert = { TITLE = change_basic TYPE = KZ_VOY_magic }
+	kuat_battle_remove_repetable_modifier_insert = { TITLE = change_basic TYPE = KZ_VOY_temporal }
+	kuat_battle_remove_repetable_modifier_insert = { TITLE = change_basic TYPE = ge_void_energy }
 
-	kuat_battle_remove_repetable_modifier = { TITLE = basic TYPE = explosive }
-	kuat_battle_remove_repetable_modifier = { TITLE = basic TYPE = kinetic }
-	kuat_battle_remove_repetable_modifier = { TITLE = basic TYPE = energy }
-	kuat_battle_remove_repetable_modifier = { TITLE = basic TYPE = strike_craft }
-	kuat_battle_remove_repetable_modifier = { TITLE = basic TYPE = gravity }
-	kuat_battle_remove_repetable_modifier = { TITLE = basic TYPE = psionic }
-	kuat_battle_remove_repetable_modifier = { TITLE = basic TYPE = anti_psionic }
-	kuat_battle_remove_repetable_modifier = { TITLE = basic TYPE = SRA_SRA }
-	kuat_battle_remove_repetable_modifier = { TITLE = basic TYPE = SRA_RE_Core }
-	kuat_battle_remove_repetable_modifier = { TITLE = basic TYPE = H.D.energy }
-	kuat_battle_remove_repetable_modifier = { TITLE = basic TYPE = HD.M.kinetic }
-	kuat_battle_remove_repetable_modifier = { TITLE = basic TYPE = PrimaMateria }
-	kuat_battle_remove_repetable_modifier = { TITLE = basic TYPE = sr_uf }
-	kuat_battle_remove_repetable_modifier = { TITLE = basic TYPE = lingli }
-	kuat_battle_remove_repetable_modifier = { TITLE = basic TYPE = nano }
-	kuat_battle_remove_repetable_modifier = { TITLE = basic TYPE = KZ_VOY_magic }
-	kuat_battle_remove_repetable_modifier = { TITLE = basic TYPE = KZ_VOY_temporal }
-	kuat_battle_remove_repetable_modifier = { TITLE = basic TYPE = ge_void_energy }
+	kuat_battle_remove_repetable_modifier_insert = { TITLE = basic TYPE = explosive }
+	kuat_battle_remove_repetable_modifier_insert = { TITLE = basic TYPE = kinetic }
+	kuat_battle_remove_repetable_modifier_insert = { TITLE = basic TYPE = energy }
+	kuat_battle_remove_repetable_modifier_insert = { TITLE = basic TYPE = strike_craft }
+	kuat_battle_remove_repetable_modifier_insert = { TITLE = basic TYPE = gravity }
+	kuat_battle_remove_repetable_modifier_insert = { TITLE = basic TYPE = psionic }
+	kuat_battle_remove_repetable_modifier_insert = { TITLE = basic TYPE = anti_psionic }
+	kuat_battle_remove_repetable_modifier_insert = { TITLE = basic TYPE = SRA_SRA }
+	kuat_battle_remove_repetable_modifier_insert = { TITLE = basic TYPE = SRA_RE_Core }
+	kuat_battle_remove_repetable_modifier_insert = { TITLE = basic TYPE = H.D.energy }
+	kuat_battle_remove_repetable_modifier_insert = { TITLE = basic TYPE = HD.M.kinetic }
+	kuat_battle_remove_repetable_modifier_insert = { TITLE = basic TYPE = PrimaMateria }
+	kuat_battle_remove_repetable_modifier_insert = { TITLE = basic TYPE = sr_uf }
+	kuat_battle_remove_repetable_modifier_insert = { TITLE = basic TYPE = lingli }
+	kuat_battle_remove_repetable_modifier_insert = { TITLE = basic TYPE = nano }
+	kuat_battle_remove_repetable_modifier_insert = { TITLE = basic TYPE = KZ_VOY_magic }
+	kuat_battle_remove_repetable_modifier_insert = { TITLE = basic TYPE = KZ_VOY_temporal }
+	kuat_battle_remove_repetable_modifier_insert = { TITLE = basic TYPE = ge_void_energy }
 }
 
 kuat_battle_remove_repetable_modifier_iep = {
@@ -945,7 +902,6 @@ kuat_battle_remove_ship_modifier_change_basic_variable = {
 kuat_battle_remove_repeatable_ship_modifier_change_basic_vairable = {
 	optimize_memory
 	clear_variable = debug_change_weapon_type_$TYPE$_weapon_fire_rate_mult_value
-	clear_variable = debug_change_weapon_type_$TYPE$_weapon_damage_mul_value
 }
 
 kuat_battle_kuat_damage_hp_percent = {

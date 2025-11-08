@@ -1446,6 +1446,7 @@ country_event = {
 				limit = { has_megastructure_flag = can_active_gateway } 
 				activate_gateway = this 
 			}
+			set_country_flag = kaut_allow_pass_star_gate
 		}
 		response_text = kuat_post_apocalyptic_legacy.29.a.res
 	}
@@ -1465,8 +1466,12 @@ country_event = {
 	custom_gui_option = "kuat_event_diplomacy_option"
 	is_triggered_only = yes
 	trigger = {
-		from = { kuat_is_enable_post_apocalyptic_origin = yes }
-		is_country_type = kuat_center_cluster_gurdian
+		kuat_is_enable_post_apocalyptic_origin = yes
+		exists = from
+		from = { 
+			is_country_type = kuat_center_cluster_gurdian 
+			count_owned_ship = { count < 1 }
+		}
 	}
 	immediate = {
 		set_global_flag = kuat_post_apocalyptic_Overseer_Council_defeated_first
@@ -1481,24 +1486,7 @@ country_event = {
 		}
 		response_text = kuat_post_apocalyptic_legacy.30.a.res
 	}
-}
-
-#监督者议会一阶段被其他人击败
-country_event = {
-	id = kuat_post_apocalyptic_legacy.31
-	hide_window = yes
-	is_triggered_only = yes
-	trigger = {
-		from = { kuat_is_enable_post_apocalyptic_origin = no }
-		is_country_type = kuat_center_cluster_gurdian
-	}
-	immediate = {
-		random_country = {
-			limit = { kuat_is_enable_post_apocalyptic_origin = yes }
-			country_event = { id = kuat_post_apocalyptic_legacy.32 }
-		}
-		set_global_flag = kuat_post_apocalyptic_Overseer_Council_defeated_first
-	}
+	after = { event_target:fallen_empire_kuat = { destroy_country = yes } }
 }
 
 #其他人击败也是玩家进行事件
