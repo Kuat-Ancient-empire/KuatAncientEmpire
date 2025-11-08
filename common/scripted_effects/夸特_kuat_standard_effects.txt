@@ -1690,3 +1690,68 @@ kuat_destroy_colony = {
 	remove_modifier = "dangerous_wildlife"
 	remove_planet_flag = ruins_planet
 }
+
+kuat_generate_animal_action = {
+	optimize_memory
+	if = {
+		limit = { $SCOPE$ = { OR = {
+			kuat_is_enable_eternal_origin = yes
+			kuat_is_enable_post_apocalyptic_origin = yes
+		} } }
+		if = {
+			limit = { exists = event_target:CHECK_UTS01_LEADER }
+			clear_global_event_target = UTS01_LEADER
+			random_galaxy_species = {
+				limit = { is_same_value = event_target:CHECK_UTS01_LEADER }
+				save_global_event_target_as = UTS01_LEADER
+			}
+		}
+		else = { kuat_Uts01_create_faction_species = yes }
+	}
+	if = {
+		limit = { $SCOPE$ = { OR = {
+			kuat_is_enable_shadow_origin = yes
+			kuat_is_enable_post_apocalyptic_origin = yes
+		} } }
+		if = {
+			limit = { exists = event_target:CHECK_UTS02_LEADER }
+			clear_global_event_target = UTS02_LEADER
+			random_galaxy_species = {
+				limit = { is_same_value = event_target:CHECK_UTS02_LEADER }
+				save_global_event_target_as = UTS02_LEADER
+			}
+		}
+		else = { kuat_Uts02_create_faction_species = yes }
+	}
+	if = {
+		limit = { exists = event_target:CHECK_ETERNAL_LEADER }
+		clear_global_event_target = ETERNAL_LEADER
+		random_galaxy_species = {
+			limit = { is_same_value = event_target:CHECK_ETERNAL_LEADER }
+			save_global_event_target_as = ETERNAL_LEADER
+		}
+	}
+	else = { kuat_kae_create_faction_species = yes }
+}
+
+kuat_clear_animal_action = {
+	optimize_memory
+	if = {
+		limit = { $SCOPE$ = { OR = {
+			kuat_is_enable_eternal_origin = yes
+			kuat_is_enable_post_apocalyptic_origin = yes
+		} } }
+		clear_global_event_target = UTS01_LEADER
+		$SCOPE$ = { ruler = { save_global_event_target_as = UTS01_LEADER } }
+	}
+	if = {
+		limit = { $SCOPE$ = { OR = {
+			kuat_is_enable_shadow_origin = yes
+			kuat_is_enable_post_apocalyptic_origin = yes
+		} } }
+		clear_global_event_target = UTS02_LEADER
+		$SCOPE$ = { ruler = { save_global_event_target_as = UTS02_LEADER } }
+	}
+	clear_global_event_target = ETERNAL_LEADER
+	$SCOPE$ = { ruler = { save_global_event_target_as = ETERNAL_LEADER } }
+}

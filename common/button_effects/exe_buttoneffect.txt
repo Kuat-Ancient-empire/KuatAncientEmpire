@@ -519,62 +519,7 @@ kuat_animal_trigger_enable = {
 		remove_global_flag = disable_animal_trigger
 		remove_global_flag = enable_animal_trigger
 		set_global_flag = enable_animal_trigger
-		if = {
-			limit = { kuat_is_enable_eternal_origin = yes }
-			if = {
-				limit = { exists = event_target:CHECK_UTS01_LEADER }
-				clear_global_event_target = UTS01_LEADER
-				random_galaxy_species = {
-					limit = { is_same_value = event_target:CHECK_UTS01_LEADER }
-					save_global_event_target_as = UTS01_LEADER
-				}
-			}
-			else = { kuat_Uts01_create_faction_species = yes }
-		}
-		if = {
-			limit = { always = yes }
-			if = {
-				limit = { exists = event_target:CHECK_ETERNAL_LEADER }
-				clear_global_event_target = ETERNAL_LEADER
-				random_galaxy_species = {
-					limit = { is_same_value = event_target:CHECK_ETERNAL_LEADER }
-					save_global_event_target_as = ETERNAL_LEADER
-				}
-			}
-			else = { kuat_kae_create_faction_species = yes }
-		}
-		else_if = {
-			limit = { kuat_is_enable_shadow_origin = yes }
-			if = {
-				limit = { exists = event_target:CHECK_UTS02_LEADER }
-				clear_global_event_target = UTS02_LEADER
-				random_galaxy_species = {
-					limit = { is_same_value = event_target:CHECK_UTS02_LEADER }
-					save_global_event_target_as = UTS02_LEADER
-				}
-			}
-			else = { kuat_Uts02_create_faction_species = yes }
-		}
-		else_if = {
-			limit = { kuat_is_enable_post_apocalyptic_origin = yes }
-			if = {
-				limit = { OR = {
-					exists = event_target:CHECK_UTS02_LEADER
-					exists = event_target:CHECK_UTS01_LEADER
-				} }
-				clear_global_event_target = UTS01_LEADER
-				random_galaxy_species = {
-					limit = { is_same_value = event_target:CHECK_UTS01_LEADER }
-					save_global_event_target_as = UTS01_LEADER
-				}
-				clear_global_event_target = UTS02_LEADER
-				random_galaxy_species = {
-					limit = { is_same_value = event_target:CHECK_UTS02_LEADER }
-					save_global_event_target_as = UTS02_LEADER
-				}
-			}
-			else = { kuat_Uts01_create_faction_species = yes kuat_Uts02_create_faction_species = yes }
-		}
+		kuat_generate_animal_action = { SCOPE = from }
 	} }
 }
 kuat_animal_trigger_enable_alt = {
@@ -599,25 +544,7 @@ kuat_animal_trigger_disable = {
 		remove_global_flag = disable_animal_trigger
 		remove_global_flag = enable_animal_trigger
 		set_global_flag = disable_animal_trigger
-		if = {
-			limit = { kuat_is_enable_eternal_origin = yes }
-			clear_global_event_target = UTS01_LEADER
-			from = { ruler = { save_global_event_target_as = UTS01_LEADER } }
-		}
-		else_if = {
-			limit = { kuat_is_enable_shadow_origin = yes }
-			clear_global_event_target = UTS02_LEADER
-			from = { ruler = { save_global_event_target_as = UTS02_LEADER } }
-		}
-		else_if = {
-			limit = { kuat_is_enable_post_apocalyptic_origin = yes }
-			clear_global_event_target = UTS01_LEADER
-			from = { ruler = { save_global_event_target_as = UTS01_LEADER } }
-			clear_global_event_target = UTS02_LEADER
-			from = { ruler = { save_global_event_target_as = UTS02_LEADER } }
-		}
-		clear_global_event_target = ETERNAL_LEADER
-		from = { ruler = { save_global_event_target_as = ETERNAL_LEADER } }
+		kuat_clear_animal_action = { SCOPE = from }
 	} }
 }
 kuat_animal_trigger_disable_alt = {
