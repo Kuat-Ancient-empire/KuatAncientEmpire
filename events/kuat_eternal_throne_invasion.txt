@@ -282,9 +282,7 @@ fleet_event = {
 
 	option = {
 		name = "ag_kae_ge_invasion.110.a"
-		trigger = { owner = {
-			kuat_is_enable_eternal_origin = yes
-		} }
+		trigger = { owner = { kuat_is_enable_eternal_origin = yes } }
 		hidden_effect = { owner = { country_event = { id = ag_kae_ge_invasion.111 } } }
 	}
 	option = {
@@ -513,7 +511,10 @@ country_event = {
 		trigger = { kuat_is_enable_post_apocalyptic_origin = yes }
 		text = "ag_kae_ge_invasion.120.a.post_apocalyptic.desc"
 	}		
-	picture_event_data = { room = Eternal_Empire_room }
+	picture_event_data = {
+		portrait = event_target:kuat_player_target_species
+		room = galactic_custodian_room
+	}
 	show_sound = event_space_battle
 	location = event_target:ag_kae_target_system
 	diplomatic = yes
@@ -2324,7 +2325,19 @@ country_event = {
 	immediate = {
 		if = {
 			limit = { fromfromfrom = { has_ship_flag = ag_kae_ge_primary_portal } }
-			fromfromfrom.solar_system.star = { save_event_target_as = ag_kae_target_planet }
+			fromfromfrom.solar_system.star = { 
+				save_event_target_as = ag_kae_target_planet 
+				create_ambient_object = {
+					type = kuat_gateway_disbale_entity_object
+					location = this
+					use_3d_location = yes
+					entity_offset = { min = 0 max = 0 }
+					entity_offset_angle = { min = 0 max = 0 }
+					entity_offset_height = { min = 0 max = 0 }
+					scale = 2.0
+					effect = { save_global_event_target_as = kuat_gateway_disbale_entity_object_target }
+				}
+			}
 		}
 		event_target:global_event_country = {
 			change_variable = { which = ag_kae_ge_invasion_num_portals_destroyed value = 1 }
