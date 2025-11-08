@@ -58,10 +58,7 @@ kuat_plague_aura = {
 			limit = {
 				has_psionic_aura = yes
 				aura_owner = { NOT = { is_same_value = root.aura_owner } }
-              	NOR = {
-					kuat_trigger_plague_is_psionic_aura_immune_system = yes
-					any_neighbor_system = { kuat_trigger_plague_is_psionic_aura_immune_system = yes } 
-				}
+              	kuat_trigger_plague_is_psionic_aura_immune_system = no
 			}
 			save_event_target_as = losing_system
 			event_target:winning_system = {
@@ -145,22 +142,12 @@ kuat_plague_aura = {
         custom_tooltip = "kuat_plague_aura_spread_effect"
         if = {
             limit = { has_psionic_aura = yes }
-            random_neighbor_system = {
+            every_neighbor_system = {
                 limit = {
                     has_psionic_aura = no
-					NOR = {
-						kuat_trigger_plague_is_psionic_aura_immune_system = yes
-						any_neighbor_system = { kuat_trigger_plague_is_psionic_aura_immune_system = yes } 
-					}
+					kuat_trigger_plague_is_psionic_aura_immune_system = no
                 }
-                weights = {
-                    base = 1
-                    modifier = { add = value:count_adjacent_psionic_auras always = yes }
-                }
-				if = {
-					limit = { exists = space_owner }
-					space_owner = { set_country_flag = has_aura_kuat_plague_aura }
-				}
+				if = { limit = { exists = space_owner } space_owner = { set_country_flag = has_aura_kuat_plague_aura } }
                 spawn_psionic_aura = { type = kuat_plague_aura owner = event_target:kuat_plague_zombie_country update_type = no }
                 reroll_random = yes
 				#瘟疫效果
@@ -185,22 +172,12 @@ kuat_plague_aura = {
         custom_tooltip = "kuat_plague_aura_spread_effect"
         if = {
             limit = { has_psionic_aura = yes }
-            random_neighbor_system = {
+            every_neighbor_system = {
                 limit = {
                     has_psionic_aura = no
-					NOR = {
-						kuat_trigger_plague_is_psionic_aura_immune_system = yes
-						any_neighbor_system = { kuat_trigger_plague_is_psionic_aura_immune_system = yes } 
-					}
+					kuat_trigger_plague_is_psionic_aura_immune_system = no
                 }
-                weights = {
-                    base = 1
-                    modifier = { add = value:count_adjacent_psionic_auras always = yes }
-                }
-				if = {
-					limit = { exists = space_owner }
-					space_owner = { set_country_flag = has_aura_kuat_plague_aura }
-				}
+				if = { limit = { exists = space_owner } space_owner = { set_country_flag = has_aura_kuat_plague_aura } }
                 spawn_psionic_aura = { type = kuat_plague_aura owner = event_target:kuat_plague_zombie_country update_type = no }
 				#瘟疫效果
 				random_list = {
