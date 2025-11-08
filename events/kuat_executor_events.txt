@@ -983,32 +983,22 @@ country_event = {
 ##########################
 country_event = {
 	id = executor_build.5
-	hide_window = yes
-	is_triggered_only = yes
-	trigger = { 
-		NOT = { has_global_flag = kuat_fallen_mission_reaction.20.fired }
-		has_country_flag = fallen_empire_kuat 
-	}
-	immediate = {
-		every_country = {
-			limit = {
-				is_ai = no
-				any_system_within_border = { kuat_is_kuat_system = yes }
-			}
-			country_event = { id = executor_build.501 }
-		}
-	}
-}
-
-country_event = {
-	id = executor_build.501
-	title = executor_build.501.title
-	desc = executor_build.501.desc
+	title = executor_build.5.title
+	desc = executor_build.5.desc
 	diplomatic = yes
 	picture_event_data = { room = exploding_ship_room }
 	custom_gui = "kuat_event_m_window"
 	custom_gui_option = "kuat_event_option"
 	is_triggered_only = yes
+	trigger = {
+		kuat_is_player_country = yes
+		exists = from
+		from = {
+			is_country_type = kuat_fallen_empire 
+			count_owned_ship = { count < 1 }
+		}
+		NOT = { has_global_flag = kuat_fallen_mission_reaction.20.fired }
+	}
 	immediate = { 
 		set_country_flag = kuat_can_have_tech 
 		set_country_flag = kuat_has_been_defeated_once
@@ -1028,7 +1018,7 @@ country_event = {
 		kuat_create_toasto_message = { KEY = kuat_find_memory_cluds TARGET = this RECIPIENT = this }
 	}
 	option = {
-		name = executor_build.501.a
+		name = executor_build.5.a
 		hidden_effect = {
 			if = {
 				limit = { NOT = { has_existing_ship_design = nebula_executor } }

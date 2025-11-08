@@ -187,22 +187,25 @@ country_event = {
 	hide_window = yes
 	is_triggered_only = yes
 	trigger = {
-		OR = {
+		from = { OR = {
 			is_country_type = kuat_fire_base_hositle
 			is_country_type = kuat_fire_base
-		}
+		} }
 		NOR = { 
 			has_global_flag = starkillerbase_not_passed 
 			has_global_flag = kuat_legacy_87_second_continue
 		}
-		from = { has_country_flag = kuat_legacy_87_continue }
+		has_country_flag = kuat_legacy_87_continue
+		count_owned_ship = { count < 1 }
 	}
 	immediate = {
-		every_owned_megastructure = {
-			limit = { is_megastructure_type = kuat_starkillerbase_1 }
-			remove_megastructure = this
+		from = {
+			every_owned_megastructure = {
+				limit = { is_megastructure_type = kuat_starkillerbase_1 }
+				remove_megastructure = this
+			}
 		}
-		from = { country_event = { id = kuat_starkiller.10 } }
+		country_event = { id = kuat_starkiller.10 }
 	}
 }
 
