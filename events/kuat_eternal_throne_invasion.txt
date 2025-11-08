@@ -1903,7 +1903,7 @@ country_event = {
 	picture_event_data = { room = metropolis_room }
 	show_sound = event_celebration
 	diplomatic = yes
-	custom_gui = "kuat_event_m_window"
+	custom_gui = "kuat_event_window"
 	custom_gui_option = "kuat_event_option"
 	is_triggered_only = yes
 	immediate = {
@@ -1976,7 +1976,14 @@ country_event = {
 	after = { hidden_effect = {
 		every_country = {
 			limit = { NOT = { is_same_value = root } }
-			abort_special_project = { type = "ag_kae_end_ge_invasion_project" }
+			if = {
+				limit = { has_special_project = ag_kae_end_ge_invasion_project }
+				abort_special_project = { type = "ag_kae_end_ge_invasion_project" }
+			}
+			if = {
+				limit = { has_special_project = kuat_post_apocalyptic_end_ge_invasion_project }
+				abort_special_project = { type = "kuat_post_apocalyptic_end_ge_invasion_project" }
+			}
 		}
 		remove_country_flag = ag_kae_ge_invasion_209_mutex
 	} }
@@ -2526,7 +2533,7 @@ country_event = {
 		else_if = {
 			limit = { root.from = {
 				kuat_is_enable_post_apocalyptic_origin = yes 
-				NOT = { has_special_project = ag_kae_end_ge_invasion_project }
+				NOT = { has_special_project = kuat_post_apocalyptic_end_ge_invasion_project }
 			} }
 			event_target:ag_kae_target_planet = { enable_special_project = {
 				name = "kuat_post_apocalyptic_end_ge_invasion_project"
