@@ -2332,20 +2332,25 @@ country_event = {
 	immediate = {
 		if = {
 			limit = { fromfromfrom = { has_ship_flag = ag_kae_ge_primary_portal } }
-			fromfromfrom.solar_system.star = { 
-				save_event_target_as = ag_kae_target_planet 
-				create_ambient_object = {
-					type = kuat_gateway_disbale_entity_object
-					location = this
-					use_3d_location = yes
-					entity_offset = { min = 0 max = 0 }
-					entity_offset_angle = { min = 0 max = 0 }
-					entity_offset_height = { min = 0 max = 0 }
-					scale = 2.0
-					effect = { save_global_event_target_as = kuat_gateway_disbale_entity_object_target }
+			fromfromfrom.solar_system = { 
+				star = {
+					save_event_target_as = ag_kae_target_planet 
+					create_ambient_object = {
+						type = kuat_gateway_disbale_entity_object
+						location = this
+						use_3d_location = yes
+						entity_offset = { min = 0 max = 0 }
+						entity_offset_angle = { min = 0 max = 0 }
+						entity_offset_height = { min = 0 max = 0 }
+						scale = 2.0
+						effect = { save_global_event_target_as = kuat_gateway_disbale_entity_object_target }
+					}
 				}
+				create_kuat_starbase_expolde_boom = yes
+				star = { change_pc = pc_black_hole set_planet_size = 18 }
 			}
 		}
+		
 		event_target:global_event_country = {
 			change_variable = { which = ag_kae_ge_invasion_num_portals_destroyed value = 1 }
 		}

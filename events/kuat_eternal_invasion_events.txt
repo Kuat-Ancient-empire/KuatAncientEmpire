@@ -581,6 +581,7 @@ country_event = {
 	show_sound = event_red_alert
 	is_triggered_only = yes
 	trigger = {
+		has_global_flag = exe_invasion_begin
 		NOT = { has_global_flag = exe_return_invasion_begin }
 		fromfromfrom = {
 			is_ship_size = exe_megastructure_starbase
@@ -591,28 +592,8 @@ country_event = {
 		fromfromfrom.solar_system = {
 			remove_star_flag = eternal_starbase_megastructure_in_system
 			set_star_class = sc_black_hole
-			star = {
-				create_ambient_object = { type = "star_explosion" play_animation_once = yes location = this }
-				last_created_ambient_object = { set_location = { target = prev distance = 0 angle = random } }
-				create_ambient_object = { type = "destroyed_system" location = this }
-				last_created_ambient_object = { set_ambient_object_flag = destroyed_system_effect set_location = { target = prev  distance = 0  angle = random  } }
-				change_pc = pc_black_hole
-				set_planet_size = 18
-			}
-			set_variable_to_random_value = {
-				which = exe_megastructure_starbase_explode
-				min = 15 max = 99 rounded = yes
-			}
-			every_ship_in_system = {
-				limit = { owner = { is_eternal_faction = no } }
-				kuat_battle_kuat_reduce_hp_percent = { value = prev.exe_megastructure_starbase_explode }
-			}
-			reroll_random = yes
-			random_ambient_object = {
-				limit = { has_ambient_object_flag = space_storm_object }
-				destroy_ambient_object = this
-			}
-			clear_variable = exe_megastructure_starbase_explode
+			create_kuat_starbase_expolde_boom = yes
+			star = { change_pc = pc_black_hole set_planet_size = 18 }
 		}
 	}
 	option = { name = exe_invasion.127.a }

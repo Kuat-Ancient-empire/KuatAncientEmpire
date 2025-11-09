@@ -1,0 +1,306 @@
+kuat_maga_auto_habitat_0 = {
+	entity = "mammalian_01_construction_platform_entity"
+	construction_entity = "mammalian_01_construction_platform_entity"
+	portrait = "GFX_megastructure_construction_background"
+	place_entity_on_planet_plane = no
+	prerequisites = { "tech_kuat_mega_habitat" }
+	build_outside_gravity_well = yes	
+	potential = { kuat_is_playable_country = yes }
+	possible = {
+		exists = starbase
+		custom_tooltip = {
+			fail_text = "requires_inside_border"
+			is_inside_border = from
+		}
+		custom_tooltip = {
+			fail_text = "requires_surveyed_system"
+			NOT = {
+				any_system_planet = {
+					is_surveyed = {
+						who = prev.from
+						status = no
+					}
+				}
+			}
+		}
+		custom_tooltip = {
+			fail_text = "requires_no_existing_kuat_maga_auto_habitat_0"
+			from = { NOT = { has_country_flag = built_uf_mega_habitat } }
+		}
+	}
+
+	build_time = 1800
+	resources = {
+		category = megastructures
+		cost = {
+			alloys = 200000
+			influence = 1000
+		}
+		upkeep = { energy = 10 }
+	}
+
+	on_build_complete = {
+		from = {
+			country_event = { id = executor_build.501 scopes = { from = prev } }
+			set_country_flag = built_uf_mega_habitat
+		}
+	}
+}
+kuat_maga_auto_habitat_0_1 = {
+	entity = ""
+	construction_entity = "mammalian_01_construction_platform_entity"
+	portrait = "GFX_megastructure_construction_background"
+	place_entity_on_planet_plane = no
+	prerequisites = { "tech_kuat_mega_habitat" }
+	potential = { kuat_is_playable_country = yes }
+
+	build_time = 3600
+	resources = {
+		category = megastructures
+		cost = {
+			alloys = 1000000
+			unity = 10000
+		}
+	}
+    upgrade_from = {
+		kuat_maga_auto_habitat_0
+	}
+	on_build_complete = {
+		from = { 
+			country_event = { id = executor_build.502 } 
+			save_event_target_as = kuat_maga_auto_habitat_0_1_builder
+		}
+		random_megastructure = {
+			limit = { is_megastructure_type = kuat_maga_auto_habitat_0_1 }
+			remove_megastructure = this
+		}
+		set_spawn_system_batch = begin
+		from = {
+			spawn_system = {
+				min_distance = 10
+				max_distance = 15
+				min_jumps = 0
+				max_jumps = 0
+				initializer = kuat_maga_auto_habitat_system
+			}
+		}
+		set_spawn_system_batch = end
+	}
+}
+
+kuat_maga_auto_habitat_0_1 = {
+	entity = "mammalian_01_construction_platform_entity"
+	construction_entity = "mammalian_01_construction_platform_entity"
+	portrait = "GFX_kuat_maga_auto_habitat_background"
+	show_galactic_map_icon = yes
+	place_entity_on_planet_plane = yes
+	construction_blocks_and_blocked_by = none
+	entity_offset = { x = 0 y = 0 }
+	build_time = 3600
+	potential = {
+		always = no
+	}
+	resources = { category = megastructures }
+}
+kuat_maga_auto_habitat_1 = {
+	entity = "kuat_maga_auto_habitat_1_entity"
+	construction_entity = "kuat_maga_auto_habitat_1_entity"
+	portrait = "GFX_kuat_maga_auto_habitat_background"
+	show_galactic_map_icon = yes
+	place_entity_on_planet_plane = yes
+	construction_blocks_and_blocked_by = none
+	upgrade_from = { kuat_maga_auto_habitat_0_1 }
+	entity_offset = { x = 0 y = 0 }
+	build_time = 3600
+	resources = {
+		category = megastructures
+		cost = { alloys = 1000000 unity = 10000 }
+	}
+	on_build_complete = {
+		fromfrom.planet = { set_planet_size = -1 set_planet_entity = { entity = starforge_avoid_entity } }
+		from = { country_event = { id = executor_build.503 } }
+	}
+}
+kuat_maga_auto_habitat_2 = {
+	entity = "kuat_maga_auto_habitat_2_entity"
+	construction_entity = "kuat_maga_auto_habitat_2_entity"
+	portrait = "GFX_kuat_maga_auto_habitat_background"
+	show_galactic_map_icon = yes
+	place_entity_on_planet_plane = yes
+	construction_blocks_and_blocked_by = none
+	entity_offset = { x = 0 y = 0 }
+	build_time = 3600
+	upgrade_from = {
+		kuat_maga_auto_habitat_1
+	}
+	resources = {
+		category = megastructures
+		cost = { alloys = 4000000 unity = 40000 }
+	}
+	on_build_complete = { fromfrom = { upgrade_megastructure_to = kuat_maga_auto_habitat_3 } }
+}
+kuat_maga_auto_habitat_3 = {
+	entity = "kuat_maga_auto_habitat_3_entity"
+	construction_entity = "kuat_maga_auto_habitat_3_entity"
+	portrait = "GFX_kuat_maga_auto_habitat_background"
+	show_galactic_map_icon = yes
+	place_entity_on_planet_plane = yes
+	construction_blocks_and_blocked_by = none
+	entity_offset = { x = 0 y = 0 }
+	build_time = 3600
+	upgrade_from = {
+		kuat_maga_auto_habitat_2
+	}
+	on_build_complete = { fromfrom = { upgrade_megastructure_to = kuat_maga_auto_habitat_4 } }
+}
+kuat_maga_auto_habitat_4 = {
+	entity = "kuat_maga_auto_habitat_4_entity"
+	construction_entity = "kuat_maga_auto_habitat_4_entity"
+	portrait = "GFX_kuat_maga_auto_habitat_background"
+	place_entity_on_planet_plane = yes
+	construction_blocks_and_blocked_by = none
+	entity_offset = { x = 0 y = 0 }
+	upgrade_from = {
+		kuat_maga_auto_habitat_3
+	}
+	build_time = 3600
+	on_build_complete = { fromfrom = { upgrade_megastructure_to = kuat_maga_auto_habitat_5 } }
+}
+kuat_maga_auto_habitat_5 = {
+	entity = "kuat_maga_auto_habitat_5_entity"
+	construction_entity = "kuat_maga_auto_habitat_5_entity"
+	portrait = "GFX_kuat_maga_auto_habitat_background"
+	place_entity_on_planet_plane = yes
+	construction_blocks_and_blocked_by = none
+	entity_offset = { x = 0 y = 0 }
+	upgrade_from = {
+		kuat_maga_auto_habitat_4
+	}
+	on_build_complete = {
+		from = { country_event = { id = executor_build.504 scopes = { from = prev } } }
+		spawn_planet = {
+			generate_random_name = yes
+			class = "pc_kuat_auto_ringworld_mega_habitable"
+			size = 100
+			location = fromfrom
+			orbit_angle_offset = -30
+			orbit_distance_offset = 200
+			init_effect = {
+				set_planet_entity = { entity = "non" }
+				set_surveyed = {
+					surveyed = yes
+					surveyor = FROM
+				}
+				set_all_comms_surveyed = yes
+				clear_blockers = yes
+				trigger_megastructure_icon = yes
+				set_planet_flag = megastructure
+				set_planet_flag = colony_event
+				save_global_event_target_as = pc_kuat_auto_ringworld_mega_habitable_flag_0
+				set_owner = prev.from
+				create_pop_group = { size = 100000 species = owner_main_species }
+				kuat_automatic_ai_colony = yes
+			}
+		}
+		spawn_planet = {
+			generate_random_name = yes
+			class = "pc_kuat_auto_ringworld_mega_habitable"
+			size = 100
+			location = fromfrom
+			orbit_angle_offset = 42
+			orbit_distance_offset = 200
+			init_effect = {
+				set_surveyed = {
+					surveyed = yes
+					surveyor = FROM
+				}
+				set_all_comms_surveyed = yes
+				clear_blockers = yes
+				trigger_megastructure_icon = yes
+				set_planet_flag = megastructure
+				set_planet_flag = colony_event
+				save_global_event_target_as = pc_kuat_auto_ringworld_mega_habitable_flag_1
+				set_owner = prev.from
+				create_pop_group = { size = 100000 species = owner_main_species }
+				kuat_automatic_ai_colony = yes
+			}
+		}
+		spawn_planet = {
+			generate_random_name = yes
+			class = "pc_kuat_auto_ringworld_mega_habitable"
+			size = 100
+			location = fromfrom
+			orbit_angle_offset = 114
+			orbit_distance_offset = 200
+			init_effect = {
+				set_surveyed = {
+					surveyed = yes
+					surveyor = FROM
+				}
+				set_all_comms_surveyed = yes
+				clear_blockers = yes
+				trigger_megastructure_icon = yes
+				set_planet_flag = megastructure
+				set_planet_flag = colony_event
+				save_global_event_target_as = pc_kuat_auto_ringworld_mega_habitable_flag_2
+				set_owner = prev.from
+				create_pop_group = { size = 100000 species = owner_main_species }
+				kuat_automatic_ai_colony = yes
+			}
+		}
+		spawn_planet = {
+			generate_random_name = yes
+			class = "pc_kuat_auto_ringworld_mega_habitable"
+			size = 100
+			location = fromfrom
+			orbit_angle_offset = 186
+			orbit_distance_offset = 200
+			init_effect = {
+				set_surveyed = {
+					surveyed = yes
+					surveyor = FROM
+				}
+				set_all_comms_surveyed = yes
+				clear_blockers = yes
+				trigger_megastructure_icon = yes
+				set_planet_flag = megastructure
+				set_planet_flag = colony_event
+				save_global_event_target_as = pc_kuat_auto_ringworld_mega_habitable_flag_3
+				set_owner = prev.from
+				create_pop_group = { size = 100000 species = owner_main_species }
+				kuat_automatic_ai_colony = yes
+			}
+		}
+		spawn_planet = {
+			generate_random_name = yes
+			class = "pc_kuat_auto_ringworld_mega_habitable"
+			size = 100
+			location = fromfrom
+			orbit_angle_offset = 258
+			orbit_distance_offset = 200
+			init_effect = {
+				set_surveyed = {
+					surveyed = yes
+					surveyor = FROM
+				}
+				set_all_comms_surveyed = yes
+				clear_blockers = yes
+				trigger_megastructure_icon = yes
+				set_planet_flag = megastructure
+				set_planet_flag = colony_event
+				save_global_event_target_as = pc_kuat_auto_ringworld_mega_habitable_flag_4
+				set_owner = prev.from
+				create_pop_group = { size = 100000 species = owner_main_species }
+				kuat_automatic_ai_colony = yes
+			}
+		}		
+		fromfrom.planet = { 
+			set_planet_flag = has_megastructure 
+			create_ambient_object = { type = "kuat_pc_station_storm_1" location = this }
+			last_created_ambient_object = {
+				set_ambient_object_flag = space_storm_object
+				set_location = { target = prev distance = 0 angle = random }
+			}
+		}
+	}
+}

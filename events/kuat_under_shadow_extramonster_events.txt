@@ -26,13 +26,10 @@ country_event = {
 		set_global_flag = kuat_extramonster_7_fired 
 		random_system = {
 			limit = { has_star_flag = myst_system_5 }
-			star = {
-				create_ambient_object = { type = "star_explosion" play_animation_once = yes location = this }
-				last_created_ambient_object = { set_location = { target = prev distance = 0 angle = random } }
-				create_ambient_object = { type = "destroyed_system" location = this }
-				last_created_ambient_object = { set_ambient_object_flag = destroyed_system_effect set_location = { target = prev  distance = 0  angle = random  } }
-			}
+			create_kuat_starbase_expolde_boom = yes
 			every_fleet_in_system = { destroy_fleet = { target = this destroy_template = yes kill_leader = yes } }
+			set_star_class = sc_kuat_white_hole
+			star = { set_planet_size = 18 }
 			create_country = {
 				name = "Name_Kuat_DeD_Contractor"
 				name_list = Eternal_Fleet_1
@@ -1445,13 +1442,8 @@ ship_event = {
 	immediate = {
 		solar_system = {
 			set_star_class = sc_black_hole
-			star = {
-				create_ambient_object = { type = "star_explosion" play_animation_once = yes location = this }
-				last_created_ambient_object = { set_location = { target = prev distance = 0 angle = random } }
-				create_ambient_object = { type = "destroyed_system" location = this }
-				last_created_ambient_object = { set_ambient_object_flag = destroyed_system_effect set_location = { target = prev  distance = 0  angle = random  } }
-				change_pc = pc_black_hole
-			}
+			create_kuat_starbase_expolde_boom = yes
+			star = { change_pc = pc_black_hole }
 			set_star_flag = kuat_white_hole_rainforce_disable
 		}
 		owner = {
@@ -1657,13 +1649,8 @@ country_event = {
 		set_global_flag = kuat_extra_contractor_wined_target 
 		event_target:kuat_white_hole_system_7 = {
 			set_star_class = sc_black_hole
-			star = {
-				create_ambient_object = { type = "star_explosion" play_animation_once = yes location = this }
-				last_created_ambient_object = { set_location = { target = prev distance = 0 angle = random } }
-				create_ambient_object = { type = "destroyed_system" location = this }
-				last_created_ambient_object = { set_ambient_object_flag = destroyed_system_effect set_location = { target = prev  distance = 0  angle = random  } }
-				change_pc = pc_black_hole
-			}
+			create_kuat_starbase_expolde_boom = yes
+			star = { change_pc = pc_black_hole }
 			set_star_flag = kuat_white_hole_rainforce_disable
 		}
 		if = {
@@ -1745,7 +1732,10 @@ country_event = {
 			set_timed_country_flag = { flag = trigger_ended_event_temple days = 1 }
 			country_event = { id = kuat_extramonster.302 }
 		}
-		fromfromfrom.solar_system = { set_star_flag = kuat_white_hole_rainforce_attack_active }
+		fromfromfrom.solar_system = { 
+			set_star_flag = kuat_white_hole_rainforce_attack_active 
+			create_kuat_starbase_expolde_boom = yes
+		}
 		if = {
 			limit = { NOT = { has_global_flag = kuat_set_forcetrigger_order_enable_crisis_eve_system } }
 			if = {
@@ -1796,7 +1786,10 @@ country_event = {
 			country_event = { id = kuat_extramonster.3021 }
 		}
 		event_target:global_event_country = { subtract_variable = { which = kuat_ded_white_hole_var value = 1 } }
-		fromfromfrom.solar_system = { set_star_flag = kuat_ded_white_hole_star_rainforce_dsiable }
+		fromfromfrom.solar_system = { 
+			set_star_flag = kuat_ded_white_hole_star_rainforce_dsiable 
+			create_kuat_starbase_expolde_boom =  yes
+		}
 	}
 }
 
@@ -2299,11 +2292,8 @@ country_event = {
 			random_system = {
 				limit = { has_star_flag = myst_system_5 }
 				every_system_megastructure = { remove_megastructure = this }
+				create_kuat_starbase_expolde_boom = yes
 				star = {
-					create_ambient_object = { type = "star_explosion" play_animation_once = yes location = this }
-					last_created_ambient_object = { set_location = { target = prev distance = 0 angle = random } }
-					create_ambient_object = { type = "destroyed_system" location = this }
-					last_created_ambient_object = { set_ambient_object_flag = destroyed_system_effect set_location = { target = prev  distance = 0  angle = random  } }
 					set_planet_entity = { entity = starforge_avoid_entity }
 					set_planet_size = -1
 				}

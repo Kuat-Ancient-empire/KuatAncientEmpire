@@ -210,14 +210,8 @@ starkiller_destroyed_system_everything = {
 	fire_on_action = { on_action = on_destroy_star_system }
 	set_star_flag = star_cracked
 	set_star_class = sc_black_hole  
-	every_system_planet = {
-		limit = { is_star = yes }
-		change_pc = pc_black_hole
-		create_ambient_object = { type = "star_explosion" play_animation_once = yes location = this }
-		last_created_ambient_object = { set_location = { target = prev distance = 0 angle = random } }
-		create_ambient_object = { type = "destroyed_system" location = this }
-        last_created_ambient_object = { set_ambient_object_flag = destroyed_system_effect set_location = { target = prev  distance = 0  angle = random  } }
-	}
+	create_kuat_starbase_expolde_boom = yes
+	star = { change_pc = pc_black_hole }
 	every_system_planet = {
 		clear_deposits = yes
 		clear_planet_modifiers = yes
@@ -1094,7 +1088,8 @@ kuat_automatic_initial_planet_districts_and_zones_types = {
 		limit = { is_ringworld = yes }
 		change_pc = pc_kuat_auto_ringworld_habitable
 	}
-	else = {
+	else_if = {
+		limit = { NOT = { is_planet_class = pc_kuat_auto_ringworld_mega_habitable } }
 		change_pc = pc_kuat_auto_city
 	}
 
@@ -1247,14 +1242,20 @@ kuat_clear_automatic_planet = {
 	clear_planet_modifiers = yes
 	destroy_colony = yes
 	if = {
-		limit = { is_ringworld = no }
+		limit = { 
+			is_ringworld = no 
+			NOT = { is_planet_class = pc_kuat_auto_ringworld_mega_habitable }
+		}
 		random_list = {
 			80 = { change_pc = rl_habitable_normal }
 			19 = { change_pc = rl_habitable_special }
 			1 = { change_pc = rl_unhabitable_planets }
 		}
 	}
-	else = { change_pc = pc_ringworld_habitable }
+	else_if = {
+		limit = { is_ringworld = yes }
+		change_pc = pc_ringworld_habitable
+	}
 	every_owned_pop_group = { kill_all_pop = yes }
 }
 
@@ -1753,4 +1754,14 @@ kuat_clear_animal_action = {
 	}
 	clear_global_event_target = ETERNAL_LEADER
 	$SCOPE$ = { ruler = { save_global_event_target_as = ETERNAL_LEADER } }
+}
+
+#scope :solar
+create_kuat_starbase_expolde_boom = {
+	star = {
+		create_ambient_object = { type = "star_explosion" play_animation_once = yes location = this }
+		last_created_ambient_object = { set_location = { target = prev distance = 0 angle = random } }
+		create_ambient_object = { type = "destroyed_system" location = this }
+		last_created_ambient_object = { set_ambient_object_flag = destroyed_system_effect set_location = { target = prev  distance = 0  angle = random  } }
+	}
 }

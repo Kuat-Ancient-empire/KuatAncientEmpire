@@ -1001,11 +1001,7 @@ country_event = {
 	is_triggered_only = yes
 	trigger = {
 		exists = fromfrom 
-		NOR = {
-			is_eternal_faction = yes
-			is_infinite_faction = yes
-			is_kuat_contractor_faction = yes
-		}
+		is_invisable_faction = no
 		fromfrom = { kuat_ship_is_mega_starbase = yes }
 	}
 	immediate = {
@@ -1014,48 +1010,24 @@ country_event = {
 				limit = { is_ship_size = exe_megastructure_starbase }
 				solar_system = {
 					set_star_class = sc_black_hole
-					star = {
-						create_ambient_object = { type = "star_explosion" play_animation_once = yes location = this }
-						last_created_ambient_object = { set_location = { target = prev distance = 0 angle = random } }
-						create_ambient_object = { type = "destroyed_system" location = this }
-						last_created_ambient_object = { set_ambient_object_flag = destroyed_system_effect set_location = { target = prev  distance = 0  angle = random  } }
-						change_pc = pc_black_hole
-						set_planet_size = 18
-					}
-					every_ship_in_system = {
-						limit = { is_ship_class = shipclass_military exists = owner owner = { is_hostile = root } }
-						kuat_battle_kuat_reduce_hp_percent = { value = 99 }
-					}
+					create_kuat_starbase_expolde_boom = yes
+					star = { change_pc = pc_black_hole set_planet_size = 18 }
 				}
 			}
 			if = {
 				limit = { is_ship_size = Drift_megastructure_starbase }
-				solar_system = {
-					star = {
-						create_ambient_object = { type = "star_explosion" play_animation_once = yes location = this }
-						last_created_ambient_object = { set_location = { target = prev distance = 0 angle = random } }
-						create_ambient_object = { type = "destroyed_system" location = this }
-						last_created_ambient_object = { set_ambient_object_flag = destroyed_system_effect set_location = { target = prev  distance = 0  angle = random  } }
-					}
-					every_ship_in_system = {
-						limit = { is_ship_class = shipclass_military exists = owner owner = { is_hostile = root } }
-						kuat_battle_kuat_reduce_hp_percent = { value = 99 }
-					}
+				solar_system = { 
+					set_star_class = sc_black_hole
+					create_kuat_starbase_expolde_boom = yes 
+					star = { change_pc = pc_black_hole set_planet_size = 18 }
 				}
 			}
 			if = {
 				limit = { is_ship_size = Infinite_megastructure_starbase }
-				solar_system = {
-					star = {
-						create_ambient_object = { type = "star_explosion" play_animation_once = yes location = this }
-						last_created_ambient_object = { set_location = { target = prev distance = 0 angle = random } }
-						create_ambient_object = { type = "destroyed_system" location = this }
-						last_created_ambient_object = { set_ambient_object_flag = destroyed_system_effect set_location = { target = prev  distance = 0  angle = random  } }
-					}
-					every_ship_in_system = {
-						limit = { is_ship_class = shipclass_military exists = owner owner = { is_hostile = root } }
-						kuat_battle_kuat_reduce_hp_percent = { value = 99 }
-					}
+				solar_system = { 
+					set_star_class = sc_black_hole
+					create_kuat_starbase_expolde_boom = yes 
+					star = { change_pc = pc_black_hole set_planet_size = 18 }
 				}
 			}
 			every_cosmic_storm = { 
