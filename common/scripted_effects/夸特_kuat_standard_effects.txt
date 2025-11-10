@@ -189,13 +189,19 @@ create_exe_invasion_fleet = {
 
 			#String varaible
 			[[Location] set_location = { target = $Location$ distance = $DISTANCE|25$ angle = random }]
-			[[Disable_health] every_owned_ship = { kuat_battle_disable_ship_at_health = { FLAG = kuat_battle_disable_ship_at_health Disable_health = $Disable_health$ } }]
+			[[Disable_health] 
+				every_owned_ship = { kuat_battle_disable_ship_at_health = { 
+					FLAG = kuat_battle_disable_ship_at_health 
+					Disable_health = $Disable_health$ 
+				} }
+			]
 			[[modifier] add_modifier = { modifier = $modifier$ }]
 
 			#fleet target
-			[[CTL_TARGET] $CTL_TARGET$ = { change_variable = { which = fleet_id value = 1 } } 
+			[[CTL_TARGET] 
+				$CTL_TARGET$ = { change_variable = { which = fleet_id value = 1 } } 
 				set_variable = { which = fleet_id value = $CTL_TARGET$.fleet_id } 
-				solar_system = { set_variable = { which = kuat_fleet_id value = prev.fleet_id } 
+				solar_system = { set_variable = { which = solar_fleet_occupy_id value = prev.fleet_id } 
 			}]
 			[[Fleet_action] fleet_event = { id = $Fleet_action$ }]
 			[[Fleet_delayed_action] fleet_event = { id = $Fleet_delayed_action$ days = $DAYS$ random = $DAYS$ }]

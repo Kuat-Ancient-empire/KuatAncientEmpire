@@ -793,6 +793,21 @@ kuat_default_site_visible_trigger = {
 }
 
 kuat_is_allow_battle_flagship = {
+	optimize_memory
 	is_ship_class = shipclass_military 
 	has_fleet_flag = has_total_kuat_flagship_system
+}
+
+kuat_is_kuat_fleet_execute_order_target = {
+	optimize_memory
+	OR = {
+		any_system_planet = { 
+			exists = controller 
+			controller = { is_at_war_with = $TARGET$ } 
+		}
+		AND = { 
+			exists = starbase 
+			starbase = { controller = { is_hostile = $TARGET$ } } 
+		}
+	}
 }

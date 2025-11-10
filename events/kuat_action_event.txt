@@ -232,17 +232,17 @@ country_event = {
 	is_triggered_only = yes
 	trigger = {
 		is_first_galatic_empire_faction = yes
-		FROMFROM = { OR = {
-			has_fleet_flag = defensive_galaxy_fleet
-			has_fleet_flag = base_kuat_attack_fleet
-			has_fleet_flag = return_kuat_attack_fleet
-		} }
+		FROMFROM = { is_variable_set = fleet_id }
 	}
 	immediate = {
-		FROMFROM = { save_event_target_as = destroyed_fleet }
-		random_system = {
-			limit = { check_variable = { which = kuat_fleet_id value = event_target:destroyed_fleet.fleet_id } }
-			clear_variable = kuat_fleet_id 
+		every_system = {
+			limit = { 
+				check_variable = { 
+					which = solar_fleet_occupy_id 
+					value = root.fromfrom.fleet_id 
+				} 
+			}
+			clear_variable = solar_fleet_occupy_id 
 		}
 	}
 }

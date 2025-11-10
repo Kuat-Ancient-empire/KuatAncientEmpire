@@ -872,27 +872,33 @@ kuat_fleet_execute_order_1 = {
 	queue_actions = {
 		repeat = {
 			effect = {
-				id = executor.1.c
+				id = executor.1.effect
 				if = {
 					limit = { has_fleet_flag = kuat_cannot_find_path }
 					if = {
-						limit = { any_country = { is_at_war_with = $OWNER_TARGET$ } }
+						limit = {  
+							any_system = {  
+								kuat_is_kuat_fleet_execute_order_target = { TARGET = $OWNER_TARGET$ }
+								check_variable = { which = solar_fleet_occupy_id value < 1 }
+							}
+						}
 						random_system = {
-							limit = { any_system_planet = { 
-								exists = controller
-								controller = { is_at_war_with = $OWNER_TARGET$ } 
-							} }
+							limit = {  
+								kuat_is_kuat_fleet_execute_order_target = { TARGET = $OWNER_TARGET$ }
+								check_variable = { which = solar_fleet_occupy_id value < 1 }
+							}
 							random_system_planet = { ROOT = { 
 								set_location = { target = PREV distance = 300 angle = random } 
 								every_owned_ship = { kuat_create_jump_particle_effect = yes }
 							} }
 						}
 					}
-					else = {
-						destroy_fleet = { target = this destroy_template = yes kill_leader = yes }
-						every_system = {
-							limit = { check_variable = { which = kuat_fleet_id value >= 1 } }
-							clear_variable = kuat_fleet_id
+					else = { 
+						every_system = { clear_variable = solar_fleet_occupy_id } 
+						change_variable = { which = kuat_fleet_id_destroy_rate value = 1 } 
+						if = {
+							limit = { check_variable = { which = kuat_fleet_id_destroy_rate value > 3 } }
+							destroy_fleet = { target = this destroy_template = yes kill_leader = yes }
 						}
 					}
 					remove_fleet_flag = kuat_cannot_find_path
@@ -900,26 +906,20 @@ kuat_fleet_execute_order_1 = {
 			}
 			find_closest_system = {
 				trigger = {
-					id = executor.1
+					id = executor.1.find
 					ROOT = { can_access_system = prev }
-					OR = {
-						any_system_planet = {
-							exists = controller
-							controller = { is_at_war_with = $OWNER_TARGET$ }
-						}
-						AND = { exists = starbase starbase = { controller = { is_hostile = $OWNER_TARGET$ } } }
-					}
-					check_variable = { which = kuat_fleet_id value < 1 }
+					exists = starbase starbase = { controller = { is_hostile = $OWNER_TARGET$ } }
+					check_variable = { which = solar_fleet_occupy_id value < 1 }
 				}
 				found_system = {
 					effect = {
-						id = executor.2.r1
-						set_variable = { which = kuat_fleet_id value = root.fleet_id }
+						id = executor.1.find.effect
+						set_variable = { which = solar_fleet_occupy_id value = root.fleet_id }
 					}
 					move_to = this
 					repeat = {
 						while = {
-							id = executor.2.t0
+							id = executor.1.repeat
 							any_system_planet = {
 								exists = controller
 								controller = { is_at_war_with = $OWNER_TARGET$ }
@@ -927,52 +927,51 @@ kuat_fleet_execute_order_1 = {
 						}
 						find_closest_planet = {
 							trigger = {
-								id = executor.2
+								id = executor.1.find_planet
 								exists = controller
 								controller = { is_at_war_with = $OWNER_TARGET$ }
 							}
 							found_planet = {
 								orbit_planet = this
 								effect = {
-									id = executor.3
+									id = executor.1.find_planet.effect
 									set_planet_flag = ruins_planet
 									ROOT = { set_fleet_flag = kuat_fallen_bombaring_fleet }
 								}
 								repeat = {
-									while = { id = executor.3.t0 ROOT = { has_fleet_flag = kuat_fallen_bombaring_fleet } }
+									while = { 
+										id = executor.1.find_planet.while
+										ROOT = { has_fleet_flag = kuat_fallen_bombaring_fleet } 
+									}
 									effect = {
-										id = executor.3.t1
+										id = executor.1.find_planet.effect.repeat
 										if = { limit = { is_colony = no } ROOT = { remove_fleet_flag = kuat_fallen_bombaring_fleet } }
 									} 
 									wait = 5
 								}
 							}
 						}
-						wait = 5
+						wait = 15
 					}
-					wait = 15
+					wait = 30
 				}
 				failed = {
 					find_closest_system = {
 						trigger = {
-							id = executor.5.t9
+							id = executor.1.faild.find
 							ROOT = { can_access_system = prev }
-							OR = {
-								any_system_planet = {
-									exists = controller
-									controller = { is_at_war_with = $OWNER_TARGET$ }
-								}
-								AND = {
-									exists = starbase
-									starbase = { owner = { is_hostile = $OWNER_TARGET$ } }
-								}
-							}
+							kuat_is_kuat_fleet_execute_order_target = { TARGET = $OWNER_TARGET$ }
+							check_variable = { which = solar_fleet_occupy_id value < 1 }
 						}
 						found_system = {
+							effect = {
+								id = executor.1.faild.find.effect
+								set_variable = { which = solar_fleet_occupy_id value = root.fleet_id }
+							}
 							move_to = this
 							repeat = {
 								while = {
-									id = executor.5.t0
+									id = executor.1.faild.find.effect.repeat
 									any_system_planet = {
 										exists = controller
 										controller = { is_at_war_with = $OWNER_TARGET$ }
@@ -980,32 +979,35 @@ kuat_fleet_execute_order_1 = {
 								}
 								find_closest_planet = {
 									trigger = {
-										id = executor.5.t5
+										id = executor.1.faild.find_planet
 										exists = controller
 										controller = { is_at_war_with = $OWNER_TARGET$ }
 									}
 									found_planet = {
 										orbit_planet = this
 										effect = {
-											id = executor.5.t4
+											id = executor.1.faild.find_planet.effect
 											set_planet_flag = ruins_planet
 											ROOT = { set_fleet_flag = kuat_fallen_bombaring_fleet }
 										}
 										repeat = {
-											while = { id = executor.5.t3 ROOT = { has_fleet_flag = kuat_fallen_bombaring_fleet } }
+											while = { 
+												id = executor.1.faild.find_planet.while
+												ROOT = { has_fleet_flag = kuat_fallen_bombaring_fleet } 
+											}
 											effect = {
-												id = executor.5.t1
+												id = executor.1.faild.find_planet.effect.repeat
 												if = { limit = { is_colony = no } ROOT = { remove_fleet_flag = kuat_fallen_bombaring_fleet } }
 											}
-											wait = 5
+											wait = 3
 										}
 									}
 								}
-								wait = 5
+								wait = 15
 							}
-							wait = 15
+							wait = 30
 						}
-						failed = { effect = { id = executor.1.b ROOT = { set_fleet_flag = kuat_cannot_find_path } } wait = 60 }
+						failed = { effect = { id = executor.2 ROOT = { set_fleet_flag = kuat_cannot_find_path } } wait = 60 }
 					}
 				}
 			}
@@ -1031,11 +1033,12 @@ kuat_fleet_execute_order_3 = {
 							}  }
 						}
 					}
-					else = {
-						destroy_fleet = { target = this destroy_template = yes kill_leader = yes }
-						every_system = {
-							limit = { check_variable = { which = kuat_fleet_id value >= 1 } }
-							set_variable = { which = kuat_fleet_id value = 0 } clear_variable = kuat_fleet_id
+					else = { 
+						every_system = { clear_variable = solar_fleet_occupy_id } 
+						change_variable = { which = kuat_fleet_id_destroy_rate value = 1 } 
+						if = {
+							limit = { check_variable = { which = kuat_fleet_id_destroy_rate value > 3 } }
+							destroy_fleet = { target = this destroy_template = yes kill_leader = yes }
 						}
 					}
 					remove_fleet_flag = kuat_cannot_find_path
@@ -1046,12 +1049,12 @@ kuat_fleet_execute_order_3 = {
 					id = executor.20
 					any_fleet_in_system = { owner = { kuat_is_crisis_faction = yes } }
 					prev = { can_access_system = prev }
-					check_variable = { which = kuat_fleet_id value < 1 }
+					check_variable = { which = solar_fleet_occupy_id value < 1 }
 				}
 				found_system = {
 					effect = {
 						id = executor.20.a1
-						set_variable = { which = kuat_fleet_id value = prev.fleet_id }
+						set_variable = { which = solar_fleet_occupy_id value = prev.fleet_id }
 					}
 					move_to = this
 					repeat = {
