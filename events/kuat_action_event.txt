@@ -336,7 +336,12 @@ fleet_event = {
 			is_ship_class = shipclass_military_special
 			is_ship_class = shipclass_transport
 		} 
+		OR = {
+			AND = { exists = owner owner = { is_at_war = yes } }
+			has_fleet_flag = fire_kuat_fleet_attack_action
+		}		
 		NOT = { has_fleet_flag = fire_kuat_fleet_defense_action }
+		NOT = { has_fleet_flag = kuat_ai_action.6.temple }
 	}
 	immediate = {
 		if = {
@@ -363,6 +368,7 @@ fleet_event = {
 				} }
 			}
 		}
+		set_timed_fleet_flag = { flag = kuat_ai_action.6.temple days = 1 }
 	}
 }
 
@@ -374,6 +380,7 @@ fleet_event = {
 		is_scope_type = fleet 
 		is_ship_class = shipclass_military
 		NOT = { has_fleet_flag = fire_kuat_fleet_attack_action }
+		NOT = { has_fleet_flag = kuat_ai_action.9.temple }
 	}
 	immediate = {
 		if = {
@@ -389,5 +396,6 @@ fleet_event = {
 				FRIENDLY_TARGET = event_target:kuat_friendly_faction 
 			}
 		}
+		set_timed_fleet_flag = { flag = kuat_ai_action.9.temple days = 1 }
 	}
 }

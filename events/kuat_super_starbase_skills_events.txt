@@ -5,17 +5,16 @@ fleet_event = {
 	hide_window = yes
 	is_triggered_only = yes
 
+	trigger = { NOT = { has_fleet_flag = kuat_starbase_skills.1.temple } }
+
 	immediate = {
 		if = {
 			limit = { NOT = { has_fleet_flag = kuat_mega_starbase_stormed_activated } }
 			set_fleet_flag = kuat_mega_starbase_stormed_activated
-			if = {
-				limit = { has_fleet_flag = kuat_mega_starbase_stormed_activated }
-				kuat_battle_clear_all_storm = yes
-				random_owned_ship = {
-					limit = { kuat_ship_is_mega_starbase = yes }
-					kuat_battle_spawn_system_suppliment_storm = yes	
-				}
+			kuat_battle_clear_all_storm = yes
+			random_owned_ship = {
+				limit = { kuat_ship_is_mega_starbase = yes }
+				kuat_battle_spawn_system_suppliment_storm = yes	
 			}
 		}
 		else = {
@@ -28,6 +27,7 @@ fleet_event = {
 				}	
 			}
 		}
+		set_timed_fleet_flag = { flag = kuat_starbase_skills.1.temple days = 1 }
 	}
 }
 
