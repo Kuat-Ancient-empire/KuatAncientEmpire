@@ -69,3 +69,22 @@ get_action_for_contrator_kuat_plague_alert = {
 		1 = { random_owned_pop_group = { limit = { pop_group_size > 1000 } kill_pop_group = { pop_group = this amount = 1000 } } }
 	}
 }
+
+#scope: system
+kuat_effect_plague_random_list = {
+	optimize_memory
+	reroll_random = yes
+	random_list = {
+		9 = { }
+		1 = {
+			modifier = {
+				set = 0
+				NOT = { any_system_planet = { kuat_trigger_plague_valid_planet = yes } }
+			}
+			random_system_planet = {
+				limit = { kuat_trigger_plague_valid_planet = yes }
+				planet_event = { id = kuat_plague.1 days = 1 random = 179 }
+			}
+		}
+	}
+}

@@ -43,37 +43,10 @@ kuat_plague_aura = {
 		} }
     }
 	on_start = {
-		set_star_flag = psionic_aura_ongoing
-        if = {
-            limit = { NOT = { any_system_ambient_object = { is_ambient_object_type = kuat_plague_storm_1 } } }
-            star = {
-                create_ambient_object = { type = "kuat_plague_storm_1" location = this }
-                last_created_ambient_object = { set_location = { target = prev distance = 0 angle = random } }
-            }
-        }
-		aura_owner = { set_visited = prev }
-		set_timed_star_flag = { flag = newly_spawned_psionic_aura months = 6 }
-		root = { save_event_target_as = winning_system }
+		kuat_on_psionic_aura_spawned = { KUAT_AO = kuat_plague_storm }
 		add_aura_intensity = 400000
-		every_neighbor_system_euclidean = {
-			limit = {
-				has_psionic_aura = yes
-				aura_owner = { NOT = { is_same_value = root.aura_owner } }
-              	kuat_trigger_plague_is_psionic_aura_immune_system = no
-			}
-			save_event_target_as = losing_system
-			event_target:winning_system = {
-				set_star_flag = aura_is_clashing_against_@event_target:losing_system
-				set_star_flag = aura_clash_winning_against_@event_target:losing_system
-			}
-			event_target:losing_system = {
-				set_star_flag = aura_is_clashing_against_@event_target:winning_system
-				aura_owner = { if = {
-					limit = { NOT = { has_country_flag = aura_clashing_event_triggered } }
-					set_country_flag = aura_clashing_event_triggered
-					country_event = { id = kuat_plague.174 scopes = { from = prev fromfrom = event_target:winning_system } } #瘟疫压迫
-				} }
-			}
+		kuat_setup_aura_clashing = {
+			AFR_LOOP_CONDITIONS = "kuat_trigger_plague_is_psionic_aura_immune_system = no"
 		}
 		if = {
 			limit = { exists = owner owner = { NOR = { is_same_value = root.aura_owner has_country_flag = has_encountered_kuat_plague_aura } } }
@@ -96,48 +69,11 @@ kuat_plague_aura = {
 	}
 	on_monthly = {
         set_timed_star_flag = { flag = aura_clashing_on_monthly_check days = 20 }
-        root = { save_event_target_as = winning_system }
-        every_neighbor_system_euclidean = {
-            limit = {
-                NOT = { has_star_flag = aura_clashing_on_monthly_check }
-                has_psionic_aura = yes
-                aura_owner = { NOT = { is_same_value = root.aura_owner } }
-            }
-            remove_star_flag = aura_is_clashing_against_@root
-            remove_star_flag = aura_clash_winning_against_@root
-            root = {
-                remove_star_flag = aura_is_clashing_against_@prev
-                remove_star_flag = aura_clash_winning_against_@prev
-            }
-            save_event_target_as = losing_system
-            event_target:winning_system = {
-                set_star_flag = aura_is_clashing_against_@event_target:losing_system
-                set_star_flag = aura_clash_winning_against_@event_target:losing_system
-            }
-            event_target:losing_system = {
-                set_star_flag = aura_is_clashing_against_@event_target:winning_system
-                aura_owner = { if = {
-                    limit = { NOT = { has_country_flag = aura_clashing_event_triggered } }
-                    set_country_flag = aura_clashing_event_triggered
-                    country_event = { id = kuat_plague.174 scopes = { from = prev fromfrom = event_target:winning_system } } #瘟疫压迫
-                } }
-            }
-            reroll_random = yes
-            #瘟疫效果
-			random_list = {
-				9 = { }
-				1 = {
-					modifier = {
-						set = 0
-						NOT = { any_system_planet = { kuat_trigger_plague_valid_planet = yes } }
-					}
-					random_system_planet = {
-						limit = { kuat_trigger_plague_valid_planet = yes }
-						planet_event = { id = kuat_plague.1 days = 1 random = 179 }
-					}
-				}
-			}
-        }
+		kuat_setup_aura_clashing = {
+			PRE_LOOP_CONDITIONS = "NOT = { has_star_flag = aura_clashing_on_monthly_check }"
+			PRE_LOOP_EFFECTS = "clear_aura_clashing_flags = yes"
+			AFR_LOOP_EFFECTS = "kuat_effect_plague_random_list = yes"
+		}
 	}
 	on_gain_level = {
         custom_tooltip = "kuat_plague_aura_spread_effect"
@@ -154,21 +90,7 @@ kuat_plague_aura = {
 				}
 				if = { limit = { exists = space_owner } space_owner = { set_country_flag = has_aura_kuat_plague_aura } }
                 spawn_psionic_aura = { type = kuat_plague_aura owner = event_target:kuat_plague_zombie_country update_type = no }
-                reroll_random = yes
-				#瘟疫效果
-				random_list = {
-					9 = { }
-					1 = {
-						modifier = {
-							set = 0
-							NOT = { any_system_planet = { kuat_trigger_plague_valid_planet = yes } }
-						}
-						random_system_planet = {
-							limit = { kuat_trigger_plague_valid_planet = yes }
-							planet_event = { id = kuat_plague.1 days = 1 random = 179 }
-						}
-					}
-				}
+                kuat_effect_plague_random_list = yes
             }
         }
 	}
@@ -188,28 +110,15 @@ kuat_plague_aura = {
 				}
 				if = { limit = { exists = space_owner } space_owner = { set_country_flag = has_aura_kuat_plague_aura } }
                 spawn_psionic_aura = { type = kuat_plague_aura owner = event_target:kuat_plague_zombie_country update_type = no }
-				#瘟疫效果
-				random_list = {
-					9 = { }
-					1 = {
-						modifier = {
-							set = 0
-							NOT = { any_system_planet = { kuat_trigger_plague_valid_planet = yes } }
-						}
-						random_system_planet = {
-							limit = { kuat_trigger_plague_valid_planet = yes }
-							planet_event = { id = kuat_plague.1 days = 1 random = 179 }
-						}
-					}
-				}
+				kuat_effect_plague_random_list = yes
             }
         }
 	}
-	on_type_change = { random_system_ambient_object = { limit = { is_ambient_object_type = kuat_plague_storm_1 } destroy_ambient_object = this } }
+	on_type_change = { random_system_ambient_object = { limit = { is_ambient_object_type = kuat_plague_storm } destroy_ambient_object = this } }
 
 	on_vanish = {
         remove_star_flag = psionic_aura_ongoing
-        random_system_ambient_object = { limit = { is_ambient_object_type = kuat_plague_storm_1 } destroy_ambient_object = this }
+        random_system_ambient_object = { limit = { is_ambient_object_type = kuat_plague_storm } destroy_ambient_object = this }
         try_resolve_aura_clashing = yes
 	}
 

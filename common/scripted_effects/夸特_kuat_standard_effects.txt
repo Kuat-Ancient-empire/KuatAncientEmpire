@@ -1758,10 +1758,106 @@ kuat_clear_animal_action = {
 
 #scope :solar
 create_kuat_starbase_expolde_boom = {
+	optimize_memory
 	star = {
 		create_ambient_object = { type = "star_explosion" play_animation_once = yes location = this }
 		last_created_ambient_object = { set_location = { target = prev distance = 0 angle = random } }
 		create_ambient_object = { type = "destroyed_system" location = this }
 		last_created_ambient_object = { set_ambient_object_flag = destroyed_system_effect set_location = { target = prev  distance = 0  angle = random  } }
 	}
+}
+
+kuat_setup_aura_clashing = {
+	optimize_memory
+	export_trigger_value_to_variable = {
+		trigger = monthly_intensity_increase
+		variable = monthly_increase
+	}
+	every_neighbor_system_euclidean = {
+		limit = {
+			[[PRE_LOOP_CONDITIONS] $PRE_LOOP_CONDITIONS$ ]
+			has_psionic_aura = yes
+			aura_owner = { NOT = { is_same_value = root.aura_owner } }
+			[[AFR_LOOP_CONDITIONS] $AFR_LOOP_CONDITIONS$ ]	
+		}
+
+		[[PRE_LOOP_EFFECTS] $PRE_LOOP_EFFECTS$ ]
+
+		export_trigger_value_to_variable = {
+			trigger = monthly_intensity_increase
+			variable = monthly_increase
+		}
+
+		if = {
+			limit = {
+				check_variable = {
+					which = monthly_increase
+					value < root.monthly_increase
+				}
+			}
+			root = { save_event_target_as = winning_system }
+			save_event_target_as = losing_system
+		}
+		else_if = {
+			limit = {
+				check_variable = {
+					which = monthly_increase
+					value > root.monthly_increase
+				}
+			}
+			save_event_target_as = winning_system
+			root = { save_event_target_as = losing_system }
+		}
+		if = {
+			limit = { exists = event_target:losing_system }
+			event_target:winning_system = {
+				set_star_flag = aura_is_clashing_against_@event_target:losing_system
+				set_star_flag = aura_clash_winning_against_@event_target:losing_system
+				kuat_trigger_aura_clashing_event = { FROM = event_target:losing_system }
+			}
+			event_target:losing_system = {
+				set_star_flag = aura_is_clashing_against_@event_target:winning_system
+				kuat_trigger_aura_clashing_event = { FROM = event_target:winning_system }
+			}
+		}
+		else = {
+			save_event_target_as = tested_system
+			set_star_flag = aura_is_clashing_against_@root
+			kuat_trigger_aura_clashing_event = { FROM = root }
+			root = {
+				set_star_flag = aura_is_clashing_against_@event_target:tested_system
+				kuat_trigger_aura_clashing_event = { FROM = event_target:tested_system }
+			}
+		}
+		[[AFR_LOOP_EFFECTS] $AFR_LOOP_EFFECTS$ ]		
+		clear_variable = monthly_increase
+	}
+	clear_variable = monthly_increase
+}
+
+kuat_trigger_aura_clashing_event = {
+	optimize_memory
+	aura_owner = {
+		set_visited = $FROM$
+		if = {
+			limit = { NOT = { has_country_flag = aura_clashing_event_triggered } }
+			set_country_flag = aura_clashing_event_triggered
+			country_event = { id = kuat_plague.174 scopes = { from = prev fromfrom = $FROM$ } }
+		}
+	}
+}
+
+kuat_on_psionic_aura_spawned = {
+	optimize_memory
+	aura_owner = { set_visited = prev }
+	clear_psionic_aura_visuals = yes # Visual cleanup
+	set_star_flag = psionic_aura_ongoing
+	 if = {
+        limit = { NOT = { any_system_ambient_object = { is_ambient_object_type = $KUAT_AO$ } } }
+        star = {
+            create_ambient_object = { type = $KUAT_AO$ location = this }
+            last_created_ambient_object = { set_location = { target = prev distance = 0 angle = random } }
+        }
+    }
+	set_timed_star_flag = { flag = newly_spawned_psionic_aura months = 6 }
 }
