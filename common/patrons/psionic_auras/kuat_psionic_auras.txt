@@ -218,21 +218,21 @@ kuat_plague_aura = {
 	monthly_decrease = {
 		base = 0
 		modifier = {
-			subtract = @aura_clashing_loser_decrease
-			any_neighbor_system_euclidean = { has_star_flag = aura_clash_winning_against_@root }
-			desc = BLANK_STRING
-		}
-		modifier = {
-			subtract = value:kuat_plague_power_multipler|MULT|2| 
+			subtract = value:kuat_plague_power_multipler|MULT|1.2| 
 			kuat_trigger_plague_is_psionic_aura_immune_system = yes  
 		}
         modifier = { 
-			subtract = value:kuat_plague_power_multipler|MULT|0.5| 
+			subtract = value:kuat_plague_power_multipler|MULT|0.6| 
 			any_neighbor_system_euclidean = { kuat_trigger_plague_is_psionic_aura_immune_system = yes } 
 		}
 	}
 
-	increase_trigger = { NOT = { any_neighbor_system_euclidean = { has_star_flag = aura_is_clashing_against_@root } } }
+	increase_trigger = {  
+		count_neighbor_system_euclidean = {
+			count = all
+			limit = { kuat_trigger_plague_is_psionic_aura_immune_system = yes }
+		}
+	}
 
 	monthly_increase = {
 		base = 0
