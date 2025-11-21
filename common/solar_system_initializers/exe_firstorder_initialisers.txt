@@ -131,43 +131,20 @@ starkiller_base = {
 }
 
 kuat_maga_auto_habitat_system = {
-	flags = { kuat_maga_auto_habitat_system }
+	flags = { 
+		kuat_maga_auto_habitat_system 
+		cannot_be_hit_by_aow_starfall_spear 
+		kuat_cannot_be_hit_by_starkillerbase
+	}
 	class = "sc_kuat_white_hole"
-	planet = {
-		class = star
-		orbit_distance = 0
-		size = 0	
-		init_effect = {
-			save_event_target_as = kuat_mega_habitat
-			prevent_anomaly = yes
-			clear_deposits = yes
-		}
-	}
-	init_effect = {
-		create_starbase = { size = starbase_outpost owner = event_target:kuat_maga_auto_habitat_0_1_builder }
-	}
-	planet = {
-		count = 1
-		class = "pc_kuat_white_hole"
-		orbit_angle = 0
-		has_ring = no
-		size = 17
+	usage = misc_system_init
+	prevent_anomalies = yes
 
-		init_effect = {
-			trigger_megastructure_icon = yes
-			set_planet_flag = megastructure
-			set_planet_flag = colony_event
-			prevent_anomaly = yes
-		}
-	}
-
-	init_effect = {
-		spawn_megastructure = { 
-			type = "kuat_maga_auto_habitat_1_0" 
-			planet = system_star
-			owner = event_target:kuat_maga_auto_habitat_0_1_builder
-			init_effect = { upgrade_megastructure_to = kuat_maga_auto_habitat_1 }
-		}
+	planet = { 
+		class = pc_kuat_white_hole 
+		size = 17 
+		orbit_distance = 0 
+		flags = { kuat_white_hole } 
 	}
 
 	change_orbit = 245
@@ -176,6 +153,19 @@ kuat_maga_auto_habitat_system = {
 		class = pc_barren_cold
 		orbit_distance = 30
 		size = { min = 0 max = 0 }	
-		init_effect = { prevent_anomaly = yes clear_deposits = yes }
+		init_effect = { prevent_anomaly = yes }
+	}
+
+	init_effect = {
+		create_starbase = { 
+			size = starbase_outpost 
+			owner = event_target:kuat_maga_auto_habitat_0_1_builder 
+		}
+		spawn_megastructure = { 
+			type = "kuat_maga_auto_habitat_1_0" 
+			planet = system_star
+			owner = event_target:kuat_maga_auto_habitat_0_1_builder
+			init_effect = { upgrade_megastructure_to = kuat_maga_auto_habitat_1 }
+		}
 	}
 }
