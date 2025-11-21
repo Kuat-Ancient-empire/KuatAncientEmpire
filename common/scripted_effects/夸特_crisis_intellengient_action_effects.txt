@@ -1,5 +1,5 @@
 @ag_jumpdrive_effect_scale = 0.05
-@ag_kae_ge_fleet_jumpdrive_to_target_distance = 200
+@kuat_galatic_empire_ge_fleet_jumpdrive_to_target_distance = 200
 #ETERNAL AND CONTRACTOR ACTION
 kuat_exe_invasion_jump_drive_planet_action  = {
 	optimize_memory
@@ -40,7 +40,7 @@ kuat_exe_invasion_jump_drive_fleet_action  = {
 				prevprev = { any_owned_ship = { has_ship_flag = kuat_jump_drive_cooldown } }
 			}
 			prevprev = {
-				set_location = { target = prev distance = @ag_kae_ge_fleet_jumpdrive_to_target_distance angle = random }
+				set_location = { target = prev distance = @kuat_galatic_empire_ge_fleet_jumpdrive_to_target_distance angle = random }
 				every_owned_ship = { kuat_create_jump_particle_effect = yes }
 				while = {
 					limit = { any_owned_ship = { NOT = { has_ship_flag = kuat_jump_drive_cooldown } } }
@@ -1097,17 +1097,17 @@ kuat_eternal_guardian_fleet_action = {
 	optimize_memory
 	queue_actions = { repeat = {
 		effect = {
-			id = ag_kae_ge_invasion.218.jump
+			id = kuat_galatic_empire_ge_invasion.218.jump
 			if = {
 				limit = { has_fleet_flag = eternal_findout_path }
 				if = {
 					limit = { any_system = {
-						NOT = { has_star_flag = ag_kae_e_area_system }
+						NOT = { has_star_flag = kuat_galatic_empire_e_area_system }
 						any_fleet_in_system = { exists = owner owner = { is_same_value = event_target:Kuat_Galatic_Empire_invasion_country } }
 					} }
 					random_system = {
 						limit = {
-							NOT = { has_star_flag = ag_kae_e_area_system }
+							NOT = { has_star_flag = kuat_galatic_empire_e_area_system }
 							any_fleet_in_system = { exists = owner owner = { is_same_value = event_target:Kuat_Galatic_Empire_invasion_country } }
 						}
 						random_system_planet = { ROOT = { set_location = { target = PREV distance = 5 angle = random } } }
@@ -1119,8 +1119,8 @@ kuat_eternal_guardian_fleet_action = {
 		}
 		find_closest_system = {
 			trigger = {
-				id = ag_kae_ge_invasion.218.attack1
-				NOT = { has_star_flag = ag_kae_e_area_system }
+				id = kuat_galatic_empire_ge_invasion.218.attack1
+				NOT = { has_star_flag = kuat_galatic_empire_e_area_system }
 				distance = { source = root type = hyperlane max_jumps = 1 }
 				any_fleet_in_system = { exists = owner owner = { is_same_value = event_target:Kuat_Galatic_Empire_invasion_country } }
 				ROOT = { can_access_system = prev }
@@ -1128,8 +1128,8 @@ kuat_eternal_guardian_fleet_action = {
 			found_system = { move_to = this wait = 3 }
 			failed = { find_closest_system = {
 				trigger = {
-					id = ag_kae_ge_invasion.218.attack2
-					NOT = { has_star_flag = ag_kae_e_area_system }
+					id = kuat_galatic_empire_ge_invasion.218.attack2
+					NOT = { has_star_flag = kuat_galatic_empire_e_area_system }
 					distance = { source = root type = hyperlane max_jumps = 2 }
 					any_fleet_in_system = { exists = owner owner = { is_same_value = event_target:Kuat_Galatic_Empire_invasion_country } }
 					ROOT = { can_access_system = prev }
@@ -1137,13 +1137,13 @@ kuat_eternal_guardian_fleet_action = {
 				found_system = { move_to = this wait = 3 }
 				failed = { find_closest_system = {
 					trigger = {
-						id = ag_kae_ge_invasion.218.defender1
+						id = kuat_galatic_empire_ge_invasion.218.defender1
 						is_same_value = event_target:zakuul_system
 						distance = { source = root type = hyperlane max_jumps = 2 }
 						any_fleet_in_system = { exists = owner owner = { is_same_value = event_target:Kuat_Galatic_Empire_invasion_country } }
 					}
 					found_system = { move_to = this wait = 3 }
-					failed = { wait = 60 effect = { id = ag_kae_ge_invasion.218.e13 root = { set_fleet_flag = eternal_findout_path } } }
+					failed = { wait = 60 effect = { id = kuat_galatic_empire_ge_invasion.218.e13 root = { set_fleet_flag = eternal_findout_path } } }
 				} }
 			} }
 		}
@@ -1154,7 +1154,7 @@ kuat_eternal_guardian_fleet_action = {
 kuat_kae_ge_jumpdrive_to_target = {
 	optimize_memory
 	every_owned_ship = { kuat_create_jump_particle_effect = yes }
-	set_location = { target = prev distance = @ag_kae_ge_fleet_jumpdrive_to_target_distance angle = random }
+	set_location = { target = prev distance = @kuat_galatic_empire_ge_fleet_jumpdrive_to_target_distance angle = random }
 	if = {
 		limit = { prev = { is_scope_type = planet } }
 		auto_move_to_planet = { target = prev clear_auto_move_on_arrival = yes }
@@ -1260,18 +1260,18 @@ kuat_kae_ge_assault_fleet_action = {
 	else_if = {
 		limit = {
 			root = { exists = solar_system }
-			root.solar_system = { has_star_flag = ag_kae_e_area_system }
+			root.solar_system = { has_star_flag = kuat_galatic_empire_e_area_system }
 			any_system = {
 				if = {
 					limit = { root.solar_system = {
-						count_fleet_in_system = { limit = { has_fleet_flag = ag_kae_ge_assault_fleet } count > 3 }
+						count_fleet_in_system = { limit = { has_fleet_flag = kuat_galatic_empire_ge_assault_fleet } count > 3 }
 					} }
-					NOT = { has_star_flag = ag_kae_e_area_system }
+					NOT = { has_star_flag = kuat_galatic_empire_e_area_system }
 					exists = owner
 					owner = { is_hostile = event_target:Kuat_Galatic_Empire_invasion_country }
 				}
 				else = {
-					NOT = { has_star_flag = ag_kae_e_area_system }
+					NOT = { has_star_flag = kuat_galatic_empire_e_area_system }
 					any_ship_in_system = { is_ship_size = exe_megastructure_starbase }
 				}
 			}
@@ -1280,14 +1280,14 @@ kuat_kae_ge_assault_fleet_action = {
 			limit = {
 				if = {
 					limit = { root.solar_system = {
-						count_fleet_in_system = { limit = { has_fleet_flag = ag_kae_ge_assault_fleet } count > 3 }
+						count_fleet_in_system = { limit = { has_fleet_flag = kuat_galatic_empire_ge_assault_fleet } count > 3 }
 					} }
-					NOT = { has_star_flag = ag_kae_e_area_system }
+					NOT = { has_star_flag = kuat_galatic_empire_e_area_system }
 					exists = owner
 					owner = { is_hostile = event_target:Kuat_Galatic_Empire_invasion_country }
 				}
 				else = { 
-					NOT = { has_star_flag = ag_kae_e_area_system }
+					NOT = { has_star_flag = kuat_galatic_empire_e_area_system }
 					any_ship_in_system = { is_ship_size = exe_megastructure_starbase }
 				}
 			}
@@ -1359,13 +1359,13 @@ kuat_kae_ge_assault_fleet_action = {
 						}
 						prev = { can_access_system = prev }
 					}
-					save_event_target_as = ag_kae_ge_assault_fleet_action_target
+					save_event_target_as = kuat_galatic_empire_ge_assault_fleet_action_target
 				}
 				if = {
 					limit = {
-						exists = event_target:ag_kae_ge_assault_fleet_action_target
+						exists = event_target:kuat_galatic_empire_ge_assault_fleet_action_target
 					}
-					event_target:ag_kae_ge_assault_fleet_action_target = {
+					event_target:kuat_galatic_empire_ge_assault_fleet_action_target = {
 						if = {
 							limit = {
 								any_system_planet = {
@@ -1487,11 +1487,11 @@ kuat_kae_ge_assault_fleet_action = {
 								}
 							}
 						}
-						save_event_target_as = ag_kae_ge_assault_fleet_action_target
+						save_event_target_as = kuat_galatic_empire_ge_assault_fleet_action_target
 					}
 					if = {
 						limit = {
-							exists = event_target:ag_kae_ge_assault_fleet_action_target
+							exists = event_target:kuat_galatic_empire_ge_assault_fleet_action_target
 						}
 						random_list = {
 							25 = {
@@ -1501,7 +1501,7 @@ kuat_kae_ge_assault_fleet_action = {
 										has_ship_flag = kuat_jump_drive_cooldown
 									}
 								}
-								event_target:ag_kae_ge_assault_fleet_action_target = {
+								event_target:kuat_galatic_empire_ge_assault_fleet_action_target = {
 									if = {
 										limit = {
 											any_system_planet = {
@@ -1558,12 +1558,12 @@ kuat_kae_ge_assault_fleet_action = {
 								}
 							}
 							75 = {
-								fleet_event = { id = ag_kae_ge_invasion.241 days = 10 random = 10 }
+								fleet_event = { id = kuat_galatic_empire_ge_invasion.241 days = 10 random = 10 }
 							}
 						}
 					}
 					else = {
-						fleet_event = { id = ag_kae_ge_invasion.241 days = 10 random = 10 }
+						fleet_event = { id = kuat_galatic_empire_ge_invasion.241 days = 10 random = 10 }
 					}
 				}
 			}
@@ -1610,13 +1610,13 @@ kuat_kae_ge_assault_fleet_action = {
 						}
 						prev = { can_access_system = prev }
 					}
-					save_event_target_as = ag_kae_ge_assault_fleet_action_target
+					save_event_target_as = kuat_galatic_empire_ge_assault_fleet_action_target
 				}
 				if = {
 					limit = {
-						exists = event_target:ag_kae_ge_assault_fleet_action_target
+						exists = event_target:kuat_galatic_empire_ge_assault_fleet_action_target
 					}
-					event_target:ag_kae_ge_assault_fleet_action_target = {
+					event_target:kuat_galatic_empire_ge_assault_fleet_action_target = {
 						if = {
 							limit = {
 								any_system_planet = {
@@ -1743,11 +1743,11 @@ kuat_kae_ge_assault_fleet_action = {
 								}
 							}
 						}
-						save_event_target_as = ag_kae_ge_assault_fleet_action_target
+						save_event_target_as = kuat_galatic_empire_ge_assault_fleet_action_target
 					}
 					if = {
 						limit = {
-							exists = event_target:ag_kae_ge_assault_fleet_action_target
+							exists = event_target:kuat_galatic_empire_ge_assault_fleet_action_target
 						}
 						random_list = {
 							25 = {
@@ -1757,7 +1757,7 @@ kuat_kae_ge_assault_fleet_action = {
 										has_ship_flag = kuat_jump_drive_cooldown
 									}
 								}
-								event_target:ag_kae_ge_assault_fleet_action_target = {
+								event_target:kuat_galatic_empire_ge_assault_fleet_action_target = {
 									if = {
 										limit = {
 											any_system_planet = {
@@ -1818,12 +1818,12 @@ kuat_kae_ge_assault_fleet_action = {
 								}
 							}
 							75 = {
-								fleet_event = { id = ag_kae_ge_invasion.241 days = 10 random = 10 }
+								fleet_event = { id = kuat_galatic_empire_ge_invasion.241 days = 10 random = 10 }
 							}
 						}
 					}
 					else = {
-						fleet_event = { id = ag_kae_ge_invasion.241 days = 10 random = 10 }
+						fleet_event = { id = kuat_galatic_empire_ge_invasion.241 days = 10 random = 10 }
 					}
 				}
 			}
@@ -1843,13 +1843,13 @@ kuat_kae_ge_assault_fleet_action = {
 						}
 						prev = { can_access_system = prev }
 					}
-					save_event_target_as = ag_kae_ge_assault_fleet_action_target
+					save_event_target_as = kuat_galatic_empire_ge_assault_fleet_action_target
 				}
 				if = {
 					limit = {
-						exists = event_target:ag_kae_ge_assault_fleet_action_target
+						exists = event_target:kuat_galatic_empire_ge_assault_fleet_action_target
 					}
-					event_target:ag_kae_ge_assault_fleet_action_target = {
+					event_target:kuat_galatic_empire_ge_assault_fleet_action_target = {
 						random_fleet_in_system = {
 							limit = {
 								exists = owner
@@ -1898,11 +1898,11 @@ kuat_kae_ge_assault_fleet_action = {
 								}
 							}
 						}
-						save_event_target_as = ag_kae_ge_assault_fleet_action_target
+						save_event_target_as = kuat_galatic_empire_ge_assault_fleet_action_target
 					}
 					if = {
 						limit = {
-							exists = event_target:ag_kae_ge_assault_fleet_action_target
+							exists = event_target:kuat_galatic_empire_ge_assault_fleet_action_target
 						}
 						random_list = {
 							25 = {
@@ -1912,7 +1912,7 @@ kuat_kae_ge_assault_fleet_action = {
 										has_ship_flag = kuat_jump_drive_cooldown
 									}
 								}
-								event_target:ag_kae_ge_assault_fleet_action_target = {
+								event_target:kuat_galatic_empire_ge_assault_fleet_action_target = {
 									random_fleet_in_system = {
 										limit = {
 											exists = owner
@@ -1929,12 +1929,12 @@ kuat_kae_ge_assault_fleet_action = {
 								}
 							}
 							75 = {
-								fleet_event = { id = ag_kae_ge_invasion.241 days = 10 random = 10 }
+								fleet_event = { id = kuat_galatic_empire_ge_invasion.241 days = 10 random = 10 }
 							}
 						}
 					}
 					else = {
-						fleet_event = { id = ag_kae_ge_invasion.241 days = 10 random = 10 }
+						fleet_event = { id = kuat_galatic_empire_ge_invasion.241 days = 10 random = 10 }
 					}
 				}
 			}
@@ -1959,13 +1959,13 @@ kuat_kae_ge_assault_fleet_action = {
 						}
 						prev = { can_access_system = prev }
 					}
-					save_event_target_as = ag_kae_ge_assault_fleet_action_target
+					save_event_target_as = kuat_galatic_empire_ge_assault_fleet_action_target
 				}
 				if = {
 					limit = {
-						exists = event_target:ag_kae_ge_assault_fleet_action_target
+						exists = event_target:kuat_galatic_empire_ge_assault_fleet_action_target
 					}
-					event_target:ag_kae_ge_assault_fleet_action_target = {
+					event_target:kuat_galatic_empire_ge_assault_fleet_action_target = {
 						random_fleet_in_system = {
 							limit = {
 								exists = owner
@@ -2018,11 +2018,11 @@ kuat_kae_ge_assault_fleet_action = {
 								}
 							}
 						}
-						save_event_target_as = ag_kae_ge_assault_fleet_action_target
+						save_event_target_as = kuat_galatic_empire_ge_assault_fleet_action_target
 					}
 					if = {
 						limit = {
-							exists = event_target:ag_kae_ge_assault_fleet_action_target
+							exists = event_target:kuat_galatic_empire_ge_assault_fleet_action_target
 						}
 						random_list = {
 							25 = {
@@ -2032,7 +2032,7 @@ kuat_kae_ge_assault_fleet_action = {
 										has_ship_flag = kuat_jump_drive_cooldown
 									}
 								}
-								event_target:ag_kae_ge_assault_fleet_action_target = {
+								event_target:kuat_galatic_empire_ge_assault_fleet_action_target = {
 									random_fleet_in_system = {
 										limit = {
 											exists = owner
@@ -2049,12 +2049,12 @@ kuat_kae_ge_assault_fleet_action = {
 								}
 							}
 							75 = {
-								fleet_event = { id = ag_kae_ge_invasion.241 days = 10 random = 10 }
+								fleet_event = { id = kuat_galatic_empire_ge_invasion.241 days = 10 random = 10 }
 							}
 						}
 					}
 					else = {
-						fleet_event = { id = ag_kae_ge_invasion.241 days = 10 random = 10 }
+						fleet_event = { id = kuat_galatic_empire_ge_invasion.241 days = 10 random = 10 }
 					}
 				}
 			}

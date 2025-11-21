@@ -509,6 +509,13 @@ kuat_fleet_is_flagship_size = {
 	any_owned_ship = { is_ship_size = $SIZE$ }
 }
 
+kuat_fleet_is_flagship_modifier = {
+	any_owned_ship = { 
+		check_modifier_value = { modifier = kuat_flagship_system_catagories value = $VALUE$ } 
+		[[TYPE] check_modifier_value = { modifier = kuat_$TYPE$_ship_system_categores value = $VALUE$ } ]
+	}
+}
+
 kuat_is_habitat = {
 	optimize_memory
 	OR = { uses_district_set = habitat is_planet_class = pc_habitat }
@@ -669,16 +676,6 @@ has_kuat_support_modifier_star_flag = {
 	}
 }
 
-kuat_is_playable_country = {
-	optimize_memory
-	OR = {
-		is_country_type = default
-		is_country_type = enclave_mercenary
-		is_country_type = fallen_empire
-		is_country_type = awakened_fallen_empire
-	}
-}
-
 kuat_is_enable_shadow_origin = {
 	optimize_memory
 	is_ai = no
@@ -711,7 +708,10 @@ kuat_is_enable_post_apocalyptic_origin = {
 
 kuat_is_enable_eternal_invasion = {
 	optimize_memory
-	any_country = { kuat_is_enable_shadow_origin = yes }
+	any_country = { 
+		kuat_is_enable_shadow_origin = yes 
+		has_country_flag = kuat_has_been_defeated_once 
+	}
 	NOT = { has_global_flag = will_be_upgrade_starforge }
 	NOT = { has_global_flag = exe_invasion_ban_hidden }
 }

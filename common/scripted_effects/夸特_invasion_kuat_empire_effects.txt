@@ -1,8 +1,8 @@
 
 @ag_jumpdrive_effect_scale = 0.05
-@ag_kae_num_ships_eclipse = 1
-@ag_kae_num_ships_venator = 5
-@ag_kae_ge_fleet_jumpdrive_to_target_distance = 200
+@kuat_galatic_empire_num_ships_eclipse = 1
+@kuat_galatic_empire_num_ships_venator = 5
+@kuat_galatic_empire_ge_fleet_jumpdrive_to_target_distance = 200
 
 Kuat_E_Area_Guardian_fleet_spawn = {
 	optimize_memory
@@ -130,55 +130,55 @@ Kuat_F_Area_Guardian_fleet_spawn = {
 	}
 }
 
-ag_kae_ge_invasion_create_secondary_portal_system = {
+kuat_galatic_empire_ge_invasion_create_secondary_portal_system = {
 	optimize_memory
 	random_system = {
 		limit = { NOR = {
-			has_star_flag = ag_kae_e_area_system
-			has_star_flag = ag_kae_portal_system
+			has_star_flag = kuat_galatic_empire_e_area_system
+			has_star_flag = kuat_galatic_empire_portal_system
 		} }
 		spawn_system = {
 			min_distance >= 20
 			max_distance <= 50
-			initializer = "ag_kae_portal_system_init"
+			initializer = "kuat_galatic_empire_portal_system_init"
 			hyperlane = yes
 		}
 		last_created_system = {
-			save_global_event_target_as = ag_kae_portal_system
+			save_global_event_target_as = kuat_galatic_empire_portal_system
 			if = {
-				limit = { event_target:global_event_country = { check_variable = { which = ag_kae_ge_invasion_num_portals value = 1 } } }
-				set_star_flag = ag_kae_portal_system_1
+				limit = { event_target:global_event_country = { check_variable = { which = kuat_galatic_empire_ge_invasion_num_portals value = 1 } } }
+				set_star_flag = kuat_galatic_empire_portal_system_1
 			}
 			else_if = {
-				limit = { event_target:global_event_country = { check_variable = { which = ag_kae_ge_invasion_num_portals value = 2 } } }
-				set_star_flag = ag_kae_portal_system_2
+				limit = { event_target:global_event_country = { check_variable = { which = kuat_galatic_empire_ge_invasion_num_portals value = 2 } } }
+				set_star_flag = kuat_galatic_empire_portal_system_2
 			}
 			else_if = {
-				limit = { event_target:global_event_country = { check_variable = { which = ag_kae_ge_invasion_num_portals value = 3 } } }
-				set_star_flag = ag_kae_portal_system_3
+				limit = { event_target:global_event_country = { check_variable = { which = kuat_galatic_empire_ge_invasion_num_portals value = 3 } } }
+				set_star_flag = kuat_galatic_empire_portal_system_3
 			}
 			else_if = {
-				limit = { event_target:global_event_country = { check_variable = { which = ag_kae_ge_invasion_num_portals value = 4 } } }
-				set_star_flag = ag_kae_portal_system_4
+				limit = { event_target:global_event_country = { check_variable = { which = kuat_galatic_empire_ge_invasion_num_portals value = 4 } } }
+				set_star_flag = kuat_galatic_empire_portal_system_4
 			}
 			else_if = {
-				limit = { event_target:global_event_country = { check_variable = { which = ag_kae_ge_invasion_num_portals value = 5 } } }
-				set_star_flag = ag_kae_portal_system_5
+				limit = { event_target:global_event_country = { check_variable = { which = kuat_galatic_empire_ge_invasion_num_portals value = 5 } } }
+				set_star_flag = kuat_galatic_empire_portal_system_5
 			}
 			else_if = {
 				limit = { always = yes }
-				set_star_flag = ag_kae_portal_system_6
+				set_star_flag = kuat_galatic_empire_portal_system_6
 			}
 		}
 	}
-	event_target:global_event_country = { change_variable = { which = ag_kae_ge_invasion_num_portals value = 1 } }
+	event_target:global_event_country = { change_variable = { which = kuat_galatic_empire_ge_invasion_num_portals value = 1 } }
 }
 
-ag_kae_ge_invasion_primary_portal_spawn = {
+kuat_galatic_empire_ge_invasion_primary_portal_spawn = {
 	optimize_memory
 	solar_system = {
 		spawn_megastructure = {
-			type = "ag_kae_ge_invasion_crisis_portal"
+			type = "kuat_galatic_empire_ge_invasion_crisis_portal"
 			owner = event_target:Kuat_Galatic_Empire_invasion_country
 			orbit_angle = 225
 			orbit_distance = 200
@@ -190,12 +190,12 @@ ag_kae_ge_invasion_primary_portal_spawn = {
 	set_planet_size = -1
 	set_planet_entity = { entity = starforge_avoid_entity }
 	create_fleet = {
-		name = "NAME_ag_kae_ge_portal_fleet"
+		name = "NAME_kuat_galatic_empire_ge_portal_fleet"
 		settings = { spawn_debris = no can_disband = no is_boss = yes }
 		effect = {
 			set_owner = event_target:Kuat_Galatic_Empire_invasion_country
 			create_ship = { 
-				name = "NAME_ag_kae_ge_portal" 
+				name = "NAME_kuat_galatic_empire_ge_portal" 
 				design = "NAME_EXE_STARBASE_MEGASTRUCTURE" prefix = no 
 				effect = { 
 					set_variable = { which = STARBASE_HEALTH_VAR value = 0 }
@@ -205,14 +205,14 @@ ag_kae_ge_invasion_primary_portal_spawn = {
 						WHICH = STARBASE_HEALTH_VAR 
 						HEALTH = value:kuat_dynamic_exist_life_times 
 					}
-					set_ship_flag = ag_kae_ge_primary_portal 
+					set_ship_flag = kuat_galatic_empire_ge_primary_portal 
 				}
 			}
 			set_location = { target = prev distance = -1 angle = 0 }
-			set_fleet_flag = ag_kae_ge_primary_portal
+			set_fleet_flag = kuat_galatic_empire_ge_primary_portal
 			set_fleet_flag = kuat_empire_starbase_hull_control
 			set_event_locked = yes
-			fleet_event = { id = ag_kae_ge_invasion.262 days = 60 } 
+			fleet_event = { id = kuat_galatic_empire_ge_invasion.262 days = 60 } 
 		}
 	}
 	create_ambient_object = { type = "contingency_1" location = this }
@@ -222,11 +222,11 @@ ag_kae_ge_invasion_primary_portal_spawn = {
 	}
 }
 
-ag_kae_ge_invasion_secondary_portal_spawn = {
+kuat_galatic_empire_ge_invasion_secondary_portal_spawn = {
 	optimize_memory
 	solar_system = {  
 		spawn_megastructure = {
-			type = "ag_kae_ge_invasion_crisis_portal"
+			type = "kuat_galatic_empire_ge_invasion_crisis_portal"
 			owner = event_target:Kuat_Galatic_Empire_invasion_country
 			orbit_angle = 225
 			orbit_distance = 200
@@ -238,12 +238,12 @@ ag_kae_ge_invasion_secondary_portal_spawn = {
 	set_planet_size = -1
 	set_planet_entity = { entity = starforge_avoid_entity }
 	create_fleet = {
-		name = "NAME_ag_kae_ge_portal_fleet"
+		name = "NAME_kuat_galatic_empire_ge_portal_fleet"
 		settings = { spawn_debris = no can_disband = no is_boss = yes }
 		effect = {
 			set_owner = event_target:Kuat_Galatic_Empire_invasion_country
 			create_ship = { 
-				name = "NAME_ag_kae_ge_portal" 
+				name = "NAME_kuat_galatic_empire_ge_portal" 
 				design = "NAME_EXE_STARBASE_MEGASTRUCTURE" prefix = no 
 				effect = { 
 					set_variable = { which = STARBASE_HEALTH_VAR value = 0 }
@@ -253,14 +253,14 @@ ag_kae_ge_invasion_secondary_portal_spawn = {
 						WHICH = STARBASE_HEALTH_VAR 
 						HEALTH = value:kuat_dynamic_exist_life_times 
 					}
-					set_ship_flag = ag_kae_ge_secondary_portal 
+					set_ship_flag = kuat_galatic_empire_ge_secondary_portal 
 				}
 			}
 			set_location = { target = prev distance = -1 angle = 0 }
-			set_fleet_flag = ag_kae_ge_secondary_portal
+			set_fleet_flag = kuat_galatic_empire_ge_secondary_portal
 			set_fleet_flag = kuat_empire_starbase_hull_control
 			set_event_locked = yes
-			fleet_event = { id = ag_kae_ge_invasion.262 days = 60 } 
+			fleet_event = { id = kuat_galatic_empire_ge_invasion.262 days = 60 } 
 		}
 	}
 	create_ambient_object = { type = "contingency_1" location = this }
@@ -270,16 +270,16 @@ ag_kae_ge_invasion_secondary_portal_spawn = {
 	}
 }
 
-ag_kae_ge_invasion_primary_portal_guradian_spawn = {
+kuat_galatic_empire_ge_invasion_primary_portal_guradian_spawn = {
 	optimize_memory
 	random_list = {
 		1 = {
 			modifier = { mult = 0 has_global_flag = has_origin_kuatapocalyptic }
 			create_exe_invasion_fleet = {
-				NAME = NAME_ag_kae_e_kuat_defender_fleet
+				NAME = NAME_kuat_galatic_empire_e_kuat_defender_fleet
 				is_boss = yes can_disband = no
 				Fleet_owner = event_target:Kuat_Galatic_Empire_invasion_country
-				flag = ag_kae_ge_primary_portal_guradian
+				flag = kuat_galatic_empire_ge_primary_portal_guradian
 				bombardment = indiscriminate
 				Impellor = @kuat_invasion_flagship_num_T1  
 				Titan = @kuat_invasion_flagship_num_T2  
@@ -291,10 +291,10 @@ ag_kae_ge_invasion_primary_portal_guradian_spawn = {
 		1 = {
 			modifier = { mult = 0 has_global_flag = has_origin_eternalthrone }
 			create_exe_invasion_fleet = {
-				NAME = NAME_ag_kae_e_kuat_defender_fleet
+				NAME = NAME_kuat_galatic_empire_e_kuat_defender_fleet
 				is_boss = yes can_disband = no
 				Fleet_owner = event_target:Kuat_Galatic_Empire_invasion_country
-				flag = ag_kae_ge_primary_portal_guradian
+				flag = kuat_galatic_empire_ge_primary_portal_guradian
 				bombardment = indiscriminate
 
 				Compellor = @kuat_invasion_flagship_num_T1  
@@ -307,10 +307,10 @@ ag_kae_ge_invasion_primary_portal_guradian_spawn = {
 		1 = {
 			modifier = { mult = 0 has_global_flag = has_origin_eternalthrone }
 			create_exe_invasion_fleet = {
-				NAME = NAME_ag_kae_e_kuat_defender_fleet
+				NAME = NAME_kuat_galatic_empire_e_kuat_defender_fleet
 				is_boss = yes can_disband = no
 				Fleet_owner = event_target:Kuat_Galatic_Empire_invasion_country
-				flag = ag_kae_ge_primary_portal_guradian
+				flag = kuat_galatic_empire_ge_primary_portal_guradian
 				bombardment = indiscriminate
 
 				Eclipse = @kuat_invasion_flagship_num_T1  
@@ -323,16 +323,16 @@ ag_kae_ge_invasion_primary_portal_guradian_spawn = {
 	}
 }
 
-ag_kae_ge_invasion_secondary_portal_guradian_spawn = {
+kuat_galatic_empire_ge_invasion_secondary_portal_guradian_spawn = {
 	optimize_memory
 	random_list = {
 		1 = {
 			modifier = { mult = 0 has_global_flag = has_origin_kuatapocalyptic }
 			create_exe_invasion_fleet = {
-				NAME = NAME_ag_kae_e_kuat_defender_fleet
+				NAME = NAME_kuat_galatic_empire_e_kuat_defender_fleet
 				is_boss = yes can_disband = no
 				Fleet_owner = event_target:Kuat_Galatic_Empire_invasion_country
-				flag = ag_kae_ge_secondary_portal_guradian
+				flag = kuat_galatic_empire_ge_secondary_portal_guradian
 				bombardment = indiscriminate
 
 				Impellor = @kuat_invasion_flagship_num_T1  
@@ -345,10 +345,10 @@ ag_kae_ge_invasion_secondary_portal_guradian_spawn = {
 		1 = {
 			modifier = { mult = 0 has_global_flag = has_origin_eternalthrone }
 			create_exe_invasion_fleet = {
-				NAME = NAME_ag_kae_e_kuat_defender_fleet
+				NAME = NAME_kuat_galatic_empire_e_kuat_defender_fleet
 				is_boss = yes can_disband = no
 				Fleet_owner = event_target:Kuat_Galatic_Empire_invasion_country
-				flag = ag_kae_ge_secondary_portal_guradian
+				flag = kuat_galatic_empire_ge_secondary_portal_guradian
 				bombardment = indiscriminate
 
 				Compellor = @kuat_invasion_flagship_num_T1  
@@ -361,10 +361,10 @@ ag_kae_ge_invasion_secondary_portal_guradian_spawn = {
 		1 = {
 			modifier = { mult = 0 has_global_flag = has_origin_eternalthrone }
 			create_exe_invasion_fleet = {
-				NAME = NAME_ag_kae_e_kuat_defender_fleet
+				NAME = NAME_kuat_galatic_empire_e_kuat_defender_fleet
 				is_boss = yes can_disband = no
 				Fleet_owner = event_target:Kuat_Galatic_Empire_invasion_country
-				flag = ag_kae_ge_secondary_portal_guradian
+				flag = kuat_galatic_empire_ge_secondary_portal_guradian
 				bombardment = indiscriminate
 
 				Eclipse = @kuat_invasion_flagship_num_T1  
@@ -377,14 +377,14 @@ ag_kae_ge_invasion_secondary_portal_guradian_spawn = {
 	}
 }
 
-ag_kae_ge_invasion_assault_fleet_spawn = {
+kuat_galatic_empire_ge_invasion_assault_fleet_spawn = {
 	optimize_memory
 	random_list = {
 		1 = { create_exe_invasion_fleet = {
-			NAME = NAME_ag_kae_e_kuat_attacker_fleet
+			NAME = NAME_kuat_galatic_empire_e_kuat_attacker_fleet
 			is_boss = yes can_disband = no
 			Fleet_owner = event_target:Kuat_Galatic_Empire_invasion_country
-			flag = ag_kae_ge_assault_fleet
+			flag = kuat_galatic_empire_ge_assault_fleet
 			bombardment = indiscriminate
 
 			Venganza = @kuat_invasion_flagship_num_T1  
@@ -394,10 +394,10 @@ ag_kae_ge_invasion_assault_fleet_spawn = {
 			DIFF = 3 Location = prev 
 		} }
 		1 = { create_exe_invasion_fleet = {
-			NAME = NAME_ag_kae_e_kuat_attacker_fleet
+			NAME = NAME_kuat_galatic_empire_e_kuat_attacker_fleet
 			is_boss = yes can_disband = no
 			Fleet_owner = event_target:Kuat_Galatic_Empire_invasion_country
-			flag = ag_kae_ge_assault_fleet
+			flag = kuat_galatic_empire_ge_assault_fleet
 			bombardment = indiscriminate
 
 			Knight_executor = @kuat_invasion_flagship_num_T1  
@@ -407,10 +407,10 @@ ag_kae_ge_invasion_assault_fleet_spawn = {
 			DIFF = 3 Location = prev 
 		} }
 		1 = { create_exe_invasion_fleet = {
-			NAME = NAME_ag_kae_e_kuat_attacker_fleet
+			NAME = NAME_kuat_galatic_empire_e_kuat_attacker_fleet
 			is_boss = yes can_disband = no
 			Fleet_owner = event_target:Kuat_Galatic_Empire_invasion_country
-			flag = ag_kae_ge_assault_fleet
+			flag = kuat_galatic_empire_ge_assault_fleet
 			bombardment = indiscriminate
 
 			Dominance = @kuat_invasion_flagship_num_T1  
@@ -420,10 +420,10 @@ ag_kae_ge_invasion_assault_fleet_spawn = {
 			DIFF = 3 Location = prev 
 		} }
 		1 = { create_exe_invasion_fleet = {
-			NAME = NAME_ag_kae_e_kuat_attacker_fleet
+			NAME = NAME_kuat_galatic_empire_e_kuat_attacker_fleet
 			is_boss = yes can_disband = no
 			Fleet_owner = event_target:Kuat_Galatic_Empire_invasion_country
-			flag = ag_kae_ge_assault_fleet
+			flag = kuat_galatic_empire_ge_assault_fleet
 			bombardment = indiscriminate
 
 			Executor = @kuat_invasion_flagship_num_T1  
@@ -433,10 +433,10 @@ ag_kae_ge_invasion_assault_fleet_spawn = {
 			DIFF = 3 Location = prev 
 		} }
 		1 = { create_exe_invasion_fleet = {
-			NAME = NAME_ag_kae_e_kuat_attacker_fleet
+			NAME = NAME_kuat_galatic_empire_e_kuat_attacker_fleet
 			is_boss = yes can_disband = no
 			Fleet_owner = event_target:Kuat_Galatic_Empire_invasion_country
-			flag = ag_kae_ge_assault_fleet
+			flag = kuat_galatic_empire_ge_assault_fleet
 			bombardment = indiscriminate
 
 			Annihilator = @kuat_invasion_flagship_num_T1  
@@ -446,10 +446,10 @@ ag_kae_ge_invasion_assault_fleet_spawn = {
 			DIFF = 3 Location = prev 
 		} }
 		1 = { create_exe_invasion_fleet = {
-			NAME = NAME_ag_kae_e_kuat_attacker_fleet
+			NAME = NAME_kuat_galatic_empire_e_kuat_attacker_fleet
 			is_boss = yes can_disband = no
 			Fleet_owner = event_target:Kuat_Galatic_Empire_invasion_country
-			flag = ag_kae_ge_assault_fleet
+			flag = kuat_galatic_empire_ge_assault_fleet
 			bombardment = indiscriminate
 
 			Legator = @kuat_invasion_flagship_num_T1  
@@ -459,10 +459,10 @@ ag_kae_ge_invasion_assault_fleet_spawn = {
 			DIFF = 3 Location = prev 
 		} }
 	}
-	last_created_fleet = { fleet_event = { id = ag_kae_ge_invasion.241 days = 2 random = 2 } }
+	last_created_fleet = { fleet_event = { id = kuat_galatic_empire_ge_invasion.241 days = 2 random = 2 } }
 }
 
-ag_kae_ge_invasion_starbase_spawn = {
+kuat_galatic_empire_ge_invasion_starbase_spawn = {
 	optimize_memory
 	if = {
 		limit = { exists = event_target:kuat_gateway_disbale_entity_object_target }
