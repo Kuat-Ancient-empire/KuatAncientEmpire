@@ -223,6 +223,9 @@ horrizone = {
 	}
 }
 
+################
+# Auto design ##
+################
 Aggressor = {
 	entity = "Aggressor_entity"
 	formation_priority = @kuat_heavy_battleship_formation_priority
@@ -245,7 +248,7 @@ Aggressor = {
 		ship_starting_experience_add = 11100
 		ship_shield_hardening_add = 0.25
 		ship_armor_hardening_add = 0.25
-		kuat_standardship_system_categores = 6
+		kuat_standardship_system_categores = 1
 		immune_to_terrify = 1
 	}
 	available_to_everyone = yes
@@ -261,7 +264,7 @@ Aggressor = {
 	can_have_federation_design = no
 	never_lost = yes
 	enable_default_design = yes	#if yes, countries will have an auto-generated design at start
-	prerequisites = { tech_exe_jump_drive }
+	prerequisites = { tech_Aggressor_drive }
 	default_behavior = EXE_Battleship
 	class = shipclass_military
 	construction_type = starbase_shipyard
@@ -285,6 +288,73 @@ Aggressor = {
 	resources = {
 		category = ships
 		cost = { alloys = 3000 }
+	}
+	min_upgrade_cost = { alloys = 10 }
+}
+
+Kandosii = {
+	entity = "kandosii_entity"
+	formation_priority = @kuat_battler_crusier_formation_priority
+	max_speed = @kuat_battler_crusier_speed
+	acceleration = @kuat_battler_crusier_acceleration
+	rotation_speed = @kuat_battler_crusier_rotation_speed
+	collision_radius = @kuat_battler_crusier_collision_radius
+	max_hitpoints = @kuat_battler_crusier_max_hitpoints
+	modifier = {
+		ship_evasion_add = @kuat_battler_crusier_ship_evasion_add
+		ship_armor_add = @kuat_battler_crusier_max_hitpoints
+		ship_shield_add = @kuat_battler_crusier_max_hitpoints
+		ship_cloaking_strength_add = 10
+	}
+	enable_3dview_in_ship_browser = no
+	ship_modifier = {
+		ship_shield_regen_add_perc = 1
+		ship_armor_regen_add_perc = 1
+		ship_hull_regen_add_perc = 1
+		ship_starting_experience_add = 11100
+		ship_shield_hardening_add = 1
+		ship_armor_hardening_add = 1
+		ship_target_weight_mult = -0.50
+		kuat_flagship_system_catagories = 3
+		immune_to_terrify = 1
+	}
+	available_to_everyone = yes
+	size_multiplier = @kuat_battler_crusier_size_multiplier
+	fleet_slot_size = @kuat_battler_crusier_fleet_slot_size
+	combat_size_multiplier = @kuat_battler_crusier_combat_size_multiplier
+	section_slots = { "bow" = { locator = "root" } }
+	num_target_locators = 8
+	is_space_station = no
+	icon = kuat_ship_size_military_4
+	ship_class_icon_frame = 37
+	base_buildtime = @kuat_battler_crusier_base_buildtime
+	can_have_federation_design = no
+	never_lost = yes
+	enable_default_design = yes	#if yes, countries will have an auto-generated design at start
+	prerequisites = { tech_Kandosii_drive }
+	default_behavior = EXE_flagship
+	class = shipclass_military
+	construction_type = starbase_shipyard
+	required_component_set = "power_core"
+	required_component_set = "ftl_components"
+	required_component_set = "thruster_components"
+	required_component_set = "sensor_components"
+	required_component_set = "combat_computers"
+	potential_country = { 
+		OR = {
+			has_country_flag = kuat_post_apocalyptic_enable_eternalthrone_tech
+			kuat_is_enable_eternal_origin = yes
+		}
+	}
+	possible_construction = {
+		custom_tooltip = {
+			fail_text = "kuat_need_ancient_construction_facilities"
+			has_trigger_shipyard = yes
+		}
+	}
+	resources = {
+		category = ships
+		cost = { alloys = 20000 }
 	}
 	min_upgrade_cost = { alloys = 10 }
 }
@@ -1363,7 +1433,7 @@ kuat_compellor = {
 }
 
 
-#NO USED
+#Ancient support type
 kuat_sector = {
 	formation_priority = @kuat_titan_formation_priority
 	max_speed = @kuat_titan_speed
@@ -1387,6 +1457,9 @@ kuat_sector = {
 		ship_armor_hardening_add = 2
 		ship_target_weight_mult = -0.75
 		kuat_flagship_system_catagories = 2
+		kuat_artellary_ship_system_categores = 2
+		kuat_missle_ship_system_categores = 2
+		kuat_strikecraft_ship_system_categores = 2
 		immune_to_terrify = 1
 	}
 	enable_3dview_in_ship_browser = no
