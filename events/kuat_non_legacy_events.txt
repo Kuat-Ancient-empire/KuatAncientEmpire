@@ -16,11 +16,7 @@ country_event = {
 			kuat_is_enable_post_apocalyptic_origin = yes
 		}
 		any_planet_within_border = { kuat_is_legacy_arc_planet = yes }
-		OR = {
-			AND = { has_technology = tech_sensors_4 years_passed > 50 }
-			has_technology = tech_repeatable_weapon_type_energy_damage
-			has_technology = tech_repeatable_weapon_type_energy_fire_rate
-		}
+		has_technology = tech_sensors_4
 	}
 
 	immediate = {
@@ -292,8 +288,33 @@ fleet_event = {
 			remove_global_flag = kuat_impulse_mod_settings_disable
 			set_global_flag = kuat_impulse_mod_settings_disable
 			event_target:global_event_country = { 
-				set_variable = { which = kuat_dynamic_modifier_var value = 1 }
+				set_variable = { which = kuat_dynamic_modifier_var value = 1 } 
 			}
+		}
+	}
+}
+
+fleet_event = {
+	id = Kuat_non_legacy.12
+	title = Kuat_non_legacy.12.name
+	desc = Kuat_non_legacy.12.desc
+	picture = GFX_evt_clocks
+	show_sound = event_alien_signal
+	is_triggered_only = yes
+	archaeology = yes
+	immediate = {
+		from = { set_site_progress_locked = yes }
+	}
+
+	after = {
+		from = { set_site_progress_locked = no }
+	}
+
+	option = {
+		name = Kuat_non_legacy.12.a
+		large_artifact_reward = yes
+		custom_tooltip = Kuat_non_legacy.12.tooltip
+		hidden_effect = {
 			from.planet = { 
 				change_pc = pc_gaia
 				add_modifier = { modifier = paradise_planet }
@@ -321,8 +342,31 @@ fleet_event = {
 				add_deposit = d_betharian_deposit
 				add_deposit = d_alien_pets_deposit
 			}
-			root.owner = { kuat_origin_give_all_ship_and_tech = yes }
 		}
+	}
+}
+
+fleet_event = {
+	id = Kuat_non_legacy.13
+	title = Kuat_non_legacy.13.name
+	desc = Kuat_non_legacy.13.desc
+	picture = GFX_evt_sapient_AI
+	show_sound = event_alien_signal
+	is_triggered_only = yes
+	archaeology = yes
+	immediate = {
+		from = { set_site_progress_locked = yes }
+	}
+
+	after = {
+		from = { set_site_progress_locked = no }
+	}
+
+	option = {
+		name = Kuat_non_legacy.13.a
+		large_artifact_reward = yes
+		custom_tooltip = Kuat_non_legacy.13.tooltip
+		hidden_effect = { root.owner = { kuat_origin_give_all_ship_and_tech = yes } }
 	}
 }
 
