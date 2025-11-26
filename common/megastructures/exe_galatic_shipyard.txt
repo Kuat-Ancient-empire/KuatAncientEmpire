@@ -16,47 +16,6 @@ BlackholeShipyard = {
 	construction_blocks_and_blocked_by = none	
 	ai_weight = { }
 }
-BlackholeShipyard_1 = {
-	entity = "BlackholeShipyard_main_entity"
-	construction_entity = "BlackholeShipyard_main_entity"
-	portrait = "GFX_megastructure_matter_decompressor_background"	
-	place_entity_on_planet_plane = yes
-	show_in_outliner = yes
-	show_galactic_map_icon = yes	
-	build_time = 45
-	upgrade_desc = hide		
-	upgrade_from = { BlackholeShipyard }
-		
-	potential = {
-		has_global_flag = kuat_enable_BlackholeShipyard_1
-	}
-
-	on_build_start = {}
-	on_build_cancel = {}
-	on_build_complete = { 
-		fromfrom = { remove_megastructure = this }
-		spawn_megastructure = { 
-			type = BlackholeShipyard planet = star owner = from
-			init_effect = { save_global_event_target_as = BlackholeShipyard } 
-		} 
-		if = {
-			limit = { NOT = { any_system_ambient_object = {
-				has_ambient_object_flag = kuat_base_system_gravity_storm
-			} } }
-			star = {
-				create_ambient_object = { type = kuat_gravity_storm location = this }
-				last_created_ambient_object = { 
-					set_ambient_object_flag = kuat_base_system_gravity_storm
-					set_location = { target = prev distance = 0 angle = random } 
-				}
-			}
-		}
-		from = { country_event = { id = executor_build.1010 } }
-	}
-	 
-	construction_blocks_and_blocked_by = none	
-	ai_weight = { }
-}
 
 @scale_time_Annihilator = 1000
 BlackholeShipyard_Annihilator_1 = {
@@ -69,10 +28,15 @@ BlackholeShipyard_Annihilator_1 = {
 	build_time = @scale_time_Annihilator
 	upgrade_desc = hide		
 	#upgrade_from = { BlackholeShipyard }
-	potential = { always = no }	
+	potential = { 
+		has_global_flag = kuat_enable_BlackholeShipyard_1
+		has_existing_ship_design = Annihilator 
+	}	
+	upgrade_from = { BlackholeShipyard }
+	resources = { category = megastructures cost = { alloys = 125000 } }		
 	on_build_start = {}
 	on_build_cancel = {}
-	on_build_complete = { }
+	on_build_complete = { fromfrom = { upgrade_megastructure_to = BlackholeShipyard_Annihilator_2 } }
 	 
 	construction_blocks_and_blocked_by = none	
 	ai_weight = { }
@@ -87,9 +51,7 @@ BlackholeShipyard_Annihilator_2 = {
 	show_galactic_map_icon = yes	
 	build_time = @scale_time_Annihilator
 	upgrade_desc = hide		
-	potential = { has_existing_ship_design = Annihilator }
 	upgrade_from = { BlackholeShipyard_Annihilator_1 }
-	resources = { category = megastructures cost = { alloys = 15625 } }		
 	on_build_start = {}
 	on_build_cancel = {}
 	on_build_complete = { fromfrom = { upgrade_megastructure_to = BlackholeShipyard_Annihilator_3 } }
@@ -109,7 +71,7 @@ BlackholeShipyard_Annihilator_3 = {
 	upgrade_from = { BlackholeShipyard_Annihilator_2 }
 	upgrade_desc = hide		
 	potential = { has_existing_ship_design = Annihilator }
-	resources = { category = megastructures cost = { alloys = 125000 } }		
+	resources = { category = megastructures cost = { alloys = 15625 } }	
 	on_build_start = {}
 	on_build_cancel = {}
 	on_build_complete = { fromfrom = { upgrade_megastructure_to = BlackholeShipyard_Annihilator_4 } }
@@ -232,6 +194,18 @@ BlackholeShipyard_Annihilator_8 = {
 			type = BlackholeShipyard planet = star owner = root.from
 			init_effect = { save_global_event_target_as = BlackholeShipyard } 
 		}
+		if = {
+			limit = { NOT = { any_system_ambient_object = {
+				has_ambient_object_flag = kuat_base_system_gravity_storm
+			} } }
+			star = {
+				create_ambient_object = { type = kuat_gravity_storm location = this }
+				last_created_ambient_object = { 
+					set_ambient_object_flag = kuat_base_system_gravity_storm
+					set_location = { target = prev distance = 0 angle = random } 
+				}
+			}
+		}			
 	}
 	 
 	construction_blocks_and_blocked_by = none	
@@ -248,11 +222,15 @@ BlackholeShipyard_Compellor_ship_1 = {
 	show_galactic_map_icon = yes	
 	build_time = @scale_time_Compellor_ship
 	upgrade_desc = hide		
-	#upgrade_from = { BlackholeShipyard }
-	potential = { always = no }	
+	potential = { 
+		has_global_flag = kuat_enable_BlackholeShipyard_1
+		has_existing_ship_design = kuat_compellor 
+	}	
+	upgrade_from = { BlackholeShipyard }
+	resources = { category = megastructures cost = { alloys = 125000 } }	
+	on_build_complete = { fromfrom = { upgrade_megastructure_to = BlackholeShipyard_Compellor_ship_2 } }
 	on_build_start = {}
 	on_build_cancel = {}
-	on_build_complete = { }
 	 
 	construction_blocks_and_blocked_by = none	
 	ai_weight = { }
@@ -267,9 +245,8 @@ BlackholeShipyard_Compellor_ship_2 = {
 	show_galactic_map_icon = yes	
 	build_time = @scale_time_Compellor_ship
 	upgrade_desc = hide		
-	potential = { has_existing_ship_design = kuat_compellor }
-	upgrade_from = { BlackholeShipyard_Compellor_ship_1 }
-	resources = { category = megastructures cost = { alloys = 125000 } }		
+	upgrade_from = { BlackholeShipyard_Compellor_ship_1 }	
+	resources = { category = megastructures cost = { alloys = 15625 } }
 	on_build_start = {}
 	on_build_cancel = {}
 	on_build_complete = { fromfrom = { upgrade_megastructure_to = BlackholeShipyard_Compellor_ship_3 } }
@@ -412,6 +389,18 @@ BlackholeShipyard_Compellor_ship_8 = {
 			type = BlackholeShipyard planet = star owner = root.from
 			init_effect = { save_global_event_target_as = BlackholeShipyard } 
 		}
+		if = {
+			limit = { NOT = { any_system_ambient_object = {
+				has_ambient_object_flag = kuat_base_system_gravity_storm
+			} } }
+			star = {
+				create_ambient_object = { type = kuat_gravity_storm location = this }
+				last_created_ambient_object = { 
+					set_ambient_object_flag = kuat_base_system_gravity_storm
+					set_location = { target = prev distance = 0 angle = random } 
+				}
+			}
+		}			
 	}
 	 
 	construction_blocks_and_blocked_by = none	
@@ -428,11 +417,15 @@ BlackholeShipyard_nebula_dominance_1 = {
 	show_galactic_map_icon = yes	
 	build_time = @scale_time_nebula_dominance
 	upgrade_desc = hide		
-	#upgrade_from = { BlackholeShipyard }
-	potential = { always = no }
 	on_build_start = {}
 	on_build_cancel = {}
-	on_build_complete = { }
+	potential = { 
+		has_global_flag = kuat_enable_BlackholeShipyard_1
+		has_existing_ship_design = nebula_dominance 
+	}	
+	upgrade_from = { BlackholeShipyard }
+	resources = { category = megastructures cost = { alloys = 125000 } }	
+	on_build_complete = { fromfrom = { upgrade_megastructure_to = BlackholeShipyard_nebula_dominance_2 } }
 	 
 	construction_blocks_and_blocked_by = none	
 	ai_weight = { }
@@ -447,9 +440,8 @@ BlackholeShipyard_nebula_dominance_2 = {
 	show_galactic_map_icon = yes	
 	build_time = @scale_time_nebula_dominance
 	upgrade_desc = hide		
-	potential = { has_existing_ship_design = nebula_dominance }
-	upgrade_from = { BlackholeShipyard_nebula_dominance_1 }
-	resources = { category = megastructures cost = { alloys = 125000 } }		
+	upgrade_from = { BlackholeShipyard_nebula_dominance_1 }	
+	resources = { category = megastructures cost = { alloys = 15625 } }
 	on_build_start = {}
 	on_build_cancel = {}
 	on_build_complete = { fromfrom = { upgrade_megastructure_to = BlackholeShipyard_nebula_dominance_3 } }
@@ -592,6 +584,18 @@ BlackholeShipyard_nebula_dominance_8 = {
 			type = BlackholeShipyard planet = star owner = root.from
 			init_effect = { save_global_event_target_as = BlackholeShipyard } 
 		}
+		if = {
+			limit = { NOT = { any_system_ambient_object = {
+				has_ambient_object_flag = kuat_base_system_gravity_storm
+			} } }
+			star = {
+				create_ambient_object = { type = kuat_gravity_storm location = this }
+				last_created_ambient_object = { 
+					set_ambient_object_flag = kuat_base_system_gravity_storm
+					set_location = { target = prev distance = 0 angle = random } 
+				}
+			}
+		}			
 	}
 	 
 	construction_blocks_and_blocked_by = none	
@@ -608,11 +612,15 @@ BlackholeShipyard_eclipse_locator_1 = {
 	show_galactic_map_icon = yes	
 	build_time = @scale_time_eclipse_locator
 	upgrade_desc = hide		
-	#upgrade_from = { BlackholeShipyard }
-	potential = { always = no }
 	on_build_start = {}
 	on_build_cancel = {}
-	on_build_complete = { }
+	potential = { 
+		has_global_flag = kuat_enable_BlackholeShipyard_1
+		has_existing_ship_design = kuat_eclipse 
+	}	
+	upgrade_from = { BlackholeShipyard }
+	resources = { category = megastructures cost = { alloys = 125000 } }	
+	on_build_complete = { fromfrom = { upgrade_megastructure_to = BlackholeShipyard_eclipse_locator_2 } }
 	 
 	construction_blocks_and_blocked_by = none	
 	ai_weight = { }
@@ -627,9 +635,8 @@ BlackholeShipyard_eclipse_locator_2 = {
 	show_galactic_map_icon = yes	
 	build_time = @scale_time_eclipse_locator
 	upgrade_desc = hide		
-	potential = { has_existing_ship_design = kuat_eclipse }
-	upgrade_from = { BlackholeShipyard_eclipse_locator_1 }
-	resources = { category = megastructures cost = { alloys = 125000 } }		
+	upgrade_from = { BlackholeShipyard_eclipse_locator_1 }	
+	resources = { category = megastructures cost = { alloys = 15625 } }
 	on_build_start = {}
 	on_build_cancel = {}
 	on_build_complete = { fromfrom = { upgrade_megastructure_to = BlackholeShipyard_eclipse_locator_3 } }
@@ -772,6 +779,18 @@ BlackholeShipyard_eclipse_locator_8 = {
 			type = BlackholeShipyard planet = star owner = root.from
 			init_effect = { save_global_event_target_as = BlackholeShipyard } 
 		}
+		if = {
+			limit = { NOT = { any_system_ambient_object = {
+				has_ambient_object_flag = kuat_base_system_gravity_storm
+			} } }
+			star = {
+				create_ambient_object = { type = kuat_gravity_storm location = this }
+				last_created_ambient_object = { 
+					set_ambient_object_flag = kuat_base_system_gravity_storm
+					set_location = { target = prev distance = 0 angle = random } 
+				}
+			}
+		}		
 	}
 	 
 	construction_blocks_and_blocked_by = none	
@@ -788,11 +807,15 @@ BlackholeShipyard_Legator_class_1 = {
 	show_galactic_map_icon = yes	
 	build_time = @scale_time_Legator_class
 	upgrade_desc = hide		
-	#upgrade_from = { BlackholeShipyard }
-	potential = { always = no }
 	on_build_start = {}
 	on_build_cancel = {}
-	on_build_complete = { }
+	potential = { 
+		has_global_flag = kuat_enable_BlackholeShipyard_1
+		has_existing_ship_design = kuat_legator 
+	}	
+	upgrade_from = { BlackholeShipyard }
+	resources = { category = megastructures cost = { alloys = 125000 } }	
+	on_build_complete = { fromfrom = { upgrade_megastructure_to = BlackholeShipyard_Legator_class_2 } }
 	 
 	construction_blocks_and_blocked_by = none	
 	ai_weight = { }
@@ -807,9 +830,8 @@ BlackholeShipyard_Legator_class_2 = {
 	show_galactic_map_icon = yes	
 	build_time = @scale_time_Legator_class
 	upgrade_desc = hide		
-	potential = { has_existing_ship_design = kuat_legator }
-	upgrade_from = { BlackholeShipyard_Legator_class_1 }
-	resources = { category = megastructures cost = { alloys = 125000 } }		
+	upgrade_from = { BlackholeShipyard_Legator_class_1 }	
+	resources = { category = megastructures cost = { alloys = 15625 } }
 	on_build_start = {}
 	on_build_cancel = {}
 	on_build_complete = { fromfrom = { upgrade_megastructure_to = BlackholeShipyard_Legator_class_3 } }
@@ -952,6 +974,18 @@ BlackholeShipyard_Legator_class_8 = {
 			type = BlackholeShipyard planet = star owner = root.from
 			init_effect = { save_global_event_target_as = BlackholeShipyard } 
 		}
+		if = {
+			limit = { NOT = { any_system_ambient_object = {
+				has_ambient_object_flag = kuat_base_system_gravity_storm
+			} } }
+			star = {
+				create_ambient_object = { type = kuat_gravity_storm location = this }
+				last_created_ambient_object = { 
+					set_ambient_object_flag = kuat_base_system_gravity_storm
+					set_location = { target = prev distance = 0 angle = random } 
+				}
+			}
+		}	
 	}
 	 
 	construction_blocks_and_blocked_by = none	
@@ -968,11 +1002,15 @@ BlackholeShipyard_Vengeance_1 = {
 	show_galactic_map_icon = yes	
 	build_time = @scale_time_Vengeance
 	upgrade_desc = hide		
-	#upgrade_from = { BlackholeShipyard }
-	potential = { always = no }
 	on_build_start = {}
 	on_build_cancel = {}
-	on_build_complete = { }
+	potential = { 
+		has_global_flag = kuat_enable_BlackholeShipyard_1
+		has_existing_ship_design = Vengeance 
+	}	
+	upgrade_from = { BlackholeShipyard }
+	resources = { category = megastructures cost = { alloys = 125000 } }	
+	on_build_complete = { fromfrom = { upgrade_megastructure_to = BlackholeShipyard_Vengeance_2 } }
 	 
 	construction_blocks_and_blocked_by = none	
 	ai_weight = { }
@@ -987,9 +1025,8 @@ BlackholeShipyard_Vengeance_2 = {
 	show_galactic_map_icon = yes	
 	build_time = @scale_time_Vengeance
 	upgrade_desc = hide		
-	potential = { has_existing_ship_design = Vengeance }
-	upgrade_from = { BlackholeShipyard_Vengeance_1 }
-	resources = { category = megastructures cost = { alloys = 125000 } }		
+	upgrade_from = { BlackholeShipyard_Vengeance_1 }	
+	resources = { category = megastructures cost = { alloys = 15625 } }
 	on_build_start = {}
 	on_build_cancel = {}
 	on_build_complete = { fromfrom = { upgrade_megastructure_to = BlackholeShipyard_Vengeance_3 } }
@@ -1132,6 +1169,18 @@ BlackholeShipyard_Vengeance_8 = {
 			type = BlackholeShipyard planet = star owner = root.from
 			init_effect = { save_global_event_target_as = BlackholeShipyard } 
 		}
+		if = {
+			limit = { NOT = { any_system_ambient_object = {
+				has_ambient_object_flag = kuat_base_system_gravity_storm
+			} } }
+			star = {
+				create_ambient_object = { type = kuat_gravity_storm location = this }
+				last_created_ambient_object = { 
+					set_ambient_object_flag = kuat_base_system_gravity_storm
+					set_location = { target = prev distance = 0 angle = random } 
+				}
+			}
+		}	
 	}
 	 
 	construction_blocks_and_blocked_by = none	
