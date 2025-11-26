@@ -226,8 +226,34 @@ starkiller_destroyed_system_everything = {
 			exists = owner 
 			owner = { NOT = { is_same_value = root } }
 		}
-		foa_effect_the_crisis_fleet = yes
-		foa_effect_the_crisis_ship = yes
+		foa_scripted_action_destroy_fleet = {
+			perp_scope = root
+			perp_action_type = on_fleet_destroyed_perp
+			perp_from = prev.owner
+			perp_fromfrom = event_target:foa_target_fleet
+			perp_fromfromfrom = prev
+
+			victim_scope = owner
+			victim_action_type = on_fleet_destroyed_victim	
+			victim_from = root
+			victim_fromfrom = prev
+			victim_fromfromfrom = event_target:foa_target_fleet
+		}
+		every_owned_ship = {
+			foa_scripted_action_destroy_fleet = {
+				perp_scope = root
+				perp_action_type = on_ship_destroyed_perp
+				perp_from = prev.owner
+				perp_fromfrom = event_target:foa_target_fleet
+				perp_fromfromfrom = prev
+
+				victim_scope = owner
+				victim_action_type = on_ship_destroyed_victim	
+				victim_from = root
+				victim_fromfrom = prev
+				victim_fromfromfrom = event_target:foa_target_fleet
+			}
+		}
 		foa_effect_the_crisis_starbase = yes
 		destroy_fleet = { target = this destroy_template = yes kill_leader = yes }
 	}
@@ -444,47 +470,24 @@ starkiller_destroyed_system_everything = {
 }
 
 #scope: fleet
-foa_effect_the_crisis_fleet = {
+foa_scripted_action_destroy_fleet = {
 	optimize_memory
-	root = { fire_on_action = {
-		on_action = on_fleet_destroyed_perp
+	$perp_scope$ = { fire_on_action = {
+		on_action = $perp_action_type$
 		scopes = {
-			from = prev.owner
-			fromfrom = event_target:foa_target_fleet
-			fromfromfrom = prev
+			from = $perp_from$
+			fromfrom = $perp_fromfrom$
+			fromfromfrom = $perp_fromfromfrom$
 		}
 	} }
-	owner = { fire_on_action = {
-		on_action = on_fleet_destroyed_victim
+	$victim_scope$ = { fire_on_action = {
+		on_action = $victim_action_type$
 		scopes = {
-			from = root
-			fromfrom = prev
-			fromfromfrom = event_target:foa_target_fleet
+			from = $victim_from$
+			fromfrom = $victim_fromfrom$
+			fromfromfrom = $victim_fromfromfrom$
 		}
 	} }
-}
-
-#scope: ship
-foa_effect_the_crisis_ship = {
-	optimize_memory
-	every_owned_ship = {
-		root = { fire_on_action = {
-			on_action = on_ship_destroyed_perp
-			scopes = {
-				from = prev.owner
-				fromfrom = event_target:foa_target_ship
-				fromfromfrom = prev
-			}
-		} }
-		owner = { fire_on_action = {
-			on_action = on_ship_destroyed_victim
-			scopes = {
-				from = root
-				fromfrom = prev
-				fromfromfrom = event_target:foa_target_ship
-			}
-		} }
-	}
 }
 
 #scope: starbase

@@ -1442,7 +1442,42 @@ ship_event = {
 	immediate = {
 		solar_system = {
 			set_star_class = sc_black_hole
-			create_kuat_starbase_expolde_boom = yes
+			create_kuat_starbase_special_expolde_boom = yes
+			every_fleet_in_system = {
+				limit = { 
+					exists = owner 
+					owner = { NOT = { is_same_value = root.owner } } 
+				}
+				foa_scripted_action_destroy_fleet = {
+					perp_scope = root.owner
+					perp_action_type = on_fleet_destroyed_perp
+					perp_from = prev.owner
+					perp_fromfrom = root.fleet
+					perp_fromfromfrom = prev
+
+					victim_scope = owner
+					victim_action_type = on_fleet_destroyed_victim	
+					victim_from = root.owner
+					victim_fromfrom = prev
+					victim_fromfromfrom = root.fleet
+				}
+				every_owned_ship = {
+					foa_scripted_action_destroy_fleet = {
+						perp_scope = root.owner
+						perp_action_type = on_ship_destroyed_perp
+						perp_from = prev.owner
+						perp_fromfrom = root.fleet
+						perp_fromfromfrom = prev
+
+						victim_scope = owner
+						victim_action_type = on_ship_destroyed_victim	
+						victim_from = root.owner
+						victim_fromfrom = prev
+						victim_fromfromfrom = root.fleet
+					}
+				}				
+				destroy_fleet = { target = this destroy_template = yes }
+			}
 			star = { change_pc = pc_black_hole }
 			set_star_flag = kuat_white_hole_rainforce_disable
 		}
