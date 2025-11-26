@@ -1,0 +1,116 @@
+namespace = crisis
+# Crisis Wins
+country_event = {
+	id = crisis.6052
+	hide_window = yes
+
+	is_triggered_only = yes
+
+	immediate = {
+		every_playable_country = {
+			limit = {
+				is_ai = no
+				NOT = { is_same_value = root }
+			}
+			country_event = { id = crisis.6051 }
+		}
+		set_update_modifiers_batch = begin
+		every_system = {  
+			limit = { kuat_is_kuat_system = no }
+			destroy_star_system = yes
+		}
+		set_update_modifiers_batch = end
+		every_country = {
+			limit = {
+				NOR = { 
+					is_country_type = default 
+					is_invisable_faction = yes
+				}
+			}
+			destroy_country = yes
+		}
+		win = yes
+	}
+}
+
+namespace = infernals
+# Crisis wins!
+country_event = {
+    id = infernals.1055
+    title = infernals.1055.name
+    desc = infernals.1055.desc
+    picture = GFX_evt_cosmic_storms_solar_storm
+    show_sound = event_the_great_awakening
+    event_chain = galactic_hyperthermia_chain
+
+    is_triggered_only = yes
+
+	immediate = {
+        set_update_modifiers_batch = begin
+        remove_global_flag = Hyperthermia_ongoing
+        set_global_flag = Hyperthermia_happened
+        set_timed_country_flag = { flag = hyperthermia_effect_wave days = 3 } # Achievement infernals.3230
+        if = {
+            limit = { owner_main_species = { has_trait = trait_organic } }
+            species = {
+                change_species_characteristics = {
+                    remove_trait = trait_organic
+                    add_trait = trait_infernal
+                }
+            }
+        }
+        every_system = {  
+			limit = { kuat_is_kuat_system = no }
+			hyperthermia_galaxy_effect = yes
+		}
+        set_update_modifiers_batch = end
+        win = yes
+        add_timeline_event = {
+            type = timeline_crisis
+            override_id = timeline_galactic_hyperthermia_end
+            override_tooltip = "TIMELINE_EVENT_GH_END_TOOLTIP"
+            override_types = { country }
+            override_text = { "text:TIMELINE_EVENT_GH_END" }
+            override_texture = { "background:GFX_evt_inf_overheating_intensifies" }
+            targets = { root }
+        }
+    }
+
+    option = {
+        name = infernals.1055.a
+        trigger = { is_gestalt = no }
+    }
+    option = {
+        name = infernals.1055.b
+        trigger = { is_gestalt = yes }
+    }
+    option = { #Scorched world heralds
+        name = infernals.1055.c
+        trigger = { is_genocidal_infernal = yes }
+    }
+    option = { #Infernal Fire Cult
+        name = infernals.1055.d
+        trigger = { has_valid_civic = civic_pyrolatry }
+    }
+	option = { # Other Infernals only
+        name = infernals.1055.e
+        trigger = { 
+            is_infernal_empire = yes 
+            NOR = {
+                has_valid_civic = civic_pyrolatry
+                is_genocidal_infernal = yes
+            }
+        }
+    }
+	option = { #Generic Genocidal response
+        name = infernals.1055.f 
+        trigger = { 
+			OR = {
+				has_valid_civic = civic_fanatic_purifiers 
+				has_valid_civic = civic_hive_devouring_swarm
+				has_valid_civic = civic_machine_terminator
+			}
+		}
+	}
+	after = { add_relic = r_crystallized_singularity }
+}
