@@ -207,6 +207,26 @@ create_exe_invasion_fleet = {
 starkiller_destroyed_system_everything = {
 	optimize_memory
 	set_update_modifiers_batch = begin
+	every_system_colony = {
+		limit = { exists = owner }
+		owner = {
+			if = {
+				limit = { NOT = { exists = event_target:eternal_fleet_country } }
+				add_opinion_modifier = {
+					who = root
+					modifier = opinion_starkillerbase_broke_our_system_planet_target
+				}
+			}
+			if = {
+				limit = { is_at_war = yes }
+				add_static_war_exhaustion = {
+					attacker = root location = prev
+					value_for_planet_destruction = 1
+				}
+			}
+		}
+		kuat_destroy_colony = { PC = pc_shattered }
+	}
 	fire_on_action = { on_action = on_destroy_star_system }
 	set_star_flag = star_cracked
 	set_star_class = sc_black_hole  
