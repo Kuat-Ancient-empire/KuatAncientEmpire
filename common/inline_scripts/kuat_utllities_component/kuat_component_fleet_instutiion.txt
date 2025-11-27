@@ -13,14 +13,11 @@ scripted_action = {
 	button_clickable = {
 		custom_tooltip = {
 			text = "kuat_fleet_attack_action_allow"
-			OR = {
-				AND = { exists = owner owner = { is_at_war = yes } }
-				has_fleet_flag = fire_kuat_fleet_attack_action
-			}
+			exists = owner owner = { is_at_war = yes }
 		}
 		custom_tooltip = {
 			text = "kuat_fleet_attack_defender_allow"
-			NOT = { has_fleet_flag = fire_kuat_fleet_defense_action }
+			NOT = { has_fleet_flag = fire_kuat_fleet_attack_action }
 		}
 	}
 
@@ -40,13 +37,17 @@ scripted_action = {
 	scope = self
 
 	button_visible = {
-		is_ship_class = shipclass_military
+		OR = {
+			is_ship_class = shipclass_military
+			is_ship_class = shipclass_military_special
+			is_ship_class = shipclass_transport
+		}
 	}
 
 	button_clickable = {
 		custom_tooltip = {
 			text = "kuat_fleet_attack_defender_allow"
-			NOT = { has_fleet_flag = fire_kuat_fleet_attack_action }
+			has_fleet_flag = fire_kuat_fleet_attack_action
 		}
 	}
 
