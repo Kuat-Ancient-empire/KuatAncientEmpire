@@ -6,39 +6,24 @@ kuat_nexus_storm_add = {
 		limit = { NOT = { has_modifier = kuat_starbase_megastructure_around_system } }
 		add_modifier = { modifier = "kuat_starbase_megastructure_around_system" }
 	}
-	set_star_flag = kuat_starbase_megastructure_around_system
-	if = {
-		limit = { any_ship_in_system = { OR = {
-			is_ship_size = Drift_megastructure_starbase
-			is_ship_size = Infinite_megastructure_starbase
-		} } }
-		set_star_flag = kuat_starbase_megastructure_buffer_system
-	}
-
-	set_star_flag = kuat_storm_system
-
 	star = {
-		create_ambient_object = {
-			type = $TYPE$ #electric_storm
-			location = this
-		}
+		create_ambient_object = { type = $TYPE$ location = this }
 		last_created_ambient_object = {
 			set_ambient_object_flag = kuat_space_storm_object
 			set_location = { target = prev distance = 0 angle = random }
 		}
 	}
+	set_star_flag = kuat_starbase_megastructure_around_system
 }
 
 kuat_nexus_storm_remove = {
 	optimize_memory
-	if = {
-		limit = { has_star_flag = kuat_starbase_megastructure_buffer_system }
-		remove_star_flag = kuat_starbase_megastructure_buffer_system
+	every_system_ambient_object = {
+		limit = { has_ambient_object_flag = kuat_space_storm_object }
+		destroy_ambient_object = this
 	}
 	remove_star_flag = kuat_starbase_megastructure_around_system
-	remove_modifier = kuat_starbase_megastructure_around_system
-	kuat_remove_storm_visuals_effect = yes
-	remove_star_flag = kuat_storm_system
+	remove_modifier = kuat_starbase_megastructure_around_system	
 }
 
 kuat_added_to_storm_base_effect = {
@@ -49,16 +34,6 @@ kuat_added_to_storm_base_effect = {
 kuat_removed_from_storm_base_effect = {
 	optimize_memory
 	unset_cosmic_storm = yes
-}
-
-kuat_remove_storm_visuals_effect = {
-	optimize_memory
-	random_system_ambient_object = {
-		limit = {
-			has_ambient_object_flag = kuat_space_storm_object
-		}
-		destroy_ambient_object = this
-	}
 }
 
 #空投补给
@@ -86,10 +61,6 @@ kuat_storming_placing_selector = {
 			country_event = { id = executor_build.1009 days = 720 }
 		}
 
-		on_cancel = {  
-			add_resource = {
-				energy = 50000
-			}
-		}
+		on_cancel = { add_resource = { energy = 50000 } }
 	}
 }
