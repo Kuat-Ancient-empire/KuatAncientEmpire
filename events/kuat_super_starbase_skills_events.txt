@@ -1,31 +1,43 @@
 namespace = kuat_starbase_skills
+fleet_event = {
+	id = kuat_starbase_skills.0
+	hide_window = yes
+	is_triggered_only = yes
+
+	trigger = { 
+		has_fleet_flag = kuat_mega_starbase_stormed_activated
+		NOT = { has_fleet_flag = kuat_starbase_skills.0.temple } 
+	}
+
+	immediate = {
+		remove_fleet_flag = kuat_mega_starbase_stormed_activated
+		random_owned_ship = {
+			limit = { kuat_ship_is_mega_starbase = yes }
+			every_cosmic_storm = { 
+				limit = { has_storm_flag = storm_kuat_support_nexus_storm_random_list_@prev } 
+				kuat_destroy_cosmic_storm = yes 
+			}	
+		}
+		set_timed_fleet_flag = { flag = kuat_starbase_skills.0.temple days = 1 }
+	}
+}
 
 fleet_event = {
 	id = kuat_starbase_skills.1
 	hide_window = yes
 	is_triggered_only = yes
 
-	trigger = { NOT = { has_fleet_flag = kuat_starbase_skills.1.temple } }
+	trigger = { 
+		NOT = { has_fleet_flag = kuat_mega_starbase_stormed_activated }
+		NOT = { has_fleet_flag = kuat_starbase_skills.1.temple } 
+	}
 
 	immediate = {
-		if = {
-			limit = { NOT = { has_fleet_flag = kuat_mega_starbase_stormed_activated } }
-			set_fleet_flag = kuat_mega_starbase_stormed_activated
-			kuat_battle_clear_all_storm = yes
-			random_owned_ship = {
-				limit = { kuat_ship_is_mega_starbase = yes }
-				kuat_battle_spawn_system_suppliment_storm = yes	
-			}
-		}
-		else = {
-			remove_fleet_flag = kuat_mega_starbase_stormed_activated
-			random_owned_ship = {
-				limit = { kuat_ship_is_mega_starbase = yes }
-				every_cosmic_storm = { 
-					limit = { has_storm_flag = storm_kuat_support_nexus_storm_random_list_@prev } 
-					destroy_cosmic_storm = yes 
-				}	
-			}
+		set_fleet_flag = kuat_mega_starbase_stormed_activated
+		kuat_battle_clear_all_storm = yes
+		random_owned_ship = {
+			limit = { kuat_ship_is_mega_starbase = yes }
+			kuat_battle_spawn_system_suppliment_storm = yes	
 		}
 		set_timed_fleet_flag = { flag = kuat_starbase_skills.1.temple days = 1 }
 	}
@@ -108,4 +120,81 @@ fleet_event = {
 	immediate = {
 		create_starbase_missle_invasion_battle_fleet = yes
 	}
+}
+
+fleet_event = {
+	id = kuat_starbase_skills.7
+	hide_window = yes
+	is_triggered_only = yes
+
+	trigger = { is_ship_size = kuat_target_signal_ship }
+
+	immediate = {
+		solar_system = {
+			spawn_random_storm = {
+				type = kuat_support_particle_storm
+				cosmic_storm_start_position = this
+				immediate = yes
+			}
+			last_created_cosmic_storm = { 
+				set_storm_flag = storm_kuat_support_shroud_storm_special_deployed 
+				set_storm_flag = storm_stormfall 
+			}
+		}
+		owner = { 
+			set_timed_country_flag = { 
+				flag = kuat_storming_placing_selector_temple 
+				days = 720 
+			}
+			country_event = { id = executor_build.1009 days = 720 } 
+		}
+	}
+	
+	after = { destroy_fleet = { target = this destroy_template = yes kill_leader = yes } }
+}
+
+fleet_event = {
+	id = kuat_starbase_skills.8
+	title = "kuat_fleet_calling.9.title"
+	desc = "kuat_fleet_calling.9.desc"
+	diplomatic = yes
+	custom_gui = "kuat_event_m_window"
+	custom_gui_option = "kuat_event_option"
+	picture_event_data = { room = Eternal_Empire2_room }
+	is_triggered_only = yes
+	trigger = { is_ship_size = kuat_target_signal_ship }
+	immediate = { create_random_invasion_battle_fleet = yes }
+	option = { name = kuat_fleet_calling.9.a }
+	after = { destroy_fleet = { target = this destroy_template = yes kill_leader = yes } }
+}
+
+fleet_event = {
+	id = kuat_starbase_skills.9
+	hide_window = yes
+	is_triggered_only = yes
+	trigger = { 
+		exists = solar_system
+		solar_system = {  
+			NOR = { 
+				is_inside_border = prev.owner
+				has_star_flag = kuat_cannot_be_hit_by_starkillerbase 
+			}
+			count_fleet_in_system = {
+				count = 0
+				limit = { exists = owner owner = { is_first_galatic_empire_faction = yes } }
+			}
+		}
+		is_ship_size = kuat_target_signal_ship 
+	}
+	immediate = {
+		solar_system = { starkiller_fleet_destroyed_system_everything = yes }
+		owner = { 
+			set_timed_country_flag = { 
+				flag = kuat_kuat_mega_starbase_special_explosion_temple
+				days = 1800 
+			}
+			country_event = { id = executor_build.1009 days = 1800 } 
+		}
+	}
+	after = { destroy_fleet = { target = this destroy_template = yes kill_leader = yes } }
 }

@@ -1032,7 +1032,7 @@ country_event = {
 			}
 			every_cosmic_storm = { 
 				limit = { has_storm_flag = storm_kuat_support_nexus_storm_random_list_@prev } 
-				destroy_cosmic_storm = yes 
+				kuat_destroy_cosmic_storm = yes 
 			}
 		}
 	}
@@ -4436,10 +4436,13 @@ country_event = {
 		response_text = "kuat_legacy.872.second_continue.a"
 		trigger = { has_global_flag = kuat_legacy_87_second_continue_trued }
 		hidden_effect = {
-			create_ship_design = { design = "NAME_KUAT_COMPELLOR" }
-			add_ship_design = last_created_design
-			create_ship_design = { design = "NAME_KUAT_IMPELLOR" }
-			add_ship_design = last_created_design
+			if = {
+				limit = { kuat_is_enable_apocalyptic_origin = yes }
+				create_ship_design = { design = "NAME_KUAT_COMPELLOR" }
+				add_ship_design = last_created_design
+				create_ship_design = { design = "NAME_KUAT_IMPELLOR" }
+				add_ship_design = last_created_design		
+			}
 			create_ship_design = { design = "Name_kuat_target_signal_mid1" }
 			add_ship_design = last_created_design
 		}

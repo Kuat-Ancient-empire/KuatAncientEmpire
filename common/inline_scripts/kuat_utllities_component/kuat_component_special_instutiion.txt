@@ -1,0 +1,91 @@
+#释放补给风暴
+scripted_action = {
+	scope = self
+	button_visible = {
+		is_ship_size = kuat_target_signal_ship
+	}
+	button_clickable = {
+		custom_tooltip = {
+			is_ship_size = kuat_target_signal_ship
+		}
+		custom_tooltip = { 
+            fail_text = executor_build.1008.check.flag
+			exists = owner
+            owner = { NOT = { has_country_flag = kuat_storming_placing_selector_temple } }
+        }
+	}
+	inline_script = {
+		script = "kuat_utllities_component/kuat_component_defines"
+		CLASS = kuat_mega_starbase_special_stormed
+	}
+	icon = GFX_fleet_action_kuat_icon_supplies
+	icon_selected = GFX_fleet_action_kuat_icon_supplies
+	cooldown = 1
+	cost = { alloys = 2000000 }
+	shortcut = "SHIFT+Q"
+	slot = 1
+}
+
+scripted_action = {
+	scope = self
+	button_visible = {
+		is_ship_size = kuat_target_signal_ship
+	}
+	button_clickable = {
+		custom_tooltip = {
+			is_ship_size = kuat_target_signal_ship
+		}
+	}
+	inline_script = {
+		script = "kuat_utllities_component/kuat_component_defines"
+		CLASS = kuat_mega_starbase_special_fleet_calling
+	}
+	icon = GFX_fleet_action_kuat_icon_supplies_upgrade
+	icon_selected = GFX_fleet_action_kuat_icon_supplies_upgrade
+	cooldown = 1
+	cost = { alloys = 3000000 }
+	shortcut = "SHIFT+W"
+	slot = 2
+}
+
+scripted_action = {
+	scope = self
+	button_visible = {
+		is_ship_size = kuat_target_signal_ship
+	}
+	button_clickable = {
+		custom_tooltip = { 
+            fail_text = "executor_build.1008.check.flag"
+			exists = owner
+            owner = { NOT = { has_country_flag = kuat_kuat_mega_starbase_special_explosion_temple } }
+        }
+		custom_tooltip = {
+			fail_text = "kuat_requires_outside_border_star_killer"
+			exists = solar_system		
+			solar_system = { NOT = { is_inside_border = prev.owner } }
+		}
+		custom_tooltip = {
+			fail_text = "kuat_requires_no_kuat_system" 
+			exists = solar_system		
+			solar_system = { NOT = { has_star_flag = kuat_cannot_be_hit_by_starkillerbase } }
+		}
+		custom_tooltip = {
+			fail_text = "kuat_requires_a_star_star_killer" 
+			exists = solar_system		
+			solar_system = { count_fleet_in_system = {
+				count = 0
+				limit = { exists = owner owner = { is_first_galatic_empire_faction = yes } }
+			} }
+		}
+	}
+	inline_script = {
+		script = "kuat_utllities_component/kuat_component_defines"
+		CLASS = kuat_mega_starbase_special_explosion
+	}
+	icon = GFX_fleet_action_kuat_icon_explosion
+	icon_selected = GFX_fleet_action_kuat_icon_explosion
+	cooldown = 1
+	cost = { sr_dark_matter = 1500000 }
+	shortcut = "SHIFT+E"
+	slot = 3
+}
