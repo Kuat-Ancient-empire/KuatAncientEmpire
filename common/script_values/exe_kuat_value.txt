@@ -148,7 +148,7 @@ kuat_get_revenue_hp_weapon_page = {
 	modifier = {
 		subtract = KUAT_NONE_SHIP_HEALTH_VAR
 		is_variable_set = KUAT_NONE_SHIP_HEALTH_VAR
-		exists = owner owner = { kuat_is_player_country = no }
+		exists = owner owner = { kuat_is_player_country = yes }
 	}
 	modifier = {
 		set = 0
@@ -263,17 +263,22 @@ kuat_dynamic_exist_commandline = {
 	add = event_target:global_event_country.kuat_dynamic_modifier_var 
 	floor = yes 
 }
+kuat_dynamic_exist_life_times_base_difficultly = {
+	base = 0
+	add = event_target:global_event_country.kuat_dynamic_modifier_var 
+	max = 25
+}
 kuat_dynamic_exist_life_times_base_difficultly_factor = {
 	base = 1
-	add = event_target:global_event_country.kuat_dynamic_modifier_var 
+	add = value:kuat_dynamic_exist_life_times_base_difficultly
 	modifier = { mult = 1.0 owner = { is_kuat_fallen_empire = yes } }
 	modifier = { mult = 1.0 owner = { is_eternal_faction = yes } }
-	modifier = { mult = 2.0 owner = { is_infinite_faction = yes } }
-	modifier = { mult = 2.0 owner = { is_kuat_contractor_faction = yes } }
-	modifier = { mult = 2.0 owner = { is_kuat_Overseer_Council_empire = yes } }	
-	modifier = { mult = 1.5 owner = { is_kuat_Overseer_Council_empire = yes } has_global_flag = kuat_post_apocalyptic_Overseer_Council_defeated_first }
-	modifier = { mult = 2.0 owner = { is_kuat_Overseer_Council_empire = yes } has_global_flag = kuat_post_apocalyptic_Overseer_Council_defeated_second }	
-	modifier = { mult = 1.5 is_ship_class = shipclass_starbase }
+	modifier = { mult = 1.0 owner = { is_infinite_faction = yes } }
+	modifier = { mult = 1.4 owner = { is_kuat_contractor_faction = yes } }
+	modifier = { mult = 1.4 owner = { is_kuat_Overseer_Council_empire = yes } }	
+	modifier = { mult = 1.6 owner = { is_kuat_Overseer_Council_empire = yes } has_global_flag = kuat_post_apocalyptic_Overseer_Council_defeated_first }
+	modifier = { mult = 1.8 owner = { is_kuat_Overseer_Council_empire = yes } has_global_flag = kuat_post_apocalyptic_Overseer_Council_defeated_second }	
+	modifier = { mult = 2.0 is_ship_class = shipclass_starbase }
 	modifier = { mult = 2.0 has_ship_flag = kuat_contractor_super_capital_fleet }
 	max = 9000000
 }
@@ -285,7 +290,8 @@ kuat_dynamic_exist_life_times_none_invisable_faction = {
 	modifier = { add = 2 has_global_flag = ban_exe_invasion }
 	modifier = { mult = 2 ship_size_multiplier < 32 }
 	modifier = { mult = 4 ship_size_multiplier = 32 }
-	modifier = { mult = 8 ship_size_multiplier > 32 }
+	modifier = { mult = 6 ship_size_multiplier > 32 }
+	modifier = { mult = 2 exists = fleet fleet = { has_fleet_flag = kuat_has_stricraft_Flagship_fleet } }
 }
 kuat_dynamic_exist_life_times = {
 	base = 0
@@ -542,16 +548,6 @@ kuat_research_perc_screen = {
 	add = kuat_$TECH_AREA$_$ID$_tech_icon_resarch_total_perc
 }
 
-kuat_invasion_fleet_prec_value = {
-	base = 0
-	add = event_target:global_event_country.kuat_dynamic_modifier_var 
-	modifier = { mult = 1 has_global_flag = easy_exe_invasion }
-	modifier = { mult = 5 has_global_flag = normal_exe_invasion }
-	modifier = { mult = 10 has_global_flag = difficult_exe_invasion }
-	modifier = { mult = 15 has_global_flag = ban_exe_invasion }
-	max = $MAX$
-}
-
 kuat_damage_hp_percent_value = {
 	base = 0
 	add = trigger:has_hp
@@ -740,7 +736,14 @@ kuat_eternal_building_delay_caculation = {
 
 kuat_eternal_increase_hp_value = {
 	base = 0
-	add = 150000
+	modifier = {
+		NOT = { is_ship_class = shipclass_starbase }
+		add = 150000
+	}
+	modifier = {
+		is_ship_class = shipclass_starbase
+		add = 300000
+	}
 	mult = trigger:ship_size_multiplier
 	max = 100000000
 	min = 0

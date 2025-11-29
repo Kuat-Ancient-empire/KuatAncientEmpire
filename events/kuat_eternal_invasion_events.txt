@@ -1488,10 +1488,6 @@ country_event = {
 					}
 				}
 				set_fleet_flag = kuat_has_stricraft_Flagship_fleet
-				if = {
-					limit = { NOT = { is_variable_set = kuat_has_stricraft_Flagship_fleet_limited } }
-					set_variable = { which = kuat_has_stricraft_Flagship_fleet_limited value = trigger:num_ships }
-				}
 			}
 			every_owned_ship = {
 				limit = { kuat_is_kuat_ship = yes }
@@ -1524,10 +1520,7 @@ fleet_event = {
 		}
 		else = { 
 			kuat_battle_remove_executor_power_fleet = yes 
-			every_owned_ship = { 
-				remove_ship_flag = kuat_executor_checkpoint
-				if = { limit = { has_ship_flag = dominence_faction_battle_duplicate_ship } destroy_ship = this }
-			} 
+			every_owned_ship = { remove_ship_flag = kuat_executor_checkpoint } 
 			remove_fleet_flag = kuat_fleet_checkpoint 
 			#fleet tag
 			remove_fleet_flag = kuat_has_Spt_Flagship_fleet
@@ -1540,7 +1533,6 @@ fleet_event = {
 			remove_fleet_flag = kuat_has_artellary_Flagship_fleet
 			remove_fleet_flag = kuat_has_Missle_Flagship_fleet
 			remove_fleet_flag = kuat_has_stricraft_Flagship_fleet
-			clear_variable = kuat_has_stricraft_Flagship_fleet_limited
 		}
 	}
 }
@@ -1628,64 +1620,62 @@ country_event = {
 	} }
 }
 
+fleet_event = {
+	id = exe_invasion.122
+	hide_window = yes
+	is_triggered_only = yes
+	trigger = { has_fleet_flag = kuat_fleet_checkpoint }
+	immediate = {
+		if = {
+			limit = { 
+				exists = solar_system
+				solar_system = { any_fleet_in_system = { 
+					is_within_borders_of = root
+					kuat_fleet_anyone_has_validable_standard_flagship_system = yes
+				} }
+				is_within_borders_of = root.owner
+				is_in_combat = yes 
+			}
+			every_owned_ship = { 
+				limit = { has_ship_flag = kuat_executor_checkpoint }
+				kuat_battle_clear_ship_at_health = { REPAIR = yes } 
+			} 
+			fleet_event = { id = exe_invasion.122 days = 1 }
+		}
+		else = { 
+			kuat_battle_remove_executor_power_fleet = yes 
+			every_owned_ship = { remove_ship_flag = kuat_executor_checkpoint } 
+			remove_fleet_flag = kuat_fleet_checkpoint 
+		}
+	}
+}
+
 country_event = {
 	id = exe_invasion.123
 	hide_window = yes
 	is_triggered_only = yes
 	trigger = {
-		exists = fromfrom
-		is_kuat_contractor_faction = yes
-		fromfrom.fleet = { 
-			is_ship_class = shipclass_military
-			check_variable = { which = kuat_contractor_completed_ship_limited value > 0 }
-			check_variable_arithmetic = { which = trigger:num_ships value < kuat_contractor_completed_ship_limited }
-		}
-		fromfrom = { NOT = { has_ship_flag = temple_infinite_faction_battle_duplicate_ship } }
-	}
-	immediate = { fromfrom = {  
-		if = {
-			limit = { ROOT = { is_country_type = kuat_contractor_hostile } }
-			fleet = { random_list = {
-				1 = { create_ship = { design = Name_boss_crisis_DB_3 } }
-				2 = { create_ship = { design = Name_boss_crisis_DC_3 } }
-			} }
-		}
-		else_if = {
-			limit = { ROOT = { is_country_type = kuat_contractor_support } }
-			fleet = { random_list = {
-				1 = { create_ship = { design = Name_boss_crisis_SP_3 } }
-				2 = { create_ship = { design = Name_boss_crisis_SPC_3 } }
-			} }
-		}
-		set_timed_ship_flag = { flag = temple_infinite_faction_battle_duplicate_ship days = 3 }
-	} }
-}
-
-country_event = {
-	id = exe_invasion.126
-	hide_window = yes
-	is_triggered_only = yes
-	trigger = {
 		kuat_is_player_country = yes
-		exists = fromfrom.fleet
-		fromfrom.fleet = { 
-			has_fleet_flag = kuat_has_stricraft_Flagship_fleet 
-			check_variable = { which = kuat_has_stricraft_Flagship_fleet_limited value > 0 }
-			check_variable_arithmetic = { which = trigger:num_ships value < kuat_has_stricraft_Flagship_fleet_limited }
-		}
-		fromfrom = { NOT = { has_ship_flag = temple_dominence_faction_battle_duplicate_ship } }
-	}
-	immediate = { fromfrom = {
-		if = {
-			limit = { exists = fleet }
-			fleet = { random_list = {
-				1 = { create_ship = { design = Name_boss_crisis_Xyston_BOSS effect = { set_ship_flag = dominence_faction_battle_duplicate_ship } } }
-				1 = { create_ship = { design = Name_boss_crisis_Gladiator_BOSS effect = { set_ship_flag = dominence_faction_battle_duplicate_ship } } }
-				1 = { create_ship = { design = Name_boss_crisis_Cavelry_BOSS effect = { set_ship_flag = dominence_faction_battle_duplicate_ship } } }
+		fromfrom = { 
+			kuat_fleet_is_starbase = yes
+			exists = solar_system
+			solar_system = { any_fleet_in_system = { 
+				is_within_borders_of = root
+				kuat_fleet_anyone_has_validable_standard_flagship_system = yes
 			} }
+			NOT = { has_fleet_flag = kuat_fleet_checkpoint }
 		}
-		set_timed_ship_flag = { flag = temple_dominence_faction_battle_duplicate_ship days = 3 }
-	} }
+	}
+	immediate = {
+		fromfrom = {
+			every_owned_ship = {
+				kuat_battle_eternal_increase_executor_power = { DAYS = -1 TYPE = kt }
+				set_ship_flag = kuat_executor_checkpoint
+			}
+			set_fleet_flag = kuat_fleet_checkpoint
+			fleet_event = { id = exe_invasion.122 }
+		}
+	}
 }
 
 #debug for special component weapon destroyed
@@ -1810,17 +1800,6 @@ country_event = {
 		} }
 	}
 	immediate = {
-		if = {
-			limit = { is_kuat_contractor_faction = yes }
-			if = {
-				limit = { fromfrom = { NOT = { is_variable_set = kuat_contractor_completed_ship_limited } } }
-				fromfrom = { set_variable = { which = kuat_contractor_completed_ship_limited value = trigger:num_ships } }
-			}
-			if = {
-				limit = { fromfrom = { has_fleet_flag = kuat_contractor_defenced_fleet } }
-				kuat_contractor_randomlist_battle_duplcate_ship = yes
-			}
-		}
 		if = {
 			limit = { 
 				is_infinite_faction = yes 
@@ -1998,7 +1977,7 @@ country_event = {
 			limit = { NOT = { has_fleet_flag = random_list_flagship_checksum_placeholder } }
 			if = {
 				limit = { 
-					kuat_fleet_anyone_has_validable_flagship_system = yes 
+					kuat_fleet_anyone_has_validable_flagship_system = yes
 					exists = solar_system
 					solar_system = { has_kuat_support_modifier_star_flag = yes }
 				}
@@ -2084,26 +2063,11 @@ country_event = {
 		}
 		if = {
 			limit = { 
-				OR = { is_ship_size = kuat_compellor is_ship_size = kuat_impellor }
+				OR = { is_ship_size = kuat_compellor is_ship_size = kuat_impellor is_ship_size = kuat_eclipse }
 				fleet = { count_owned_ship = {
 					count = 0
 					limit = { NOT = { is_same_value = prevprev } OR = { is_ship_size = kuat_compellor is_ship_size = kuat_impellor is_ship_size = kuat_eclipse } }
 				} }
-			}
-			if = {
-				limit = { is_ship_size = kuat_compellor }
-				fleet = { remove_fleet_flag = kuat_has_artellary_Flagship_fleet }
-			}
-			else_if = {
-				limit = { is_ship_size = kuat_impellor }
-				fleet = { 
-					remove_fleet_flag = kuat_has_stricraft_Flagship_fleet 
-					clear_variable = kuat_has_stricraft_Flagship_fleet_limited 
-				}
-			}
-			else_if = {
-				limit = { is_ship_size = kuat_eclipse }
-				fleet = { remove_fleet_flag = kuat_has_Missle_Flagship_fleet }
 			}
 			fleet = { remove_fleet_flag = kuat_has_Imperial_Flagship_fleet } 
 		}
@@ -2135,10 +2099,7 @@ country_event = {
 					limit = { NOT = { is_same_value = prevprev } kuat_is_strikcrafet_flagship_type = yes }
 				} }
 			}
-			fleet = { 
-				remove_fleet_flag = kuat_has_stricraft_Flagship_fleet 
-				clear_variable = kuat_has_stricraft_Flagship_fleet_limited
-			} 
+			fleet = { remove_fleet_flag = kuat_has_stricraft_Flagship_fleet } 
 		}
 		if = {
 			limit = { OR = {
