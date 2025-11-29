@@ -401,24 +401,22 @@ kuat_eternal_starkiller_base_target = {
 	base = 5
 	complex_trigger_modifier = {
 		potential = {
-			NOT = { exists = event_target:kuat_contractor_country }
-			exists = event_target:eternal_fleet_country
-			event_target:eternal_fleet_country = { count_owned_fleet = { limit = { has_fleet_flag = ag_kuat_invasion_fleet } count > 0 } }
+			any_galaxy_fleet = {
+				OR = {
+					has_fleet_flag = ag_kuat_invasion_fleet
+					has_fleet_flag = kuat_contractor_invasion_fleet
+					has_fleet_flag = kuat_galatic_empire_ge_assault_fleet
+					has_fleet_flag = Kuat_Rakata_attack_fleet
+				}
+			}
 		}
-		trigger = count_owned_fleet
-		parameters = { limit = { has_fleet_flag = ag_kuat_invasion_fleet } }
-		trigger_scope = event_target:eternal_fleet_country
-		mode = set
-	}
-	complex_trigger_modifier = {
-		potential = {
-			NOT = { exists = event_target:eternal_fleet_country }
-			exists = event_target:kuat_contractor_country
-			event_target:kuat_contractor_country = { count_owned_fleet = { limit = { has_fleet_flag = kuat_contractor_invasion_fleet } count > 0 } }
-		}
-		trigger = count_owned_fleet
-		parameters = { limit = { has_fleet_flag = kuat_contractor_invasion_fleet } }
-		trigger_scope = event_target:kuat_contractor_country
+		trigger = count_galaxy_fleet
+		parameters = { limit = { OR = {
+			has_fleet_flag = ag_kuat_invasion_fleet
+			has_fleet_flag = kuat_contractor_invasion_fleet
+			has_fleet_flag = kuat_galatic_empire_ge_assault_fleet
+			has_fleet_flag = Kuat_Rakata_attack_fleet
+		} } }
 		mode = set
 	}
 }

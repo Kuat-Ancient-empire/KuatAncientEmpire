@@ -517,14 +517,19 @@ kuat_is_sc_fu = {
 	is_star_class = sc_fu
 }
 
-kuat_is_sc_eternal_fleet = {
+kuat_is_hostile_fleet = {
 	optimize_memory
-	any_fleet_in_system = { has_fleet_flag = ag_kuat_invasion_fleet }
+	any_fleet_in_system = { OR = {
+		has_fleet_flag = ag_kuat_invasion_fleet
+		has_fleet_flag = kuat_contractor_invasion_fleet
+		has_fleet_flag = kuat_galatic_empire_ge_assault_fleet
+		has_fleet_flag = Kuat_Rakata_attack_fleet
+	} }
 }
 
-kuat_is_sc_drift_fleet = {
+kuat_is_planet_colony = {
 	optimize_memory
-	any_fleet_in_system = { has_fleet_flag = kuat_contractor_invasion_fleet }
+	any_system_planet = { is_colony = yes }
 }
 
 kuat_star_classes_check = {
@@ -543,7 +548,7 @@ kuat_star_classes_check = {
 			kuat_is_sc_w = no kuat_is_sc_nova = no kuat_is_sc_collapsar = no
 			kuat_is_sc_protostar = no kuat_is_sc_lbv = no kuat_is_sc_tt = no
 			kuat_is_sc_ae = no kuat_is_sc_pn = no kuat_is_sc_magnetar = no
-			kuat_is_sc_microquasar = no kuat_is_sc_fu = no kuat_is_sc_eternal_fleet = no kuat_is_sc_drift_fleet = no
+			kuat_is_sc_microquasar = no kuat_is_sc_fu = no kuat_is_hostile_fleet = no
 		}
 		AND = {
 			prev = { has_country_flag = kuat_star_classes_list_selected_1_2 }
@@ -599,11 +604,11 @@ kuat_star_classes_check = {
 		}
 		AND = {
 			prev = { has_country_flag = kuat_star_classes_list_selected_2_6 }
-			kuat_is_sc_eternal_fleet = yes
+			kuat_is_hostile_fleet = yes
 		}
 		AND = {
 			prev = { has_country_flag = kuat_star_classes_list_selected_2_7 }
-			kuat_is_sc_drift_fleet = yes
+			kuat_is_planet_colony = yes
 		}
 		AND = {
 			prev = { has_country_flag = kuat_star_classes_list_selected_2_8 }
