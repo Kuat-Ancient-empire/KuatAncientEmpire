@@ -4,7 +4,7 @@
 #kuat_$TECH_AREA$_tech_icon_resarch_req  当前科技需求的研究点数
 #kuat_appox_$TECH_AREA$_research_perc_add 预计下个月增加的已研究科技的百分比
 
-#kuat_$TECH_AREA$_$ID$_tech_icon_resarch_total_perc 总百分比
+#kuat_$TECH_AREA$_tech_icon_resarch_total_perc 总百分比
 #kuat_transfer_$TECH_AREA$_research_max: 最大可转移的盈余点数 = 科技需求点数的10%
 kuat_calculate_tech_points_monthly_progress_started = {
     optimize_memory
@@ -32,7 +32,7 @@ kuat_calculate_tech_points_currently_progress_started = {
     }
 
     change_variable = {
-        which = kuat_$TECH_AREA$_$ID$_tech_icon_resarch_total_perc
+        which = kuat_$TECH_AREA$_tech_icon_resarch_total_perc
         value = kuat_appox_$TECH_AREA$_research_perc_add
     }
 }
@@ -49,7 +49,7 @@ kuat_get_tech_save_research_value_addon = {
         change_variable = { which = kuat_extra_$TECH_AREA$_points value = kuat_$TECH_AREA$_tech_icon_resarch_perc }
         divide_variable = { which = kuat_$TECH_AREA$_tech_icon_resarch_perc value = kuat_$TECH_AREA$_tech_icon_resarch_req }
         multiply_variable = { which = kuat_$TECH_AREA$_tech_icon_resarch_perc value = 100 }
-        change_variable = { which = kuat_$TECH_AREA$_$ID$_tech_icon_resarch_total_perc value = kuat_$TECH_AREA$_tech_icon_resarch_perc }
+        change_variable = { which = kuat_$TECH_AREA$_tech_icon_resarch_total_perc value = kuat_$TECH_AREA$_tech_icon_resarch_perc }
     }
 }
 
@@ -78,13 +78,13 @@ kuat_tech_points_max_enable_started = {
 
         # 计算该点数占科技所需点数的比例（转移的盈余点数/所需点数*100)
         set_variable = { which = kuat_$TECH_AREA$_tech_icon_resarch_perc value = value:kuat_calculate_tech_points_max_enable_started_value|TECH_AREA|$TECH_AREA$| }
-        change_variable = { which = kuat_$TECH_AREA$_$ID$_tech_icon_resarch_total_perc value = kuat_$TECH_AREA$_tech_icon_resarch_perc }
+        change_variable = { which = kuat_$TECH_AREA$_tech_icon_resarch_total_perc value = kuat_$TECH_AREA$_tech_icon_resarch_perc }
     }
 }
 
 kuat_clear_cur_resarch_system_perc = {
     optimize_memory
-    clear_variable = kuat_$TECH_AREA$_$ID$_tech_icon_resarch_total_perc
+    clear_variable = kuat_$TECH_AREA$_tech_icon_resarch_total_perc
     if = {
         limit = { check_variable = { which = kuat_$TECH_AREA$_tech_icon_resarch_multipler_value value > kuat_$TECH_AREA$_tech_icon_resarch_req }}
         set_variable = { which = kuat_$TECH_AREA$_points_remain value = kuat_$TECH_AREA$_tech_icon_resarch_multipler_value }
@@ -96,7 +96,7 @@ kuat_clear_all_research_system_perc = {
     optimize_memory
     if = {
         limit = { has_country_flag = kuat_research_$TECH$_cancel_$TECH_AREA$ }
-        clear_variable = kuat_$TECH_AREA$_$ID$_tech_icon_resarch_total_perc
+        clear_variable = kuat_$TECH_AREA$_tech_icon_resarch_total_perc
         clear_variable = kuat_$TECH_AREA$_tech_icon_resarch_multipler_value
         clear_variable = kuat_$TECH_AREA$_tech_icon_resarch_perc
         clear_variable = kuat_$TECH_AREA$_points_remain
