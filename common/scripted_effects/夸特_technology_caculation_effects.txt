@@ -1,38 +1,39 @@
-#kuat_$TECH_AREA$_$ID$_tech_icon_resarch_multipler_value  当前已累积的研究点数
-#kuat_$TECH_AREA$_$ID$_tech_icon_resarch_monthly_value  本月增长的研究点数
-#kuat_$TECH_AREA$_$ID$_tech_icon_resarch_perc  当前已研究科技的百分比
-#kuat_$TECH_AREA$_$ID$_tech_icon_resarch_req  当前科技需求的研究点数
-#kuat_appox_$TECH_AREA$_$ID$_research_perc_add 预计下个月增加的已研究科技的百分比
+#kuat_$TECH_AREA$_tech_icon_resarch_multipler_value  当前已累积的研究点数
+#kuat_$TECH_AREA$_tech_icon_resarch_monthly_value  本月增长的研究点数
+#kuat_$TECH_AREA$_tech_icon_resarch_perc  当前已研究科技的百分比
+#kuat_$TECH_AREA$_tech_icon_resarch_req  当前科技需求的研究点数
+#kuat_appox_$TECH_AREA$_research_perc_add 预计下个月增加的已研究科技的百分比
+
 #kuat_$TECH_AREA$_$ID$_tech_icon_resarch_total_perc 总百分比
 #kuat_transfer_$TECH_AREA$_research_max: 最大可转移的盈余点数 = 科技需求点数的10%
 kuat_calculate_tech_points_monthly_progress_started = {
     optimize_memory
     set_variable = {
-        which = kuat_appox_$TECH_AREA$_$ID$_research_perc_add
-        value = value:kuat_calculate_tech_points_monthly_progress_started_value|TECH_AREA|$TECH_AREA$|ID|$ID$|
+        which = kuat_appox_$TECH_AREA$_research_perc_add
+        value = value:kuat_calculate_tech_points_monthly_progress_started_value|TECH_AREA|$TECH_AREA$|
     }
 }
 
 kuat_calculate_tech_points_currently_progress_started = {
     optimize_memory
     change_variable = {
-        which = kuat_$TECH_AREA$_$ID$_tech_icon_resarch_multipler_value
-        value = kuat_$TECH_AREA$_$ID$_tech_icon_resarch_monthly_value
+        which = kuat_$TECH_AREA$_tech_icon_resarch_multipler_value
+        value = kuat_$TECH_AREA$_tech_icon_resarch_monthly_value
     }
     
     set_variable = {
-        which = kuat_$TECH_AREA$_$ID$_tech_icon_resarch_perc
-        value = value:kuat_calculate_tech_points_currently_progress_started_value|TECH_AREA|$TECH_AREA$|ID|$ID$|
+        which = kuat_$TECH_AREA$_tech_icon_resarch_perc
+        value = value:kuat_calculate_tech_points_currently_progress_started_value|TECH_AREA|$TECH_AREA$|
     }
 
     set_variable = {
-        which = kuat_appox_$TECH_AREA$_$ID$_research_perc_add
-        value = value:kuat_calculate_tech_points_monthly_progress_started_value|TECH_AREA|$TECH_AREA$|ID|$ID$|
+        which = kuat_appox_$TECH_AREA$_research_perc_add
+        value = value:kuat_calculate_tech_points_monthly_progress_started_value|TECH_AREA|$TECH_AREA$|
     }
 
     change_variable = {
         which = kuat_$TECH_AREA$_$ID$_tech_icon_resarch_total_perc
-        value = kuat_appox_$TECH_AREA$_$ID$_research_perc_add
+        value = kuat_appox_$TECH_AREA$_research_perc_add
     }
 }
 
@@ -41,43 +42,43 @@ kuat_get_tech_save_research_value_addon = {
     if = {
         limit = {
             check_variable = {
-                which = kuat_$TECH_AREA$_$ID$_tech_icon_resarch_perc
+                which = kuat_$TECH_AREA$_tech_icon_resarch_perc
                 value > 0
             }
         }
-        change_variable = { which = kuat_extra_$TECH_AREA$_$ID$_points value = kuat_$TECH_AREA$_$ID$_tech_icon_resarch_perc }
-        divide_variable = { which = kuat_$TECH_AREA$_$ID$_tech_icon_resarch_perc value = kuat_$TECH_AREA$_$ID$_tech_icon_resarch_req }
-        multiply_variable = { which = kuat_$TECH_AREA$_$ID$_tech_icon_resarch_perc value = 100 }
-        change_variable = { which = kuat_$TECH_AREA$_$ID$_tech_icon_resarch_total_perc value = kuat_$TECH_AREA$_$ID$_tech_icon_resarch_perc }
+        change_variable = { which = kuat_extra_$TECH_AREA$_points value = kuat_$TECH_AREA$_tech_icon_resarch_perc }
+        divide_variable = { which = kuat_$TECH_AREA$_tech_icon_resarch_perc value = kuat_$TECH_AREA$_tech_icon_resarch_req }
+        multiply_variable = { which = kuat_$TECH_AREA$_tech_icon_resarch_perc value = 100 }
+        change_variable = { which = kuat_$TECH_AREA$_$ID$_tech_icon_resarch_total_perc value = kuat_$TECH_AREA$_tech_icon_resarch_perc }
     }
 }
 
 kuat_tech_points_max_enable_started = {
     optimize_memory
     if = {
-        limit = { check_variable = { which = kuat_$TECH_AREA$_$ID$_points_remain value > 0 } }
-        set_variable = { which = kuat_transfer_$TECH_AREA$_$ID$_research_max value = kuat_$TECH_AREA$_$ID$_tech_icon_resarch_req }
-        multiply_variable = { which = kuat_transfer_$TECH_AREA$_$ID$_research_max value = 0.25 }
+        limit = { check_variable = { which = kuat_$TECH_AREA$_points_remain value > 0 } }
+        set_variable = { which = kuat_transfer_$TECH_AREA$_research_max value = kuat_$TECH_AREA$_tech_icon_resarch_req }
+        multiply_variable = { which = kuat_transfer_$TECH_AREA$_research_max value = 0.25 }
 
         # 如果盈余的点数大于最大可转移的点数，则只扣减最大可转移额，否则全数转移
         if = {
             limit = { check_variable = {
-                which = kuat_$TECH_AREA$_$ID$_points_remain
-                value > kuat_transfer_$TECH_AREA$_$ID$_research_max
+                which = kuat_$TECH_AREA$_points_remain
+                value > kuat_transfer_$TECH_AREA$_research_max
             } }
-            set_variable = { which = kuat_extra_$TECH_AREA$_$ID$_points value = kuat_transfer_$TECH_AREA$_$ID$_research_max }
-            subtract_variable = { which = kuat_$TECH_AREA$_$ID$_points_remain value = kuat_transfer_$TECH_AREA$_$ID$_research_max }
+            set_variable = { which = kuat_extra_$TECH_AREA$_points value = kuat_transfer_$TECH_AREA$_research_max }
+            subtract_variable = { which = kuat_$TECH_AREA$_points_remain value = kuat_transfer_$TECH_AREA$_research_max }
         }
         else = {
-            set_variable = { which = kuat_extra_$TECH_AREA$_$ID$_points value = kuat_$TECH_AREA$_$ID$_points_remain }
-            clear_variable = kuat_$TECH_AREA$_$ID$_points_remain
+            set_variable = { which = kuat_extra_$TECH_AREA$_points value = kuat_$TECH_AREA$_points_remain }
+            clear_variable = kuat_$TECH_AREA$_points_remain
         }
         # 将盈余点数增加到累计点数变量上
-        set_variable = { which = kuat_$TECH_AREA$_$ID$_tech_icon_resarch_multipler_value value = kuat_extra_$TECH_AREA$_$ID$_points }
+        set_variable = { which = kuat_$TECH_AREA$_tech_icon_resarch_multipler_value value = kuat_extra_$TECH_AREA$_points }
 
         # 计算该点数占科技所需点数的比例（转移的盈余点数/所需点数*100)
-        set_variable = { which = kuat_$TECH_AREA$_$ID$_tech_icon_resarch_perc value = value:kuat_calculate_tech_points_max_enable_started_value|TECH_AREA|$TECH_AREA$|ID|$ID$| }
-        change_variable = { which = kuat_$TECH_AREA$_$ID$_tech_icon_resarch_total_perc value = kuat_$TECH_AREA$_$ID$_tech_icon_resarch_perc }
+        set_variable = { which = kuat_$TECH_AREA$_tech_icon_resarch_perc value = value:kuat_calculate_tech_points_max_enable_started_value|TECH_AREA|$TECH_AREA$| }
+        change_variable = { which = kuat_$TECH_AREA$_$ID$_tech_icon_resarch_total_perc value = kuat_$TECH_AREA$_tech_icon_resarch_perc }
     }
 }
 
@@ -85,28 +86,27 @@ kuat_clear_cur_resarch_system_perc = {
     optimize_memory
     clear_variable = kuat_$TECH_AREA$_$ID$_tech_icon_resarch_total_perc
     if = {
-        limit = { check_variable = { which = kuat_$TECH_AREA$_$ID$_tech_icon_resarch_multipler_value value > kuat_$TECH_AREA$_$ID$_tech_icon_resarch_req }}
-        set_variable = { which = kuat_$TECH_AREA$_$ID$_points_remain value = kuat_$TECH_AREA$_$ID$_tech_icon_resarch_multipler_value }
-        subtract_variable = { which = kuat_$TECH_AREA$_$ID$_points_remain value = kuat_$TECH_AREA$_$ID$_tech_icon_resarch_req }
+        limit = { check_variable = { which = kuat_$TECH_AREA$_tech_icon_resarch_multipler_value value > kuat_$TECH_AREA$_tech_icon_resarch_req }}
+        set_variable = { which = kuat_$TECH_AREA$_points_remain value = kuat_$TECH_AREA$_tech_icon_resarch_multipler_value }
+        subtract_variable = { which = kuat_$TECH_AREA$_points_remain value = kuat_$TECH_AREA$_tech_icon_resarch_req }
     }
 }
 
 kuat_clear_all_research_system_perc = {
     optimize_memory
     if = {
-        limit = { has_country_flag = kuat_research_$TECH$_cancel_$TECH_AREA$_$ID$ }
+        limit = { has_country_flag = kuat_research_$TECH$_cancel_$TECH_AREA$ }
         clear_variable = kuat_$TECH_AREA$_$ID$_tech_icon_resarch_total_perc
-        clear_variable = kuat_$TECH_AREA$_$ID$_tech_icon_resarch_multipler_value
-        clear_variable = kuat_$TECH_AREA$_$ID$_tech_icon_resarch_perc
-        clear_variable = kuat_$TECH_AREA$_$ID$_points_remain
-        clear_variable = kuat_$TECH_AREA$_$ID$_tech_icon_resarch_monthly_value
-        clear_variable = kuat_appox_$TECH_AREA$_$ID$_research_perc_add
-        clear_variable = kuat_$TECH_AREA$_$ID$_tech_icon_resarch_req
+        clear_variable = kuat_$TECH_AREA$_tech_icon_resarch_multipler_value
+        clear_variable = kuat_$TECH_AREA$_tech_icon_resarch_perc
+        clear_variable = kuat_$TECH_AREA$_points_remain
+        clear_variable = kuat_$TECH_AREA$_tech_icon_resarch_monthly_value
+        clear_variable = kuat_appox_$TECH_AREA$_research_perc_add
+        clear_variable = kuat_$TECH_AREA$_tech_icon_resarch_req
+        clear_variable = kuat_extra_$TECH_AREA$_points
         clear_variable = kuat_transfer_$TECH_AREA$_research_max
-        clear_variable = kuat_extra_$TECH_AREA$_$ID$_points
-        clear_variable = kuat_transfer_$TECH_AREA$_$ID$_research_max
-        kuat_clear_array_variable = { ARRAY = stored_kuat_$TECH_AREA$_$ID$_tech_points_array VARIABLE = kuat_tech_id_$TECH_AREA$ }
-        remove_country_flag = kuat_research_$TECH$_cancel_$TECH_AREA$_$ID$
+        kuat_clear_array_variable = { ARRAY = stored_kuat_$TECH_AREA$_tech_points_array VARIABLE = kuat_tech_id_$TECH_AREA$ }
+        remove_country_flag = kuat_research_$TECH$_cancel_$TECH_AREA$
     }
 }
 
