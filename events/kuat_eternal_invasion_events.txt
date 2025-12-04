@@ -1620,32 +1620,26 @@ country_event = {
 	} }
 }
 
-fleet_event = {
+ship_event = {
 	id = exe_invasion.122
 	hide_window = yes
 	is_triggered_only = yes
-	trigger = { has_fleet_flag = kuat_fleet_checkpoint }
-	immediate = {
+	trigger = { has_ship_flag = kuat_executor_checkpoint }
+	immediate = {  
 		if = {
 			limit = { 
-				exists = solar_system
-				solar_system = { any_fleet_in_system = { 
-					is_within_borders_of = root
-					kuat_fleet_anyone_has_validable_standard_flagship_system = yes
-				} }
-				is_within_borders_of = root.owner
 				is_in_combat = yes 
+				solar_system = { any_fleet_in_system = {
+					kuat_fleet_anyone_has_validable_standard_flagship_system = yes
+					exists = owner owner = { is_same_value = prevprevprev.owner } 
+				} } 
 			}
-			every_owned_ship = { 
-				limit = { has_ship_flag = kuat_executor_checkpoint }
-				kuat_battle_clear_ship_at_health = { REPAIR = yes } 
-			} 
-			fleet_event = { id = exe_invasion.122 days = 1 }
+			repair_ship = yes 
+			ship_event = { id = exe_invasion.122 days = 1 }
 		}
-		else = { 
-			kuat_battle_remove_executor_power_fleet = yes 
-			every_owned_ship = { remove_ship_flag = kuat_executor_checkpoint } 
-			remove_fleet_flag = kuat_fleet_checkpoint 
+		else = {
+			remove_ship_flag = kuat_executor_checkpoint
+			kuat_battle_remove_executor_power = yes
 		}
 	}
 }
@@ -1657,23 +1651,22 @@ country_event = {
 	trigger = {
 		kuat_is_player_country = yes
 		fromfrom = { 
-			kuat_fleet_is_starbase = yes
+			any_owned_ship = { kuat_fleet_is_starbase = yes }
 			exists = solar_system
-			solar_system = { any_fleet_in_system = { 
-				is_within_borders_of = root
+			solar_system = { any_fleet_in_system = {
 				kuat_fleet_anyone_has_validable_standard_flagship_system = yes
-			} }
-			NOT = { has_fleet_flag = kuat_fleet_checkpoint }
+				exists = owner owner = { is_same_value = prevprevprev.owner } 
+			} } 
 		}
 	}
 	immediate = {
-		fromfrom = {
-			every_owned_ship = {
+		fromfrom = {  
+			random_owned_ship = {
+				limit = { kuat_fleet_is_starbase = yes }
 				kuat_battle_eternal_increase_executor_power = { DAYS = -1 TYPE = kt }
 				set_ship_flag = kuat_executor_checkpoint
+				ship_event = { id = exe_invasion.122 }
 			}
-			set_fleet_flag = kuat_fleet_checkpoint
-			fleet_event = { id = exe_invasion.122 }
 		}
 	}
 }
