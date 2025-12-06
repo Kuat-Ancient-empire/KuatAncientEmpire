@@ -1571,25 +1571,7 @@ country_event = {
 					design = event_target:kuat_battle_disable_ship_at_health_ship 
 					effect = { 
 						copy_flags_and_variables_from = event_target:kuat_battle_disable_ship_at_health_ship 
-						if = {
-							limit = { root.from = { is_first_galatic_empire_faction = yes } }
-							kuat_battle_disable_ship_at_health = { FLAG = enable_kuat_ship_inital Disable_health = 0.01 WHICH = KUAT_SHIP_HEALTH_VAR HEALTH = value:kuat_dynamic_exist_life_times }
-						}
-						else_if = {
-							limit = { root.from = { is_eternal_faction = yes } }
-							kuat_battle_disable_ship_at_health = { FLAG = enable_Eternal_ship_inital Disable_health = 0.01 WHICH = ETERNAL_SHIP_HEALTH_VAR HEALTH = value:kuat_dynamic_exist_life_times }
-						}
-						else_if = {
-							limit = { root.from = { is_infinite_faction = yes } }
-							kuat_battle_disable_ship_at_health = { FLAG = enable_Infinite_ship_inital Disable_health = 0.01 WHICH = INFINITE_SHIP_HEALTH_VAR HEALTH = value:kuat_dynamic_exist_life_times }
-						}
-						else_if = {
-							limit = { root.from = { is_kuat_contractor_faction = yes } }
-							kuat_battle_disable_ship_at_health = { FLAG = enable_drft_ship_inital Disable_health = 0.01 WHICH = DRFT_SHIP_HEALTH_VAR HEALTH = value:kuat_dynamic_exist_life_times }
-						}
-						else = {
-							kuat_battle_disable_ship_at_health = { FLAG = enable_kuat_none_ship_inital Disable_health = 0.01 WHICH = KUAT_NONE_SHIP_HEALTH_VAR HEALTH = value:kuat_dynamic_exist_life_times }
-						}
+						kuat_battle_disable_ship_at_health = { FLAG = enable_kuat_ship_inital Disable_health = 0.01 WHICH = KUAT_SHIP_HEALTH_VAR HEALTH = value:kuat_dynamic_exist_life_times }
 					}
 				} }
 			}
@@ -1706,19 +1688,7 @@ ship_event = {
 			else = { kuat_battle_clear_ship_at_health = { REPAIR = yes INVERT_DISABLE = set_disabled Disable_health = -1 } }
 		}
 		else_if = {
-			limit = { has_ship_flag = enable_drft_ship_inital owner = { is_kuat_contractor_faction = yes } }
-			if = {
-				limit = { kuat_exist_disable_type = no }
-				kuat_battle_clear_ship_at_health = { REPAIR = yes INVERT_DISABLE = set_disabled }
-			}
-			else_if = { 
-				limit = { kuat_exist_disable_type = yes check_variable = { which = DRFT_SHIP_HEALTH_VAR value > 0 } } 
-				kuat_battle_clear_ship_at_health = { REPAIR = yes INVERT_DISABLE = set_disabled WHICH = DRFT_SHIP_HEALTH_VAR }
-			} 
-			else = { kuat_battle_clear_ship_at_health = { REPAIR = yes INVERT_DISABLE = set_disabled Disable_health = -1 } }
-		}
-		else_if = {
-			limit = { has_ship_flag = enable_kuat_ship_inital owner = { is_first_galatic_empire_faction = yes } }
+			limit = { has_ship_flag = enable_kuat_ship_inital owner = { is_invisable_faction = yes } }
 			if = {
 				limit = { kuat_exist_disable_type = no }
 				kuat_battle_clear_ship_at_health = { REPAIR = yes INVERT_DISABLE = set_disabled }
@@ -1730,31 +1700,7 @@ ship_event = {
 			else = { kuat_battle_clear_ship_at_health = { REPAIR = yes INVERT_DISABLE = set_disabled Disable_health = -1 } }
 		}
 		else_if = {
-			limit = { has_ship_flag = enable_Infinite_ship_inital owner = { is_infinite_faction = yes } }
-			if = {
-				limit = { kuat_exist_disable_type = no }
-				kuat_battle_clear_ship_at_health = { REPAIR = yes INVERT_DISABLE = set_disabled }
-			}
-			else_if = { 
-				limit = { kuat_exist_disable_type = yes check_variable = { which = INFINITE_SHIP_HEALTH_VAR value > 0 } } 
-				kuat_battle_clear_ship_at_health = { REPAIR = yes INVERT_DISABLE = set_disabled WHICH = INFINITE_SHIP_HEALTH_VAR }
-			} 
-			else = { kuat_battle_clear_ship_at_health = { REPAIR = yes INVERT_DISABLE = set_disabled Disable_health = -1 } }
-		}
-		else_if = {
-			limit = { has_ship_flag = enable_Eternal_ship_inital owner = { is_eternal_faction = yes } }
-			if = {
-				limit = { kuat_exist_disable_type = no }
-				kuat_battle_clear_ship_at_health = { REPAIR = yes INVERT_DISABLE = set_disabled }
-			} 
-			else_if = { 
-				limit = { kuat_exist_disable_type = yes check_variable = { which = ETERNAL_SHIP_HEALTH_VAR value > 0 } } 
-				kuat_battle_clear_ship_at_health = { REPAIR = yes INVERT_DISABLE = set_disabled WHICH = ETERNAL_SHIP_HEALTH_VAR }
-			}
-			else = { kuat_battle_clear_ship_at_health = { REPAIR = yes INVERT_DISABLE = set_disabled Disable_health = -1 } }
-		}
-		else_if = {
-			limit = { has_ship_flag = enable_kuat_none_ship_inital owner = { kuat_is_player_country = yes } }
+			limit = { has_ship_flag = enable_kuat_ship_inital owner = { is_invisable_faction = no } }
 			if = {
 				limit = { kuat_exist_disable_type = no }
 				kuat_battle_clear_ship_at_health = { REPAIR = yes INVERT_DISABLE = set_disabled }
@@ -1767,8 +1713,8 @@ ship_event = {
 				kuat_battle_clear_ship_at_health = { REPAIR = yes INVERT_DISABLE = set_disabled }
 			}
 			else_if = { 
-				limit = { kuat_exist_disable_type = yes check_variable = { which = KUAT_NONE_SHIP_HEALTH_VAR value > 0 } } 
-				kuat_battle_clear_ship_at_health = { REPAIR = yes INVERT_DISABLE = set_disabled WHICH = KUAT_NONE_SHIP_HEALTH_VAR }
+				limit = { kuat_exist_disable_type = yes check_variable = { which = KUAT_SHIP_HEALTH_VAR value > 0 } } 
+				kuat_battle_clear_ship_at_health = { REPAIR = yes INVERT_DISABLE = set_disabled WHICH = KUAT_SHIP_HEALTH_VAR }
 			} 
 			else = { kuat_battle_clear_ship_at_health = { REPAIR = yes INVERT_DISABLE = set_disabled Disable_health = -1 } }
 		}
@@ -2115,61 +2061,51 @@ country_event = {
 
 #eternal
 fleet_event = { inline_script = { 
-	script = kuat_battle_event/kuat_exe_invasion_battle 
-	TYPE = kuat_battle_setup_invinciable_protection_pragram 
+	script = kuat_battle_event/kuat_exe_invasion_battle_defender 
 	ID = exe_invasion.140 KEY = kuat_battle_set_need_flagship_eternal_fleet_mult_modifier 		
 } }
 fleet_event = { inline_script = { 
-	script = kuat_battle_event/kuat_exe_invasion_battle 
-	TYPE = kuat_battle_setup_invinciable_attacketion_pragram 
+	script = kuat_battle_event/kuat_exe_invasion_battle_attacker 
 	ID = exe_invasion.136 KEY = kuat_battle_set_need_flagship_eternal_fleet_mult_modifier 		
 } }
 
 #none eternal
 fleet_event = { inline_script = { 
-	script = kuat_battle_event/kuat_exe_invasion_battle 
-	TYPE = kuat_battle_setup_invinciable_protection_pragram 
+	script = kuat_battle_event/kuat_exe_invasion_battle_defender 
 	ID = exe_invasion.144 KEY = kuat_battle_set_none_legacy_eternal_fleet_mult_modifier 		
 } }
 fleet_event = { inline_script = { 
-	script = kuat_battle_event/kuat_exe_invasion_battle 
-	TYPE = kuat_battle_setup_invinciable_attacketion_pragram 
+	script = kuat_battle_event/kuat_exe_invasion_battle_attacker 
 	ID = exe_invasion.142 KEY = kuat_battle_set_none_legacy_eternal_fleet_mult_modifier 		
 } }
 
 #infinite
 fleet_event = { inline_script = { 
-	script = kuat_battle_event/kuat_exe_invasion_battle 
-	TYPE = kuat_battle_setup_invinciable_protection_pragram 
+	script = kuat_battle_event/kuat_exe_invasion_battle_defender 
 	ID = exe_invasion.137 KEY = kuat_battle_set_need_flagship_infinite_fleet_mult_modifier 
 } }
 fleet_event = { inline_script = { 
-	script = kuat_battle_event/kuat_exe_invasion_battle 
-	TYPE = kuat_battle_setup_invinciable_attacketion_pragram 
+	script = kuat_battle_event/kuat_exe_invasion_battle_attacker 
 	ID = exe_invasion.131 KEY = kuat_battle_set_need_flagship_infinite_fleet_mult_modifier 
 } }
 
 #contractor
 fleet_event = { inline_script = { 
-	script = kuat_battle_event/kuat_exe_invasion_battle 
-	TYPE = kuat_battle_setup_invinciable_protection_pragram 
+	script = kuat_battle_event/kuat_exe_invasion_battle_defender 
 	ID = exe_invasion.143 KEY = kuat_battle_set_not_need_flagship_contractor_fleet_mult_modifier 	
 } }
 fleet_event = { inline_script = { 
-	script = kuat_battle_event/kuat_exe_invasion_battle 
-	TYPE = kuat_battle_setup_invinciable_attacketion_pragram 
+	script = kuat_battle_event/kuat_exe_invasion_battle_attacker 
 	ID = exe_invasion.129 KEY = kuat_battle_set_not_need_flagship_contractor_fleet_mult_modifier 	
 } }
 
 #kuat standard
 fleet_event = { inline_script = { 
-	script = kuat_battle_event/kuat_exe_invasion_battle 
-	TYPE = kuat_battle_setup_invinciable_protection_pragram 
+	script = kuat_battle_event/kuat_exe_invasion_battle_defender 
 	ID = exe_invasion.138 KEY = kuat_battle_set_standard_crisis_fleet_mult_modifier 
 } }
 fleet_event = { inline_script = { 
-	script = kuat_battle_event/kuat_exe_invasion_battle 
-	TYPE = kuat_battle_setup_invinciable_attacketion_pragram 
+	script = kuat_battle_event/kuat_exe_invasion_battle_attacker 
 	ID = exe_invasion.147 KEY = kuat_battle_set_standard_crisis_fleet_mult_modifier 
 } }
 
