@@ -291,14 +291,45 @@ kuat_dynamic_exist_life_times = {
 kuat_dynamic_standard_value = {
 	base = 0
 	add = event_target:global_event_country.kuat_dynamic_modifier_var 
-	subtract = $SUBTRACT$
+	subtract = value:kuat_dynamic_subtract_factor
 	min = 0
 }
 
 kuat_dynamic_base_value = {
 	base = 0
-	add = value:kuat_dynamic_standard_value|SUBTRACT|$SUBTRACT$|
+	add = value:kuat_dynamic_standard_value
 	mult = $MULT$
+}
+
+kuat_dynamic_subtract_factor = {
+	base = 0
+	modifier = { set = 0 
+		exists = owner owner = { is_infinite_faction = yes } 
+		NOT = { has_global_flag = kuat_non_legacy_trigger_eternal_return }
+	}
+	modifier = { set = 1 
+		exists = owner owner = { is_kuat_contractor_faction = yes } 
+		NOT = { has_global_flag = kuat_non_legacy_trigger_eternal_return }
+	}
+	modifier = { set = 2 
+		exists = owner owner = { is_first_galatic_empire_faction = yes } 
+		NOT = { has_global_flag = kuat_non_legacy_trigger_eternal_return }
+	}
+	modifier = { set = 3 
+		exists = owner owner = { is_eternal_faction = yes } 
+		NOT = { has_global_flag = kuat_non_legacy_trigger_eternal_return }
+	}
+	modifier = { set = 4 has_global_flag = kuat_non_legacy_trigger_eternal_return }
+}
+
+kuat_dynamic_mutiply_factor = {
+	base = 0
+	modifier = { 
+		set = event_target:global_event_country.kuat_dynamic_modifier_var
+		exists = owner owner = { is_invisable_faction = yes } 
+		NOT = { has_global_flag = kuat_non_legacy_trigger_eternal_return }
+	}
+	modifier = { set = 0 has_global_flag = kuat_non_legacy_trigger_eternal_return }
 }
 
 kuat_dynamic_base_special_difficult_has_subflagship = {
@@ -368,15 +399,6 @@ kuat_dynamic_base_special_value = {
 		exists = fleet
 		fleet = { NOT = { any_combatant_fleet = { kuat_is_allow_battle_flagship = yes } } }
 	}
-	mult = $MULT$
-}
-
-kuat_dynamic_base_hostile_value = {
-	base = 0
-	modifier = { add = 0.25 has_global_flag = easy_exe_invasion }
-	modifier = { add = 0.50 has_global_flag = normal_exe_invasion }
-	modifier = { add = 0.75 has_global_flag = difficult_exe_invasion }
-	modifier = { add = 1.00 has_global_flag = ban_exe_invasion }
 	mult = $MULT$
 }
 
