@@ -56,11 +56,17 @@
 kuat_enigmatic_encoder_defender_value = {
 	base = 0
 	add = trigger:has_max_hp
-	[[TRIGGER] subtract = trigger:$TRIGGER$ ]
-	[[VALUE] subtract = value:$VALUE$ ]
+	subtract = $SUBTRACT$
 	divide = value:kuat_superlazer_weapon_damage_factor_ship_base|kuat_value|$kuat_ship_damage_buff$|
 	divide = modifier:kuat_enigmatic_encoder_defender
-	max = value:kuat_enigmatic_encoder_defender_max|DIVIDE|$DIVIDE$|
+	max = 900000000
+}
+
+kuat_enigmatic_encoder_defender_factor = {
+	base = 0
+	add = $ADD$
+	divide = modifier:kuat_enigmatic_encoder_defender
+	max = 900000000
 }
 
 kuat_has_max_shield_hp = {
@@ -71,12 +77,6 @@ kuat_has_max_shield_hp = {
 		has_shield_percentage > 0
 	}
 	min = 0
-}
-
-kuat_enigmatic_encoder_defender_max = {
-	base = 0
-	add = 922330000
-	divide = $DIVIDE$
 }
 
 kuat_superlazer_weapon_damage_factor_ship_base = {
@@ -256,14 +256,9 @@ kuat_dynamic_exist_commandline = {
 	add = event_target:global_event_country.kuat_dynamic_modifier_var 
 	floor = yes 
 }
-kuat_dynamic_exist_life_times_base_difficultly = {
-	base = 0
-	add = event_target:global_event_country.kuat_dynamic_modifier_var 
-	max = 25
-}
 kuat_dynamic_exist_life_times_base_difficultly_factor = {
 	base = 1
-	add = value:kuat_dynamic_exist_life_times_base_difficultly
+	add = value:kuat_dynamic_exist_commandline
 	modifier = { 
 		mult = 2.0
 		exists = owner owner = { is_kuat_Overseer_Council_empire = yes } 
@@ -285,51 +280,22 @@ kuat_dynamic_exist_life_times = {
 	modifier = { set = 9999999 owner = { is_country_type = Kuat_F_Area_Guardian } }
 	min = 1
 	max = 9999999
-	floor = yes 
-}
-
-kuat_dynamic_standard_value = {
-	base = 0
-	add = event_target:global_event_country.kuat_dynamic_modifier_var 
-	subtract = value:kuat_dynamic_subtract_factor
-	min = 0
 }
 
 kuat_dynamic_base_value = {
 	base = 0
-	add = value:kuat_dynamic_standard_value
+	add = event_target:global_event_country.kuat_dynamic_modifier_var 
 	mult = $MULT$
-}
-
-kuat_dynamic_subtract_factor = {
-	base = 0
-	modifier = { set = 0 
-		exists = owner owner = { is_infinite_faction = yes } 
-		NOT = { has_global_flag = kuat_non_legacy_trigger_eternal_return }
-	}
-	modifier = { set = 1 
-		exists = owner owner = { is_kuat_contractor_faction = yes } 
-		NOT = { has_global_flag = kuat_non_legacy_trigger_eternal_return }
-	}
-	modifier = { set = 2 
-		exists = owner owner = { is_first_galatic_empire_faction = yes } 
-		NOT = { has_global_flag = kuat_non_legacy_trigger_eternal_return }
-	}
-	modifier = { set = 3 
-		exists = owner owner = { is_eternal_faction = yes } 
-		NOT = { has_global_flag = kuat_non_legacy_trigger_eternal_return }
-	}
-	modifier = { set = 4 has_global_flag = kuat_non_legacy_trigger_eternal_return }
+	modifier = { set = 0 has_global_flag = kuat_non_legacy_trigger_eternal_return }
+	min = 0
 }
 
 kuat_dynamic_mutiply_factor = {
 	base = 0
-	modifier = { 
-		set = event_target:global_event_country.kuat_dynamic_modifier_var
-		exists = owner owner = { is_invisable_faction = yes } 
-		NOT = { has_global_flag = kuat_non_legacy_trigger_eternal_return }
-	}
-	modifier = { set = 0 has_global_flag = kuat_non_legacy_trigger_eternal_return }
+	add = $BASE$
+	mult = event_target:global_event_country.kuat_dynamic_modifier_var 
+	mult = $MULT$
+	max = 900000000
 }
 
 kuat_dynamic_base_special_difficult_has_subflagship = {
@@ -745,7 +711,7 @@ kuat_eternal_increase_hp_value = {
 		add = 300000
 	}
 	mult = trigger:ship_size_multiplier
-	max = 100000000
+	max = 250000000
 	min = 0
 }
 
@@ -787,26 +753,26 @@ ship_terrify_chance = {
     base = 0
 	modifier = {
 		add = 25
-		ship_size_multiplier < 2
+		ship_size_multiplier < 10
 	}
 	modifier = {
 		add = 20
-		ship_size_multiplier >= 2
-		ship_size_multiplier < 4
+		ship_size_multiplier >= 10
+		ship_size_multiplier < 20
 	}
 	modifier = {
 		add = 10
-		ship_size_multiplier >= 4
-		ship_size_multiplier < 8
+		ship_size_multiplier >= 20
+		ship_size_multiplier < 40
 	}
 	modifier = {
 		add = 3
-		ship_size_multiplier >= 8
-		ship_size_multiplier < 16
+		ship_size_multiplier >= 40
+		ship_size_multiplier < 100
 	}
 	modifier = {
 		add = 1
-		ship_size_multiplier >= 16
+		ship_size_multiplier >= 100
 	}
     modifier = {
         set = 0
@@ -826,21 +792,21 @@ ship_terrify_duration = {
     base = 0
 	modifier = {
 		add = 10
-		ship_size_multiplier < 2
+		ship_size_multiplier < 10
 	}
 	modifier = {
 		add = 8
-		ship_size_multiplier >= 2
-		ship_size_multiplier < 4
+		ship_size_multiplier >= 10
+		ship_size_multiplier < 20
 	}
 	modifier = {
 		add = 6
-		ship_size_multiplier >= 4
-		ship_size_multiplier < 8
+		ship_size_multiplier >= 20
+		ship_size_multiplier < 40
 	}
 	modifier = {
 		add = 5
-		ship_size_multiplier >= 8
+		ship_size_multiplier >= 40
 	}
     mult = value:terrify_duration_factor
 }
