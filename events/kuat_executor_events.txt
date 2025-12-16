@@ -2312,21 +2312,13 @@ country_event = {
 	hide_window = yes
 	is_triggered_only = yes
 	trigger = {  
-		OR = {
-			AND = { is_ai = yes is_country_type = default command_limit > 1000 }
-			any_owned_ship = { OR = {
-				check_modifier_value = { modifier = ship_steal_defeated_ship_chance value != 0 }
-				check_modifier_value = { modifier = fleet_capture_defeated_leader_chance value != 0 }
-				check_modifier_value = { modifier = ship_monthly_hull_damage value != 0 }
-			} }
-		}
+		any_owned_ship = { OR = {
+			check_modifier_value = { modifier = ship_steal_defeated_ship_chance value != 0 }
+			check_modifier_value = { modifier = fleet_capture_defeated_leader_chance value != 0 }
+			check_modifier_value = { modifier = ship_monthly_hull_damage value != 0 }
+		} }
 	}
 	immediate = { 
-		if = {
-			limit = { is_ai = yes is_country_type = default command_limit > 1000 }
-			kuat_battle_clear_ship_modifier = { modifier = command_limit_mult DAYS = 30 }
-			kuat_battle_clear_ship_modifier = { modifier = command_limit_add subtract = 980 DAYS = 30 }
-		}
 		if = {
 			limit = { any_owned_ship = { check_modifier_value = { modifier = ship_steal_defeated_ship_chance value != 0 } } }
 			every_owned_ship = {
