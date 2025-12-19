@@ -817,7 +817,7 @@ PixelShader =
 			float3 Color = texCUBElod( EnvironmentMap, float4(reflection, 0) ).rgb;
 
 			float vDot = dot( -vEyeDir, In.vNormal );
-			Color = saturate( Color * pow(max(0.0, 1.05f - vDot), 7.f ) );
+			Color = saturate( Color * pow( max( 0.0, 1.05f - vDot ), 7.f ) );
 			Color += StarAtmosphereColor.rgb * smoothstep(0.01f, 1.25f, vDot) * 0.45f * StarAtmosphereColor.a;
 
 			return float4( Color * vBloomFactor, 1.0f );
