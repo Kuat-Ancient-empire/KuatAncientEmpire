@@ -817,8 +817,8 @@ PixelShader =
 			float3 Color = texCUBElod( EnvironmentMap, float4(reflection, 0) ).rgb;
 
 			float vDot = dot( -vEyeDir, In.vNormal );
-			Color = saturate( Color * pow( abs(1.05f - vDot), 7.f ) );
-			Color += StarAtmosphereColor.rgb * smoothstep( 0.01f, 0.65f, vDot ) * 0.55f * StarAtmosphereColor.a;
+			Color = saturate( Color * pow(max(0.0, 1.05f - vDot), 7.f ) );
+			Color += StarAtmosphereColor.rgb * smoothstep(0.01f, 1.25f, vDot) * 0.45f * StarAtmosphereColor.a;
 
 			return float4( Color * vBloomFactor, 1.0f );
 		}
@@ -1098,7 +1098,7 @@ PixelShader =
 			#endif
 
 			#ifdef WHITE_HOLE
-				vDiffuse.rgb *= 1 - pow( abs(1.f - abs( dot( vCamLookAtDir, float3( 0.f, 1.f, 0.f ) ) ) ), 1.5f );
+				vDiffuse.rgb *= 1.0f + pow( abs( dot( vCamLookAtDir, float3( 0.f, 1.f, 0.f ) ) ), 1.5f ) * 2.0f;
 			#endif
 
 			#ifdef DISSOLVE
