@@ -1086,7 +1086,7 @@ planet_event = {
 		solar_system = {
 			exists = space_owner
 			space_owner = {
-				NOT = { has_country_flag = ancient_shadow_place }
+				kuat_is_enable_post_apocalyptic_origin = no
 				has_country_flag = fire_the_legacy_kuat_stage_5
 			}
 		}
@@ -1094,7 +1094,6 @@ planet_event = {
 	}
 	immediate = {
 		solar_system = { space_owner = { 
-			set_country_flag = ancient_shadow_place 
 			country_event = { id = executor_build.1109 days = 1 random = 3 }
 		} }
 	}
@@ -1952,7 +1951,7 @@ fleet_event = {
 				from.planet = { is_same_value = event_target:ancient_shadow_place }
 			}
 			success_text = {
-				text = kuat_legacy.192.desc
+				text = kuat_legacy.192.b.desc
 				exists = owner owner = { kuat_is_enable_post_apocalyptic_origin = no }
 				from.planet = { is_same_value = event_target:ancient_shadow_place_B }
 			}
@@ -1982,37 +1981,135 @@ fleet_event = {
 
 	option = {
 		name = kuat_legacy.192.a
+		trigger = { owner = { kuat_is_enable_post_apocalyptic_origin = yes } }
 		root.owner = { 
 			if = {
 				limit = { 
-					has_country_flag = ancient_shadow_place_B 
+					exists = event_target:ancient_shadow_place_B
 					prev.from.planet = { is_same_value = event_target:ancient_shadow_place_B }
 				} 
-				if = {
-					limit = { kuat_is_enable_post_apocalyptic_origin = no }
-					custom_tooltip = "ancient_shadow_place_B"
-					hidden_effect = {
-						give_technology = { tech = tech_kuat_reactor }
-						give_technology = { tech = tech_kuat_THRUSTER }
-						give_technology = { tech = tech_exe_jump_drive }
-						start_situation = { type = situation_research_B_facility_technology target = this }
-					}
+				custom_tooltip = "ancient_shadow_place_B_post_apocalyptic"
+				hidden_effect = {
+					give_technology = { tech = tech_kuat_reactor }
+					give_technology = { tech = tech_kuat_THRUSTER }
+					give_technology = { tech = tech_exe_jump_drive }
+					create_ship_design = { design = "Name_boss_HIGH_EMPIRE" }
+					add_ship_design = last_created_design
+					create_ship_design = { design = "Name_boss_Xyston" }
+					add_ship_design = last_created_design
+					create_ship_design = { design = "Name_boss_Resugrant" }
+					add_ship_design = last_created_design
+
+					set_country_flag = Kuat_B_facility_area_over
+					add_timeline_event = {
+						type = timeline_origin
+						override_id = timeline_event_kuat_leagacy_05
+						override_tooltip = "TIMELINE_EVENT_KUAT_LEGACY_05_TOOLTIP"
+						override_types = { }
+						override_text = { "text:TIMELINE_EVENT_KUAT_LEGACY_05" }
+						override_texture = { "background:GFX_evt_ship_in_orbit_3" }
+						targets = { }
+					}				
+					kuat_create_toasto_message = { KEY = kuat_find_memory_cluds TARGET = root.from RECIPIENT = this }	
 				}
-				else = {
-					custom_tooltip = "ancient_shadow_place_B_post_apocalyptic"
-					hidden_effect = {
-						give_technology = { tech = tech_kuat_reactor }
-						give_technology = { tech = tech_kuat_THRUSTER }
-						give_technology = { tech = tech_exe_jump_drive }
-						create_ship_design = { design = "Name_boss_HIGH_EMPIRE" }
-						add_ship_design = last_created_design
-						create_ship_design = { design = "Name_boss_Xyston" }
-						add_ship_design = last_created_design
-						create_ship_design = { design = "Name_boss_Resugrant" }
-						add_ship_design = last_created_design
-					}
+			} 
+			if = {
+				limit = { 
+					exists = event_target:ancient_shadow_place
+					prev.from.planet = { is_same_value = event_target:ancient_shadow_place }
+				} 
+				custom_tooltip = "ancient_shadow_place_post_apocalyptic"
+				hidden_effect = {
+					create_ship_design = { design = "Name_boss_Horriwer" }
+					add_ship_design = last_created_design
+					create_ship_design = { design = "Name_boss_Gladiator" }
+					add_ship_design = last_created_design
+					create_ship_design = { design = "Name_boss_Cavelry" }
+					add_ship_design = last_created_design
+					set_country_flag = Kuat_A_facility_area_over
+					add_timeline_event = {
+						type = timeline_origin
+						override_id = timeline_event_kuat_leagacy_06
+						override_tooltip = "TIMELINE_EVENT_KUAT_LEGACY_06_TOOLTIP"
+						override_types = { }
+						override_text = { "text:TIMELINE_EVENT_KUAT_LEGACY_06" }
+						override_texture = { "background:GFX_evt_ship_in_orbit_3" }
+						targets = { }
+					}					
+					kuat_create_toasto_message = { KEY = kuat_find_memory_cluds TARGET = root.from RECIPIENT = this }
 				}
-				hidden_effect = { 
+			} 
+		}
+	}
+
+	option = {
+		name = kuat_legacy.192.b
+		trigger = { owner = { kuat_is_enable_eternal_origin = yes } }
+		root.owner = { 
+			if = {
+				limit = { 
+					exists = event_target:ancient_shadow_place_B
+					prev.from.planet = { is_same_value = event_target:ancient_shadow_place_B }
+				} 
+				custom_tooltip = "ancient_shadow_place_B"
+				hidden_effect = {
+					give_technology = { tech = tech_kuat_reactor }
+					give_technology = { tech = tech_kuat_THRUSTER }
+					give_technology = { tech = tech_exe_jump_drive }
+					start_situation = { type = situation_research_B_facility_technology target = this }
+					set_country_flag = Kuat_B_facility_area_over
+					add_timeline_event = {
+						type = timeline_origin
+						override_id = timeline_event_kuat_leagacy_05
+						override_tooltip = "TIMELINE_EVENT_KUAT_LEGACY_05_TOOLTIP"
+						override_types = { }
+						override_text = { "text:TIMELINE_EVENT_KUAT_LEGACY_05" }
+						override_texture = { "background:GFX_evt_ship_in_orbit_3" }
+						targets = { }
+					}				
+					kuat_create_toasto_message = { KEY = kuat_find_memory_cluds TARGET = root.from RECIPIENT = this }	
+				}
+			} 
+			if = {
+				limit = { 
+					exists = event_target:ancient_shadow_place 
+					prev.from.planet = { is_same_value = event_target:ancient_shadow_place }
+				} 
+				custom_tooltip = "ancient_shadow_place"
+				hidden_effect = {
+					set_country_flag = can_have_starbase_country
+					add_research_option = tech_kuat_starbase 
+					set_country_flag = Kuat_A_facility_area_over
+					add_timeline_event = {
+						type = timeline_origin
+						override_id = timeline_event_kuat_leagacy_06
+						override_tooltip = "TIMELINE_EVENT_KUAT_LEGACY_06_TOOLTIP"
+						override_types = { }
+						override_text = { "text:TIMELINE_EVENT_KUAT_LEGACY_06" }
+						override_texture = { "background:GFX_evt_ship_in_orbit_3" }
+						targets = { }
+					}					
+					kuat_create_toasto_message = { KEY = kuat_find_memory_cluds TARGET = root.from RECIPIENT = this }
+				}
+			} 
+		}
+	}
+
+	option = {
+		name = kuat_legacy.192.c
+		trigger = { owner = { kuat_is_enable_shadow_origin = yes } }
+		root.owner = { 
+			if = {
+				limit = { 
+					exists = event_target:ancient_shadow_place_B
+					prev.from.planet = { is_same_value = event_target:ancient_shadow_place_B }
+				} 
+				custom_tooltip = "ancient_shadow_place_B"
+				hidden_effect = {
+					give_technology = { tech = tech_kuat_reactor }
+					give_technology = { tech = tech_kuat_THRUSTER }
+					give_technology = { tech = tech_exe_jump_drive }
+					start_situation = { type = situation_research_B_facility_technology target = this }
 					set_country_flag = Kuat_B_facility_area_over
 					if = {
 						limit = { kuat_is_enable_apocalyptic_origin = yes }
@@ -2032,29 +2129,13 @@ fleet_event = {
 			} 
 			if = {
 				limit = { 
-					has_country_flag = ancient_shadow_place 
+					exists = event_target:ancient_shadow_place
 					prev.from.planet = { is_same_value = event_target:ancient_shadow_place }
 				} 
-				if = {
-					limit = { kuat_is_enable_post_apocalyptic_origin = no }
-					custom_tooltip = "ancient_shadow_place"
-					hidden_effect = {
-						set_country_flag = can_have_starbase_country
-						add_research_option = tech_kuat_starbase 
-					}
-				}
-				else = {
-					custom_tooltip = "ancient_shadow_place_post_apocalyptic"
-					hidden_effect = {
-						create_ship_design = { design = "Name_boss_Horriwer" }
-						add_ship_design = last_created_design
-						create_ship_design = { design = "Name_boss_Gladiator" }
-						add_ship_design = last_created_design
-						create_ship_design = { design = "Name_boss_Cavelry" }
-						add_ship_design = last_created_design
-					}
-				}
+				custom_tooltip = "ancient_shadow_place"
 				hidden_effect = {
+					set_country_flag = can_have_starbase_country
+					add_research_option = tech_kuat_starbase 
 					set_country_flag = Kuat_A_facility_area_over
 					if = {
 						limit = { kuat_is_enable_apocalyptic_origin = yes }
@@ -2467,18 +2548,15 @@ planet_event = {
 	trigger = {
 		solar_system = {
 			exists = space_owner
-			space_owner = {
-				NOT = { has_country_flag = ancient_shadow_place_B }
-				has_country_flag = fire_the_legacy_kuat_stage_6
+			space_owner = { 
+				has_country_flag = fire_the_legacy_kuat_stage_6 
+				kuat_is_enable_post_apocalyptic_origin = no 
 			}
 		}
 		is_same_value = event_target:ancient_shadow_place_B
 	}
 	immediate = {
-		solar_system = { space_owner = { 
-			set_country_flag = ancient_shadow_place_B 
-			country_event = { id = executor_build.1108 days = 1 random = 3 }
-		} }
+		solar_system = { space_owner = { country_event = { id = executor_build.1108 days = 1 random = 3 } } }
 	}
 	option = {
 		name = kuat_legacy.490.a
