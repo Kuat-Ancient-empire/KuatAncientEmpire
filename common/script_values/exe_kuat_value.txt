@@ -278,6 +278,8 @@ kuat_dynamic_ship_hp_foundation_value = {
 	add = trigger:has_max_hp
 	divide = value:kuat_superlazer_weapon_damage_factor_ship_base|kuat_value|modifier:ship_hull_mult|
 	subtract = modifier:ship_hull_add
+	min = 0
+	max = @kuat_boss_max_hitpoints_2
 }
 
 kuat_dynamic_ship_add_value_pow_value = {
@@ -304,6 +306,35 @@ kuat_dynamic_mutiply_factor = {
 	modifier = {
 		add = value:kuat_dynamic_ship_add_value_efficency_value
 		check_variable_arithmetic = { which = modifier:ship_hull_add value > value:kuat_dynamic_ship_hp_foundation_value }
+	}
+	mult = event_target:global_event_country.kuat_dynamic_modifier_var 
+	mult = $MULT$
+}
+
+kuat_dynamic_ship_add_value_pow_value_limit = {
+	base = 0
+	add = modifier:ship_hull_add
+	subtract = @kuat_boss_max_hitpoints_2
+	pow = 0.5
+	floor = yes
+	min = 0
+}
+
+kuat_dynamic_ship_add_value_efficency_value_limit = {
+	base = 0
+	add = @kuat_boss_max_hitpoints_2
+	modifier = {
+		add = value:kuat_dynamic_ship_add_value_pow_value_limit
+		check_variable_arithmetic = { which = modifier:ship_hull_add value > @kuat_boss_max_hitpoints_2 }
+	}
+}
+
+kuat_dynamic_mutiply_factor_limit = {
+	base = 0
+	add = @kuat_boss_max_hitpoints_2
+	modifier = {
+		add = value:kuat_dynamic_ship_add_value_efficency_value_limit
+		check_variable_arithmetic = { which = modifier:ship_hull_add value > @kuat_boss_max_hitpoints_2 }
 	}
 	mult = event_target:global_event_country.kuat_dynamic_modifier_var 
 	mult = $MULT$
@@ -485,7 +516,8 @@ kuat_get_damage_control_modifier = {
 
 kuat_export_kuat_damage_control_modifier = {
 	base = 0
-	add = value:kuat_get_damage_control_modifier|MODIFIER|kuat_damage_control_modifier|
+	add = modifier:$MODIFIER$
+	mult = value:kuat_get_damage_control_modifier|MODIFIER|kuat_damage_control_modifier|
 	mult = $MULT$
 }
 

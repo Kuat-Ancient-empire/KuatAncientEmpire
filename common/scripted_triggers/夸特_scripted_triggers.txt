@@ -734,11 +734,15 @@ kuat_exist_disable_type = {
 		exists = from.owner
 		from.owner = { NOT = { is_same_value = prev.owner } }
 	}
-	NOT = { has_ship_flag = kuat_fleet_dynamic_modifier_times }
 	AND = {
 		exists = owner
 		owner = { OR = { is_invisable_faction = yes kuat_is_player_country = yes } }
 	}
+	if = {
+		limit = { has_global_flag = kuat_set_forcetrigger_order_enable_crisis_eve_system }
+		always = yes
+	}
+	else = { NOT = { has_ship_flag = kuat_fleet_dynamic_modifier_times } }
 }
 
 #该类，每击杀敌人一艘舰船，可以为己方恢复一艘舰船，cd 5天
@@ -771,7 +775,7 @@ kuat_is_invisable_target_system  = {
 kuat_is_player_country = {
 	optimize_memory
 	OR = {
-		AND = { NOT = { has_global_flag = kuat_set_forcetrigger_order_enable_crisis_eve_system  } is_ai = no }
+		AND = { NOT = { has_global_flag = kuat_set_forcetrigger_order_enable_crisis_eve_system } is_ai = no }
 		AND = { has_global_flag = kuat_set_forcetrigger_order_enable_crisis_eve_system is_ai = yes }
 	}
 }
