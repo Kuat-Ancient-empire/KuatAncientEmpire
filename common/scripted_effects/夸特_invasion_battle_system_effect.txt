@@ -37,8 +37,18 @@ kuat_battle_eternal_increase_executor_power = {
 				WHICH = KUAT_SHIP_HEALTH_VAR HEALTH = value:kuat_dynamic_exist_life_times 
 			}
 		}
-		add_modifier = { modifier = kuat_harding_hp multiplier = value:kuat_dynamic_mutiply_factor|MULT|0.00002| }
-		add_modifier = { modifier = kuat_regen_hp multiplier = value:kuat_dynamic_mutiply_factor|MULT|0.001| }
+		add_modifier = { 
+			modifier = kuat_hull_cate_modifier   
+			multiplier = value:kuat_dynamic_mutiply_factor|MULT|0.001|MODIFIER_MULT|ship_hull_mult|MODIFIER_ADD|ship_hull_add| 
+		}
+		add_modifier = { 
+			modifier = kuat_shield_cate_modifier 
+			multiplier = value:kuat_dynamic_mutiply_factor|MULT|0.001|MODIFIER_MULT|ship_shield_mult|MODIFIER_ADD|ship_shield_add| 
+		}
+		add_modifier = { 
+			modifier = kuat_armor_cate_modifier 
+			multiplier = value:kuat_dynamic_mutiply_factor|MULT|0.001|MODIFIER_MULT|ship_armor_mult|MODIFIER_ADD|ship_armor_add| 
+		}
 		set_ship_flag = kuat_has_eternal_increase_executor_power_temple
 	}
 }
@@ -115,8 +125,9 @@ kuat_battle_flagship_clear_ship_repeatable_modifier = {
 kuat_battle_remove_increase_hp_modifier = {
 	optimize_memory
 	remove_modifier = $TYPE$_increase_hp
-	remove_modifier = kuat_harding_hp
-	remove_modifier = kuat_regen_hp
+	remove_modifier = kuat_hull_cate_modifier
+	remove_modifier = kuat_shield_cate_modifier
+	remove_modifier = kuat_armor_cate_modifier
 }
 
 #旗舰与循环增益系统清理
@@ -155,6 +166,8 @@ kuat_battle_remove_standard_modifier_system = {
 	remove_modifier = $TITLE$_shipclass_starbase_hull_mult
 	remove_modifier = $TITLE$_ship_speed_mult
 	remove_modifier = $TITLE$_ship_hull_add	
+	remove_modifier = $TITLE$_ship_armor_add
+	remove_modifier = $TITLE$_ship_shield_add
 	remove_modifier = $TITLE$_ship_hull_mult		
 	remove_modifier = $TITLE$_ship_armor_mult						
 	remove_modifier = $TITLE$_ship_shield_mult			
@@ -272,22 +285,22 @@ kuat_battle_set_kuat_legacy_crisis_fleet_dynamic_modifier = {
 	
 	[[hostile] 
 		kuat_battle_set_eternal_fleet_standard_modifier = { PARAMATER = ship_damage_reduction_mult				RELATION = ">"  OUTPUT_VALUE = 0 }
-		kuat_battle_set_eternal_fleet_standard_modifier = { PARAMATER = ship_damage_reduction_add				RELATION = ">"  OUTPUT_VALUE = value:kuat_dynamic_mutiply_factor_limit|MULT|0.001| }
-		kuat_battle_set_eternal_fleet_standard_modifier = { PARAMATER = ship_shield_hardening_add				RELATION = ">"  OUTPUT_VALUE = value:kuat_dynamic_mutiply_factor_limit|MULT|0.00002| }
-		kuat_battle_set_eternal_fleet_standard_modifier = { PARAMATER = ship_armor_hardening_add				RELATION = ">"  OUTPUT_VALUE = value:kuat_dynamic_mutiply_factor_limit|MULT|0.00002| }
-		kuat_battle_set_eternal_fleet_standard_modifier = { PARAMATER = ship_hull_regen_add_static				RELATION = ">"  OUTPUT_VALUE = value:kuat_dynamic_mutiply_factor_limit|MULT|0.004| }
-		kuat_battle_set_eternal_fleet_standard_modifier = { PARAMATER = ship_armor_regen_add_static				RELATION = ">"  OUTPUT_VALUE = value:kuat_dynamic_mutiply_factor_limit|MULT|0.004| }
-		kuat_battle_set_eternal_fleet_standard_modifier = { PARAMATER = ship_shield_regen_add_static			RELATION = ">"  OUTPUT_VALUE = value:kuat_dynamic_mutiply_factor_limit|MULT|0.004| }
+		kuat_battle_set_eternal_fleet_standard_modifier = { PARAMATER = ship_damage_reduction_add				RELATION = ">"  OUTPUT_VALUE = value:kuat_dynamic_mutiply_factor_limit|MULT|0.001|MODIFIER_ADD|ship_hull_add| }
+		kuat_battle_set_eternal_fleet_standard_modifier = { PARAMATER = ship_hull_regen_add_static				RELATION = ">"  OUTPUT_VALUE = value:kuat_dynamic_mutiply_factor_limit|MULT|0.004|MODIFIER_ADD|ship_hull_add| }
+		kuat_battle_set_eternal_fleet_standard_modifier = { PARAMATER = ship_shield_hardening_add				RELATION = ">"  OUTPUT_VALUE = value:kuat_dynamic_mutiply_factor_limit|MULT|0.00002|MODIFIER_ADD|ship_shield_add| }
+		kuat_battle_set_eternal_fleet_standard_modifier = { PARAMATER = ship_shield_regen_add_static			RELATION = ">"  OUTPUT_VALUE = value:kuat_dynamic_mutiply_factor_limit|MULT|0.004|MODIFIER_ADD|ship_shield_add| }
+		kuat_battle_set_eternal_fleet_standard_modifier = { PARAMATER = ship_armor_hardening_add				RELATION = ">"  OUTPUT_VALUE = value:kuat_dynamic_mutiply_factor_limit|MULT|0.00002|MODIFIER_ADD|ship_armor_add| }
+		kuat_battle_set_eternal_fleet_standard_modifier = { PARAMATER = ship_armor_regen_add_static				RELATION = ">"  OUTPUT_VALUE = value:kuat_dynamic_mutiply_factor_limit|MULT|0.004|MODIFIER_ADD|ship_armor_add| }
 	]
 
 	[[frendly]  
 		kuat_battle_set_eternal_fleet_standard_modifier = { PARAMATER = ship_damage_reduction_mult 				RELATION = "!=" OUTPUT_VALUE = value:kuat_dynamic_base_special_value|MULT|1| }
-		kuat_battle_set_eternal_fleet_standard_modifier = { PARAMATER = ship_armor_hardening_add 			 	RELATION = "!=" OUTPUT_VALUE = value:kuat_dynamic_mutiply_factor|MULT|0.00002| } 
-		kuat_battle_set_eternal_fleet_standard_modifier = { PARAMATER = ship_shield_hardening_add 			 	RELATION = "!=" OUTPUT_VALUE = value:kuat_dynamic_mutiply_factor|MULT|0.00002| }	
-		kuat_battle_set_eternal_fleet_standard_modifier = { PARAMATER = ship_damage_reduction_add				RELATION = "!=" OUTPUT_VALUE = value:kuat_dynamic_mutiply_factor|MULT|0.001| } 	
-		kuat_battle_set_eternal_fleet_standard_modifier = { PARAMATER = ship_hull_regen_add_static			 	RELATION = "!=" OUTPUT_VALUE = value:kuat_dynamic_mutiply_factor|MULT|0.004| }
-		kuat_battle_set_eternal_fleet_standard_modifier = { PARAMATER = ship_armor_regen_add_static			 	RELATION = "!=" OUTPUT_VALUE = value:kuat_dynamic_mutiply_factor|MULT|0.004| }
-		kuat_battle_set_eternal_fleet_standard_modifier = { PARAMATER = ship_shield_regen_add_static		 	RELATION = "!=" OUTPUT_VALUE = value:kuat_dynamic_mutiply_factor|MULT|0.004| }		
+		kuat_battle_set_eternal_fleet_standard_modifier = { PARAMATER = ship_damage_reduction_add				RELATION = "!=" OUTPUT_VALUE = value:kuat_dynamic_mutiply_factor|MULT|0.001|MODIFIER_MULT|ship_hull_mult|MODIFIER_ADD|ship_hull_add| }
+		kuat_battle_set_eternal_fleet_standard_modifier = { PARAMATER = ship_hull_regen_add_static				RELATION = "!=" OUTPUT_VALUE = value:kuat_dynamic_mutiply_factor|MULT|0.004|MODIFIER_MULT|ship_hull_mult|MODIFIER_ADD|ship_hull_add| }
+		kuat_battle_set_eternal_fleet_standard_modifier = { PARAMATER = ship_shield_hardening_add				RELATION = "!=" OUTPUT_VALUE = value:kuat_dynamic_mutiply_factor|MULT|0.00002|MODIFIER_MULT|ship_shield_mult|MODIFIER_ADD|ship_shield_add| }
+		kuat_battle_set_eternal_fleet_standard_modifier = { PARAMATER = ship_shield_regen_add_static			RELATION = "!=" OUTPUT_VALUE = value:kuat_dynamic_mutiply_factor|MULT|0.004|MODIFIER_MULT|ship_shield_mult|MODIFIER_ADD|ship_shield_add| }
+		kuat_battle_set_eternal_fleet_standard_modifier = { PARAMATER = ship_armor_hardening_add				RELATION = "!=" OUTPUT_VALUE = value:kuat_dynamic_mutiply_factor|MULT|0.00002|MODIFIER_MULT|ship_armor_mult|MODIFIER_ADD|ship_armor_add| }
+		kuat_battle_set_eternal_fleet_standard_modifier = { PARAMATER = ship_armor_regen_add_static				RELATION = "!=" OUTPUT_VALUE = value:kuat_dynamic_mutiply_factor|MULT|0.004|MODIFIER_MULT|ship_armor_mult|MODIFIER_ADD|ship_armor_add| }
 
 		kuat_battle_set_eternal_fleet_standard_modifier = { PARAMATER = ship_shield_penetration_add				RELATION = "<"  OUTPUT_VALUE = value:kuat_dynamic_base_value|MULT|1| } 
 		kuat_battle_set_eternal_fleet_standard_modifier = { PARAMATER = ship_armor_penetration_add				RELATION = "<"  OUTPUT_VALUE = value:kuat_dynamic_base_value|MULT|1| } 
@@ -297,8 +310,10 @@ kuat_battle_set_kuat_legacy_crisis_fleet_dynamic_modifier = {
 		kuat_battle_set_eternal_fleet_standard_modifier = { PARAMATER = ship_armor_damage_mult 					RELATION = "<"  OUTPUT_VALUE = value:kuat_dynamic_base_value|MULT|0.25| }
 		kuat_battle_set_eternal_fleet_standard_modifier = { PARAMATER = ship_shield_damage_mult 				RELATION = "<"  OUTPUT_VALUE = value:kuat_dynamic_base_value|MULT|0.25| }
 		kuat_battle_set_eternal_fleet_standard_modifier = { PARAMATER = ship_hull_damage_mult					RELATION = "<"  OUTPUT_VALUE = value:kuat_dynamic_base_value|MULT|0.25| }
-		kuat_battle_set_eternal_fleet_standard_modifier = { PARAMATER = ship_hull_mult 							RELATION = "<"  OUTPUT_VALUE = value:kuat_dynamic_base_value|MULT|1| } 
 		kuat_battle_set_eternal_fleet_standard_modifier = { PARAMATER = ship_hull_add 							RELATION = "<"  OUTPUT_VALUE = value:kuat_dynamic_base_value|MULT|0| } 
+		kuat_battle_set_eternal_fleet_standard_modifier = { PARAMATER = ship_armor_add							RELATION = "<"  OUTPUT_VALUE = value:kuat_dynamic_base_value|MULT|0| } 
+		kuat_battle_set_eternal_fleet_standard_modifier = { PARAMATER = ship_shield_add							RELATION = "<"  OUTPUT_VALUE = value:kuat_dynamic_base_value|MULT|0| } 
+		kuat_battle_set_eternal_fleet_standard_modifier = { PARAMATER = ship_hull_mult 							RELATION = "<"  OUTPUT_VALUE = value:kuat_dynamic_base_value|MULT|1| } 
 		kuat_battle_set_eternal_fleet_standard_modifier = { PARAMATER = ship_armor_mult							RELATION = "<"  OUTPUT_VALUE = value:kuat_dynamic_base_value|MULT|1| } 
 		kuat_battle_set_eternal_fleet_standard_modifier = { PARAMATER = ship_shield_mult						RELATION = "<"  OUTPUT_VALUE = value:kuat_dynamic_base_value|MULT|1| } 	
 		kuat_battle_set_eternal_fleet_standard_modifier = { PARAMATER = ship_tracking_add 						RELATION = "<"  OUTPUT_VALUE = value:kuat_dynamic_base_value|MULT|5| } 
@@ -343,6 +358,8 @@ kuat_battle_set_modifier_control_eternal_fleet_mult_modifier = {
 		kuat_battle_set_eternal_fleet_standard_modifier = { PARAMATER = ship_hull_damage_mult					RELATION = "<"  OUTPUT_VALUE = value:kuat_export_kuat_damage_control_modifier|MODIFIER|ship_hull_damage_mult|MULT|1| }
 		kuat_battle_set_eternal_fleet_standard_modifier = { PARAMATER = ship_hull_mult 							RELATION = "<"  OUTPUT_VALUE = value:kuat_export_kuat_damage_control_modifier|MODIFIER|ship_hull_mult|MULT|1| } 
 		kuat_battle_set_eternal_fleet_standard_modifier = { PARAMATER = ship_hull_add 							RELATION = "<"  OUTPUT_VALUE = value:kuat_export_kuat_damage_control_modifier|MODIFIER|ship_hull_add|MULT|1| } 
+		kuat_battle_set_eternal_fleet_standard_modifier = { PARAMATER = ship_shield_add							RELATION = "<"  OUTPUT_VALUE = value:kuat_export_kuat_damage_control_modifier|MODIFIER|ship_shield_add|MULT|1| } 
+		kuat_battle_set_eternal_fleet_standard_modifier = { PARAMATER = ship_armor_add							RELATION = "<"  OUTPUT_VALUE = value:kuat_export_kuat_damage_control_modifier|MODIFIER|ship_armor_add|MULT|1| } 
 		kuat_battle_set_eternal_fleet_standard_modifier = { PARAMATER = ship_armor_mult							RELATION = "<"  OUTPUT_VALUE = value:kuat_export_kuat_damage_control_modifier|MODIFIER|ship_armor_mult|MULT|1| } 
 		kuat_battle_set_eternal_fleet_standard_modifier = { PARAMATER = ship_shield_mult						RELATION = "<"  OUTPUT_VALUE = value:kuat_export_kuat_damage_control_modifier|MODIFIER|ship_shield_mult|MULT|1| } 	
 		kuat_battle_set_eternal_fleet_standard_modifier = { PARAMATER = ship_tracking_add 						RELATION = "<"  OUTPUT_VALUE = value:kuat_export_kuat_damage_control_modifier|MODIFIER|ship_tracking_add|MULT|1| } 
@@ -489,6 +506,8 @@ kuat_battle_remove_all_ship_modifier_change_basic_variable = {
 	kuat_battle_remove_ship_modifier_change_basic_variable = { PARAMATER = ship_shield_penetration_mult }
 	kuat_battle_remove_ship_modifier_change_basic_variable = { PARAMATER = ship_armor_penetration_mult }
 	kuat_battle_remove_ship_modifier_change_basic_variable = { PARAMATER = ship_hull_add }
+	kuat_battle_remove_ship_modifier_change_basic_variable = { PARAMATER = ship_shield_add }
+	kuat_battle_remove_ship_modifier_change_basic_variable = { PARAMATER = ship_armor_add }
 	kuat_battle_remove_ship_modifier_change_basic_variable = { PARAMATER = ship_hull_mult }
 	kuat_battle_remove_ship_modifier_change_basic_variable = { PARAMATER = ship_shield_mult }
 	kuat_battle_remove_ship_modifier_change_basic_variable = { PARAMATER = ship_armor_mult }
@@ -504,8 +523,6 @@ kuat_battle_remove_all_ship_modifier_change_basic_variable = {
 	kuat_battle_remove_ship_modifier_change_basic_variable = { PARAMATER = ship_tracking_add }
 	kuat_battle_remove_ship_modifier_change_basic_variable = { PARAMATER = ship_accuracy_mult }
 	kuat_battle_remove_ship_modifier_change_basic_variable = { PARAMATER = ship_accuracy_add }
-	kuat_battle_remove_ship_modifier_change_basic_variable = { PARAMATER = ship_shield_add }
-	kuat_battle_remove_ship_modifier_change_basic_variable = { PARAMATER = ship_armor_add }
 	kuat_battle_remove_ship_modifier_change_basic_variable = { PARAMATER = ship_hull_damage_mult }
 	kuat_battle_remove_ship_modifier_change_basic_variable = { PARAMATER = ship_shield_damage_mult }
 	kuat_battle_remove_ship_modifier_change_basic_variable = { PARAMATER = ship_armor_damage_mult }
