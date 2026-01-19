@@ -1512,11 +1512,15 @@ fleet_event = {
 				kuat_fleet_anyone_not_has_validable_flagship_system = yes
 				is_in_combat = yes 
 			}
-			every_owned_ship = { 
-				limit = { has_ship_flag = kuat_executor_checkpoint }
-				kuat_battle_clear_ship_at_health = { REPAIR = yes } 
-			} 
-			fleet_event = { id = exe_invasion.114 days = 1 }
+			if = {
+				limit = { NOT = { has_global_flag = kuat_set_forcetrigger_order_enable_crisis_eve_system } }
+				every_owned_ship = { 
+					limit = { has_ship_flag = kuat_executor_checkpoint }
+					kuat_battle_clear_ship_at_health = { REPAIR = yes } 
+				} 
+				fleet_event = { id = exe_invasion.114 days = 1 }
+			}
+			else = { fleet_event = { id = exe_invasion.114 days = 10 } }
 		}
 		else = { 
 			kuat_battle_remove_executor_power_fleet = yes 
