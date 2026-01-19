@@ -382,3 +382,29 @@ fleet_event = {
 		set_timed_fleet_flag = { flag = kuat_ai_action.9.temple days = 1 }
 	}
 }
+
+country_event = {
+	id = ai_action.12
+	hide_window = yes
+	is_triggered_only = yes
+	trigger = {
+		OR = {
+			any_owned_fleet = { has_fleet_flag = kuat_auto_fleet_system }
+			From = { any_owned_fleet = { has_fleet_flag = kuat_auto_fleet_system } }
+		}
+	}
+	immediate = {
+		every_owned_fleet = {
+			limit = { has_fleet_flag = kuat_auto_fleet_system }
+			remove_fleet_flag = fire_kuat_fleet_attack_action
+			remove_automatic_fleet_avaliable = yes 
+		}
+		from = {
+			every_owned_fleet = {
+				limit = { has_fleet_flag = kuat_auto_fleet_system }
+				remove_fleet_flag = fire_kuat_fleet_attack_action
+				remove_automatic_fleet_avaliable = yes 
+			}
+		}
+	}
+}
