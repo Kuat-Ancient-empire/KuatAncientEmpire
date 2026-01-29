@@ -2322,6 +2322,7 @@ country_event = {
 			check_modifier_value = { modifier = ship_steal_defeated_ship_chance value != 0 }
 			check_modifier_value = { modifier = fleet_capture_defeated_leader_chance value != 0 }
 			check_modifier_value = { modifier = ship_monthly_hull_damage value != 0 }
+			check_modifier_value = { modifier = ship_target_weight_mult value < -0.9 }
 			AND = { root = { is_at_war = no } fleet = { has_fleet_flag = kuat_auto_fleet_system } }
 		} }
 	}
@@ -2338,6 +2339,13 @@ country_event = {
 			every_owned_ship = {
 				limit = { check_modifier_value = { modifier = fleet_capture_defeated_leader_chance value != 0 } }
 				kuat_battle_clear_ship_modifier = { modifier = fleet_capture_defeated_leader_chance DAYS = 30 }
+			}
+		}
+		if = {
+			limit = { any_owned_ship = { check_modifier_value = { modifier = ship_target_weight_mult value < -0.9 } } }
+			every_owned_ship = {
+				limit = { check_modifier_value = { modifier = ship_target_weight_mult value < -0.9 } }
+				kuat_battle_clear_ship_modifier = { modifier = ship_target_weight_mult change = 0.9 DAYS = 30 }
 			}
 		}
 		if = {
