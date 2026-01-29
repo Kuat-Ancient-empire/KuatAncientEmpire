@@ -7,11 +7,19 @@ on_hit = {
 		}
 	}
 	hidden_effect = {
-		kuat_battle_steal_modifier_on_hit = {
-			VARIABLE = infinite_ship_damage_reduce_reduce_temp
-			MODIFIER = kuat_damage_steal_weapon_hit_modifier
-			AMOUNT = $kuat_damage_reduction_erase_amount$
-			DAYS = $kuat_damage_reduction_erase_days$
+		if = {
+			limit = {  
+				check_modifier_value = { 
+					modifier = ship_damage_reduction_add 
+					value > 0 
+				}
+			}
+			kuat_battle_steal_modifier_on_hit = {
+				VARIABLE = infinite_ship_damage_reduce_reduce_temp
+				MODIFIER = kuat_damage_steal_weapon_hit_modifier
+				AMOUNT = $kuat_damage_reduction_erase_amount$
+				DAYS = $kuat_damage_reduction_erase_days$
+			}
 		}
 	}
 }
