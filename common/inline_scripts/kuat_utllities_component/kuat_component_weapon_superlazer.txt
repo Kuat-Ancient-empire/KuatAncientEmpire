@@ -39,34 +39,35 @@ target_type = target_enemies
 target_focus = single
 on_hit = {
 	custom_tooltip = "kuat_instant_killer_desc"
-	hidden_effect = {  
-		if = {
-			limit = { check_modifier_value = { modifier = ship_damage_reduction_mult value > 0 } }
-			kuat_battle_clear_ship_modifier = { modifier = ship_damage_reduction_mult DAYS = 2 }
-		}
-		if = {
-			limit = { check_modifier_value = { modifier = ship_damage_reduction_add value > 0 } }
-			kuat_battle_clear_ship_modifier = { modifier = ship_damage_reduction_add DAYS = 2 }
-		}
-  		repair_shield_amount = -922337202
-    	repair_armor_amount = -922337202		
-		from = {  
-			if = {
-				limit = { check_modifier_value = { modifier = ship_hull_damage_mult value < 0 } }
-				kuat_battle_clear_ship_modifier = { modifier = ship_hull_damage_mult DAYS = 2 }
-			}
-			if = {
-				limit = { check_modifier_value = { modifier = ship_shield_damage_mult value < 0 } }
-				kuat_battle_clear_ship_modifier = { modifier = ship_shield_damage_mult DAYS = 2 }
-			}
-			if = {
-				limit = { check_modifier_value = { modifier = ship_armor_damage_mult value < 0 } }
-				kuat_battle_clear_ship_modifier = { modifier = ship_armor_damage_mult DAYS = 2 }
-			}
-		}		
+	hidden_effect = {  	
 		if = {
 			limit = { NOT = { has_ship_flag = kuat_hited_by_superlazer } }
-			set_timed_ship_flag = { flag = kuat_hited_by_superlazer days = 45 }
+			if = {
+				limit = { check_modifier_value = { modifier = ship_damage_reduction_mult value > 0 } }
+				kuat_battle_clear_ship_modifier = { modifier = ship_damage_reduction_mult DAYS = 1 }
+			}
+			if = {
+				limit = { check_modifier_value = { modifier = ship_damage_reduction_add value > 0 } }
+				kuat_battle_clear_ship_modifier = { modifier = ship_damage_reduction_add DAYS = 1 }
+			}
+			from = {  
+				if = {
+					limit = { check_modifier_value = { modifier = ship_hull_damage_mult value < 0 } }
+					kuat_battle_clear_ship_modifier = { modifier = ship_hull_damage_mult DAYS = 1 }
+				}
+				if = {
+					limit = { check_modifier_value = { modifier = ship_shield_damage_mult value < 0 } }
+					kuat_battle_clear_ship_modifier = { modifier = ship_shield_damage_mult DAYS = 1 }
+				}
+				if = {
+					limit = { check_modifier_value = { modifier = ship_armor_damage_mult value < 0 } }
+					kuat_battle_clear_ship_modifier = { modifier = ship_armor_damage_mult DAYS = 1 }
+				}
+			}			
+			repair_shield_amount = -922337202
+			repair_armor_amount = -922337202	
+			kuat_battle_kuat_reduce_hp = { value = 922337202 }					
+			set_timed_ship_flag = { flag = kuat_hited_by_superlazer days = 1 }
 		}
 	}
 }
