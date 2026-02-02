@@ -1692,24 +1692,19 @@ ship_event = {
 			}
 			else_if = { 
 				limit = { kuat_exist_disable_type = yes check_variable = { which = STARBASE_HEALTH_VAR value > 0 } } 
-				kuat_battle_clear_ship_at_health = { REPAIR = yes INVERT_DISABLE = set_disabled WHICH = STARBASE_HEALTH_VAR }
+				reroll_random = yes
+				random_list = {
+					1 = { kuat_battle_clear_ship_at_health = { REPAIR = yes INVERT_DISABLE = set_disabled WHICH = STARBASE_HEALTH_VAR } }
+					2 = { kuat_battle_clear_ship_at_health = { REPAIR = yes INVERT_DISABLE = set_disabled } }
+				}
 			} 
 			else = { kuat_battle_clear_ship_at_health = { REPAIR = yes INVERT_DISABLE = set_disabled Disable_health = -1 } }
 		}
 		else_if = {
-			limit = { has_ship_flag = enable_kuat_ship_inital owner = { is_invisable_faction = yes } }
-			if = {
-				limit = { kuat_exist_disable_type = no }
-				kuat_battle_clear_ship_at_health = { REPAIR = yes INVERT_DISABLE = set_disabled }
+			limit = { 
+				has_ship_flag = enable_kuat_ship_inital 
+				owner = { OR = { kuat_is_player_country = yes is_invisable_faction = yes } } 
 			}
-			else_if = { 
-				limit = { kuat_exist_disable_type = yes check_variable = { which = KUAT_SHIP_HEALTH_VAR value > 0 } } 
-				kuat_battle_clear_ship_at_health = { REPAIR = yes INVERT_DISABLE = set_disabled WHICH = KUAT_SHIP_HEALTH_VAR }
-			} 
-			else = { kuat_battle_clear_ship_at_health = { REPAIR = yes INVERT_DISABLE = set_disabled Disable_health = -1 } }
-		}
-		else_if = {
-			limit = { has_ship_flag = enable_kuat_ship_inital owner = { kuat_is_player_country = yes } }
 			if = {
 				limit = { kuat_exist_disable_type = no }
 				kuat_battle_clear_ship_at_health = { REPAIR = yes INVERT_DISABLE = set_disabled }
@@ -1728,7 +1723,7 @@ ship_event = {
 						}
 						else = { kuat_battle_clear_ship_at_health = { REPAIR = yes INVERT_DISABLE = set_disabled Disable_health = -1 } }
 					}
-					3 = { kuat_battle_clear_ship_at_health = { REPAIR = yes INVERT_DISABLE = set_disabled } }
+					2 = { kuat_battle_clear_ship_at_health = { REPAIR = yes INVERT_DISABLE = set_disabled } }
 				}
 			}
 			else_if = { 
