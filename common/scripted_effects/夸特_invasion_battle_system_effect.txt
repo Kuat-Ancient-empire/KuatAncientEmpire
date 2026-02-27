@@ -1001,34 +1001,41 @@ kuat_battle_steal_modifier_on_hit = {
 		which = $VARIABLE$
 		value = value:kuat_steal_value|value|$AMOUNT$|static_modifier|$MODIFIER$|
 	}
-	if = {
-		limit = { has_modifier = "$MODIFIER$" }
-		remove_modifier = "$MODIFIER$"
-	}
-	add_modifier = {
-		modifier = "$MODIFIER$"
-		multiplier = $VARIABLE$
-		days = $DAYS$
-	}
+	add_modifier = { modifier = $MODIFIER$ multiplier = $VARIABLE$ days = $DAYS$ }
 	clear_variable = $VARIABLE$
+}
+
+kuat_battle_cretae_aoe_particle_effect = {
+	optimize_memory
+	create_ambient_object = {
+		type = explosion_particle_object
+		location = this
+		use_3d_location = yes
+		entity_offset = { min = 0 max = 0 }
+		entity_offset_angle = { min = 0 max = 0 }
+		entity_offset_height = { min = 0 max = 0 }
+		entity_scale_to_size = yes
+		duration = 5
+		scale = 20
+	}
 }
 
 kuat_battle_eternal_aoe_effect = {
 	solar_system = { every_ship_in_system = {
 		limit = {
-			controller = { is_hostile = from.controller }
+			controller = { 
+				is_hostile = from.controller
+			}
 			distance = {
 				source = root max_distance <= $RANGE$
 				same_solar_system = yes
 			}
+			is_disabled = no
 		}
 		repair_shield_amount = -922337202
 		repair_armor_amount = -922337202	
-		kuat_battle_steal_modifier_on_hit = {
-			VARIABLE = eternal_aoe_ship_damage_reduce_reduce_temp
-			MODIFIER = kuat_regen_steal_weapon_hit_negative_modifier_0
-			AMOUNT = $DAMAGE$  DAYS = 2
-		}
+		kuat_battle_cretae_aoe_particle_effect = yes
+		kuat_battle_kuat_damage_hp = { value = $DAMAGE$ }			
 	} }
 }
 
