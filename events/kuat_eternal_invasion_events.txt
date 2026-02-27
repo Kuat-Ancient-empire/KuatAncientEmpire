@@ -1410,7 +1410,7 @@ country_event = {
 	hide_window = yes
 	is_triggered_only = yes
 	trigger = {
-		kuat_is_player_country = yes 
+		exists = fromfrom
 		fromfrom = {
 			NOT = { has_fleet_flag = kuat_fleet_checkpoint }
 			kuat_fleet_anyone_has_validable_flagship_system = yes
@@ -1419,74 +1419,73 @@ country_event = {
 	}
 	immediate = {
 		#旗舰机制
+		if = {
+			limit = { kuat_is_player_country = yes }
+			fromfrom = {
+				# flagship tag
+				if = {
+					limit = { kuat_fleet_is_flagship_size = { SIZE = Drift_Flagship } }
+					set_fleet_flag = kuat_has_Drift_Flagship_fleet
+				}
+				if = {
+					limit = { kuat_fleet_is_flagship_size = { SIZE = Spt_Flagship } }
+					set_fleet_flag = kuat_has_Spt_Flagship_fleet
+				}
+				if = {
+					limit = { kuat_fleet_is_flagship_size = { SIZE = eternal_flagship } }
+					set_fleet_flag = kuat_has_Eternal_Flagship_fleet
+				}
+				if = {
+					limit = { kuat_fleet_is_flagship_size = { SIZE = Infinite_Mothership } }
+					set_fleet_flag = kuat_has_Infinite_Flagship_fleet
+				}
+				if = {
+					limit = { OR = {
+						kuat_fleet_is_flagship_size = { SIZE = Airpernia_titan }
+						kuat_fleet_is_flagship_size = { SIZE = Kandosii }
+					} }
+					set_fleet_flag = kuat_has_Airpernia_Flagship_fleet
+				}
+				if = {
+					limit = { OR = {
+						kuat_fleet_is_flagship_size = { SIZE = kuat_impellor }
+						kuat_fleet_is_flagship_size = { SIZE = kuat_eclipse }
+						kuat_fleet_is_flagship_size = { SIZE = kuat_compellor }
+					} }
+					set_fleet_flag = kuat_has_Imperial_Flagship_fleet
+				}
+			}
+		}
 		fromfrom = {  
-			# flagship tag
-			if = {
-				limit = { kuat_fleet_is_flagship_size = { SIZE = Drift_Flagship } }
-				set_fleet_flag = kuat_has_Drift_Flagship_fleet
-			}
-			if = {
-				limit = { kuat_fleet_is_flagship_size = { SIZE = Spt_Flagship } }
-				set_fleet_flag = kuat_has_Spt_Flagship_fleet
-			}
-			if = {
-				limit = { kuat_fleet_is_flagship_size = { SIZE = eternal_flagship } }
-				set_fleet_flag = kuat_has_Eternal_Flagship_fleet
-			}
-			if = {
-				limit = { kuat_fleet_is_flagship_size = { SIZE = Infinite_Mothership } }
-				set_fleet_flag = kuat_has_Infinite_Flagship_fleet
-			}
-			if = {
-				limit = { OR = {
-					kuat_fleet_is_flagship_size = { SIZE = Airpernia_titan }
-					kuat_fleet_is_flagship_size = { SIZE = Kandosii }
-				} }
-				set_fleet_flag = kuat_has_Airpernia_Flagship_fleet
-			}
-			if = {
-				limit = { OR = {
-					kuat_fleet_is_flagship_size = { SIZE = kuat_impellor }
-					kuat_fleet_is_flagship_size = { SIZE = kuat_eclipse }
-					kuat_fleet_is_flagship_size = { SIZE = kuat_compellor }
-				} }
-				set_fleet_flag = kuat_has_Imperial_Flagship_fleet
-			}
 			# weapon tag
 			if = {
-				limit = { 
-					OR = {
-						AND = {
-							kuat_fleet_is_flagship_modifier = { VALUE = 2 TYPE = artellary }
-							kuat_fleet_is_flagship_modifier = { VALUE = 1 TYPE = artellary }
-						}
-						kuat_fleet_is_flagship_modifier = { VALUE = 3 TYPE = artellary }
+				limit = { OR = {
+					AND = {
+						kuat_fleet_is_flagship_modifier = { VALUE = 2 TYPE = artellary }
+						kuat_fleet_is_flagship_modifier = { VALUE = 1 TYPE = artellary }
 					}
-				}
+					kuat_fleet_is_flagship_modifier = { VALUE = 3 TYPE = artellary }
+				} }
 				set_fleet_flag = kuat_has_artellary_Flagship_fleet
 			}
 			if = {
-				limit = { 
-					OR = {
-						AND = {
-							kuat_fleet_is_flagship_modifier = { VALUE = 2 TYPE = missle }
-							kuat_fleet_is_flagship_modifier = { VALUE = 1 TYPE = missle }
-						}
-						kuat_fleet_is_flagship_modifier = { VALUE = 3 TYPE = missle }
+				limit = { OR = {
+					AND = {
+						kuat_fleet_is_flagship_modifier = { VALUE = 2 TYPE = missle }
+						kuat_fleet_is_flagship_modifier = { VALUE = 1 TYPE = missle }
 					}
-				}
+					kuat_fleet_is_flagship_modifier = { VALUE = 3 TYPE = missle }
+				} }
 				set_fleet_flag = kuat_has_Missle_Flagship_fleet
 			}
 			if = {
-				limit = { 
-					OR = {
-						AND = {
-							kuat_fleet_is_flagship_modifier = { VALUE = 2 TYPE = strikecraft }
-							kuat_fleet_is_flagship_modifier = { VALUE = 1 TYPE = strikecraft }
-						}
-						kuat_fleet_is_flagship_modifier = { VALUE = 3 TYPE = strikecraft }
+				limit = { OR = {
+					AND = {
+						kuat_fleet_is_flagship_modifier = { VALUE = 2 TYPE = strikecraft }
+						kuat_fleet_is_flagship_modifier = { VALUE = 1 TYPE = strikecraft }
 					}
-				}
+					kuat_fleet_is_flagship_modifier = { VALUE = 3 TYPE = strikecraft }
+				} }
 				set_fleet_flag = kuat_has_stricraft_Flagship_fleet
 			}
 			every_owned_ship = {
@@ -1513,14 +1512,17 @@ fleet_event = {
 				is_in_combat = yes 
 			}
 			if = {
-				limit = { NOT = { has_global_flag = kuat_set_forcetrigger_order_enable_crisis_eve_system } }
+				limit = { 
+					owner = { kuat_is_player_country = yes }
+					NOT = { has_global_flag = kuat_set_forcetrigger_order_enable_crisis_eve_system } 
+				}
 				every_owned_ship = { 
 					limit = { has_ship_flag = kuat_executor_checkpoint }
 					kuat_battle_clear_ship_at_health = { REPAIR = yes } 
 				} 
 				fleet_event = { id = exe_invasion.114 days = 1 }
 			}
-			else = { fleet_event = { id = exe_invasion.114 days = 10 } }
+			else = { fleet_event = { id = exe_invasion.114 days = 4 } }
 		}
 		else = { 
 			kuat_battle_remove_executor_power_fleet = yes 
