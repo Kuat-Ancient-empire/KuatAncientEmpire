@@ -1745,7 +1745,6 @@ country_event = {
 	is_triggered_only = yes
 	trigger = { 
 		is_invisable_faction = yes 
-		from = { is_invisable_faction = no }
 		fromfrom = { NAND = { 
 			root = { OR = { 
 				is_eternal_faction = yes 
@@ -1778,7 +1777,10 @@ country_event = {
 			}  }
 		}
 		#旗舰标识
-		fromfromfrom = { kuat_battle_flagship_intial = yes }
+		if = {
+			limit = { from = { is_invisable_faction = no } }
+			fromfromfrom = { kuat_battle_flagship_intial = yes }
+		}
 		#动态引入
 		if = {
 			limit = { is_invisable_faction = yes }
@@ -1787,14 +1789,17 @@ country_event = {
 				set_fleet_flag = is_modifiering_fleet
 				fleet_event = { id = exe_invasion.144 }
 			} }
-			fromfromfrom = { if = {
-				limit = {
-					ROOT = { is_invisable_faction = yes }
-					NOT = { has_fleet_flag = is_modifiering_fleet }
-				}
-				set_fleet_flag = is_modifiering_fleet
-				fleet_event = { id = exe_invasion.142 }
-			} }
+			if = {
+				limit = { from = { is_invisable_faction = no } }
+				fromfromfrom = { if = {
+					limit = {
+						ROOT = { is_invisable_faction = yes }
+						NOT = { has_fleet_flag = is_modifiering_fleet }
+					}
+					set_fleet_flag = is_modifiering_fleet
+					fleet_event = { id = exe_invasion.142 }
+				} }
+			}
 		}
 		#补给区
 		if = {
@@ -1807,6 +1812,7 @@ country_event = {
 					has_global_flag = difficult_exe_invasion
 					has_global_flag = ban_exe_invasion
 				}
+				from = { is_invisable_faction = no }
 				fromfromfrom = { is_ship_class = shipclass_military }
 				NOT = { has_global_flag = kuat_set_forcetrigger_order_enable_crisis_eve_system }
 			}
