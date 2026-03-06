@@ -1243,7 +1243,7 @@ Infinite_inborder_disabled = {
 	place_entity_on_planet_plane = yes
 	show_in_outliner = no
 	show_galactic_map_icon = yes	
-	build_time = 3090	
+	build_time = 30	
 	upgrade_desc = hide		
 	potential = { always = no }
 	placement_rules = {}	
@@ -1262,16 +1262,65 @@ Infinite_inborder_restored = {
 	place_entity_on_planet_plane = yes
 	show_in_outliner = no
 	show_galactic_map_icon = yes	
-	build_time = 3090	
+	build_time = 30	
 	upgrade_desc = hide		
+	resources = {
+		category = megastructures
+		upkeep = { energy = 2500 }
+	}
 	potential = { has_country_flag = kuat_enable_get_rakata_inborder_town_order }	
 	placement_rules = {}	
-    country_modifier = { kuat_support_battle_mult = 1 }	
+    country_modifier = { 
+		kuat_support_battle_mult = 1 
+		ship_damage_reduction_mult = 0.25
+		ship_damage_reduction_add = 1500
+	}	
 	upgrade_from = { Infinite_inborder_disabled }
 	on_build_start = {}
 	on_build_cancel = {}
-	on_build_complete = { }
-	 
+	on_build_complete = {  
+		set_star_flag = cannot_be_hit_by_aow_starfall_spear 
+		set_star_flag = kuat_cannot_be_hit_by_starkillerbase
+		every_neighbor_system_euclidean = {
+			limit = {
+				exists = owner
+				owner = { is_same_value = prev.from }
+			}
+			set_star_flag = cannot_be_hit_by_aow_starfall_spear 
+			set_star_flag = kuat_cannot_be_hit_by_starkillerbase
+		}
+	}
+	construction_blocks_and_blocked_by = none	
+	ai_weight = { }
+}
+
+Infinite_inborder_upgraded = {
+	entity = "kuat_inhiborter_started_entity"
+	construction_entity = "kuat_inhiborter_started_entity"
+	portrait = "GFX_megastructure_matter_decompressor_background"	
+	place_entity_on_planet_plane = yes
+	show_in_outliner = no
+	show_galactic_map_icon = yes	
+	build_time = 30	
+	upgrade_desc = hide		
+	potential = { has_country_flag = kuat_enable_get_rakata_inborder_town_order }	
+	placement_rules = {}		
+	upgrade_from = { Infinite_inborder_restored }
+	on_build_start = {}
+	on_build_cancel = {}
+	on_build_complete = { 
+		remove_megastructure = fromfrom
+		remove_star_flag = cannot_be_hit_by_aow_starfall_spear
+		remove_star_flag = kuat_cannot_be_hit_by_starkillerbase
+		every_neighbor_system_euclidean = {
+			remove_star_flag = cannot_be_hit_by_aow_starfall_spear 
+			remove_star_flag = kuat_cannot_be_hit_by_starkillerbase
+		}
+		spawn_megastructure = {
+			type = Infinite_inborder_disabled
+			planet = star
+		}
+	}
 	construction_blocks_and_blocked_by = none	
 	ai_weight = { }
 }
