@@ -836,7 +836,27 @@ kuat_battle_notification_suppliment_fleet = {
 		recipient = owner
 		days = 30
 	}
-	set_location = owner.capital_star
+	if = {
+		limit = {  
+			exists = solar_system
+			solar_system = { OR = {
+				has_megastructure = Infinite_inborder
+				any_neighbor_system_euclidean = { has_megastructure = Infinite_inborder }
+			} }
+			has_global_flag = Kuat_Rakata_inborder_warp_portal_opened
+			NOT = { has_global_flag = Kuat_Rakata_total_warp_portal_destroyed }
+			owner = { kuat_is_player_country = yes }
+		}
+		owner = {
+			if = {
+				limit = { check_variable = { which = Infinite_inborder_destroyed_fleet_var value = 3 } }
+				country_event = { id = kuat_final_crisis_events.65 }
+			}
+			change_variable = { which = Infinite_inborder_destroyed_fleet_var value = 1 }
+		}
+		destroy_fleet = { target = this destroy_template = yes kill_leader = no }
+	}
+	else = { set_location = owner.capital_star }
 }
 
 kuat_battle_kuat_remove_starbase_station = {

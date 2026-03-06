@@ -83,3 +83,36 @@ country_event = {
 		}
 	}
 }
+
+fleet_event = {
+	id = kuat_fleet_calling.14
+	hide_window = yes
+	is_triggered_only = yes
+
+	trigger = {
+		any_owned_ship = { 
+			is_ship_size = kuat_target_signal_ship
+		}
+		from = { any_fleet_in_system = {
+			exists = controller
+			controller = { is_hostile = root.owner }
+		} }
+	}
+
+	immediate = {  
+		if = {
+			limit = { NOT = { has_fleet_flag = kuat_fleet_calling.14_event_lock } }
+			set_timed_fleet_flag = { flag = kuat_fleet_calling.14_event_lock days = 15 }
+			set_event_locked = yes set_fleet_flag = kuat_fleet_calling.14_event_lock
+			fleet_event = { id = kuat_fleet_calling.15 days = 15 }
+		}
+	}
+}
+
+fleet_event = {
+	id = kuat_fleet_calling.15
+	hide_window = yes
+	is_triggered_only = yes
+	trigger = { exists = this }
+	immediate = { set_event_locked = no remove_fleet_flag = kuat_fleet_calling.14_event_lock }
+}

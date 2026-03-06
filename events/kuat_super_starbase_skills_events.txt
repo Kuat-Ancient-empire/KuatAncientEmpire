@@ -186,15 +186,142 @@ fleet_event = {
 		}
 		is_ship_size = kuat_target_signal_ship 
 	}
-	immediate = {
-		solar_system = { starkiller_fleet_destroyed_system_everything = yes }
-		owner = { 
-			set_timed_country_flag = { 
-				flag = kuat_kuat_mega_starbase_special_explosion_temple
-				days = 1800 
-			}
-			country_event = { id = executor_build.1009 days = 1800 } 
+	immediate = { 
+		save_global_event_target_as = kuat_target_signal_ship_owner
+		owner = { country_event = { id = kuat_starbase_skills.10 } } 
+	}
+}
+
+country_event = {
+    id = kuat_starbase_skills.10
+    is_triggered_only = yes
+    title = ""
+    desc = ""
+    diplomatic = yes
+    custom_gui = kuat_helldiver_stratagem_code_ui                
+    custom_gui_option = kuat_helldiver_stratagem_code_ui_button  
+	abort_trigger = {
+		OR = {
+			has_country_flag = kuat_kuat_mega_starbase_special_explosion_temple
+			NOT = { exists = event_target:kuat_target_signal_ship_owner }
 		}
 	}
-	after = { destroy_fleet = { target = this destroy_template = yes kill_leader = yes } }
+    picture_event_data = { room = Eternal_Empire2_room }
+    immediate = {
+		set_country_flag = kuat_target_signal_ship_owner_temple
+        set_variable = { which = kuat_helldiver_stratagem_code_cur_pos value = 0 }
+        set_variable = { which = kuat_helldiver_stratagem_code_res_seq_1 value = @kuat_helldiver_stratagem_code_up }
+        set_variable = { which = kuat_helldiver_stratagem_code_res_seq_2 value = @kuat_helldiver_stratagem_code_down }
+        set_variable = { which = kuat_helldiver_stratagem_code_res_seq_3 value = @kuat_helldiver_stratagem_code_down }
+        set_variable = { which = kuat_helldiver_stratagem_code_res_seq_4 value = @kuat_helldiver_stratagem_code_left }
+        set_variable = { which = kuat_helldiver_stratagem_code_res_seq_5 value = @kuat_helldiver_stratagem_code_right }
+        set_variable = { which = kuat_helldiver_stratagem_code_res_seq_6 value = @kuat_helldiver_stratagem_code_right }
+        set_variable = { which = kuat_helldiver_stratagem_code_res_seq_7 value = @kuat_helldiver_stratagem_code_left }
+        set_variable = { which = kuat_helldiver_stratagem_code_res_seq_8 value = @kuat_helldiver_stratagem_code_up }
+    }
+}
+
+country_event = {
+	id = kuat_starbase_skills.11
+	hide_window = yes
+	is_triggered_only = yes
+	trigger = { 
+		exists = event_target:kuat_target_signal_ship_owner
+		has_country_flag = kuat_target_signal_ship_owner_temple 
+	}
+	immediate = {
+		play_sound = { sound = kuat_infinite_kuat_orbital_strike location = capital_scope }
+		event_target:kuat_target_signal_ship_owner = {
+			solar_system = { 
+				starkiller_fleet_destroyed_system_everything = yes 
+			}
+		}
+		set_timed_country_flag = { 
+			flag = kuat_kuat_mega_starbase_special_explosion_temple
+			days = 1800 
+		}
+		country_event = { id = executor_build.1009 days = 1800 } 
+	}
+	after = { 
+		remove_country_flag = kuat_target_signal_ship_owner_temple
+		destroy_fleet = { target = event_target:kuat_target_signal_ship_owner destroy_template = yes kill_leader = yes } 
+	}
+}
+
+country_event = {
+    id = kuat_starbase_skills.12
+    is_triggered_only = yes
+    title = ""
+    desc = ""
+    diplomatic = yes
+    custom_gui = kuat_helldiver_stratagem_code_ui                
+    custom_gui_option = kuat_helldiver_stratagem_code_ui_button  
+	abort_trigger = {
+		OR = {
+			has_country_flag = kuat_inborder_started_for_@this
+			NOT = { exists = event_target:kuat_inborder_started_for_@event_target:Infinite_empire }
+		}
+	}
+    picture_event_data = { room = Eternal_Empire2_room }
+    immediate = {
+		set_country_flag = kuat_rakata_initial_inborder_facility_disabled_temple
+        set_variable = { which = kuat_helldiver_stratagem_code_cur_pos value = 0 }
+		reroll_random = yes
+		random_list = {
+			1 = { set_variable = { which = kuat_helldiver_stratagem_code_res_seq_1 value = @kuat_helldiver_stratagem_code_up } }
+			1 = { set_variable = { which = kuat_helldiver_stratagem_code_res_seq_1 value = @kuat_helldiver_stratagem_code_down } }
+			1 = { set_variable = { which = kuat_helldiver_stratagem_code_res_seq_1 value = @kuat_helldiver_stratagem_code_left } }
+			1 = { set_variable = { which = kuat_helldiver_stratagem_code_res_seq_1 value = @kuat_helldiver_stratagem_code_right } }
+		}
+		reroll_random = yes
+		random_list = {
+			1 = { set_variable = { which = kuat_helldiver_stratagem_code_res_seq_2 value = @kuat_helldiver_stratagem_code_up } }
+			1 = { set_variable = { which = kuat_helldiver_stratagem_code_res_seq_2 value = @kuat_helldiver_stratagem_code_down } }
+			1 = { set_variable = { which = kuat_helldiver_stratagem_code_res_seq_2 value = @kuat_helldiver_stratagem_code_left } }
+			1 = { set_variable = { which = kuat_helldiver_stratagem_code_res_seq_2 value = @kuat_helldiver_stratagem_code_right } }
+		}
+		reroll_random = yes
+		random_list = {
+			1 = { set_variable = { which = kuat_helldiver_stratagem_code_res_seq_3 value = @kuat_helldiver_stratagem_code_up } }
+			1 = { set_variable = { which = kuat_helldiver_stratagem_code_res_seq_3 value = @kuat_helldiver_stratagem_code_down } }
+			1 = { set_variable = { which = kuat_helldiver_stratagem_code_res_seq_3 value = @kuat_helldiver_stratagem_code_left } }
+			1 = { set_variable = { which = kuat_helldiver_stratagem_code_res_seq_3 value = @kuat_helldiver_stratagem_code_right } }
+		}
+		reroll_random = yes
+		random_list = {
+			1 = { set_variable = { which = kuat_helldiver_stratagem_code_res_seq_4 value = @kuat_helldiver_stratagem_code_up } }
+			1 = { set_variable = { which = kuat_helldiver_stratagem_code_res_seq_4 value = @kuat_helldiver_stratagem_code_down } }
+			1 = { set_variable = { which = kuat_helldiver_stratagem_code_res_seq_4 value = @kuat_helldiver_stratagem_code_left } }
+			1 = { set_variable = { which = kuat_helldiver_stratagem_code_res_seq_4 value = @kuat_helldiver_stratagem_code_right } }
+		}
+		reroll_random = yes
+		random_list = {
+			1 = { set_variable = { which = kuat_helldiver_stratagem_code_res_seq_5 value = @kuat_helldiver_stratagem_code_up } }
+			1 = { set_variable = { which = kuat_helldiver_stratagem_code_res_seq_5 value = @kuat_helldiver_stratagem_code_down } }
+			1 = { set_variable = { which = kuat_helldiver_stratagem_code_res_seq_5 value = @kuat_helldiver_stratagem_code_left } }
+			1 = { set_variable = { which = kuat_helldiver_stratagem_code_res_seq_5 value = @kuat_helldiver_stratagem_code_right } }
+		}
+		reroll_random = yes
+		random_list = {
+			1 = { set_variable = { which = kuat_helldiver_stratagem_code_res_seq_6 value = @kuat_helldiver_stratagem_code_up } }
+			1 = { set_variable = { which = kuat_helldiver_stratagem_code_res_seq_6 value = @kuat_helldiver_stratagem_code_down } }
+			1 = { set_variable = { which = kuat_helldiver_stratagem_code_res_seq_6 value = @kuat_helldiver_stratagem_code_left } }
+			1 = { set_variable = { which = kuat_helldiver_stratagem_code_res_seq_6 value = @kuat_helldiver_stratagem_code_right } }
+		}
+		reroll_random = yes
+		random_list = {
+			1 = { set_variable = { which = kuat_helldiver_stratagem_code_res_seq_7 value = @kuat_helldiver_stratagem_code_up } }
+			1 = { set_variable = { which = kuat_helldiver_stratagem_code_res_seq_7 value = @kuat_helldiver_stratagem_code_down } }
+			1 = { set_variable = { which = kuat_helldiver_stratagem_code_res_seq_7 value = @kuat_helldiver_stratagem_code_left } }
+			1 = { set_variable = { which = kuat_helldiver_stratagem_code_res_seq_7 value = @kuat_helldiver_stratagem_code_right } }
+		}
+		reroll_random = yes
+		random_list = {
+			1 = { set_variable = { which = kuat_helldiver_stratagem_code_res_seq_8 value = @kuat_helldiver_stratagem_code_up } }
+			1 = { set_variable = { which = kuat_helldiver_stratagem_code_res_seq_8 value = @kuat_helldiver_stratagem_code_down } }
+			1 = { set_variable = { which = kuat_helldiver_stratagem_code_res_seq_8 value = @kuat_helldiver_stratagem_code_left } }
+			1 = { set_variable = { which = kuat_helldiver_stratagem_code_res_seq_8 value = @kuat_helldiver_stratagem_code_right } }
+		}
+    }
+	abort_effect = { abort_special_project = { type = kuat_rakata_initial_inborder_facility_disabled } }
 }

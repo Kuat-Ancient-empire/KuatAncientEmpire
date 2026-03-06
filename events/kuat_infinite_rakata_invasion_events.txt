@@ -401,6 +401,47 @@ country_event = {
 	}
 }
 
+# looping reinforcement attack fleet inborder door
+country_event = {
+	id = kuat_final_crisis_events.144
+	hide_window = yes
+	is_triggered_only = yes
+	trigger = {
+		is_infinite_faction = yes
+		NOT = { has_global_flag = Kuat_Rakata_inborder_warp_portal_destroyed }
+	}
+	immediate = {
+		if = {
+			limit = {  
+				has_global_flag = Kuat_Rakata_inborder_warp_portal_opened
+				NOT = { has_global_flag = Kuat_Rakata_inborder_warp_portal_destroyed }
+			}
+			if = {
+				limit = { num_ships > 1800 }
+				country_event = { id = kuat_final_crisis_events.143 days = 180 random = 180 }
+			}
+			else = {
+				event_target:Kuat_Rakata_inborder_warp_portal_system = {
+					random_system_planet = { create_Kuat_Rakata_crisis_fleet_and_admiral = yes }
+				}
+				country_event = { id = kuat_final_crisis_events.143 days = 180 }
+			}
+		}
+		else = {
+			if = {
+				limit = { num_ships > 900 }
+				country_event = { id = kuat_final_crisis_events.143 days = 360 random = 360 }
+			}
+			else = {
+				event_target:Kuat_Rakata_inborder_warp_portal_system = {
+					random_system_planet = { create_Kuat_Rakata_crisis_fleet_and_admiral = yes }
+				}
+				country_event = { id = kuat_final_crisis_events.143 days = 360 }
+			}
+		}
+	}
+}
+
 # looping reinforcement defence fleet first door section1
 country_event = {
 	id = kuat_final_crisis_events.102
@@ -500,6 +541,31 @@ country_event = {
 		}
 	}
 }
+# looping reinforcement defence fleet total door section1
+country_event = {
+	id = kuat_final_crisis_events.106
+	is_triggered_only = yes
+	hide_window = yes
+	trigger = {
+		event_target:Kuat_Rakata_inborder_warp_portal_system = {
+			exists = starbase
+			starbase = { owner = { is_infinite_faction = yes } }
+		}
+	}
+	immediate = {
+		event_target:Kuat_Rakata_inborder_warp_portal_system = {
+			random_system_planet = {
+				planet_event = { id = kuat_final_crisis_events.800 }
+				planet_event = { id = kuat_final_crisis_events.800 days = 720 }
+				planet_event = { id = kuat_final_crisis_events.800 days = 1440 }
+				planet_event = { id = kuat_final_crisis_events.800 days = 2160 }
+				planet_event = { id = kuat_final_crisis_events.800 days = 2880 }
+				ROOT = { country_event = { id = kuat_final_crisis_events.106 days = 3600 } }
+			}
+		}
+	}
+}
+
 
 # initial attack fleet first door
 country_event = {
@@ -568,6 +634,24 @@ country_event = {
 	}
 	immediate = {
 		event_target:Kuat_Rakata_total_warp_portal_system = {
+			random_system_planet = { create_Kuat_Rakata_crisis_fleet_and_admiral = yes }
+		}
+	}
+}
+
+# initial attack fleet total door
+country_event = {
+	id = kuat_final_crisis_events.44
+	hide_window = yes
+	is_triggered_only = yes
+	trigger = {
+		event_target:Kuat_Rakata_inborder_warp_portal_system = {
+			exists = starbase
+			starbase = { owner = { is_infinite_faction = yes } }
+		}
+	}
+	immediate = {
+		event_target:Kuat_Rakata_inborder_warp_portal_system = {
 			random_system_planet = { create_Kuat_Rakata_crisis_fleet_and_admiral = yes }
 		}
 	}
@@ -709,6 +793,40 @@ planet_event = {
 	}
 }
 
+# looping reinforcement defence fleet total door section2
+planet_event = {
+	id = kuat_final_crisis_events.800
+	hide_window = yes
+	is_triggered_only = yes
+	trigger = {
+		event_target:Infinite_empire = {
+			count_owned_ship = {
+				limit = { OR = {
+					is_ship_size = exe_starbase
+					is_ship_size = Infinite_megastructure_starbase
+				} }
+				count > 0
+			}
+		}
+		event_target:Kuat_Rakata_inborder_warp_portal_system = {
+			exists = starbase
+			starbase = { owner = { is_infinite_faction = yes } }
+		}
+	}
+	immediate = {
+		event_target:Kuat_Rakata_inborder_warp_portal_system = {
+			random_system_planet = {
+				create_Kuat_Worldship_Rakata_crisis_greater_fleet = yes
+				last_created_fleet = {
+					set_name = "Name_DFLEET"
+					set_timed_fleet_flag = { flag = Kuat_Rakata_defence_fleet days = 1800 }
+					fleet_event = { id = kuat_final_crisis_events.401 days = 1801 }
+				}
+			}
+		}
+	}
+}
+
 # defence fleet being attacker
 fleet_event = {
 	id = kuat_final_crisis_events.401
@@ -756,10 +874,16 @@ country_event = {
 				if = {
 					# 所有节点被破坏
 					limit = {
-						has_global_flag = Kuat_Rakata_first_warp_portal_destroyed
 						has_global_flag = Kuat_Rakata_second_warp_portal_destroyed
 						has_global_flag = Kuat_Rakata_third_warp_portal_destroyed
 						has_global_flag = Kuat_Rakata_total_warp_portal_destroyed
+						if = {
+							limit = { OR = {
+								has_global_flag = difficult_exe_invasion
+								has_global_flag = ban_exe_invasion
+							} }
+							has_global_flag = Kuat_Rakata_inborder_warp_portal_destroyed
+						}
 					}
 					ROOT = { country_event = { id = kuat_final_crisis_events.110 } }
 				} 
@@ -792,9 +916,15 @@ country_event = {
 					# 所有节点被破坏
 					limit = {
 						has_global_flag = Kuat_Rakata_first_warp_portal_destroyed
-						has_global_flag = Kuat_Rakata_second_warp_portal_destroyed
 						has_global_flag = Kuat_Rakata_third_warp_portal_destroyed
 						has_global_flag = Kuat_Rakata_total_warp_portal_destroyed
+						if = {
+							limit = { OR = {
+								has_global_flag = difficult_exe_invasion
+								has_global_flag = ban_exe_invasion
+							} }
+							has_global_flag = Kuat_Rakata_inborder_warp_portal_destroyed
+						}
 					}
 					ROOT = { country_event = { id = kuat_final_crisis_events.110 } }
 				} 
@@ -828,8 +958,14 @@ country_event = {
 					limit = {
 						has_global_flag = Kuat_Rakata_first_warp_portal_destroyed
 						has_global_flag = Kuat_Rakata_second_warp_portal_destroyed
-						has_global_flag = Kuat_Rakata_third_warp_portal_destroyed
 						has_global_flag = Kuat_Rakata_total_warp_portal_destroyed
+						if = {
+							limit = { OR = {
+								has_global_flag = difficult_exe_invasion
+								has_global_flag = ban_exe_invasion
+							} }
+							has_global_flag = Kuat_Rakata_inborder_warp_portal_destroyed
+						}
 					}
 					ROOT = { country_event = { id = kuat_final_crisis_events.110 } }
 				} 
@@ -852,6 +988,47 @@ country_event = {
 					solar_system = { create_kuat_starbase_expolde_boom = yes }
 				}		
 				if = {
+					# 若特殊节点被破坏，第四节点未出现，则马上刷出第四节点
+					limit = {
+						has_global_flag = Kuat_Rakata_total_warp_portal_destroyed
+						NOT = { has_global_flag = Kuat_Rakata_inborder_warp_portal_opened }
+					}
+					event_target:Infinite_empire = { country_event = { id = kuat_final_crisis_events.18 } }
+				}
+				if = {
+					# 所有节点被破坏
+					limit = {
+						has_global_flag = Kuat_Rakata_first_warp_portal_destroyed
+						has_global_flag = Kuat_Rakata_second_warp_portal_destroyed
+						has_global_flag = Kuat_Rakata_third_warp_portal_destroyed
+						if = {
+							limit = { OR = {
+								has_global_flag = difficult_exe_invasion
+								has_global_flag = ban_exe_invasion
+							} }
+							has_global_flag = Kuat_Rakata_inborder_warp_portal_destroyed
+						}
+					}
+					ROOT = { country_event = { id = kuat_final_crisis_events.110 } }
+				} 
+				else = {
+					# 尚有其他节点
+					every_playable_country = { country_event = { id = kuat_final_crisis_events.53 } }
+				}
+			}
+			else_if = {
+				# 特殊节点被破坏
+				limit = { solar_system = { has_star_flag = Kuat_Rakata_inborder_warp_portal_system } }
+				set_global_flag = Kuat_Rakata_inborder_warp_portal_destroyed
+				every_country = {
+					limit = { has_point_of_interest = { poi = Kuat_Rakata_invasion_poi.5 } }
+					remove_point_of_interest = Kuat_Rakata_invasion_poi.5
+				}
+				if = {
+					limit = { is_ship_size = Infinite_megastructure_starbase }
+					solar_system = { create_kuat_starbase_expolde_boom = yes }
+				}		
+				if = {
 					# 所有节点被破坏
 					limit = {
 						has_global_flag = Kuat_Rakata_first_warp_portal_destroyed
@@ -864,6 +1041,13 @@ country_event = {
 				else = {
 					# 尚有其他节点
 					every_playable_country = { country_event = { id = kuat_final_crisis_events.53 } }
+					root = { if = {
+						limit = { 
+							is_ai = no exists = event_target:Infinite_empire 
+							has_megastructure = Infinite_inborder_disabled
+						}
+						country_event = { id = kuat_final_crisis_events.62 days = 5 }
+					} }
 				}
 			}
 		}
@@ -880,6 +1064,8 @@ country_event = {
 		set_global_flag = kuat_all_warp_portal_destroyed
 		event_target:Eternalempire = { country_event = { id = kuat_galatic_empire_ge_invasion.256 days = 5 random = 2 } }
 		every_playable_country = {
+			abort_special_project = { type = kuat_rakata_initial_inborder_facility_disabled }
+			abort_special_project = { type = kuat_rakata_initial_inborder_facility }
 			add_modifier = { modifier = "extradimensionals_defeated" days = 360 }
 			country_event = { id = kuat_final_crisis_events.21 }
 		}
@@ -908,6 +1094,13 @@ event = {
 		has_global_flag = Kuat_Rakata_second_warp_portal_destroyed
 		has_global_flag = Kuat_Rakata_third_warp_portal_destroyed
 		has_global_flag = Kuat_Rakata_total_warp_portal_destroyed
+		if = {
+			limit = { OR = {
+				has_global_flag = difficult_exe_invasion
+				has_global_flag = ban_exe_invasion
+			} }
+			has_global_flag = Kuat_Rakata_inborder_warp_portal_destroyed
+		}
 	}
 	immediate = {
 		if = {
@@ -1060,6 +1253,70 @@ country_event = {
 		every_playable_country = {
 			limit = { is_ai = no }
 			country_event = { id = kuat_final_crisis_events.55 }
+		}
+	}
+}
+
+# fourth door created
+country_event = {
+	id = kuat_final_crisis_events.18
+	hide_window = yes
+	trigger = {
+		is_infinite_faction = yes
+		has_global_flag = Kuat_Rakata_first_warp_portal_opened
+		NOR = { 
+			has_global_flag = Kuat_Rakata_inborder_warp_portal_opened 
+			has_global_flag = kuat_set_forcetrigger_order_enable_crisis_eve_system
+		}
+		OR = {
+			has_global_flag = difficult_exe_invasion
+			has_global_flag = ban_exe_invasion
+		}
+	}
+	mean_time_to_happen = { months = 12 }
+	fire_only_once = yes
+	immediate = {
+		set_global_flag = Kuat_Rakata_inborder_warp_portal_opened
+		initialize_Rakata_crisis_system_select = yes
+		initialize_Kuat_Rakata_inborder_warp_portal_system_select = yes
+		random_system = {
+			limit = { has_star_flag = kuat_rakata_hole_system_1 }
+			set_star_flag = Kuat_Rakata_inborder_warp_portal_system
+			save_global_event_target_as = Kuat_Rakata_inborder_warp_portal_system
+			set_variable = {
+				which = Kuat_Rakata_inborder_warp_portal_system_var
+				value = value:kuat_settings_difficult_value
+			}
+			floor_variable = Kuat_Rakata_inborder_warp_portal_system_var
+			if = {
+				limit = { check_variable = { which = Kuat_Rakata_inborder_warp_portal_system_var value < 2 } }
+				set_variable = { which = Kuat_Rakata_inborder_warp_portal_system_var value = 2 }
+			}
+			system_star = {
+				spawn_rakata_fleets_insane_inborder = yes
+				ROOT = {
+					while = {
+						count = prevprev.Kuat_Rakata_inborder_warp_portal_system_var
+						country_event = { id = kuat_final_crisis_events.44 days = 16 }
+					}
+					country_event = { id = kuat_final_crisis_events.106 days = 1800 } #循环刷辅助守家舰队
+					country_event = { id = kuat_final_crisis_events.144 days = 360 }
+				}
+			}
+			if = {
+				limit = { exists = starbase }
+				starbase = { fleet = { destroy_fleet = this } }
+			}
+			create_starbase = {
+				size = exe_starbase
+				owner = event_target:Infinite_empire
+				effect = { fleet = { set_event_locked = yes } }
+			}
+			system_event = { id = kuat_final_crisis_events.59 days = 30 }
+		}
+		every_playable_country = {
+			limit = { is_ai = no }
+			country_event = { id = kuat_final_crisis_events.561 }
 		}
 	}
 }
@@ -1250,7 +1507,7 @@ event = {
 
 # kill count
 country_event = {
-	id = kuat_final_crisis_events.44
+	id = kuat_final_crisis_events.48
 	hide_window = yes
 	is_triggered_only = yes
 	trigger = { is_infinite_faction = yes }
@@ -1283,7 +1540,7 @@ country_event = {
 
 # kill count 
 country_event = {
-	id = kuat_final_crisis_events.45
+	id = kuat_final_crisis_events.49
 	hide_window = yes
 	is_triggered_only = yes
 	trigger = { is_infinite_faction = yes }
@@ -1555,6 +1812,43 @@ country_event = {
 	}
 }
 
+# set the total door poi
+country_event = {
+	id = kuat_final_crisis_events.561
+	title = "kuat_final_crisis_events.561.name"
+	desc = "kuat_final_crisis_events.561.desc"
+	diplomatic = yes
+	custom_gui = "kuat_event_m_window"
+	custom_gui_option = "kuat_event_option"
+	picture_event_data = { room = satellite_in_orbit_room }
+	show_sound = event_ex_started
+	location = event_target:Kuat_Rakata_inborder_warp_portal_system
+	is_triggered_only = yes
+	after = {
+		create_point_of_interest = {
+			id = Kuat_Rakata_invasion_poi.5
+			name = "Kuat_Rakata_invasion_5_poi"
+			desc = "Kuat_Rakata_invasion_5_poi_desc"
+			event_chain = "kuat_rakata_invasion_chain"
+			location = event_target:Kuat_Rakata_inborder_warp_portal_system
+		}
+		country_event = { id = kuat_final_crisis_events.61 days = 3 }
+	}
+	option = {
+		name = kuat_final_crisis_events.561.a
+		hidden_effect = {
+			if = {
+				limit = { exists = event_target:kuat_inborder_started_for_@event_target:Infinite_empire }
+				enable_special_project = {
+					name = kuat_rakata_initial_inborder_facility_disabled
+					location = event_target:kuat_inborder_started_for_@event_target:Infinite_empire
+				}
+			}
+		}
+		custom_tooltip = kuat_final_crisis_events.561.a.tooltip
+	}
+}
+
 # notification(second poi)
 country_event = {
 	id = kuat_final_crisis_events.57
@@ -1609,6 +1903,132 @@ country_event = {
 	option = {
 		name = kuat_final_crisis_events.60.a
 		response_text = kuat_final_crisis_events.60.a.response
+	}
+}
+
+# notification(third poi)
+country_event = {
+	id = kuat_final_crisis_events.61
+	title = "TRANSMISSION"
+	diplomatic = yes
+	picture_event_data = { 
+		portrait = event_target:kuat_astral_rift_event_leader_rakata
+		room = root 
+	}
+	custom_gui = "kuat_event_diplomacy_window"
+	custom_gui_option = "kuat_event_diplomacy_option"
+	is_triggered_only = yes
+	desc = "kuat_final_crisis_events.61.desc"
+	option = {
+		name = kuat_final_crisis_events.61.a
+		response_text = kuat_final_crisis_events.61.a.response
+	}
+}
+
+# initial inhborder town (打爆以后获得权限重启)
+country_event = {
+	id = kuat_final_crisis_events.62
+	title = "TRANSMISSION"
+	diplomatic = yes
+	picture_event_data = {
+		portrait = event_target:UTS01_LEADER
+		room = Eternal_Empire_room
+	}
+	custom_gui = "kuat_event_diplomacy_window"
+	custom_gui_option = "kuat_event_diplomacy_option"
+	is_triggered_only = yes
+	desc = "kuat_final_crisis_events.62.desc"
+	trigger = { has_country_flag = kuat_inborder_started_for_@root }
+	option = {
+		name = kuat_final_crisis_events.62.a
+		hidden_effect = {
+			enable_special_project = {
+				name = kuat_rakata_initial_inborder_facility
+				location = event_target:kuat_inborder_started_for_@root
+			}
+		}
+		response_text = kuat_final_crisis_events.62.a.response
+	}
+}
+
+country_event = {
+	id = kuat_final_crisis_events.63
+	title = "TRANSMISSION"
+	diplomatic = yes
+	picture_event_data = { room = astral_rift_clock_room }
+	custom_gui = "kuat_event_window"
+	custom_gui_option = "kuat_event_option"
+	is_triggered_only = yes
+	title = "kuat_final_crisis_events.63.name"
+	desc = "kuat_final_crisis_events.63.desc"
+	option = {
+		name = kuat_final_crisis_events.63.a
+		hidden_effect = { set_country_flag = kuat_enable_get_rakata_inborder_town_order }
+	}
+}
+
+#on_kuat_stratagem_finished
+country_event = {
+	id = kuat_final_crisis_events.64
+	title = "TRANSMISSION"
+	diplomatic = yes
+	picture_event_data = { room = astral_rift_clock_room }
+	custom_gui = "kuat_event_m_window"
+	custom_gui_option = "kuat_event_option"
+	is_triggered_only = yes
+	title = "kuat_final_crisis_events.64.name"
+	desc = "kuat_final_crisis_events.64.desc"
+	show_sound = event_ship_bridge
+	trigger = {
+		has_country_flag = kuat_rakata_initial_inborder_facility_disabled_temple
+		exists = event_target:kuat_inborder_started_for_@event_target:Infinite_empire
+	}
+	option = {
+		name = kuat_final_crisis_events.64.a
+		hidden_effect = {  
+			remove_megastructure = event_target:kuat_inborder_started_for_@event_target:Infinite_empire
+			random_system = {
+				limit = { has_star_flag = kuat_rakata_hole_system_2 }
+				spawn_megastructure = {
+					type = Infinite_inborder_disabled
+					planet = star
+					init_effect = { save_global_event_target_as = kuat_inborder_started_for_@root }
+				}
+			}
+			set_country_flag = kuat_inborder_started_for_@this
+		}
+	}
+}
+
+# initial inhborder town (打爆以后获得权限重启)
+country_event = {
+	id = kuat_final_crisis_events.65
+	title = "TRANSMISSION"
+	diplomatic = yes
+	picture_event_data = {
+		portrait = event_target:UTS01_LEADER
+		room = Eternal_Empire_room
+	}
+	custom_gui = "kuat_event_diplomacy_window"
+	custom_gui_option = "kuat_event_diplomacy_option"
+	is_triggered_only = yes
+	fire_only_once = yes
+	desc = "kuat_final_crisis_events.65.desc"
+	trigger = { exists = event_target:Infinite_empire }
+	option = {
+		name = kuat_final_crisis_events.65.a
+		hidden_effect = {
+			create_fleet = {
+				effect = {
+					create_ship = {
+						fleet_cache_recalc = no
+						design = "Name_kuat_target_signal_mid1"
+					}
+					set_location = root.capital_scope
+				}
+			}
+		}
+		response_text = kuat_final_crisis_events.65.a.response
 	}
 }
 
