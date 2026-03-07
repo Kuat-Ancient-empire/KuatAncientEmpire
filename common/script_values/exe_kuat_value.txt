@@ -56,23 +56,30 @@
 kuat_enigmatic_encoder_defender_value = {
 	base = 0
 	add = trigger:has_max_hp
-	divide = value:kuat_superlazer_weapon_damage_factor_ship_base|kuat_value|$kuat_value$|
+	divide = value:kuat_avert_modifier_mult_multiplier|kuat_modifier|$kuat_modifier$|kuat_min|1|
 	divide = modifier:kuat_enigmatic_encoder_defender
 	max = 900000000
 }
-
-kuat_superlazer_weapon_damage_factor_ship_base = {
+kuat_avert_modifier_mult_multiplier = {
 	base = 0
 	add = 1
-	add = $kuat_value$
-	min = 1
+	add = modifier:$kuat_modifier$
+	[[kuat_min] min = $kuat_min$ ]
+	[[kuat_max] max = $kuat_max$ ]	
+}
+kuat_modifier_mult_multiplier = {
+	base = 0
+	add = 1
+	subtract = modifier:$kuat_modifier$
+	[[kuat_min] min = $kuat_min$ ]
+	[[kuat_max] max = $kuat_max$ ]
 }
 kuat_superlazer_weapon_damage_factor_standard = {
 	base = 0
 	add = $kuat_damage_max$
 	divide = $kuat_damage_base$
 }
-kuat_superlazer_weapon_damage_factor_tags = {
+kuat_damage_modifier_multiplier = {
 	base = 0
 	add = 1
 	add = modifier:ship_weapon_damage
@@ -81,6 +88,8 @@ kuat_superlazer_weapon_damage_factor_tags = {
 	modifier = { add = modifier:weapon_type_energy_weapon_damage_mult always = $kuat_energy$ }
 	modifier = { add = modifier:weapon_type_kinetic_weapon_damage_mult always = $kuat_kinetic$ }
 	modifier = { add = modifier:weapon_type_explosive_weapon_damage_mult always = $kuat_explosive$ }
+	modifier = { add = modifier:weapon_type_point_defense_weapon_damage_mult always = $kuat_point_defense$ }
+	modifier = { add = modifier:weapon_type_strike_craft_weapon_damage_mult always = $kuat_strike_craft$ }
 	min = 0
 }
 kuat_superlazer_weapon_damage_factor_ship = {
@@ -88,8 +97,8 @@ kuat_superlazer_weapon_damage_factor_ship = {
 	add = $kuat_damage_max$
 	divide = $kuat_damage_base$
 	divide = $kuat_weapon_damage_buff$
-	divide = value:kuat_superlazer_weapon_damage_factor_ship_base|kuat_value|modifier:ship_hull_damage_mult|
-	subtract = value:kuat_superlazer_weapon_damage_factor_tags|kuat_slot|$kuat_slot$|kuat_energy|$kuat_energy$|kuat_kinetic|$kuat_kinetic$|kuat_explosive|$kuat_explosive$|
+	divide = value:kuat_avert_modifier_mult_multiplier|kuat_modifier|ship_hull_damage_mult|kuat_min|1|
+	subtract = value:kuat_damage_modifier_multiplier|kuat_slot|$kuat_slot$|kuat_energy|$kuat_energy$|kuat_kinetic|$kuat_kinetic$|kuat_explosive|$kuat_explosive$|kuat_point_defense|$kuat_point_defense$|kuat_strike_craft|$kuat_strike_craft$|
 	divide = modifier:kuat_superlazer_symbol
 	min = 0
 	max = value:kuat_superlazer_weapon_damage_factor_standard|kuat_damage_max|$kuat_damage_max$|kuat_damage_base|$kuat_damage_base$|
@@ -103,8 +112,8 @@ kuat_superlazer_weapon_rate_factor_ship = {
 
 kuat_auto_adjust_damage_weapon_total = {
 	base = 0
-	add = value:kuat_superlazer_weapon_damage_factor_tags|kuat_slot|$kuat_slot$|kuat_energy|$kuat_energy$|kuat_kinetic|$kuat_kinetic$|kuat_explosive|$kuat_explosive$|
-	mult = value:kuat_superlazer_weapon_damage_factor_ship_base|kuat_value|modifier:ship_hull_damage_mult|
+	add = value:kuat_damage_modifier_multiplier|kuat_slot|$kuat_slot$|kuat_energy|$kuat_energy$|kuat_kinetic|$kuat_kinetic$|kuat_explosive|$kuat_explosive$|kuat_point_defense|$kuat_point_defense$|kuat_strike_craft|$kuat_strike_craft$|
+	mult = value:kuat_avert_modifier_mult_multiplier|kuat_modifier|ship_hull_damage_mult|kuat_min|1|
 	mult = $kuat_weapon_damage_buff$
 	min = 0
 	max = value:kuat_superlazer_weapon_damage_factor_standard|kuat_damage_max|$kuat_damage_max$|kuat_damage_base|$kuat_damage_base$|
@@ -268,7 +277,7 @@ kuat_dynamic_base_value = {
 kuat_dynamic_ship_hp_foundation_value = {
 	base = 0
 	add = trigger:has_max_hp
-	divide = value:kuat_superlazer_weapon_damage_factor_ship_base|kuat_value|modifier:$MODIFIER_MULT$|
+	divide = value:kuat_avert_modifier_mult_multiplier|kuat_modifier|$MODIFIER_MULT$|kuat_min|1|
 	subtract = modifier:$MODIFIER_ADD$
 	min = 0
 	max = @kuat_boss_max_hitpoints_2
@@ -899,6 +908,20 @@ kuat_plague_power_multipler = {
 	base = 0
 	add = value:kuat_plague_power|MULT|$MULT$|
 	mult = 10000
+}
+
+kuat_aoe_damage_multipler = {
+	base = 0
+	add = $kuat_weapon_stollen_damage$
+	mult = from.value:kuat_damage_modifier_multiplier|kuat_slot|$kuat_slot$|kuat_energy|$kuat_energy$|kuat_kinetic|$kuat_kinetic$|kuat_explosive|$kuat_explosive$|kuat_point_defense|$kuat_point_defense$|kuat_strike_craft|$kuat_strike_craft$|
+	mult = value:kuat_modifier_mult_multiplier|kuat_modifier|ship_damage_reduction_mult|kuat_min|0|
+	subtract = modifier:ship_damage_reduction_add
+}
+
+kuat_has_armor_hp = {
+	base = 0
+	add = trigger:has_max_armor_hp
+	mult = trigger:has_armor_percentage
 }
 
 kuat_helldiver_stratagem_code_check_pos = {

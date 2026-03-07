@@ -4,17 +4,94 @@ on_hit = {
 		description_parameters = {
 			"var_1" = $kuat_weapon_stollen_value$
 			"var_2" = $kuat_weapon_stollen_days$
+			"var_3" = $kuat_weapon_stollen_damage$
 		}
 	}
 	hidden_effect = {
 		if = {
-			limit = { check_modifier_value = { modifier = ship_damage_reduction_add value > 0 } }
+			limit = { 
+				check_modifier_value = { modifier = ship_damage_reduction_add value > 0 } 
+				exists = controller controller = { is_invisable_faction = no }
+			}
 			kuat_battle_steal_modifier_on_hit = {
 				VARIABLE = eternal_ship_damage_reduce_reduce_temp
 				MODIFIER = kuat_damage_steal_weapon_hit_modifier
+				KUAT_MODIFIER = kuat_weapon_steal_ship_damage
 				AMOUNT = $kuat_weapon_stollen_value$
 				DAYS = $kuat_weapon_stollen_days$
 			}
+		}
+		if = {
+			limit = { always = yes }
+			solar_system = { every_ship_in_system = {
+				limit = {
+					exists = controller
+					controller = { is_hostile = from.controller }
+					distance = { source = root max_distance <= 40 same_solar_system = yes }
+					NOT = { has_ship_flag = kuat_ship_aoe_effect_temple }
+					root = { from = { prevprev = { NOT = { has_ship_flag = kuat_aoe_damaged_@prev } } } }
+            		#check_modifier_value = { modifier = ag_ship_aoe_damage_reduction value < 1.0 }
+				}
+				set_ship_flag = kuat_ship_aoe_effect_temple
+				root = { from = { prevprev = { set_timed_ship_flag = { flag = kuat_aoe_damaged_@prev days = @kuat_global_dynamic_hitpoints } } } }
+				set_variable = { 
+					which = kuat_aoe_total_damage_value 
+					value = value:kuat_aoe_damage_multipler|kuat_weapon_stollen_damage|$kuat_weapon_stollen_damage$|kuat_slot|$kuat_slot$|kuat_energy|$kuat_energy$|kuat_kinetic|$kuat_kinetic$|kuat_explosive|$kuat_explosive$|kuat_point_defense|$kuat_point_defense$|kuat_strike_craft|$kuat_strike_craft$| 
+				}
+				if = {
+					limit = { 
+						check_variable = { which = kuat_aoe_total_damage_value value > 0 } 
+						has_shield_hp > 0 
+					}
+					set_variable = { which = kuat_aoe_shield_damage_value value = kuat_aoe_total_damage_value }
+					multiply_variable = { which = kuat_aoe_shield_damage_value value = from.value:kuat_avert_modifier_mult_multiplier|kuat_modifier|ship_shield_damage_mult| }
+					if = { 
+						limit = { has_shield_hp >= kuat_aoe_shield_damage_value } 
+						reduce_shield = kuat_aoe_shield_damage_value 
+					}
+					else = {
+						set_variable = { which = kuat_aoe_shield_damage_value value = trigger:has_shield_hp }
+						divide_variable = { which = kuat_aoe_shield_damage_value value = from.value:kuat_avert_modifier_mult_multiplier|kuat_modifier|ship_shield_damage_mult| }
+						reduce_shield = trigger:has_shield_hp
+					}
+					subtract_variable = { which = kuat_aoe_total_damage_value value = kuat_aoe_shield_damage_value }
+					clear_variable = kuat_aoe_shield_damage_value
+				}
+				if = {
+					limit = { 
+						check_variable = { which = kuat_aoe_total_damage_value value > 0 } 
+						has_armor_percentage > 0 
+					}
+					set_variable = { which = kuat_currently_armor_hp value = value:kuat_has_armor_hp }
+					set_variable = { which = kuat_aoe_armor_damage_value value = kuat_aoe_total_damage_value }
+					multiply_variable = { which = kuat_aoe_armor_damage_value value = from.value:kuat_avert_modifier_mult_multiplier|kuat_modifier|ship_armor_damage_mult| }
+					if = {
+						limit = { check_variable = { which = kuat_currently_armor_hp value >= kuat_aoe_armor_damage_value } }
+						multiply_variable = { which = kuat_aoe_armor_damage_value value = -1 }
+						repair_armor_amount = kuat_aoe_armor_damage_value
+					}
+					else = {
+						set_variable = { which = kuat_aoe_armor_damage_value value = kuat_currently_armor_hp }
+						multiply_variable = { which = kuat_aoe_armor_damage_value value = -1 }
+						repair_armor_amount = kuat_aoe_armor_damage_value
+						set_variable = { which = kuat_aoe_armor_damage_value value = kuat_currently_armor_hp }
+						divide_variable = { which = kuat_aoe_armor_damage_value value = from.value:kuat_avert_modifier_mult_multiplier|kuat_modifier|ship_armor_damage_mult| }
+						multiply_variable = { which = kuat_aoe_armor_damage_value value = -1 }
+					}
+					change_variable = { which = kuat_aoe_total_damage_value value = kuat_aoe_armor_damage_value }
+					clear_variable = kuat_currently_armor_hp
+					clear_variable = kuat_aoe_armor_damage_value
+				}
+				if = {
+					limit = { check_variable = { which = kuat_aoe_total_damage_value value > 0 } }
+					multiply_variable = { which = kuat_aoe_total_damage_value value = from.value:kuat_avert_modifier_mult_multiplier|kuat_modifier|ship_hull_damage_mult| }
+					change_variable = { which = kuat_aoe_total_damage_value value = modifier:kuat_weapon_aoe_ship_hull_damage }
+					add_modifier = { modifier = kuat_ship_weapon_on_hit_aoe_modifier multiplier = kuat_aoe_total_damage_value days = 2 }
+					clear_variable = kuat_aoe_total_damage_value
+				}
+				else = { clear_variable = kuat_aoe_total_damage_value }
+ 				remove_ship_flag = kuat_ship_aoe_effect_temple
+			} }
 		}
 	}
 }

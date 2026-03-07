@@ -1060,9 +1060,8 @@ kuat_battle_spawn_system_suppliment_storm = {
 
 kuat_battle_steal_modifier_on_hit = {
 	optimize_memory
-	set_variable = { which = KUAT_$VARIABLE$ value = modifier:$MODIFIER$ }
 	set_variable = { which = $VARIABLE$ value = $AMOUNT$ }
-	change_variable = { which = $VARIABLE$ value = KUAT_$VARIABLE$ }
+	change_variable = { which = $VARIABLE$ value = modifier:$KUAT_MODIFIER$ }
 	add_modifier = { modifier = $MODIFIER$ multiplier = $VARIABLE$ days = $DAYS$ }
 	clear_variable = $VARIABLE$
 }
@@ -1084,14 +1083,15 @@ kuat_battle_cretae_aoe_particle_effect = {
 		entity_offset_angle = { min = 0 max = 0 }
 		entity_offset_height = { min = 0 max = 0 }
 		entity_scale_to_size = yes
-		duration = 5
-		scale = 0.05
+		duration = 3
+		scale = 0.07
 	}
 }
 
 kuat_battle_eternal_aoe_effect = {
 	solar_system = { every_ship_in_system = {
 		limit = {
+			exists = controller
 			controller = { 
 				is_hostile = from.controller
 			}

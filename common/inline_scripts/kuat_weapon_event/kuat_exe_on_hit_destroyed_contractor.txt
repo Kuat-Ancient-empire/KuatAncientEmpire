@@ -8,10 +8,14 @@ on_hit = {
 	}
 	hidden_effect = {
 		if = {
-			limit = { check_modifier_value = { modifier = ship_armor_hardening_add value > 0 } }
+			limit = { 
+				check_modifier_value = { modifier = ship_armor_hardening_add value > 0 } 
+				exists = controller controller = { is_invisable_faction = no }
+			}
 			kuat_battle_steal_modifier_on_hit = {
 				VARIABLE = contractor_ship_damage_reduce_reduce_temp
 				MODIFIER = kuat_armor_steal_weapon_hit_modifier
+				KUAT_MODIFIER = kuat_weapon_steal_ship_armor
 				AMOUNT = $kuat_weapon_stollen_value$
 				DAYS = $kuat_weapon_stollen_days$
 			}
