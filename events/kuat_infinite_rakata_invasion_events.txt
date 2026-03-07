@@ -77,6 +77,11 @@ country_event = {
 						limit = { exists = starbase }
 						starbase = { fleet = { destroy_fleet = this } }
 					}
+					create_starbase = {
+						size = exe_starbase
+						owner = event_target:Infinite_empire
+						effect = { fleet = { set_event_locked = yes } }
+					}
 					system_event = { id = kuat_final_crisis_events.59 days = 30 }
 					set_star_flag = Kuat_Rakata_first_warp_portal
 				}
@@ -847,10 +852,7 @@ country_event = {
 	is_triggered_only = yes
 	trigger = {
 		from = { is_infinite_faction = yes }
-		fromfromfrom = { OR = {
-			is_ship_size = exe_starbase
-			is_ship_size = Infinite_megastructure_starbase
-		} }
+		fromfromfrom = { is_ship_size = exe_starbase }
 	}
 	immediate = {
 		fromfromfrom.fleet = {
@@ -1205,6 +1207,15 @@ country_event = {
 				limit = { exists = starbase }
 				starbase = { fleet = { destroy_fleet = this } }
 			}
+			if = {
+				limit = { exists = starbase }
+				starbase = { fleet = { destroy_fleet = this } }
+			}
+			create_starbase = {
+				size = exe_starbase
+				owner = event_target:Infinite_empire
+				effect = { fleet = { set_event_locked = yes } }
+			}
 			create_Rakata_crisis_elternal_system_warbase = yes
 			system_event = { id = kuat_final_crisis_events.59 days = 30 }
 		}
@@ -1247,6 +1258,15 @@ country_event = {
 				limit = { exists = starbase }
 				starbase = { fleet = { destroy_fleet = this } }
 			}
+			if = {
+				limit = { exists = starbase }
+				starbase = { fleet = { destroy_fleet = this } }
+			}
+			create_starbase = {
+				size = exe_starbase
+				owner = event_target:Infinite_empire
+				effect = { fleet = { set_event_locked = yes } }
+			}
 			create_Rakata_crisis_elternal_system_warbase = yes
 			system_event = { id = kuat_final_crisis_events.59 days = 30 }
 		}
@@ -1280,7 +1300,7 @@ country_event = {
 		initialize_Rakata_crisis_system_select = yes
 		initialize_Kuat_Rakata_inborder_warp_portal_system_select = yes
 		random_system = {
-			limit = { has_star_flag = kuat_rakata_hole_system_1 }
+			limit = { has_star_flag = kuat_rakata_hole_system_2 }
 			set_star_flag = Kuat_Rakata_inborder_warp_portal_system
 			save_global_event_target_as = Kuat_Rakata_inborder_warp_portal_system
 			set_variable = {
@@ -2020,6 +2040,7 @@ country_event = {
 		hidden_effect = {
 			create_fleet = {
 				effect = {
+					set_owner = root
 					create_ship = {
 						fleet_cache_recalc = no
 						design = "Name_kuat_target_signal_mid1"
