@@ -30,7 +30,10 @@ on_hit = {
 					distance = { source = root max_distance <= 40 same_solar_system = yes }
 					NOT = { has_ship_flag = kuat_ship_aoe_effect_temple }
 					root = { from = { prevprev = { NOT = { has_ship_flag = kuat_aoe_damaged_@prev } } } }
-            		#check_modifier_value = { modifier = ag_ship_aoe_damage_reduction value < 1.0 }
+					if = {
+						limit = { root.from = { NOT = { is_ship_size = eternal_flagship } } }
+						check_modifier_value = { modifier = ag_ship_aoe_damage_reduction value < 1.0 }
+					}
 				}
 				set_ship_flag = kuat_ship_aoe_effect_temple
 				root = { from = { prevprev = { set_timed_ship_flag = { flag = kuat_aoe_damaged_@prev days = @kuat_global_dynamic_hitpoints } } } }
