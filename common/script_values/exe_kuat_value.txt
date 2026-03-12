@@ -53,28 +53,28 @@
 # This means that you can input parameters into them, in a similar fashion as described in scripted_effects/99_advanced_documentation.txt
 # For format for doing so is value:my_value|PARAM1|value1|PARAM2|value2|.
 # Then you can use $PARAM1$ in the script value and it will replace it with value1
-kuat_enigmatic_encoder_defender_value = {
+kuat_base_armor_and_shield = {
 	base = 0
 	add = trigger:has_max_hp
-	divide = value:kuat_avert_modifier_mult_multiplier|kuat_modifier|$kuat_modifier$|kuat_min|1|
+	divide = value:kuat_modifier_mult_add|kuat_modifier|$kuat_modifier$|kuat_min|1|
 	divide = modifier:kuat_enigmatic_encoder_defender
 	max = 900000000
 }
-kuat_avert_modifier_mult_multiplier = {
+kuat_modifier_mult_add = {
 	base = 0
 	add = 1
 	add = modifier:$kuat_modifier$
 	[[kuat_min] min = $kuat_min$ ]
 	[[kuat_max] max = $kuat_max$ ]	
 }
-kuat_modifier_mult_multiplier = {
+kuat_modifier_mult_subtract = {
 	base = 0
 	add = 1
 	subtract = modifier:$kuat_modifier$
 	[[kuat_min] min = $kuat_min$ ]
 	[[kuat_max] max = $kuat_max$ ]
 }
-kuat_superlazer_weapon_damage_factor_standard = {
+kuat_base_weapon_damage = {
 	base = 0
 	add = $kuat_damage_max$
 	divide = $kuat_damage_base$
@@ -92,31 +92,30 @@ kuat_damage_modifier_multiplier = {
 	modifier = { add = modifier:weapon_type_strike_craft_weapon_damage_mult always = $kuat_strike_craft$ }
 	min = 0
 }
-kuat_superlazer_weapon_damage_factor_ship = {
+kuat_superlazer_weapon_damage_multiplier = {
 	base = 0
-	add = $kuat_damage_max$
-	divide = $kuat_damage_base$
+	add = value:kuat_base_weapon_damage|kuat_damage_max|$kuat_damage_max$|kuat_damage_base|$kuat_damage_base$|
 	divide = $kuat_weapon_damage_buff$
-	divide = value:kuat_avert_modifier_mult_multiplier|kuat_modifier|ship_hull_damage_mult|kuat_min|1|
+	divide = value:kuat_modifier_mult_add|kuat_modifier|ship_hull_damage_mult|kuat_min|1|
 	subtract = value:kuat_damage_modifier_multiplier|kuat_slot|$kuat_slot$|kuat_energy|$kuat_energy$|kuat_kinetic|$kuat_kinetic$|kuat_explosive|$kuat_explosive$|kuat_point_defense|$kuat_point_defense$|kuat_strike_craft|$kuat_strike_craft$|
 	divide = modifier:kuat_superlazer_symbol
 	min = 0
-	max = value:kuat_superlazer_weapon_damage_factor_standard|kuat_damage_max|$kuat_damage_max$|kuat_damage_base|$kuat_damage_base$|
+	max = value:kuat_base_weapon_damage|kuat_damage_max|$kuat_damage_max$|kuat_damage_base|$kuat_damage_base$|
 }
-kuat_superlazer_weapon_rate_factor_ship = {
+kuat_superlazer_weapon_rate_multiplier = {
 	base = 0
 	add = modifier:force_disparity_fire_rate_mult
 	add = modifier:ship_fire_rate_mult
 	add = modifier:$kuat_slot$_slot_weapon_fire_rate_mult
 }
 
-kuat_auto_adjust_damage_weapon_total = {
+kuat_weapon_auto_adjust_damage_multiplier = {
 	base = 0
 	add = value:kuat_damage_modifier_multiplier|kuat_slot|$kuat_slot$|kuat_energy|$kuat_energy$|kuat_kinetic|$kuat_kinetic$|kuat_explosive|$kuat_explosive$|kuat_point_defense|$kuat_point_defense$|kuat_strike_craft|$kuat_strike_craft$|
-	mult = value:kuat_avert_modifier_mult_multiplier|kuat_modifier|ship_hull_damage_mult|kuat_min|1|
+	mult = value:kuat_modifier_mult_add|kuat_modifier|ship_hull_damage_mult|kuat_min|1|
 	mult = $kuat_weapon_damage_buff$
 	min = 0
-	max = value:kuat_superlazer_weapon_damage_factor_standard|kuat_damage_max|$kuat_damage_max$|kuat_damage_base|$kuat_damage_base$|
+	max = value:kuat_base_weapon_damage|kuat_damage_max|$kuat_damage_max$|kuat_damage_base|$kuat_damage_base$|
 }
 
 #KUAT_SHIP_HEALTH_VAR KUAT_SHIP_HEALTH_VAR
@@ -277,16 +276,16 @@ kuat_dynamic_base_value = {
 kuat_dynamic_ship_hp_foundation_value = {
 	base = 0
 	add = trigger:has_max_hp
-	divide = value:kuat_avert_modifier_mult_multiplier|kuat_modifier|$MODIFIER_MULT$|kuat_min|1|
-	subtract = modifier:$MODIFIER_ADD$
+	divide = value:kuat_modifier_mult_add|kuat_modifier|$kuat_mult_modifier$|kuat_min|1|
+	subtract = modifier:$kuat_add_modifier$
 	min = 0
 	max = @kuat_boss_max_hitpoints_2
 }
 
 kuat_dynamic_ship_add_value_pow_value = {
 	base = 0
-	add = modifier:$MODIFIER_ADD$
-	subtract = value:kuat_dynamic_ship_hp_foundation_value|MODIFIER_MULT|$MODIFIER_MULT$|MODIFIER_ADD|$MODIFIER_ADD$|
+	add = modifier:$kuat_add_modifier$
+	subtract = value:kuat_dynamic_ship_hp_foundation_value|kuat_mult_modifier|$kuat_mult_modifier$|kuat_add_modifier|$kuat_add_modifier$|
 	pow = 0.5
 	floor = yes
 	min = 0
@@ -294,19 +293,19 @@ kuat_dynamic_ship_add_value_pow_value = {
 
 kuat_dynamic_ship_add_value_efficency_value = {
 	base = 0
-	add = value:kuat_dynamic_ship_hp_foundation_value|MODIFIER_MULT|$MODIFIER_MULT$|MODIFIER_ADD|$MODIFIER_ADD$|
+	add = value:kuat_dynamic_ship_hp_foundation_value|kuat_mult_modifier|$kuat_mult_modifier$|kuat_add_modifier|$kuat_add_modifier$|
 	modifier = {
-		add = value:kuat_dynamic_ship_add_value_pow_value|MODIFIER_MULT|$MODIFIER_MULT$|MODIFIER_ADD|$MODIFIER_ADD$|
-		check_variable_arithmetic = { which = modifier:$MODIFIER_ADD$ value > value:kuat_dynamic_ship_hp_foundation_value|MODIFIER_MULT|$MODIFIER_MULT$|MODIFIER_ADD|$MODIFIER_ADD$| }
+		add = value:kuat_dynamic_ship_add_value_pow_value|kuat_mult_modifier|$kuat_mult_modifier$|kuat_add_modifier|$kuat_add_modifier$|
+		check_variable_arithmetic = { which = modifier:$kuat_add_modifier$ value > value:kuat_dynamic_ship_hp_foundation_value|kuat_mult_modifier|$kuat_mult_modifier$|kuat_add_modifier|$kuat_add_modifier$| }
 	}
 }
 
 kuat_dynamic_mutiply_factor = {
 	base = 0
-	add = value:kuat_dynamic_ship_hp_foundation_value|MODIFIER_MULT|$MODIFIER_MULT$|MODIFIER_ADD|$MODIFIER_ADD$|
+	add = value:kuat_dynamic_ship_hp_foundation_value|kuat_mult_modifier|$kuat_mult_modifier$|kuat_add_modifier|$kuat_add_modifier$|
 	modifier = {
-		add = value:kuat_dynamic_ship_add_value_efficency_value|MODIFIER_MULT|$MODIFIER_MULT$|MODIFIER_ADD|$MODIFIER_ADD$|
-		check_variable_arithmetic = { which = modifier:$MODIFIER_ADD$ value > value:kuat_dynamic_ship_hp_foundation_value|MODIFIER_MULT|$MODIFIER_MULT$|MODIFIER_ADD|$MODIFIER_ADD$| }
+		add = value:kuat_dynamic_ship_add_value_efficency_value|kuat_mult_modifier|$kuat_mult_modifier$|kuat_add_modifier|$kuat_add_modifier$|
+		check_variable_arithmetic = { which = modifier:$kuat_add_modifier$ value > value:kuat_dynamic_ship_hp_foundation_value|kuat_mult_modifier|$kuat_mult_modifier$|kuat_add_modifier|$kuat_add_modifier$| }
 	}
 	mult = event_target:global_event_country.kuat_dynamic_modifier_var 
 	mult = $MULT$
@@ -314,7 +313,7 @@ kuat_dynamic_mutiply_factor = {
 
 kuat_dynamic_ship_add_value_pow_value_limit = {
 	base = 0
-	add = modifier:$MODIFIER_ADD$
+	add = modifier:$kuat_add_modifier$
 	subtract = @kuat_boss_max_hitpoints_2
 	pow = 0.5
 	floor = yes
@@ -325,8 +324,8 @@ kuat_dynamic_ship_add_value_efficency_value_limit = {
 	base = 0
 	add = @kuat_boss_max_hitpoints_2
 	modifier = {
-		add = value:kuat_dynamic_ship_add_value_pow_value_limit|MODIFIER_ADD|$MODIFIER_ADD$|
-		check_variable_arithmetic = { which = modifier:$MODIFIER_ADD$ value > @kuat_boss_max_hitpoints_2 }
+		add = value:kuat_dynamic_ship_add_value_pow_value_limit|kuat_add_modifier|$kuat_add_modifier$|
+		check_variable_arithmetic = { which = modifier:$kuat_add_modifier$ value > @kuat_boss_max_hitpoints_2 }
 	}
 }
 
@@ -334,8 +333,8 @@ kuat_dynamic_mutiply_factor_limit = {
 	base = 0
 	add = @kuat_boss_max_hitpoints_2
 	modifier = {
-		add = value:kuat_dynamic_ship_add_value_efficency_value_limit|MODIFIER_ADD|$MODIFIER_ADD$|
-		check_variable_arithmetic = { which = modifier:$MODIFIER_ADD$ value > @kuat_boss_max_hitpoints_2 }
+		add = value:kuat_dynamic_ship_add_value_efficency_value_limit|kuat_add_modifier|$kuat_add_modifier$|
+		check_variable_arithmetic = { which = modifier:$kuat_add_modifier$ value > @kuat_boss_max_hitpoints_2 }
 	}
 	mult = event_target:global_event_country.kuat_dynamic_modifier_var 
 	mult = $MULT$
@@ -443,7 +442,7 @@ kuat_system_support_variable = {
 		has_star_flag = kuat_mega_starbase_stormed_larged
 	}
 	modifier = {
-		mult = event_target:kuat_station_player.owner.value:kuat_support_battle_mult_variable|MODIFIER|kuat_support_battle_mult|
+		mult = event_target:kuat_station_player.owner.value:kuat_modifier_mult_add|kuat_modifier|kuat_support_battle_mult|
 		exists = event_target:kuat_station_player
 	}
 	modifier = {
@@ -475,15 +474,6 @@ kuat_system_support_used_variable = {
 	min = 0
 }
 
-kuat_support_battle_mult_variable = {
-	base = 0
-	add = 1
-	modifier = {
-		add = modifier:$MODIFIER$
-		check_modifier_value = { modifier = $MODIFIER$ value > 0 }
-	}
-}
-
 kuat_find_eternal_progress = {
 	base = 0
 	add = event_target:global_event_country.count_destroy_eternal_fleet
@@ -502,11 +492,6 @@ kuat_find_eternal_progress = {
 	floor = yes
 }
 
-kuat_get_boss_current_hp = {
-    base = 0
-    add = trigger:has_hp
-}
-
 kuat_get_boss_rest_life = {
     base = 0
     modifier = {
@@ -515,16 +500,10 @@ kuat_get_boss_rest_life = {
     }
 }
 
-kuat_get_damage_control_modifier = {
-	base = 0
-	add = modifier:$MODIFIER$
-	min = 0
-}
-
 kuat_export_kuat_damage_control_modifier = {
 	base = 0
 	add = modifier:$MODIFIER$
-	mult = value:kuat_get_damage_control_modifier|MODIFIER|kuat_damage_control_modifier|
+	mult = modifier:kuat_damage_control_modifier
 	mult = $MULT$
 	min = 0
 }
@@ -543,7 +522,7 @@ kuat_situation_research_technology_system_value = {
 kuat_situation_research_technology_value = {
 	base = 0
 	add = 50
-	mult = value:kuat_support_battle_mult_variable|MODIFIER|all_technology_research_speed|
+	mult = value:kuat_modifier_mult_add|kuat_modifier|all_technology_research_speed|
 	max = 200
 }
 
@@ -677,11 +656,6 @@ kuat_auto_planet_max_limit = {
 	mult = trigger:planet_size
 }
 
-kuat_modifier_factor = {
-	base = 1
-	add = modifier:$MODIFIER$
-}
-
 kuat_planet_production_array_base = {
 	base = 0
 	add = planet_production_array_base
@@ -696,7 +670,7 @@ kuat_planet_production_array_planet_size = {
 
 kuat_planet_production_array_bonus_workforce = {
 	add = 0
-	add = value:kuat_support_battle_mult_variable|MODIFIER|pop_bonus_workforce_mult|
+	add = value:kuat_modifier_mult_add|kuat_modifier|pop_bonus_workforce_mult|
 	add = value:kuat_planet_production_array_planet_size
 }
 
@@ -914,7 +888,7 @@ kuat_aoe_damage_multipler = {
 	base = 0
 	add = $kuat_weapon_stollen_damage$
 	mult = from.value:kuat_damage_modifier_multiplier|kuat_slot|$kuat_slot$|kuat_energy|$kuat_energy$|kuat_kinetic|$kuat_kinetic$|kuat_explosive|$kuat_explosive$|kuat_point_defense|$kuat_point_defense$|kuat_strike_craft|$kuat_strike_craft$|
-	mult = value:kuat_modifier_mult_multiplier|kuat_modifier|ship_damage_reduction_mult|kuat_min|0|
+	mult = value:kuat_modifier_mult_subtract|kuat_modifier|ship_damage_reduction_mult|kuat_min|0|
 	subtract = modifier:ship_damage_reduction_add
 }
 

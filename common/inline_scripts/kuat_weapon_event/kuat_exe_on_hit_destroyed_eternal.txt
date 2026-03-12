@@ -42,7 +42,7 @@ on_hit = {
 				set_variable = { which = kuat_aoe_shield_damage_value value = kuat_aoe_total_damage_value }
 				multiply_variable = { 
 					which = kuat_aoe_shield_damage_value 
-					value = from.value:kuat_avert_modifier_mult_multiplier|kuat_modifier|ship_shield_damage_mult| 
+					value = from.value:kuat_modifier_mult_add|kuat_modifier|ship_shield_damage_mult| 
 				}
 				if = { 
 					limit = { has_shield_hp >= kuat_aoe_shield_damage_value } 
@@ -52,7 +52,7 @@ on_hit = {
 					set_variable = { which = kuat_aoe_shield_damage_value value = trigger:has_shield_hp }
 					divide_variable = { 
 						which = kuat_aoe_shield_damage_value 
-						value = from.value:kuat_avert_modifier_mult_multiplier|kuat_modifier|ship_shield_damage_mult| 
+						value = from.value:kuat_modifier_mult_add|kuat_modifier|ship_shield_damage_mult| 
 					}
 					reduce_shield = trigger:has_shield_hp
 				}
@@ -68,7 +68,7 @@ on_hit = {
 				set_variable = { which = kuat_aoe_armor_damage_value value = kuat_aoe_total_damage_value }
 				multiply_variable = { 
 					which = kuat_aoe_armor_damage_value 
-					value = from.value:kuat_avert_modifier_mult_multiplier|kuat_modifier|ship_armor_damage_mult| 
+					value = from.value:kuat_modifier_mult_add|kuat_modifier|ship_armor_damage_mult| 
 				}
 				if = {
 					limit = { check_variable = { which = kuat_currently_armor_hp value >= kuat_aoe_armor_damage_value } }
@@ -82,7 +82,7 @@ on_hit = {
 					set_variable = { which = kuat_aoe_armor_damage_value value = kuat_currently_armor_hp }
 					divide_variable = { 
 						which = kuat_aoe_armor_damage_value 
-						value = from.value:kuat_avert_modifier_mult_multiplier|kuat_modifier|ship_armor_damage_mult| 
+						value = from.value:kuat_modifier_mult_add|kuat_modifier|ship_armor_damage_mult| 
 					}
 					multiply_variable = { which = kuat_aoe_armor_damage_value value = -1 }
 				}
@@ -92,7 +92,7 @@ on_hit = {
 			}
 			if = {
 				limit = { check_variable = { which = kuat_aoe_total_damage_value value > 0 } }
-				multiply_variable = { which = kuat_aoe_total_damage_value value = from.value:kuat_avert_modifier_mult_multiplier|kuat_modifier|ship_hull_damage_mult| }
+				multiply_variable = { which = kuat_aoe_total_damage_value value = from.value:kuat_modifier_mult_add|kuat_modifier|ship_hull_damage_mult| }
 				change_variable = { which = kuat_aoe_total_damage_value value = modifier:kuat_weapon_aoe_ship_hull_damage }
 				add_modifier = { modifier = kuat_ship_weapon_on_hit_aoe_modifier multiplier = kuat_aoe_total_damage_value days = 2 }
 			}
