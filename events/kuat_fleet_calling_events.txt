@@ -21,6 +21,7 @@ fleet_event = {
 
 	trigger = {
 		has_global_flag = enable_ftl_ship_animation
+		NOT = { has_global_flag = kuat_set_forcetrigger_order_enable_crisis_eve_system }
 		any_owned_ship = { 
 			kuat_is_animation_ftl_ship = yes 
 		}
@@ -31,23 +32,22 @@ fleet_event = {
 	}
 
 	immediate = {  
-		if = {
-			limit = { NOT = { has_fleet_flag = kuat_fleet_calling.12_event_lock } }
-			set_timed_fleet_flag = { flag = kuat_fleet_calling.12_event_lock_temple days = 15 }
-			set_event_locked = yes set_fleet_flag = kuat_fleet_calling.12_event_lock
-			fleet_event = { id = kuat_fleet_calling.12 days = 15 }
-		}
 		from = { 
-			every_ship_in_system = {
-				limit = { 
-					NOT = { has_ship_flag = kuat_fleet_jump_drive_support_temple } 
-					NOT = { check_modifier_value = { modifier = ship_speed_reduction value = 1 } }
+			every_fleet_in_system = {
+				limit = {
+					OR = {
+						exists = controller controller = { is_hostile = root.owner }
+						is_same_value = root
+					}
+					NOT = { has_fleet_flag = kuat_fleet_calling.12_event_lock }
 				}
-				set_variable = { which = kuat_fleet_jump_drive_support_temple value = modifier:ship_speed_reduction }
-				subtract_variable = { which = kuat_fleet_jump_drive_support_temple value = 1 }
-				add_modifier = { modifier = kuat_fleet_jump_drive_support multiplier = kuat_fleet_jump_drive_support_temple days = 15 }
-				clear_variable = kuat_fleet_jump_drive_support_temple
-				set_timed_ship_flag = { flag = kuat_fleet_jump_drive_support_temple days = 15 }
+				if = {
+					limit = { exists = controller controller = { is_hostile = root.owner } }
+					clear_orders = yes clear_fleet_actions = this
+				}
+				set_timed_fleet_flag = { flag = kuat_fleet_calling.12_event_lock_temple days = 12 }
+				set_event_locked = yes set_fleet_flag = kuat_fleet_calling.12_event_lock
+				fleet_event = { id = kuat_fleet_calling.12 days = 12 }
 			}
 		}
 	}
@@ -102,9 +102,9 @@ fleet_event = {
 	immediate = {  
 		if = {
 			limit = { NOT = { has_fleet_flag = kuat_fleet_calling.14_event_lock } }
-			set_timed_fleet_flag = { flag = kuat_fleet_calling.14_event_lock days = 15 }
+			set_timed_fleet_flag = { flag = kuat_fleet_calling.14_event_lock days = 12 }
 			set_event_locked = yes set_fleet_flag = kuat_fleet_calling.14_event_lock
-			fleet_event = { id = kuat_fleet_calling.15 days = 15 }
+			fleet_event = { id = kuat_fleet_calling.15 days = 12 }
 		}
 	}
 }
