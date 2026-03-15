@@ -340,6 +340,21 @@ kuat_dynamic_mutiply_factor_limit = {
 	mult = $MULT$
 }
 
+kuat_dynamic_ship_damage_reduce_limit = {
+	base = 0
+	modifier = {
+		add = 0.75
+		exists = fleet
+		fleet = { kuat_is_allow_battle_flagship = yes }
+	}
+	modifier = {
+		add = 0
+		exists = fleet
+		fleet = { kuat_is_allow_battle_flagship = no }
+	}
+	max = 0.75
+}
+
 kuat_dynamic_base_special_difficult_has_subflagship = {
 	base = 0
 	modifier = { add = 0.00 has_global_flag = easy_exe_invasion }
@@ -407,7 +422,6 @@ kuat_dynamic_base_special_value = {
 		exists = fleet
 		fleet = { NOT = { any_combatant_fleet = { kuat_is_allow_battle_flagship = yes } } }
 	}
-	mult = $MULT$
 }
 
 kuat_eternal_starkiller_base_target = {
@@ -500,11 +514,16 @@ kuat_get_boss_rest_life = {
     }
 }
 
+kuat_kuat_damage_control_modifier_value = {
+	base = 0
+	add = modifier:kuat_damage_control_modifier
+	max = 0.99
+}
+
 kuat_export_kuat_damage_control_modifier = {
 	base = 0
 	add = modifier:$MODIFIER$
-	mult = modifier:kuat_damage_control_modifier
-	mult = $MULT$
+	mult = value:kuat_kuat_damage_control_modifier_value
 	min = 0
 }
 

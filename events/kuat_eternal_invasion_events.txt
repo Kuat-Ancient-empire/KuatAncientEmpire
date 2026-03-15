@@ -1511,18 +1511,7 @@ fleet_event = {
 				kuat_fleet_anyone_not_has_validable_flagship_system = yes
 				is_in_combat = yes 
 			}
-			if = {
-				limit = { 
-					owner = { kuat_is_player_country = yes }
-					NOT = { has_global_flag = kuat_set_forcetrigger_order_enable_crisis_eve_system } 
-				}
-				every_owned_ship = { 
-					limit = { has_ship_flag = kuat_executor_checkpoint }
-					kuat_battle_clear_ship_at_health = { REPAIR = yes } 
-				} 
-				fleet_event = { id = exe_invasion.114 days = @kuat_global_dynamic_days_pule }
-			}
-			else = { fleet_event = { id = exe_invasion.114 days = @kuat_global_dynamic_hitpoints } }
+			fleet_event = { id = exe_invasion.114 days = @kuat_global_dynamic_hitpoints }
 		}
 		else = { 
 			kuat_battle_remove_executor_power_fleet = yes 
@@ -1540,22 +1529,6 @@ fleet_event = {
 			remove_fleet_flag = kuat_has_Missle_Flagship_fleet
 			remove_fleet_flag = kuat_has_stricraft_Flagship_fleet
 		}
-	}
-}
-
-#FLEET INVISIABLE WITHOUT SPECIAL
-ship_event = {
-	id = exe_invasion.119
-	hide_window = yes
-	is_triggered_only = yes
-	trigger = { has_ship_flag = kuat_executor_checkpoint }
-	immediate = {
-		if = {
-			limit = { is_in_combat = yes }
-			kuat_battle_clear_ship_at_health = { REPAIR = yes }
-			ship_event = { id = exe_invasion.119 days = @kuat_global_dynamic_hitpoints }
-		}
-		else = { kuat_battle_remove_executor_power = yes remove_ship_flag = kuat_executor_checkpoint }
 	}
 }
 
@@ -2086,6 +2059,22 @@ country_event = {
 				kuat_battle_increase_ship_hp_effect_hp = { DAYS = 30 }
 			}
 		}	
+	}
+}
+
+#FLEET INVISIABLE WITHOUT SPECIAL
+ship_event = {
+	id = exe_invasion.119
+	hide_window = yes
+	is_triggered_only = yes
+	trigger = { has_ship_flag = kuat_executor_checkpoint }
+	immediate = {
+		if = {
+			limit = { is_in_combat = yes }
+			kuat_battle_clear_ship_at_health = { REPAIR = yes }
+			ship_event = { id = exe_invasion.119 days = @kuat_global_dynamic_hitpoints }
+		}
+		else = { kuat_battle_remove_executor_power = yes remove_ship_flag = kuat_executor_checkpoint }
 	}
 }
 

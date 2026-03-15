@@ -7,7 +7,15 @@ immediate = {
 		limit = { is_in_combat = yes }
 		every_owned_ship = {
 			$KEY$ = { hostile = yes }
-			set_ship_flag = kuat_is_modifiering 
+			if = {
+				limit = { NOT = { 
+					has_ship_flag = kuat_is_modifiering 
+				} }
+				set_timed_ship_flag = { 
+					flag = kuat_is_modifiering 
+					days = @kuat_global_dynamic_delay_times 
+				}
+			}
 			set_confused = no remove_terrified = yes
 		}
 		fleet_event = { id = $ID$ days = @kuat_global_dynamic_hitpoints }

@@ -51,6 +51,10 @@ kuat_battle_eternal_increase_executor_power = {
 				modifier = kuat_armor_cate_modifier 
 				multiplier = value:kuat_dynamic_mutiply_factor|MULT|0.002|kuat_mult_modifier|ship_hull_mult|kuat_add_modifier|ship_hull_add| 
 			}
+			if = {
+				limit = { check_modifier_value = { modifier = ship_damage_reduction_mult value < value:kuat_dynamic_ship_damage_reduce_limit } }
+				kuat_battle_clear_ship_modifier = { modifier = ship_damage_reduction_mult subtract = value:kuat_dynamic_ship_damage_reduce_limit DAYS = -1 }
+			}
 		}
 		else = {
 			add_modifier = { 
@@ -64,6 +68,10 @@ kuat_battle_eternal_increase_executor_power = {
 			add_modifier = { 
 				modifier = kuat_armor_cate_modifier 
 				multiplier = value:kuat_dynamic_mutiply_factor|MULT|0.001|kuat_mult_modifier|ship_hull_mult|kuat_add_modifier|ship_hull_add| 
+			}
+			if = {
+				limit = { check_modifier_value = { modifier = ship_damage_reduction_mult value < value:kuat_dynamic_ship_damage_reduce_limit } }
+				kuat_battle_clear_ship_modifier = { modifier = ship_damage_reduction_mult subtract = value:kuat_dynamic_ship_damage_reduce_limit DAYS = -1 }
 			}
 		}
 		set_ship_flag = kuat_has_eternal_increase_executor_power_temple
@@ -284,7 +292,15 @@ kuat_battle_setup_dynamic_invinciable_protection_pragram = {
 				modifier = kuat_damage_control_modifier value > 0 
 			} }
 			$KEY$ = { frendly = yes }
-			set_ship_flag = kuat_is_modifiering 
+			if = {
+				limit = { NOT = { 
+					has_ship_flag = kuat_is_modifiering  
+				} }
+				set_timed_ship_flag = { 
+					flag = kuat_is_modifiering 
+					days = @kuat_global_dynamic_delay_times 
+				}
+			}
 			set_confused = no remove_terrified = yes
 		}
 		fleet_event = { id = $ID$ days = @kuat_global_dynamic_hitpoints }
@@ -297,7 +313,15 @@ kuat_battle_setup_dynamic_invinciable_attacketion_pragram = {
 		limit = { is_in_combat = yes }
 		every_owned_ship = {
 			$KEY$ = { hostile = yes }
-			set_ship_flag = kuat_is_modifiering 
+			if = {
+				limit = { NOT = { 
+					has_ship_flag = kuat_is_modifiering 
+				} }
+				set_timed_ship_flag = { 
+					flag = kuat_is_modifiering 
+					days = @kuat_global_dynamic_delay_times 
+				}
+			}
 			set_confused = no remove_terrified = yes
 		}
 		fleet_event = { id = $ID$ days = @kuat_global_dynamic_hitpoints }
@@ -345,23 +369,23 @@ kuat_battle_set_kuat_legacy_crisis_fleet_dynamic_modifier = {
 	kuat_battle_set_kuat_damage_control_standard_modifier = { PARAMATER = shipclass_starbase_hull_mult		 	DAYS = @kuat_global_dynamic_delay_times		RELATION = "!=" OUTPUT_VALUE = 0 }		 
 	
 	[[hostile] 
-		kuat_battle_set_kuat_damage_control_standard_modifier = { PARAMATER = ship_damage_reduction_mult		DAYS = @kuat_global_dynamic_delay_times		RELATION = "!=" OUTPUT_VALUE = 0 }
+		kuat_battle_set_kuat_damage_control_standard_modifier = { PARAMATER = ship_damage_reduction_mult		DAYS = @kuat_global_dynamic_delay_times		RELATION = ">"  OUTPUT_VALUE = value:kuat_dynamic_ship_damage_reduce_limit }
 		kuat_battle_set_kuat_damage_control_standard_modifier = { PARAMATER = ship_damage_reduction_add			DAYS = @kuat_global_dynamic_delay_times		RELATION = ">"  OUTPUT_VALUE = value:kuat_dynamic_mutiply_factor_limit|MULT|0.001|kuat_add_modifier|ship_hull_add| }
-		kuat_battle_set_kuat_damage_control_standard_modifier = { PARAMATER = ship_hull_regen_add_static		DAYS = @kuat_global_dynamic_delay_times		RELATION = ">"  OUTPUT_VALUE = value:kuat_dynamic_mutiply_factor_limit|MULT|0.004|kuat_add_modifier|ship_hull_add| }
-		kuat_battle_set_kuat_damage_control_standard_modifier = { PARAMATER = ship_shield_hardening_add			DAYS = @kuat_global_dynamic_delay_times		RELATION = ">"  OUTPUT_VALUE = value:kuat_dynamic_mutiply_factor_limit|MULT|0.00002|kuat_add_modifier|ship_hull_add| }
-		kuat_battle_set_kuat_damage_control_standard_modifier = { PARAMATER = ship_shield_regen_add_static		DAYS = @kuat_global_dynamic_delay_times		RELATION = ">"  OUTPUT_VALUE = value:kuat_dynamic_mutiply_factor_limit|MULT|0.004|kuat_add_modifier|ship_hull_add| }
-		kuat_battle_set_kuat_damage_control_standard_modifier = { PARAMATER = ship_armor_hardening_add			DAYS = @kuat_global_dynamic_delay_times		RELATION = ">"  OUTPUT_VALUE = value:kuat_dynamic_mutiply_factor_limit|MULT|0.00002|kuat_add_modifier|ship_hull_add| }
-		kuat_battle_set_kuat_damage_control_standard_modifier = { PARAMATER = ship_armor_regen_add_static		DAYS = @kuat_global_dynamic_delay_times		RELATION = ">"  OUTPUT_VALUE = value:kuat_dynamic_mutiply_factor_limit|MULT|0.004|kuat_add_modifier|ship_hull_add| }
+		kuat_battle_set_kuat_damage_control_standard_modifier = { PARAMATER = ship_hull_regen_add_static		DAYS = @kuat_global_dynamic_delay_times		RELATION = ">"  OUTPUT_VALUE = value:kuat_dynamic_mutiply_factor_limit|MULT|0.002|kuat_add_modifier|ship_hull_add| }
+		kuat_battle_set_kuat_damage_control_standard_modifier = { PARAMATER = ship_shield_hardening_add			DAYS = @kuat_global_dynamic_delay_times		RELATION = ">"  OUTPUT_VALUE = value:kuat_dynamic_mutiply_factor_limit|MULT|0.000015|kuat_add_modifier|ship_hull_add| }
+		kuat_battle_set_kuat_damage_control_standard_modifier = { PARAMATER = ship_shield_regen_add_static		DAYS = @kuat_global_dynamic_delay_times		RELATION = ">"  OUTPUT_VALUE = value:kuat_dynamic_mutiply_factor_limit|MULT|0.002|kuat_add_modifier|ship_hull_add| }
+		kuat_battle_set_kuat_damage_control_standard_modifier = { PARAMATER = ship_armor_hardening_add			DAYS = @kuat_global_dynamic_delay_times		RELATION = ">"  OUTPUT_VALUE = value:kuat_dynamic_mutiply_factor_limit|MULT|0.000015|kuat_add_modifier|ship_hull_add| }
+		kuat_battle_set_kuat_damage_control_standard_modifier = { PARAMATER = ship_armor_regen_add_static		DAYS = @kuat_global_dynamic_delay_times		RELATION = ">"  OUTPUT_VALUE = value:kuat_dynamic_mutiply_factor_limit|MULT|0.002|kuat_add_modifier|ship_hull_add| }
 	]
 
 	[[frendly]  
-		kuat_battle_set_kuat_damage_control_standard_modifier = { PARAMATER = ship_damage_reduction_mult 		DAYS = @kuat_global_dynamic_delay_times		RELATION = "!=" OUTPUT_VALUE = value:kuat_dynamic_base_special_value|MULT|1| }
+		kuat_battle_set_kuat_damage_control_standard_modifier = { PARAMATER = ship_damage_reduction_mult 		DAYS = @kuat_global_dynamic_delay_times		RELATION = "!=" OUTPUT_VALUE = value:kuat_dynamic_base_special_value }
 		kuat_battle_set_kuat_damage_control_standard_modifier = { PARAMATER = ship_damage_reduction_add			DAYS = @kuat_global_dynamic_delay_times		RELATION = "!=" OUTPUT_VALUE = value:kuat_dynamic_mutiply_factor|MULT|0.001|kuat_mult_modifier|ship_hull_mult|kuat_add_modifier|ship_hull_add| }
-		kuat_battle_set_kuat_damage_control_standard_modifier = { PARAMATER = ship_hull_regen_add_static		DAYS = @kuat_global_dynamic_delay_times		RELATION = "!=" OUTPUT_VALUE = value:kuat_dynamic_mutiply_factor|MULT|0.004|kuat_mult_modifier|ship_hull_mult|kuat_add_modifier|ship_hull_add| }
-		kuat_battle_set_kuat_damage_control_standard_modifier = { PARAMATER = ship_shield_hardening_add			DAYS = @kuat_global_dynamic_delay_times		RELATION = "!=" OUTPUT_VALUE = value:kuat_dynamic_mutiply_factor|MULT|0.00002|kuat_mult_modifier|ship_hull_mult|kuat_add_modifier|ship_hull_add| }
-		kuat_battle_set_kuat_damage_control_standard_modifier = { PARAMATER = ship_shield_regen_add_static		DAYS = @kuat_global_dynamic_delay_times		RELATION = "!=" OUTPUT_VALUE = value:kuat_dynamic_mutiply_factor|MULT|0.004|kuat_mult_modifier|ship_hull_mult|kuat_add_modifier|ship_hull_add| }
-		kuat_battle_set_kuat_damage_control_standard_modifier = { PARAMATER = ship_armor_hardening_add			DAYS = @kuat_global_dynamic_delay_times		RELATION = "!=" OUTPUT_VALUE = value:kuat_dynamic_mutiply_factor|MULT|0.00002|kuat_mult_modifier|ship_hull_mult|kuat_add_modifier|ship_hull_add| }
-		kuat_battle_set_kuat_damage_control_standard_modifier = { PARAMATER = ship_armor_regen_add_static		DAYS = @kuat_global_dynamic_delay_times		RELATION = "!=" OUTPUT_VALUE = value:kuat_dynamic_mutiply_factor|MULT|0.004|kuat_mult_modifier|ship_hull_mult|kuat_add_modifier|ship_hull_add| }
+		kuat_battle_set_kuat_damage_control_standard_modifier = { PARAMATER = ship_hull_regen_add_static		DAYS = @kuat_global_dynamic_delay_times		RELATION = "!=" OUTPUT_VALUE = value:kuat_dynamic_mutiply_factor|MULT|0.002|kuat_mult_modifier|ship_hull_mult|kuat_add_modifier|ship_hull_add| }
+		kuat_battle_set_kuat_damage_control_standard_modifier = { PARAMATER = ship_shield_hardening_add			DAYS = @kuat_global_dynamic_delay_times		RELATION = "!=" OUTPUT_VALUE = value:kuat_dynamic_mutiply_factor|MULT|0.000015|kuat_mult_modifier|ship_hull_mult|kuat_add_modifier|ship_hull_add| }
+		kuat_battle_set_kuat_damage_control_standard_modifier = { PARAMATER = ship_shield_regen_add_static		DAYS = @kuat_global_dynamic_delay_times		RELATION = "!=" OUTPUT_VALUE = value:kuat_dynamic_mutiply_factor|MULT|0.002|kuat_mult_modifier|ship_hull_mult|kuat_add_modifier|ship_hull_add| }
+		kuat_battle_set_kuat_damage_control_standard_modifier = { PARAMATER = ship_armor_hardening_add			DAYS = @kuat_global_dynamic_delay_times		RELATION = "!=" OUTPUT_VALUE = value:kuat_dynamic_mutiply_factor|MULT|0.000015|kuat_mult_modifier|ship_hull_mult|kuat_add_modifier|ship_hull_add| }
+		kuat_battle_set_kuat_damage_control_standard_modifier = { PARAMATER = ship_armor_regen_add_static		DAYS = @kuat_global_dynamic_delay_times		RELATION = "!=" OUTPUT_VALUE = value:kuat_dynamic_mutiply_factor|MULT|0.002|kuat_mult_modifier|ship_hull_mult|kuat_add_modifier|ship_hull_add| }
 
 		kuat_battle_set_kuat_damage_control_standard_modifier = { PARAMATER = ship_shield_penetration_add		DAYS = @kuat_global_dynamic_delay_times		RELATION = "<"  OUTPUT_VALUE = value:kuat_dynamic_base_value|MULT|1| } 
 		kuat_battle_set_kuat_damage_control_standard_modifier = { PARAMATER = ship_armor_penetration_add		DAYS = @kuat_global_dynamic_delay_times		RELATION = "<"  OUTPUT_VALUE = value:kuat_dynamic_base_value|MULT|1| } 
@@ -400,32 +424,32 @@ kuat_battle_set_modifier_control_eternal_fleet_mult_modifier = {
 	]
 
 	[[frendly]  
-		kuat_battle_set_kuat_damage_control_standard_modifier = { PARAMATER = ship_damage_reduction_mult 		DAYS = @kuat_global_dynamic_delay_times		RELATION = "<"  OUTPUT_VALUE = value:kuat_export_kuat_damage_control_modifier|MODIFIER|ship_damage_reduction_mult|MULT|1| }
-		kuat_battle_set_kuat_damage_control_standard_modifier = { PARAMATER = ship_armor_hardening_add 			DAYS = @kuat_global_dynamic_delay_times 	RELATION = "<"  OUTPUT_VALUE = value:kuat_export_kuat_damage_control_modifier|MODIFIER|ship_armor_hardening_add|MULT|1| } 
-		kuat_battle_set_kuat_damage_control_standard_modifier = { PARAMATER = ship_shield_hardening_add 		DAYS = @kuat_global_dynamic_delay_times	 	RELATION = "<"  OUTPUT_VALUE = value:kuat_export_kuat_damage_control_modifier|MODIFIER|ship_shield_hardening_add|MULT|1| }	
-		kuat_battle_set_kuat_damage_control_standard_modifier = { PARAMATER = ship_damage_reduction_add			DAYS = @kuat_global_dynamic_delay_times		RELATION = "<"  OUTPUT_VALUE = value:kuat_export_kuat_damage_control_modifier|MODIFIER|ship_damage_reduction_add|MULT|1| } 	
-		kuat_battle_set_kuat_damage_control_standard_modifier = { PARAMATER = ship_hull_regen_add_static		DAYS = @kuat_global_dynamic_delay_times	 	RELATION = "<"  OUTPUT_VALUE = value:kuat_export_kuat_damage_control_modifier|MODIFIER|ship_hull_regen_add_static|MULT|1| }
-		kuat_battle_set_kuat_damage_control_standard_modifier = { PARAMATER = ship_armor_regen_add_static		DAYS = @kuat_global_dynamic_delay_times	 	RELATION = "<"  OUTPUT_VALUE = value:kuat_export_kuat_damage_control_modifier|MODIFIER|ship_armor_regen_add_static|MULT|1| }
-		kuat_battle_set_kuat_damage_control_standard_modifier = { PARAMATER = ship_shield_regen_add_static		DAYS = @kuat_global_dynamic_delay_times 	RELATION = "<"  OUTPUT_VALUE = value:kuat_export_kuat_damage_control_modifier|MODIFIER|ship_shield_regen_add_static|MULT|1| }
-		kuat_battle_set_kuat_damage_control_standard_modifier = { PARAMATER = ship_shield_penetration_mult		DAYS = @kuat_global_dynamic_delay_times		RELATION = "<"  OUTPUT_VALUE = value:kuat_export_kuat_damage_control_modifier|MODIFIER|ship_shield_penetration_mult|MULT|1| } 
-		kuat_battle_set_kuat_damage_control_standard_modifier = { PARAMATER = ship_armor_penetration_mult		DAYS = @kuat_global_dynamic_delay_times		RELATION = "<"  OUTPUT_VALUE = value:kuat_export_kuat_damage_control_modifier|MODIFIER|ship_armor_penetration_mult|MULT|1| } 		
-		kuat_battle_set_kuat_damage_control_standard_modifier = { PARAMATER = ship_weapon_range_mult 			DAYS = @kuat_global_dynamic_delay_times		RELATION = "<"  OUTPUT_VALUE = value:kuat_export_kuat_damage_control_modifier|MODIFIER|ship_weapon_range_mult|MULT|1| }
-		kuat_battle_set_kuat_damage_control_standard_modifier = { PARAMATER = ship_tracking_mult 				DAYS = @kuat_global_dynamic_delay_times		RELATION = "<"  OUTPUT_VALUE = value:kuat_export_kuat_damage_control_modifier|MODIFIER|ship_tracking_mult|MULT|1| } 
-		kuat_battle_set_kuat_damage_control_standard_modifier = { PARAMATER = ship_accuracy_mult 				DAYS = @kuat_global_dynamic_delay_times		RELATION = "<"  OUTPUT_VALUE = value:kuat_export_kuat_damage_control_modifier|MODIFIER|ship_accuracy_mult|MULT|1| } 
-		kuat_battle_set_kuat_damage_control_standard_modifier = { PARAMATER = ship_weapon_damage				DAYS = @kuat_global_dynamic_delay_times		RELATION = "<"  OUTPUT_VALUE = value:kuat_export_kuat_damage_control_modifier|MODIFIER|ship_weapon_damage|MULT|1| } 
-		kuat_battle_set_kuat_damage_control_standard_modifier = { PARAMATER = ship_armor_damage_mult 			DAYS = @kuat_global_dynamic_delay_times		RELATION = "<"  OUTPUT_VALUE = value:kuat_export_kuat_damage_control_modifier|MODIFIER|ship_armor_damage_mult|MULT|1| }
-		kuat_battle_set_kuat_damage_control_standard_modifier = { PARAMATER = ship_shield_damage_mult 			DAYS = @kuat_global_dynamic_delay_times		RELATION = "<"  OUTPUT_VALUE = value:kuat_export_kuat_damage_control_modifier|MODIFIER|ship_shield_damage_mult|MULT|1| }
-		kuat_battle_set_kuat_damage_control_standard_modifier = { PARAMATER = ship_hull_damage_mult				DAYS = @kuat_global_dynamic_delay_times		RELATION = "<"  OUTPUT_VALUE = value:kuat_export_kuat_damage_control_modifier|MODIFIER|ship_hull_damage_mult|MULT|1| }
-		kuat_battle_set_kuat_damage_control_standard_modifier = { PARAMATER = ship_hull_mult 					DAYS = @kuat_global_dynamic_delay_times		RELATION = "<"  OUTPUT_VALUE = value:kuat_export_kuat_damage_control_modifier|MODIFIER|ship_hull_mult|MULT|1| } 
-		kuat_battle_set_kuat_damage_control_standard_modifier = { PARAMATER = ship_hull_add 					DAYS = @kuat_global_dynamic_delay_times		RELATION = "<"  OUTPUT_VALUE = value:kuat_export_kuat_damage_control_modifier|MODIFIER|ship_hull_add|MULT|1| } 
-		kuat_battle_set_kuat_damage_control_standard_modifier = { PARAMATER = ship_shield_add					DAYS = @kuat_global_dynamic_delay_times		RELATION = "<"  OUTPUT_VALUE = value:kuat_export_kuat_damage_control_modifier|MODIFIER|ship_shield_add|MULT|1| } 
-		kuat_battle_set_kuat_damage_control_standard_modifier = { PARAMATER = ship_armor_add					DAYS = @kuat_global_dynamic_delay_times		RELATION = "<"  OUTPUT_VALUE = value:kuat_export_kuat_damage_control_modifier|MODIFIER|ship_armor_add|MULT|1| } 
-		kuat_battle_set_kuat_damage_control_standard_modifier = { PARAMATER = ship_armor_mult					DAYS = @kuat_global_dynamic_delay_times		RELATION = "<"  OUTPUT_VALUE = value:kuat_export_kuat_damage_control_modifier|MODIFIER|ship_armor_mult|MULT|1| } 
-		kuat_battle_set_kuat_damage_control_standard_modifier = { PARAMATER = ship_shield_mult					DAYS = @kuat_global_dynamic_delay_times		RELATION = "<"  OUTPUT_VALUE = value:kuat_export_kuat_damage_control_modifier|MODIFIER|ship_shield_mult|MULT|1| } 	
-		kuat_battle_set_kuat_damage_control_standard_modifier = { PARAMATER = ship_tracking_add 				DAYS = @kuat_global_dynamic_delay_times		RELATION = "<"  OUTPUT_VALUE = value:kuat_export_kuat_damage_control_modifier|MODIFIER|ship_tracking_add|MULT|1| } 
-		kuat_battle_set_kuat_damage_control_standard_modifier = { PARAMATER = ship_accuracy_add					DAYS = @kuat_global_dynamic_delay_times		RELATION = "<"  OUTPUT_VALUE = value:kuat_export_kuat_damage_control_modifier|MODIFIER|ship_accuracy_add|MULT|1| } 	
-		kuat_battle_set_kuat_damage_control_standard_modifier = { PARAMATER = ship_shield_penetration_add		DAYS = @kuat_global_dynamic_delay_times		RELATION = "<"  OUTPUT_VALUE = value:kuat_export_kuat_damage_control_modifier|MODIFIER|ship_shield_penetration_add|MULT|1| } 
-		kuat_battle_set_kuat_damage_control_standard_modifier = { PARAMATER = ship_armor_penetration_add		DAYS = @kuat_global_dynamic_delay_times		RELATION = "<"  OUTPUT_VALUE = value:kuat_export_kuat_damage_control_modifier|MODIFIER|ship_armor_penetration_add|MULT|1| } 					
+		kuat_battle_set_kuat_damage_control_standard_modifier = { PARAMATER = ship_damage_reduction_mult 		DAYS = @kuat_global_dynamic_delay_times		RELATION = "<"  OUTPUT_VALUE = value:kuat_export_kuat_damage_control_modifier|MODIFIER|ship_damage_reduction_mult| }
+		kuat_battle_set_kuat_damage_control_standard_modifier = { PARAMATER = ship_armor_hardening_add 			DAYS = @kuat_global_dynamic_delay_times 	RELATION = "<"  OUTPUT_VALUE = value:kuat_export_kuat_damage_control_modifier|MODIFIER|ship_armor_hardening_add| }
+		kuat_battle_set_kuat_damage_control_standard_modifier = { PARAMATER = ship_shield_hardening_add 		DAYS = @kuat_global_dynamic_delay_times	 	RELATION = "<"  OUTPUT_VALUE = value:kuat_export_kuat_damage_control_modifier|MODIFIER|ship_shield_hardening_add| }
+		kuat_battle_set_kuat_damage_control_standard_modifier = { PARAMATER = ship_damage_reduction_add			DAYS = @kuat_global_dynamic_delay_times		RELATION = "<"  OUTPUT_VALUE = value:kuat_export_kuat_damage_control_modifier|MODIFIER|ship_damage_reduction_add| }
+		kuat_battle_set_kuat_damage_control_standard_modifier = { PARAMATER = ship_hull_regen_add_static		DAYS = @kuat_global_dynamic_delay_times	 	RELATION = "<"  OUTPUT_VALUE = value:kuat_export_kuat_damage_control_modifier|MODIFIER|ship_hull_regen_add_static| }
+		kuat_battle_set_kuat_damage_control_standard_modifier = { PARAMATER = ship_armor_regen_add_static		DAYS = @kuat_global_dynamic_delay_times	 	RELATION = "<"  OUTPUT_VALUE = value:kuat_export_kuat_damage_control_modifier|MODIFIER|ship_armor_regen_add_static| }
+		kuat_battle_set_kuat_damage_control_standard_modifier = { PARAMATER = ship_shield_regen_add_static		DAYS = @kuat_global_dynamic_delay_times 	RELATION = "<"  OUTPUT_VALUE = value:kuat_export_kuat_damage_control_modifier|MODIFIER|ship_shield_regen_add_static| }
+		kuat_battle_set_kuat_damage_control_standard_modifier = { PARAMATER = ship_shield_penetration_mult		DAYS = @kuat_global_dynamic_delay_times		RELATION = "<"  OUTPUT_VALUE = value:kuat_export_kuat_damage_control_modifier|MODIFIER|ship_shield_penetration_mult| }
+		kuat_battle_set_kuat_damage_control_standard_modifier = { PARAMATER = ship_armor_penetration_mult		DAYS = @kuat_global_dynamic_delay_times		RELATION = "<"  OUTPUT_VALUE = value:kuat_export_kuat_damage_control_modifier|MODIFIER|ship_armor_penetration_mult| }		
+		kuat_battle_set_kuat_damage_control_standard_modifier = { PARAMATER = ship_weapon_range_mult 			DAYS = @kuat_global_dynamic_delay_times		RELATION = "<"  OUTPUT_VALUE = value:kuat_export_kuat_damage_control_modifier|MODIFIER|ship_weapon_range_mult| }
+		kuat_battle_set_kuat_damage_control_standard_modifier = { PARAMATER = ship_tracking_mult 				DAYS = @kuat_global_dynamic_delay_times		RELATION = "<"  OUTPUT_VALUE = value:kuat_export_kuat_damage_control_modifier|MODIFIER|ship_tracking_mult| }
+		kuat_battle_set_kuat_damage_control_standard_modifier = { PARAMATER = ship_accuracy_mult 				DAYS = @kuat_global_dynamic_delay_times		RELATION = "<"  OUTPUT_VALUE = value:kuat_export_kuat_damage_control_modifier|MODIFIER|ship_accuracy_mult| }
+		kuat_battle_set_kuat_damage_control_standard_modifier = { PARAMATER = ship_weapon_damage				DAYS = @kuat_global_dynamic_delay_times		RELATION = "<"  OUTPUT_VALUE = value:kuat_export_kuat_damage_control_modifier|MODIFIER|ship_weapon_damage| }
+		kuat_battle_set_kuat_damage_control_standard_modifier = { PARAMATER = ship_armor_damage_mult 			DAYS = @kuat_global_dynamic_delay_times		RELATION = "<"  OUTPUT_VALUE = value:kuat_export_kuat_damage_control_modifier|MODIFIER|ship_armor_damage_mult| }
+		kuat_battle_set_kuat_damage_control_standard_modifier = { PARAMATER = ship_shield_damage_mult 			DAYS = @kuat_global_dynamic_delay_times		RELATION = "<"  OUTPUT_VALUE = value:kuat_export_kuat_damage_control_modifier|MODIFIER|ship_shield_damage_mult| }
+		kuat_battle_set_kuat_damage_control_standard_modifier = { PARAMATER = ship_hull_damage_mult				DAYS = @kuat_global_dynamic_delay_times		RELATION = "<"  OUTPUT_VALUE = value:kuat_export_kuat_damage_control_modifier|MODIFIER|ship_hull_damage_mult| }
+		kuat_battle_set_kuat_damage_control_standard_modifier = { PARAMATER = ship_hull_mult 					DAYS = @kuat_global_dynamic_delay_times		RELATION = "<"  OUTPUT_VALUE = value:kuat_export_kuat_damage_control_modifier|MODIFIER|ship_hull_mult| }
+		kuat_battle_set_kuat_damage_control_standard_modifier = { PARAMATER = ship_hull_add 					DAYS = @kuat_global_dynamic_delay_times		RELATION = "<"  OUTPUT_VALUE = value:kuat_export_kuat_damage_control_modifier|MODIFIER|ship_hull_add| }
+		kuat_battle_set_kuat_damage_control_standard_modifier = { PARAMATER = ship_shield_add					DAYS = @kuat_global_dynamic_delay_times		RELATION = "<"  OUTPUT_VALUE = value:kuat_export_kuat_damage_control_modifier|MODIFIER|ship_shield_add| }
+		kuat_battle_set_kuat_damage_control_standard_modifier = { PARAMATER = ship_armor_add					DAYS = @kuat_global_dynamic_delay_times		RELATION = "<"  OUTPUT_VALUE = value:kuat_export_kuat_damage_control_modifier|MODIFIER|ship_armor_add| }
+		kuat_battle_set_kuat_damage_control_standard_modifier = { PARAMATER = ship_armor_mult					DAYS = @kuat_global_dynamic_delay_times		RELATION = "<"  OUTPUT_VALUE = value:kuat_export_kuat_damage_control_modifier|MODIFIER|ship_armor_mult| }
+		kuat_battle_set_kuat_damage_control_standard_modifier = { PARAMATER = ship_shield_mult					DAYS = @kuat_global_dynamic_delay_times		RELATION = "<"  OUTPUT_VALUE = value:kuat_export_kuat_damage_control_modifier|MODIFIER|ship_shield_mult| }
+		kuat_battle_set_kuat_damage_control_standard_modifier = { PARAMATER = ship_tracking_add 				DAYS = @kuat_global_dynamic_delay_times		RELATION = "<"  OUTPUT_VALUE = value:kuat_export_kuat_damage_control_modifier|MODIFIER|ship_tracking_add| }
+		kuat_battle_set_kuat_damage_control_standard_modifier = { PARAMATER = ship_accuracy_add					DAYS = @kuat_global_dynamic_delay_times		RELATION = "<"  OUTPUT_VALUE = value:kuat_export_kuat_damage_control_modifier|MODIFIER|ship_accuracy_add| }
+		kuat_battle_set_kuat_damage_control_standard_modifier = { PARAMATER = ship_shield_penetration_add		DAYS = @kuat_global_dynamic_delay_times		RELATION = "<"  OUTPUT_VALUE = value:kuat_export_kuat_damage_control_modifier|MODIFIER|ship_shield_penetration_add| }
+		kuat_battle_set_kuat_damage_control_standard_modifier = { PARAMATER = ship_armor_penetration_add		DAYS = @kuat_global_dynamic_delay_times		RELATION = "<"  OUTPUT_VALUE = value:kuat_export_kuat_damage_control_modifier|MODIFIER|ship_armor_penetration_add| }				
 	]	
 }
 
@@ -460,7 +484,7 @@ kuat_battle_clear_battleship_modifier_fixed_ship = {
 		kuat_battle_remove_executor_power = yes
 		kuat_battle_remove_standard_modifier_system = { TITLE = basic }
 		kuat_battle_remove_standard_variable_system = { TITLE = basic }
-		kuat_battle_remove_ship_modifier_trigger_flag = yes
+		remove_ship_flag = kuat_is_modifiering
 	}
 	kuat_battle_remove_fleet_modifier_trigger_flag = yes
 }
@@ -517,10 +541,6 @@ kuat_battle_remove_repetable_modifier_iep = {
 	kuat_battle_remove_repetable_modifier = { TITLE = iep_basic TYPE = df_mdf }
 }
 
-kuat_battle_remove_ship_modifier_trigger_flag = {
-	optimize_memory
-	remove_ship_flag = kuat_is_modifiering
-}
 kuat_battle_remove_fleet_modifier_trigger_flag = {
 	optimize_memory
 	clear_variable = kuat_contractor_completed_ship_limited
