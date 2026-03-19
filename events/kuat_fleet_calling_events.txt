@@ -32,26 +32,25 @@ fleet_event = {
 	}
 
 	immediate = {  
+		if = {
+			limit = { NOT = { has_fleet_flag = kuat_fleet_calling_12_event_lock } }
+			set_timed_fleet_flag = { flag = kuat_fleet_calling_12_event_lock_temple days = 12 }
+			set_event_locked = yes set_fleet_flag = kuat_fleet_calling_12_event_lock
+			fleet_event = { id = kuat_fleet_calling.12 days = 12 }
+		}
 		from = { 
-			every_fleet_in_system = {
-				limit = {
-					OR = {
-						AND = {
-							exists = controller 
-							controller = { is_hostile = root.owner }
-						}
-						is_same_value = root
-					}
-					NOT = { has_fleet_flag = kuat_fleet_calling_12_event_lock }
+			every_ship_in_system = {
+				limit = { 
+					NOT = { has_ship_flag = kuat_fleet_jump_drive_support_temple } 
+					NOT = { check_modifier_value = { modifier = ship_speed_reduction value = 1 } }
 				}
-				if = {
-					limit = { exists = controller controller = { is_hostile = root.owner } }
-					clear_orders = yes clear_fleet_actions = this
-				}
-				set_timed_fleet_flag = { flag = kuat_fleet_calling_12_event_lock_temple days = 12 }
-				set_event_locked = yes set_fleet_flag = kuat_fleet_calling_12_event_lock
-				fleet_event = { id = kuat_fleet_calling.12 days = 12 }
-			}
+				set_variable = { which = kuat_fleet_jump_drive_support_temple value = modifier:ship_speed_reduction }
+				subtract_variable = { which = kuat_fleet_jump_drive_support_temple value = 1 }
+				add_modifier = { modifier = kuat_fleet_jump_drive_support multiplier = kuat_fleet_jump_drive_support_temple days = 12 }
+				clear_variable = kuat_fleet_jump_drive_support_temple
+				set_timed_ship_flag = { flag = kuat_fleet_jump_drive_support_temple days = 12 }
+				fleet = { set_fleet_flag = kuat_fleet_jump_drive_support_@root }
+			}	
 		}
 	}
 }
@@ -61,7 +60,18 @@ fleet_event = {
 	hide_window = yes
 	is_triggered_only = yes
 	trigger = { exists = this }
-	immediate = { set_event_locked = no remove_fleet_flag = kuat_fleet_calling_12_event_lock }
+	immediate = { 
+		set_event_locked = no 
+		remove_fleet_flag = kuat_fleet_calling_12_event_lock 
+		every_combatant_fleet = { 
+			limit = { 
+				has_fleet_flag = kuat_fleet_jump_drive_support_@root 
+				NOT = { has_modifier = kuat_fleet_jump_drive_support }
+			}
+			add_modifier = { modifier = begin_modifier_updated_batch_modifier days = 2 } 
+			remove_fleet_flag = kuat_fleet_jump_drive_support_@root
+		}
+	}
 }
 
 #ON MONTH FOR SAFETY
@@ -81,8 +91,15 @@ country_event = {
 				NOT = { has_fleet_flag = kuat_fleet_calling_12_event_lock_temple }
 				has_fleet_flag = kuat_fleet_calling_12_event_lock
 			}
-			set_event_locked = no
-			remove_fleet_flag = kuat_fleet_calling_12_event_lock
+			every_galaxy_fleet = {
+				limit = { 
+					has_fleet_flag = kuat_fleet_jump_drive_support_@prev 
+					NOT = { has_modifier = kuat_fleet_jump_drive_support }
+				}
+				add_modifier = { modifier = begin_modifier_updated_batch_modifier days = 2 }
+				remove_fleet_flag = kuat_fleet_jump_drive_support_@prev
+			}
+			set_event_locked = no remove_fleet_flag = kuat_fleet_calling_12_event_lock
 		}
 	}
 }
