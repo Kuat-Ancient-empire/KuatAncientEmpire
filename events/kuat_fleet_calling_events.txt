@@ -36,17 +36,20 @@ fleet_event = {
 			every_fleet_in_system = {
 				limit = {
 					OR = {
-						exists = controller controller = { is_hostile = root.owner }
+						AND = {
+							exists = controller 
+							controller = { is_hostile = root.owner }
+						}
 						is_same_value = root
 					}
-					NOT = { has_fleet_flag = kuat_fleet_calling.12_event_lock }
+					NOT = { has_fleet_flag = kuat_fleet_calling_12_event_lock }
 				}
 				if = {
 					limit = { exists = controller controller = { is_hostile = root.owner } }
 					clear_orders = yes clear_fleet_actions = this
 				}
-				set_timed_fleet_flag = { flag = kuat_fleet_calling.12_event_lock_temple days = 12 }
-				set_event_locked = yes set_fleet_flag = kuat_fleet_calling.12_event_lock
+				set_timed_fleet_flag = { flag = kuat_fleet_calling_12_event_lock_temple days = 12 }
+				set_event_locked = yes set_fleet_flag = kuat_fleet_calling_12_event_lock
 				fleet_event = { id = kuat_fleet_calling.12 days = 12 }
 			}
 		}
@@ -58,7 +61,7 @@ fleet_event = {
 	hide_window = yes
 	is_triggered_only = yes
 	trigger = { exists = this }
-	immediate = { set_event_locked = no remove_fleet_flag = kuat_fleet_calling.12_event_lock }
+	immediate = { set_event_locked = no remove_fleet_flag = kuat_fleet_calling_12_event_lock }
 }
 
 #ON MONTH FOR SAFETY
@@ -68,18 +71,18 @@ country_event = {
 	is_triggered_only = yes
 	trigger = {
 		any_owned_fleet = {
-			NOT = { has_fleet_flag = kuat_fleet_calling.12_event_lock_temple }
-			has_fleet_flag = kuat_fleet_calling.12_event_lock
+			NOT = { has_fleet_flag = kuat_fleet_calling_12_event_lock_temple }
+			has_fleet_flag = kuat_fleet_calling_12_event_lock
 		}
 	}
 	immediate = {
 		every_owned_fleet = {
 			limit = {
-				NOT = { has_fleet_flag = kuat_fleet_calling.12_event_lock_temple }
-				has_fleet_flag = kuat_fleet_calling.12_event_lock
+				NOT = { has_fleet_flag = kuat_fleet_calling_12_event_lock_temple }
+				has_fleet_flag = kuat_fleet_calling_12_event_lock
 			}
 			set_event_locked = no
-			remove_fleet_flag = kuat_fleet_calling.12_event_lock
+			remove_fleet_flag = kuat_fleet_calling_12_event_lock
 		}
 	}
 }
