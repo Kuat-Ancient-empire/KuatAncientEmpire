@@ -31,7 +31,8 @@ kuat_battle_eternal_increase_executor_power = {
 		limit = { NOT = { has_ship_flag = kuat_has_eternal_increase_executor_power_temple } }
 		if = {
 			limit = { 
-				kuat_is_disable_return_ship = yes owner = { is_invisable_faction = no }
+				kuat_is_disable_return_ship = yes 
+				exists = owner owner = { is_invisable_faction = no }
 				NOT = { has_global_flag = kuat_set_forcetrigger_order_enable_crisis_eve_system }
 			}
 			set_variable = { which = KUAT_SHIP_HEALTH_VAR value = 0 }
@@ -39,42 +40,34 @@ kuat_battle_eternal_increase_executor_power = {
 				FLAG = enable_kuat_ship_inital Disable_health = 0.01 
 				WHICH = KUAT_SHIP_HEALTH_VAR HEALTH = value:kuat_dynamic_exist_life_times 
 			}
-			add_modifier = { 
-				modifier = kuat_hull_cate_modifier   
-				multiplier = value:kuat_dynamic_mutiply_factor|MULT|0.002|kuat_mult_modifier|ship_hull_mult|kuat_add_modifier|ship_hull_add| 
-			}
-			add_modifier = { 
-				modifier = kuat_shield_cate_modifier 
-				multiplier = value:kuat_dynamic_mutiply_factor|MULT|0.002|kuat_mult_modifier|ship_hull_mult|kuat_add_modifier|ship_hull_add| 
-			}
-			add_modifier = { 
-				modifier = kuat_armor_cate_modifier 
-				multiplier = value:kuat_dynamic_mutiply_factor|MULT|0.002|kuat_mult_modifier|ship_hull_mult|kuat_add_modifier|ship_hull_add| 
-			}
-			if = {
-				limit = { check_modifier_value = { modifier = ship_damage_reduction_mult value < value:kuat_dynamic_ship_damage_reduce_limit } }
-				kuat_battle_clear_ship_modifier = { modifier = ship_damage_reduction_mult subtract = value:kuat_dynamic_ship_damage_reduce_limit DAYS = -1 }
-			}
+			kuat_battle_eternal_initial_started_defence_value = { MULT = 0.002 }
 		}
-		else = {
-			add_modifier = { 
-				modifier = kuat_hull_cate_modifier   
-				multiplier = value:kuat_dynamic_mutiply_factor|MULT|0.001|kuat_mult_modifier|ship_hull_mult|kuat_add_modifier|ship_hull_add| 
+		else = { kuat_battle_eternal_initial_started_defence_value = { MULT = 0.001 } }
+		if = {
+			limit = { 
+				exists = owner owner = { is_invisable_faction = no }
+				NOT = { has_global_flag = kuat_set_forcetrigger_order_enable_crisis_eve_system }
+				check_modifier_value = { modifier = ship_damage_reduction_mult value < value:kuat_dynamic_ship_damage_reduce_limit } 
 			}
-			add_modifier = { 
-				modifier = kuat_shield_cate_modifier 
-				multiplier = value:kuat_dynamic_mutiply_factor|MULT|0.001|kuat_mult_modifier|ship_hull_mult|kuat_add_modifier|ship_hull_add| 
-			}
-			add_modifier = { 
-				modifier = kuat_armor_cate_modifier 
-				multiplier = value:kuat_dynamic_mutiply_factor|MULT|0.001|kuat_mult_modifier|ship_hull_mult|kuat_add_modifier|ship_hull_add| 
-			}
-			if = {
-				limit = { check_modifier_value = { modifier = ship_damage_reduction_mult value < value:kuat_dynamic_ship_damage_reduce_limit } }
-				kuat_battle_clear_ship_modifier = { modifier = ship_damage_reduction_mult subtract = value:kuat_dynamic_ship_damage_reduce_limit DAYS = -1 }
-			}
+			kuat_battle_clear_ship_modifier = { modifier = ship_damage_reduction_mult subtract = value:kuat_dynamic_ship_damage_reduce_limit DAYS = -1 }
 		}
 		set_ship_flag = kuat_has_eternal_increase_executor_power_temple
+	}
+}
+
+kuat_battle_eternal_initial_started_defence_value = {
+	optimize_memory
+	add_modifier = { 
+		modifier = kuat_hull_cate_modifier   
+		multiplier = value:kuat_dynamic_mutiply_factor|MULT|$MULT$|kuat_mult_modifier|ship_hull_mult|kuat_add_modifier|ship_hull_add| 
+	}
+	add_modifier = { 
+		modifier = kuat_shield_cate_modifier 
+		multiplier = value:kuat_dynamic_mutiply_factor|MULT|$MULT$|kuat_mult_modifier|ship_hull_mult|kuat_add_modifier|ship_hull_add| 
+	}
+	add_modifier = { 
+		modifier = kuat_armor_cate_modifier 
+		multiplier = value:kuat_dynamic_mutiply_factor|MULT|$MULT$|kuat_mult_modifier|ship_hull_mult|kuat_add_modifier|ship_hull_add| 
 	}
 }
 
