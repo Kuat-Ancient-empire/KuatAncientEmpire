@@ -86,6 +86,44 @@ on_hit = {
 			change_variable = { which = kuat_aoe_total_damage_value value = modifier:kuat_weapon_aoe_ship_hull_damage }
 			add_modifier = { modifier = kuat_ship_weapon_on_hit_aoe_modifier multiplier = kuat_aoe_total_damage_value days = 2 }
 		}
+		if = {
+			limit = { 
+				AND = { exists = root.from root.from = { is_invisable_faction = yes } }
+				AND = { exists = owner owner = { is_invisable_faction = no } }
+				NOT = { has_ship_flag = kuat_battle_ship_damage_reduction_temple }
+			}
+			if = {
+				limit = { 
+					check_modifier_value = { 
+						modifier = ship_damage_reduction_mult 
+						value > value:kuat_dynamic_ship_damage_reduce_limit 
+					}
+				}
+				kuat_battle_steal_modifier_on_hit = {
+					VARIABLE = kuat_battle_ship_damage_reduction_mult_temp
+					KUAT_MODIFIER = kuat_weapon_steal_ship_damage_reduce_mult
+					MODIFIER = kuat_ship_damage_reduction_mult_steal_weapon_hit_modifier
+					AMOUNT = value:kuat_dynamic_ship_damage_reduce_limit 
+					DAYS = $kuat_weapon_stollen_days$
+				}
+			}
+			if = {
+				limit = { 
+					check_modifier_value = { 
+						modifier = ship_damage_reduction_add
+						value > value:kuat_dynamic_mutiply_factor_limit|MULT|0.001|kuat_add_modifier|ship_hull_add|
+					} 
+				}
+				kuat_battle_steal_modifier_on_hit = {
+					VARIABLE = kuat_battle_ship_damage_reduction_add_temp
+					KUAT_MODIFIER = kuat_weapon_steal_ship_damage_reduce_add
+					MODIFIER = kuat_ship_damage_reduction_add_steal_weapon_hit_modifier
+					AMOUNT = value:kuat_dynamic_mutiply_factor_limit|MULT|0.001|kuat_add_modifier|ship_hull_add|
+					DAYS = $kuat_weapon_stollen_days$
+				}
+			}
+			else = { set_timed_ship_flag = { flag = kuat_battle_ship_damage_reduction_temple days = $kuat_weapon_stollen_days$ } }
+		}
 		else = { clear_variable = kuat_aoe_total_damage_value }
 	} }
 	clear_variable = kuat_aoe_total_damage_value_bak
