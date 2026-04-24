@@ -23,7 +23,10 @@ country_event = {
 		random_planet_within_border = {
 			limit = { kuat_is_legacy_arc_planet = yes }
 			reroll_planet = yes change_pc = pc_gaia
-			create_archaeological_site = Kuat_non_lagacy_1
+			random_list = {
+				1 = { create_archaeological_site = Kuat_non_lagacy_1 }
+				1 = { create_archaeological_site = kuat_rakata_arc_site_1 }
+			}
 		}
 	}
 	option = { name = Kuat_non_legacy.1.a }
@@ -792,5 +795,472 @@ country_event = {
 	option = {
 		name = kuat_rakata_arc.15.a
 		kuat_origin_give_all_infinite_empire_fleet_data = yes
+	}
+}
+
+# ========================================================================
+# 桥接事件：遗迹三 → 遗迹四 — 隐匿档案库的发现
+# Site: kuat_rakata_arc_site_4
+# ========================================================================
+country_event = {
+	id = kuat_rakata_arc.16
+	title = "kuat_rakata_arc.16.title"
+	desc = "kuat_rakata_arc.16.desc"
+	picture = GFX_evt_alien_ruins
+	show_sound = event_alien_signal
+	is_triggered_only = yes
+	immediate = {
+		set_country_flag = kuat_rakata_arc_site_4_created
+		if = {
+			limit = { any_planet_within_border = {
+				kuat_is_legacy_arc_planet = yes
+				NOT = { exists = archaeological_site }
+			} }
+			random_planet_within_border = {
+				limit = {
+					kuat_is_legacy_arc_planet = yes
+					NOT = { exists = archaeological_site }
+				}
+				create_archaeological_site = kuat_rakata_arc_site_4
+			}
+		}
+		else = { random_galaxy_planet = {
+			limit = { kuat_is_legacy_arc_planet = yes }
+			create_archaeological_site = kuat_rakata_arc_site_4
+		} }
+	}
+	option = { name = kuat_rakata_arc.16.a }
+}
+
+# ========================================================================
+# 遗迹四：隐匿档案库 — 静默协议
+# Site: kuat_rakata_arc_site_4
+# Stages: 4 events (kuat_rakata_arc.17 - kuat_rakata_arc.20)
+# ========================================================================
+
+# 阶段1 — 入口的铭文
+fleet_event = {
+	id = kuat_rakata_arc.17
+	hide_window = no
+	title = "kuat_rakata_arc.17.title"
+	desc = "kuat_rakata_arc.17.desc"
+	picture = GFX_evt_alien_ruins
+	show_sound = event_wind_ruins
+	is_triggered_only = yes
+	archaeology = yes
+	immediate = {
+		from = { set_site_progress_locked = yes }
+	}
+	after = {
+		from = { set_site_progress_locked = no }
+	}
+	option = {
+		name = kuat_rakata_arc.17.a
+	}
+}
+
+# 阶段2 — 静默协议
+fleet_event = {
+	id = kuat_rakata_arc.18
+	hide_window = no
+	title = "kuat_rakata_arc.18.title"
+	desc = "kuat_rakata_arc.18.desc"
+	picture = GFX_evt_ancient_databank
+	show_sound = event_wind_ruins
+	is_triggered_only = yes
+	archaeology = yes
+	immediate = {
+		from = { set_site_progress_locked = yes }
+	}
+	after = {
+		from = { set_site_progress_locked = no }
+	}
+	option = {
+		name = kuat_rakata_arc.18.a
+		medium_artifact_reward = yes
+	}
+}
+
+# 阶段3 — 发现与恐惧
+fleet_event = {
+	id = kuat_rakata_arc.19
+	hide_window = no
+	title = "kuat_rakata_arc.19.title"
+	desc = "kuat_rakata_arc.19.desc"
+	picture = GFX_evt_sapient_AI
+	show_sound = event_wind_ruins
+	is_triggered_only = yes
+	archaeology = yes
+	immediate = {
+		from = { set_site_progress_locked = yes }
+	}
+	after = {
+		from = { set_site_progress_locked = no }
+	}
+	option = {
+		name = kuat_rakata_arc.19.a
+		medium_artifact_reward = yes
+	}
+}
+
+# 阶段4 — 档案库的封印（最后阶段）
+fleet_event = {
+	id = kuat_rakata_arc.20
+	hide_window = no
+	title = "kuat_rakata_arc.20.title"
+	desc = "kuat_rakata_arc.20.desc"
+	picture = GFX_evt_automated_dreadnought
+	show_sound = event_wind_ruins
+	is_triggered_only = yes
+	archaeology = yes
+	immediate = {
+		from = { set_site_progress_locked = yes }
+	}
+	after = {
+		from = { set_site_progress_locked = no }
+		root.owner = {
+			set_country_flag = kuat_rakata_arc_site_4_done
+			add_modifier = { modifier = kuat_rakata_arc_void_silence_modifier days = -1 }
+			add_timeline_event = {
+				type = timeline_origin
+				override_id = timeline_kuat_rakata_arc_04
+				override_tooltip = "TIMELINE_KUAT_RAKATA_ARC_04_TOOLTIP"
+				override_types = { }
+			}
+			if = {
+				limit = { NOT = { has_country_flag = kuat_rakata_arc_site_5_done } }
+				country_event = { id = kuat_rakata_arc.21 days = 15 random = 60 }
+			}
+		}
+	}
+	option = {
+		name = kuat_rakata_arc.20.a
+		large_artifact_reward = yes
+	}
+}
+
+# ========================================================================
+# 桥接事件：遗迹四 → 遗迹五 — 共鸣深渊的追踪
+# ========================================================================
+country_event = {
+	id = kuat_rakata_arc.21
+	title = "kuat_rakata_arc.21.title"
+	desc = "kuat_rakata_arc.21.desc"
+	picture = GFX_evt_archaeological_dig
+	show_sound = event_alien_signal
+	is_triggered_only = yes
+	immediate = {
+		set_country_flag = kuat_rakata_arc_site_5_created
+		if = {
+			limit = { any_planet_within_border = {
+				kuat_is_legacy_arc_planet = yes
+				NOT = { exists = archaeological_site }
+			} }
+			random_planet_within_border = {
+				limit = {
+					kuat_is_legacy_arc_planet = yes
+					NOT = { exists = archaeological_site }
+				}
+				create_archaeological_site = kuat_rakata_arc_site_5
+			}
+		}
+		else = { random_galaxy_planet = {
+			limit = { kuat_is_legacy_arc_planet = yes }
+			create_archaeological_site = kuat_rakata_arc_site_5
+		} }
+	}
+	option = { name = kuat_rakata_arc.21.a }
+}
+
+# ========================================================================
+# 遗迹五：共鸣深渊 — 深渊之眼
+# Site: kuat_rakata_arc_site_5
+# Stages: 4 events (kuat_rakata_arc.22 - kuat_rakata_arc.25)
+# ========================================================================
+
+# 阶段1 — 深渊之眼
+fleet_event = {
+	id = kuat_rakata_arc.22
+	hide_window = no
+	title = "kuat_rakata_arc.22.title"
+	desc = "kuat_rakata_arc.22.desc"
+	picture = GFX_evt_gas_giant
+	show_sound = event_alien_signal
+	is_triggered_only = yes
+	archaeology = yes
+	immediate = {
+		from = { set_site_progress_locked = yes }
+	}
+	after = {
+		from = { set_site_progress_locked = no }
+	}
+	option = {
+		name = kuat_rakata_arc.22.a
+	}
+}
+
+# 阶段2 — 第一次接触
+fleet_event = {
+	id = kuat_rakata_arc.23
+	hide_window = no
+	title = "kuat_rakata_arc.23.title"
+	desc = "kuat_rakata_arc.23.desc"
+	picture = GFX_evt_fallen_empire
+	show_sound = event_wind_ruins
+	is_triggered_only = yes
+	archaeology = yes
+	immediate = {
+		from = { set_site_progress_locked = yes }
+	}
+	after = {
+		from = { set_site_progress_locked = no }
+	}
+	option = {
+		name = kuat_rakata_arc.23.a
+		small_artifact_reward = yes
+	}
+}
+
+# 阶段3 — 代价
+fleet_event = {
+	id = kuat_rakata_arc.24
+	hide_window = no
+	title = "kuat_rakata_arc.24.title"
+	desc = "kuat_rakata_arc.24.desc"
+	picture = GFX_evt_em_war_2
+	show_sound = event_wind_ruins
+	is_triggered_only = yes
+	archaeology = yes
+	immediate = {
+		from = { set_site_progress_locked = yes }
+	}
+	after = {
+		from = { set_site_progress_locked = no }
+	}
+	option = {
+		name = kuat_rakata_arc.24.a
+		medium_artifact_reward = yes
+	}
+}
+
+# 阶段4 — 最后的信标（最后阶段）
+fleet_event = {
+	id = kuat_rakata_arc.25
+	hide_window = no
+	title = "kuat_rakata_arc.25.title"
+	desc = "kuat_rakata_arc.25.desc"
+	picture = GFX_evt_automated_dreadnought
+	show_sound = event_wind_ruins
+	is_triggered_only = yes
+	archaeology = yes
+	immediate = {
+		from = { set_site_progress_locked = yes }
+	}
+	after = {
+		from = { set_site_progress_locked = no }
+		root.owner = {
+			set_country_flag = kuat_rakata_arc_site_5_done
+			add_modifier = { modifier = kuat_rakata_arc_abyss_stare_modifier days = -1 }
+			add_timeline_event = {
+				type = timeline_origin
+				override_id = timeline_kuat_rakata_arc_05
+				override_tooltip = "TIMELINE_KUAT_RAKATA_ARC_05_TOOLTIP"
+				override_types = { }
+			}
+			if = {
+				limit = { NOT = { has_country_flag = kuat_rakata_arc_site_6_done } }
+				country_event = { id = kuat_rakata_arc.26 days = 15 random = 60 }
+			}
+		}
+	}
+	option = {
+		name = kuat_rakata_arc.25.a
+		large_artifact_reward = yes
+	}
+}
+
+# ========================================================================
+# 桥接事件：遗迹五 → 遗迹六 — 起点的坐标
+# ========================================================================
+country_event = {
+	id = kuat_rakata_arc.26
+	title = "kuat_rakata_arc.26.title"
+	desc = "kuat_rakata_arc.26.desc"
+	picture = GFX_evt_archaeological_dig
+	show_sound = event_alien_signal
+	is_triggered_only = yes
+	immediate = {
+		set_country_flag = kuat_rakata_arc_site_6_created
+		if = {
+			limit = { any_planet_within_border = {
+				kuat_is_legacy_arc_planet = yes
+				NOT = { exists = archaeological_site }
+			} }
+			random_planet_within_border = {
+				limit = {
+					kuat_is_legacy_arc_planet = yes
+					NOT = { exists = archaeological_site }
+				}
+				create_archaeological_site = kuat_rakata_arc_site_6
+			}
+		}
+		else = { random_galaxy_planet = {
+			limit = { kuat_is_legacy_arc_planet = yes }
+			create_archaeological_site = kuat_rakata_arc_site_6
+		} }
+	}
+	option = { name = kuat_rakata_arc.26.a }
+}
+
+# ========================================================================
+# 遗迹六：创世回响 — 真相之穴
+# Site: kuat_rakata_arc_site_6
+# Stages: 4 events (kuat_rakata_arc.27 - kuat_rakata_arc.30)
+# ========================================================================
+
+# 阶段1 — 原初之穴
+fleet_event = {
+	id = kuat_rakata_arc.27
+	hide_window = no
+	title = "kuat_rakata_arc.27.title"
+	desc = "kuat_rakata_arc.27.desc"
+	picture = GFX_evt_automated_dreadnought
+	show_sound = event_wind_ruins
+	is_triggered_only = yes
+	archaeology = yes
+	immediate = {
+		from = { set_site_progress_locked = yes }
+	}
+	after = {
+		from = { set_site_progress_locked = no }
+	}
+	option = {
+		name = kuat_rakata_arc.27.a
+	}
+}
+
+# 阶段2 — 并非发现，而是赠予
+fleet_event = {
+	id = kuat_rakata_arc.28
+	hide_window = no
+	title = "kuat_rakata_arc.28.title"
+	desc = "kuat_rakata_arc.28.desc"
+	picture = GFX_evt_ancient_records
+	show_sound = event_wind_ruins
+	is_triggered_only = yes
+	archaeology = yes
+	immediate = {
+		from = { set_site_progress_locked = yes }
+	}
+	after = {
+		from = { set_site_progress_locked = no }
+	}
+	option = {
+		name = kuat_rakata_arc.28.a
+		medium_artifact_reward = yes
+	}
+}
+
+# 阶段3 — 瘟疫的真相
+fleet_event = {
+	id = kuat_rakata_arc.29
+	hide_window = no
+	title = "kuat_rakata_arc.29.title"
+	desc = "kuat_rakata_arc.29.desc"
+	picture = GFX_evt_sapient_AI
+	show_sound = event_wind_ruins
+	is_triggered_only = yes
+	archaeology = yes
+	immediate = {
+		from = { set_site_progress_locked = yes }
+	}
+	after = {
+		from = { set_site_progress_locked = no }
+	}
+	option = {
+		name = kuat_rakata_arc.29.a
+		medium_artifact_reward = yes
+	}
+}
+
+# 阶段4 — 最后的抉择（最后阶段）
+fleet_event = {
+	id = kuat_rakata_arc.30
+	hide_window = no
+	title = "kuat_rakata_arc.30.title"
+	desc = "kuat_rakata_arc.30.desc"
+	picture = GFX_evt_ancient_databank
+	show_sound = event_wind_ruins
+	is_triggered_only = yes
+	archaeology = yes
+	immediate = {
+		from = { set_site_progress_locked = yes }
+	}
+	after = {
+		from = { set_site_progress_locked = no }
+		root.owner = {
+			set_country_flag = kuat_rakata_arc_site_6_done
+			add_timeline_event = {
+				type = timeline_origin
+				override_id = timeline_kuat_rakata_arc_06
+				override_tooltip = "TIMELINE_KUAT_RAKATA_ARC_06_TOOLTIP"
+				override_types = { }
+			}
+			country_event = { id = kuat_rakata_arc.31 days = 15 random = 30 }
+		}
+	}
+	option = {
+		name = kuat_rakata_arc.30.a
+		large_artifact_reward = yes
+	}
+}
+
+# ========================================================================
+# 最终奖励事件 — 暗影三部曲的终结
+# ========================================================================
+country_event = {
+	id = kuat_rakata_arc.31
+	title = "kuat_rakata_arc.31.title"
+	desc = "kuat_rakata_arc.31.desc"
+	picture = GFX_evt_ancient_databank
+	show_sound = event_alien_signal
+	is_triggered_only = yes
+	immediate = {
+		add_timeline_event = {
+			type = timeline_origin
+			override_id = timeline_kuat_rakata_arc_complete
+			override_tooltip = "TIMELINE_KUAT_RAKATA_ARC_COMPLETE_TOOLTIP"
+			override_types = { }
+		}
+	}
+	option = {
+		name = kuat_rakata_arc.31.a
+		custom_tooltip = Kuat_non_legacy.11.tooltip
+		hidden_effect = {
+			set_global_flag = kuat_non_legacy_trigger_eternal_return
+			if = {
+				limit = {
+					OR = {
+						has_global_flag = ban_exe_invasion
+						has_global_flag = normal_exe_invasion
+						has_global_flag = difficult_exe_invasion
+						has_global_flag = fire_diificult_option
+					}
+				}
+				remove_global_flag = ban_exe_invasion
+				remove_global_flag = normal_exe_invasion
+				remove_global_flag = difficult_exe_invasion
+				remove_global_flag = fire_diificult_option
+			}
+			set_global_flag = easy_exe_invasion
+			remove_global_flag = kuat_impulse_mod_settings
+			remove_global_flag = kuat_impulse_mod_settings_disable
+			set_global_flag = kuat_impulse_mod_settings_disable
+			event_target:global_event_country = { set_variable = { which = kuat_dynamic_modifier_var value = 1 } }
+			random_list = {
+				1 = { add_modifier = { modifier = kuat_rakata_arc_void_silence_modifier days = -1 } }
+				1 = { add_modifier = { modifier = kuat_rakata_arc_abyss_stare_modifier days = -1 } }
+			}
+		}
 	}
 }
