@@ -1102,11 +1102,13 @@ country_event = {
 					NOT = { exists = archaeological_site }
 				}
 				create_archaeological_site = kuat_rakata_arc_site_6
+				change_pc = pc_broken
 			}
 		}
 		else = { random_galaxy_planet = {
 			limit = { kuat_is_legacy_arc_planet = yes }
 			create_archaeological_site = kuat_rakata_arc_site_6
+			change_pc = pc_broken
 		} }
 	}
 	option = { name = kuat_rakata_arc.26.a }
@@ -1261,6 +1263,161 @@ country_event = {
 				1 = { add_modifier = { modifier = kuat_rakata_arc_void_silence_modifier days = -1 } }
 				1 = { add_modifier = { modifier = kuat_rakata_arc_abyss_stare_modifier days = -1 } }
 			}
+			if = {
+				limit = { NOT = { has_country_flag = kuat_rakata_arc_site_7_created } }
+				country_event = { id = kuat_rakata_arc.32 days = 30 random = 30 }
+			}
+		}
+	}
+}
+
+# ========================================================================
+# 桥接事件五 — 星魂熔炉的坐标（隐藏第七遗址）
+# ========================================================================
+country_event = {
+	id = kuat_rakata_arc.32
+	title = "kuat_rakata_arc.32.title"
+	desc = "kuat_rakata_arc.32.desc"
+	picture = GFX_evt_ancient_databank
+	show_sound = event_alien_signal
+	is_triggered_only = yes
+	immediate = {
+		set_country_flag = kuat_rakata_arc_site_7_created
+		random_planet_within_border = {
+			limit = { kuat_is_legacy_arc_planet = yes }
+			change_pc = pc_barren
+			create_archaeological_site = kuat_rakata_arc_site_7
+		}
+	}
+	option = {
+		name = kuat_rakata_arc.32.a
+	}
+}
+
+# ========================================================================
+# 拉卡塔遗迹七：星魂熔炉 — 阶段1：重力阴影
+# ========================================================================
+fleet_event = {
+	id = kuat_rakata_arc.33
+	hide_window = no
+	title = "kuat_rakata_arc.33.title"
+	desc = "kuat_rakata_arc.33.desc"
+	picture = GFX_evt_gas_giant
+	show_sound = event_wind_ruins
+	is_triggered_only = yes
+	archaeology = yes
+	immediate = {
+		from = { set_site_progress_locked = yes }
+	}
+	after = {
+		from = { set_site_progress_locked = no }
+	}
+	option = {
+		name = kuat_rakata_arc.33.a
+	}
+}
+
+# ========================================================================
+# 拉卡塔遗迹七：星魂熔炉 — 阶段2：饥渴的熔炉
+# ========================================================================
+fleet_event = {
+	id = kuat_rakata_arc.34
+	hide_window = no
+	title = "kuat_rakata_arc.34.title"
+	desc = "kuat_rakata_arc.34.desc"
+	picture = GFX_evt_automated_dreadnought
+	show_sound = event_wind_ruins
+	is_triggered_only = yes
+	archaeology = yes
+	immediate = {
+		from = { set_site_progress_locked = yes }
+	}
+	after = {
+		from = { set_site_progress_locked = no }
+	}
+	option = {
+		name = kuat_rakata_arc.34.a
+		medium_artifact_reward = yes
+	}
+}
+
+# ========================================================================
+# 拉卡塔遗迹七：星魂熔炉 — 阶段3：原力的肿瘤
+# ========================================================================
+fleet_event = {
+	id = kuat_rakata_arc.35
+	hide_window = no
+	title = "kuat_rakata_arc.35.title"
+	desc = "kuat_rakata_arc.35.desc"
+	picture = GFX_evt_sapient_AI
+	show_sound = event_wind_ruins
+	is_triggered_only = yes
+	archaeology = yes
+	immediate = {
+		from = { set_site_progress_locked = yes }
+	}
+	after = {
+		from = { set_site_progress_locked = no }
+	}
+	option = {
+		name = kuat_rakata_arc.35.a
+		medium_artifact_reward = yes
+	}
+}
+
+# ========================================================================
+# 拉卡塔遗迹七：星魂熔炉 — 阶段4：三种抉择（最终阶段）
+# ========================================================================
+fleet_event = {
+	id = kuat_rakata_arc.36
+	hide_window = no
+	title = "kuat_rakata_arc.36.title"
+	desc = "kuat_rakata_arc.36.desc"
+	picture = GFX_evt_ancient_databank
+	show_sound = event_wind_ruins
+	is_triggered_only = yes
+	archaeology = yes
+	immediate = {
+		from = { set_site_progress_locked = yes }
+	}
+	after = {
+		from = { set_site_progress_locked = no }
+		root.owner = {
+			set_country_flag = kuat_rakata_arc_site_7_done
+			add_timeline_event = {
+				type = timeline_origin
+				override_id = timeline_kuat_rakata_arc_07
+				override_tooltip = "TIMELINE_KUAT_RAKATA_ARC_07_TOOLTIP"
+				override_types = { }
+			}
+			country_event = { id = kuat_rakata_arc.37 days = 15 random = 30 }
+		}
+	}
+	option = {
+		name = kuat_rakata_arc.36.a
+		large_artifact_reward = yes
+	}
+}
+
+# ========================================================================
+# 星魂熔炉 — 最终奖励：三种选择
+# ========================================================================
+country_event = {
+	id = kuat_rakata_arc.37
+	title = "kuat_rakata_arc.37.title"
+	desc = "kuat_rakata_arc.37.desc"
+	picture = GFX_evt_ancient_databank
+	show_sound = event_alien_signal
+	is_triggered_only = yes
+	immediate = {
+		root.owner = { kuat_origin_give_all_ship_and_tech = yes }
+	}
+	option = {
+		name = kuat_rakata_arc.37.a
+		custom_tooltip = kuat_rakata_arc.37.a.tooltip
+		hidden_effect = {
+			set_country_flag = kuat_rakata_arc_star_soul_purge
+			add_modifier = { modifier = kuat_rakata_arc_star_soul_purge_modifier days = -1 }
 		}
 	}
 }
