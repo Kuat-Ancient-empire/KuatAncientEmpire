@@ -382,6 +382,319 @@ fleet_event = {
 	}
 }
 
+# ============================================================
+# Phase 0: Entry Event — Eternal Return Awakening
+# ============================================================
+
+country_event = {
+	id = Kuat_non_legacy.14
+	title = Kuat_non_legacy.14.name
+	desc = Kuat_non_legacy.14.desc
+	picture = GFX_evt_sapient_AI
+	show_sound = event_mysterious_signal
+	fire_only_once = yes
+	trigger = {
+		kuat_is_player_country = yes
+		has_global_flag = kuat_non_legacy_trigger_eternal_return
+	}
+	mean_time_to_happen = { days = 60 }
+
+	# Option A: Archive path — decrypt Zakuul data
+	option = {
+		name = Kuat_non_legacy.14.a
+		custom_tooltip = Kuat_non_legacy.14.a.tooltip
+		hidden_effect = {
+			set_country_flag = kuat_non_legacy_archive_path
+			add_research_option = tr_zakuul_defense_matrix
+			enable_special_project = {
+				name = kuat_zakuul_archive_decrypt
+				location = root.capital_scope
+				owner = root
+			}
+		}
+	}
+
+	# Option B: Alliance path — study Zakuul consciousness
+	option = {
+		name = Kuat_non_legacy.14.b
+		custom_tooltip = Kuat_non_legacy.14.b.tooltip
+		hidden_effect = {
+			set_country_flag = kuat_non_legacy_alliance_path
+			add_research_option = tr_zakuul_neural_hack
+			start_situation = {
+				type = sit_zakuul_consciousness
+				target = root
+			}
+		}
+	}
+
+	# Option C: Confrontation path — prepare for war
+	option = {
+		name = Kuat_non_legacy.14.c
+		custom_tooltip = Kuat_non_legacy.14.c.tooltip
+		hidden_effect = {
+			set_country_flag = kuat_non_legacy_confrontation_path
+			add_research_option = tr_eternal_fleet_weakness_analysis
+			add_research_option = tr_eternal_fleet_weakness_analysis
+		}
+	}
+}
+
+# ============================================================
+# Phase 1A: Archive Path — Decryption & Retrieval
+# ============================================================
+
+# .15 — After first special project (kuat_zakuul_archive_decrypt) completes
+# Narration: decrypted data reveals weapons cache on barren planet
+country_event = {
+	id = Kuat_non_legacy.15
+	title = Kuat_non_legacy.15.name
+	desc = Kuat_non_legacy.15.desc
+	picture = GFX_evt_ancient_databank
+	show_sound = event_mysterious_signal
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = Kuat_non_legacy.15.a
+		custom_tooltip = Kuat_non_legacy.15.a.tooltip
+		hidden_effect = {
+			enable_special_project = {
+				name = kuat_zakuul_cache_retrieval
+				location = root.capital_scope
+				owner = root
+			}
+		}
+	}
+}
+
+# .16 — After second special project (kuat_zakuul_cache_retrieval) completes
+# Narration: construction ship found Zakuul Heart crystal
+country_event = {
+	id = Kuat_non_legacy.16
+	title = Kuat_non_legacy.16.name
+	desc = Kuat_non_legacy.16.desc
+	picture = GFX_evt_ancient_databank
+	show_sound = event_mysterious_signal
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = Kuat_non_legacy.16.a
+		custom_tooltip = Kuat_non_legacy.16.a.tooltip
+		hidden_effect = {
+			add_relic = r_zakuul_archive_core
+			set_country_flag = kuat_non_legacy_path_complete
+			add_resource = { physics_research = 1200000 society_research = 1200000 engineering_research = 1200000 }
+		}
+	}
+}
+
+# .17 — 90 days after .16: final message from last Zakuul emperor
+country_event = {
+	id = Kuat_non_legacy.17
+	title = Kuat_non_legacy.17.name
+	desc = Kuat_non_legacy.17.desc
+	picture = GFX_evt_ancient_databank
+	show_sound = event_mysterious_signal
+	fire_only_once = yes
+	trigger = {
+		kuat_is_player_country = yes
+		has_country_flag = kuat_non_legacy_archive_path
+		has_country_flag = kuat_non_legacy_path_complete
+	}
+	mean_time_to_happen = { days = 90 }
+
+	option = {
+		name = Kuat_non_legacy.17.a
+		custom_tooltip = Kuat_non_legacy.17.a.tooltip
+		hidden_effect = {
+			add_modifier = { modifier = kuat_archive_path_wisdom days = -1 }
+			add_resource = { minor_artifacts = 1000 }
+		}
+	}
+}
+
+
+# ============================================================================
+# Phase 1C: Confrontation Path (.21 - .23)
+# ============================================================================
+
+# .21 — Reverse-Engineering the Eternal Fleet
+# Fires ~30 days after .14 (MTTH) if player chose confrontation path
+country_event = {
+	id = Kuat_non_legacy.21
+	title = Kuat_non_legacy.21.name
+	desc = Kuat_non_legacy.21.desc
+	picture = GFX_evt_sapient_AI
+	show_sound = event_ai_started
+	fire_only_once = yes
+	mean_time_to_happen = { days = 30 }
+	trigger = {
+		has_country_flag = kuat_non_legacy_confrontation_path
+		NOT = { has_country_flag = kuat_non_legacy_path_complete }
+	}
+
+	immediate = {
+		custom_tooltip = Kuat_non_legacy.21.tooltip
+	}
+
+	option = {
+		name = Kuat_non_legacy.21.a
+		custom_tooltip = Kuat_non_legacy.21.a.tooltip
+		add_resource = { physics_research = 1200000 }
+	}
+	option = {
+		name = Kuat_non_legacy.21.b
+		custom_tooltip = Kuat_non_legacy.21.b.tooltip
+		add_resource = { alloys = 1200000 }
+	}
+}
+
+# .22 — The Unknown Fleet at the Border
+# Fires ~120 days after .21 (MTTH) — border outpost detects Eternal Fleet scouts
+country_event = {
+	id = Kuat_non_legacy.22
+	title = Kuat_non_legacy.22.name
+	desc = Kuat_non_legacy.22.desc
+	picture = GFX_evt_ship_in_orbit
+	show_sound = event_sensor_ping
+	fire_only_once = yes
+	mean_time_to_happen = { days = 120 }
+	trigger = {
+		has_country_flag = kuat_non_legacy_confrontation_path
+		NOT = { has_country_flag = kuat_non_legacy_path_complete }
+	}
+
+	option = {
+		name = Kuat_non_legacy.22.a
+		custom_tooltip = Kuat_non_legacy.22.a.tooltip
+		hidden_effect = {
+			add_resource = { alloys = 12500000 }
+		}
+	}
+	option = {
+		name = Kuat_non_legacy.22.b
+		custom_tooltip = Kuat_non_legacy.22.b.tooltip
+		hidden_effect = {
+			set_country_flag = kuat_non_legacy_capture_attempt
+		}
+	}
+}
+
+# .23 — Salvage Analysis: Lessons from the Wreckage
+# Fires ~30 days after .22 (MTTH) — marks confrontation path complete
+country_event = {
+	id = Kuat_non_legacy.23
+	title = Kuat_non_legacy.23.name
+	desc = {
+		trigger = { has_country_flag = kuat_non_legacy_capture_attempt }
+		text = Kuat_non_legacy.23.desc_capture
+	}
+	desc = {
+		trigger = { NOT = { has_country_flag = kuat_non_legacy_capture_attempt } }
+		text = Kuat_non_legacy.23.desc_destroy
+	}
+	picture = GFX_evt_derelict_interior
+	show_sound = event_mystic_reveal
+	fire_only_once = yes
+	mean_time_to_happen = { days = 30 }
+	trigger = {
+		has_country_flag = kuat_non_legacy_confrontation_path
+		NOT = { has_country_flag = kuat_non_legacy_path_complete }
+	}
+
+	immediate = {
+		set_country_flag = kuat_non_legacy_path_complete
+	}
+
+	option = {
+		name = Kuat_non_legacy.23.a
+		custom_tooltip = Kuat_non_legacy.23.a.tooltip
+		add_modifier = { modifier = kuat_confrontation_combat_ready days = -1 }
+		hidden_effect = {
+			if = {
+				limit = { has_country_flag = kuat_non_legacy_capture_attempt }
+				add_resource = { physics_research = 1200000 society_research = 1200000 }
+			}
+		}
+	}
+}
+
+# ============================================================================
+# Phase 2: Convergence (.24 - .25)
+# ============================================================================
+
+# .24 — The Storm Gathers
+# Fires ~60 days after any path completion (MTTH) — narrates the coming invasion
+country_event = {
+	id = Kuat_non_legacy.24
+	title = Kuat_non_legacy.24.name
+	desc = {
+		trigger = { has_country_flag = kuat_non_legacy_archive_path }
+		text = Kuat_non_legacy.24.desc_archive
+	}
+	desc = {
+		trigger = { has_country_flag = kuat_non_legacy_alliance_path }
+		text = Kuat_non_legacy.24.desc_alliance
+	}
+	desc = {
+		trigger = { has_country_flag = kuat_non_legacy_confrontation_path }
+		text = Kuat_non_legacy.24.desc_confrontation
+	}
+	picture = GFX_evt_ancient_databank
+	show_sound = event_radio_chatter
+	fire_only_once = yes
+	mean_time_to_happen = { days = 60 }
+	trigger = {
+		has_country_flag = kuat_non_legacy_path_complete
+		NOT = { has_country_flag = kuat_non_legacy_narrative_bridge_complete }
+	}
+
+	immediate = {
+		set_country_flag = kuat_non_legacy_narrative_bridge_complete
+	}
+
+	option = {
+		name = Kuat_non_legacy.24.a
+		custom_tooltip = Kuat_non_legacy.24.a.tooltip
+	}
+}
+
+# .25 — A New Dawn
+# Fires ~30 days after the Eternal Invasion is defeated (MTTH)
+country_event = {
+	id = Kuat_non_legacy.25
+	title = Kuat_non_legacy.25.name
+	desc = {
+		trigger = { has_country_flag = kuat_non_legacy_archive_path }
+		text = Kuat_non_legacy.25.desc_archive
+	}
+	desc = {
+		trigger = { has_country_flag = kuat_non_legacy_alliance_path }
+		text = Kuat_non_legacy.25.desc_alliance
+	}
+	desc = {
+		trigger = { has_country_flag = kuat_non_legacy_confrontation_path }
+		text = Kuat_non_legacy.25.desc_confrontation
+	}
+	picture = GFX_evt_gaia
+	show_sound = event_the_great_awakening
+	fire_only_once = yes
+	mean_time_to_happen = { days = 30 }
+	trigger = {
+		has_country_flag = kuat_non_legacy_path_complete
+		has_global_flag = exe_return_invasion_ended
+	}
+
+	option = {
+		name = Kuat_non_legacy.25.a
+		custom_tooltip = Kuat_non_legacy.25.a.tooltip
+		add_modifier = { modifier = kuat_eternal_legacy_bearer days = -1 }
+		hidden_effect = { kuat_origin_give_all_eternal_fleet_data = yes }
+	}
+}
+
 
 namespace = kuat_rakata_arc
 
@@ -1471,3 +1784,49 @@ country_event = {
 		}
 	}
 }
+
+# ============================================================
+# Zakuul Consciousness Completion Event
+# ============================================================
+
+country_event = {
+	id = Kuat_non_legacy.20
+	title = Kuat_non_legacy.20.name
+	desc = {
+		trigger = { has_country_flag = kuat_zakuul_aggressive_approach }
+		text = Kuat_non_legacy.20.desc_aggressive
+	}
+	desc = {
+		trigger = { has_country_flag = kuat_zakuul_cautious_approach }
+		text = Kuat_non_legacy.20.desc_cautious
+	}
+	desc = {
+		trigger = { has_country_flag = kuat_zakuul_cooperative_approach }
+		text = Kuat_non_legacy.20.desc_cooperative
+	}
+	picture = GFX_evt_sapient_AI
+	show_sound = event_ai_started
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = Kuat_non_legacy.20.a
+		custom_tooltip = Kuat_non_legacy.20.a.tooltip
+		hidden_effect = {
+			if = {
+				limit = { has_country_flag = kuat_zakuul_aggressive_approach }
+				add_resource = { physics_research = 5000000 society_research = 5000000 engineering_research = 5000000 }
+			}
+			if = {
+				limit = { has_country_flag = kuat_zakuul_cautious_approach }
+				add_modifier = { modifier = kuat_cautious_alliance_bonus days = -1 }
+			}
+			if = {
+				limit = { has_country_flag = kuat_zakuul_cooperative_approach }
+				add_modifier = { modifier = kuat_zakuul_guardian_pact days = -1 }
+			}
+			set_country_flag = kuat_non_legacy_path_complete
+		}
+	}
+}
+

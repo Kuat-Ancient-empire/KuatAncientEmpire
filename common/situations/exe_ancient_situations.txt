@@ -1829,3 +1829,136 @@ situation_research_F_facility_technology = {
 		target = { NOT = { is_same_value = owner } }
 	} }
 }
+
+
+sit_zakuul_consciousness = {
+	picture = GFX_evt_sapient_AI
+	complete_icon_frame = GFX_situation_outcome_frame_blue
+	complete_icon = GFX_situation_outcome_unknown
+	fail_icon_frame = GFX_situation_outcome_frame_red
+	fail_icon = GFX_situation_outcome_meh
+
+	on_progress_complete = {
+		custom_tooltip = sit_zakuul_consciousness_complete
+		hidden_effect = {
+			if = {
+				limit = { current_situation_approach = sit_zakuul_approach_aggressive }
+				situation_event = { id = kuat_situation.106 }
+			}
+			else_if = {
+				limit = { current_situation_approach = sit_zakuul_approach_cautious }
+				situation_event = { id = kuat_situation.107 }
+			}
+			else = { situation_event = { id = kuat_situation.108 } }
+		}
+	}
+
+	# Stage 1: 通讯建立 (0-33%)
+	# Stage 2: 意识对接 (34-66%)
+	# Stage 3: 最终协议 (67-100%)
+	stages = {
+		stage_1 = {
+			icon = GFX_situation_stage_1
+			icon_background = GFX_situation_stage_frame_blue
+			end = 33
+			on_first_enter = { situation_event = { id = kuat_situation.100 } }
+			custom_tooltip = stage_unknown_effects
+		}
+		stage_2 = {
+			icon = GFX_situation_stage_2
+			icon_background = GFX_situation_stage_frame_blue
+			end = 66
+			on_first_enter = { situation_event = { id = kuat_situation.101 } }
+			custom_tooltip = stage_unknown_effects
+		}
+		stage_3 = {
+			icon = GFX_situation_stage_3
+			icon_background = GFX_situation_stage_frame_blue
+			end = 100
+			on_first_enter = { situation_event = { id = kuat_situation.102 } }
+			custom_tooltip = stage_unknown_effects
+		}
+	}
+
+	# Aggressive approach
+	approach = {
+		name = "sit_zakuul_approach_aggressive"
+		icon = GFX_situation_approach_fist
+		icon_background = GFX_situation_approach_bg_red
+		resources = {
+			category = situations
+			upkeep = {
+				trigger = { NOT = { current_stage = stage_1 } }
+				unity = 5
+			}
+		}
+		on_select = { custom_tooltip = sit_zakuul_approach_aggressive_tooltip }
+	}
+
+	# Cautious approach
+	approach = {
+		name = "sit_zakuul_approach_cautious"
+		icon = GFX_situation_approach_scales
+		icon_background = GFX_situation_approach_bg_yellow
+		resources = {
+			category = situations
+			upkeep = {
+				trigger = { NOT = { current_stage = stage_1 } }
+				unity = 2
+				society_research = 1
+			}
+		}
+		on_select = { custom_tooltip = sit_zakuul_approach_cautious_tooltip }
+	}
+
+	# Cooperative approach
+	approach = {
+		name = "sit_zakuul_approach_cooperative"
+		icon = GFX_situation_approach_encurage_conversation
+		icon_background = GFX_situation_approach_bg_green
+		resources = {
+			category = situations
+			produces = {
+				trigger = { NOT = { current_stage = stage_1 } }
+				society_research = 1
+			}
+			upkeep = {
+				trigger = { NOT = { current_stage = stage_1 } }
+				unity = 1
+			}
+		}
+		on_select = { custom_tooltip = sit_zakuul_approach_cooperative_tooltip }
+	}
+
+	on_monthly = {
+		random_events = {
+			60 = 0
+			15 = kuat_situation.103
+			15 = kuat_situation.104
+			10 = kuat_situation.105
+		}
+	}
+
+	monthly_progress = {
+		base = 2
+		modifier = {
+			add = -1
+			desc = "sit_zakuul_progress_hostile_reaction"
+			current_situation_approach = sit_zakuul_approach_aggressive
+			has_situation_flag = zakuul_hostile_reaction
+		}
+		modifier = {
+			add = 1
+			desc = "sit_zakuul_progress_friendly_reaction"
+			current_situation_approach = sit_zakuul_approach_cooperative
+			has_situation_flag = zakuul_friendly_reaction
+		}
+	}
+
+	abort_trigger = {
+		NOT = { exists = owner }
+	}
+	on_abort = {
+		hidden_effect = { destroy_situation = this }
+	}
+}

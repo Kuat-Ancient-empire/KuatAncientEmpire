@@ -3341,3 +3341,269 @@ country_event = {
 		destroy_situation = event_target:situation_research_B_facility_technology_@root
 	}
 }
+
+# ============================================================
+# Zakuul Consciousness Situation Events (100-108)
+# ============================================================
+
+# Stage 1 Entry: First Contact Established
+situation_event = {
+	id = kuat_situation.100
+	title = kuat_situation.100.name
+	desc = kuat_situation.100.desc
+	picture = GFX_evt_sapient_AI
+	show_sound = event_ai_started
+	is_triggered_only = yes
+	location = target
+
+	option = {
+		name = kuat_situation.100.A
+		add_situation_progress = 10
+		hidden_effect = { set_situation_flag = zakuul_contact_established }
+	}
+	option = {
+		name = kuat_situation.100.B
+		add_situation_progress = 10
+		hidden_effect = { set_situation_flag = zakuul_contact_cautious }
+	}
+}
+
+# Stage 2 Entry: Consciousness Communion
+situation_event = {
+	id = kuat_situation.101
+	title = kuat_situation.101.name
+	desc = kuat_situation.101.desc
+	picture = GFX_evt_sapient_AI
+	show_sound = event_alien_nature
+	is_triggered_only = yes
+	location = target
+
+	option = {
+		name = kuat_situation.101.A
+		add_situation_progress = 10
+		hidden_effect = {
+			set_situation_flag = zakuul_communion_open
+			owner = { add_resource = { society_research = 500 } }
+		}
+	}
+	option = {
+		name = kuat_situation.101.B
+		hidden_effect = {
+			set_situation_flag = zakuul_communion_guarded
+			owner = { add_resource = { unity = 500 } }
+		}
+	}
+}
+
+# Stage 3 Entry: Final Protocol
+situation_event = {
+	id = kuat_situation.102
+	title = kuat_situation.102.name
+	desc = kuat_situation.102.desc
+	picture = GFX_evt_sapient_AI
+	show_sound = event_ai_started
+	is_triggered_only = yes
+	location = target
+
+	option = {
+		name = kuat_situation.102.A
+		hidden_effect = { set_situation_flag = zakuul_accord_ready }
+	}
+}
+
+# Monthly Random: Anomalous Signal
+situation_event = {
+	id = kuat_situation.103
+	title = kuat_situation.103.name
+	desc = kuat_situation.103.desc
+	picture = GFX_evt_sapient_AI
+	show_sound = event_alien_nature
+	is_triggered_only = yes
+	location = target
+
+	trigger = {
+		current_stage = stage_1
+		NOR = {
+			has_situation_flag = zakuul_anomalous_signal_cooldown
+			current_stage = stage_3
+		}
+	}
+
+	immediate = { set_situation_flag = zakuul_anomalous_signal_cooldown }
+
+	option = {
+		name = kuat_situation.103.B
+		custom_tooltip = approach_outcome_tooltip
+		set_situation_approach = "sit_zakuul_approach_aggressive"
+		icon = {
+			icon = GFX_situation_approach_research
+			icon_background = GFX_situation_approach_bg_red
+			text = set_situation_approach_icon_text
+		}
+		hidden_effect = { set_situation_flag = zakuul_hostile_reaction }
+	}
+	option = {
+		name = kuat_situation.103.A
+		set_situation_approach = "sit_zakuul_approach_cooperative"
+		icon = {
+			icon = GFX_situation_approach_research
+			icon_background = GFX_situation_approach_bg_green
+			text = set_situation_approach_icon_text
+		}
+		hidden_effect = { set_situation_flag = zakuul_friendly_reaction }
+		small_artifact_reward = yes
+	}
+}
+
+# Monthly Random: Memory Fragment
+situation_event = {
+	id = kuat_situation.104
+	title = kuat_situation.104.name
+	desc = kuat_situation.104.desc
+	picture = GFX_evt_sapient_AI
+	show_sound = event_alien_nature
+	is_triggered_only = yes
+	location = target
+
+	trigger = {
+		NOT = { has_situation_flag = zakuul_memory_fragment_cooldown }
+		current_stage = stage_2
+	}
+
+	immediate = { set_situation_flag = zakuul_memory_fragment_cooldown }
+
+	option = {
+		name = kuat_situation.104.A
+		set_situation_approach = "sit_zakuul_approach_cooperative"
+		icon = {
+			icon = GFX_situation_approach_research
+			icon_background = GFX_situation_approach_bg_green
+			text = set_situation_approach_icon_text
+		}
+		hidden_effect = {
+			owner = { add_resource = { society_research = 250 } }
+			set_situation_flag = zakuul_friendly_reaction
+		}
+	}
+	option = {
+		name = kuat_situation.104.B
+		set_situation_approach = "sit_zakuul_approach_cautious"
+		icon = {
+			icon = GFX_situation_approach_research
+			icon_background = GFX_situation_approach_bg_yellow
+			text = set_situation_approach_icon_text
+		}
+		hidden_effect = {
+			owner = { add_resource = { physics_research = 250 } }
+			set_situation_flag = zakuul_hostile_reaction
+		}
+	}
+}
+
+# Monthly Random: Consciousness Interference
+situation_event = {
+	id = kuat_situation.105
+	title = kuat_situation.105.name
+	desc = kuat_situation.105.desc
+	picture = GFX_evt_sapient_AI
+	show_sound = event_ai_started
+	is_triggered_only = yes
+	location = target
+
+	trigger = {
+		NOT = { has_situation_flag = zakuul_interference_cooldown }
+		current_stage >= stage_2
+	}
+
+	immediate = { set_situation_flag = zakuul_interference_cooldown }
+
+	option = {
+		name = kuat_situation.105.A
+		set_situation_approach = "sit_zakuul_approach_cooperative"
+		icon = {
+			icon = GFX_situation_approach_research
+			icon_background = GFX_situation_approach_bg_green
+			text = set_situation_approach_icon_text
+		}
+		hidden_effect = {
+			owner = { add_resource = { unity = -100 } }
+			set_situation_flag = zakuul_hostile_reaction
+		}
+	}
+	option = {
+		name = kuat_situation.105.B
+		set_situation_approach = "sit_zakuul_approach_aggressive"
+		icon = {
+			icon = GFX_situation_approach_research
+			icon_background = GFX_situation_approach_bg_red
+			text = set_situation_approach_icon_text
+		}
+		hidden_effect = { set_situation_flag = zakuul_friendly_reaction }
+	}
+}
+
+# Progress Complete: Aggressive Approach
+situation_event = {
+	id = kuat_situation.106
+	title = kuat_situation.106.name
+	desc = kuat_situation.106.desc
+	picture = GFX_evt_sapient_AI
+	show_sound = event_ai_started
+	is_triggered_only = yes
+	location = target
+
+	option = {
+		name = kuat_situation.106.A
+		hidden_effect = {
+			owner = {
+				set_country_flag = kuat_non_legacy_path_complete
+				country_event = { id = Kuat_non_legacy.20 }
+			}
+		}
+	}
+	after = { destroy_situation = this }
+}
+
+# Progress Complete: Cautious Approach
+situation_event = {
+	id = kuat_situation.107
+	title = kuat_situation.107.name
+	desc = kuat_situation.107.desc
+	picture = GFX_evt_sapient_AI
+	show_sound = event_alien_nature
+	is_triggered_only = yes
+	location = target
+
+	option = {
+		name = kuat_situation.107.A
+		hidden_effect = {
+			owner = {
+				set_country_flag = kuat_non_legacy_path_complete
+				country_event = { id = Kuat_non_legacy.20 }
+			}
+		}
+	}
+	after = { destroy_situation = this }
+}
+
+# Progress Complete: Cooperative Approach
+situation_event = {
+	id = kuat_situation.108
+	title = kuat_situation.108.name
+	desc = kuat_situation.108.desc
+	picture = GFX_evt_sapient_AI
+	show_sound = event_ai_started
+	is_triggered_only = yes
+	location = target
+
+	option = {
+		name = kuat_situation.108.A
+		hidden_effect = {
+			owner = {
+				set_country_flag = kuat_non_legacy_path_complete
+				country_event = { id = Kuat_non_legacy.20 }
+			}
+		}
+	}
+	after = { destroy_situation = this }
+}
