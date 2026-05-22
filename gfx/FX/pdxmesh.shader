@@ -17,18 +17,27 @@ Includes = {
 
 VertexShader =
 {
-	Samplers =
-	{
-		WPOTexture =
+	MainCode VertexShader
+		ConstantBuffers = { CommonAlternative }
+	[[
+		VS_OUTPUT main( const VS_INPUT v )
 		{
-			Index = 0
-			MagFilter = "Linear"
-			MinFilter = "Linear"
-			MipFilter = "Linear"
-			AddressU = "Wrap"
-			AddressV = "Wrap"
+			VS_OUTPUT Out;
+					
+			float4 vPosition = float4( v.vPosition.xyz, 1.0f );	
+			
+			Out.vPosition = mul( Transform, vPosition );
+			
+			Out.vPos = Out.vPosition.xyz;
+			
+			Out.vPosition = mul( ViewProjectionMatrix_Duplicate, Out.vPosition );
+			
+			Out.vUV = v.vUV;
+			
+			return Out;
 		}
-	}
+		
+	]]
 }
 
 ConstantBuffer( VFXConstants, 1, 28 )
@@ -224,6 +233,28 @@ static const int PDXMESH_MAX_INFLUENCE = 4;
 
 VertexShader =
 {
+	MainCode VertexShader
+		ConstantBuffers = { CommonAlternative }
+	[[
+		VS_OUTPUT main( const VS_INPUT v )
+		{
+			VS_OUTPUT Out;
+					
+			float4 vPosition = float4( v.vPosition.xyz, 1.0f );	
+			
+			Out.vPosition = mul( Transform, vPosition );
+			
+			Out.vPos = Out.vPosition.xyz;
+			
+			Out.vPosition = mul( ViewProjectionMatrix_Duplicate, Out.vPosition );
+			
+			Out.vUV = v.vUV;
+			
+			return Out;
+		}
+		
+	]]	
+
 	MainCode VertexPdxMeshBillboard
 		ConstantBuffers = { Common, ShipConstants, Shadow }
 	[[
@@ -524,6 +555,18 @@ VertexShader =
 
 PixelShader =
 {
+	Samplers =
+	{	
+		Diffuse =
+		{
+			Index = 0
+			MagFilter = "linear"
+			MinFilter = "linear"
+			AddressU = "Clamp"
+			AddressV = "Clamp"
+		}	
+	}
+
 	MainCode PixelPdxMeshStandard
 		ConstantBuffers = { Common, ThirdKind, Shadow, TiledPointLight }
 	[[
@@ -1678,8 +1721,10 @@ PixelShader =
 
 BlendState BlendState
 {
-	BlendEnable = no
-	WriteMask = "RED|GREEN|BLUE|ALPHA"
+	BlendEnable = yes
+	SourceBlend = "SRC_ALPHA"
+	DestBlend = "INV_SRC_ALPHA"
+	WriteMask = "RED|GREEN|BLUE"
 }
 
 BlendState BlendStateAlphaBlend
@@ -1742,7 +1787,9 @@ RasterizerState RasterizerStateBack
 
 RasterizerState RasterizerStateNoCulling
 {
+	FillMode = "FILL_SOLID"
 	CullMode = "CULL_NONE"
+	FrontCCW = no
 }
 
 Effect PdxMeshStandard
@@ -3747,7 +3794,7 @@ Effect PdxMeshShieldFlipBookShadow
 
 Effect PdxMeshShieldFlipBookShadow
 {
-	VertexShader = "VertexPdxMeshStandardSkinnedShadow"
+	VertexShader = "VertexPdxMeshStandardShadow"
 	PixelShader = "PixelPdxMeshNoShadow"
 	Defines = { "IS_SHADOW" }
 }
@@ -3780,7 +3827,7 @@ Effect PdxMeshShieldUVStrechShadow
 
 Effect PdxMeshShieldUVStrechShadow
 {
-	VertexShader = "VertexPdxMeshStandardSkinnedShadow"
+	VertexShader = "VertexPdxMeshStandardShadow"
 	PixelShader = "PixelPdxMeshNoShadow"
 	Defines = { "IS_SHADOW" }
 }
