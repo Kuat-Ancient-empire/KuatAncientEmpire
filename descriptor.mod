@@ -5,5 +5,5 @@ tags={
 	"Events"
 }
 name="Star Wars: Dawn of the Kuat"
-supported_version="v4.*"
+supported_version="v4.3.*"
 remote_file_id="2461014769"
