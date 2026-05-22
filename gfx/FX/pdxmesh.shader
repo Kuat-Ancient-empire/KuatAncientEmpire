@@ -253,7 +253,7 @@ VertexShader =
 			return Out;
 		}
 		
-	]]	
+	]]
 
 	MainCode VertexPdxMeshBillboard
 		ConstantBuffers = { Common, ShipConstants, Shadow }
