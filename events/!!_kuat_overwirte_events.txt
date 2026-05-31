@@ -20,7 +20,51 @@ country_event = {
 		}
 		text = "leader.1.desc"
 	}
-	picture = GFX_evt_federation_fleet
+	picture = {
+		trigger = {
+			fromfrom = {
+				is_ship_class = shipclass_military
+				root = {
+					country_uses_bio_ships = no
+				}
+			}
+		}
+		picture = GFX_evt_federation_fleet
+	}
+	picture = {
+		trigger = {
+			fromfrom = {
+				is_ship_class = shipclass_military_station
+				root = {
+					country_uses_bio_ships = no
+				}
+			}
+		}
+		picture = GFX_evt_space_station
+	}
+
+	picture = {
+		trigger = {
+			fromfrom = {
+				is_ship_class = shipclass_military
+				root = {
+					country_uses_bio_ships = yes
+				}
+			}
+		}
+		picture = GFX_evt_bio_ships_orbiting
+	}
+	picture = {
+		trigger = {
+			fromfrom = {
+				is_ship_class = shipclass_military_station
+				root = {
+					country_uses_bio_ships = yes
+				}
+			}
+		}
+		picture = GFX_evt_bioship_hangar
+	}
 	location = ROOT
 
 	is_triggered_only = yes
@@ -28,6 +72,10 @@ country_event = {
 	trigger = { always = no }
 
 	immediate = {
+		set_timed_country_flag = {
+			flag = recent_promising_officer
+			days = 720
+		}
 		FROMFROM = {
 			solar_system = { save_event_target_as = system }
 			random_controlled_ship = {
@@ -101,7 +149,7 @@ country_event = {
 }
 
 namespace = fircon
-planet_event = {
+carrier_event = {
 	id = fircon.5034
 	hide_window = yes
 	is_triggered_only = yes
@@ -116,7 +164,7 @@ planet_event = {
 	}
 
 	immediate = {
-		planet_event = { id = fircon.5035 scopes = { from = from } days = 1 }
+		carrier_event = { id = fircon.5035 scopes = { from = from } days = 1 }
 		owner = { country_event = { id = fircon.5045 scopes = { from = from } days = 5 } }
 	}
 }

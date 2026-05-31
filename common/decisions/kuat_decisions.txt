@@ -5,7 +5,7 @@ Firing_The_StarKiller = {
 	resources = { category = decisions cost = { minerals = 2500 } }
 	potential = {
 		solar_system = { has_star_flag = starkiller_system }
-		has_planet_flag = protection_megastructure_planet
+		has_carrier_flag = protection_megastructure_planet
 		from = { 
 			any_owned_megastructure = { is_megastructure_type = kuat_starkillerbase_1 } 
 			NOT = { has_country_flag = starkiller_base_cooldown }
@@ -137,15 +137,15 @@ Bulding_kuat_auto_planet_focus_target = {
 		from = {
 			is_ai = no
 			NOT = { any_owned_planet = {
-				has_planet_flag = kuat_auto_planet_moving_target
+				has_carrier_flag = kuat_auto_planet_moving_target
 			} }
 		}
-		has_planet_flag = has_building_kuat_command_center_auto
+		has_carrier_flag = has_building_kuat_command_center_auto
 	}
 	effect = {
 		custom_tooltip = "building_kuat_command_center_target_desc"
 		hidden_effect = { 
-			set_planet_flag = kuat_auto_planet_moving_target 
+			set_carrier_flag = kuat_auto_planet_moving_target 
 			save_global_event_target_as = kuat_auto_planet_moving_target
 		}
 	}
@@ -162,12 +162,12 @@ Bulding_kuat_auto_planet_focus_remove_target = {
 		cost = { unity = 100 }
 	}
 	potential = {
-		has_planet_flag = kuat_auto_planet_moving_target
+		has_carrier_flag = kuat_auto_planet_moving_target
 	}
 	effect = {
 		custom_tooltip = "building_kuat_command_center_remove_target_desc"
 		hidden_effect = { 
-			remove_planet_flag = kuat_auto_planet_moving_target 
+			remove_carrier_flag = kuat_auto_planet_moving_target 
 			clear_global_event_target = kuat_auto_planet_moving_target
 		}
 	}
@@ -185,15 +185,16 @@ Building_kuat_auto_planet_migrant_data = {
 		cost = { unity = 100 }
 	}
 	potential = {
-		has_planet_flag = has_building_kuat_command_center_auto
+		has_carrier_flag = has_building_kuat_command_center_auto
 		from = {
 			is_ai = no
 			any_owned_planet = {
-				has_planet_flag = kuat_auto_planet_moving_target
-				has_planet_flag = has_building_kuat_command_center_auto
+				has_carrier_flag = kuat_auto_planet_moving_target
+				has_carrier_flag = has_building_kuat_command_center_auto
 			}
 		}
-		NOT = { has_planet_flag = kuat_auto_planet_moving_target }
+		NOT = { ship? = { exists = colony } }
+		NOT = { has_carrier_flag = kuat_auto_planet_moving_target }
 		NOT = { is_planet_class = pc_kuat_auto_ringworld_mega_habitable }
 	}
 	allow = {
@@ -223,12 +224,12 @@ Building_The_Kuat_Shield = {
 		cost = { energy = 100 }
 	}
 	potential = {
-		NOT = { has_planet_flag = enable_kuat_shield_cooldown }
+		NOT = { has_carrier_flag = enable_kuat_shield_cooldown }
 		has_building = building_kuat_shield
 		is_ringworld = no
 		kuat_is_habitat = no
-		NOT = { has_planet_flag = enable_kuat_shield }
-		NOT = { has_planet_flag = megastructure }
+		NOT = { has_carrier_flag = enable_kuat_shield }
+		NOT = { has_carrier_flag = megastructure }
 	}
 	effect = {
 		custom_tooltip = "building_kuat_shield_tooltip"
@@ -244,8 +245,8 @@ Building_The_Kuat_Shield = {
 				location = this
 				effect = { set_ambient_object_flag = kuat_planet_shield_effect_object_@root }
 			}
-			set_planet_flag = enable_kuat_shield
-			planet_event = { id = executor_build.1005 days = 720 }
+			set_carrier_flag = enable_kuat_shield
+			carrier_event = { id = executor_build.1005 days = 720 }
 		}
 	}
 	ai_weight = { weight = 0 }
@@ -261,7 +262,7 @@ Destroy_The_Kuat_Shield = {
 	}
 	potential = {
 		has_building = building_kuat_shield
-		has_planet_flag = enable_kuat_shield
+		has_carrier_flag = enable_kuat_shield
 	}
 	effect = {
 		custom_tooltip = "Destroy_The_Kuat_Shield_tooltip"
@@ -274,8 +275,8 @@ Destroy_The_Kuat_Shield = {
 					destroy_ambient_object = this
 				}
 			}
-			remove_planet_flag = enable_kuat_shield
-			set_timed_planet_flag = { flag = enable_kuat_shield_cooldown days = 1800 }
+			remove_carrier_flag = enable_kuat_shield
+			set_timed_carrier_flag = { flag = enable_kuat_shield_cooldown days = 1800 }
 		}
 	}
 	ai_weight = { weight = 0 }
@@ -323,7 +324,7 @@ decision_Eternal_city_project = {
 				PLANET = pc_kuat_eternal_city
 			}
 			owner = { country_event = { id = distar.201 } }
-			planet_event = { id = kuat_EEstart.2 } 
+			carrier_event = { id = kuat_EEstart.2 } 
 		}
 	}
 }
@@ -370,7 +371,7 @@ decision_Eternal_city_project_M = {
 				PLANET = pc_kuat_eternal_city
 			}	
 			owner = { country_event = { id = distar.201 } }
-			planet_event = { id = kuat_EEstart.2 } 
+			carrier_event = { id = kuat_EEstart.2 } 
 		}
 	}
 }
@@ -417,7 +418,7 @@ decision_Eternal_city_project_S = {
 				PLANET = pc_kuat_eternal_city
 			}
 			owner = { country_event = { id = distar.201 } }
-			planet_event = { id = kuat_EEstart.2 } 
+			carrier_event = { id = kuat_EEstart.2 } 
 		}
 	}
 }
@@ -464,7 +465,7 @@ decision_Eternal_city_project_K = {
 				PLANET = pc_kuat_eternal_city
 			}
 			owner = { country_event = { id = distar.201 } }
-			planet_event = { id = kuat_EEstart.2 }	 
+			carrier_event = { id = kuat_EEstart.2 }	 
 		}
 	}
 }
@@ -511,7 +512,7 @@ decision_Eternal_city_project_C = {
 				PLANET = pc_kuat_eternal_city
 			} 
 			owner = { country_event = { id = distar.201 } }
-			planet_event = { id = kuat_EEstart.2 }	 
+			carrier_event = { id = kuat_EEstart.2 }	 
 		}
 	}
 }
@@ -558,7 +559,7 @@ decision_Eternal_city_project_E = {
 				PLANET = pc_kuat_eternal_city
 			} 
 			owner = { country_event = { id = distar.201 } }
-			planet_event = { id = kuat_EEstart.2 } 
+			carrier_event = { id = kuat_EEstart.2 } 
 		}
 	}
 }
@@ -610,7 +611,7 @@ decision_Eternal_city_ringworld_project = {
 			}
 			set_planet_size = 25
 			owner = { country_event = { id = distar.201 } }
-			planet_event = { id = kuat_EEstart.2 }	 
+			carrier_event = { id = kuat_EEstart.2 }	 
 		}
 	}
 }
@@ -660,7 +661,7 @@ decision_Eternal_city_ringworld_project_M = {
 			}
 			set_planet_size = 25
 			owner = { country_event = { id = distar.201 } }
-			planet_event = { id = kuat_EEstart.2 }
+			carrier_event = { id = kuat_EEstart.2 }
 		}
 	}
 }
@@ -710,7 +711,7 @@ decision_Eternal_city_ringworld_project_S = {
 			}
 			set_planet_size = 25
 			owner = { country_event = { id = distar.201 } }
-			planet_event = { id = kuat_EEstart.2 } 
+			carrier_event = { id = kuat_EEstart.2 } 
 		}
 	}
 }
@@ -760,7 +761,7 @@ decision_Eternal_city_ringworld_project_K = {
 			}
 			set_planet_size = 25
 			owner = { country_event = { id = distar.201 } }
-			planet_event = { id = kuat_EEstart.2 }
+			carrier_event = { id = kuat_EEstart.2 }
 		}
 	}
 }
@@ -810,7 +811,7 @@ decision_Eternal_city_ringworld_project_C = {
 			}
 			set_planet_size = 25
 			owner = { country_event = { id = distar.201 } }
-			planet_event = { id = kuat_EEstart.2 }
+			carrier_event = { id = kuat_EEstart.2 }
 		}
 	}
 }
@@ -860,7 +861,7 @@ decision_Eternal_city_ringworld_project_E = {
 			}
 			set_planet_size = 25
 			owner = { country_event = { id = distar.201 } }
-			planet_event = { id = kuat_EEstart.2 }
+			carrier_event = { id = kuat_EEstart.2 }
 		}
 	}
 }

@@ -43,13 +43,13 @@ country_event = {
 	}
 }
 
-planet_event = {
+carrier_event = {
 	id = kuat_plague.1
 	hide_window = yes
 	is_triggered_only = yes
 	trigger = { kuat_trigger_plague_valid_planet = yes }
 	immediate = {
-		set_timed_planet_flag = { flag = kuat_plague_planet days = 3655 }
+		set_timed_carrier_flag = { flag = kuat_plague_planet days = 3655 }
 		owner = { if = {
 			limit = { has_event_chain = kuat_chain_plague_count }
 			add_event_chain_counter = { event_chain = kuat_chain_plague_count counter = kuat_chain_plague_infested_planet amount = 1 }
@@ -82,14 +82,14 @@ planet_event = {
 			set_global_flag = kuat_plague_lvl_3
 			owner = { country_event = { id = kuat_plague.52 days = 1 } }
 		}
-		planet_event = { id = kuat_plague.2 days = 1440 random = 720 } #毁伤效果
-		planet_event = { id = kuat_plague.3 days = 90 random = 90 } #星系内传染
-		planet_event = { id = kuat_plague.4 days = 3651 }
+		carrier_event = { id = kuat_plague.2 days = 1440 random = 720 } #毁伤效果
+		carrier_event = { id = kuat_plague.3 days = 90 random = 90 } #星系内传染
+		carrier_event = { id = kuat_plague.4 days = 3651 }
 	}
 }
 
 # kill pop pulse 2
-planet_event = {
+carrier_event = {
 	id = kuat_plague.2
 	hide_window = yes
 	is_triggered_only = yes
@@ -98,11 +98,11 @@ planet_event = {
 		# NOT at same day
 		if = {
 			limit = { has_global_flag = kuat_plague.2_same_day }
-			planet_event = { id = kuat_plague.2 days = 1 }
+			carrier_event = { id = kuat_plague.2 days = 1 }
 		}
 		else = {
 			set_timed_global_flag = { flag = kuat_plague.2_same_day days = 1 }
-			planet_event = { id = kuat_plague.2 days = 180 random = 90 }
+			carrier_event = { id = kuat_plague.2 days = 180 random = 90 }
 			# kill someone
 			if = {
 				limit = { has_global_flag = kuat_plague_lvl_2 }
@@ -124,7 +124,7 @@ planet_event = {
 }
 
 # send plague pulse solar system
-planet_event = {
+carrier_event = {
 	id = kuat_plague.3
 	hide_window = yes
 	is_triggered_only = yes
@@ -136,11 +136,11 @@ planet_event = {
 	immediate = {
 		if = {
 			limit = { has_global_flag = kuat_plague.3_same_day }
-			planet_event = { id = kuat_plague.3 days = 1 }
+			carrier_event = { id = kuat_plague.3 days = 1 }
 		}
 		else = {
 			set_timed_global_flag = { flag = kuat_plague.3_same_day days = 1 }
-			planet_event = { id = kuat_plague.3 days = 90 random = 45 }
+			carrier_event = { id = kuat_plague.3 days = 90 random = 45 }
 			solar_system = {
 				random_system_planet = {
 					limit = { kuat_trigger_plague_valid_planet = yes }
@@ -153,7 +153,7 @@ planet_event = {
 						# spread
 						3 = {
 							inline_script = kuat_plague_modifier/kuat_plague_sample_a
-							planet_event = { id = kuat_plague.1 days = 1 random = 179 }
+							carrier_event = { id = kuat_plague.1 days = 1 random = 179 }
 						}
 					}
 				}
@@ -162,13 +162,13 @@ planet_event = {
 	}
 }
 
-planet_event = {
+carrier_event = {
 	id = kuat_plague.4
 	hide_window = yes
 	is_triggered_only = yes
 	trigger = {
 		exists = owner
-		has_planet_flag = kuat_plague_planet
+		has_carrier_flag = kuat_plague_planet
 	}
 	immediate = {
 		every_playable_country = {
@@ -192,14 +192,14 @@ planet_event = {
 	}
 }
 
-planet_event = {
+carrier_event = {
 	id = kuat_plague.11
 	hide_window = yes
 	is_triggered_only = yes
 	trigger = {
 		exists = owner
 		OR = {
-			has_planet_flag = kuat_plague_planet
+			has_carrier_flag = kuat_plague_planet
 			AND = {
 				exists = controller
 				controller = { is_country_type = kuat_plague_endoira }
@@ -293,7 +293,7 @@ country_event = {
 }
 
 
-planet_event = {
+carrier_event = {
 	id = kuat_plague.7
 	is_triggered_only = yes
 	hide_window = yes
@@ -314,7 +314,7 @@ planet_event = {
 }
 
 
-planet_event = {
+carrier_event = {
 	id = kuat_plague.8
 	hide_window = yes
 	is_triggered_only = yes
@@ -717,7 +717,7 @@ country_event = {
 		exists = from
 		from = {
 			NOT = {
-				has_planet_flag = kuat_plague_bombardment_planet
+				has_carrier_flag = kuat_plague_bombardment_planet
 			}
 		}
 		NOT = {
@@ -821,7 +821,7 @@ ship_event = {
 	is_triggered_only = yes
 	immediate = {
 		from = {
-			set_timed_planet_flag = {
+			set_timed_carrier_flag = {
 				flag = kuat_plague_bombardment_planet
 				days = 3650
 			}
@@ -906,7 +906,7 @@ country_event = {
 }
 
 
-planet_event = {
+carrier_event = {
 	id = kuat_plague.153
 	hide_window = yes
 	is_triggered_only = yes
@@ -915,7 +915,7 @@ planet_event = {
 }
 
 
-planet_event = {
+carrier_event = {
 	id = kuat_plague.161
 	hide_window = yes
 	is_triggered_only = yes
@@ -928,7 +928,7 @@ planet_event = {
 		planet_devastation > 20
 	}
 	immediate = {
-		planet_event = { id = kuat_plague.1 }
+		carrier_event = { id = kuat_plague.1 }
 	}
 }
 
@@ -1156,7 +1156,7 @@ country_event = {
 	}
 	after = {
 		every_owned_planet = {
-			limit = { has_planet_flag = kuat_plague_planet }
+			limit = { has_carrier_flag = kuat_plague_planet }
 			kuat_effect_plague_planet_clean = yes
 		}
 		every_owned_pop_group = {

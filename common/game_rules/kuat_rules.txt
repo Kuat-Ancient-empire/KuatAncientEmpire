@@ -3,7 +3,7 @@ can_orbital_bombard = {
 	NOR = {
 		any_controlled_ship = { is_ship_size = colossus }
 		FROM.OWNER = { is_country_type = kuat_fire_base_hositle }
-		FROM = { has_planet_flag = enable_kuat_shield }
+		FROM = { has_carrier_flag = enable_kuat_shield }
 	}
 	OR = {
 		AND = {
@@ -30,6 +30,7 @@ can_orbital_bombard = {
 				is_country_type = swarm
 				is_country_type = ai_empire
 				is_country_type = cybrex_empire
+				is_country_type = abandoned_hatchery
 				AND = {
 					has_global_flag = has_ancient_empire_mod
 					ag_can_be_orbital_bombardment_country = yes		
@@ -51,8 +52,11 @@ can_orbital_bombard = {
 				is_country_type = dormant_marauders
 				is_country_type = marauder_raiders
 				is_country_type = ruined_marauders
+				is_country_type = debt_collectors
 				is_country_type = gray_goo
 				is_country_type = vol
+				is_country_type = behemoth_hatchling
+				is_country_type = abandoned_hatchery
 				is_country_type = mercenary_fleet				
 				is_country_type = ev_leviathans_crisis				
 				is_country_type = wg_crisis_country				
@@ -86,6 +90,7 @@ can_orbital_bombard = {
 					is_voidworms_hostile_country_type = yes
 					ROOT = { is_ship_size = voidworms_titan }
 				}
+				has_country_flag = revengeful_patron
 			}
 		}
 		AND = {
@@ -184,6 +189,7 @@ can_trade_fleet = {
 		fail_text = "cannot_sold_kuat_fleet"
 		NOT = { any_owned_ship = { kuat_ship_is_flagship = yes } }
 	}
+	NOT = { has_fleet_flag = dimensional_fleet }
 }
 
 # this = country
@@ -191,7 +197,30 @@ can_trade_fleet = {
 can_excavate_outside_borders = {
 	exists = this
 	exists = from
-	has_tradition = tr_archivism_frontier_archaeology
+	OR = {
+		has_tradition = tr_archivism_frontier_archaeology
+		is_nomadic = yes
+	}
+	OR = {
+		from = { # regular case
+			solar_system = { NOT = { exists = owner } }
+		}
+		AND = { # Nomadic with Research Agreement
+			from = {
+				solar_system = { exists = owner }
+			}
+			is_nomadic = yes
+			has_research_agreement = from.solar_system.owner
+		}
+		# Nomadic empire with Archivism - will upset the system owner
+		AND = {
+			from = {
+				solar_system = { exists = owner }
+			}
+			is_nomadic = yes
+			has_tradition = tr_archivism_frontier_archaeology
+		}
+	}
 	from = { solar_system = { NOR = { 
 		exists = owner 
 		has_star_flag = myst_system_1

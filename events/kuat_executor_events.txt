@@ -137,13 +137,13 @@ country_event = {
 		is_ai = no
 		kuat_is_enable_shadow_origin = yes
 		any_owned_planet = {
-			has_planet_flag = kuat_shadow_planet_started
+			has_carrier_flag = kuat_shadow_planet_started
 		}
 	}
 	immediate = {
 		every_owned_planet = {
-			limit = { has_planet_flag = kuat_shadow_planet_started }
-			set_planet_flag = kuat_initial_colony_planet
+			limit = { has_carrier_flag = kuat_shadow_planet_started }
+			set_carrier_flag = kuat_initial_colony_planet
 			solar_system = { generate_home_system_resources = yes }
 			generate_start_deposits_and_blockers = yes
 			generate_start_buildings_and_districts = yes
@@ -863,8 +863,7 @@ country_event = {
 					module = "gun_battery"
 					building = "target_uplink_computer"
 					building = "defense_grid"
-					building = "colossus_yards"
-					building = "titan_yards"
+					building = "capital_yards"
 				}
 				random_system_planet = { create_kuat_system_fleet = yes }
 			}
@@ -1272,7 +1271,7 @@ country_event = {
 # 					module = "gun_battery"
 # 					building = "target_uplink_computer"
 # 					building = "defense_grid"
-# 					building = "colossus_yards"
+# 					building = "capital_yards"
 # 					building = "titan_yards"
 # 				}
 # 				create_capital_reinforcements_fleet = yes
@@ -2236,8 +2235,7 @@ country_event = {
 						module = "gun_battery"
 						building = "target_uplink_computer"
 						building = "defense_grid"
-						building = "colossus_yards"
-						building = "titan_yards"
+						building = "capital_yards"
 					}
 					system_star = { create_kuat_system_fleet = yes }
 				}
@@ -2395,7 +2393,7 @@ country_event = {
 	}
 }
 
-planet_event = {
+carrier_event = {
 	id = executor_build.1004
 	title = "executor_build.1004.title"
 	desc = "executor_build.1004.desc"
@@ -2406,12 +2404,12 @@ planet_event = {
 	is_triggered_only = yes
 	pre_triggers = { has_owner = yes }
 	trigger = { 
-		has_planet_flag = colonied_eternal_ringworld
-		NOT = { has_planet_flag = colonied_eternal_ringworld_over }
+		has_carrier_flag = colonied_eternal_ringworld
+		NOT = { has_carrier_flag = colonied_eternal_ringworld_over }
 		is_planet_class = pc_kuat_eternal_ringworld_habitable 
 		owner = { kuat_is_enable_eternal_origin = yes }
 	}
-	immediate = { set_planet_flag = colonied_eternal_ringworld_over }
+	immediate = { set_carrier_flag = colonied_eternal_ringworld_over }
 	option = {
 		name = executor_build.1004.a
 		hidden_effect = { 
@@ -2466,11 +2464,11 @@ planet_event = {
 	}
 }
 
-planet_event = {
+carrier_event = {
 	id = executor_build.1005
 	hide_window = yes
 	is_triggered_only = yes
-	trigger = { has_planet_flag = enable_kuat_shield }
+	trigger = { has_carrier_flag = enable_kuat_shield }
 	immediate = {
 		solar_system = {
 			random_system_ambient_object = {
@@ -2480,8 +2478,8 @@ planet_event = {
 				destroy_ambient_object = this
 			}
 		}
-		remove_planet_flag = enable_kuat_shield
-		set_timed_planet_flag = { flag = enable_kuat_shield_cooldown days = 1800 }
+		remove_carrier_flag = enable_kuat_shield
+		set_timed_carrier_flag = { flag = enable_kuat_shield_cooldown days = 1800 }
 	}
 }
 
@@ -2489,11 +2487,11 @@ country_event = {
 	id = executor_build.1006
 	hide_window = yes
 	is_triggered_only = yes
-	trigger = { any_owned_planet = { has_planet_flag = has_building_kuat_command_center_auto } }
+	trigger = { any_owned_planet = { has_carrier_flag = has_building_kuat_command_center_auto } }
 	immediate = { 
 		every_owned_planet = {
 			limit = {
-				has_planet_flag = has_building_kuat_command_center_auto
+				has_carrier_flag = has_building_kuat_command_center_auto
 			}
 			if = {
 				limit = { OR = {
@@ -2725,7 +2723,7 @@ country_event = {
 		fromfromfrom = {
 			exists = owner
 			owner  = { is_same_value = root }
-			has_planet_flag = has_building_kuat_command_center_auto
+			has_carrier_flag = has_building_kuat_command_center_auto
 			OR = {
 				has_building = building_kuat_command_center_auto
 				has_building = building_kuat_ai_command_center_auto

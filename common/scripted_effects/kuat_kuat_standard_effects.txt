@@ -211,7 +211,7 @@ create_exe_invasion_fleet = {
 starkiller_country_destroyed_system_everything = {
 	optimize_memory
 	set_update_modifiers_batch = begin
-	every_system_colony = {
+	every_system_planet_colony = {
 		limit = { exists = owner }
 		owner = {
 			if = {
@@ -499,7 +499,7 @@ starkiller_country_destroyed_system_everything = {
 starkiller_fleet_destroyed_system_everything = {
 	optimize_memory
 	set_update_modifiers_batch = begin
-	every_system_colony = {
+	every_system_planet_colony = {
 		limit = { exists = owner }
 		owner = {
 			if = {
@@ -1405,7 +1405,12 @@ kuat_automatic_initial_planet_districts_and_zones_types = {
 	remove_all_buildings = yes
 
 	if = {
-		limit = { NOT = { has_planet_flag = kuat_initial_colony_planet } }
+		limit = { 
+			NOR = { 
+				has_carrier_flag = kuat_initial_colony_planet 
+				ship? = { exists = colony }
+			} 
+		}
 		destroy_colony = yes
 	}
 
@@ -1466,13 +1471,13 @@ kuat_automatic_ai_colony = {
 	optimize_memory
 	owner = { save_event_target_as = changing_country }
 
-	set_planet_flag = has_building_kuat_command_center_auto
+	set_carrier_flag = has_building_kuat_command_center_auto
 
 	set_variable = { which = planet_production_ascension_tier value = trigger:has_planetary_ascension_tier }
 
 	set_variable = { which = planet_production_array_base value = value:kuat_pop_amount }
 
-	if = { limit = { is_capital = yes } set_timed_planet_flag = { flag = destroy_colony_capital_temple days = 1 } }
+	if = { limit = { is_capital = yes } set_timed_carrier_flag = { flag = destroy_colony_capital_temple days = 1 } }
 
 	if = { limit = { is_capital = no } clear_deposits = yes }
 	
@@ -1495,7 +1500,7 @@ kuat_automatic_ai_colony = {
 	add_modifier = { modifier = planet_robot_assembly_control }
 	add_modifier = { modifier = kuat_automatic_colony }
 
-	if = { limit = { has_planet_flag = destroy_colony_capital_temple } set_capital = yes }
+	if = { limit = { has_carrier_flag = destroy_colony_capital_temple } set_capital = yes }
 
 	set_planetary_ascension_tier = planet_production_ascension_tier
 
@@ -1516,7 +1521,7 @@ kuat_automatic_ai_colony = {
 				NOT = { has_country_flag = kuat_fire_eestart_once }
 			} 
 		}
-		planet_event = { id = kuat_EEstart.2 }
+		carrier_event = { id = kuat_EEstart.2 }
 	}	
 
 	kuat_reset_auto_colony_variable = yes
@@ -1561,7 +1566,7 @@ kuat_clear_automatic_planet = {
 	clear_variable = planet_production_array_pop_speed_total
 	clear_variable = planet_production_array_pop_speed_total_dynamic
 	clear_variable = planet_production_array
-	remove_planet_flag = has_building_kuat_command_center_auto
+	remove_carrier_flag = has_building_kuat_command_center_auto
 	remove_all_buildings = yes
 	remove_all_districts = yes
 	reroll_planet = yes
@@ -1730,18 +1735,18 @@ kuat_destroy_star_system = {
 	every_system_planet = {
 		limit = {
 			is_planet_class = pc_ai
-			NOT = { has_planet_flag = machine_lair }
+			NOT = { has_carrier_flag = machine_lair }
 		}
 		destroy_machine_world = yes
 	}
 	random_system_planet = {
 		limit = {
 			is_planet_class = pc_ai
-			has_planet_flag = machine_lair
+			has_carrier_flag = machine_lair
 		}
 		from.owner = { save_event_target_as = final_machine_world_destroyer }
 		stop_crisis_sound = yes
-		planet_event = { id = crisis.2046 }
+		carrier_event = { id = crisis.2046 }
 	}
 	every_system_planet = {
 		limit = {
@@ -1959,7 +1964,7 @@ kuat_destroy_colony = {
 	if = {
 		limit = { 
 			ag_is_shell_world = yes 
-			has_planet_flag = ag_shell_world_surface_layer
+			has_carrier_flag = ag_shell_world_surface_layer
 		}
 		ag_seal_shell_world_from_surface_effect = { ag_target_planet_class = $PC$ }
 	}
@@ -1994,7 +1999,7 @@ kuat_destroy_colony = {
 	remove_modifier = "atmospheric_hallucinogen"
 	remove_modifier = "lush_planet"		
 	remove_modifier = "dangerous_wildlife"
-	remove_planet_flag = ruins_planet
+	remove_carrier_flag = ruins_planet
 }
 
 kuat_generate_animal_action = {
