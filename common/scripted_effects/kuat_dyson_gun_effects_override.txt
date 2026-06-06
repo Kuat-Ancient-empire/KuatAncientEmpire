@@ -1,21 +1,200 @@
-on_hit = {
-	custom_tooltip_with_params = {
-		description = "kuat_weapon_erase_damage_reduce_on_hit_aoe_effect"
-		description_parameters = {
-			"var_1" = $kuat_weapon_stollen_range$
-			"var_3" = $kuat_weapon_stollen_value$
+
+dyson_gun_firing = {
+	from.owner = {
+		export_resource_stockpile_to_variable = {
+			resource = energy
+			variable = dyson_gun_charge
+		}
+		set_resource = {
+			resource = energy
+			value = 0
 		}
 	}
-	set_variable = {
-		which = kuat_aoe_total_damage_value_bak
-		value = value:kuat_aoe_damage_multipler|kuat_weapon_stollen_value|$kuat_weapon_stollen_value$|kuat_slot|$kuat_slot$|kuat_energy|$kuat_energy$|kuat_kinetic|$kuat_kinetic$|kuat_explosive|$kuat_explosive$|kuat_point_defense|$kuat_point_defense$|kuat_strike_craft|$kuat_strike_craft$|
-	}
-	solar_system = { every_ship_in_system = {
+	if = {
 		limit = {
-			exists = controller
-			controller = { is_hostile = from.controller }
-			distance = { source = root max_distance <= $kuat_weapon_stollen_range$ same_solar_system = yes }
-			root = { from = { prevprev = { NOT = { has_ship_flag = kuat_aoe_damaged_@prev } } } }
+			from = {
+				is_megastructure_type = dyson_gun_1
+			}
+		}
+		from.owner = {
+			divide_variable = {
+				which = dyson_gun_charge
+				value = 100
+			}
+		}
+		every_fleet_in_system = {
+			limit = { NOR = {
+				any_owned_ship = { exists = colony }
+				AND = {
+					exists = owner
+					owner = { OR = {
+						ag_is_psionic_country = yes
+						ag_is_ancient_country = yes
+						is_invisable_faction = yes
+						is_country_type = ag_ancient_primitive_crisis
+						has_country_flag = ag_invincible_on_system_destroyed_country
+					} }
+				}
+			} }
+			ag_dyson_gun_damage = yes
+		}
+		every_system_planet = {
+			limit = {
+				is_colony = yes
+			}
+			add_planet_devastation = 10
+		}
+	}
+	if = {
+		limit = {
+			from = {
+				is_megastructure_type = dyson_gun_2
+			}
+		}
+		from.owner = {
+			divide_variable = {
+				which = dyson_gun_charge
+				value = 10
+			}
+		}
+		every_fleet_in_system = {
+			limit = { NOR = {
+				any_owned_ship = { exists = colony }
+				AND = {
+					exists = owner
+					owner = { OR = {
+						ag_is_psionic_country = yes
+						ag_is_ancient_country = yes
+						is_invisable_faction = yes
+						is_country_type = ag_ancient_primitive_crisis
+						has_country_flag = ag_invincible_on_system_destroyed_country
+					} }
+				}
+			} }
+			kuat_dyson_gun_damage = yes
+		}
+		every_system_planet = {
+			limit = {
+				is_colony = yes
+			}
+			add_planet_devastation = 25
+		}
+	}
+	if = {
+		limit = {
+			from = {
+				is_megastructure_type = dyson_gun_3
+			}
+		}
+		from.owner = {
+			divide_variable = {
+				which = dyson_gun_charge
+				value = 1
+			}
+		}
+
+		every_fleet_in_system = {
+			limit = { NOR = {
+				any_owned_ship = { exists = colony }
+				AND = {
+					exists = owner
+					owner = { OR = {
+						ag_is_psionic_country = yes
+						ag_is_ancient_country = yes
+						is_invisable_faction = yes
+						is_country_type = ag_ancient_primitive_crisis
+						has_country_flag = ag_invincible_on_system_destroyed_country
+					} }
+				}
+			} }
+			kuat_dyson_gun_damage = yes
+		}
+		every_system_planet = {
+			limit = {
+				is_colony = yes
+			}
+			add_planet_devastation = 50
+		}
+		every_system_planet = {
+			limit = {
+				from.owner = {
+					check_variable = {
+						which = dyson_gun_charge
+						value > 50000
+					}
+				}
+			}
+			increase_planet_temperature_without_habitables = yes
+		}
+		if = {
+			limit = {
+				OR = {
+					is_active_resolution = "resolution_ecology_environmental_control_board"
+					is_active_resolution = "resolution_ecology_paradise_initiative"
+				}
+				from.owner = {
+					check_variable = {
+						which = dyson_gun_charge
+						value > 50000
+					}
+				}
+			}
+			from.owner = {
+				set_timed_country_flag = { flag = resolution_breached_terraformed days = 3600 }
+			}
+		}
+	}
+	if = {
+		limit = {
+			space_owner? = {
+				NOT = {
+					is_same_value = from.owner
+				}
+			}
+		}
+		space_owner = {
+			create_message = {
+				type = MESSAGE_DYSON_SHOT
+				localization =  MESSAGE_DYSON_SHOT_DESC
+				days = @toast_message_days
+			}
+			add_opinion_modifier = {
+				who = from.owner
+				modifier = opinion_dyson_gun_target
+			}
+		}
+	}
+	if = {
+		limit = {
+			any_system_planet = { is_colony = yes }
+			OR = {
+				is_active_resolution = "resolution_rulesofwar_independent_tribunals"
+				is_active_resolution = "resolution_rulesofwar_last_resort_doctrine"
+				is_active_resolution = "resolution_rulesofwar_demobilization_initiative"
+			}
+		}
+		from.owner = {
+			set_timed_country_flag = { flag = resolution_breached_fired_dyson_gun days = 3600 }
+		}
+	}
+	if = {
+		limit = {
+			any_system_planet = { is_homeworld = yes }
+		}
+		from.owner = {
+			set_country_flag = fired_dyson_gun_at_homeworld
+		}
+	}
+	# Destroy impact ambient objects after a short delay
+	system_event = {
+		id = nomads.8005
+		days = 5
+	}
+}
+kuat_dyson_gun_damage = {
+	optimize_memory
+	every_ship_in_system = {
+		limit = {
 			check_modifier_value = { modifier = ag_ship_aoe_damage_reduction value < 1.0 }
 			check_modifier_value = { modifier = touhou_ship_aoe_damage_reduction_mult value < 1.0 }
 		}
@@ -89,45 +268,6 @@ on_hit = {
 			change_variable = { which = kuat_aoe_total_damage_value value = modifier:kuat_weapon_aoe_ship_hull_damage }
 			add_modifier = { modifier = kuat_ship_weapon_on_hit_aoe_modifier multiplier = kuat_aoe_total_damage_value days = 2 }
 		}
-		if = {
-			limit = { 
-				exists = root.from root.from = { is_invisable_faction = yes }
-				exists = owner owner = { is_invisable_faction = no }
-				NOT = { has_ship_flag = kuat_battle_ship_damage_reduction_temple }
-			}
-			if = {
-				limit = { 
-					check_modifier_value = { 
-						modifier = ship_damage_reduction_mult 
-						value > value:kuat_dynamic_ship_damage_reduce_limit 
-					}
-				}
-				kuat_battle_steal_modifier_on_hit = {
-					VARIABLE = kuat_battle_ship_damage_reduction_mult_temp
-					KUAT_MODIFIER = kuat_weapon_steal_ship_damage_reduce_mult
-					MODIFIER = kuat_ship_damage_reduction_mult_steal_weapon_hit_modifier
-					AMOUNT = value:kuat_dynamic_ship_damage_reduce_limit 
-					DAYS = $kuat_weapon_stollen_days$
-				}
-			}
-			if = {
-				limit = { 
-					check_modifier_value = { 
-						modifier = ship_damage_reduction_add
-						value > value:kuat_dynamic_mutiply_factor_limit|MULT|0.0005|kuat_add_modifier|ship_hull_add|
-					} 
-				}
-				kuat_battle_steal_modifier_on_hit = {
-					VARIABLE = kuat_battle_ship_damage_reduction_add_temp
-					KUAT_MODIFIER = kuat_weapon_steal_ship_damage_reduce_add
-					MODIFIER = kuat_ship_damage_reduction_add_steal_weapon_hit_modifier
-					AMOUNT = value:kuat_dynamic_mutiply_factor_limit|MULT|0.0005|kuat_add_modifier|ship_hull_add|
-					DAYS = $kuat_weapon_stollen_days$
-				}
-			}
-			else = { set_timed_ship_flag = { flag = kuat_battle_ship_damage_reduction_temple days = $kuat_weapon_stollen_days$ } }
-		}
 		else = { clear_variable = kuat_aoe_total_damage_value }
-	} }
-	clear_variable = kuat_aoe_total_damage_value_bak
+	}
 }
