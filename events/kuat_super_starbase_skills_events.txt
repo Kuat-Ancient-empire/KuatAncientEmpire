@@ -325,3 +325,25 @@ country_event = {
     }
 	abort_effect = { abort_special_project = { type = kuat_rakata_initial_inborder_facility_disabled } }
 }
+
+
+ship_event = {
+    id = kuat_starbase_skills.100 
+    hide_window = yes
+    is_triggered_only = yes
+    
+    trigger = {
+        kuat_ship_is_mega_starbase = yes
+        fleet? = { has_fleet_flag = kuat_mega_starbase_stormed_activated }
+    }
+    
+    immediate = {
+        fleet = {
+            remove_fleet_flag = kuat_mega_starbase_stormed_activated
+        }
+        every_cosmic_storm = {
+            limit = { has_storm_flag = storm_kuat_support_nexus_storm_random_list_@prev }
+            kuat_destroy_cosmic_storm = yes
+        }
+    }
+}
