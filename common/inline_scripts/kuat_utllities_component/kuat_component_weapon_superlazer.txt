@@ -10,6 +10,12 @@ damage = {
 	max = @[ standard_tuberlazer_damage_1 * $MULT$ ]
 }
 
+inline_script = {
+	script = kuat_weapon_event/kuat_exe_base_destroyed_$kuat_base_type$
+	MULT = $MULT$
+	RANGE = $RANGE$
+}
+
 windup = {
 	min = $WINDUP_MIN$
 	max = $WINDUP_MAX$
@@ -53,9 +59,12 @@ on_hit = {
 		if = {
 			limit = { NOT = { has_ship_flag = kuat_hited_by_superlazer } }
 			kuat_battle_superlazer_raload_modifier = yes	
-			repair_shield_amount = -92000000000000
-			repair_armor_amount = -92000000000000	
-			kuat_battle_kuat_damage_hp = { value = 92000000000000 }				
+			if = {
+				limit = { this? = { is_disabled = no } }
+				repair_shield_amount = -92000000000000
+				repair_armor_amount = -92000000000000	
+				kuat_battle_kuat_damage_hp = { value = 92000000000000 source = from }	
+			}
 			set_timed_ship_flag = { flag = kuat_hited_by_superlazer days = 1 }
 		}
 		reroll_random = yes

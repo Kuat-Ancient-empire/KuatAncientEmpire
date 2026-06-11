@@ -564,11 +564,17 @@ kuat_battle_remove_fleet_modifier_trigger_flag = {
 
 kuat_battle_kuat_damage_hp_percent = {
 	optimize_memory
-	damage_ship = value:kuat_damage_hp_percent_value|value|$value$|
+	damage_ship = {
+		amount = value:kuat_damage_hp_percent_value|value|$value$|
+		attacker = $source$
+	}
 }
 kuat_battle_kuat_damage_hp = {
 	optimize_memory
-	damage_ship = value:kuat_damage_hp_value|value|$value$|
+	damage_ship = {
+		amount = value:kuat_damage_hp_value|value|$value$|
+		attacker = $source$
+	}
 }
 
 kuat_battle_kuat_reduce_hp_percent = {
@@ -1111,60 +1117,31 @@ kuat_battle_eternal_aoe_effect = {
 			exists = controller
 			controller = { is_hostile = from.controller }
 			distance = { source = root max_distance <= $RANGE$ same_solar_system = yes }
-			root = { from = { prevprev = { NOT = { has_ship_flag = kuat_aoe_damaged_@prev } } } }
 		}
 		kuat_battle_cretae_aoe_particle_effect = yes
-		root = { from = { prevprev = { set_timed_ship_flag = { flag = kuat_aoe_damaged_@prev days = @kuat_global_dynamic_hitpoints } } } }
 		random_list = {
-			9 = { set_variable = { which = kuat_aoe_total_damage_value value = $DAMAGE$ } }
-			1 = { set_variable = { which = kuat_aoe_total_damage_value value = 92000000000000 } }
+			90 = { 
+				set_variable = { which = kuat_aoe_total_damage_value value = $DAMAGE$ } 
+				kuat_battle_kuat_damage_hp = { value = kuat_aoe_total_damage_value source = root.from }
+			}
+			9 = { 
+				if = {
+					limit = { this? = { is_disabled = no } }
+					repair_shield_amount = -92000000000000
+					repair_armor_amount = -92000000000000	
+					kuat_battle_kuat_damage_hp = { value = 92000000000000 source = root.from }
+				}	
+			}
+			1 = {
+				while = {
+					limit = { this? = { is_disabled = no } }
+					repair_shield_amount = -92000000000000
+					repair_armor_amount = -92000000000000	
+					kuat_battle_kuat_damage_hp = { value = 92000000000000 source = root.from }
+				}
+			}
 		}
-		if = {
-			limit = {
-				check_variable = { which = kuat_aoe_total_damage_value value > 0 }
-				has_shield_hp > 0
-			}
-			set_variable = { which = kuat_aoe_shield_damage_value value = kuat_aoe_total_damage_value }
-			if = {
-				limit = { has_shield_hp >= kuat_aoe_shield_damage_value }
-				reduce_shield = kuat_aoe_shield_damage_value
-			}
-			else = {
-				set_variable = { which = kuat_aoe_shield_damage_value value = trigger:has_shield_hp }
-				reduce_shield = trigger:has_shield_hp
-			}
-			subtract_variable = { which = kuat_aoe_total_damage_value value = kuat_aoe_shield_damage_value }
-			clear_variable = kuat_aoe_shield_damage_value
-		}
-		if = {
-			limit = {
-				check_variable = { which = kuat_aoe_total_damage_value value > 0 }
-				has_armor_percentage > 0
-			}
-			set_variable = { which = kuat_currently_armor_hp value = value:kuat_has_armor_hp }
-			set_variable = { which = kuat_aoe_armor_damage_value value = kuat_aoe_total_damage_value }
-			if = {
-				limit = { check_variable = { which = kuat_currently_armor_hp value >= kuat_aoe_armor_damage_value } }
-				multiply_variable = { which = kuat_aoe_armor_damage_value value = -1 }
-				repair_armor_amount = kuat_aoe_armor_damage_value
-			}
-			else = {
-				set_variable = { which = kuat_aoe_armor_damage_value value = kuat_currently_armor_hp }
-				multiply_variable = { which = kuat_aoe_armor_damage_value value = -1 }
-				repair_armor_amount = kuat_aoe_armor_damage_value
-				set_variable = { which = kuat_aoe_armor_damage_value value = kuat_currently_armor_hp }
-				multiply_variable = { which = kuat_aoe_armor_damage_value value = -1 }
-			}
-			change_variable = { which = kuat_aoe_total_damage_value value = kuat_aoe_armor_damage_value }
-			clear_variable = kuat_currently_armor_hp
-			clear_variable = kuat_aoe_armor_damage_value
-		}
-		if = {
-			limit = { check_variable = { which = kuat_aoe_total_damage_value value > 0 } }
-			change_variable = { which = kuat_aoe_total_damage_value value = modifier:kuat_weapon_aoe_ship_hull_damage }
-			add_modifier = { modifier = kuat_ship_weapon_on_hit_aoe_modifier multiplier = kuat_aoe_total_damage_value days = 2 }
-		}
-		else = { clear_variable = kuat_aoe_total_damage_value }
+		clear_variable = kuat_aoe_total_damage_value
 	} }	
 }
 
