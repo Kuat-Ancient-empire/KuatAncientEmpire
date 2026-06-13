@@ -165,6 +165,124 @@ country_event = {
 	}
 }
 
+system_event = {
+	id = kuat_starkiller.7
+	title = "kuat_starkiller.7.title"
+	desc = "kuat_starkiller.7.desc"
+	diplomatic = yes
+	picture_event_data = { room = starkiller_room }
+	custom_gui = "kuat_event_m_window"
+	custom_gui_option = "kuat_event_option"
+	is_triggered_only = yes
+	immediate = {
+		starkiller_country_destroyed_system_only_fleet = yes
+	}
+	after = {
+		every_galaxy_planet = {
+			if = {
+				limit = { has_carrier_flag = starkillerbase_location }
+				set_planet_entity = { entity = "starkillerbase_megastructure_entity" picture = pc_starkiller }
+			}
+			if = { limit = { has_carrier_flag = starkiller_attack_built_target } remove_carrier_flag = starkiller_attack_built_target }
+		}
+		every_megastructure = {
+			limit = { has_megastructure_flag = kuat_starkiller_marker_1_upgrade_@root.from.owner }
+			remove_megastructure = this
+		}
+	}
+	option = { name = kuat_starkiller.7.a }
+}
+
+system_event = {
+	id = kuat_starkiller.21
+	#show_sound = event_sensor_ping
+	hide_window = yes
+	is_triggered_only = yes
+	immediate = {
+		every_system_planet = {
+			limit = { is_star = yes }
+			prev = { spawn_megastructure = {
+				type = kuat_starkiller_marker_0
+				owner = root.from.owner coords_from = prev
+				init_effect = { set_megastructure_flag = kuat_starkiller_marker_0_upgrade_@root.from.owner }
+			} }
+			set_carrier_flag = starkiller_attack_built_target
+		}
+		system_event = { id = kuat_starkiller.22 days = 9 }
+		event_target:starkiller_sun_target_system = {
+			spawn_megastructure = { 
+				type = "kuat_sun_drain" planet = star 
+				init_effect = { save_global_event_target_as = kuat_sun_drain_location }
+			}
+		}
+		play_sound = {
+			sound = swfo_starkillerbase_charge
+			location = event_target:starkillerbase_location
+		}
+		every_country = {
+			limit = { NOR = {
+				is_country_type = primitive
+				is_country = ROOT.from.owner
+			} }
+			add_opinion_modifier = { who = ROOT.from.owner modifier = opinion_in_starkillerbase_fire_control }
+		}
+	}
+}
+
+#Remove Sun drain
+system_event = {
+	id = kuat_starkiller.22
+	hide_window = yes
+	is_triggered_only = yes
+	immediate = {
+		system_event = { id = kuat_starkiller.23 days = 1 }
+		#Remove Sun drain
+		remove_megastructure = event_target:kuat_sun_drain_location
+	}
+}
+
+#Spawn Wormhole over Target Planet
+system_event = {
+	id = kuat_starkiller.23
+	hide_window = yes
+	is_triggered_only = yes
+	immediate = {
+		play_sound = {
+			sound = swfo_starkillerbase_fire
+			location = event_target:starkillerbase_location
+		}
+		system_event = { id = kuat_starkiller.24 days = 9 }
+	}
+}
+
+#Fire kuat_starkiller Base
+system_event = {
+	id = kuat_starkiller.24
+	hide_window = yes
+	is_triggered_only = yes
+	immediate = {
+		event_target:starkillerbase_location = {
+			set_planet_entity = { entity = "starkillerbase_megastructure_firing_entity" picture = pc_starkiller }
+			set_carrier_flag = starkillerbase_location
+		}
+		system_event = { id = kuat_starkiller.25 days = 9 }
+	}
+}
+
+system_event = {
+	id = kuat_starkiller.25
+	hide_window = yes
+	is_triggered_only = yes
+	immediate = {
+		every_megastructure = {
+			limit = { has_megastructure_flag = kuat_starkiller_marker_0_upgrade_@root.from.owner }
+			upgrade_megastructure_to = kuat_starkiller_marker_1
+			finish_upgrade = yes
+			set_megastructure_flag = kuat_starkiller_marker_1_upgrade_@root.from.owner
+		}
+	}
+}
+
 country_event = {
 	id = kuat_starkiller.9
 	hide_window = yes

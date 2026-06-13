@@ -496,6 +496,27 @@ starkiller_country_destroyed_system_everything = {
 	}
 	set_update_modifiers_batch = end
 }
+
+starkiller_country_destroyed_system_only_fleet = {
+	optimize_memory
+	set_update_modifiers_batch = begin
+	create_kuat_starbase_special_expolde_vanilla_boom = yes
+	root.from.owner? = { random_owned_fleet = { 
+		save_event_target_as = foa_target_fleet 
+		random_owned_ship = { save_event_target_as = foa_target_ship }
+	} }
+	every_ship_in_system = {
+		limit = { 
+			exists = owner 
+			owner = { NOT = { is_same_value = root.from.owner } }
+		}
+		while = {
+			limit = { this? = { is_disabled = no } }
+			damage_ship = { amount = 92000000000000 attacker = event_target:foa_target_ship }
+		}
+	}
+	set_update_modifiers_batch = end
+}
 starkiller_fleet_destroyed_system_everything = {
 	optimize_memory
 	set_update_modifiers_batch = begin

@@ -1,15 +1,20 @@
-
-dyson_gun_firing = {
+dyson_gun_apply_damage = {
+	# Devastation is only inflicted when at least 10,000 energy was spent charging the shot
 	from.owner = {
-		export_resource_stockpile_to_variable = {
-			resource = energy
-			variable = dyson_gun_charge
+		if = {
+			limit = {
+				check_variable = {
+					which = dyson_gun_charge
+					value >= 10000
+				}
+			}
+			set_country_flag = dyson_gun_devastating_shot
 		}
-		set_resource = {
-			resource = energy
-			value = 0
+		else = {
+			remove_country_flag = dyson_gun_devastating_shot
 		}
 	}
+
 	if = {
 		limit = {
 			from = {
@@ -17,32 +22,45 @@ dyson_gun_firing = {
 			}
 		}
 		from.owner = {
+			set_variable = {
+				which = dyson_gun_damage
+				value = dyson_gun_charge
+			}
 			divide_variable = {
-				which = dyson_gun_charge
+				which = dyson_gun_damage
 				value = 100
 			}
+			set_variable = {
+				which = dyson_gun_damage_shielded
+				value = dyson_gun_damage
+			}
+			multiply_variable = {
+				which = dyson_gun_damage_shielded
+				value = 0.4
+			}
 		}
-		every_fleet_in_system = {
-			limit = { NOR = {
-				any_owned_ship = { exists = colony }
-				AND = {
-					exists = owner
-					owner = { OR = {
+		every_ship_in_system = {
+			limit = {
+				owner? = {
+					NOR = {
 						ag_is_psionic_country = yes
 						ag_is_ancient_country = yes
 						is_invisable_faction = yes
 						is_country_type = ag_ancient_primitive_crisis
 						has_country_flag = ag_invincible_on_system_destroyed_country
-					} }
+					}
 				}
-			} }
-			ag_dyson_gun_damage = yes
+			}
+			dyson_gun_damage_ship = yes
 		}
 		every_system_planet = {
 			limit = {
 				is_colony = yes
 			}
-			add_planet_devastation = 10
+			dyson_gun_devastate_colony = {
+				AMOUNT = 10
+				SHIELDED = 1
+			}
 		}
 	}
 	if = {
@@ -52,32 +70,45 @@ dyson_gun_firing = {
 			}
 		}
 		from.owner = {
+			set_variable = {
+				which = dyson_gun_damage
+				value = dyson_gun_charge
+			}
 			divide_variable = {
-				which = dyson_gun_charge
-				value = 10
+				which = dyson_gun_damage
+				value = 50
+			}
+			set_variable = {
+				which = dyson_gun_damage_shielded
+				value = dyson_gun_damage
+			}
+			multiply_variable = {
+				which = dyson_gun_damage_shielded
+				value = 0.4
 			}
 		}
-		every_fleet_in_system = {
-			limit = { NOR = {
-				any_owned_ship = { exists = colony }
-				AND = {
-					exists = owner
-					owner = { OR = {
+		every_ship_in_system = {
+			limit = {
+				owner? = {
+					NOR = {
 						ag_is_psionic_country = yes
 						ag_is_ancient_country = yes
 						is_invisable_faction = yes
 						is_country_type = ag_ancient_primitive_crisis
 						has_country_flag = ag_invincible_on_system_destroyed_country
-					} }
+					}
 				}
-			} }
-			kuat_dyson_gun_damage = yes
+			}
+			dyson_gun_damage_ship = yes
 		}
 		every_system_planet = {
 			limit = {
 				is_colony = yes
 			}
-			add_planet_devastation = 25
+			dyson_gun_devastate_colony = {
+				AMOUNT = 25
+				SHIELDED = 2.5
+			}
 		}
 	}
 	if = {
@@ -87,33 +118,46 @@ dyson_gun_firing = {
 			}
 		}
 		from.owner = {
+			set_variable = {
+				which = dyson_gun_damage
+				value = dyson_gun_charge
+			}
 			divide_variable = {
-				which = dyson_gun_charge
-				value = 1
+				which = dyson_gun_damage
+				value = 10
+			}
+			set_variable = {
+				which = dyson_gun_damage_shielded
+				value = dyson_gun_damage
+			}
+			multiply_variable = {
+				which = dyson_gun_damage_shielded
+				value = 0.4
 			}
 		}
 
-		every_fleet_in_system = {
-			limit = { NOR = {
-				any_owned_ship = { exists = colony }
-				AND = {
-					exists = owner
-					owner = { OR = {
+		every_ship_in_system = {
+			limit = {
+				owner? = {
+					NOR = {
 						ag_is_psionic_country = yes
 						ag_is_ancient_country = yes
 						is_invisable_faction = yes
 						is_country_type = ag_ancient_primitive_crisis
 						has_country_flag = ag_invincible_on_system_destroyed_country
-					} }
+					}
 				}
-			} }
-			kuat_dyson_gun_damage = yes
+			}
+			dyson_gun_damage_ship = yes
 		}
 		every_system_planet = {
 			limit = {
 				is_colony = yes
 			}
-			add_planet_devastation = 50
+			dyson_gun_devastate_colony = {
+				AMOUNT = 50
+				SHIELDED = 5
+			}
 		}
 		every_system_planet = {
 			limit = {
@@ -123,6 +167,8 @@ dyson_gun_firing = {
 						value > 50000
 					}
 				}
+				# A planetary shield generator blocks the terraforming heat
+				has_planetary_shield_building = no
 			}
 			increase_planet_temperature_without_habitables = yes
 		}
@@ -184,90 +230,5 @@ dyson_gun_firing = {
 		from.owner = {
 			set_country_flag = fired_dyson_gun_at_homeworld
 		}
-	}
-	# Destroy impact ambient objects after a short delay
-	system_event = {
-		id = nomads.8005
-		days = 5
-	}
-}
-kuat_dyson_gun_damage = {
-	optimize_memory
-	every_ship_in_system = {
-		limit = {
-			check_modifier_value = { modifier = ag_ship_aoe_damage_reduction value < 1.0 }
-			check_modifier_value = { modifier = touhou_ship_aoe_damage_reduction_mult value < 1.0 }
-		}
-		kuat_battle_cretae_aoe_particle_effect = yes
-		root = { from = { prevprev = { set_timed_ship_flag = { flag = kuat_aoe_damaged_@prev days = @kuat_global_dynamic_hitpoints } } } }
-		set_variable = { which = kuat_aoe_total_damage_value value = root.kuat_aoe_total_damage_value_bak }
-		multiply_variable = { which = kuat_aoe_total_damage_value value = value:kuat_modifier_mult_subtract|kuat_modifier|ship_damage_reduction_mult|kuat_min|0| }
-		multiply_variable = { which = kuat_aoe_total_damage_value value = value:kuat_modifier_mult_subtract|kuat_modifier|touhou_ship_aoe_damage_reduction_mult|kuat_min|0| }
-        subtract_variable = { which = kuat_aoe_total_damage_value value = modifier:ship_damage_reduction_add }
-		subtract_variable = { which = kuat_aoe_total_damage_value value = modifier:touhou_ship_aoe_damage_reduction_add }
-		multiply_variable = { which = kuat_aoe_total_damage_value value = value:kuat_modifier_mult_subtract|kuat_modifier|ag_ship_aoe_damage_reduction|kuat_min|0| }
-		if = {
-			limit = {
-				check_variable = { which = kuat_aoe_total_damage_value value > 0 }
-				has_shield_hp > 0
-			}
-			set_variable = { which = kuat_aoe_shield_damage_value value = kuat_aoe_total_damage_value }
-			multiply_variable = {
-				which = kuat_aoe_shield_damage_value
-				value = from.value:kuat_modifier_mult_add|kuat_modifier|ship_shield_damage_mult|
-			}
-			if = {
-				limit = { has_shield_hp >= kuat_aoe_shield_damage_value }
-				reduce_shield = kuat_aoe_shield_damage_value
-			}
-			else = {
-				set_variable = { which = kuat_aoe_shield_damage_value value = trigger:has_shield_hp }
-				divide_variable = {
-					which = kuat_aoe_shield_damage_value
-					value = from.value:kuat_modifier_mult_add|kuat_modifier|ship_shield_damage_mult|
-				}
-				reduce_shield = trigger:has_shield_hp
-			}
-			subtract_variable = { which = kuat_aoe_total_damage_value value = kuat_aoe_shield_damage_value }
-			clear_variable = kuat_aoe_shield_damage_value
-		}
-		if = {
-			limit = {
-				check_variable = { which = kuat_aoe_total_damage_value value > 0 }
-				has_armor_percentage > 0
-			}
-			set_variable = { which = kuat_currently_armor_hp value = value:kuat_has_armor_hp }
-			set_variable = { which = kuat_aoe_armor_damage_value value = kuat_aoe_total_damage_value }
-			multiply_variable = {
-				which = kuat_aoe_armor_damage_value
-				value = from.value:kuat_modifier_mult_add|kuat_modifier|ship_armor_damage_mult|
-			}
-			if = {
-				limit = { check_variable = { which = kuat_currently_armor_hp value >= kuat_aoe_armor_damage_value } }
-				multiply_variable = { which = kuat_aoe_armor_damage_value value = -1 }
-				repair_armor_amount = kuat_aoe_armor_damage_value
-			}
-			else = {
-				set_variable = { which = kuat_aoe_armor_damage_value value = kuat_currently_armor_hp }
-				multiply_variable = { which = kuat_aoe_armor_damage_value value = -1 }
-				repair_armor_amount = kuat_aoe_armor_damage_value
-				set_variable = { which = kuat_aoe_armor_damage_value value = kuat_currently_armor_hp }
-				divide_variable = {
-					which = kuat_aoe_armor_damage_value
-					value = from.value:kuat_modifier_mult_add|kuat_modifier|ship_armor_damage_mult|
-				}
-				multiply_variable = { which = kuat_aoe_armor_damage_value value = -1 }
-			}
-			change_variable = { which = kuat_aoe_total_damage_value value = kuat_aoe_armor_damage_value }
-			clear_variable = kuat_currently_armor_hp
-			clear_variable = kuat_aoe_armor_damage_value
-		}
-		if = {
-			limit = { check_variable = { which = kuat_aoe_total_damage_value value > 0 } }
-			multiply_variable = { which = kuat_aoe_total_damage_value value = from.value:kuat_modifier_mult_add|kuat_modifier|ship_hull_damage_mult| }
-			change_variable = { which = kuat_aoe_total_damage_value value = modifier:kuat_weapon_aoe_ship_hull_damage }
-			add_modifier = { modifier = kuat_ship_weapon_on_hit_aoe_modifier multiplier = kuat_aoe_total_damage_value days = 2 }
-		}
-		else = { clear_variable = kuat_aoe_total_damage_value }
 	}
 }
