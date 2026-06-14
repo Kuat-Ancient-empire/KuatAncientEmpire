@@ -1,0 +1,64 @@
+can_enter_system_by_jump_trigger = {
+	custom_tooltip = {
+		#		success_text = "debug: can jump"
+		fail_text = cannot_jump_to_system
+
+		# Sealed system
+		OR = {
+			AND = {
+				# L-Cluster
+				NOT = { has_star_flag = wg_psionic_systems }
+				# L-Cluster
+				NOT = { has_star_flag = wg_sealed_system }
+				# Kuat
+				NOT = { has_star_flag = ag_no_jump_in_system }
+				# L-Cluster
+				NOT = { has_star_flag = lcluster }
+				# Formless system
+				NOT = { has_star_flag = formless_system }
+				# Hyperthermia core system
+				NOT = { has_star_flag = hyperthermia_system }
+				NOT = { has_star_flag = outercluster }
+				NOT = { has_star_flag = nep_Krahen_cluster }
+				NOT = { has_star_flag = nep_Scrus_cluster }
+
+				NAND = {
+					has_global_flag = nep_not_pass_Aemethms 
+					OR = {
+						has_star_flag = nep_dragon_system
+						has_star_flag = nep_heptagram_cluster
+					}
+				}
+
+				# 多彩
+				NAND = {
+					has_global_flag = love_between_us
+					OR = {
+						has_star_flag = ten_crisis_system
+						any_neighbor_system = { has_star_flag = ten_crisis_system }
+					}
+				}
+
+				#_wsg
+				OR = {
+					NOT = { exists = space_owner }
+					AND = {
+						exists = space_owner
+						space_owner = { NOT = { is_country_type = monolith_crisis_country }}
+					}
+				}
+
+				OR = {
+					NOT = { has_star_flag = sealed_system }
+					AND = {
+						$SCOPE$ = { has_country_flag = entered_sealed_system }
+						has_star_flag = sealed_system
+					}
+				}
+			}
+			$SCOPE$ = { has_country_flag = AAR_flg_cntr_JUMP_webway_TGT }		#_[z_fw]璀璨星图
+			$SCOPE$ = { has_country_flag = z_fw_r_celestial_orrey_activited }		#_[z_fw]璀璨星图
+			$SCOPE$ = { has_country_flag = z_fw_r_cheat_quantum_beacon_activited }	#_[z_fw]永恒星炬
+		}
+	}
+}
