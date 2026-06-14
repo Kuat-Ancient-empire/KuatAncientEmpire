@@ -577,15 +577,6 @@ kuat_battle_kuat_damage_hp = {
 	}
 }
 
-kuat_battle_kuat_reduce_hp_percent = {
-	optimize_memory
-	reduce_hp = value:kuat_damage_hp_percent_value|value|$value$|
-}
-kuat_battle_kuat_reduce_hp = {
-	optimize_memory
-	reduce_hp = value:kuat_damage_hp_value|value|$value$|
-}
-
 kuat_battle_kuat_set_epsilon_obelisk_code = {
 	optimize_memory
 	random_list = {
@@ -605,6 +596,7 @@ kuat_battle_kuat_set_epsilon_obelisk_code = {
 kuat_battle_kuat_invinciable_battle_random_effect = {
 	optimize_memory
 	reroll_random = yes
+	root.fromfrom = { random_owned_ship = { save_event_target_as = kuat_ship_target } }
 	random_list = {
 		20 = {
 			modifier = {
@@ -635,13 +627,6 @@ kuat_battle_kuat_invinciable_battle_random_effect = {
 		inline_script = { script = kuat_battle_event/kuat_exe_invasion_impluse_settings VALUE = 90 }
 		inline_script = { script = kuat_battle_event/kuat_exe_invasion_impluse_settings VALUE = 95 }
 		inline_script = { script = kuat_battle_event/kuat_exe_invasion_impluse_settings VALUE = 100 }
-		1 = {
-			modifier = {
-				factor = 0
-				OR = { has_ship_flag = kuat_clear_ship_modifier_target owner = { is_ai = yes } }
-			}
-			destroy_ship = this
-		}
 	}
 }
 
