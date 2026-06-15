@@ -114,3 +114,30 @@ country_event = {
 	}
 	after = { add_relic = r_crystallized_singularity }
 }
+
+#Nomad Dyson Gun Placeholder
+namespace = kuat_nomads
+system_event = {
+    id = kuat_nomads.8000
+    hide_window = yes
+
+    is_triggered_only = yes
+
+    trigger = {
+        OR = {
+            kuat_is_kuat_system = yes
+            any_ship_in_system = { kuat_is_kuat_ship = yes }
+        }
+    }
+
+    immediate = {
+        from.owner = {
+            export_resource_stockpile_to_variable = {
+                resource = energy
+                variable = dyson_gun_charge
+            }
+            set_resource = { resource = energy value = 0 }
+            set_variable = { which = dyson_gun_charge value = 0 }
+        }
+    }
+}
