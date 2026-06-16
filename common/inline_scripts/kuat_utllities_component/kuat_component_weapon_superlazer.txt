@@ -14,6 +14,7 @@ inline_script = {
 	script = kuat_weapon_event/kuat_exe_base_destroyed_$kuat_base_type$
 	MULT = $MULT$
 	RANGE = $RANGE$
+	TYPE = SuperLazer
 }
 
 windup = {
@@ -49,10 +50,7 @@ on_hit = {
 	custom_tooltip_with_params = {
 		description = "kuat_instant_killer_desc"
 		description_parameters = { 
-			"range_1" = @kuat_global_eternal_aoe_range_1  "var_1" = @kuat_global_eternal_aoe_tier_1 
-			"range_2" = @kuat_global_eternal_aoe_range_2  "var_2" = @kuat_global_eternal_aoe_tier_2
-			"range_3" = @kuat_global_eternal_aoe_range_3  "var_3" = @kuat_global_eternal_aoe_tier_3 
-			"range_4" = @kuat_global_eternal_aoe_range_4  "var_4" = @kuat_global_eternal_aoe_tier_4 
+			"range_1" = @[ $RANGE$ / 10 ]
 		}
 	}
 	hidden_effect = {  	
@@ -64,12 +62,7 @@ on_hit = {
 			kuat_battle_kuat_damage_hp = { value = 92000000000000 source = from }	
 		}
 		reroll_random = yes
-		random_list = {
-			1 = { kuat_battle_eternal_aoe_effect = { RANGE = @kuat_global_eternal_aoe_range_1 DAMAGE = @kuat_global_eternal_aoe_tier_1 } }
-			1 = { kuat_battle_eternal_aoe_effect = { RANGE = @kuat_global_eternal_aoe_range_2 DAMAGE = @kuat_global_eternal_aoe_tier_2 } }
-			1 = { kuat_battle_eternal_aoe_effect = { RANGE = @kuat_global_eternal_aoe_range_3 DAMAGE = @kuat_global_eternal_aoe_tier_3 } }
-			1 = { kuat_battle_eternal_aoe_effect = { RANGE = @kuat_global_eternal_aoe_range_4 DAMAGE = @kuat_global_eternal_aoe_tier_4 } }
-		}
+		kuat_battle_eternal_aoe_effect = { RANGE = @\[ $RANGE$ / 10 ] }
 	}
 }
 tags = { weapon_type_kuat_superlazer_scale t_slot weapon_type_energy }
