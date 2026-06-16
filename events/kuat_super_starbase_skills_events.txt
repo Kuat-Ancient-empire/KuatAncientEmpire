@@ -130,7 +130,7 @@ fleet_event = {
 	trigger = { is_ship_size = kuat_target_signal_ship }
 
 	immediate = {
-		solar_system = {
+		solar_system? = {
 			spawn_random_storm = {
 				type = kuat_support_particle_storm
 				cosmic_storm_start_position = this
@@ -141,7 +141,7 @@ fleet_event = {
 				set_storm_flag = storm_stormfall 
 			}
 		}
-		owner = { 
+		owner? = { 
 			set_timed_country_flag = { 
 				flag = kuat_storming_placing_selector_temple 
 				days = 720 
@@ -174,21 +174,21 @@ fleet_event = {
 	is_triggered_only = yes
 	trigger = { 
 		exists = solar_system
-		solar_system = {  
+		solar_system? = {  
 			NOR = { 
 				is_inside_border = prev.owner
 				has_star_flag = kuat_cannot_be_hit_by_starkillerbase 
 			}
 			count_fleet_in_system = {
 				count = 0
-				limit = { exists = owner owner = { is_first_galatic_empire_faction = yes } }
+				limit = { exists = owner owner? = { is_first_galatic_empire_faction = yes } }
 			}
 		}
 		is_ship_size = kuat_target_signal_ship 
 	}
 	immediate = { 
 		save_global_event_target_as = kuat_target_signal_ship_owner
-		owner = { country_event = { id = kuat_starbase_skills.10 } } 
+		owner? = { country_event = { id = kuat_starbase_skills.10 } } 
 	}
 }
 
@@ -232,7 +232,7 @@ country_event = {
 	immediate = {
 		play_sound = { sound = kuat_infinite_kuat_orbital_strike location = capital_scope }
 		event_target:kuat_target_signal_ship_owner = {
-			solar_system = { 
+			solar_system? = { 
 				starkiller_fleet_destroyed_system_everything = yes 
 			}
 		}

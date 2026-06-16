@@ -591,7 +591,7 @@ kuat_has_researcher = {
 #eternal origin
 eternal_archaeological_limit = {
 	optimize_memory
-	solar_system = { NOT = { has_star_flag = zakuul_system } }
+	solar_system? = { NOT = { has_star_flag = zakuul_system } }
 	is_colonizable = no 
 	is_colony = no 
 	is_ringworld = no 
@@ -623,7 +623,7 @@ has_trigger_shipyard = {
 			is_megastructure_type = exe_black_hole_restore
 			is_megastructure_type = exe_black_hole_facility
 		} }
-		AND = { exists = owner owner = { has_modifier = "ag_debug_modifier_buff_common" } }
+		AND = { exists = owner owner? = { has_modifier = "ag_debug_modifier_buff_common" } }
 	}
 }
 
@@ -668,7 +668,7 @@ kuat_exist_fleet_leader = {
 	optimize_memory
 	AND = {
 		exists = leader
-		leader = { 
+		leader? = { 
 			[[TRUE_FLAG] has_leader_flag = $TRUE_FLAG$ ]
 			[[FAIL_FLAG] NOT = { has_leader_flag = $FAIL_FLAG$ } ]
 			[[TRAIT] has_trait = $TRAIT$ ]
@@ -732,11 +732,11 @@ kuat_exist_disable_type = {
 	optimize_memory
 	AND = {
 		exists = from.owner
-		from.owner = { NOT = { is_same_value = prev.owner } }
+		from.owner? = { NOT = { is_same_value = prev.owner } }
 	}
 	AND = {
 		exists = owner
-		owner = { OR = { is_invisable_faction = yes kuat_is_player_country = yes } }
+		owner? = { OR = { is_invisable_faction = yes kuat_is_player_country = yes } }
 	}
 	if = { limit = { is_ship_class = shipclass_military } has_ship_flag = kuat_is_modifiering }
 }
@@ -802,11 +802,11 @@ kuat_is_kuat_fleet_execute_order_target = {
 	OR = {
 		any_system_planet = { 
 			exists = controller 
-			controller = { is_at_war_with = $TARGET$ } 
+			controller? = { is_at_war_with = $TARGET$ } 
 		}
 		AND = { 
 			exists = starbase 
-			starbase = { controller = { is_hostile = $TARGET$ } } 
+			starbase = { controller? = { is_hostile = $TARGET$ } } 
 		}
 	}
 }

@@ -68,7 +68,7 @@ country_event = {
 				NOT = { has_star_flag = kuat_white_hole_star_in_system }
 			}
 			kuat_ded_contractor_create_elternal_system_warbase = yes
-			system_star = {
+			system_star? = {
 				carrier_event = { id = kuat_extramonster.111 days = 180 }
 				carrier_event = { id = kuat_extramonster.111 days = 360 }
 			}
@@ -92,12 +92,12 @@ ship_event = {
 
 	trigger = {
 		exists = event_target:kuat_contractor_support
-		from = { has_star_flag = kuat_ded_white_hole_clock }
+		from? = { has_star_flag = kuat_ded_white_hole_clock }
 	}
 
 	immediate = {
 		if = {
-			limit = { exists = owner owner = { is_kuat_contractor_faction = no } }
+			limit = { exists = owner owner? = { is_kuat_contractor_faction = no } }
 			fleet = { destroy_fleet = { target = this destroy_template = yes kill_leader = no } }
 		}
 		else = {
@@ -161,7 +161,7 @@ event = {
 				NOT = { has_star_flag = kuat_white_hole_star_in_system }
 			}
 			kuat_contractor_create_elternal_system_warbase = yes
-			system_star = { 
+			system_star? = { 
 				carrier_event = { id = kuat_extramonster.11 days = 10 }
 				carrier_event = { id = kuat_extramonster.11 days = 20 }
 			}
@@ -194,15 +194,15 @@ country_event = {
 	desc = {
 		trigger = {
 			success_text = {
-				from = { is_same_value = event_target:kuat_contractor_hostile }
+				from? = { is_same_value = event_target:kuat_contractor_hostile }
 				text = "kuat_extramonster.91.0.desc"
 			}
 			success_text = {
-				from = { is_same_value = event_target:eternal_fleet_country }
+				from? = { is_same_value = event_target:eternal_fleet_country }
 				text = "kuat_extramonster.91.1.desc"
 			}
 			success_text = {
-				from = { is_same_value = event_target:Kuat_Galatic_Empire_invasion_country }
+				from? = { is_same_value = event_target:Kuat_Galatic_Empire_invasion_country }
 				text = "kuat_extramonster.91.2.desc"
 			}
 		}
@@ -600,7 +600,7 @@ system_event = {
 		NOT = { has_star_flag = kuat_white_hole_rainforce_disable }
 	}
 	immediate = {
-		system_star = { kuat_contractor_create_retrun_invasion_fleet_detail = yes }
+		system_star? = { kuat_contractor_create_retrun_invasion_fleet_detail = yes }
 		every_country = {
 			limit = { has_event_chain = kuat_contractor_exe_invasion_chain }
 			add_event_chain_counter = { 
@@ -622,7 +622,7 @@ system_event = {
 		NOT = { has_global_flag = kuat_ded_contractor_hostile_destroyed }
 	}
 	immediate = {
-		system_star = { kuat_ded_contractor_create_retrun_invasion_fleet_detail = yes }
+		system_star? = { kuat_ded_contractor_create_retrun_invasion_fleet_detail = yes }
 		system_event = { id = kuat_extramonster.241 days = 1800 random = 720 }
 	}
 }
@@ -651,12 +651,12 @@ fleet_event = {
 		exists = owner
 		OR = {
 			AND = {
-				owner = { is_same_value = event_target:kuat_contractor_hostile }
+				owner? = { is_same_value = event_target:kuat_contractor_hostile }
 				exists = event_target:kuat_contractor_hostile
 				NOT = { has_global_flag = kuat_extramonster_ended }
 			}
 			AND = {
-				owner = { is_same_value = event_target:kuat_contractor_support }
+				owner? = { is_same_value = event_target:kuat_contractor_support }
 				exists = event_target:kuat_contractor_support
 				NOT = { has_global_flag = kuat_ded_contractor_hostile_destroyed }
 			}
@@ -664,11 +664,11 @@ fleet_event = {
 	}
 	immediate = {
 		if = {
-			limit = { exists = owner owner = { is_same_value = event_target:kuat_contractor_hostile } }
+			limit = { exists = owner owner? = { is_same_value = event_target:kuat_contractor_hostile } }
 			kuat_exe_invasion_fleet_action = { TYPE = kuat_contractor OWNER = kuat_contractor_hostile }
 		}
 		else_if = {
-			limit = { exists = owner owner = { is_same_value =  event_target:kuat_contractor_support } }
+			limit = { exists = owner owner? = { is_same_value =  event_target:kuat_contractor_support } }
 			kuat_exe_invasion_fleet_action = { TYPE = kuat_ded_contractor OWNER = kuat_contractor_support }
 		}
 	}
@@ -692,22 +692,22 @@ country_event = {
 				NOT = { has_global_flag = kuat_ded_contractor_hostile_destroyed }
 			}
 		}
-		fromfrom = { fleet = { has_fleet_flag = kuat_contractor_invasion_fleet } }
-		fromfromfrom = { OR = {
+		fromfrom? = { fleet = { has_fleet_flag = kuat_contractor_invasion_fleet } }
+		fromfromfrom? = { OR = {
 			is_ship_class = shipclass_starbase
 			is_ship_class = shipclass_military
 		} }
 	}
 	immediate = {
-		fromfrom = {
+		fromfrom? = {
 			clear_orders = yes
 			clear_fleet_actions = this
 			if = {
-				limit = { exists = owner owner = { is_same_value = event_target:kuat_contractor_hostile } }
+				limit = { exists = owner owner? = { is_same_value = event_target:kuat_contractor_hostile } }
 				kuat_exe_invasion_fleet_action = { TYPE = kuat_contractor OWNER = kuat_contractor_hostile }
 			}
 			else_if = {
-				limit = { exists = owner owner = { is_same_value =  event_target:kuat_contractor_support } }
+				limit = { exists = owner owner? = { is_same_value =  event_target:kuat_contractor_support } }
 				kuat_exe_invasion_fleet_action = { TYPE = kuat_ded_contractor OWNER = kuat_contractor_support }
 			}
 		}
@@ -732,22 +732,22 @@ country_event = {
 				NOT = { has_global_flag = kuat_ded_contractor_hostile_destroyed }
 			}
 		}
-		from = { has_fleet_flag = kuat_contractor_invasion_fleet }
-		fromfrom = { OR = {
+		from? = { has_fleet_flag = kuat_contractor_invasion_fleet }
+		fromfrom? = { OR = {
 			is_star = yes
 			NOT = { exists = owner }
 		} }
 	}
 	immediate = {
-		from = {
+		from? = {
 			clear_orders = yes
 			clear_fleet_actions = this
 			if = {
-				limit = { exists = owner owner = { is_same_value = event_target:kuat_contractor_hostile } }
+				limit = { exists = owner owner? = { is_same_value = event_target:kuat_contractor_hostile } }
 				kuat_exe_invasion_fleet_action = { TYPE = kuat_contractor OWNER = kuat_contractor_hostile }
 			}
 			else_if = {
-				limit = { exists = owner owner = { is_same_value =  event_target:kuat_contractor_support } }
+				limit = { exists = owner owner? = { is_same_value =  event_target:kuat_contractor_support } }
 				kuat_exe_invasion_fleet_action = { TYPE = kuat_ded_contractor OWNER = kuat_contractor_support }
 			}
 		}
@@ -763,18 +763,18 @@ fleet_event = {
 		exists = owner
 		OR = {
 			AND = {
-				owner = { is_same_value = event_target:kuat_contractor_hostile }
+				owner? = { is_same_value = event_target:kuat_contractor_hostile }
 				exists = event_target:kuat_contractor_hostile
 				NOT = { has_global_flag = kuat_extramonster_ended }
 			}
 			AND = {
-				owner = { is_same_value = event_target:kuat_contractor_support }
+				owner? = { is_same_value = event_target:kuat_contractor_support }
 				exists = event_target:kuat_contractor_support
 				NOT = { has_global_flag = kuat_ded_contractor_hostile_destroyed }
 			}
 		}
 		has_fleet_flag = kuat_contractor_invasion_fleet
-		from = {
+		from? = {
 			NOR = {
 				kuat_is_kuat_system = yes
 				has_star_flag = kuat_military_core_home
@@ -789,9 +789,9 @@ fleet_event = {
 	immediate = {
 		clear_orders = yes
 		clear_fleet_actions = this
-		from = {
+		from? = {
 			random_neighbor_system = {
-				system_star = { root = { auto_move_to_planet = { target = prev clear_auto_move_on_arrival = yes } } }
+				system_star? = { root? = { auto_move_to_planet = { target = prev clear_auto_move_on_arrival = yes } } }
 			}
 		}
 	}
@@ -817,7 +817,7 @@ event = {
 							orbit = {
 								NOT = { is_star = yes }
 								exists = owner
-								owner = { is_hostile = event_target:kuat_contractor_hostile }
+								owner? = { is_hostile = event_target:kuat_contractor_hostile }
 							}
 						}
 					}
@@ -836,7 +836,7 @@ event = {
 							orbit = {
 								NOT = { is_star = yes }
 								exists = owner
-								owner = { is_hostile = event_target:kuat_contractor_support }
+								owner? = { is_hostile = event_target:kuat_contractor_support }
 							}
 						}
 					}
@@ -858,7 +858,7 @@ event = {
 							orbit = {
 								NOT = { is_star = yes }
 								exists = owner
-								owner = { is_hostile = event_target:kuat_contractor_hostile }
+								owner? = { is_hostile = event_target:kuat_contractor_hostile }
 							}
 						}
 					}
@@ -881,7 +881,7 @@ event = {
 							orbit = {
 								NOT = { is_star = yes }
 								exists = owner
-								owner = { is_hostile = event_target:kuat_contractor_support }
+								owner? = { is_hostile = event_target:kuat_contractor_support }
 							}
 						}
 					}
@@ -904,12 +904,12 @@ carrier_event = {
 		has_global_flag = kuat_extramonster_begin
 		NOT = { has_global_flag = kuat_extramonster_ended }
 		planet_devastation = 100
-		from = { is_kuat_contractor_faction = yes }
+		from? = { is_kuat_contractor_faction = yes }
 	}
 	immediate = { 
 		if = {
 			limit = { exists = owner }
-			owner = { country_event = { id = kuat_extramonster.34 } } 
+			owner? = { country_event = { id = kuat_extramonster.34 } } 
 		}
 		kuat_destroy_colony = { PC = pc_shattered }
 		every_country = {
@@ -920,7 +920,7 @@ carrier_event = {
 			add_event_chain_counter = { event_chain = kuat_contractor_exe_invasion_chain counter = kuat_contractor_exe_invasion_planet_destroyed amount = 1 }
 		}
 		if = {
-			limit = { from = { count_owned_fleet = { limit = { has_fleet_flag = kuat_contractor_invasion_fleet } count < 24 } } }
+			limit = { from? = { count_owned_fleet = { limit = { has_fleet_flag = kuat_contractor_invasion_fleet } count < 24 } } }
 			carrier_event = { id = kuat_extramonster.11 }
 		}
 	}
@@ -950,7 +950,7 @@ country_event = {
 		is_kuat_contractor_faction = yes
 	}
 	immediate = {
-		from = {
+		from? = {
 			if = {
 				limit = { has_event_chain = kuat_contractor_exe_invasion_chain }
 				add_event_chain_counter = { event_chain = kuat_contractor_exe_invasion_chain counter = kuat_contractor_exe_invasion_ship_kill_by_us amount = 1 }
@@ -974,7 +974,7 @@ country_event = {
 	trigger = {
 		has_global_flag = kuat_extramonster_begin
 		is_kuat_contractor_faction = yes
-		from = { NOT = { is_kuat_contractor_faction = yes } }
+		from? = { NOT = { is_kuat_contractor_faction = yes } }
 	}
 	immediate = {
 		every_country = {
@@ -984,7 +984,7 @@ country_event = {
 			}
 			add_event_chain_counter = { event_chain = kuat_contractor_exe_invasion_chain counter = kuat_contractor_exe_invasion_victim amount = 1 }
 		}
-		from = { change_variable = { which = eternal_bornus_var value = 1 } }
+		from? = { change_variable = { which = eternal_bornus_var value = 1 } }
 	}
 }
 
@@ -995,11 +995,11 @@ country_event = {
 	is_triggered_only = yes
 	trigger = {
 		has_global_flag = kuat_extramonster_begin
-		from = { is_kuat_contractor_faction = yes }
-		fromfromfrom = { has_fleet_flag = kuat_contractor_invasion_fleet }
+		from? = { is_kuat_contractor_faction = yes }
+		fromfromfrom? = { has_fleet_flag = kuat_contractor_invasion_fleet }
 	}
 	immediate = {
-		fromfromfrom = { if = {
+		fromfromfrom? = { if = {
 			limit = { NOT = { has_fleet_flag = fire_only_once_temple } }
 			set_timed_fleet_flag = { flag = fire_only_once_temple days = 1 }
 			every_country = {
@@ -1102,37 +1102,37 @@ situation_event = {
 		if = {
 			limit = { check_variable = { which = situation_white_hole_system_disable_count value = 1 } }
 			set_global_flag = kuat_white_hole_star_enable_1
-			owner = { country_event = { id = kuat_extramonster.33 } }
+			owner? = { country_event = { id = kuat_extramonster.33 } }
 		}
 		else_if = {
 			limit = { check_variable = { which = situation_white_hole_system_disable_count value = 2 } }
 			set_global_flag = kuat_white_hole_star_enable_2
-			owner = { country_event = { id = kuat_extramonster.331 } }
+			owner? = { country_event = { id = kuat_extramonster.331 } }
 		}
 		else_if = {
 			limit = { check_variable = { which = situation_white_hole_system_disable_count value = 3 } }
 			set_global_flag = kuat_white_hole_star_enable_3
-			owner = { country_event = { id = kuat_extramonster.332 } }
+			owner? = { country_event = { id = kuat_extramonster.332 } }
 		}
 		else_if = {
 			limit = { check_variable = { which = situation_white_hole_system_disable_count value = 4 } }
 			set_global_flag = kuat_white_hole_star_enable_4
-			owner = { country_event = { id = kuat_extramonster.333 } }
+			owner? = { country_event = { id = kuat_extramonster.333 } }
 		}
 		else_if = {
 			limit = { check_variable = { which = situation_white_hole_system_disable_count value = 5 } }
 			set_global_flag = kuat_white_hole_star_enable_5
-			owner = { country_event = { id = kuat_extramonster.334 } }
+			owner? = { country_event = { id = kuat_extramonster.334 } }
 		}
 		else_if = {
 			limit = { check_variable = { which = situation_white_hole_system_disable_count value = 6 } }
 			set_global_flag = kuat_white_hole_star_enable_6
-			owner = { country_event = { id = kuat_extramonster.335 } }
+			owner? = { country_event = { id = kuat_extramonster.335 } }
 		}
 		else_if = {
 			limit = { check_variable = { which = situation_white_hole_system_disable_count value > 6 } }
 			set_global_flag = kuat_white_hole_star_enable_infinite
-			owner = { country_event = { id = kuat_extramonster.335 } }
+			owner? = { country_event = { id = kuat_extramonster.335 } }
 		}
 	}
 	option = {
@@ -1431,23 +1431,23 @@ ship_event = {
 	is_triggered_only = yes
 	trigger = {
 		exists = owner
-		owner = { kuat_is_player_country = yes }
+		owner? = { kuat_is_player_country = yes }
 		has_global_flag = kuat_extramonster_begin
 		NOT = { has_global_flag = kuat_extramonster_ended }
 		exists = solar_system
-		solar_system = {
+		solar_system? = {
 			has_star_flag = kuat_white_hole_star
 			NOT = { has_star_flag = kuat_white_hole_rainforce_disable }
 		}
 	}
 	immediate = {
-		solar_system = {
+		solar_system? = {
 			set_star_class = sc_black_hole
 			create_kuat_starbase_special_expolde_boom = yes
 			every_fleet_in_system = {
 				limit = { 
 					exists = owner 
-					owner = { NOT = { is_same_value = root.owner } } 
+					owner? = { NOT = { is_same_value = root.owner } } 
 				}
 				foa_scripted_action_destroy_fleet = {
 					perp_scope = root.owner
@@ -1482,7 +1482,7 @@ ship_event = {
 			star = { change_pc = pc_black_hole }
 			set_star_flag = kuat_white_hole_rainforce_disable
 		}
-		owner = {
+		owner? = {
 			if = {
 				limit = { NOT = { is_variable_set = kuat_white_hole_star_enable } }
 				remove_point_of_interest = sc_kuat_white_hole.1
@@ -1509,7 +1509,7 @@ ship_event = {
 			}
 			else = { remove_point_of_interest = sc_kuat_white_hole.6 }
 		}
-		owner = {
+		owner? = {
 			change_variable = { which = kuat_white_hole_star_enable value = 1 }
 			country_event = { id = kuat_extramonster.39 }
 		}
@@ -1628,7 +1628,7 @@ country_event = {
 		trigger = { check_variable = { which = kuat_white_hole_star_enable value > 5 } }
 		hidden_effect = { 
 			set_spawn_system_batch = begin
-			root.capital_scope = { solar_system = {
+			root.capital_scope? = { solar_system? = {
 				spawn_system = { initializer = kuat_white_hole_system_7 min_distance >= 15 max_distance <= 45 }
 			}}
 			event_target:kuat_white_hole_system_7 = {
@@ -1676,8 +1676,8 @@ country_event = {
 	is_triggered_only = yes
 	trigger = {
 		has_global_flag = kuat_extramonster_begin
-		from = { is_kuat_contractor_faction = yes }
-		fromfromfrom = {
+		from? = { is_kuat_contractor_faction = yes }
+		fromfromfrom? = {
 			has_ship_flag = kuat_contractor_super_capital_fleet
 		}
 	}
@@ -1744,11 +1744,11 @@ country_event = {
 	is_triggered_only = yes
 	trigger = {
 		has_global_flag = kuat_extramonster_begin
-		from = { is_kuat_contractor_faction = yes }
-		fromfromfrom = { 
+		from? = { is_kuat_contractor_faction = yes }
+		fromfromfrom? = { 
 			has_ship_flag = kuat_contractor_capital_fleet
 			exists = solar_system
-			solar_system = {
+			solar_system? = {
 				has_star_flag = kuat_white_hole_star
 				NOR = { 
 					has_star_flag = kuat_white_hole_star_final
@@ -1767,7 +1767,7 @@ country_event = {
 			set_timed_country_flag = { flag = trigger_ended_event_temple days = 1 }
 			country_event = { id = kuat_extramonster.302 }
 		}
-		fromfromfrom.solar_system = { 
+		fromfromfrom.solar_system? = { 
 			set_star_flag = kuat_white_hole_rainforce_attack_active 
 			create_kuat_starbase_expolde_boom = yes
 		}
@@ -1804,11 +1804,11 @@ country_event = {
 	hide_window = yes
 	is_triggered_only = yes
 	trigger = {
-		from = { is_kuat_contractor_faction = yes }
-		fromfromfrom = {
+		from? = { is_kuat_contractor_faction = yes }
+		fromfromfrom? = {
 			has_ship_flag = kuat_ded_contractor_capital_fleet
 			exists = solar_system
-			solar_system = { has_star_flag = kuat_ded_white_hole_star }
+			solar_system? = { has_star_flag = kuat_ded_white_hole_star }
 		}
 	}
 	immediate = {
@@ -1821,7 +1821,7 @@ country_event = {
 			country_event = { id = kuat_extramonster.3021 }
 		}
 		event_target:global_event_country = { subtract_variable = { which = kuat_ded_white_hole_var value = 1 } }
-		fromfromfrom.solar_system = { 
+		fromfromfrom.solar_system? = { 
 			set_star_flag = kuat_ded_white_hole_star_rainforce_dsiable 
 			create_kuat_starbase_expolde_boom =  yes
 		}
@@ -1885,7 +1885,7 @@ country_event = {
 	is_triggered_only = yes
 	trigger = {
 		has_global_flag = kuat_extramonster_begin
-		from = {
+		from? = {
 			is_kuat_contractor_faction = yes
 			count_owned_fleet = {
 				limit = { 
@@ -1895,7 +1895,7 @@ country_event = {
 				count = 0
 			}
 		}
-		fromfromfrom = { has_fleet_flag = kuat_contractor_invasion_fleet }
+		fromfromfrom? = { has_fleet_flag = kuat_contractor_invasion_fleet }
 		has_global_flag = kuat_extra_contractor_wined_target
 	}
 	immediate = {
@@ -1910,7 +1910,7 @@ country_event = {
 		add_threat = { who = root amount = 50 }
 		set_global_flag = kuat_extramonster_ended
 		stop_crisis_sound = yes
-		from = { destroy_country = yes }
+		from? = { destroy_country = yes }
 	}
 }
 country_event = {
@@ -1918,11 +1918,11 @@ country_event = {
 	hide_window = yes
 	is_triggered_only = yes
 	trigger = {
-		from = { is_kuat_contractor_faction = yes }
-		fromfromfrom = {
+		from? = { is_kuat_contractor_faction = yes }
+		fromfromfrom? = {
 			has_ship_flag = kuat_ded_contractor_super_capital_fleet
 			exists = solar_system
-			solar_system = { has_star_flag = myst_system_5 }
+			solar_system? = { has_star_flag = myst_system_5 }
 		}
 	}
 	immediate = {
@@ -1977,22 +1977,22 @@ country_event = {
 	is_triggered_only = yes
 	trigger = {
 		has_global_flag = kuat_extramonster_begin
-		from = { is_kuat_contractor_faction = yes }
-		fromfromfrom = {
+		from? = { is_kuat_contractor_faction = yes }
+		fromfromfrom? = {
 			is_ship_size = Drift_megastructure_starbase
 			NOT = { has_fleet_flag = kuat_enable_bossbar }
 			exists = event_target:kuat_white_hole_system_7
-			solar_system = { is_same_value = event_target:kuat_white_hole_system_7 }
+			solar_system? = { is_same_value = event_target:kuat_white_hole_system_7 }
 		}
 		NOT = { has_global_flag = kuat_set_forcetrigger_order_enable_crisis_eve_system }
 	}
 	immediate = {
-		fromfromfrom = {
+		fromfromfrom? = {
 			set_fleet_flag = kuat_enable_bossbar
 			random_owned_ship = {
 				limit = { is_ship_size = Drift_megastructure_starbase }
 				save_global_event_target_as = is_kuat_boss
-				prevprev = { country_event = { id =  kuat_extramonster.400 scopes = { from = event_target:is_kuat_boss } } }
+				prevprev? = { country_event = { id =  kuat_extramonster.400 scopes = { from = event_target:is_kuat_boss } } }
 			}
 		}
 	}
@@ -2108,7 +2108,7 @@ country_event = {
 					has_star_flag = kuat_ded_white_hole_star
 					NOT = { has_star_flag = kuat_ded_white_hole_star_rainforce_dsiable }
 				}
-				system_star = { kuat_ded_contractor_create_retrun_invasion_fleet_detail = yes }
+				system_star? = { kuat_ded_contractor_create_retrun_invasion_fleet_detail = yes }
 				system_event = { id = kuat_extramonster.241 days = 360 random = 720 }
 			}
 			every_galaxy_fleet = {
@@ -2357,7 +2357,7 @@ country_event = {
 	abort_trigger = { OR = {
 		NOT = { exists = from }
 		NOT = { exists = event_target:is_kuat_boss }
-		from = { NOT = { is_same_value = event_target:is_kuat_boss } }
+		from? = { NOT = { is_same_value = event_target:is_kuat_boss } }
 		AND = {
 			exists = event_target:is_kuat_boss
 			event_target:is_kuat_boss = { OR = { is_in_combat = no has_hp <= 0 } }

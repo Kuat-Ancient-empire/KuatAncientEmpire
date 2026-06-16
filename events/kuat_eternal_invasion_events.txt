@@ -171,7 +171,7 @@ country_event = {
 				is_fallen_empire = yes 
 				has_communications = root
 			}
-			root = { country_event = { 
+			root? = { country_event = { 
 				id = kuat_fallen_mission_reaction.5 
 				days = 1 random = 2 
 				scopes = { from = prev } 
@@ -249,7 +249,7 @@ event = {
 		set_global_flag = eternal_fleet_debug_check
 		random_system = {
 			limit = { has_star_flag = Kuat_system }
-			system_star = {
+			system_star? = {
 				carrier_event = { id = exe_invasion.11 days = 30 }
 				carrier_event = { id = exe_invasion.11 days = 40 }
 				carrier_event = { id = exe_invasion.11 days = 50 }
@@ -301,7 +301,7 @@ event = {
 						has_star_flag = lcluster
 						AND = {
 							exists = space_owner
-							space_owner = {
+							space_owner? = {
 								is_country_type = fallen_empire
 								is_country_type = awakened_fallen_empire
 								is_ai = no
@@ -310,7 +310,7 @@ event = {
 						any_neighbor_system = { OR = {
 							AND = {
 								exists = space_owner
-								space_owner = { OR = {
+								space_owner? = { OR = {
 									is_country_type = fallen_empire
 									is_country_type = awakened_fallen_empire
 									is_ai = no
@@ -332,7 +332,7 @@ event = {
 					has_star_flag = lcluster
 					AND = {
 						exists = space_owner
-						space_owner = {
+						space_owner? = {
 							is_country_type = fallen_empire
 							is_country_type = awakened_fallen_empire
 							is_ai = no
@@ -351,7 +351,7 @@ event = {
 					has_star_flag = lcluster
 					AND = {
 						exists = space_owner
-						space_owner = { is_ai = no }
+						space_owner? = { is_ai = no }
 					}
 				} }
 				save_event_target_as = exe_invasion_outer_gate_spawn_system
@@ -531,7 +531,7 @@ fleet_event = {
 
 	trigger = { 
 		exists = owner
-		owner = { is_invisable_faction = no }
+		owner? = { is_invisable_faction = no }
 		has_global_flag = exe_invasion_begin
 		OR = {
 			is_ship_class = shipclass_military
@@ -541,7 +541,7 @@ fleet_event = {
 			has_global_flag = exe_invasion_ended 
 			has_global_flag = kuat_set_forcetrigger_order_enable_crisis_eve_system
 		}
-		from = { has_star_flag = Kuat_empire_system }
+		from? = { has_star_flag = Kuat_empire_system }
 	}
 
 	option = {
@@ -549,8 +549,8 @@ fleet_event = {
 		hidden_effect = {  
 			if = {
 				limit = { 
-					exists = owner owner = { is_ai = no } 
-					solar_system = { is_capital_system = no } 
+					exists = owner owner? = { is_ai = no } 
+					solar_system? = { is_capital_system = no } 
 				}
 				set_location = owner.capital_star
 			}
@@ -578,13 +578,13 @@ country_event = {
 	trigger = {
 		has_global_flag = exe_invasion_begin
 		NOT = { has_global_flag = exe_return_invasion_begin }
-		fromfromfrom = {
+		fromfromfrom? = {
 			is_ship_size = exe_megastructure_starbase
-			solar_system = { has_star_flag = eternal_starbase_megastructure_in_system }
+			solar_system? = { has_star_flag = eternal_starbase_megastructure_in_system }
 		}
 	}
 	immediate = {
-		fromfromfrom.solar_system = {
+		fromfromfrom.solar_system? = {
 			remove_star_flag = eternal_starbase_megastructure_in_system
 			set_star_class = sc_black_hole
 			create_kuat_starbase_expolde_boom = yes
@@ -634,7 +634,7 @@ country_event = {
 			}
 			random_system = {
 				limit = { has_star_flag = Kuat_system }
-				system_star = { create_exe_invasion_fleet_detail = yes }
+				system_star? = { create_exe_invasion_fleet_detail = yes }
 			}
 			every_country = {
 				limit = { has_event_chain = ag_exe_invasion_chain }
@@ -667,8 +667,8 @@ country_event = {
 		has_global_flag = exe_invasion_begin
 		NOT = { has_global_flag = exe_invasion_ended }
 		is_eternal_faction = yes
-		fromfrom = { fleet = { has_fleet_flag = ag_kuat_invasion_fleet } }
-		fromfromfrom = {
+		fromfrom? = { fleet = { has_fleet_flag = ag_kuat_invasion_fleet } }
+		fromfromfrom? = {
 			OR = {
 				is_ship_class = shipclass_starbase
 				is_ship_class = shipclass_military
@@ -676,7 +676,7 @@ country_event = {
 		}
 	}
 	immediate = {
-		fromfrom = {
+		fromfrom? = {
 			clear_orders = yes
 			clear_fleet_actions = this
 			kuat_exe_invasion_fleet_action = { TYPE = ag_kuat OWNER = eternal_fleet_country }
@@ -693,11 +693,11 @@ country_event = {
 		has_global_flag = exe_invasion_begin
 		NOT = { has_global_flag = exe_invasion_ended }
 		is_eternal_faction = yes
-		from = { has_fleet_flag = ag_kuat_invasion_fleet }
-		fromfrom = { OR = { is_star = yes NOT = { exists = owner } } }
+		from? = { has_fleet_flag = ag_kuat_invasion_fleet }
+		fromfrom? = { OR = { is_star = yes NOT = { exists = owner } } }
 	}
 	immediate = {
-		from = {
+		from? = {
 			clear_orders = yes
 			clear_fleet_actions = this
 			kuat_exe_invasion_fleet_action = { TYPE = ag_kuat OWNER = eternal_fleet_country }
@@ -714,7 +714,7 @@ fleet_event = {
 		has_global_flag = exe_invasion_begin
 		NOT = { has_global_flag = exe_invasion_ended }
 		has_fleet_flag = ag_kuat_invasion_fleet
-		from = {
+		from? = {
 			NOR = {
 				kuat_is_kuat_system = yes
 				has_star_flag = kuat_military_core_home
@@ -729,8 +729,8 @@ fleet_event = {
 	immediate = {
 		clear_orders = yes
 		clear_fleet_actions = this
-		from = { random_neighbor_system = {
-			system_star = { root = { auto_move_to_planet = {
+		from? = { random_neighbor_system = {
+			system_star? = { root? = { auto_move_to_planet = {
 				target = prev
 				clear_auto_move_on_arrival = yes
 			} } }
@@ -757,9 +757,9 @@ event = {
 					orbit = {
 						NOT = { is_star = yes }
 						exists = owner
-						owner = { is_hostile = event_target:eternal_fleet_country }
+						owner? = { is_hostile = event_target:eternal_fleet_country }
 						exists = controller
-						controller = { is_hostile = event_target:eternal_fleet_country }
+						controller? = { is_hostile = event_target:eternal_fleet_country }
 					}
 				}
 			}
@@ -777,9 +777,9 @@ event = {
 						orbit = {
 							NOT = { is_star = yes }
 							exists = owner
-							owner = { is_hostile = event_target:eternal_fleet_country }
+							owner? = { is_hostile = event_target:eternal_fleet_country }
 							exists = controller
-							controller = { is_hostile = event_target:eternal_fleet_country }
+							controller? = { is_hostile = event_target:eternal_fleet_country }
 						}
 					}
 				}
@@ -801,12 +801,12 @@ carrier_event = {
 		has_global_flag = exe_invasion_begin
 		NOT = { has_global_flag = exe_invasion_ended }
 		planet_devastation = 100
-		from = { is_eternal_faction = yes }
+		from? = { is_eternal_faction = yes }
 	}
 	immediate = {
 		if = {
 			limit = { exists = owner }
-			owner = { country_event = { id = exe_invasion.34 } }
+			owner? = { country_event = { id = exe_invasion.34 } }
 		}
 		kuat_destroy_colony = { PC = pc_broken }
 		every_country = {
@@ -820,11 +820,11 @@ carrier_event = {
 				amount = 1
 			}
 		}
-		solar_system = {
+		solar_system? = {
 			every_fleet_in_system = {
 				limit = {
 					exists = owner
-					owner = { is_eternal_faction = yes }
+					owner? = { is_eternal_faction = yes }
 					has_fleet_flag = ag_kuat_invasion_fleet
 					OR = {
 						AND = { exists = orbit orbit = { is_same_value = root } }
@@ -835,7 +835,7 @@ carrier_event = {
 								orbit = {
 									NOT = { is_star = yes }
 									exists = owner
-									owner = { is_hostile = event_target:eternal_fleet_country }
+									owner? = { is_hostile = event_target:eternal_fleet_country }
 								}
 							}
 						}
@@ -853,19 +853,19 @@ country_event = {
 	id = exe_invasion.34
 	title = "exe_invasion.21.name"
 	desc = {
-		trigger = { from = { kuat_is_event_borderment_ringworld = no } }
+		trigger = { from? = { kuat_is_event_borderment_ringworld = no } }
 		text = "exe_invasion.21.a.desc"
 	}
 	desc = {
-		trigger = { from = { is_ringworld = yes } }
+		trigger = { from? = { is_ringworld = yes } }
 		text = "exe_invasion.21.b.desc"
 	}
 	desc = {
-		trigger = { from = { is_planet_class = pc_habitat } }
+		trigger = { from? = { is_planet_class = pc_habitat } }
 		text = "exe_invasion.21.c.desc"
 	}
 	desc = {
-		trigger = { from = { kuat_is_holy_world_planet = yes } }
+		trigger = { from? = { kuat_is_holy_world_planet = yes } }
 		text = "exe_invasion.21.d.desc"
 	}
 	diplomatic = yes
@@ -887,7 +887,7 @@ country_event = {
 		is_eternal_faction = yes
 	}
 	immediate = {
-		from = {
+		from? = {
 			add_event_chain_counter = {
 				event_chain = ag_exe_invasion_chain
 				counter = ag_exe_invasion_ship_kill_by_us
@@ -916,7 +916,7 @@ country_event = {
 	trigger = {
 		NOT = { has_global_flag = exe_return_invasion_begin }
 		is_eternal_faction = yes
-		from = { is_eternal_faction = no }
+		from? = { is_eternal_faction = no }
 	}
 	immediate = {
 		every_country = {
@@ -940,11 +940,11 @@ country_event = {
 	is_triggered_only = yes
 	trigger = {
 		NOT = { has_global_flag = exe_return_invasion_begin }
-		from = { is_eternal_faction = yes }
-		fromfromfrom = { has_fleet_flag = ag_kuat_invasion_fleet }
+		from? = { is_eternal_faction = yes }
+		fromfromfrom? = { has_fleet_flag = ag_kuat_invasion_fleet }
 	}
 	immediate = {
-		fromfromfrom = { if = {
+		fromfromfrom? = { if = {
 			limit = { NOT = { has_fleet_flag = fire_only_once_temple } }
 			set_timed_fleet_flag = { flag = fire_only_once_temple days = 1 }
 			every_country = {
@@ -963,7 +963,7 @@ country_event = {
 	is_triggered_only = yes
 	trigger = {
 		NOT = { has_global_flag = exe_return_invasion_begin }
-		from = {
+		from? = {
 			is_eternal_faction = yes
 			count_owned_fleet = {
 				limit = {
@@ -973,7 +973,7 @@ country_event = {
 				count = 0
 			}
 		}
-		fromfromfrom = { has_fleet_flag = ag_kuat_invasion_fleet }
+		fromfromfrom? = { has_fleet_flag = ag_kuat_invasion_fleet }
 		has_global_flag = kuat_eternal_invasion_can_win_the_fleet
 		event_target:global_event_country = { check_variable = { which = var_eternal_fleet_defeated value >= 16 } }
 	}
@@ -1021,7 +1021,7 @@ country_event = {
 		remove_global_flag = eternal_fleet_debug_check
 		remove_global_flag = ai_fighting_with_player_against_eternal
 		stop_crisis_sound = yes
-		from = { destroy_country = yes }
+		from? = { destroy_country = yes }
 	}
 }
 
@@ -1039,7 +1039,7 @@ country_event = {
 	show_sound = event_space_battle
 	is_triggered_only = yes
 	immediate = { if = {
-		limit = { from = { is_ai = no } }
+		limit = { from? = { is_ai = no } }
 		random_country = {
 			limit = { is_ai = no }
 			if = {
@@ -1194,7 +1194,7 @@ ship_event = {
 	trigger = { exists = event_target:exe_outer_gate_to_lock }
 	immediate = {
 		event_target:exe_outer_gate_to_lock = {
-			solar_system = { spawn_megastructure = {
+			solar_system? = { spawn_megastructure = {
 				type = exe_outer_gate_locked
 				coords_from = prev
 			} }
@@ -1287,7 +1287,7 @@ country_event = {
 	}
 	option = { 
 		name = exe_invasion.1003.a 
-		hidden_effect = { capital_scope = { carrier_event = { id = kuat_situation.9999 } } }
+		hidden_effect = { capital_scope? = { carrier_event = { id = kuat_situation.9999 } } }
 	}
 }
 
@@ -1400,14 +1400,14 @@ country_event = {
 	is_triggered_only = yes
 	trigger = {
 		exists = fromfrom
-		fromfrom = {
+		fromfrom? = {
 			NOT = { has_fleet_flag = kuat_fleet_checkpoint }
 			kuat_fleet_anyone_has_validable_flagship_system = yes
 			kuat_fleet_anyone_not_has_validable_flagship_system = yes
 		} 
 	}
 	immediate = {
-		fromfrom = {  
+		fromfrom? = {  
 			# flagship tag
 			if = {
 				limit = { kuat_fleet_is_flagship_size = { SIZE = Drift_Flagship } }
@@ -1522,10 +1522,10 @@ country_event = {
 	is_triggered_only = yes
 	trigger = {
 		exists = fromfromfrom
-		fromfromfrom = { has_ship_flag = kuat_battle_disable_ship_at_health }
+		fromfromfrom? = { has_ship_flag = kuat_battle_disable_ship_at_health }
 	}
 	immediate = { if = { limit = { exists = fromfromfrom }
-		fromfromfrom = {
+		fromfromfrom? = {
 			save_event_target_as = kuat_battle_disable_ship_at_health_ship
 			if = { 
 				limit = { is_ship_class = shipclass_military }
@@ -1541,7 +1541,7 @@ country_event = {
 			}
 			else_if = {
 				limit = { is_ship_class = shipclass_starbase }
-				root.from = {
+				root.from? = {
 					create_fleet = {
 						name = event_target:kuat_battle_disable_ship_at_health_ship.fleet
 						settings = { spawn_debris = no can_disband = no }
@@ -1575,9 +1575,9 @@ ship_event = {
 		if = {
 			limit = { 
 				is_in_combat = yes 
-				solar_system = { any_fleet_in_system = {
+				solar_system? = { any_fleet_in_system = {
 					kuat_fleet_anyone_has_validable_standard_flagship_system = yes
-					exists = owner owner = { is_same_value = prevprevprev.owner } 
+					exists = owner owner? = { is_same_value = prevprevprev.owner } 
 				} } 
 			}
 			repair_ship = yes 
@@ -1598,18 +1598,18 @@ country_event = {
 	is_triggered_only = yes
 	trigger = {
 		kuat_is_player_country = yes
-		fromfrom = { 
+		fromfrom? = { 
 			any_owned_ship = { kuat_fleet_is_starbase = yes }
 			exists = solar_system
-			solar_system = { any_fleet_in_system = {
+			solar_system? = { any_fleet_in_system = {
 				kuat_fleet_anyone_has_validable_standard_flagship_system = yes
-				exists = owner owner = { is_same_value = prevprevprev.owner } 
+				exists = owner owner? = { is_same_value = prevprevprev.owner } 
 			} } 
 		}
 		NOT = { has_global_flag = kuat_set_forcetrigger_order_enable_crisis_eve_system }
 	}
 	immediate = {
-		fromfrom = {  
+		fromfrom? = {  
 			random_owned_ship = {
 				limit = { kuat_fleet_is_starbase = yes }
 				kuat_battle_eternal_increase_executor_hp_power = { DAYS = -1 }
@@ -1628,7 +1628,7 @@ ship_event = {
 	trigger = { OR = {
 		AND = { 
 			exists = from.owner
-			from.owner = { is_invisable_faction = yes } 
+			from.owner? = { is_invisable_faction = yes } 
 			is_ship_class = shipclass_habitat_station 
 		}
 		has_ship_flag = kuat_battle_disable_ship_at_health
@@ -1637,7 +1637,7 @@ ship_event = {
 		if = {
 			limit = { 
 				exists = from.owner
-				from.owner = { is_invisable_faction = yes } 
+				from.owner? = { is_invisable_faction = yes } 
 				is_ship_class = shipclass_habitat_station 
 			}
 			kuat_battle_kuat_remove_starbase_station = yes
@@ -1698,8 +1698,8 @@ country_event = {
 	is_triggered_only = yes
 	trigger = { 
 		is_invisable_faction = yes 
-		fromfrom = { NAND = { 
-			root = { OR = { 
+		fromfrom? = { NAND = { 
+			root? = { OR = { 
 				is_eternal_faction = yes 
 				is_first_galatic_empire_faction = yes 
 			} } 
@@ -1710,7 +1710,7 @@ country_event = {
 		if = {
 			limit = { 
 				is_infinite_faction = yes 
-				fromfrom = { 
+				fromfrom? = { 
 					OR = {
 						has_fleet_flag = Kuat_Rakata_crisis_fleet_and_admiral
 						has_fleet_flag = Kuat_Rakata_crisis_greater_fleet
@@ -1726,27 +1726,27 @@ country_event = {
 				has_global_flag = kuat_non_legacy_trigger_eternal_return
 				has_global_flag = kuat_none_legacy_1_router_eternal_return
 			} }
-			fromfromfrom = { every_owned_ship = {
+			fromfromfrom? = { every_owned_ship = {
 				limit = { NOT = { has_ship_flag = kuat_runing_kuat_non_legacy_trigger_eternal_return } }
 				set_ship_flag = kuat_runing_kuat_non_legacy_trigger_eternal_return
 				kuat_battle_clear_ship_repeatable_modifier = { multiply = -12 DAYS = 360 }
 			}  }
 		}
 		#旗舰标识
-		fromfromfrom = { kuat_battle_flagship_intial = yes }
+		fromfromfrom? = { kuat_battle_flagship_intial = yes }
 		#动态引入
 		if = {
 			limit = { is_invisable_faction = yes }
-			fromfrom = { if = {  
+			fromfrom? = { if = {  
 				limit = { NOT = { has_fleet_flag = is_modifiering_fleet } }
 				set_fleet_flag = is_modifiering_fleet
 				fleet_event = { id = exe_invasion.144 }
 			} }
 			if = {
-				limit = { from = { is_invisable_faction = no } }
-				fromfromfrom = { if = {
+				limit = { from? = { is_invisable_faction = no } }
+				fromfromfrom? = { if = {
 					limit = {
-						ROOT = { is_invisable_faction = yes }
+						ROOT? = { is_invisable_faction = yes }
 						NOT = { has_fleet_flag = is_modifiering_fleet }
 					}
 					set_fleet_flag = is_modifiering_fleet
@@ -1757,7 +1757,7 @@ country_event = {
 		#补给区
 		if = {
 			limit = { 
-				fromfrom = { OR = {
+				fromfrom? = { OR = {
 					is_ship_class = shipclass_military
 					is_ship_class = shipclass_starbase
 				} }
@@ -1765,8 +1765,8 @@ country_event = {
 					has_global_flag = difficult_exe_invasion
 					has_global_flag = ban_exe_invasion
 				}
-				from = { is_invisable_faction = no }
-				fromfromfrom = { is_ship_class = shipclass_military }
+				from? = { is_invisable_faction = no }
+				fromfromfrom? = { is_ship_class = shipclass_military }
 				NOT = { has_global_flag = kuat_set_forcetrigger_order_enable_crisis_eve_system }
 			}
 			country_event = {
@@ -1782,19 +1782,19 @@ country_event = {
 	hide_window = yes
 	is_triggered_only = yes
 	immediate = {
-		fromfromfrom = { if = {
+		fromfromfrom? = { if = {
 			limit = { NOT = { has_fleet_flag = random_list_flagship_checksum_placeholder } }
 			if = {
 				limit = { 
 					kuat_fleet_anyone_has_validable_flagship_system = yes
 					exists = solar_system
-					solar_system = { has_kuat_support_modifier_star_flag = yes }
+					solar_system? = { has_kuat_support_modifier_star_flag = yes }
 				}
 				#初始化检查
-				solar_system = { if = {
+				solar_system? = { if = {
 					limit = { NOT = { is_variable_set = kuat_support_battle_add_variable } }
 					set_variable = { which = kuat_support_battle_add_variable value = value:kuat_system_support_variable } 
-					prev = { 
+					prev? = { 
 						every_owned_ship = { kuat_battle_remove_repetable_modifier_iep = yes }
 						kuat_battle_kuat_star_flagship_base_fleet_clear_calculation = { ID = 1 }
 						kuat_battle_kuat_star_flagship_base_fleet_clear_calculation = { ID = 2 }
@@ -1808,8 +1808,8 @@ country_event = {
 			else = {  
 				if = {
 					limit = { 
-						exists = owner owner = { is_ai = no } 
-						solar_system = { is_capital_system = no } 
+						exists = owner owner? = { is_ai = no } 
+						solar_system? = { is_capital_system = no } 
 					}
 					set_location = owner.capital_star
 				}
@@ -1828,8 +1828,8 @@ country_event = {
 	id = exe_invasion.146
 	hide_window = yes
 	is_triggered_only = yes
-	trigger = { fromfrom = { kuat_ship_is_flagship = yes } }
-	immediate = { fromfrom = { 
+	trigger = { fromfrom? = { kuat_ship_is_flagship = yes } }
+	immediate = { fromfrom? = { 
 		if = {
 			limit = { 
 				is_ship_size = Drift_Flagship
@@ -1947,10 +1947,10 @@ country_event = {
 	trigger = {
 		has_global_flag = kuat_impulse_mod_settings
 		is_invisable_faction = yes
-		from = { is_invisable_faction = no }
+		from? = { is_invisable_faction = no }
 	}
 	immediate = {
-		fromfromfrom = { every_owned_ship = {
+		fromfromfrom? = { every_owned_ship = {
 			limit = { 
 				NOT = { has_ship_flag = enable_random_list_effect }
 				is_disabled = no is_in_combat = yes
@@ -1967,7 +1967,7 @@ country_event = {
 	trigger = {
 		has_global_flag = kuat_impulse_mod_settings
 		is_invisable_faction = yes
-		from = { is_invisable_faction = no }
+		from? = { is_invisable_faction = no }
 	}
 	immediate = { 
 		fromfromfrom.fleet = { every_owned_ship = {
@@ -2009,7 +2009,7 @@ country_event = {
 	is_triggered_only = yes
 	trigger = {
 		kuat_is_player_country = yes
-		fromfrom = { kuat_exist_fleet_leader = { 
+		fromfrom? = { kuat_exist_fleet_leader = { 
 			TRUE_FLAG = SOP_eddy KEY = has_trait
 			TRAIT1 = leader_trait_commander_SOP_eddy_1
 			TRAIT2 = leader_trait_commander_SOP_eddy_2
@@ -2017,7 +2017,7 @@ country_event = {
 		} }
 	}
 	immediate = {
-		fromfrom = {  
+		fromfrom? = {  
 			if = {
 				limit = { kuat_exist_fleet_leader = { 
 					TRAIT = leader_trait_commander_SOP_eddy_1
@@ -2028,7 +2028,7 @@ country_event = {
 					set_timed_ship_flag = { flag = kuat_runing_leader_trait_commander_SOP_eddy_1 days = 30 }
 					kuat_battle_clear_ship_repeatable_modifier = { multiply = -10 DAYS = 30 }
 				} 
-				leader = { set_timed_leader_flag = { flag = kuat_level_improve_cool_down days = 30 } }
+				leader? = { set_timed_leader_flag = { flag = kuat_level_improve_cool_down days = 30 } }
 			}
 			if = {
 				limit = { 
@@ -2037,7 +2037,7 @@ country_event = {
 						TRAIT = leader_trait_commander_SOP_eddy_2 
 					}
 					kuat_fleet_anyone_has_validable_flagship_system = no
-					root.from = { is_invisable_faction = no }
+					root.from? = { is_invisable_faction = no }
 				}
 				kuat_battle_increase_ship_hp_effect_hp = { DAYS = 30 }
 			}
@@ -2071,7 +2071,7 @@ system_event = {
 			limit = { 
 				any_fleet_in_system = {
 					exists = owner
-					owner = { is_ai = no }
+					owner? = { is_ai = no }
 					is_in_combat = yes
 					kuat_fleet_anyone_has_validable_flagship_system = yes 
 				}

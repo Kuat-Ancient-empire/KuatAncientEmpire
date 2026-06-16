@@ -32,7 +32,7 @@ kuat_battle_eternal_increase_executor_power = {
 		if = {
 			limit = { 
 				kuat_is_disable_return_ship = yes 
-				exists = owner owner = { is_invisable_faction = no }
+				exists = owner owner? = { is_invisable_faction = no }
 				NOT = { has_global_flag = kuat_set_forcetrigger_order_enable_crisis_eve_system }
 			}
 			set_variable = { which = KUAT_SHIP_HEALTH_VAR value = 0 }
@@ -45,7 +45,7 @@ kuat_battle_eternal_increase_executor_power = {
 		else = { kuat_battle_eternal_initial_started_defence_value = { MULT = 0.0005 } }
 		if = {
 			limit = { 
-				exists = owner owner = { is_invisable_faction = no }
+				exists = owner owner? = { is_invisable_faction = no }
 				NOT = { has_global_flag = kuat_set_forcetrigger_order_enable_crisis_eve_system }
 				check_modifier_value = { modifier = ship_damage_reduction_mult value < value:kuat_dynamic_ship_damage_reduce_limit } 
 			}
@@ -596,7 +596,7 @@ kuat_battle_kuat_set_epsilon_obelisk_code = {
 kuat_battle_kuat_invinciable_battle_random_effect = {
 	optimize_memory
 	reroll_random = yes
-	root.fromfrom = { random_owned_ship = { save_event_target_as = kuat_ship_target } }
+	root.fromfrom? = { random_owned_ship = { save_event_target_as = kuat_ship_target } }
 	random_list = {
 		20 = {
 			modifier = {
@@ -634,10 +634,10 @@ kuat_battle_kuat_upgrade_epsilon_obelisk = {
 	optimize_memory
 	if = {
 		limit = { exists = owner }
-		owner = { save_event_target_as = kuat_target_megastructure_owner }
+		owner? = { save_event_target_as = kuat_target_megastructure_owner }
 		switch = {
 			trigger = has_megastructure_flag
-			kuat_epsilon_obelisk_1 = { solar_system = {
+			kuat_epsilon_obelisk_1 = { solar_system? = {
 				spawn_megastructure = {
 					type = kuat_epsilon_obelisk_$kuat_target_level$
 					coords_from = prev
@@ -645,7 +645,7 @@ kuat_battle_kuat_upgrade_epsilon_obelisk = {
 					init_effect = { set_megastructure_flag = kuat_epsilon_obelisk_1 }
 				}
 			} }
-			kuat_epsilon_obelisk_2 = { solar_system = {
+			kuat_epsilon_obelisk_2 = { solar_system? = {
 				spawn_megastructure = {
 					type = kuat_epsilon_obelisk_$kuat_target_level$
 					coords_from = prev
@@ -653,7 +653,7 @@ kuat_battle_kuat_upgrade_epsilon_obelisk = {
 					init_effect = { set_megastructure_flag = kuat_epsilon_obelisk_2 }
 				}
 			} }
-			kuat_epsilon_obelisk_3 = { solar_system = {
+			kuat_epsilon_obelisk_3 = { solar_system? = {
 				spawn_megastructure = {
 					type = kuat_epsilon_obelisk_$kuat_target_level$
 					coords_from = prev
@@ -666,21 +666,21 @@ kuat_battle_kuat_upgrade_epsilon_obelisk = {
 	else = {
 		switch = {
 			trigger = has_megastructure_flag
-			kuat_epsilon_obelisk_1 = { solar_system = {
+			kuat_epsilon_obelisk_1 = { solar_system? = {
 				spawn_megastructure = {
 					type = kuat_epsilon_obelisk_$kuat_target_level$
 					coords_from = prev
 					init_effect = { set_megastructure_flag = kuat_epsilon_obelisk_1 }
 				}
 			} }
-			kuat_epsilon_obelisk_2 = { solar_system = {
+			kuat_epsilon_obelisk_2 = { solar_system? = {
 				spawn_megastructure = {
 					type = kuat_epsilon_obelisk_$kuat_target_level$
 					coords_from = prev
 					init_effect = { set_megastructure_flag = kuat_epsilon_obelisk_2 }
 				}
 			} }
-			kuat_epsilon_obelisk_3 = { solar_system = {
+			kuat_epsilon_obelisk_3 = { solar_system? = {
 				spawn_megastructure = {
 					type = kuat_epsilon_obelisk_$kuat_target_level$
 					coords_from = prev
@@ -698,9 +698,9 @@ kuat_battle_kuat_copy_leader_learning_system = {
 	optimize_memory
 	if = {
 		limit = { 
-			fromfromfrom = { 
+			fromfromfrom? = { 
 				exists = leader
-				leader = { 
+				leader? = { 
 					leader_class = commander 
 					NOR = { 
 						has_leader_flag = eternal_learned_leader 
@@ -709,15 +709,15 @@ kuat_battle_kuat_copy_leader_learning_system = {
 				}
 				NOT = { has_fleet_flag = eternal_learned_leader } 
 			} 
-			from = { is_ai = no }
+			from? = { is_ai = no }
 		}
-		fromfromfrom = {
+		fromfromfrom? = {
 			set_fleet_flag = eternal_learned_leader
-			leader = { 
+			leader? = { 
 				set_timed_leader_flag = { flag = eternal_learned_leader days = 180 } 
 				save_event_target_as = eternal_learned_leader
 			}
-			root = {
+			root? = {
 				clone_leader = { 
 					class = commander target = event_target:eternal_learned_leader
 					effect = { 
@@ -725,29 +725,29 @@ kuat_battle_kuat_copy_leader_learning_system = {
 						copy_flags_and_variables_from = event_target:eternal_learned_leader
 					} 
 				}
-				fromfrom = {
+				fromfrom? = {
 					if = {
 						limit = { NOT = { has_fleet_flag = have_learned_leader } }
 						if = {
 							limit = { exists = leader }
-							leader = { kill_leader = { show_notification = no } }
+							leader? = { kill_leader = { show_notification = no } }
 						}
 						assign_leader = event_target:eternal_learned_leader_copy
 						set_timed_fleet_flag = { flag = have_learned_leader days = 180 }
 					}
-					else = { owner = { 
+					else = { owner? = { 
 						random_owned_fleet = {
 							limit = { NOT = { has_fleet_flag = have_learned_leader } }
 							if = {
 								limit = { exists = leader }
-								leader = { kill_leader = { show_notification = no } }
+								leader? = { kill_leader = { show_notification = no } }
 							}
 							assign_leader = event_target:eternal_learned_leader_copy
 							set_timed_fleet_flag = { flag = have_learned_leader days = 180 }
 						}
 					} }
 				}
-				from = { country_event = { id = exe_invasion.141 } }
+				from? = { country_event = { id = exe_invasion.141 } }
 			}
 		}
 	}
@@ -784,9 +784,9 @@ kuat_battle_kuat_star_flagship_checksum = {
 
 kuat_battle_kuat_star_flagship_base_calculate = {
 	optimize_memory
-	solar_system = { 
+	solar_system? = { 
 		subtract_variable = { which = kuat_support_battle_add_variable value = $ID$ }
-		prev = {  
+		prev? = {  
 			every_owned_ship = {
 				limit = { 
 					kuat_is_kuat_ship = yes
@@ -854,15 +854,15 @@ kuat_battle_notification_suppliment_fleet = {
 	if = {
 		limit = {  
 			exists = solar_system
-			solar_system = { OR = {
+			solar_system? = { OR = {
 				has_megastructure = Infinite_inborder
 				any_neighbor_system_euclidean = { has_megastructure = Infinite_inborder }
 			} }
 			has_global_flag = Kuat_Rakata_inborder_warp_portal_opened
 			NOT = { has_global_flag = Kuat_Rakata_total_warp_portal_destroyed }
-			owner = { kuat_is_player_country = yes }
+			owner? = { kuat_is_player_country = yes }
 		}
-		owner = {
+		owner? = {
 			if = {
 				limit = { check_variable = { which = Infinite_inborder_destroyed_fleet_var value = 10 } }
 				country_event = { id = kuat_final_crisis_events.65 }
@@ -880,7 +880,7 @@ kuat_battle_kuat_remove_starbase_station = {
 		limit = { exists = orbit }
 		orbit = { remove_carrier_flag = has_megastructure save_event_target_as = target_planet }
 	}
-	solar_system = { random_system_planet = {
+	solar_system? = { random_system_planet = {
 		limit = { has_carrier_flag = habitat }
 		every_deposit = { limit = { has_deposit_flag = planet@event_target:target_planet } remove_deposit = yes }
 	} }
@@ -923,7 +923,7 @@ kuat_battle_flagship_intial = {
 				has_global_flag = easy_exe_invasion
 				has_global_flag = normal_exe_invasion
 				has_global_flag = kuat_set_forcetrigger_order_enable_crisis_eve_system
-				root.from = { is_invisable_faction = yes }
+				root.from? = { is_invisable_faction = yes }
 			} }
 			set_fleet_flag = has_total_kuat_flagship_system
 		}
@@ -1002,7 +1002,7 @@ kuat_battle_spawn_system_suppliment_storm = {
 				set = 0
 				kuat_ship_is_movable_mega_starbase = yes
 			}
-			solar_system = {
+			solar_system? = {
 				every_cosmic_storm = {
 					limit = {
 						has_storm_flag = storm_kuat_support_nexus_storm_random_list_@prevprev
@@ -1024,7 +1024,7 @@ kuat_battle_spawn_system_suppliment_storm = {
 				set = 0
 				kuat_ship_is_movable_mega_starbase = yes
 			}
-			solar_system = {
+			solar_system? = {
 				every_cosmic_storm = {
 					limit = {
 						has_storm_flag = storm_kuat_support_nexus_storm_random_list_@prevprev
@@ -1046,7 +1046,7 @@ kuat_battle_spawn_system_suppliment_storm = {
 				set = 0
 				kuat_ship_is_movable_mega_starbase = no
 			}
-			solar_system = {
+			solar_system? = {
 				every_cosmic_storm = {
 					limit = {
 						has_storm_flag = storm_kuat_support_nexus_storm_random_list_@prevprev
@@ -1091,10 +1091,10 @@ kuat_battle_cretae_aoe_particle_effect = {
 }
 
 kuat_battle_eternal_aoe_effect = {
-	solar_system = { every_ship_in_system = {
+	solar_system? = { every_ship_in_system = {
 		limit = {
 			exists = controller
-			controller = { is_hostile = from.controller }
+			controller? = { is_hostile = from.controller }
 			distance = { source = root max_distance <= $RANGE$ same_solar_system = yes }
 		}
 		kuat_battle_cretae_aoe_particle_effect = yes
@@ -1133,7 +1133,7 @@ kuat_battle_superlazer_raload_modifier = {
 		limit = { check_modifier_value = { modifier = ship_damage_reduction_add value > 0 } }
 		kuat_battle_clear_ship_modifier = { modifier = ship_damage_reduction_add DAYS = 1 }
 	}
-	from = {  
+	from? = {  
 		if = {
 			limit = { check_modifier_value = { modifier = ship_hull_damage_mult value < 0 } }
 			kuat_battle_clear_ship_modifier = { modifier = ship_hull_damage_mult DAYS = 1 }

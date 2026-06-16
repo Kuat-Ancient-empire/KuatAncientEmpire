@@ -106,13 +106,13 @@ country_event = {
 			} }
 			every_galaxy_planet = {
 				limit = { has_carrier_flag = starkiller_attack_built_target }
-				solar_system = { starkiller_country_destroyed_system_everything = yes }
+				solar_system? = { starkiller_country_destroyed_system_everything = yes }
 			}
 		}
 		else = {
 			random_playable_country = {
 				limit =  { kuat_is_enable_post_apocalyptic_origin = yes }
-				prev = {
+				prev? = {
 					declare_war = { target = prev attacker_war_goal = wg_colossus }
 				}
 				country_event = { id = kuat_post_apocalyptic_legacy.17 days = 5 }
@@ -205,7 +205,7 @@ system_event = {
 	immediate = {
 		every_system_planet = {
 			limit = { is_star = yes }
-			prev = { spawn_megastructure = {
+			prev? = { spawn_megastructure = {
 				type = kuat_starkiller_marker_0
 				owner = root.from.owner coords_from = prev
 				init_effect = { set_megastructure_flag = kuat_starkiller_marker_0_upgrade_@root.from.owner }
@@ -292,7 +292,7 @@ country_event = {
 	hide_window = yes
 	is_triggered_only = yes
 	trigger = {
-		from = {  
+		from? = {  
 			OR = {
 				is_country_type = kuat_fire_base_hositle
 				is_country_type = kuat_fire_base
@@ -309,7 +309,7 @@ country_event = {
 		has_country_flag = kuat_legacy_87_continue
 	}
 	immediate = {
-		from = {
+		from? = {
 			every_owned_megastructure = {
 				limit = { is_megastructure_type = kuat_starkillerbase_1 }
 				remove_megastructure = this
@@ -317,7 +317,7 @@ country_event = {
 		}
 		country_event = { id = kuat_starkiller.10 }
 	}
-	after = { from = { destroy_country = yes } }
+	after = { from? = { destroy_country = yes } }
 }
 
 country_event = {
@@ -367,7 +367,7 @@ country_event = {
 			limit = { has_star_flag = kuat_system_selector_selected_system }
 			remove_star_flag = kuat_system_selector_selected_system
 			set_star_flag = kuat_epsilon_titan_star_killer_weapon_target@root
-			root = { change_variable = { which = kuat_temp_counter value = 1 } }
+			root? = { change_variable = { which = kuat_temp_counter value = 1 } }
 			event_target:starkillerbase_location = { change_variable = { which = starkiller_target value = 1 } }
 		}
 		add_resource = { energy = 10000 sr_dark_matter = 1000 mult = kuat_temp_counter }
@@ -401,7 +401,7 @@ country_event = {
 			}
 			every_system_planet = {
 				limit = { is_star = yes }
-				prev = { spawn_megastructure = {
+				prev? = { spawn_megastructure = {
 					type = kuat_starkiller_marker_0
 					owner = root coords_from = prev
 					init_effect = { set_megastructure_flag = kuat_starkiller_marker_0_upgrade_@root }
@@ -438,7 +438,7 @@ country_event = {
 			limit = { has_star_flag = kuat_system_selector_selected_system }
 			remove_star_flag = kuat_system_selector_selected_system
 			set_star_flag = kuat_epsilon_titan_star_killer_weapon_target@root
-			root = { change_variable = { which = kuat_temp_counter value = 1 } }
+			root? = { change_variable = { which = kuat_temp_counter value = 1 } }
 		}
 		add_resource = { energy = 10000 sr_dark_matter = 1000 mult = kuat_temp_counter }
 		country_event = { id = kuat_starkiller.17 days = 10 }
@@ -473,7 +473,7 @@ country_event = {
 			if = {
 				limit = { 
 					exists = space_owner 
-					space_owner = { NOT = { is_same_value = root } }
+					space_owner? = { NOT = { is_same_value = root } }
 				}
 				event_target:eternal_support_country = {
 					establish_communications_no_message = prev.space_owner
@@ -497,7 +497,7 @@ country_event = {
 				every_fleet_in_system = {
 					limit = {
 						exists = owner
-						owner = {  
+						owner? = {  
 							NOR = {
 								is_same_value = root
 								is_same_value = event_target:eternal_support_country
@@ -506,7 +506,7 @@ country_event = {
 							NOT = { is_hostile = event_target:eternal_support_country }
 						}
 					}
-					owner = {  
+					owner? = {  
 						establish_communications_no_message = event_target:eternal_support_country
 						set_faction_hostility = { target = event_target:eternal_support_country set_hostile = yes set_friendly = no }
 					}
@@ -571,7 +571,7 @@ country_event = {
 			any_country = { has_country_flag = eternal_fleet_attack_enenmy }
 			any_country = { has_country_flag = eternal_fleet_destroy_enenmy }
 		}
-		fromfrom = { has_fleet_flag = executing_eternal_fleet }
+		fromfrom? = { has_fleet_flag = executing_eternal_fleet }
 		is_same_value = event_target:eternal_support_country
 	}
 	immediate = {

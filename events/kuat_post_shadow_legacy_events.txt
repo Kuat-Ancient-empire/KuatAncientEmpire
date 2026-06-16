@@ -26,7 +26,7 @@ country_event = {
 			random_owned_planet = {
 				limit = { is_capital = yes }
 				set_name = "Name_Post_Kuat_capital"
-				solar_system = { set_name = "Name_Post_Kuat_System" }
+				solar_system? = { set_name = "Name_Post_Kuat_System" }
 			}
 		}
 		else_if = {
@@ -37,12 +37,12 @@ country_event = {
 			random_owned_planet = {
 				limit = { has_carrier_flag = kuat_shadow_planet_started }
 				set_carrier_flag = kuat_initial_colony_planet
-				solar_system = { generate_home_system_resources = yes }
+				solar_system? = { generate_home_system_resources = yes }
 				generate_start_deposits_and_blockers = yes
 				generate_start_buildings_and_districts = yes
 				kuat_automatic_ai_colony = yes
 				set_name = "Name_Post_Kuat_capital"
-				solar_system = { set_name = "Name_Post_Kuat_System" }
+				solar_system? = { set_name = "Name_Post_Kuat_System" }
 			}
 		}
 		change_country_flag = {
@@ -138,11 +138,11 @@ country_event = {
 		exists = event_target:kuat_post_support_country
 		OR = {
 			NOT = { has_active_event = { kuat_post_apocalyptic_legacy.2 kuat_post_apocalyptic_legacy.18 } }
-			from = { is_same_value = root }
+			from? = { is_same_value = root }
 		}
 		OR = {
-			from = { is_same_value = event_target:kuat_post_support_country }
-			from = { is_same_value = root }
+			from? = { is_same_value = event_target:kuat_post_support_country }
+			from? = { is_same_value = root }
 		}
 	}
 
@@ -333,9 +333,9 @@ carrier_event = {
 	}
 	is_triggered_only = yes
 	trigger = {
-		solar_system = {
+		solar_system? = {
 			exists = space_owner
-			space_owner = {
+			space_owner? = {
 				has_country_flag = fire_the_legacy_kuat_stage_5
 				kuat_is_enable_post_apocalyptic_origin = yes 
 			}
@@ -367,7 +367,7 @@ country_event = {
 	}
 	option = { 
 		name = "kuat_post_apocalyptic_legacy.9.a" 
-		owner = { event_target:ancient_shadow_place_B = { carrier_event = { id = kuat_post_apocalyptic_legacy.10 days = 15 random = 15 } } }
+		owner? = { event_target:ancient_shadow_place_B = { carrier_event = { id = kuat_post_apocalyptic_legacy.10 days = 15 random = 15 } } }
 	}
 }
 
@@ -384,9 +384,9 @@ carrier_event = {
 	}
 	is_triggered_only = yes
 	trigger = {
-		solar_system = {
+		solar_system? = {
 			exists = space_owner
-			space_owner = {
+			space_owner? = {
 				has_country_flag = fire_the_legacy_kuat_stage_6
 				kuat_is_enable_post_apocalyptic_origin = yes 
 			}
@@ -604,7 +604,7 @@ country_event = {
 				every_system_planet = {
 					limit = { is_star = yes }
 					set_carrier_flag = starkiller_attack_built_target
-					prev = { spawn_megastructure = {
+					prev? = { spawn_megastructure = {
 						type = kuat_starkiller_marker_0
 						owner = event_target:kuat_firebase_country coords_from = prev
 						init_effect = { set_megastructure_flag = kuat_starkiller_marker_0_upgrade_@event_target:kuat_firebase_country }
@@ -947,9 +947,9 @@ country_event = {
 	option = {
 		name = kuat_post_apocalyptic_legacy.21.e
 		hidden_effect = {
-			capital_scope = {
+			capital_scope? = {
 				set_spawn_system_batch = begin
-				owner = { save_event_target_as = interesting_country }
+				owner? = { save_event_target_as = interesting_country }
 				spawn_system = { initializer = myst_system_5 hyperlane = no }
 				set_spawn_system_batch = end
 			}
@@ -992,11 +992,11 @@ country_event = {
 		exists = event_target:kuat_contractor_country
 		OR = {
 			NOT = { has_active_event = { kuat_post_apocalyptic_legacy.22 } }
-			from = { is_same_value = root }
+			from? = { is_same_value = root }
 		}
 		OR = {
-			from = { is_country_type = kuat_contractor }
-			from = { is_same_value = root }
+			from? = { is_country_type = kuat_contractor }
+			from? = { is_same_value = root }
 		}
 	}
 
@@ -1255,12 +1255,12 @@ country_event = {
 		exists = event_target:eternal_support_country
 		OR = {
 			post_eternal_support_diplo_event_active = no
-			from = { is_same_value = root }
+			from? = { is_same_value = root }
 		}
 		kuat_is_enable_post_apocalyptic_origin = yes
 		OR = {
-			from = { is_same_value = event_target:eternal_support_country }
-			from = { is_same_value = root }
+			from? = { is_same_value = event_target:eternal_support_country }
+			from? = { is_same_value = root }
 		}
 		has_global_flag = kuat_extramonster_all_over
 	}
@@ -1487,7 +1487,7 @@ country_event = {
 	trigger = {
 		kuat_is_enable_post_apocalyptic_origin = yes
 		exists = from
-		from = { 
+		from? = { 
 			is_country_type = kuat_center_cluster_gurdian 
 			count_owned_ship = {
 				count < 1
@@ -1592,7 +1592,7 @@ country_event = {
 	diplomatic = yes
 	trigger = {
 		kuat_is_enable_post_apocalyptic_origin = yes
-		from = { is_country_type = kuat_center_cluster_gurdian }
+		from? = { is_country_type = kuat_center_cluster_gurdian }
 	}
 	option = { name = kuat_shipyard.exit default_hide_option = yes }
 }
@@ -2207,12 +2207,12 @@ country_event = {
 		exists = event_target:eternal_support_1_country
 		OR = {
 			post_eternal_support_1_diplo_event_active = no
-			from = { is_same_value = root }
+			from? = { is_same_value = root }
 		}
 		kuat_is_enable_post_apocalyptic_origin = yes
 		OR = {
-			from = { is_same_value = event_target:eternal_support_1_country }
-			from = { is_same_value = root }
+			from? = { is_same_value = event_target:eternal_support_1_country }
+			from? = { is_same_value = root }
 		}
 	}
 	option = {
@@ -2447,7 +2447,7 @@ country_event = {
 			event_target:eternal_support_country = { destroy_country = yes }
 			event_target:zakuul_system = {
 				set_star_class = sc_a
-				system_star = { change_pc = pc_g_star change_planet_size = 16 }
+				system_star? = { change_pc = pc_g_star change_planet_size = 16 }
 			}
 			event_target:global_event_country = { country_event = { id = crisis.7519 days = 30 } }
 		}

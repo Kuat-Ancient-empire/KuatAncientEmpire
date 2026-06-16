@@ -170,8 +170,8 @@ fleet_event = {
 	is_triggered_only = yes
 	trigger = {
 		exists = owner
-		owner = { is_invisable_faction = no }
-		from = { has_star_flag = kuat_galatic_empire_e_area_system }
+		owner? = { is_invisable_faction = no }
+		from? = { has_star_flag = kuat_galatic_empire_e_area_system }
 		has_global_flag = kuat_galatic_empire_ge_invasion_begin
 		event_target:global_event_country = { check_variable = { which = kuat_galatic_empire_ge_invasion_num_portals_destroyed value < 6 } }
 	}
@@ -235,19 +235,19 @@ fleet_event = {
 	id = kuat_galatic_empire_ge_invasion.110
 	title = "kuat_galatic_empire_ge_invasion.110.name"
 	desc = {
-		trigger = { owner = {
+		trigger = { owner? = {
 			kuat_is_enable_eternal_origin = yes
 		} }
 		text = "kuat_galatic_empire_ge_invasion.110.desc"
 	}
 	desc = {
-		trigger = { owner = {
+		trigger = { owner? = {
 			kuat_is_enable_apocalyptic_origin = yes
 		} }
 		text = "kuat_galatic_empire_ge_invasion.110.a.desc"
 	}
 	desc = {
-		trigger = { owner = {
+		trigger = { owner? = {
 			kuat_is_enable_post_apocalyptic_origin = yes
 		} }
 		text = "kuat_galatic_empire_ge_invasion.110.a.post_apocalyptic.desc"
@@ -262,11 +262,11 @@ fleet_event = {
 	is_triggered_only = yes
 	trigger = {
 		exists = owner
-		from = { has_star_flag = kuat_galatic_empire_e_area_system }
-		owner = { NOT = { has_country_flag = kuat_galatic_empire_ge_invasion_110_fired } }
+		from? = { has_star_flag = kuat_galatic_empire_e_area_system }
+		owner? = { NOT = { has_country_flag = kuat_galatic_empire_ge_invasion_110_fired } }
 	}
 	immediate = {
-		owner = {
+		owner? = {
 			add_event_chain_counter = {
 				event_chain = ag_legacy_invasion_chain
 				counter = ag_legacy_system_amount
@@ -282,12 +282,12 @@ fleet_event = {
 
 	option = {
 		name = "kuat_galatic_empire_ge_invasion.110.a"
-		trigger = { owner = { kuat_is_enable_eternal_origin = yes } }
-		hidden_effect = { owner = { country_event = { id = kuat_galatic_empire_ge_invasion.111 } } }
+		trigger = { owner? = { kuat_is_enable_eternal_origin = yes } }
+		hidden_effect = { owner? = { country_event = { id = kuat_galatic_empire_ge_invasion.111 } } }
 	}
 	option = {
 		name = "kuat_galatic_empire_ge_invasion.110.b"
-		hidden_effect = { owner = { if = {
+		hidden_effect = { owner? = { if = {
 			limit = { NOT = { is_hostile = event_target:Kuat_E_Area_Guardian } }
 			set_country_flag = kuat_galatic_empire_is_hostile_to_@event_target:Kuat_E_Area_Guardian
 			set_faction_hostility = {
@@ -360,10 +360,10 @@ country_event = {
 	
 	is_triggered_only = yes
 	trigger = {
-		root = { NOT = { is_hostile = event_target:Kuat_E_Area_Guardian } }
+		root? = { NOT = { is_hostile = event_target:Kuat_E_Area_Guardian } }
 		event_target:kuat_galatic_empire_e_area_system = { any_ship_in_system = {
 			exists = owner
-			owner = { is_same_value = root }
+			owner? = { is_same_value = root }
 		} }
 	}
 
@@ -398,14 +398,14 @@ fleet_event = {
 	is_triggered_only = yes
 	trigger = {
 		exists = owner
-		from = { has_star_flag = kuat_galatic_empire_e_area_system }
-		owner = {
+		from? = { has_star_flag = kuat_galatic_empire_e_area_system }
+		owner? = {
 			has_country_flag = kuat_galatic_empire_ge_invasion_110_fired
 			has_country_flag = kuat_galatic_empire_e_area_delayed_hostility_@root
 			NOT = { is_hostile = event_target:Kuat_E_Area_Guardian }
 		}
 	}
-	immediate = { owner = {
+	immediate = { owner? = {
 		set_country_flag = kuat_galatic_empire_is_hostile_to_@event_target:Kuat_E_Area_Guardian
 		set_faction_hostility = {
 			target = event_target:Kuat_E_Area_Guardian
@@ -448,7 +448,7 @@ country_event = {
 	
 	is_triggered_only = yes
 	trigger = {
-		from = { has_country_flag = Kuat_E_Area_Guardian }
+		from? = { has_country_flag = Kuat_E_Area_Guardian }
 		NOT = { has_country_flag = kuat_galatic_empire_is_hostile_to_@from }
 	}
 	immediate = { set_country_flag = kuat_galatic_empire_is_hostile_to_@from }
@@ -525,7 +525,7 @@ country_event = {
 	is_triggered_only = yes
 	trigger = {
 		NOT = { has_country_flag = kuat_galatic_empire_ge_invasion_120_fired }
-		from = {
+		from? = {
 			has_country_flag = Kuat_E_Area_Guardian
 			count_owned_ship = {
 				count < 1
@@ -550,7 +550,7 @@ country_event = {
 			limit = { kuat_is_enable_post_apocalyptic_origin = yes }
 			country_event = { id = kuat_post_apocalyptic_legacy.43 days = 1 random = 1 }
 		}		
-		fromfrom.solar_system = { save_event_target_as = kuat_galatic_empire_target_system }
+		fromfrom.solar_system? = { save_event_target_as = kuat_galatic_empire_target_system }
 	}
 
 	option = {
@@ -581,14 +581,14 @@ fleet_event = {
 	desc = {
 		trigger = {
 			exists = owner
-			owner = { kuat_is_enable_post_apocalyptic_origin = no }
+			owner? = { kuat_is_enable_post_apocalyptic_origin = no }
 		}
 		text = "kuat_galatic_empire_ge_invasion.122.desc"
 	}
 	desc = {
 		trigger = {
 			exists = owner
-			owner = { kuat_is_enable_post_apocalyptic_origin = yes }
+			owner? = { kuat_is_enable_post_apocalyptic_origin = yes }
 		}
 		text = "kuat_galatic_empire_ge_invasion.122.post_apocalyptic.desc"
 	}	
@@ -596,11 +596,11 @@ fleet_event = {
 	show_sound = event_ghost_town
 	archaeology = yes
 	is_triggered_only = yes
-	immediate = { from = { set_site_progress_locked = yes } }
-	after = { from = { set_site_progress_locked = no } }
+	immediate = { from? = { set_site_progress_locked = yes } }
+	after = { from? = { set_site_progress_locked = no } }
 	option = {
 		name = "kuat_galatic_empire_ge_invasion.122.a"
-		leader = { add_experience = 50 }
+		leader? = { add_experience = 50 }
 	}
 }
 # Stage 2.
@@ -610,14 +610,14 @@ fleet_event = {
 	desc = {
 		trigger = {
 			exists = owner
-			owner = { kuat_is_enable_post_apocalyptic_origin = no }
+			owner? = { kuat_is_enable_post_apocalyptic_origin = no }
 		}
 		text = "kuat_galatic_empire_ge_invasion.123.desc"
 	}
 	desc = {
 		trigger = {
 			exists = owner
-			owner = { kuat_is_enable_post_apocalyptic_origin = yes }
+			owner? = { kuat_is_enable_post_apocalyptic_origin = yes }
 		}
 		text = "kuat_galatic_empire_ge_invasion.123.post_apocalyptic.desc"
 	}	
@@ -625,11 +625,11 @@ fleet_event = {
 	show_sound = event_dig_site
 	archaeology = yes
 	is_triggered_only = yes
-	immediate = { from = { set_site_progress_locked = yes } }
-	after = { from = { set_site_progress_locked = no } }
+	immediate = { from? = { set_site_progress_locked = yes } }
+	after = { from? = { set_site_progress_locked = no } }
 	option = {
 		name = "kuat_galatic_empire_ge_invasion.123.a"
-		leader = { add_experience = 50 }
+		leader? = { add_experience = 50 }
 	}
 }
 # Stage 3.
@@ -639,14 +639,14 @@ fleet_event = {
 	desc = {
 		trigger = {
 			exists = owner
-			owner = { kuat_is_enable_post_apocalyptic_origin = no }
+			owner? = { kuat_is_enable_post_apocalyptic_origin = no }
 		}
 		text = "kuat_galatic_empire_ge_invasion.124.desc"
 	}
 	desc = {
 		trigger = {
 			exists = owner
-			owner = { kuat_is_enable_post_apocalyptic_origin = yes }
+			owner? = { kuat_is_enable_post_apocalyptic_origin = yes }
 		}
 		text = "kuat_galatic_empire_ge_invasion.124.post_apocalyptic.desc"
 	}	
@@ -654,8 +654,8 @@ fleet_event = {
 	show_sound = event_dig_site
 	archaeology = yes
 	is_triggered_only = yes
-	immediate = { from = { set_site_progress_locked = yes } }
-	after = { from = { set_site_progress_locked = no } }
+	immediate = { from? = { set_site_progress_locked = yes } }
+	after = { from? = { set_site_progress_locked = no } }
 	option = {
 		name = "kuat_galatic_empire_ge_invasion.124.a"
 		small_artifact_reward = yes
@@ -668,14 +668,14 @@ fleet_event = {
 	desc = {
 		trigger = {
 			exists = owner
-			owner = { kuat_is_enable_post_apocalyptic_origin = no }
+			owner? = { kuat_is_enable_post_apocalyptic_origin = no }
 		}
 		text = "kuat_galatic_empire_ge_invasion.125.desc"
 	}
 	desc = {
 		trigger = {
 			exists = owner
-			owner = { kuat_is_enable_post_apocalyptic_origin = yes }
+			owner? = { kuat_is_enable_post_apocalyptic_origin = yes }
 		}
 		text = "kuat_galatic_empire_ge_invasion.125.post_apocalyptic.desc"
 	}	
@@ -683,8 +683,8 @@ fleet_event = {
 	show_sound = event_finding_loot
 	archaeology = yes
 	is_triggered_only = yes
-	immediate = { from = { set_site_progress_locked = yes } }
-	after = { from = { set_site_progress_locked = no } }
+	immediate = { from? = { set_site_progress_locked = yes } }
+	after = { from? = { set_site_progress_locked = no } }
 	option = {
 		name = "kuat_galatic_empire_ge_invasion.125.a"
 		small_artifact_reward = yes
@@ -695,13 +695,13 @@ fleet_event = {
 	id = kuat_galatic_empire_ge_invasion.126
 	title = "kuat_galatic_empire_ge_invasion.126.name"
 	desc = {
-		trigger = { owner = {
+		trigger = { owner? = {
 			kuat_is_enable_eternal_origin = yes
 		} }
 		text = "kuat_galatic_empire_ge_invasion.126.desc"
 	}
 	desc = {
-		trigger = { owner = {
+		trigger = { owner? = {
 			kuat_is_enable_apocalyptic_origin = yes
 		} }
 		text = "kuat_galatic_empire_ge_invasion.126.a.desc"
@@ -709,7 +709,7 @@ fleet_event = {
 	desc = {
 		trigger = {
 			exists = owner
-			owner = { kuat_is_enable_post_apocalyptic_origin = yes }
+			owner? = { kuat_is_enable_post_apocalyptic_origin = yes }
 		}
 		text = "kuat_galatic_empire_ge_invasion.126.post_apocalyptic.desc"
 	}		
@@ -717,20 +717,20 @@ fleet_event = {
 	show_sound = event_mystic_reveal
 	archaeology = yes
 	is_triggered_only = yes
-	immediate = { from = { set_site_progress_locked = yes } }
-	after = { from = { set_site_progress_locked = no } }
+	immediate = { from? = { set_site_progress_locked = yes } }
+	after = { from? = { set_site_progress_locked = no } }
 	option = {
 		name = "kuat_galatic_empire_ge_invasion.126.a"
-		leader = { add_experience = 200 }
+		leader? = { add_experience = 200 }
 		if = {
-			limit = { root.owner = { kuat_is_enable_eternal_origin = yes } }
-			owner.capital_scope = { enable_special_project = {
+			limit = { root.owner? = { kuat_is_enable_eternal_origin = yes } }
+			owner.capital_scope? = { enable_special_project = {
 				name = "kuat_galatic_empire_e_area_arc_site_project"
 				owner = root.owner location = this
 			} }
 		}
 		if = {
-			limit = { root.owner = { OR = {
+			limit = { root.owner? = { OR = {
 				kuat_is_enable_apocalyptic_origin = yes
 				kuat_is_enable_post_apocalyptic_origin = yes
 			} } }
@@ -748,14 +748,14 @@ fleet_event = {
 	desc = {
 		trigger = {
 			exists = owner
-			owner = { kuat_is_enable_post_apocalyptic_origin = no }
+			owner? = { kuat_is_enable_post_apocalyptic_origin = no }
 		}
 		text = "kuat_galatic_empire_ge_invasion.127.desc"
 	}
 	desc = {
 		trigger = {
 			exists = owner
-			owner = { kuat_is_enable_post_apocalyptic_origin = yes }
+			owner? = { kuat_is_enable_post_apocalyptic_origin = yes }
 		}
 		text = "kuat_galatic_empire_ge_invasion.127.post_apocalyptic.desc"
 	}	
@@ -763,15 +763,15 @@ fleet_event = {
 	show_sound = event_collapsing_ruins
 	archaeology = yes
 	is_triggered_only = yes
-	immediate = { from = { set_site_progress_locked = yes } }
-	after = { from = { set_site_progress_locked = no } }
+	immediate = { from? = { set_site_progress_locked = yes } }
+	after = { from? = { set_site_progress_locked = no } }
 	option = {
 		name = "kuat_galatic_empire_ge_invasion.127.a"
 		medium_artifact_reward = yes
 		event_target:kuat_galatic_empire_e_habitable_segment = {
 			change_pc = pc_ringworld_habitable_damaged
 		}
-		hidden_effect = { root.owner = { set_country_flag = kuat_galatic_empire_e_area_arc_site_completed } }
+		hidden_effect = { root.owner? = { set_country_flag = kuat_galatic_empire_e_area_arc_site_completed } }
 	}
 }
 
@@ -1285,7 +1285,7 @@ country_event = {
 		event_target:eternal_support_country = { destroy_country = yes }
 		event_target:zakuul_system = {
 			set_star_class = sc_a
-			system_star = { change_pc = pc_g_star change_planet_size = 16 }
+			system_star? = { change_pc = pc_g_star change_planet_size = 16 }
 		}
 	}
 
@@ -1357,7 +1357,7 @@ country_event = {
 					}
 				}
 				every_fleet_in_system = {
-					limit = { owner = { NOT = { is_same_value = event_target:Kuat_Galatic_Empire_invasion_country } } }
+					limit = { owner? = { NOT = { is_same_value = event_target:Kuat_Galatic_Empire_invasion_country } } }
 					destroy_fleet = { target = this destroy_template = yes kill_leader = no }
 				}
 			}
@@ -1897,7 +1897,7 @@ fleet_event = {
 		exists = this
 		exists = event_target:Kuat_Galatic_Empire_invasion_country
 		has_fleet_flag = eternal_support_guadian_fleet
-		owner = { is_country_type = eternal_support_guadian }
+		owner? = { is_country_type = eternal_support_guadian }
 	}
 	immediate = { kuat_eternal_guardian_fleet_action = yes }
 }
@@ -1909,7 +1909,7 @@ country_event = {
 	is_triggered_only = yes
 	trigger = {
 		is_country_type = eternal_support_guadian
-		fromfrom = { has_fleet_flag = eternal_support_guadian_fleet }
+		fromfrom? = { has_fleet_flag = eternal_support_guadian_fleet }
 	}
 	immediate = {
 		random_system = {
@@ -1980,14 +1980,14 @@ country_event = {
 				every_country = {
 					if = {
 						limit = { is_hostile = root }
-						prev = { set_faction_hostility = {
+						prev? = { set_faction_hostility = {
 							target = prev
 							set_friendly = no set_hostile = yes set_neutral = no
 						} }
 					}
 					if = {
 						limit = { NOT = { is_hostile = root } }
-						prev = { set_faction_hostility = {
+						prev? = { set_faction_hostility = {
 							target = prev
 							set_friendly = no set_hostile = no set_neutral = yes
 						} }
@@ -2046,7 +2046,7 @@ country_event = {
 
 	option = {
 		name = "kuat_galatic_empire_ge_invasion.221.a"
-		hidden_effect = { capital_scope = { enable_special_project = {
+		hidden_effect = { capital_scope? = { enable_special_project = {
 			name = "kuat_galatic_empire_ge_invasion_reward_project"
 			owner = root location = this
 		} } }
@@ -2137,7 +2137,7 @@ country_event = {
 		NOT = { has_global_flag = kuat_galatic_empire_ge_invasion_ended }
 		OR = {
 			is_country_type = Kuat_Galatic_Empire_invasion_country
-			from = { is_country_type = Kuat_Galatic_Empire_invasion_country }
+			from? = { is_country_type = Kuat_Galatic_Empire_invasion_country }
 		}
 	}
 	immediate = {
@@ -2200,10 +2200,10 @@ carrier_event = {
 			planet_devastation >= 100
 			pop_amount <= 200
 		}
-		from = { is_country_type = Kuat_Galatic_Empire_invasion_country }
+		from? = { is_country_type = Kuat_Galatic_Empire_invasion_country }
 	}
 	immediate = {
-		owner = { country_event = { id = kuat_galatic_empire_ge_invasion.232 } }
+		owner? = { country_event = { id = kuat_galatic_empire_ge_invasion.232 } }
 		kuat_destroy_colony = { PC = pc_broken }
 		every_country = {
 			if = {
@@ -2219,11 +2219,11 @@ carrier_event = {
 				add_event_chain_counter = { event_chain = "kuat_galatic_empire_pc_invasion_chain" counter = kuat_galatic_empire_ge_invasion_planet_destroyed amount = 1 }
 			}
 		}
-		solar_system = {
+		solar_system? = {
 			every_fleet_in_system = {
 				limit = {
 					exists = owner
-					owner = { is_country_type = Kuat_Galatic_Empire_invasion_country }
+					owner? = { is_country_type = Kuat_Galatic_Empire_invasion_country }
 					has_fleet_flag = kuat_galatic_empire_ge_assault_fleet
 					OR = {
 						AND = { exists = orbit orbit = { is_same_value = root } }
@@ -2234,7 +2234,7 @@ carrier_event = {
 								orbit = {
 									NOT = { is_star = yes }
 									exists = owner
-									owner = { is_hostile = event_target:Kuat_Galatic_Empire_invasion_country }
+									owner? = { is_hostile = event_target:Kuat_Galatic_Empire_invasion_country }
 								}
 							}
 						}
@@ -2253,28 +2253,28 @@ country_event = {
 	desc = {
 		trigger = {
 			kuat_is_enable_eternal_origin = yes
-			from = { kuat_is_event_borderment_ringworld = no }
+			from? = { kuat_is_event_borderment_ringworld = no }
 		}
 		text = "kuat_galatic_empire_ge_invasion.232.a.desc"
 	}
 	desc = {
 		trigger = {
 			kuat_is_enable_eternal_origin = yes
-			from = { is_ringworld = yes }
+			from? = { is_ringworld = yes }
 		}
 		text = "kuat_galatic_empire_ge_invasion.232.b.desc"
 	}
 	desc = {
 		trigger = {
 			kuat_is_enable_eternal_origin = yes
-			from = { is_planet_class = pc_habitat }
+			from? = { is_planet_class = pc_habitat }
 		}
 		text = "kuat_galatic_empire_ge_invasion.232.c.desc"
 	}
 	desc = {
 		trigger = {
 			kuat_is_enable_eternal_origin = yes
-			from = { kuat_is_holy_world_planet = yes }
+			from? = { kuat_is_holy_world_planet = yes }
 		}
 		text = "kuat_galatic_empire_ge_invasion.232.d.desc"
 	}
@@ -2285,7 +2285,7 @@ country_event = {
 				kuat_is_enable_apocalyptic_origin = yes
 				kuat_is_enable_post_apocalyptic_origin = yes
 			}
-			from = { kuat_is_event_borderment_ringworld = no }
+			from? = { kuat_is_event_borderment_ringworld = no }
 		}
 		text = "kuat_galatic_empire_ge_invasion.232.a.a.desc"
 	}
@@ -2295,7 +2295,7 @@ country_event = {
 				kuat_is_enable_apocalyptic_origin = yes
 				kuat_is_enable_post_apocalyptic_origin = yes
 			}
-			from = { is_ringworld = yes }
+			from? = { is_ringworld = yes }
 		}
 		text = "kuat_galatic_empire_ge_invasion.232.b.a.desc"
 	}
@@ -2305,7 +2305,7 @@ country_event = {
 				kuat_is_enable_apocalyptic_origin = yes
 				kuat_is_enable_post_apocalyptic_origin = yes
 			}
-			from = { is_planet_class = pc_habitat }
+			from? = { is_planet_class = pc_habitat }
 		}
 		text = "kuat_galatic_empire_ge_invasion.232.c.a.desc"
 	}
@@ -2315,7 +2315,7 @@ country_event = {
 				kuat_is_enable_apocalyptic_origin = yes
 				kuat_is_enable_post_apocalyptic_origin = yes
 			}
-			from = { kuat_is_holy_world_planet = yes }
+			from? = { kuat_is_holy_world_planet = yes }
 		}
 		text = "kuat_galatic_empire_ge_invasion.232.d.a.desc"
 	}
@@ -2359,16 +2359,16 @@ country_event = {
 	hide_window = yes
 	is_triggered_only = yes
 	trigger = {
-		from = { is_country_type = Kuat_Galatic_Empire_invasion_country }
-		fromfromfrom = { OR = {
+		from? = { is_country_type = Kuat_Galatic_Empire_invasion_country }
+		fromfromfrom? = { OR = {
 			has_ship_flag = kuat_galatic_empire_ge_primary_portal
 			has_ship_flag = kuat_galatic_empire_ge_secondary_portal
 		} }
 	}
 	immediate = {
 		if = {
-			limit = { fromfromfrom = { has_ship_flag = kuat_galatic_empire_ge_primary_portal } }
-			fromfromfrom.solar_system = { 
+			limit = { fromfromfrom? = { has_ship_flag = kuat_galatic_empire_ge_primary_portal } }
+			fromfromfrom.solar_system? = { 
 				star = {
 					save_event_target_as = kuat_galatic_empire_target_planet 
 					create_ambient_object = {
@@ -2387,7 +2387,7 @@ country_event = {
 			}
 		}
 		else = {
-			fromfromfrom.solar_system = {
+			fromfromfrom.solar_system? = {
 				create_kuat_starbase_expolde_boom = yes
 				star = { change_pc = pc_black_hole set_planet_size = 18 }
 			}
@@ -2401,42 +2401,42 @@ country_event = {
 			if = {
 				limit = { has_event_chain = "kuat_galatic_empire_ge_invasion_chain" }
 				add_event_chain_counter = { event_chain = "kuat_galatic_empire_ge_invasion_chain" counter = kuat_galatic_empire_ge_invasion_portal amount = -1 }
-				root.fromfromfrom = {
-					if = { limit = { solar_system = { has_star_flag = kuat_galatic_empire_portal_system_1 } } prev = { remove_point_of_interest = kuat_galatic_empire_ge_invasion_secondary_portal_poi_1 } }
-					else_if = { limit = { solar_system = { has_star_flag = kuat_galatic_empire_portal_system_2 } } prev = { remove_point_of_interest = kuat_galatic_empire_ge_invasion_secondary_portal_poi_2 } }
-					else_if = { limit = { solar_system = { has_star_flag = kuat_galatic_empire_portal_system_3 } } prev = { remove_point_of_interest = kuat_galatic_empire_ge_invasion_secondary_portal_poi_3 } }
-					else_if = { limit = { solar_system = { has_star_flag = kuat_galatic_empire_portal_system_4 } } prev = { remove_point_of_interest = kuat_galatic_empire_ge_invasion_secondary_portal_poi_4 } }
-					else_if = { limit = { solar_system = { has_star_flag = kuat_galatic_empire_portal_system_5 } } prev = { remove_point_of_interest = kuat_galatic_empire_ge_invasion_secondary_portal_poi_5 } }
-					else_if = { limit = { solar_system = { has_star_flag = kuat_galatic_empire_portal_system_6 } } prev = { remove_point_of_interest = kuat_galatic_empire_ge_invasion_secondary_portal_poi_6 } }
+				root.fromfromfrom? = {
+					if = { limit = { solar_system? = { has_star_flag = kuat_galatic_empire_portal_system_1 } } prev? = { remove_point_of_interest = kuat_galatic_empire_ge_invasion_secondary_portal_poi_1 } }
+					else_if = { limit = { solar_system? = { has_star_flag = kuat_galatic_empire_portal_system_2 } } prev? = { remove_point_of_interest = kuat_galatic_empire_ge_invasion_secondary_portal_poi_2 } }
+					else_if = { limit = { solar_system? = { has_star_flag = kuat_galatic_empire_portal_system_3 } } prev? = { remove_point_of_interest = kuat_galatic_empire_ge_invasion_secondary_portal_poi_3 } }
+					else_if = { limit = { solar_system? = { has_star_flag = kuat_galatic_empire_portal_system_4 } } prev? = { remove_point_of_interest = kuat_galatic_empire_ge_invasion_secondary_portal_poi_4 } }
+					else_if = { limit = { solar_system? = { has_star_flag = kuat_galatic_empire_portal_system_5 } } prev? = { remove_point_of_interest = kuat_galatic_empire_ge_invasion_secondary_portal_poi_5 } }
+					else_if = { limit = { solar_system? = { has_star_flag = kuat_galatic_empire_portal_system_6 } } prev? = { remove_point_of_interest = kuat_galatic_empire_ge_invasion_secondary_portal_poi_6 } }
 				}
 			}
 			if = {
 				limit = { has_event_chain = "kuat_galatic_empire_oc_invasion_chain" }
 				add_event_chain_counter = { event_chain = "kuat_galatic_empire_oc_invasion_chain" counter = kuat_galatic_empire_ge_invasion_portal amount = -1 }
-				root.fromfromfrom = {
-					if = { limit = { solar_system = { has_star_flag = kuat_galatic_empire_portal_system_1 } } prev = { remove_point_of_interest = kuat_galatic_empire_oc_invasion_secondary_portal_poi_1 } }
-					else_if = { limit = { solar_system = { has_star_flag = kuat_galatic_empire_portal_system_2 } } prev = { remove_point_of_interest = kuat_galatic_empire_oc_invasion_secondary_portal_poi_2 } }
-					else_if = { limit = { solar_system = { has_star_flag = kuat_galatic_empire_portal_system_3 } } prev = { remove_point_of_interest = kuat_galatic_empire_oc_invasion_secondary_portal_poi_3 } }
-					else_if = { limit = { solar_system = { has_star_flag = kuat_galatic_empire_portal_system_4 } } prev = { remove_point_of_interest = kuat_galatic_empire_oc_invasion_secondary_portal_poi_4 } }
-					else_if = { limit = { solar_system = { has_star_flag = kuat_galatic_empire_portal_system_5 } } prev = { remove_point_of_interest = kuat_galatic_empire_oc_invasion_secondary_portal_poi_5 } }
-					else_if = { limit = { solar_system = { has_star_flag = kuat_galatic_empire_portal_system_6 } } prev = { remove_point_of_interest = kuat_galatic_empire_oc_invasion_secondary_portal_poi_6 } }
+				root.fromfromfrom? = {
+					if = { limit = { solar_system? = { has_star_flag = kuat_galatic_empire_portal_system_1 } } prev? = { remove_point_of_interest = kuat_galatic_empire_oc_invasion_secondary_portal_poi_1 } }
+					else_if = { limit = { solar_system? = { has_star_flag = kuat_galatic_empire_portal_system_2 } } prev? = { remove_point_of_interest = kuat_galatic_empire_oc_invasion_secondary_portal_poi_2 } }
+					else_if = { limit = { solar_system? = { has_star_flag = kuat_galatic_empire_portal_system_3 } } prev? = { remove_point_of_interest = kuat_galatic_empire_oc_invasion_secondary_portal_poi_3 } }
+					else_if = { limit = { solar_system? = { has_star_flag = kuat_galatic_empire_portal_system_4 } } prev? = { remove_point_of_interest = kuat_galatic_empire_oc_invasion_secondary_portal_poi_4 } }
+					else_if = { limit = { solar_system? = { has_star_flag = kuat_galatic_empire_portal_system_5 } } prev? = { remove_point_of_interest = kuat_galatic_empire_oc_invasion_secondary_portal_poi_5 } }
+					else_if = { limit = { solar_system? = { has_star_flag = kuat_galatic_empire_portal_system_6 } } prev? = { remove_point_of_interest = kuat_galatic_empire_oc_invasion_secondary_portal_poi_6 } }
 				}
 			}
 			if = {
 				limit = { has_event_chain = "kuat_galatic_empire_pc_invasion_chain" }
 				add_event_chain_counter = { event_chain = "kuat_galatic_empire_pc_invasion_chain" counter = kuat_galatic_empire_ge_invasion_portal amount = -1 }
-				root.fromfromfrom = {
-					if = { limit = { solar_system = { has_star_flag = kuat_galatic_empire_portal_system_1 } } prev = { remove_point_of_interest = kuat_galatic_empire_oc_invasion_secondary_portal_poi_1 } }
-					else_if = { limit = { solar_system = { has_star_flag = kuat_galatic_empire_portal_system_2 } } prev = { remove_point_of_interest = kuat_galatic_empire_oc_invasion_secondary_portal_poi_2 } }
-					else_if = { limit = { solar_system = { has_star_flag = kuat_galatic_empire_portal_system_3 } } prev = { remove_point_of_interest = kuat_galatic_empire_oc_invasion_secondary_portal_poi_3 } }
-					else_if = { limit = { solar_system = { has_star_flag = kuat_galatic_empire_portal_system_4 } } prev = { remove_point_of_interest = kuat_galatic_empire_oc_invasion_secondary_portal_poi_4 } }
-					else_if = { limit = { solar_system = { has_star_flag = kuat_galatic_empire_portal_system_5 } } prev = { remove_point_of_interest = kuat_galatic_empire_oc_invasion_secondary_portal_poi_5 } }
-					else_if = { limit = { solar_system = { has_star_flag = kuat_galatic_empire_portal_system_6 } } prev = { remove_point_of_interest = kuat_galatic_empire_oc_invasion_secondary_portal_poi_6 } }
+				root.fromfromfrom? = {
+					if = { limit = { solar_system? = { has_star_flag = kuat_galatic_empire_portal_system_1 } } prev? = { remove_point_of_interest = kuat_galatic_empire_oc_invasion_secondary_portal_poi_1 } }
+					else_if = { limit = { solar_system? = { has_star_flag = kuat_galatic_empire_portal_system_2 } } prev? = { remove_point_of_interest = kuat_galatic_empire_oc_invasion_secondary_portal_poi_2 } }
+					else_if = { limit = { solar_system? = { has_star_flag = kuat_galatic_empire_portal_system_3 } } prev? = { remove_point_of_interest = kuat_galatic_empire_oc_invasion_secondary_portal_poi_3 } }
+					else_if = { limit = { solar_system? = { has_star_flag = kuat_galatic_empire_portal_system_4 } } prev? = { remove_point_of_interest = kuat_galatic_empire_oc_invasion_secondary_portal_poi_4 } }
+					else_if = { limit = { solar_system? = { has_star_flag = kuat_galatic_empire_portal_system_5 } } prev? = { remove_point_of_interest = kuat_galatic_empire_oc_invasion_secondary_portal_poi_5 } }
+					else_if = { limit = { solar_system? = { has_star_flag = kuat_galatic_empire_portal_system_6 } } prev? = { remove_point_of_interest = kuat_galatic_empire_oc_invasion_secondary_portal_poi_6 } }
 				}
 			}
 		}
 		if = {
-			limit = { fromfromfrom = { has_ship_flag = kuat_galatic_empire_ge_secondary_portal } }
+			limit = { fromfromfrom? = { has_ship_flag = kuat_galatic_empire_ge_secondary_portal } }
 			country_event = { id = kuat_galatic_empire_ge_invasion.235 }
 			every_country = {
 				limit = { NOR = { is_same_value = root is_same_value = root.from } }
@@ -2568,7 +2568,7 @@ country_event = {
 	option = { name = "kuat_galatic_empire_ge_invasion.238.a" }
 	after = {  
 		if = {
-			limit = { root.from = {
+			limit = { root.from? = {
 				kuat_is_enable_post_apocalyptic_origin = no 
 				NOT = { has_special_project = kuat_galatic_empire_end_ge_invasion_project }
 			} }
@@ -2578,7 +2578,7 @@ country_event = {
 			} }
 		}
 		else_if = {
-			limit = { root.from = {
+			limit = { root.from? = {
 				kuat_is_enable_post_apocalyptic_origin = yes 
 				NOT = { has_special_project = kuat_post_apocalyptic_end_ge_invasion_project }
 			} }
@@ -2620,7 +2620,7 @@ event = {
 					orbit = {
 						NOT = { is_star = yes }
 						exists = owner
-						owner = { is_hostile = event_target:Kuat_Galatic_Empire_invasion_country }
+						owner? = { is_hostile = event_target:Kuat_Galatic_Empire_invasion_country }
 					}
 				}
 			}
@@ -2638,10 +2638,10 @@ country_event = {
 		has_global_flag = kuat_galatic_empire_ge_invasion_begin
 		NOT = { has_global_flag = kuat_galatic_empire_ge_invasion_ended }
 		has_country_flag = Kuat_Galatic_Empire_invasion_country
-		from = { has_fleet_flag = kuat_galatic_empire_ge_assault_fleet }
-		fromfrom = { exists = this OR = { is_star = yes NOT = { exists = owner } } }
+		from? = { has_fleet_flag = kuat_galatic_empire_ge_assault_fleet }
+		fromfrom? = { exists = this OR = { is_star = yes NOT = { exists = owner } } }
 	}
-	immediate = { from = { fleet_event = { id = kuat_galatic_empire_ge_invasion.241 days = 2 random = 2 } } }
+	immediate = { from? = { fleet_event = { id = kuat_galatic_empire_ge_invasion.241 days = 2 random = 2 } } }
 }
 
 # on_entering_system Check system fleet
@@ -2651,9 +2651,9 @@ ship_event = {
 	is_triggered_only = yes
 
 	trigger = {
-		owner = { is_invisable_faction = no }
+		owner? = { is_invisable_faction = no }
 		exists = event_target:Kuat_Galatic_Empire_invasion_country
-		from = { has_star_flag = kuat_galatic_empire_e_area_system }
+		from? = { has_star_flag = kuat_galatic_empire_e_area_system }
 	}
 
 	immediate = { 
@@ -2669,7 +2669,7 @@ ship_event = {
 				exists = event_target:global_event_country
 				event_target:global_event_country = { check_variable = { which = kuat_galatic_empire_ge_invasion_num_portals_destroyed value >= 6 } }
 			}
-			fleet = { if = { limit = { exists = owner owner = { is_ai = yes } } fleet = { destroy_fleet = { target = this destroy_template = yes kill_leader = no } } } }
+			fleet = { if = { limit = { exists = owner owner? = { is_ai = yes } } fleet = { destroy_fleet = { target = this destroy_template = yes kill_leader = no } } } }
 		}
 	}
 }
@@ -2931,7 +2931,7 @@ situation_event = {
 		hidden_effect = { 
 			set_global_flag = kuat_origin_system_initial_creating_eternal
 			kuat_origin_system_initial_creating = yes 
-			owner = { country_event = { id = kuat_galatic_empire_ge_invasion.253 days = 2 random = 1 } }
+			owner? = { country_event = { id = kuat_galatic_empire_ge_invasion.253 days = 2 random = 1 } }
 		}
 	}
 	after = { destroy_situation = this }
@@ -3198,7 +3198,7 @@ country_event = {
 		} }
 		event_target:zakuul_system = {
 			set_star_class = sc_a
-			system_star = { change_pc = pc_g_star change_planet_size = 16 }
+			system_star? = { change_pc = pc_g_star change_planet_size = 16 }
 		}
 		set_global_flag = fire_facility_return 
 	}
@@ -3227,7 +3227,7 @@ country_event = {
 		event_target:eternal_support_country = { destroy_country = yes }
 		event_target:zakuul_system = {
 			set_star_class = sc_a
-			system_star = { change_pc = pc_g_star change_planet_size = 16 }
+			system_star? = { change_pc = pc_g_star change_planet_size = 16 }
 		}
 		set_global_flag = fire_facility_return 
 	}
@@ -3243,7 +3243,7 @@ country_event = {
 		exists = event_target:Kuat_Galatic_Empire_invasion_country
 		any_system = { 
 			NOT = { has_star_flag = kuat_galatic_empire_e_area_system }
-			any_fleet_in_system = { exists = owner owner = { is_same_value = event_target:Kuat_Galatic_Empire_invasion_country } }
+			any_fleet_in_system = { exists = owner owner? = { is_same_value = event_target:Kuat_Galatic_Empire_invasion_country } }
 		}
 		any_owned_fleet = { has_fleet_flag = kuat_disable_fleet_action_order }
 		is_country_type = eternal_support_guadian
@@ -3268,7 +3268,7 @@ fleet_event = {
 	} }
 	immediate = {
 		if = {
-			limit = { solar_system = { any_fleet_in_system = { OR = {
+			limit = { solar_system? = { any_fleet_in_system = { OR = {
 				has_fleet_flag = kuat_galatic_empire_ge_secondary_portal_guradian
 				has_fleet_flag = kuat_galatic_empire_ge_primary_portal_guradian
 			} } } }

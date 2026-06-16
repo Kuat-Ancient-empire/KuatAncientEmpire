@@ -4,13 +4,13 @@
 kuat_exe_invasion_jump_drive_planet_action  = {
 	optimize_memory
 	random_list = {
-		9 = { prevprev = { auto_move_to_planet = { target = prev clear_auto_move_on_arrival = yes } } }
+		9 = { prevprev? = { auto_move_to_planet = { target = prev clear_auto_move_on_arrival = yes } } }
 		1 = {
 			modifier = {
 				factor = 0
-				prevprev = { any_owned_ship = { has_ship_flag = kuat_jump_drive_cooldown } }
+				prevprev? = { any_owned_ship = { has_ship_flag = kuat_jump_drive_cooldown } }
 			}
-			prevprev = {
+			prevprev? = {
 				set_location = { target = prev distance = 300 angle = random }
 				every_owned_ship = { kuat_create_jump_particle_effect = yes }
 				while = {
@@ -30,16 +30,16 @@ kuat_exe_invasion_jump_drive_planet_action  = {
 kuat_exe_invasion_jump_drive_fleet_action  = {
 	optimize_memory
 	random_list = {
-		9 = { prevprev = { 
+		9 = { prevprev? = { 
 			auto_follow_fleet = { target = prev attack_fleet = yes } 
 			#set_fleet_flag = kuat_disable_other_fleet_in_system
 		} }
 		1 = {
 			modifier = {
 				factor = 0
-				prevprev = { any_owned_ship = { has_ship_flag = kuat_jump_drive_cooldown } }
+				prevprev? = { any_owned_ship = { has_ship_flag = kuat_jump_drive_cooldown } }
 			}
-			prevprev = {
+			prevprev? = {
 				set_location = { target = prev distance = @kuat_galatic_empire_ge_fleet_jumpdrive_to_target_distance angle = random }
 				every_owned_ship = { kuat_create_jump_particle_effect = yes }
 				while = {
@@ -79,9 +79,9 @@ kuat_exe_invasion_fleet_wandering_action = {
 	random_list = {
 		#周围星系随机设置目标
 		75 = {
-			solar_system = { random_neighbor_system = {
+			solar_system? = { random_neighbor_system = {
 				limit = { 
-					prevprev = { can_access_system = prev } 
+					prevprev? = { can_access_system = prev } 
 					kuat_is_invisable_target_system = no
 				}
 				save_event_target_as = $TYPE$_invasion_fleet_wandering_action_target
@@ -89,20 +89,20 @@ kuat_exe_invasion_fleet_wandering_action = {
 			if = {
 				limit = { exists = event_target:$TYPE$_invasion_fleet_wandering_action_target }
 				event_target:$TYPE$_invasion_fleet_wandering_action_target = {
-					system_star = { prevprev = { auto_move_to_planet = { target = prev clear_auto_move_on_arrival = yes } } }
+					system_star? = { prevprev? = { auto_move_to_planet = { target = prev clear_auto_move_on_arrival = yes } } }
 				}
 			} 
 			else_if = {
 				limit = { any_system = {
-					prev = { can_access_system = prev }
+					prev? = { can_access_system = prev }
 					kuat_is_invisable_target_system = no
 				} }
 				random_system = {
-					limit = { prev = { can_access_system = prev } }
+					limit = { prev? = { can_access_system = prev } }
 					save_event_target_as = $TYPE$_invasion_fleet_wandering_action_target
 				}
 				event_target:$TYPE$_invasion_fleet_wandering_action_target = {
-					system_star = { prevprev = { auto_move_to_planet = { target = prev clear_auto_move_on_arrival = yes } } }
+					system_star? = { prevprev? = { auto_move_to_planet = { target = prev clear_auto_move_on_arrival = yes } } }
 				}
 			}
 			else = { 
@@ -128,21 +128,21 @@ kuat_exe_invasion_fleet_wandering_action = {
 					OR = {
 						AND = {
 							exists = starbase
-							starbase = { exists = owner owner = { is_hostile = event_target:$OWNER$ } }
+							starbase = { exists = owner owner? = { is_hostile = event_target:$OWNER$ } }
 						}
 						any_system_planet = {
 							exists = controller
-							controller = { is_hostile = event_target:$OWNER$ }
+							controller? = { is_hostile = event_target:$OWNER$ }
 							is_colony = yes
 							count_fleet_in_orbit = { count = 0 limit = {
 								exists = owner
-								owner = { is_same_value = event_target:$OWNER$ }
+								owner? = { is_same_value = event_target:$OWNER$ }
 								NOT = { is_same_value = prevprevprev }
 							} }
 						}
 						any_ship_in_system = {
 							exists = owner
-							owner = { is_hostile = event_target:$OWNER$ }
+							owner? = { is_hostile = event_target:$OWNER$ }
 							is_disabled = no is_cloaked = no
 						}
 					}
@@ -154,7 +154,7 @@ kuat_exe_invasion_fleet_wandering_action = {
 				event_target:$TYPE$_invasion_fleet_wandering_action_target = {
 					random_system_planet = {
 						limit = { is_primary_star = yes }
-						prevprev = {
+						prevprev? = {
 							set_location = { target = prev distance = 300 angle = random }
 							every_owned_ship = { kuat_create_jump_particle_effect = yes }
 							auto_move_to_planet = { target = prev clear_auto_move_on_arrival = yes }
@@ -163,9 +163,9 @@ kuat_exe_invasion_fleet_wandering_action = {
 				}
 			} 
 			else = {
-				solar_system = { random_neighbor_system = {
+				solar_system? = { random_neighbor_system = {
 					limit = { 
-						prevprev = { can_access_system = prev } 
+						prevprev? = { can_access_system = prev } 
 						kuat_is_invisable_target_system = no
 					}
 					save_event_target_as = $TYPE$_invasion_fleet_wandering_action_target
@@ -173,20 +173,20 @@ kuat_exe_invasion_fleet_wandering_action = {
 				if = {
 					limit = { exists = event_target:$TYPE$_invasion_fleet_wandering_action_target }
 					event_target:$TYPE$_invasion_fleet_wandering_action_target = {
-						system_star = { prevprev = { auto_move_to_planet = { target = prev clear_auto_move_on_arrival = yes } } }
+						system_star? = { prevprev? = { auto_move_to_planet = { target = prev clear_auto_move_on_arrival = yes } } }
 					}
 				} 
 				else_if = {
 					limit = { any_system = {
-						prev = { can_access_system = prev }
+						prev? = { can_access_system = prev }
 						kuat_is_invisable_target_system = no
 					} }
 					random_system = {
-						limit = { prev = { can_access_system = prev } }
+						limit = { prev? = { can_access_system = prev } }
 						save_event_target_as = $TYPE$_invasion_fleet_wandering_action_target
 					}
 					event_target:$TYPE$_invasion_fleet_wandering_action_target = {
-						system_star = { prevprev = { auto_move_to_planet = { target = prev clear_auto_move_on_arrival = yes } } }
+						system_star? = { prevprev? = { auto_move_to_planet = { target = prev clear_auto_move_on_arrival = yes } } }
 					}
 				}
 				else = { 
@@ -205,32 +205,32 @@ kuat_exe_invasion_fleet_action = {
 	if = {
 		limit = {
 			exists = solar_system
-			solar_system = {
+			solar_system? = {
 				any_system_planet = {
 					exists = controller
-					controller = { is_hostile = event_target:$OWNER$ }
+					controller? = { is_hostile = event_target:$OWNER$ }
 					is_colony = yes
 					count_fleet_in_orbit = { count = 0 limit = {
 						exists = owner
-						owner = { is_same_value = event_target:$OWNER$ }
+						owner? = { is_same_value = event_target:$OWNER$ }
 						NOT = { is_same_value = prevprevprev }
 					} }
 				}
 			}
 		}
-		solar_system = {
+		solar_system? = {
 			random_system_planet = {
 				limit = {
 					exists = controller
-					controller = { is_hostile = event_target:$OWNER$ }
+					controller? = { is_hostile = event_target:$OWNER$ }
 					is_colony = yes
 					count_fleet_in_orbit = { count = 0 limit = {
 						exists = owner
-						owner = { is_same_value = event_target:$OWNER$ }
+						owner? = { is_same_value = event_target:$OWNER$ }
 						NOT = { is_same_value = prevprevprev }
 					} }
 				}
-				prevprev = { auto_move_to_planet = { target = prev clear_auto_move_on_arrival = yes } }
+				prevprev? = { auto_move_to_planet = { target = prev clear_auto_move_on_arrival = yes } }
 			}
 		}
 	}
@@ -238,20 +238,20 @@ kuat_exe_invasion_fleet_action = {
 	else_if = {
 		limit = {
 			exists = solar_system
-			solar_system = { any_ship_in_system = {
+			solar_system? = { any_ship_in_system = {
 				exists = owner
-				owner = { is_hostile = event_target:$OWNER$ }
+				owner? = { is_hostile = event_target:$OWNER$ }
 				is_disabled = no is_cloaked = no
 			} }
 		}
-		solar_system = {
+		solar_system? = {
 			random_fleet_in_system = {
 				limit = {
 					exists = owner
-					owner = { is_hostile = event_target:$OWNER$ }
+					owner? = { is_hostile = event_target:$OWNER$ }
 					any_owned_ship = { is_disabled = no is_cloaked = no }
 				}
-				prevprev = { 
+				prevprev? = { 
 					auto_follow_fleet = { target = prev attack_fleet = yes } 
 					#set_fleet_flag = kuat_disable_other_fleet_in_system
 				}
@@ -261,43 +261,43 @@ kuat_exe_invasion_fleet_action = {
 	# 寻找周围星系有无敌对单位
 	else_if = {
 		limit = {
-			solar_system = { any_neighbor_system = {  
+			solar_system? = { any_neighbor_system = {  
 				OR = {
 					AND = {
 						exists = starbase
-						starbase = { exists = owner owner = { is_hostile = event_target:$OWNER$ } }
+						starbase = { exists = owner owner? = { is_hostile = event_target:$OWNER$ } }
 					}
 					any_ship_in_system = {
 						exists = owner
-						owner = { is_hostile = event_target:$OWNER$ }
+						owner? = { is_hostile = event_target:$OWNER$ }
 						is_disabled = no is_cloaked = no
 					}
 				}	
 				kuat_is_invisable_target_system = no
 			} }
 		}
-		solar_system = { random_neighbor_system = {
+		solar_system? = { random_neighbor_system = {
 			limit = {  
 				OR = {
 					AND = {
 						exists = starbase
-						starbase = { exists = owner owner = { is_hostile = event_target:$OWNER$ } }
+						starbase = { exists = owner owner? = { is_hostile = event_target:$OWNER$ } }
 					}
 					any_ship_in_system = {
 						exists = owner
-						owner = { is_hostile = event_target:$OWNER$ }
+						owner? = { is_hostile = event_target:$OWNER$ }
 						is_disabled = no is_cloaked = no
 					}
 				}	
 				kuat_is_invisable_target_system = no
 			}
-			system_star = { prevprevprev = { auto_move_to_planet = { target = prev clear_auto_move_on_arrival = yes } } }
+			system_star? = { prevprevprev? = { auto_move_to_planet = { target = prev clear_auto_move_on_arrival = yes } } }
 		} }
 	}
 	# 在夸特的星系内，寻找军事基地星域
 	else_if = {
 		limit = {
-			solar_system = { kuat_is_kuat_system = yes }
+			solar_system? = { kuat_is_kuat_system = yes }
 			any_system = {
 				has_star_flag = kuat_military_core_home
 				any_system_megastructure = { is_megastructure_type = exe_outer_gate }
@@ -305,7 +305,7 @@ kuat_exe_invasion_fleet_action = {
 		}
 		if = {
 			limit = {
-				solar_system = { OR = {
+				solar_system? = { OR = {
 					has_star_flag = Kuat_system 
 					has_star_flag = Kuat_system_int
 				} }
@@ -315,12 +315,12 @@ kuat_exe_invasion_fleet_action = {
 					has_star_flag = Kuat_system_3 
 					has_star_flag = Kuat_system_int_3
 				} }
-				system_star = { prevprev = { auto_move_to_planet = { target = prev clear_auto_move_on_arrival = yes } } }
+				system_star? = { prevprev? = { auto_move_to_planet = { target = prev clear_auto_move_on_arrival = yes } } }
 			}
 		}
 		else_if = {
 			limit = {
-				solar_system = { OR = {
+				solar_system? = { OR = {
 					has_star_flag = Kuat_system_3 
 					has_star_flag = Kuat_system_int_3
 				} }
@@ -330,12 +330,12 @@ kuat_exe_invasion_fleet_action = {
 					has_star_flag = Kuat_system_2 
 					has_star_flag = Kuat_system_int_2
 				} }
-				system_star = { prevprev = { auto_move_to_planet = { target = prev clear_auto_move_on_arrival = yes } } }
+				system_star? = { prevprev? = { auto_move_to_planet = { target = prev clear_auto_move_on_arrival = yes } } }
 			}
 		}
 		else_if = {
 			limit = {
-				solar_system = { OR = {
+				solar_system? = { OR = {
 					has_star_flag = Kuat_system_2 
 					has_star_flag = Kuat_system_int_2
 				} }
@@ -345,12 +345,12 @@ kuat_exe_invasion_fleet_action = {
 					has_star_flag = Kuat_system_1
 					has_star_flag = Kuat_system_int_1
 				} }
-				system_star = { prevprev = { auto_move_to_planet = { target = prev clear_auto_move_on_arrival = yes } } }
+				system_star? = { prevprev? = { auto_move_to_planet = { target = prev clear_auto_move_on_arrival = yes } } }
 			}
 		}
 		else_if = {
 			limit = {
-				solar_system = { OR = {
+				solar_system? = { OR = {
 					has_star_flag = Kuat_system_1 
 					has_star_flag = Kuat_system_int_1
 					has_star_flag = Kuat_system_int_4
@@ -361,14 +361,14 @@ kuat_exe_invasion_fleet_action = {
 					has_star_flag = kuat_military_core_home
 					any_system_megastructure = { is_megastructure_type = exe_outer_gate }
 				}
-				system_star = { prevprev = { auto_move_to_planet = { target = prev clear_auto_move_on_arrival = yes } } }
+				system_star? = { prevprev? = { auto_move_to_planet = { target = prev clear_auto_move_on_arrival = yes } } }
 			}
 		}
 	}
 	# 在军事基地核心星域寻找没有己方舰队的出口
 	else_if = {
 		limit = { 
-			solar_system = { has_star_flag = kuat_military_core_home }
+			solar_system? = { has_star_flag = kuat_military_core_home }
 			any_system = {
 				has_star_flag = kuat_military_sublocal_home
 				count_fleet_in_system = {
@@ -385,18 +385,18 @@ kuat_exe_invasion_fleet_action = {
 					limit = { NOT = { is_same_value = prevprev } has_fleet_flag = ag_kuat_invasion_fleet }
 				}
 			}
-			system_star = { prevprev = { auto_move_to_planet = { target = prev clear_auto_move_on_arrival = yes } } }
+			system_star? = { prevprev? = { auto_move_to_planet = { target = prev clear_auto_move_on_arrival = yes } } }
 		}
 	}
 	# 在军事基地外围星域寻找出口
 	else_if = {
 		limit = {  
-			solar_system = { has_star_flag = kuat_military_sublocal_home }
+			solar_system? = { has_star_flag = kuat_military_sublocal_home }
 			any_system = { has_star_flag = kuat_outlander_exe_center_rim_gate }
 		}
 		random_system = {
 			limit = { has_star_flag = kuat_outlander_exe_center_rim_gate }
-			system_star = { prevprev = { auto_move_to_planet = { target = prev clear_auto_move_on_arrival = yes } } }
+			system_star? = { prevprev? = { auto_move_to_planet = { target = prev clear_auto_move_on_arrival = yes } } }
 		}
 	}
 	# 自主行为启动
@@ -414,22 +414,22 @@ kuat_exe_invasion_fleet_action = {
 								exists = starbase
 								starbase = {
 									exists = owner
-									owner = { is_hostile = event_target:$OWNER$ }
+									owner? = { is_hostile = event_target:$OWNER$ }
 								}
 							}
 							any_system_planet = {
 								exists = controller
-								controller = { is_hostile = event_target:$OWNER$ }
+								controller? = { is_hostile = event_target:$OWNER$ }
 								is_colony = yes
 								count_fleet_in_orbit = { count = 0 limit = {
 									exists = owner
-									owner = { is_same_value = event_target:$OWNER$ }
+									owner? = { is_same_value = event_target:$OWNER$ }
 									NOT = { is_same_value = prevprevprev }
 								} }
 							}
 						}
 						kuat_is_invisable_target_system = no
-						prev = { can_access_system = prev }
+						prev? = { can_access_system = prev }
 					}
 					save_event_target_as = $TYPE$_invasion_fleet_action_target
 				}
@@ -442,11 +442,11 @@ kuat_exe_invasion_fleet_action = {
 							limit = {
 								any_system_planet = {
 									exists = controller
-									controller = { is_hostile = event_target:$OWNER$ }
+									controller? = { is_hostile = event_target:$OWNER$ }
 									is_colony = yes
 									count_fleet_in_orbit = { count = 0 limit = {
 										exists = owner
-										owner = { is_same_value = event_target:$OWNER$ }
+										owner? = { is_same_value = event_target:$OWNER$ }
 										NOT = { is_same_value = prevprevprev }
 									} }
 								}
@@ -454,18 +454,18 @@ kuat_exe_invasion_fleet_action = {
 							random_system_planet = {
 								limit = {
 									exists = controller
-									controller = { is_hostile = event_target:$OWNER$ }
+									controller? = { is_hostile = event_target:$OWNER$ }
 									is_colony = yes
 									count_fleet_in_orbit = { count = 0 limit = {
 										exists = owner
-										owner = { is_same_value = event_target:$OWNER$ }
+										owner? = { is_same_value = event_target:$OWNER$ }
 										NOT = { is_same_value = prevprevprev }
 									} }
 								}
 								kuat_exe_invasion_jump_drive_planet_action = yes
 							}
 						} 
-						else = { system_star = { prevprev = { auto_move_to_planet = { target = prev clear_auto_move_on_arrival = yes } } } }
+						else = { system_star? = { prevprev? = { auto_move_to_planet = { target = prev clear_auto_move_on_arrival = yes } } } }
 					}
 				} 
 				#找不到目标，再找一次
@@ -480,16 +480,16 @@ kuat_exe_invasion_fleet_action = {
 									exists = starbase
 									starbase = {
 										exists = owner
-										owner = { is_hostile = event_target:$OWNER$ }
+										owner? = { is_hostile = event_target:$OWNER$ }
 									}
 								}
 								any_system_planet = {
 									exists = controller
-									controller = { is_hostile = event_target:$OWNER$ }
+									controller? = { is_hostile = event_target:$OWNER$ }
 									is_colony = yes
 									count_fleet_in_orbit = { count = 0 limit = {
 										exists = owner
-										owner = { is_same_value = event_target:$OWNER$ }
+										owner? = { is_same_value = event_target:$OWNER$ }
 										NOT = { is_same_value = prevprevprev }
 									} }
 								}
@@ -507,11 +507,11 @@ kuat_exe_invasion_fleet_action = {
 								limit = {
 									any_system_planet = {
 										exists = controller
-										controller = { is_hostile = event_target:$OWNER$ }
+										controller? = { is_hostile = event_target:$OWNER$ }
 										is_colony = yes
 										count_fleet_in_orbit = { count = 0 limit = {
 											exists = owner
-											owner = { is_same_value = event_target:$OWNER$ }
+											owner? = { is_same_value = event_target:$OWNER$ }
 											NOT = { is_same_value = prevprevprev }
 										} }
 									}
@@ -519,18 +519,18 @@ kuat_exe_invasion_fleet_action = {
 								random_system_planet = {
 									limit = {
 										exists = controller
-										controller = { is_hostile = event_target:$OWNER$ }
+										controller? = { is_hostile = event_target:$OWNER$ }
 										is_colony = yes
 										count_fleet_in_orbit = { count = 0 limit = {
 											exists = owner
-											owner = { is_same_value = event_target:$OWNER$ }
+											owner? = { is_same_value = event_target:$OWNER$ }
 											NOT = { is_same_value = prevprevprev }
 										} }
 									}
 									kuat_exe_invasion_jump_drive_planet_action = yes
 								}
 							} 
-							else = { system_star = { prevprev = { auto_move_to_planet = { target = prev clear_auto_move_on_arrival = yes } } } }
+							else = { system_star? = { prevprev? = { auto_move_to_planet = { target = prev clear_auto_move_on_arrival = yes } } } }
 						}
 					} 
 					#找不到目标，摆烂了，开始转圈
@@ -552,21 +552,21 @@ kuat_exe_invasion_fleet_action = {
 						OR = {
 							AND = {
 								exists = starbase
-								starbase = { exists = owner owner = { is_hostile = event_target:$OWNER$ } }
+								starbase = { exists = owner owner? = { is_hostile = event_target:$OWNER$ } }
 							}
 							any_system_planet = {
 								exists = controller
-								controller = { is_hostile = event_target:$OWNER$ }
+								controller? = { is_hostile = event_target:$OWNER$ }
 								is_colony = yes
 								count_fleet_in_orbit = { count = 0 limit = {
 									exists = owner
-									owner = { is_same_value = event_target:$OWNER$ }
+									owner? = { is_same_value = event_target:$OWNER$ }
 									NOT = { is_same_value = prevprevprev }
 								} }
 							}
 						}
 						kuat_is_invisable_target_system = no
-						prev = { can_access_system = prev }
+						prev? = { can_access_system = prev }
 					}
 					save_event_target_as = $TYPE$_invasion_fleet_action_target
 				}
@@ -579,11 +579,11 @@ kuat_exe_invasion_fleet_action = {
 							limit = {
 								any_system_planet = {
 									exists = controller
-									controller = { is_hostile = event_target:$OWNER$ }
+									controller? = { is_hostile = event_target:$OWNER$ }
 									is_colony = yes
 									count_fleet_in_orbit = { count = 0 limit = {
 										exists = owner
-										owner = { is_same_value = event_target:$OWNER$ }
+										owner? = { is_same_value = event_target:$OWNER$ }
 										NOT = { is_same_value = prevprevprev }
 									} }
 								}
@@ -591,18 +591,18 @@ kuat_exe_invasion_fleet_action = {
 							random_system_planet = {
 								limit = {
 									exists = controller
-									controller = { is_hostile = event_target:$OWNER$ }
+									controller? = { is_hostile = event_target:$OWNER$ }
 									is_colony = yes
 									count_fleet_in_orbit = { count = 0 limit = {
 										exists = owner
-										owner = { is_same_value = event_target:$OWNER$ }
+										owner? = { is_same_value = event_target:$OWNER$ }
 										NOT = { is_same_value = prevprevprev }
 									} }
 								}
 								kuat_exe_invasion_jump_drive_planet_action = yes
 							}
 						} 
-						else = { system_star = { prevprev = { auto_move_to_planet = { target = prev clear_auto_move_on_arrival = yes } } } }
+						else = { system_star? = { prevprev? = { auto_move_to_planet = { target = prev clear_auto_move_on_arrival = yes } } } }
 					}
 				} 
 				#找不到目标，再找一次
@@ -622,16 +622,16 @@ kuat_exe_invasion_fleet_action = {
 									exists = starbase
 									starbase = {
 										exists = owner
-										owner = { is_hostile = event_target:$OWNER$ }
+										owner? = { is_hostile = event_target:$OWNER$ }
 									}
 								}
 								any_system_planet = {
 									exists = controller
-									controller = { is_hostile = event_target:$OWNER$ }
+									controller? = { is_hostile = event_target:$OWNER$ }
 									is_colony = yes
 									count_fleet_in_orbit = { count = 0 limit = {
 										exists = owner
-										owner = { is_same_value = event_target:$OWNER$ }
+										owner? = { is_same_value = event_target:$OWNER$ }
 										NOT = { is_same_value = prevprevprev }
 									} }
 								}
@@ -649,11 +649,11 @@ kuat_exe_invasion_fleet_action = {
 								limit = {
 									any_system_planet = {
 										exists = controller
-										controller = { is_hostile = event_target:$OWNER$ }
+										controller? = { is_hostile = event_target:$OWNER$ }
 										is_colony = yes
 										count_fleet_in_orbit = { count = 0 limit = {
 											exists = owner
-											owner = { is_same_value = event_target:$OWNER$ }
+											owner? = { is_same_value = event_target:$OWNER$ }
 											NOT = { is_same_value = prevprevprev }
 										} }
 									}
@@ -661,18 +661,18 @@ kuat_exe_invasion_fleet_action = {
 								random_system_planet = {
 									limit = {
 										exists = controller
-										controller = { is_hostile = event_target:$OWNER$ }
+										controller? = { is_hostile = event_target:$OWNER$ }
 										is_colony = yes
 										count_fleet_in_orbit = { count = 0 limit = {
 											exists = owner
-											owner = { is_same_value = event_target:$OWNER$ }
+											owner? = { is_same_value = event_target:$OWNER$ }
 											NOT = { is_same_value = prevprevprev }
 										} }
 									}
 									kuat_exe_invasion_jump_drive_planet_action = yes
 								}
 							} 
-							else = { system_star = { prevprev = { auto_move_to_planet = { target = prev clear_auto_move_on_arrival = yes } } } }
+							else = { system_star? = { prevprev? = { auto_move_to_planet = { target = prev clear_auto_move_on_arrival = yes } } } }
 						}
 					} 
 					#找不到目标，摆烂了，开始转圈
@@ -687,11 +687,11 @@ kuat_exe_invasion_fleet_action = {
 						NOT = { is_same_value = prev.solar_system }
 						any_ship_in_system = {
 							exists = owner
-							owner = { is_hostile = event_target:$OWNER$ }
+							owner? = { is_hostile = event_target:$OWNER$ }
 							is_disabled = no is_cloaked = no
 						}
 						kuat_is_invisable_target_system = no
-						prev = { can_access_system = prev }
+						prev? = { can_access_system = prev }
 					}
 					save_event_target_as = $TYPE$_invasion_fleet_action_target
 				}
@@ -702,7 +702,7 @@ kuat_exe_invasion_fleet_action = {
 						random_fleet_in_system = {
 							limit = {
 								exists = owner
-								owner = { is_hostile = event_target:$OWNER$ }
+								owner? = { is_hostile = event_target:$OWNER$ }
 								any_owned_ship = { is_disabled = no is_cloaked = no }
 								is_ship_class = shipclass_military
 							}
@@ -718,7 +718,7 @@ kuat_exe_invasion_fleet_action = {
 							NOT = { is_same_value = prev.solar_system }
 							any_ship_in_system = {
 								exists = owner
-								owner = { is_hostile = event_target:$OWNER$ }
+								owner? = { is_hostile = event_target:$OWNER$ }
 								is_disabled = no is_cloaked = no
 							}
 							kuat_is_invisable_target_system = no
@@ -732,7 +732,7 @@ kuat_exe_invasion_fleet_action = {
 							random_fleet_in_system = {
 								limit = {
 									exists = owner
-									owner = { is_hostile = event_target:$OWNER$ }
+									owner? = { is_hostile = event_target:$OWNER$ }
 									any_owned_ship = { is_disabled = no is_cloaked = no }
 									is_ship_class = shipclass_military
 								}
@@ -758,11 +758,11 @@ kuat_exe_invasion_fleet_action = {
 						}
 						any_ship_in_system = {
 							exists = owner
-							owner = { is_hostile = event_target:$OWNER$ }
+							owner? = { is_hostile = event_target:$OWNER$ }
 							is_disabled = no is_cloaked = no
 						}
 						kuat_is_invisable_target_system = no
-						prev = { can_access_system = prev }
+						prev? = { can_access_system = prev }
 					}
 					save_event_target_as = $TYPE$_invasion_fleet_action_target
 				}
@@ -773,7 +773,7 @@ kuat_exe_invasion_fleet_action = {
 						random_fleet_in_system = {
 							limit = {
 								exists = owner
-								owner = { is_hostile = event_target:$OWNER$ }
+								owner? = { is_hostile = event_target:$OWNER$ }
 								any_owned_ship = { is_disabled = no is_cloaked = no }
 								is_ship_class = shipclass_military
 							}
@@ -795,7 +795,7 @@ kuat_exe_invasion_fleet_action = {
 							}
 							any_ship_in_system = {
 								exists = owner
-								owner = { is_hostile = event_target:$OWNER$ }
+								owner? = { is_hostile = event_target:$OWNER$ }
 								is_disabled = no is_cloaked = no
 							}
 							kuat_is_invisable_target_system = no
@@ -809,7 +809,7 @@ kuat_exe_invasion_fleet_action = {
 							random_fleet_in_system = {
 								limit = {
 									exists = owner
-									owner = { is_hostile = event_target:$OWNER$ }
+									owner? = { is_hostile = event_target:$OWNER$ }
 									any_owned_ship = { is_disabled = no is_cloaked = no }
 									is_ship_class = shipclass_military
 								}
@@ -846,7 +846,7 @@ kuat_fleet_execute_order_1 = {
 								kuat_is_kuat_fleet_execute_order_target = { TARGET = $OWNER_TARGET$ }
 								check_variable = { which = solar_fleet_occupy_id value < 1 }
 							}
-							random_system_planet = { ROOT = { 
+							random_system_planet = { ROOT? = { 
 								set_location = { target = PREV distance = 300 angle = random } 
 								every_owned_ship = { kuat_create_jump_particle_effect = yes }
 							} }
@@ -866,8 +866,8 @@ kuat_fleet_execute_order_1 = {
 			find_closest_system = {
 				trigger = {
 					id = executor.1.find
-					ROOT = { can_access_system = prev }
-					exists = starbase starbase = { controller = { is_hostile = $OWNER_TARGET$ } }
+					ROOT? = { can_access_system = prev }
+					exists = starbase starbase = { controller? = { is_hostile = $OWNER_TARGET$ } }
 					check_variable = { which = solar_fleet_occupy_id value < 1 }
 				}
 				found_system = {
@@ -881,30 +881,30 @@ kuat_fleet_execute_order_1 = {
 							id = executor.1.repeat
 							any_system_planet = {
 								exists = controller
-								controller = { is_at_war_with = $OWNER_TARGET$ }
+								controller? = { is_at_war_with = $OWNER_TARGET$ }
 							}
 						}
 						find_closest_planet = {
 							trigger = {
 								id = executor.1.find_planet
 								exists = controller
-								controller = { is_at_war_with = $OWNER_TARGET$ }
+								controller? = { is_at_war_with = $OWNER_TARGET$ }
 							}
 							found_planet = {
 								orbit_planet = this
 								effect = {
 									id = executor.1.find_planet.effect
 									set_carrier_flag = ruins_planet
-									ROOT = { set_fleet_flag = kuat_fallen_bombaring_fleet }
+									ROOT? = { set_fleet_flag = kuat_fallen_bombaring_fleet }
 								}
 								repeat = {
 									while = { 
 										id = executor.1.find_planet.while
-										ROOT = { has_fleet_flag = kuat_fallen_bombaring_fleet } 
+										ROOT? = { has_fleet_flag = kuat_fallen_bombaring_fleet } 
 									}
 									effect = {
 										id = executor.1.find_planet.effect.repeat
-										if = { limit = { is_colony = no } ROOT = { remove_fleet_flag = kuat_fallen_bombaring_fleet } }
+										if = { limit = { is_colony = no } ROOT? = { remove_fleet_flag = kuat_fallen_bombaring_fleet } }
 									} 
 									wait = 5
 								}
@@ -918,7 +918,7 @@ kuat_fleet_execute_order_1 = {
 					find_closest_system = {
 						trigger = {
 							id = executor.1.faild.find
-							ROOT = { can_access_system = prev }
+							ROOT? = { can_access_system = prev }
 							kuat_is_kuat_fleet_execute_order_target = { TARGET = $OWNER_TARGET$ }
 							check_variable = { which = solar_fleet_occupy_id value < 1 }
 						}
@@ -933,30 +933,30 @@ kuat_fleet_execute_order_1 = {
 									id = executor.1.faild.find.effect.repeat
 									any_system_planet = {
 										exists = controller
-										controller = { is_at_war_with = $OWNER_TARGET$ }
+										controller? = { is_at_war_with = $OWNER_TARGET$ }
 									}
 								}
 								find_closest_planet = {
 									trigger = {
 										id = executor.1.faild.find_planet
 										exists = controller
-										controller = { is_at_war_with = $OWNER_TARGET$ }
+										controller? = { is_at_war_with = $OWNER_TARGET$ }
 									}
 									found_planet = {
 										orbit_planet = this
 										effect = {
 											id = executor.1.faild.find_planet.effect
 											set_carrier_flag = ruins_planet
-											ROOT = { set_fleet_flag = kuat_fallen_bombaring_fleet }
+											ROOT? = { set_fleet_flag = kuat_fallen_bombaring_fleet }
 										}
 										repeat = {
 											while = { 
 												id = executor.1.faild.find_planet.while
-												ROOT = { has_fleet_flag = kuat_fallen_bombaring_fleet } 
+												ROOT? = { has_fleet_flag = kuat_fallen_bombaring_fleet } 
 											}
 											effect = {
 												id = executor.1.faild.find_planet.effect.repeat
-												if = { limit = { is_colony = no } ROOT = { remove_fleet_flag = kuat_fallen_bombaring_fleet } }
+												if = { limit = { is_colony = no } ROOT? = { remove_fleet_flag = kuat_fallen_bombaring_fleet } }
 											}
 											wait = 3
 										}
@@ -966,7 +966,7 @@ kuat_fleet_execute_order_1 = {
 							}
 							wait = 30
 						}
-						failed = { effect = { id = executor.2 ROOT = { set_fleet_flag = kuat_cannot_find_path } } wait = 60 }
+						failed = { effect = { id = executor.2 ROOT? = { set_fleet_flag = kuat_cannot_find_path } } wait = 60 }
 					}
 				}
 			}
@@ -985,8 +985,8 @@ kuat_fleet_execute_order_3 = {
 					if = {
 						limit = { any_country = { kuat_is_crisis_faction = yes } }
 						random_system = {
-							limit = { any_fleet_in_system = { owner = { kuat_is_crisis_faction = yes } } }
-							random_system_planet = { prevprev = { 
+							limit = { any_fleet_in_system = { owner? = { kuat_is_crisis_faction = yes } } }
+							random_system_planet = { prevprev? = { 
 								set_location = { target = PREV distance = 300 angle = random } 
 								every_owned_ship = { kuat_create_jump_particle_effect = yes }
 							}  }
@@ -1006,8 +1006,8 @@ kuat_fleet_execute_order_3 = {
 			find_closest_system = {
 				trigger = {
 					id = executor.20
-					any_fleet_in_system = { owner = { kuat_is_crisis_faction = yes } }
-					prev = { can_access_system = prev }
+					any_fleet_in_system = { owner? = { kuat_is_crisis_faction = yes } }
+					prev? = { can_access_system = prev }
 					check_variable = { which = solar_fleet_occupy_id value < 1 }
 				}
 				found_system = {
@@ -1019,7 +1019,7 @@ kuat_fleet_execute_order_3 = {
 					repeat = {
 						while = {
 							id = executor.20.a
-							any_fleet_in_system = { owner = { kuat_is_crisis_faction = yes } }
+							any_fleet_in_system = { owner? = { kuat_is_crisis_faction = yes } }
 						}
 						move_to = this wait = 5
 					} 
@@ -1029,21 +1029,21 @@ kuat_fleet_execute_order_3 = {
 					find_closest_system = {
 						trigger = {
 							id = executor.21
-							any_fleet_in_system = { owner = { kuat_is_crisis_faction = yes } }
-							prev = { can_access_system = prev }
+							any_fleet_in_system = { owner? = { kuat_is_crisis_faction = yes } }
+							prev? = { can_access_system = prev }
 						}
 						found_system = { 
 							move_to = this
 							repeat = {
 								while = {
 									id = executor.21.a
-									any_fleet_in_system = { owner = { kuat_is_crisis_faction = yes } }
+									any_fleet_in_system = { owner? = { kuat_is_crisis_faction = yes } }
 								}
 								move_to = this wait = 5
 							} 
 							wait = 15
 						}
-						failed = { effect = { id = executor.23 prev = { set_fleet_flag = kuat_cannot_find_path } } wait = 60 }
+						failed = { effect = { id = executor.23 prev? = { set_fleet_flag = kuat_cannot_find_path } } wait = 60 }
 					}
 				}
 			}
@@ -1062,14 +1062,14 @@ kuat_eternal_guardian_fleet_action = {
 				if = {
 					limit = { any_system = {
 						NOT = { has_star_flag = kuat_galatic_empire_e_area_system }
-						any_fleet_in_system = { exists = owner owner = { is_same_value = event_target:Kuat_Galatic_Empire_invasion_country } }
+						any_fleet_in_system = { exists = owner owner? = { is_same_value = event_target:Kuat_Galatic_Empire_invasion_country } }
 					} }
 					random_system = {
 						limit = {
 							NOT = { has_star_flag = kuat_galatic_empire_e_area_system }
-							any_fleet_in_system = { exists = owner owner = { is_same_value = event_target:Kuat_Galatic_Empire_invasion_country } }
+							any_fleet_in_system = { exists = owner owner? = { is_same_value = event_target:Kuat_Galatic_Empire_invasion_country } }
 						}
-						random_system_planet = { ROOT = { set_location = { target = PREV distance = 5 angle = random } } }
+						random_system_planet = { ROOT? = { set_location = { target = PREV distance = 5 angle = random } } }
 					}
 				}
 				else = { clear_fleet_actions = this clear_orders = yes set_fleet_flag = kuat_disable_fleet_action_order }
@@ -1081,8 +1081,8 @@ kuat_eternal_guardian_fleet_action = {
 				id = kuat_galatic_empire_ge_invasion.218.attack1
 				NOT = { has_star_flag = kuat_galatic_empire_e_area_system }
 				distance = { source = root type = hyperlane max_jumps = 1 }
-				any_fleet_in_system = { exists = owner owner = { is_same_value = event_target:Kuat_Galatic_Empire_invasion_country } }
-				ROOT = { can_access_system = prev }
+				any_fleet_in_system = { exists = owner owner? = { is_same_value = event_target:Kuat_Galatic_Empire_invasion_country } }
+				ROOT? = { can_access_system = prev }
 			}
 			found_system = { move_to = this wait = 3 }
 			failed = { find_closest_system = {
@@ -1090,8 +1090,8 @@ kuat_eternal_guardian_fleet_action = {
 					id = kuat_galatic_empire_ge_invasion.218.attack2
 					NOT = { has_star_flag = kuat_galatic_empire_e_area_system }
 					distance = { source = root type = hyperlane max_jumps = 2 }
-					any_fleet_in_system = { exists = owner owner = { is_same_value = event_target:Kuat_Galatic_Empire_invasion_country } }
-					ROOT = { can_access_system = prev }
+					any_fleet_in_system = { exists = owner owner? = { is_same_value = event_target:Kuat_Galatic_Empire_invasion_country } }
+					ROOT? = { can_access_system = prev }
 				}
 				found_system = { move_to = this wait = 3 }
 				failed = { find_closest_system = {
@@ -1099,10 +1099,10 @@ kuat_eternal_guardian_fleet_action = {
 						id = kuat_galatic_empire_ge_invasion.218.defender1
 						is_same_value = event_target:zakuul_system
 						distance = { source = root type = hyperlane max_jumps = 2 }
-						any_fleet_in_system = { exists = owner owner = { is_same_value = event_target:Kuat_Galatic_Empire_invasion_country } }
+						any_fleet_in_system = { exists = owner owner? = { is_same_value = event_target:Kuat_Galatic_Empire_invasion_country } }
 					}
 					found_system = { move_to = this wait = 3 }
-					failed = { wait = 60 effect = { id = kuat_galatic_empire_ge_invasion.218.e13 root = { set_fleet_flag = eternal_findout_path } } }
+					failed = { wait = 60 effect = { id = kuat_galatic_empire_ge_invasion.218.e13 root? = { set_fleet_flag = eternal_findout_path } } }
 				} }
 			} }
 		}
@@ -1115,11 +1115,11 @@ kuat_kae_ge_jumpdrive_to_target = {
 	every_owned_ship = { kuat_create_jump_particle_effect = yes }
 	set_location = { target = prev distance = @kuat_galatic_empire_ge_fleet_jumpdrive_to_target_distance angle = random }
 	if = {
-		limit = { prev = { is_scope_type = planet } }
+		limit = { prev? = { is_scope_type = planet } }
 		auto_move_to_planet = { target = prev clear_auto_move_on_arrival = yes }
 	}
 	else_if = {
-		limit = { prev = { is_scope_type = fleet } }
+		limit = { prev? = { is_scope_type = fleet } }
 		auto_follow_fleet = { target = prev attack_fleet = yes }
 		#set_fleet_flag = kuat_disable_other_fleet_in_system
 	}
@@ -1129,51 +1129,51 @@ kuat_kae_ge_assault_fleet_action = {
 	optimize_memory
 	if = {
 		limit = {
-			root = {
+			root? = {
 				exists = solar_system
-				solar_system = {
+				solar_system? = {
 					any_system_planet = {
 						OR = {
 							AND = {
 								exists = owner
-								owner = { is_hostile = event_target:Kuat_Galatic_Empire_invasion_country }
+								owner? = { is_hostile = event_target:Kuat_Galatic_Empire_invasion_country }
 							}
 							AND = {
 								exists = controller
-								controller = { is_hostile = event_target:Kuat_Galatic_Empire_invasion_country }
+								controller? = { is_hostile = event_target:Kuat_Galatic_Empire_invasion_country }
 							}
 						}
 						is_colony = yes
 						NOT = { any_fleet_in_orbit = {
 							exists = owner
-							owner = { is_same_value = event_target:Kuat_Galatic_Empire_invasion_country }
+							owner? = { is_same_value = event_target:Kuat_Galatic_Empire_invasion_country }
 							NOT = { is_same_value = root }
 						} }
 					}
 				}
 			}
 		}
-		root.solar_system = {
+		root.solar_system? = {
 			random_system_planet = {
 				limit = {
 					OR = {
 						AND = {
 							exists = owner
-							owner = { is_hostile = event_target:Kuat_Galatic_Empire_invasion_country }
+							owner? = { is_hostile = event_target:Kuat_Galatic_Empire_invasion_country }
 						}
 						AND = {
 							exists = controller
-							controller = { is_hostile = event_target:Kuat_Galatic_Empire_invasion_country }
+							controller? = { is_hostile = event_target:Kuat_Galatic_Empire_invasion_country }
 						}
 					}
 					is_colony = yes
 					NOT = { any_fleet_in_orbit = {
 						exists = owner
-						owner = { is_same_value = event_target:Kuat_Galatic_Empire_invasion_country }
+						owner? = { is_same_value = event_target:Kuat_Galatic_Empire_invasion_country }
 						NOT = { is_same_value = root }
 					} }
 				}
-				prevprev = {
+				prevprev? = {
 					auto_move_to_planet = {
 						target = prev
 						clear_auto_move_on_arrival = yes
@@ -1184,27 +1184,27 @@ kuat_kae_ge_assault_fleet_action = {
 	}
 	else_if = {
 		limit = {
-			root = {
+			root? = {
 				exists = solar_system
-				solar_system = {
+				solar_system? = {
 					any_ship_in_system = {
 						is_disabled = no
 						is_ship_class = shipclass_military
 						exists = owner
-						owner = { is_hostile = event_target:Kuat_Galatic_Empire_invasion_country }
+						owner? = { is_hostile = event_target:Kuat_Galatic_Empire_invasion_country }
 					}
 				}
 			}
 		}
-		root.solar_system = {
+		root.solar_system? = {
 			random_fleet_in_system = {
 				limit = {
 					exists = owner
-					owner = { is_hostile = event_target:Kuat_Galatic_Empire_invasion_country }
+					owner? = { is_hostile = event_target:Kuat_Galatic_Empire_invasion_country }
 					any_owned_ship = { is_disabled = no is_cloaked = no }
 					is_ship_class = shipclass_military
 				}
-				prevprev = { 
+				prevprev? = { 
 					auto_follow_fleet = { target = prev attack_fleet = yes }
 					#set_fleet_flag = kuat_disable_other_fleet_in_system
 				}
@@ -1213,16 +1213,16 @@ kuat_kae_ge_assault_fleet_action = {
 	}
 	else_if = {
 		limit = {
-			root = { exists = solar_system }
-			root.solar_system = { has_star_flag = kuat_galatic_empire_e_area_system }
+			root? = { exists = solar_system }
+			root.solar_system? = { has_star_flag = kuat_galatic_empire_e_area_system }
 			any_system = {
 				if = {
-					limit = { root.solar_system = {
+					limit = { root.solar_system? = {
 						count_fleet_in_system = { limit = { has_fleet_flag = kuat_galatic_empire_ge_assault_fleet } count > 3 }
 					} }
 					NOT = { has_star_flag = kuat_galatic_empire_e_area_system }
 					exists = owner
-					owner = { is_hostile = event_target:Kuat_Galatic_Empire_invasion_country }
+					owner? = { is_hostile = event_target:Kuat_Galatic_Empire_invasion_country }
 				}
 				else = {
 					NOT = { has_star_flag = kuat_galatic_empire_e_area_system }
@@ -1233,12 +1233,12 @@ kuat_kae_ge_assault_fleet_action = {
 		random_system = {
 			limit = {
 				if = {
-					limit = { root.solar_system = {
+					limit = { root.solar_system? = {
 						count_fleet_in_system = { limit = { has_fleet_flag = kuat_galatic_empire_ge_assault_fleet } count > 3 }
 					} }
 					NOT = { has_star_flag = kuat_galatic_empire_e_area_system }
 					exists = owner
-					owner = { is_hostile = event_target:Kuat_Galatic_Empire_invasion_country }
+					owner? = { is_hostile = event_target:Kuat_Galatic_Empire_invasion_country }
 				}
 				else = { 
 					NOT = { has_star_flag = kuat_galatic_empire_e_area_system }
@@ -1247,27 +1247,27 @@ kuat_kae_ge_assault_fleet_action = {
 			}
 			random_system_planet = {
 				limit = { is_primary_star = yes }
-				prevprev = { auto_move_to_planet = { target = prev clear_auto_move_on_arrival = yes } }
+				prevprev? = { auto_move_to_planet = { target = prev clear_auto_move_on_arrival = yes } }
 			}
 		}
 	}
 	else_if = {
 		limit = {
-			root = { exists = solar_system }
-			root.solar_system = { any_neighbor_system = {
+			root? = { exists = solar_system }
+			root.solar_system? = { any_neighbor_system = {
 				exists = starbase
-				starbase = { exists = owner owner = { is_hostile = event_target:Kuat_Galatic_Empire_invasion_country } }
+				starbase = { exists = owner owner? = { is_hostile = event_target:Kuat_Galatic_Empire_invasion_country } }
 			} }
 		}
-		root.solar_system = {
+		root.solar_system? = {
 			random_neighbor_system = {
 				limit = {
 					exists = starbase
-					starbase = { exists = owner owner = { is_hostile = event_target:Kuat_Galatic_Empire_invasion_country } }
+					starbase = { exists = owner owner? = { is_hostile = event_target:Kuat_Galatic_Empire_invasion_country } }
 				}
 				random_system_planet = {
 					limit = { is_primary_star = yes }
-					prevprevprev = { auto_move_to_planet = { target = prev clear_auto_move_on_arrival = yes } }
+					prevprevprev? = { auto_move_to_planet = { target = prev clear_auto_move_on_arrival = yes } }
 				}
 			}
 		}
@@ -1286,29 +1286,29 @@ kuat_kae_ge_assault_fleet_action = {
 								exists = starbase
 								starbase = {
 									exists = owner
-									owner = {
+									owner? = {
 										is_hostile = event_target:Kuat_Galatic_Empire_invasion_country
 									}
 								}
 							}
 							any_system_planet = {
 								exists = owner
-								owner = {
+								owner? = {
 									is_hostile = event_target:Kuat_Galatic_Empire_invasion_country
 								}
 								exists = controller
-								controller = {
+								controller? = {
 									is_hostile = event_target:Kuat_Galatic_Empire_invasion_country
 								}
 								is_colony = yes
 								NOT = { any_fleet_in_orbit = {
 									exists = owner
-									owner = { is_same_value = event_target:Kuat_Galatic_Empire_invasion_country }
+									owner? = { is_same_value = event_target:Kuat_Galatic_Empire_invasion_country }
 									NOT = { is_same_value = root }
 								} }
 							}
 						}
-						prev = { can_access_system = prev }
+						prev? = { can_access_system = prev }
 					}
 					save_event_target_as = kuat_galatic_empire_ge_assault_fleet_action_target
 				}
@@ -1321,17 +1321,17 @@ kuat_kae_ge_assault_fleet_action = {
 							limit = {
 								any_system_planet = {
 									exists = owner
-									owner = {
+									owner? = {
 										is_hostile = event_target:Kuat_Galatic_Empire_invasion_country
 									}
 									exists = controller
-									controller = {
+									controller? = {
 										is_hostile = event_target:Kuat_Galatic_Empire_invasion_country
 									}
 									is_colony = yes
 									NOT = { any_fleet_in_orbit = {
 										exists = owner
-										owner = { is_same_value = event_target:Kuat_Galatic_Empire_invasion_country }
+										owner? = { is_same_value = event_target:Kuat_Galatic_Empire_invasion_country }
 										NOT = { is_same_value = root }
 									} }
 								}
@@ -1339,18 +1339,18 @@ kuat_kae_ge_assault_fleet_action = {
 							random_system_planet = {
 								limit = {
 									exists = owner
-									owner = {
+									owner? = {
 										is_hostile = event_target:Kuat_Galatic_Empire_invasion_country
 									}
 									exists = controller
-									controller = {
+									controller? = {
 										is_hostile = event_target:Kuat_Galatic_Empire_invasion_country
 									}
 									is_colony = yes
 									NOT = {
 										any_fleet_in_orbit = {
 											exists = owner
-											owner = {
+											owner? = {
 												is_same_value = event_target:Kuat_Galatic_Empire_invasion_country
 											}
 											NOT = { is_same_value = root }
@@ -1359,7 +1359,7 @@ kuat_kae_ge_assault_fleet_action = {
 								}
 								random_list = {
 									75 = {
-										prevprev = {
+										prevprev? = {
 											auto_move_to_planet = {
 												target = prev
 												clear_auto_move_on_arrival = yes
@@ -1369,13 +1369,13 @@ kuat_kae_ge_assault_fleet_action = {
 									25 = {
 										modifier = {
 											factor = 0
-											prevprev = {
+											prevprev? = {
 												any_owned_ship = {
 													has_ship_flag = kuat_jump_drive_cooldown
 												}
 											}
 										}
-										prevprev = { kuat_kae_ge_jumpdrive_to_target = yes }
+										prevprev? = { kuat_kae_ge_jumpdrive_to_target = yes }
 									}
 								}
 							}
@@ -1385,7 +1385,7 @@ kuat_kae_ge_assault_fleet_action = {
 								limit = {
 									is_primary_star = yes
 								}
-								prevprev = {
+								prevprev? = {
 									auto_move_to_planet = {
 										target = prev
 										clear_auto_move_on_arrival = yes
@@ -1406,24 +1406,24 @@ kuat_kae_ge_assault_fleet_action = {
 									exists = starbase
 									starbase = {
 										exists = owner
-										owner = {
+										owner? = {
 											is_hostile = event_target:Kuat_Galatic_Empire_invasion_country
 										}
 									}
 								}
 								any_system_planet = {
 									exists = owner
-									owner = {
+									owner? = {
 										is_hostile = event_target:Kuat_Galatic_Empire_invasion_country
 									}
 									exists = controller
-									controller = {
+									controller? = {
 										is_hostile = event_target:Kuat_Galatic_Empire_invasion_country
 									}
 									is_colony = yes
 									NOT = { any_fleet_in_orbit = {
 										exists = owner
-										owner = { is_same_value = event_target:Kuat_Galatic_Empire_invasion_country }
+										owner? = { is_same_value = event_target:Kuat_Galatic_Empire_invasion_country }
 										NOT = { is_same_value = root }
 									} }
 								}
@@ -1448,17 +1448,17 @@ kuat_kae_ge_assault_fleet_action = {
 										limit = {
 											any_system_planet = {
 												exists = owner
-												owner = {
+												owner? = {
 													is_hostile = event_target:Kuat_Galatic_Empire_invasion_country
 												}
 												exists = controller
-												controller = {
+												controller? = {
 													is_hostile = event_target:Kuat_Galatic_Empire_invasion_country
 												}
 												is_colony = yes
 												NOT = { any_fleet_in_orbit = {
 													exists = owner
-													owner = { is_same_value = event_target:Kuat_Galatic_Empire_invasion_country }
+													owner? = { is_same_value = event_target:Kuat_Galatic_Empire_invasion_country }
 													NOT = { is_same_value = root }
 												} }
 											}
@@ -1466,21 +1466,21 @@ kuat_kae_ge_assault_fleet_action = {
 										random_system_planet = {
 											limit = {
 												exists = owner
-												owner = {
+												owner? = {
 													is_hostile = event_target:Kuat_Galatic_Empire_invasion_country
 												}
 												exists = controller
-												controller = {
+												controller? = {
 													is_hostile = event_target:Kuat_Galatic_Empire_invasion_country
 												}
 												is_colony = yes
 												NOT = { any_fleet_in_orbit = {
 													exists = owner
-													owner = { is_same_value = event_target:Kuat_Galatic_Empire_invasion_country }
+													owner? = { is_same_value = event_target:Kuat_Galatic_Empire_invasion_country }
 													NOT = { is_same_value = root }
 												} }
 											}
-											prevprev = { kuat_kae_ge_jumpdrive_to_target = yes }
+											prevprev? = { kuat_kae_ge_jumpdrive_to_target = yes }
 										}
 									}
 									else = {
@@ -1488,7 +1488,7 @@ kuat_kae_ge_assault_fleet_action = {
 											limit = {
 												is_primary_star = yes
 											}
-											prevprev = { kuat_kae_ge_jumpdrive_to_target = yes }
+											prevprev? = { kuat_kae_ge_jumpdrive_to_target = yes }
 										}
 									}
 								}
@@ -1519,29 +1519,29 @@ kuat_kae_ge_assault_fleet_action = {
 								exists = starbase
 								starbase = {
 									exists = owner
-									owner = {
+									owner? = {
 										is_hostile = event_target:Kuat_Galatic_Empire_invasion_country
 									}
 								}
 							}
 							any_system_planet = {
 								exists = owner
-								owner = {
+								owner? = {
 									is_hostile = event_target:Kuat_Galatic_Empire_invasion_country
 								}
 								exists = controller
-								controller = {
+								controller? = {
 									is_hostile = event_target:Kuat_Galatic_Empire_invasion_country
 								}
 								is_colony = yes
 								NOT = { any_fleet_in_orbit = {
 									exists = owner
-									owner = { is_same_value = event_target:Kuat_Galatic_Empire_invasion_country }
+									owner? = { is_same_value = event_target:Kuat_Galatic_Empire_invasion_country }
 									NOT = { is_same_value = root }
 								} }
 							}
 						}
-						prev = { can_access_system = prev }
+						prev? = { can_access_system = prev }
 					}
 					save_event_target_as = kuat_galatic_empire_ge_assault_fleet_action_target
 				}
@@ -1554,17 +1554,17 @@ kuat_kae_ge_assault_fleet_action = {
 							limit = {
 								any_system_planet = {
 									exists = owner
-									owner = {
+									owner? = {
 										is_hostile = event_target:Kuat_Galatic_Empire_invasion_country
 									}
 									exists = controller
-									controller = {
+									controller? = {
 										is_hostile = event_target:Kuat_Galatic_Empire_invasion_country
 									}
 									is_colony = yes
 									NOT = { any_fleet_in_orbit = {
 										exists = owner
-										owner = { is_same_value = event_target:Kuat_Galatic_Empire_invasion_country }
+										owner? = { is_same_value = event_target:Kuat_Galatic_Empire_invasion_country }
 										NOT = { is_same_value = root }
 									} }
 								}
@@ -1572,18 +1572,18 @@ kuat_kae_ge_assault_fleet_action = {
 							random_system_planet = {
 								limit = {
 									exists = owner
-									owner = {
+									owner? = {
 										is_hostile = event_target:Kuat_Galatic_Empire_invasion_country
 									}
 									exists = controller
-									controller = {
+									controller? = {
 										is_hostile = event_target:Kuat_Galatic_Empire_invasion_country
 									}
 									is_colony = yes
 									NOT = {
 										any_fleet_in_orbit = {
 											exists = owner
-											owner = {
+											owner? = {
 												is_same_value = event_target:Kuat_Galatic_Empire_invasion_country
 											}
 											NOT = { is_same_value = root }
@@ -1592,7 +1592,7 @@ kuat_kae_ge_assault_fleet_action = {
 								}
 								random_list = {
 									75 = {
-										prevprev = {
+										prevprev? = {
 											auto_move_to_planet = {
 												target = prev
 												clear_auto_move_on_arrival = yes
@@ -1602,13 +1602,13 @@ kuat_kae_ge_assault_fleet_action = {
 									25 = {
 										modifier = {
 											factor = 0
-											prevprev = {
+											prevprev? = {
 												any_owned_ship = {
 													has_ship_flag = kuat_jump_drive_cooldown
 												}
 											}
 										}
-										prevprev = { kuat_kae_ge_jumpdrive_to_target = yes }
+										prevprev? = { kuat_kae_ge_jumpdrive_to_target = yes }
 									}
 								}
 							}
@@ -1618,7 +1618,7 @@ kuat_kae_ge_assault_fleet_action = {
 								limit = {
 									is_primary_star = yes
 								}
-								prevprev = {
+								prevprev? = {
 									auto_move_to_planet = {
 										target = prev
 										clear_auto_move_on_arrival = yes
@@ -1644,24 +1644,24 @@ kuat_kae_ge_assault_fleet_action = {
 									exists = starbase
 									starbase = {
 										exists = owner
-										owner = {
+										owner? = {
 											is_hostile = event_target:Kuat_Galatic_Empire_invasion_country
 										}
 									}
 								}
 								any_system_planet = {
 									exists = owner
-									owner = {
+									owner? = {
 										is_hostile = event_target:Kuat_Galatic_Empire_invasion_country
 									}
 									exists = controller
-									controller = {
+									controller? = {
 										is_hostile = event_target:Kuat_Galatic_Empire_invasion_country
 									}
 									is_colony = yes
 									NOT = { any_fleet_in_orbit = {
 										exists = owner
-										owner = { is_same_value = event_target:Kuat_Galatic_Empire_invasion_country }
+										owner? = { is_same_value = event_target:Kuat_Galatic_Empire_invasion_country }
 										NOT = { is_same_value = root }
 									} }
 								}
@@ -1686,17 +1686,17 @@ kuat_kae_ge_assault_fleet_action = {
 										limit = {
 											any_system_planet = {
 												exists = owner
-												owner = {
+												owner? = {
 													is_hostile = event_target:Kuat_Galatic_Empire_invasion_country
 												}
 												exists = controller
-												controller = {
+												controller? = {
 													is_hostile = event_target:Kuat_Galatic_Empire_invasion_country
 												}
 												is_colony = yes
 												NOT = { any_fleet_in_orbit = {
 													exists = owner
-													owner = { is_same_value = event_target:Kuat_Galatic_Empire_invasion_country }
+													owner? = { is_same_value = event_target:Kuat_Galatic_Empire_invasion_country }
 													NOT = { is_same_value = root }
 												} }
 											}
@@ -1704,25 +1704,25 @@ kuat_kae_ge_assault_fleet_action = {
 										random_system_planet = {
 											limit = {
 												exists = owner
-												owner = {
+												owner? = {
 													is_hostile = event_target:Kuat_Galatic_Empire_invasion_country
 												}
 												exists = controller
-												controller = {
+												controller? = {
 													is_hostile = event_target:Kuat_Galatic_Empire_invasion_country
 												}
 												is_colony = yes
 												NOT = {
 													any_fleet_in_orbit = {
 														exists = owner
-														owner = {
+														owner? = {
 															is_same_value = event_target:Kuat_Galatic_Empire_invasion_country
 														}
 														NOT = { is_same_value = root }
 													}
 												}
 											}
-											prevprev = { kuat_kae_ge_jumpdrive_to_target = yes }
+											prevprev? = { kuat_kae_ge_jumpdrive_to_target = yes }
 										}
 									}
 									else = {
@@ -1730,7 +1730,7 @@ kuat_kae_ge_assault_fleet_action = {
 											limit = {
 												is_primary_star = yes
 											}
-											prevprev = { kuat_kae_ge_jumpdrive_to_target = yes }
+											prevprev? = { kuat_kae_ge_jumpdrive_to_target = yes }
 										}
 									}
 								}
@@ -1755,11 +1755,11 @@ kuat_kae_ge_assault_fleet_action = {
 							is_disabled = no
 							is_ship_class = shipclass_military
 							exists = owner
-							owner = {
+							owner? = {
 								is_hostile = event_target:Kuat_Galatic_Empire_invasion_country
 							}
 						}
-						prev = { can_access_system = prev }
+						prev? = { can_access_system = prev }
 					}
 					save_event_target_as = kuat_galatic_empire_ge_assault_fleet_action_target
 				}
@@ -1771,7 +1771,7 @@ kuat_kae_ge_assault_fleet_action = {
 						random_fleet_in_system = {
 							limit = {
 								exists = owner
-								owner = {
+								owner? = {
 									is_hostile = event_target:Kuat_Galatic_Empire_invasion_country
 								}
 								any_owned_ship = {
@@ -1782,7 +1782,7 @@ kuat_kae_ge_assault_fleet_action = {
 							}
 							random_list = {
 								75 = {
-									prevprev = { 
+									prevprev? = { 
 										auto_follow_fleet = { target = prev attack_fleet = yes } 
 										#set_fleet_flag = kuat_disable_other_fleet_in_system
 									}
@@ -1790,13 +1790,13 @@ kuat_kae_ge_assault_fleet_action = {
 								25 = {
 									modifier = {
 										factor = 0
-										prevprev = {
+										prevprev? = {
 											any_owned_ship = {
 												has_ship_flag = kuat_jump_drive_cooldown
 											}
 										}
 									}
-									prevprev = { kuat_kae_ge_jumpdrive_to_target = yes }
+									prevprev? = { kuat_kae_ge_jumpdrive_to_target = yes }
 								}
 							}
 						}
@@ -1812,7 +1812,7 @@ kuat_kae_ge_assault_fleet_action = {
 								is_disabled = no
 								is_ship_class = shipclass_military
 								exists = owner
-								owner = {
+								owner? = {
 									is_hostile = event_target:Kuat_Galatic_Empire_invasion_country
 								}
 							}
@@ -1835,7 +1835,7 @@ kuat_kae_ge_assault_fleet_action = {
 									random_fleet_in_system = {
 										limit = {
 											exists = owner
-											owner = {
+											owner? = {
 												is_hostile = event_target:Kuat_Galatic_Empire_invasion_country
 											}
 											any_owned_ship = {
@@ -1843,7 +1843,7 @@ kuat_kae_ge_assault_fleet_action = {
 												is_ship_class = shipclass_military
 											}
 										}
-										prevprev = { kuat_kae_ge_jumpdrive_to_target = yes }
+										prevprev? = { kuat_kae_ge_jumpdrive_to_target = yes }
 									}
 								}
 							}
@@ -1872,11 +1872,11 @@ kuat_kae_ge_assault_fleet_action = {
 							is_disabled = no
 							is_ship_class = shipclass_military
 							exists = owner
-							owner = {
+							owner? = {
 								is_hostile = event_target:Kuat_Galatic_Empire_invasion_country
 							}
 						}
-						prev = { can_access_system = prev }
+						prev? = { can_access_system = prev }
 					}
 					save_event_target_as = kuat_galatic_empire_ge_assault_fleet_action_target
 				}
@@ -1888,7 +1888,7 @@ kuat_kae_ge_assault_fleet_action = {
 						random_fleet_in_system = {
 							limit = {
 								exists = owner
-								owner = {
+								owner? = {
 									is_hostile = event_target:Kuat_Galatic_Empire_invasion_country
 								}
 								any_owned_ship = {
@@ -1899,20 +1899,20 @@ kuat_kae_ge_assault_fleet_action = {
 							}
 							random_list = {
 								75 = {
-									prevprev = { 
+									prevprev? = { 
 										auto_follow_fleet = { target = prev attack_fleet = yes } 
 									}
 								}
 								25 = {
 									modifier = {
 										factor = 0
-										prevprev = {
+										prevprev? = {
 											any_owned_ship = {
 												has_ship_flag = kuat_jump_drive_cooldown
 											}
 										}
 									}
-									prevprev = { kuat_kae_ge_jumpdrive_to_target = yes }
+									prevprev? = { kuat_kae_ge_jumpdrive_to_target = yes }
 								}
 							}
 						}
@@ -1933,7 +1933,7 @@ kuat_kae_ge_assault_fleet_action = {
 								is_disabled = no
 								is_ship_class = shipclass_military
 								exists = owner
-								owner = {
+								owner? = {
 									is_hostile = event_target:Kuat_Galatic_Empire_invasion_country
 								}
 							}
@@ -1956,7 +1956,7 @@ kuat_kae_ge_assault_fleet_action = {
 									random_fleet_in_system = {
 										limit = {
 											exists = owner
-											owner = {
+											owner? = {
 												is_hostile = event_target:Kuat_Galatic_Empire_invasion_country
 											}
 											any_owned_ship = {
@@ -1964,7 +1964,7 @@ kuat_kae_ge_assault_fleet_action = {
 												is_ship_class = shipclass_military
 											}
 										}
-										prevprev = { kuat_kae_ge_jumpdrive_to_target = yes }
+										prevprev? = { kuat_kae_ge_jumpdrive_to_target = yes }
 									}
 								}
 							}
@@ -1996,19 +1996,19 @@ eternal_player_fleet_order_1 = {
 					OR = {
 						AND = {
 							is_colony = yes exists = owner
-							owner = { is_hostile = event_target:eternal_support_country }
+							owner? = { is_hostile = event_target:eternal_support_country }
 						}
 						AND = {
 							is_star = yes
-							solar_system = {
+							solar_system? = {
 								any_fleet_in_system = {
 									exists = owner
-									owner = { is_hostile = event_target:eternal_support_country }
+									owner? = { is_hostile = event_target:eternal_support_country }
 								}
 							}
 						}
 					}
-					solar_system = { is_same_value = prevprevprevprev }
+					solar_system? = { is_same_value = prevprevprevprev }
 				}
 				found_planet = {
 					orbit_planet = this
@@ -2017,19 +2017,19 @@ eternal_player_fleet_order_1 = {
 						if = {
 							limit = { is_colony = yes }
 							set_carrier_flag = ruins_planet
-							root = { set_fleet_flag = eternal_fallen_bombaring_fleet }
+							root? = { set_fleet_flag = eternal_fallen_bombaring_fleet }
 						}
 					}
 					repeat = {
 						while = { 
 							id = executing_eternal_fleet.3 
-							root = { has_fleet_flag = eternal_fallen_bombaring_fleet } 
+							root? = { has_fleet_flag = eternal_fallen_bombaring_fleet } 
 						}
 						effect = {
 							id = executing_eternal_fleet.4
 							if = { 
 								limit = { is_colony = no } 
-								root = { remove_fleet_flag = eternal_fallen_bombaring_fleet } 
+								root? = { remove_fleet_flag = eternal_fallen_bombaring_fleet } 
 							}
 						} 
 						wait = 5
@@ -2088,22 +2088,22 @@ kuat_exe_auto_fleet_action = {
 	if = {
 		limit = {
 			exists = solar_system
-			solar_system = { any_ship_in_system = {
+			solar_system? = { any_ship_in_system = {
 				exists = controller
-				controller = { is_at_war_with = $OWNER$ }
+				controller? = { is_at_war_with = $OWNER$ }
 				is_disabled = no is_cloaked = no
 				is_ship_class = shipclass_military
 			} }
 		}
-		solar_system = {
+		solar_system? = {
 			random_fleet_in_system = {
 				limit = {
 					exists = controller
-					controller = { is_at_war_with = $OWNER$ }
+					controller? = { is_at_war_with = $OWNER$ }
 					any_owned_ship = { is_disabled = no is_cloaked = no }
 					is_ship_class = shipclass_military
 				}
-				prevprev = { auto_follow_fleet = { target = prev attack_fleet = yes } }
+				prevprev? = { auto_follow_fleet = { target = prev attack_fleet = yes } }
 			}
 		}
 	}
@@ -2111,32 +2111,32 @@ kuat_exe_auto_fleet_action = {
 	else_if = {
 		limit = {
 			exists = solar_system
-			solar_system = {
+			solar_system? = {
 				any_system_planet = {
 					exists = controller
-					controller = { is_at_war_with = $OWNER$ }
+					controller? = { is_at_war_with = $OWNER$ }
 					is_colony = yes
 					count_fleet_in_orbit = { count = 0 limit = {
 						exists = controller
-						controller = { is_same_value = event_target:$OWNER$ }
+						controller? = { is_same_value = event_target:$OWNER$ }
 						NOT = { is_same_value = prevprevprev }
 					} }
 				}
 			}
 		}
-		solar_system = {
+		solar_system? = {
 			random_system_planet = {
 				limit = {
 					exists = controller
-					controller = { is_at_war_with = $OWNER$ }
+					controller? = { is_at_war_with = $OWNER$ }
 					is_colony = yes
 					count_fleet_in_orbit = { count = 0 limit = {
 						exists = controller
-						controller = { is_same_value = event_target:$OWNER$ }
+						controller? = { is_same_value = event_target:$OWNER$ }
 						NOT = { is_same_value = prevprevprev }
 					} }
 				}
-				prevprev = { auto_move_to_planet = { target = prev clear_auto_move_on_arrival = yes } }
+				prevprev? = { auto_move_to_planet = { target = prev clear_auto_move_on_arrival = yes } }
 			}
 		}
 	}
@@ -2144,31 +2144,31 @@ kuat_exe_auto_fleet_action = {
 	else_if = {
 		limit = {
 			exists = solar_system
-			solar_system = { any_neighbor_system = { OR = {
+			solar_system? = { any_neighbor_system = { OR = {
 				AND = {
 					exists = starbase
-					starbase = { exists = controller controller = { is_at_war_with = $OWNER$ } }
+					starbase = { exists = controller controller? = { is_at_war_with = $OWNER$ } }
 				}
 				any_ship_in_system = {
 					exists = controller
-					controller = { is_at_war_with = $OWNER$ }
+					controller? = { is_at_war_with = $OWNER$ }
 					is_disabled = no is_cloaked = no
 				}
 			} } }
 		}
-		solar_system = { random_neighbor_system = {
+		solar_system? = { random_neighbor_system = {
 			limit = { OR = {
 				AND = {
 					exists = starbase
-					starbase = { exists = controller controller = { is_at_war_with = $OWNER$ } }
+					starbase = { exists = controller controller? = { is_at_war_with = $OWNER$ } }
 				}
 				any_ship_in_system = {
 					exists = controller
-					controller = { is_at_war_with = $OWNER$ }
+					controller? = { is_at_war_with = $OWNER$ }
 					is_disabled = no is_cloaked = no
 				}
 			} }
-			system_star = { prevprevprev = { auto_move_to_planet = { target = prev clear_auto_move_on_arrival = yes } } }
+			system_star? = { prevprevprev? = { auto_move_to_planet = { target = prev clear_auto_move_on_arrival = yes } } }
 		} }
 	}
 	# 自主行为启动
@@ -2186,21 +2186,21 @@ kuat_exe_auto_fleet_action = {
 								exists = starbase
 								starbase = {
 									exists = controller
-									controller = { is_at_war_with = $OWNER$ }
+									controller? = { is_at_war_with = $OWNER$ }
 								}
 							}
 							any_system_planet = {
 								exists = controller
-								controller = { is_at_war_with = $OWNER$ }
+								controller? = { is_at_war_with = $OWNER$ }
 								is_colony = yes
 								count_fleet_in_orbit = { count = 0 limit = {
 									exists = controller
-									controller = { is_same_value = event_target:$OWNER$ }
+									controller? = { is_same_value = event_target:$OWNER$ }
 									NOT = { is_same_value = prevprevprev }
 								} }
 							}
 						}
-						prev = { can_access_system = prev }
+						prev? = { can_access_system = prev }
 					}
 					save_event_target_as = $TYPE$_invasion_fleet_action_target
 				}
@@ -2213,11 +2213,11 @@ kuat_exe_auto_fleet_action = {
 							limit = {
 								any_system_planet = {
 									exists = controller
-									controller = { is_at_war_with = $OWNER$ }
+									controller? = { is_at_war_with = $OWNER$ }
 									is_colony = yes
 									count_fleet_in_orbit = { count = 0 limit = {
 										exists = controller
-										controller = { is_same_value = event_target:$OWNER$ }
+										controller? = { is_same_value = event_target:$OWNER$ }
 										NOT = { is_same_value = prevprevprev }
 									} }
 								}
@@ -2225,18 +2225,18 @@ kuat_exe_auto_fleet_action = {
 							random_system_planet = {
 								limit = {
 									exists = controller
-									controller = { is_at_war_with = $OWNER$ }
+									controller? = { is_at_war_with = $OWNER$ }
 									is_colony = yes
 									count_fleet_in_orbit = { count = 0 limit = {
 										exists = controller
-										controller = { is_same_value = event_target:$OWNER$ }
+										controller? = { is_same_value = event_target:$OWNER$ }
 										NOT = { is_same_value = prevprevprev }
 									} }
 								}
 								kuat_exe_invasion_jump_drive_planet_action = yes
 							}
 						}
-						else = { system_star = { prevprev = { auto_move_to_planet = { target = prev clear_auto_move_on_arrival = yes } } } }
+						else = { system_star? = { prevprev? = { auto_move_to_planet = { target = prev clear_auto_move_on_arrival = yes } } } }
 					}
 				}
 				#找不到目标，再找一次
@@ -2251,16 +2251,16 @@ kuat_exe_auto_fleet_action = {
 									exists = starbase
 									starbase = {
 										exists = controller
-										controller = { is_at_war_with = $OWNER$ }
+										controller? = { is_at_war_with = $OWNER$ }
 									}
 								}
 								any_system_planet = {
 									exists = controller
-									controller = { is_at_war_with = $OWNER$ }
+									controller? = { is_at_war_with = $OWNER$ }
 									is_colony = yes
 									count_fleet_in_orbit = { count = 0 limit = {
 										exists = controller
-										controller = { is_same_value = event_target:$OWNER$ }
+										controller? = { is_same_value = event_target:$OWNER$ }
 										NOT = { is_same_value = prevprevprev }
 									} }
 								}
@@ -2277,11 +2277,11 @@ kuat_exe_auto_fleet_action = {
 								limit = {
 									any_system_planet = {
 										exists = controller
-										controller = { is_at_war_with = $OWNER$ }
+										controller? = { is_at_war_with = $OWNER$ }
 										is_colony = yes
 										count_fleet_in_orbit = { count = 0 limit = {
 											exists = controller
-											controller = { is_same_value = event_target:$OWNER$ }
+											controller? = { is_same_value = event_target:$OWNER$ }
 											NOT = { is_same_value = prevprevprev }
 										} }
 									}
@@ -2289,18 +2289,18 @@ kuat_exe_auto_fleet_action = {
 								random_system_planet = {
 									limit = {
 										exists = controller
-										controller = { is_at_war_with = $OWNER$ }
+										controller? = { is_at_war_with = $OWNER$ }
 										is_colony = yes
 										count_fleet_in_orbit = { count = 0 limit = {
 											exists = controller
-											controller = { is_same_value = event_target:$OWNER$ }
+											controller? = { is_same_value = event_target:$OWNER$ }
 											NOT = { is_same_value = prevprevprev }
 										} }
 									}
 									kuat_exe_invasion_jump_drive_planet_action = yes
 								}
 							}
-							else = { system_star = { prevprev = { auto_move_to_planet = { target = prev clear_auto_move_on_arrival = yes } } } }
+							else = { system_star? = { prevprev? = { auto_move_to_planet = { target = prev clear_auto_move_on_arrival = yes } } } }
 						}
 					}
 					#找不到目标，摆烂了，开始转圈
@@ -2310,26 +2310,26 @@ kuat_exe_auto_fleet_action = {
 						random_list = {
 							#周围星系随机设置目标
 							75 = {
-								solar_system = { random_neighbor_system = {
-									limit = { prevprev = { can_access_system = prev } }
+								solar_system? = { random_neighbor_system = {
+									limit = { prevprev? = { can_access_system = prev } }
 									save_event_target_as = $TYPE$_invasion_fleet_wandering_action_target
 								} }
 								if = {
 									limit = { exists = event_target:$TYPE$_invasion_fleet_wandering_action_target }
 									event_target:$TYPE$_invasion_fleet_wandering_action_target = {
-										system_star = { prevprev = { auto_move_to_planet = { target = prev clear_auto_move_on_arrival = yes } } }
+										system_star? = { prevprev? = { auto_move_to_planet = { target = prev clear_auto_move_on_arrival = yes } } }
 									}
 								}
 								else_if = {
 									limit = { any_system = {
-										prev = { can_access_system = prev }
+										prev? = { can_access_system = prev }
 									} }
 									random_system = {
-										limit = { prev = { can_access_system = prev } }
+										limit = { prev? = { can_access_system = prev } }
 										save_event_target_as = $TYPE$_invasion_fleet_wandering_action_target
 									}
 									event_target:$TYPE$_invasion_fleet_wandering_action_target = {
-										system_star = { prevprev = { auto_move_to_planet = { target = prev clear_auto_move_on_arrival = yes } } }
+										system_star? = { prevprev? = { auto_move_to_planet = { target = prev clear_auto_move_on_arrival = yes } } }
 									}
 								}
 								else = {
@@ -2354,21 +2354,21 @@ kuat_exe_auto_fleet_action = {
 										OR = {
 											AND = {
 												exists = starbase
-												starbase = { exists = controller controller = { is_at_war_with = $OWNER$ } }
+												starbase = { exists = controller controller? = { is_at_war_with = $OWNER$ } }
 											}
 											any_system_planet = {
 												exists = controller
-												controller = { is_at_war_with = $OWNER$ }
+												controller? = { is_at_war_with = $OWNER$ }
 												is_colony = yes
 												count_fleet_in_orbit = { count = 0 limit = {
 													exists = controller
-													controller = { is_same_value = event_target:$OWNER$ }
+													controller? = { is_same_value = event_target:$OWNER$ }
 													NOT = { is_same_value = prevprevprev }
 												} }
 											}
 											any_ship_in_system = {
 												exists = controller
-												controller = { is_at_war_with = $OWNER$ }
+												controller? = { is_at_war_with = $OWNER$ }
 												is_disabled = no is_cloaked = no
 											}
 										}
@@ -2380,7 +2380,7 @@ kuat_exe_auto_fleet_action = {
 									event_target:$TYPE$_invasion_fleet_wandering_action_target = {
 										random_system_planet = {
 											limit = { is_primary_star = yes }
-											prevprev = {
+											prevprev? = {
 												set_location = { target = prev distance = 300 angle = random }
 												every_owned_ship = { kuat_create_jump_particle_effect = yes }
 												auto_move_to_planet = { target = prev clear_auto_move_on_arrival = yes }
@@ -2389,26 +2389,26 @@ kuat_exe_auto_fleet_action = {
 									}
 								}
 								else = {
-									solar_system = { random_neighbor_system = {
-										limit = { prevprev = { can_access_system = prev } }
+									solar_system? = { random_neighbor_system = {
+										limit = { prevprev? = { can_access_system = prev } }
 										save_event_target_as = $TYPE$_invasion_fleet_wandering_action_target
 									} }
 									if = {
 										limit = { exists = event_target:$TYPE$_invasion_fleet_wandering_action_target }
 										event_target:$TYPE$_invasion_fleet_wandering_action_target = {
-											system_star = { prevprev = { auto_move_to_planet = { target = prev clear_auto_move_on_arrival = yes } } }
+											system_star? = { prevprev? = { auto_move_to_planet = { target = prev clear_auto_move_on_arrival = yes } } }
 										}
 									}
 									else_if = {
 										limit = { any_system = {
-											prev = { can_access_system = prev }
+											prev? = { can_access_system = prev }
 										} }
 										random_system = {
-											limit = { prev = { can_access_system = prev } }
+											limit = { prev? = { can_access_system = prev } }
 											save_event_target_as = $TYPE$_invasion_fleet_wandering_action_target
 										}
 										event_target:$TYPE$_invasion_fleet_wandering_action_target = {
-											system_star = { prevprev = { auto_move_to_planet = { target = prev clear_auto_move_on_arrival = yes } } }
+											system_star? = { prevprev? = { auto_move_to_planet = { target = prev clear_auto_move_on_arrival = yes } } }
 										}
 									}
 									else = {
@@ -2436,9 +2436,9 @@ kuat_exe_auto_fleet_action = {
 						any_fleet_in_system = {
 							exists = controller 
 							is_cloaked = no
-							controller = { is_at_war_with = $OWNER$ }
+							controller? = { is_at_war_with = $OWNER$ }
 						}
-						prev = { can_access_system = prev }
+						prev? = { can_access_system = prev }
 					}
 					save_event_target_as = $TYPE$_invasion_fleet_action_target
 				}
@@ -2452,20 +2452,20 @@ kuat_exe_auto_fleet_action = {
 								any_fleet_in_system = {
 									is_cloaked = no
 									exists = controller 
-									controller = { is_at_war_with = $OWNER$ }
+									controller? = { is_at_war_with = $OWNER$ }
 									is_ship_class = shipclass_military
 								}
 							}
 							random_fleet_in_system = {
 								limit = {
 									exists = controller 
-									controller = { is_at_war_with = $OWNER$ }
+									controller? = { is_at_war_with = $OWNER$ }
 									is_ship_class = shipclass_military
 								}
 								kuat_exe_invasion_jump_drive_fleet_action = yes
 							}
 						}
-						else = { system_star = { prevprev = { auto_move_to_planet = { target = prev clear_auto_move_on_arrival = yes } } } }
+						else = { system_star? = { prevprev? = { auto_move_to_planet = { target = prev clear_auto_move_on_arrival = yes } } } }
 					}
 				}
 				#找不到目标，再找一次
@@ -2483,7 +2483,7 @@ kuat_exe_auto_fleet_action = {
 							any_fleet_in_system = {
 								is_cloaked = no
 								exists = controller 
-								controller = { is_at_war_with = $OWNER$ }
+								controller? = { is_at_war_with = $OWNER$ }
 							}
 						}
 						save_event_target_as = $TYPE$_invasion_fleet_action_target
@@ -2498,20 +2498,20 @@ kuat_exe_auto_fleet_action = {
 									any_fleet_in_system = {
 										is_cloaked = no
 										exists = controller 
-										controller = { is_at_war_with = $OWNER$ }
+										controller? = { is_at_war_with = $OWNER$ }
 										is_ship_class = shipclass_military
 									}
 								}
 								random_fleet_in_system = {
 									limit = {
 										exists = controller 
-										controller = { is_at_war_with = $OWNER$ }
+										controller? = { is_at_war_with = $OWNER$ }
 										is_ship_class = shipclass_military
 									}
 									kuat_exe_invasion_jump_drive_fleet_action = yes
 								}
 							}
-							else = { system_star = { prevprev = { auto_move_to_planet = { target = prev clear_auto_move_on_arrival = yes } } } }
+							else = { system_star? = { prevprev? = { auto_move_to_planet = { target = prev clear_auto_move_on_arrival = yes } } } }
 						}
 					}
 					#找不到目标，摆烂了，开始转圈
@@ -2521,26 +2521,26 @@ kuat_exe_auto_fleet_action = {
 						random_list = {
 							#周围星系随机设置目标
 							75 = {
-								solar_system = { random_neighbor_system = {
-									limit = { prevprev = { can_access_system = prev } }
+								solar_system? = { random_neighbor_system = {
+									limit = { prevprev? = { can_access_system = prev } }
 									save_event_target_as = $TYPE$_invasion_fleet_wandering_action_target
 								} }
 								if = {
 									limit = { exists = event_target:$TYPE$_invasion_fleet_wandering_action_target }
 									event_target:$TYPE$_invasion_fleet_wandering_action_target = {
-										system_star = { prevprev = { auto_move_to_planet = { target = prev clear_auto_move_on_arrival = yes } } }
+										system_star? = { prevprev? = { auto_move_to_planet = { target = prev clear_auto_move_on_arrival = yes } } }
 									}
 								}
 								else_if = {
 									limit = { any_system = {
-										prev = { can_access_system = prev }
+										prev? = { can_access_system = prev }
 									} }
 									random_system = {
-										limit = { prev = { can_access_system = prev } }
+										limit = { prev? = { can_access_system = prev } }
 										save_event_target_as = $TYPE$_invasion_fleet_wandering_action_target
 									}
 									event_target:$TYPE$_invasion_fleet_wandering_action_target = {
-										system_star = { prevprev = { auto_move_to_planet = { target = prev clear_auto_move_on_arrival = yes } } }
+										system_star? = { prevprev? = { auto_move_to_planet = { target = prev clear_auto_move_on_arrival = yes } } }
 									}
 								}
 								else = {
@@ -2565,22 +2565,22 @@ kuat_exe_auto_fleet_action = {
 										OR = {
 											AND = {
 												exists = starbase
-												starbase = { exists = controller controller = { is_at_war_with = $OWNER$ } }
+												starbase = { exists = controller controller? = { is_at_war_with = $OWNER$ } }
 											}
 											any_system_planet = {
 												exists = controller
-												controller = { is_at_war_with = $OWNER$ }
+												controller? = { is_at_war_with = $OWNER$ }
 												is_colony = yes
 												count_fleet_in_orbit = { count = 0 limit = {
 													exists = controller
-													controller = { is_same_value = event_target:$OWNER$ }
+													controller? = { is_same_value = event_target:$OWNER$ }
 													NOT = { is_same_value = prevprevprev }
 												} }
 											}
 											any_fleet_in_system = {
 												is_cloaked = no
 												exists = controller 
-												controller = { is_at_war_with = $OWNER$ }
+												controller? = { is_at_war_with = $OWNER$ }
 											}
 										}
 									}
@@ -2591,7 +2591,7 @@ kuat_exe_auto_fleet_action = {
 									event_target:$TYPE$_invasion_fleet_wandering_action_target = {
 										random_system_planet = {
 											limit = { is_primary_star = yes }
-											prevprev = {
+											prevprev? = {
 												set_location = { target = prev distance = 300 angle = random }
 												every_owned_ship = { kuat_create_jump_particle_effect = yes }
 												auto_move_to_planet = { target = prev clear_auto_move_on_arrival = yes }
@@ -2600,26 +2600,26 @@ kuat_exe_auto_fleet_action = {
 									}
 								}
 								else = {
-									solar_system = { random_neighbor_system = {
-										limit = { prevprev = { can_access_system = prev } }
+									solar_system? = { random_neighbor_system = {
+										limit = { prevprev? = { can_access_system = prev } }
 										save_event_target_as = $TYPE$_invasion_fleet_wandering_action_target
 									} }
 									if = {
 										limit = { exists = event_target:$TYPE$_invasion_fleet_wandering_action_target }
 										event_target:$TYPE$_invasion_fleet_wandering_action_target = {
-											system_star = { prevprev = { auto_move_to_planet = { target = prev clear_auto_move_on_arrival = yes } } }
+											system_star? = { prevprev? = { auto_move_to_planet = { target = prev clear_auto_move_on_arrival = yes } } }
 										}
 									}
 									else_if = {
 										limit = { any_system = {
-											prev = { can_access_system = prev }
+											prev? = { can_access_system = prev }
 										} }
 										random_system = {
-											limit = { prev = { can_access_system = prev } }
+											limit = { prev? = { can_access_system = prev } }
 											save_event_target_as = $TYPE$_invasion_fleet_wandering_action_target
 										}
 										event_target:$TYPE$_invasion_fleet_wandering_action_target = {
-											system_star = { prevprev = { auto_move_to_planet = { target = prev clear_auto_move_on_arrival = yes } } }
+											system_star? = { prevprev? = { auto_move_to_planet = { target = prev clear_auto_move_on_arrival = yes } } }
 										}
 									}
 									else = {
@@ -2640,10 +2640,10 @@ kuat_exe_auto_fleet_action = {
 						NOT = { is_same_value = prev.solar_system }
 						any_ship_in_system = {
 							exists = controller
-							controller = { is_at_war_with = $OWNER$ }
+							controller? = { is_at_war_with = $OWNER$ }
 							is_disabled = no is_cloaked = no
 						}
-						prev = { can_access_system = prev }
+						prev? = { can_access_system = prev }
 					}
 					save_event_target_as = $TYPE$_invasion_fleet_action_target
 				}
@@ -2654,7 +2654,7 @@ kuat_exe_auto_fleet_action = {
 						random_fleet_in_system = {
 							limit = {
 								exists = controller
-								controller = { is_at_war_with = $OWNER$ }
+								controller? = { is_at_war_with = $OWNER$ }
 								any_owned_ship = { is_disabled = no is_cloaked = no }
 								is_ship_class = shipclass_military
 							}
@@ -2670,7 +2670,7 @@ kuat_exe_auto_fleet_action = {
 							NOT = { is_same_value = prev.solar_system }
 							any_ship_in_system = {
 								exists = controller
-								controller = { is_at_war_with = $OWNER$ }
+								controller? = { is_at_war_with = $OWNER$ }
 								is_disabled = no is_cloaked = no
 							}
 						}
@@ -2683,7 +2683,7 @@ kuat_exe_auto_fleet_action = {
 							random_fleet_in_system = {
 								limit = {
 									exists = controller
-									controller = { is_at_war_with = $OWNER$ }
+									controller? = { is_at_war_with = $OWNER$ }
 									any_owned_ship = { is_disabled = no is_cloaked = no }
 									is_ship_class = shipclass_military
 								}
@@ -2698,26 +2698,26 @@ kuat_exe_auto_fleet_action = {
 						random_list = {
 							#周围星系随机设置目标
 							75 = {
-								solar_system = { random_neighbor_system = {
-									limit = { prevprev = { can_access_system = prev } }
+								solar_system? = { random_neighbor_system = {
+									limit = { prevprev? = { can_access_system = prev } }
 									save_event_target_as = $TYPE$_invasion_fleet_wandering_action_target
 								} }
 								if = {
 									limit = { exists = event_target:$TYPE$_invasion_fleet_wandering_action_target }
 									event_target:$TYPE$_invasion_fleet_wandering_action_target = {
-										system_star = { prevprev = { auto_move_to_planet = { target = prev clear_auto_move_on_arrival = yes } } }
+										system_star? = { prevprev? = { auto_move_to_planet = { target = prev clear_auto_move_on_arrival = yes } } }
 									}
 								}
 								else_if = {
 									limit = { any_system = {
-										prev = { can_access_system = prev }
+										prev? = { can_access_system = prev }
 									} }
 									random_system = {
-										limit = { prev = { can_access_system = prev } }
+										limit = { prev? = { can_access_system = prev } }
 										save_event_target_as = $TYPE$_invasion_fleet_wandering_action_target
 									}
 									event_target:$TYPE$_invasion_fleet_wandering_action_target = {
-										system_star = { prevprev = { auto_move_to_planet = { target = prev clear_auto_move_on_arrival = yes } } }
+										system_star? = { prevprev? = { auto_move_to_planet = { target = prev clear_auto_move_on_arrival = yes } } }
 									}
 								}
 								else = {
@@ -2742,22 +2742,22 @@ kuat_exe_auto_fleet_action = {
 										OR = {
 											AND = {
 												exists = starbase
-												starbase = { exists = controller controller = { is_at_war_with = $OWNER$ } }
+												starbase = { exists = controller controller? = { is_at_war_with = $OWNER$ } }
 											}
 											any_system_planet = {
 												exists = controller
-												controller = { is_at_war_with = $OWNER$ }
+												controller? = { is_at_war_with = $OWNER$ }
 												is_colony = yes
 												count_fleet_in_orbit = { count = 0 limit = {
 													exists = controller
-													controller = { is_same_value = event_target:$OWNER$ }
+													controller? = { is_same_value = event_target:$OWNER$ }
 													NOT = { is_same_value = prevprevprev }
 												} }
 											}
 											any_fleet_in_system = {
 												is_cloaked = no
 												exists = controller 
-												controller = { is_at_war_with = $OWNER$ }
+												controller? = { is_at_war_with = $OWNER$ }
 											}
 										}
 									}
@@ -2768,7 +2768,7 @@ kuat_exe_auto_fleet_action = {
 									event_target:$TYPE$_invasion_fleet_wandering_action_target = {
 										random_system_planet = {
 											limit = { is_primary_star = yes }
-											prevprev = {
+											prevprev? = {
 												set_location = { target = prev distance = 300 angle = random }
 												every_owned_ship = { kuat_create_jump_particle_effect = yes }
 												auto_move_to_planet = { target = prev clear_auto_move_on_arrival = yes }
@@ -2777,26 +2777,26 @@ kuat_exe_auto_fleet_action = {
 									}
 								}
 								else = {
-									solar_system = { random_neighbor_system = {
-										limit = { prevprev = { can_access_system = prev } }
+									solar_system? = { random_neighbor_system = {
+										limit = { prevprev? = { can_access_system = prev } }
 										save_event_target_as = $TYPE$_invasion_fleet_wandering_action_target
 									} }
 									if = {
 										limit = { exists = event_target:$TYPE$_invasion_fleet_wandering_action_target }
 										event_target:$TYPE$_invasion_fleet_wandering_action_target = {
-											system_star = { prevprev = { auto_move_to_planet = { target = prev clear_auto_move_on_arrival = yes } } }
+											system_star? = { prevprev? = { auto_move_to_planet = { target = prev clear_auto_move_on_arrival = yes } } }
 										}
 									}
 									else_if = {
 										limit = { any_system = {
-											prev = { can_access_system = prev }
+											prev? = { can_access_system = prev }
 										} }
 										random_system = {
-											limit = { prev = { can_access_system = prev } }
+											limit = { prev? = { can_access_system = prev } }
 											save_event_target_as = $TYPE$_invasion_fleet_wandering_action_target
 										}
 										event_target:$TYPE$_invasion_fleet_wandering_action_target = {
-											system_star = { prevprev = { auto_move_to_planet = { target = prev clear_auto_move_on_arrival = yes } } }
+											system_star? = { prevprev? = { auto_move_to_planet = { target = prev clear_auto_move_on_arrival = yes } } }
 										}
 									}
 									else = {
@@ -2823,10 +2823,10 @@ kuat_exe_auto_fleet_action = {
 						}
 						any_ship_in_system = {
 							exists = controller
-							controller = { is_at_war_with = $OWNER$ }
+							controller? = { is_at_war_with = $OWNER$ }
 							is_disabled = no is_cloaked = no
 						}
-						prev = { can_access_system = prev }
+						prev? = { can_access_system = prev }
 					}
 					save_event_target_as = $TYPE$_invasion_fleet_action_target
 				}
@@ -2837,7 +2837,7 @@ kuat_exe_auto_fleet_action = {
 						random_fleet_in_system = {
 							limit = {
 								exists = controller
-								controller = { is_at_war_with = $OWNER$ }
+								controller? = { is_at_war_with = $OWNER$ }
 								any_owned_ship = { is_disabled = no is_cloaked = no }
 								is_ship_class = shipclass_military
 							}
@@ -2859,7 +2859,7 @@ kuat_exe_auto_fleet_action = {
 							}
 							any_ship_in_system = {
 								exists = controller
-								controller = { is_at_war_with = $OWNER$ }
+								controller? = { is_at_war_with = $OWNER$ }
 								is_disabled = no is_cloaked = no
 							}
 						}
@@ -2872,7 +2872,7 @@ kuat_exe_auto_fleet_action = {
 							random_fleet_in_system = {
 								limit = {
 									exists = controller
-									controller = { is_at_war_with = $OWNER$ }
+									controller? = { is_at_war_with = $OWNER$ }
 									any_owned_ship = { is_disabled = no is_cloaked = no }
 									is_ship_class = shipclass_military
 								}
@@ -2887,26 +2887,26 @@ kuat_exe_auto_fleet_action = {
 						random_list = {
 							#周围星系随机设置目标
 							75 = {
-								solar_system = { random_neighbor_system = {
-									limit = { prevprev = { can_access_system = prev } }
+								solar_system? = { random_neighbor_system = {
+									limit = { prevprev? = { can_access_system = prev } }
 									save_event_target_as = $TYPE$_invasion_fleet_wandering_action_target
 								} }
 								if = {
 									limit = { exists = event_target:$TYPE$_invasion_fleet_wandering_action_target }
 									event_target:$TYPE$_invasion_fleet_wandering_action_target = {
-										system_star = { prevprev = { auto_move_to_planet = { target = prev clear_auto_move_on_arrival = yes } } }
+										system_star? = { prevprev? = { auto_move_to_planet = { target = prev clear_auto_move_on_arrival = yes } } }
 									}
 								}
 								else_if = {
 									limit = { any_system = {
-										prev = { can_access_system = prev }
+										prev? = { can_access_system = prev }
 									} }
 									random_system = {
-										limit = { prev = { can_access_system = prev } }
+										limit = { prev? = { can_access_system = prev } }
 										save_event_target_as = $TYPE$_invasion_fleet_wandering_action_target
 									}
 									event_target:$TYPE$_invasion_fleet_wandering_action_target = {
-										system_star = { prevprev = { auto_move_to_planet = { target = prev clear_auto_move_on_arrival = yes } } }
+										system_star? = { prevprev? = { auto_move_to_planet = { target = prev clear_auto_move_on_arrival = yes } } }
 									}
 								}
 								else = {
@@ -2931,22 +2931,22 @@ kuat_exe_auto_fleet_action = {
 										OR = {
 											AND = {
 												exists = starbase
-												starbase = { exists = controller controller = { is_at_war_with = $OWNER$ } }
+												starbase = { exists = controller controller? = { is_at_war_with = $OWNER$ } }
 											}
 											any_system_planet = {
 												exists = controller
-												controller = { is_at_war_with = $OWNER$ }
+												controller? = { is_at_war_with = $OWNER$ }
 												is_colony = yes
 												count_fleet_in_orbit = { count = 0 limit = {
 													exists = controller
-													controller = { is_same_value = event_target:$OWNER$ }
+													controller? = { is_same_value = event_target:$OWNER$ }
 													NOT = { is_same_value = prevprevprev }
 												} }
 											}
 											any_fleet_in_system = {
 												is_cloaked = no
 												exists = controller 
-												controller = { is_at_war_with = $OWNER$ }
+												controller? = { is_at_war_with = $OWNER$ }
 											}
 										}
 									}
@@ -2957,7 +2957,7 @@ kuat_exe_auto_fleet_action = {
 									event_target:$TYPE$_invasion_fleet_wandering_action_target = {
 										random_system_planet = {
 											limit = { is_primary_star = yes }
-											prevprev = {
+											prevprev? = {
 												set_location = { target = prev distance = 300 angle = random }
 												every_owned_ship = { kuat_create_jump_particle_effect = yes }
 												auto_move_to_planet = { target = prev clear_auto_move_on_arrival = yes }
@@ -2966,26 +2966,26 @@ kuat_exe_auto_fleet_action = {
 									}
 								}
 								else = {
-									solar_system = { random_neighbor_system = {
-										limit = { prevprev = { can_access_system = prev } }
+									solar_system? = { random_neighbor_system = {
+										limit = { prevprev? = { can_access_system = prev } }
 										save_event_target_as = $TYPE$_invasion_fleet_wandering_action_target
 									} }
 									if = {
 										limit = { exists = event_target:$TYPE$_invasion_fleet_wandering_action_target }
 										event_target:$TYPE$_invasion_fleet_wandering_action_target = {
-											system_star = { prevprev = { auto_move_to_planet = { target = prev clear_auto_move_on_arrival = yes } } }
+											system_star? = { prevprev? = { auto_move_to_planet = { target = prev clear_auto_move_on_arrival = yes } } }
 										}
 									}
 									else_if = {
 										limit = { any_system = {
-											prev = { can_access_system = prev }
+											prev? = { can_access_system = prev }
 										} }
 										random_system = {
-											limit = { prev = { can_access_system = prev } }
+											limit = { prev? = { can_access_system = prev } }
 											save_event_target_as = $TYPE$_invasion_fleet_wandering_action_target
 										}
 										event_target:$TYPE$_invasion_fleet_wandering_action_target = {
-											system_star = { prevprev = { auto_move_to_planet = { target = prev clear_auto_move_on_arrival = yes } } }
+											system_star? = { prevprev? = { auto_move_to_planet = { target = prev clear_auto_move_on_arrival = yes } } }
 										}
 									}
 									else = {

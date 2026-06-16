@@ -22,19 +22,19 @@ country_event = {
 		random_galaxy_planet = {
 			limit = {
 				exists = solar_system
-				solar_system = { has_star_flag = Kuat_system_int }
+				solar_system? = { has_star_flag = Kuat_system_int }
 				has_carrier_flag = center_world
 			}
 			save_event_target_as = new_home_planet
-			solar_system = { save_event_target_as = new_home_planet_solar_system }
+			solar_system? = { save_event_target_as = new_home_planet_solar_system }
 		}
 		set_country_flag = kuat_starting_country
 		random_owned_planet = {
 			save_event_target_as = previous_home_planet
-			solar_system = { save_event_target_as = previous_home_system }
+			solar_system? = { save_event_target_as = previous_home_system }
 		}
 		event_target:previous_home_planet = {
-			solar_system = {
+			solar_system? = {
 				remove_star_flag = empire_home_system
 				remove_star_flag = ring_world_built
 				set_star_flag = empire_cluster
@@ -62,10 +62,10 @@ country_event = {
 				set_owner = root
 				set_controller = root
 				set_capital = yes
-				solar_system = { generate_home_system_resources = yes }
+				solar_system? = { generate_home_system_resources = yes }
 				generate_start_deposits_and_blockers = yes
 				generate_start_buildings_and_districts = yes
-				root = {
+				root? = {
 					species = { save_event_target_as = governor_target_species }
 					random_owned_leader = {
 						limit = { leader_class = official }
@@ -80,11 +80,11 @@ country_event = {
 			}
 		}
 		event_target:previous_home_planet = {
-			solar_system = {
+			solar_system? = {
 				every_fleet_in_system = {
 					if = {
 						limit = { exists = leader }
-						leader = { unassign_leader = this }
+						leader? = { unassign_leader = this }
 					}
 					delete_fleet = this
 				}
@@ -110,7 +110,7 @@ country_event = {
 					}
 					set_fleet_stance = evasive
 					set_location = root.capital_star
-					owner = {
+					owner? = {
 						random_owned_leader = {
 							limit = {
 								leader_class = scientist
@@ -245,7 +245,7 @@ country_event = {
 			if = {
 				limit = {
 					exists = space_owner
-					space_owner = { NOT = { has_country_flag = kuat_starting_country } }
+					space_owner? = { NOT = { has_country_flag = kuat_starting_country } }
 				}
 				every_fleet_in_system = { delete_fleet = this }
 				every_system_planet = {
@@ -417,12 +417,12 @@ country_event = {
 		exists = event_target:kuat_support_country
 		OR = {
 			kuat_support_diplo_event_active = no
-			from = { is_same_value = root }
+			from? = { is_same_value = root }
 		}
 		kuat_is_enable_apocalyptic_origin = yes 
 		OR = {
-			from = { is_country_type = kuat_support }
-			from = { is_same_value = root }
+			from? = { is_country_type = kuat_support }
+			from? = { is_same_value = root }
 		}
 	}
 	#reinforment
@@ -478,7 +478,7 @@ country_event = {
 			random_owned_fleet = {
 				limit = {
 					exists = solar_system
-					solar_system = { is_capital_system = yes }
+					solar_system? = { is_capital_system = yes }
 				}
 				create_starbase_gunpower_invasion_battle_fleet = yes
 			}
@@ -506,7 +506,7 @@ country_event = {
 			random_owned_fleet = {
 				limit = {
 					exists = solar_system
-					solar_system = { is_capital_system = yes }
+					solar_system? = { is_capital_system = yes }
 				}
 				create_starbase_missle_invasion_battle_fleet = yes
 			}
@@ -533,7 +533,7 @@ country_event = {
 			random_owned_fleet = {
 				limit = {
 					exists = solar_system
-					solar_system = { is_capital_system = yes }
+					solar_system? = { is_capital_system = yes }
 				}
 				create_starbase_carrier_invasion_battle_fleet = yes
 			}
@@ -561,7 +561,7 @@ country_event = {
 			random_owned_fleet = {
 				limit = {
 					exists = solar_system
-					solar_system = { is_capital_system = yes }
+					solar_system? = { is_capital_system = yes }
 				}
 				create_starbase_super_invasion_battle_fleet = yes
 			}

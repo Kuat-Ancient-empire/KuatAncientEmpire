@@ -51,13 +51,13 @@ carrier_event = {
 				exists = event_target:Eternalempire
 				exists = event_target:eternal_support_country
 			}
-			owner = { add_static_war_exhaustion = {
+			owner? = { add_static_war_exhaustion = {
 				attacker = event_target:Eternalempire
 				location = root
 				value_for_planet_destruction = 1.0
 			} }
 		}
-		else = { owner = { add_static_war_exhaustion = {
+		else = { owner? = { add_static_war_exhaustion = {
 			attacker = from
 			location = root
 			value_for_planet_destruction = 1.0
@@ -191,8 +191,8 @@ country_event = {
 	trigger = {
 		is_at_war = no
 		exists = fromfrom
-		fromfrom = { fleet = { has_fleet_flag = defensive_galaxy_fleet } }
-		from = { count_owned_ship = { limit = { NOT = { is_same_value = root.fromfromfrom } } count < 1 } }
+		fromfrom? = { fleet = { has_fleet_flag = defensive_galaxy_fleet } }
+		from? = { count_owned_ship = { limit = { NOT = { is_same_value = root.fromfromfrom } } count < 1 } }
 	}
 	immediate = {
 		event_target:fallen_empire_kuat = {
@@ -232,7 +232,7 @@ country_event = {
 	is_triggered_only = yes
 	trigger = {
 		is_first_galatic_empire_faction = yes
-		FROMFROM = { is_variable_set = fleet_id }
+		FROMFROM? = { is_variable_set = fleet_id }
 	}
 	immediate = {
 		every_system = {
@@ -253,7 +253,7 @@ fleet_event = {
 	is_triggered_only = yes
 	trigger = {
 		exists = owner
-		owner = { 
+		owner? = { 
 			is_first_galatic_empire_faction = yes 
 			is_at_war = yes
 		}
@@ -266,14 +266,14 @@ fleet_event = {
 		if = {
 			limit = { 
 				exists = event_target:fallen_empire_kuat
-				owner = { is_same_value = event_target:fallen_empire_kuat } 
+				owner? = { is_same_value = event_target:fallen_empire_kuat } 
 			}
 			kuat_fleet_execute_order_1 = { OWNER_TARGET = event_target:fallen_empire_kuat }
 		}
 		else_if = {
 			limit = { 
 				exists = event_target:return_kuat_awakening_country
-				owner = { is_same_value = event_target:return_kuat_awakening_country } 
+				owner? = { is_same_value = event_target:return_kuat_awakening_country } 
 			}
 			kuat_fleet_execute_order_1 = { OWNER_TARGET = event_target:return_kuat_awakening_country }
 		}
@@ -289,7 +289,7 @@ event = {
 		exists = event_target:kuat_friendly_faction
 		any_galaxy_fleet = {
 			exists = owner
-			owner = { kuat_is_player_country = yes }
+			owner? = { kuat_is_player_country = yes }
 			is_fleet_idle = yes
 			has_fleet_flag = kuat_auto_fleet_system
 			NAND = {
@@ -297,7 +297,7 @@ event = {
 				orbit = {
 					NOT = { is_star = yes }
 					exists = controller
-					controller = { is_at_war_with = event_target:kuat_friendly_faction }
+					controller? = { is_at_war_with = event_target:kuat_friendly_faction }
 				}
 			}
 		}
@@ -306,7 +306,7 @@ event = {
 		every_galaxy_fleet = {
 			limit = {
 				exists = owner
-				owner = { kuat_is_player_country = yes }
+				owner? = { kuat_is_player_country = yes }
 				is_fleet_idle = yes
 				has_fleet_flag = kuat_auto_fleet_system
 				NAND = {
@@ -314,7 +314,7 @@ event = {
 					orbit = {
 						NOT = { is_star = yes }
 						exists = controller
-						controller = { is_at_war_with = event_target:kuat_friendly_faction }
+						controller? = { is_at_war_with = event_target:kuat_friendly_faction }
 					}
 				}
 			}
@@ -336,13 +336,13 @@ fleet_event = {
 			is_ship_class = shipclass_military_special
 			is_ship_class = shipclass_transport
 		} 
-		AND = { exists = owner owner = { is_at_war = yes } }	
+		AND = { exists = owner owner? = { is_at_war = yes } }	
 		NOT = { has_fleet_flag = fire_kuat_fleet_attack_action }
 		NOT = { has_fleet_flag = kuat_ai_action.6.temple }
 	}
 	immediate = {
 		set_fleet_flag = fire_kuat_fleet_attack_action
-		owner = { save_global_event_target_as = kuat_friendly_faction }
+		owner? = { save_global_event_target_as = kuat_friendly_faction }
 		switch = {
 			trigger = is_ship_class
 			shipclass_military = { set_automatic_fleet_avaliable = {
@@ -390,7 +390,7 @@ country_event = {
 	trigger = {
 		OR = {
 			any_owned_fleet = { has_fleet_flag = kuat_auto_fleet_system }
-			From = { any_owned_fleet = { has_fleet_flag = kuat_auto_fleet_system } }
+			From? = { any_owned_fleet = { has_fleet_flag = kuat_auto_fleet_system } }
 		}
 	}
 	immediate = {
@@ -399,7 +399,7 @@ country_event = {
 			remove_fleet_flag = fire_kuat_fleet_attack_action
 			remove_automatic_fleet_avaliable = yes 
 		}
-		from = {
+		from? = {
 			every_owned_fleet = {
 				limit = { has_fleet_flag = kuat_auto_fleet_system }
 				remove_fleet_flag = fire_kuat_fleet_attack_action

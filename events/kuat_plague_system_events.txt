@@ -35,7 +35,7 @@ country_event = {
 			limit = { has_star_flag = myst_system_7 }
 			if = {
 				limit = { exists = space_owner }
-				space_owner = { set_country_flag = has_aura_kuat_plague_aura }
+				space_owner? = { set_country_flag = has_aura_kuat_plague_aura }
 			}
 			spawn_psionic_aura = { type = kuat_plague_aura owner = event_target:kuat_plague_zombie_country update_type = no }
 		}
@@ -50,7 +50,7 @@ carrier_event = {
 	trigger = { kuat_trigger_plague_valid_planet = yes }
 	immediate = {
 		set_timed_carrier_flag = { flag = kuat_plague_planet days = 3655 }
-		owner = { if = {
+		owner? = { if = {
 			limit = { has_event_chain = kuat_chain_plague_count }
 			add_event_chain_counter = { event_chain = kuat_chain_plague_count counter = kuat_chain_plague_infested_planet amount = 1 }
 		} }
@@ -64,7 +64,7 @@ carrier_event = {
 			kuat_plague_lvl_2 = { add_modifier = { modifier = kuat_plague_lvl_2 days = 3650 } }
 			default = { add_modifier = { modifier = kuat_plague_lvl_1 days = 3650 } }
 		}
-		owner = { country_event = { id = kuat_plague.53 days = 1 random = 15 } }
+		owner? = { country_event = { id = kuat_plague.53 days = 1 random = 15 } }
 		event_target:global_event_country = { change_variable = { which = kuat_plague_planet_num value = 1 } }
 		if = {
 			limit = {
@@ -72,7 +72,7 @@ carrier_event = {
 				event_target:global_event_country = { check_variable = { which = kuat_plague_planet_num value > 45 } }
 			}
 			set_global_flag = kuat_plague_lvl_2
-			owner = { country_event = { id = kuat_plague.51 days = 1 } }
+			owner? = { country_event = { id = kuat_plague.51 days = 1 } }
 		}
 		else_if = {
 			limit = {
@@ -80,7 +80,7 @@ carrier_event = {
 				event_target:global_event_country = { check_variable = { which = kuat_plague_planet_num value > 90 } }
 			}
 			set_global_flag = kuat_plague_lvl_3
-			owner = { country_event = { id = kuat_plague.52 days = 1 } }
+			owner? = { country_event = { id = kuat_plague.52 days = 1 } }
 		}
 		carrier_event = { id = kuat_plague.2 days = 1440 random = 720 } #毁伤效果
 		carrier_event = { id = kuat_plague.3 days = 90 random = 90 } #星系内传染
@@ -131,7 +131,7 @@ carrier_event = {
 	trigger = { 
 		kuat_trigger_plague_planet_pulse = yes 
 		exists = solar_system
-		solar_system = { any_system_planet = { kuat_trigger_plague_valid_planet = yes } }
+		solar_system? = { any_system_planet = { kuat_trigger_plague_valid_planet = yes } }
 	}
 	immediate = {
 		if = {
@@ -141,7 +141,7 @@ carrier_event = {
 		else = {
 			set_timed_global_flag = { flag = kuat_plague.3_same_day days = 1 }
 			carrier_event = { id = kuat_plague.3 days = 90 random = 45 }
-			solar_system = {
+			solar_system? = {
 				random_system_planet = {
 					limit = { kuat_trigger_plague_valid_planet = yes }
 					random_list = {
@@ -179,7 +179,7 @@ carrier_event = {
 				amount = -1
 			}
 		}
-		owner = {
+		owner? = {
 			if = {
 				limit = { has_event_chain = kuat_chain_plague_count }
 				add_event_chain_counter = {
@@ -202,12 +202,12 @@ carrier_event = {
 			has_carrier_flag = kuat_plague_planet
 			AND = {
 				exists = controller
-				controller = { is_country_type = kuat_plague_endoira }
+				controller? = { is_country_type = kuat_plague_endoira }
 			}
 		}
 	}
 	immediate = {
-		owner = {
+		owner? = {
 			if = {
 				limit = { has_event_chain = kuat_chain_plague_count }
 				add_event_chain_counter = {
@@ -250,7 +250,7 @@ country_event = {
 		exists = fromfrom
 	}
 	immediate = {
-		from = {
+		from? = {
 			country_event = {
 				id = kuat_plague.62
 				scopes = { from = fromfrom }
@@ -260,7 +260,7 @@ country_event = {
 				establish_communications_no_message = root
 			}
 		}
-		fromfrom = {
+		fromfrom? = {
 			check_planet_employment = yes
 		}
 	}
@@ -274,14 +274,14 @@ country_event = {
 	trigger = {
 		exists = owner
 		exists = fromfrom
-		from = { is_country_type = kuat_plague_endoira }
+		from? = { is_country_type = kuat_plague_endoira }
 	}
 	immediate = {
 		country_event = {
 			id = kuat_plague.63
 			scopes = { from = fromfrom }
 		}
-		fromfrom = {
+		fromfrom? = {
 			if = {
 				limit = { is_owned_by = from }
 				set_controller = root
@@ -320,7 +320,7 @@ carrier_event = {
 	is_triggered_only = yes
 	trigger = {
 		exists = owner
-		owner = { is_country_type = kuat_plague_endoira }
+		owner? = { is_country_type = kuat_plague_endoira }
 		pop_amount < 100
 		planet_devastation > 80
 	}
@@ -715,7 +715,7 @@ country_event = {
 	trigger = {
 		is_ai = no
 		exists = from
-		from = {
+		from? = {
 			NOT = {
 				has_carrier_flag = kuat_plague_bombardment_planet
 			}
@@ -820,7 +820,7 @@ ship_event = {
 	hide_window = yes
 	is_triggered_only = yes
 	immediate = {
-		from = {
+		from? = {
 			set_timed_carrier_flag = {
 				flag = kuat_plague_bombardment_planet
 				days = 3650
@@ -828,7 +828,7 @@ ship_event = {
 			if = {
 				limit = { pop_amount >= 0 }
 				random_owned_pop_group = { save_event_target_as = kuat_plague_purged_species }
-				owner = {
+				owner? = {
 					every_relation = {
 						limit = {
 							NOT = { is_same_species = event_target:kuat_plague_purged_species }
@@ -862,7 +862,7 @@ ship_event = {
 				days = 36500
 			}
 		}
-		owner = { country_event = { id = kuat_plague.152 } }
+		owner? = { country_event = { id = kuat_plague.152 } }
 	}
 }
 
@@ -874,7 +874,7 @@ ship_event = {
 		event_target:kuat_project_plague_planet_bombardment_target = { NOT = { exists = owner } }
 	}
 	immediate = {
-		owner = {
+		owner? = {
 			abort_special_project = {
 				type = kuat_project_plague_planet_bombardment
 				location = event_target:kuat_project_plague_planet_bombardment_target

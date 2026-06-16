@@ -199,7 +199,7 @@ create_exe_invasion_fleet = {
 			[[CTL_TARGET] 
 				$CTL_TARGET$ = { change_variable = { which = fleet_id value = 1 } } 
 				set_variable = { which = fleet_id value = $CTL_TARGET$.fleet_id } 
-				solar_system = { set_variable = { which = solar_fleet_occupy_id value = prev.fleet_id } }
+				solar_system? = { set_variable = { which = solar_fleet_occupy_id value = prev.fleet_id } }
 			]
 			[[Fleet_action] fleet_event = { id = $Fleet_action$ }]
 			[[Fleet_delayed_action] fleet_event = { id = $Fleet_delayed_action$ days = $DAYS$ random = $DAYS$ }]
@@ -213,7 +213,7 @@ starkiller_country_destroyed_system_everything = {
 	set_update_modifiers_batch = begin
 	every_system_planet_colony = {
 		limit = { exists = owner }
-		owner = {
+		owner? = {
 			if = {
 				limit = { NOT = { exists = event_target:eternal_fleet_country } }
 				add_opinion_modifier = {
@@ -245,14 +245,14 @@ starkiller_country_destroyed_system_everything = {
 		clear_planet_modifiers = yes
 		prevent_anomaly = yes
 	}
-	root = { random_owned_fleet = { 
+	root? = { random_owned_fleet = { 
 		save_event_target_as = foa_target_fleet 
 		random_owned_ship = { save_event_target_as = foa_target_ship }
 	} }
 	every_fleet_in_system = {
 		limit = { 
 			exists = owner 
-			owner = { NOT = { is_same_value = root } }
+			owner? = { NOT = { is_same_value = root } }
 		}
 		foa_scripted_action_destroy_fleet = {
 			perp_scope = root
@@ -294,7 +294,7 @@ starkiller_country_destroyed_system_everything = {
 				is_megastructure_type = kuat_ring_world_1
 				is_megastructure_type = kuat_ring_world_2
 			} }
-			solar_system = {
+			solar_system? = {
 				spawn_planet = {
 					class = "pc_ringworld_tech_damaged"
 					location = prev
@@ -321,7 +321,7 @@ starkiller_country_destroyed_system_everything = {
 				is_megastructure_type = spy_orb_ruined
 				is_megastructure_type = spy_orb_restored
 			} }
-			solar_system = {
+			solar_system? = {
 				spawn_megastructure = { 
 					type = "spy_orb_permanently_ruined"
 					coords_from = prev
@@ -338,7 +338,7 @@ starkiller_country_destroyed_system_everything = {
 				is_megastructure_type = think_tank_ruined
 				is_megastructure_type = think_tank_restored
 			} }
-			solar_system = {
+			solar_system? = {
 				spawn_megastructure = { 
 					type = "think_tank_permanently_ruined"
 					coords_from = prev
@@ -354,7 +354,7 @@ starkiller_country_destroyed_system_everything = {
 				is_megastructure_type = strategic_coordination_center_ruined
 				is_megastructure_type = strategic_coordination_center_restored
 			} }
-			solar_system = {
+			solar_system? = {
 				spawn_megastructure = { 
 					type = "strategic_coordination_center_permanently_ruined"
 					coords_from = prev
@@ -373,7 +373,7 @@ starkiller_country_destroyed_system_everything = {
 					is_megastructure_type = strategic_coordination_center_restored
 				}
 			}
-			solar_system = {
+			solar_system? = {
 				spawn_megastructure = { 
 					type = "mega_art_installation_permanently_ruined"
 					coords_from = prev
@@ -390,7 +390,7 @@ starkiller_country_destroyed_system_everything = {
 				is_megastructure_type = interstellar_assembly_ruined
 				is_megastructure_type = interstellar_assembly_restored
 			} }
-			solar_system = {
+			solar_system? = {
 				spawn_megastructure = { 
 					type = "interstellar_assembly_permanently_ruined"
 					coords_from = prev
@@ -406,7 +406,7 @@ starkiller_country_destroyed_system_everything = {
 				is_megastructure_type = mega_shipyard_ruined
 				is_megastructure_type = mega_shipyard_restored
 			} }
-			solar_system = {
+			solar_system? = {
 				spawn_megastructure = { 
 					type = "mega_shipyard_permanently_ruined"
 					coords_from = prev
@@ -423,7 +423,7 @@ starkiller_country_destroyed_system_everything = {
 				is_megastructure_type = matter_decompressor_ruined
 				is_megastructure_type = matter_decompressor_restored
 			} }
-			solar_system = {
+			solar_system? = {
 				spawn_megastructure = { 
 					type = "matter_decompressor_permanently_ruined"
 					coords_from = prev
@@ -441,7 +441,7 @@ starkiller_country_destroyed_system_everything = {
 					is_megastructure_type = quantum_catapult_restored
 				}
 			}
-			solar_system = {
+			solar_system? = {
 				spawn_megastructure = {
 					type = "quantum_catapult_permanently_ruined"
 					coords_from = prev
@@ -456,7 +456,7 @@ starkiller_country_destroyed_system_everything = {
 					is_megastructure_type = hyper_relay_restored
 				}
 			}
-			solar_system = {
+			solar_system? = {
 				spawn_megastructure = {
 					type = "hyper_relay_ruined"
 					coords_from = prev
@@ -466,14 +466,14 @@ starkiller_country_destroyed_system_everything = {
 		}
 		else_if = {
 			limit = { is_crisis_sphere = yes }
-			solar_system = {
+			solar_system? = {
 				spawn_megastructure = {
 					type = crisis_sphere_ruined
 					coords_from = prev
 					init_effect = {
 						random_country = {
 							limit = {
-								prev = { has_megastructure_flag = crisis_sphere_of@prev }
+								prev? = { has_megastructure_flag = crisis_sphere_of@prev }
 							}
 							save_event_target_as = former_owner
 						}
@@ -508,7 +508,7 @@ starkiller_country_destroyed_system_only_fleet = {
 	every_ship_in_system = {
 		limit = { 
 			exists = owner 
-			owner = { NOT = { is_same_value = root.from.owner } }
+			owner? = { NOT = { is_same_value = root.from.owner } }
 			is_disabled = no
 		}
 		while = {
@@ -523,7 +523,7 @@ starkiller_fleet_destroyed_system_everything = {
 	set_update_modifiers_batch = begin
 	every_system_planet_colony = {
 		limit = { exists = owner }
-		owner = {
+		owner? = {
 			if = {
 				limit = { NOT = { exists = event_target:eternal_fleet_country } }
 				add_opinion_modifier = {
@@ -554,7 +554,7 @@ starkiller_fleet_destroyed_system_everything = {
 	every_fleet_in_system = {
 		limit = { 
 			exists = owner 
-			owner = { NOR = { 
+			owner? = { NOR = { 
 				is_same_value = root.owner 
 				is_first_galatic_empire_faction = yes
 			} }
@@ -598,7 +598,7 @@ starkiller_fleet_destroyed_system_everything = {
 				is_megastructure_type = kuat_ring_world_1
 				is_megastructure_type = kuat_ring_world_2
 			} }
-			solar_system = {
+			solar_system? = {
 				spawn_planet = {
 					class = "pc_ringworld_tech_damaged"
 					location = prev
@@ -625,7 +625,7 @@ starkiller_fleet_destroyed_system_everything = {
 				is_megastructure_type = spy_orb_ruined
 				is_megastructure_type = spy_orb_restored
 			} }
-			solar_system = {
+			solar_system? = {
 				spawn_megastructure = { 
 					type = "spy_orb_permanently_ruined"
 					coords_from = prev
@@ -642,7 +642,7 @@ starkiller_fleet_destroyed_system_everything = {
 				is_megastructure_type = think_tank_ruined
 				is_megastructure_type = think_tank_restored
 			} }
-			solar_system = {
+			solar_system? = {
 				spawn_megastructure = { 
 					type = "think_tank_permanently_ruined"
 					coords_from = prev
@@ -658,7 +658,7 @@ starkiller_fleet_destroyed_system_everything = {
 				is_megastructure_type = strategic_coordination_center_ruined
 				is_megastructure_type = strategic_coordination_center_restored
 			} }
-			solar_system = {
+			solar_system? = {
 				spawn_megastructure = { 
 					type = "strategic_coordination_center_permanently_ruined"
 					coords_from = prev
@@ -677,7 +677,7 @@ starkiller_fleet_destroyed_system_everything = {
 					is_megastructure_type = strategic_coordination_center_restored
 				}
 			}
-			solar_system = {
+			solar_system? = {
 				spawn_megastructure = { 
 					type = "mega_art_installation_permanently_ruined"
 					coords_from = prev
@@ -694,7 +694,7 @@ starkiller_fleet_destroyed_system_everything = {
 				is_megastructure_type = interstellar_assembly_ruined
 				is_megastructure_type = interstellar_assembly_restored
 			} }
-			solar_system = {
+			solar_system? = {
 				spawn_megastructure = { 
 					type = "interstellar_assembly_permanently_ruined"
 					coords_from = prev
@@ -710,7 +710,7 @@ starkiller_fleet_destroyed_system_everything = {
 				is_megastructure_type = mega_shipyard_ruined
 				is_megastructure_type = mega_shipyard_restored
 			} }
-			solar_system = {
+			solar_system? = {
 				spawn_megastructure = { 
 					type = "mega_shipyard_permanently_ruined"
 					coords_from = prev
@@ -727,7 +727,7 @@ starkiller_fleet_destroyed_system_everything = {
 				is_megastructure_type = matter_decompressor_ruined
 				is_megastructure_type = matter_decompressor_restored
 			} }
-			solar_system = {
+			solar_system? = {
 				spawn_megastructure = { 
 					type = "matter_decompressor_permanently_ruined"
 					coords_from = prev
@@ -745,7 +745,7 @@ starkiller_fleet_destroyed_system_everything = {
 					is_megastructure_type = quantum_catapult_restored
 				}
 			}
-			solar_system = {
+			solar_system? = {
 				spawn_megastructure = {
 					type = "quantum_catapult_permanently_ruined"
 					coords_from = prev
@@ -760,7 +760,7 @@ starkiller_fleet_destroyed_system_everything = {
 					is_megastructure_type = hyper_relay_restored
 				}
 			}
-			solar_system = {
+			solar_system? = {
 				spawn_megastructure = {
 					type = "hyper_relay_ruined"
 					coords_from = prev
@@ -770,14 +770,14 @@ starkiller_fleet_destroyed_system_everything = {
 		}
 		else_if = {
 			limit = { is_crisis_sphere = yes }
-			solar_system = {
+			solar_system? = {
 				spawn_megastructure = {
 					type = crisis_sphere_ruined
 					coords_from = prev
 					init_effect = {
 						random_country = {
 							limit = {
-								prev = { has_megastructure_flag = crisis_sphere_of@prev }
+								prev? = { has_megastructure_flag = crisis_sphere_of@prev }
 							}
 							save_event_target_as = former_owner
 						}
@@ -1491,7 +1491,7 @@ kuat_automatic_initial_planet_districts_and_zones_types = {
 
 kuat_automatic_ai_colony = {
 	optimize_memory
-	owner = { save_event_target_as = changing_country }
+	owner? = { save_event_target_as = changing_country }
 
 	set_carrier_flag = has_building_kuat_command_center_auto
 
@@ -1776,7 +1776,7 @@ kuat_destroy_star_system = {
 			is_planet_class = pc_ai
 			has_carrier_flag = machine_lair
 		}
-		from.owner = { save_event_target_as = final_machine_world_destroyer }
+		from.owner? = { save_event_target_as = final_machine_world_destroyer }
 		stop_crisis_sound = yes
 		carrier_event = { id = crisis.2046 }
 	}
@@ -1824,7 +1824,7 @@ kuat_destroy_star_system = {
 				# except Extradimensionals
 				AND = {
 					exists = owner
-					owner = {
+					owner? = {
 						OR = {
 							is_country_type = portal_holder
 							is_country_type = extradimensional
@@ -1873,12 +1873,12 @@ kuat_change_country_owner = {
 	every_system = {
 		limit = {
 			exists = owner
-			owner = { is_same_value = event_target:fallen_empire_kuat }
+			owner? = { is_same_value = event_target:fallen_empire_kuat }
 		}
 		every_system_planet = {
 			limit = {
 				exists = owner
-				owner = { is_same_value = event_target:fallen_empire_kuat }
+				owner? = { is_same_value = event_target:fallen_empire_kuat }
 				is_colony = yes
 			}
 			set_owner = $TARGET$
@@ -1886,7 +1886,7 @@ kuat_change_country_owner = {
 		every_fleet_in_system = {
 			limit = {
 				exists = owner
-				owner = { is_same_value = event_target:fallen_empire_kuat }
+				owner? = { is_same_value = event_target:fallen_empire_kuat }
 			}
 			set_owner = $TARGET$
 		}
@@ -2158,7 +2158,7 @@ kuat_setup_aura_clashing = {
 					value < root.monthly_increase
 				}
 			}
-			root = { save_event_target_as = winning_system }
+			root? = { save_event_target_as = winning_system }
 			save_event_target_as = losing_system
 		}
 		else_if = {
@@ -2169,7 +2169,7 @@ kuat_setup_aura_clashing = {
 				}
 			}
 			save_event_target_as = winning_system
-			root = { save_event_target_as = losing_system }
+			root? = { save_event_target_as = losing_system }
 		}
 		if = {
 			limit = { exists = event_target:losing_system }
@@ -2187,7 +2187,7 @@ kuat_setup_aura_clashing = {
 			save_event_target_as = tested_system
 			set_star_flag = aura_is_clashing_against_@root
 			kuat_trigger_aura_clashing_event = { FROM = root }
-			root = {
+			root? = {
 				set_star_flag = aura_is_clashing_against_@event_target:tested_system
 				kuat_trigger_aura_clashing_event = { FROM = event_target:tested_system }
 			}
