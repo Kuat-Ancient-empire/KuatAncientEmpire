@@ -98,7 +98,7 @@ kuat_mega_starbase_stormed_closed_super = {
 			any_owned_ship = { kuat_ship_is_mega_starbase = yes }
 		}
 		custom_tooltip = {
-			owner = { 
+			owner? = { 
 				max_naval_capacity > 4000
 				used_naval_capacity_percent < value:kuat_modifier_mult_add|kuat_modifier|kuat_super_starbase_fleet_calling_cabibility_mult|kuat_min|1|
 			}
@@ -132,7 +132,7 @@ kuat_mega_starbase_stormed_closed_gunpower = {
 			any_owned_ship = { kuat_ship_is_mega_starbase = yes }
 		}
 		custom_tooltip = {
-			owner = { 
+			owner? = { 
 				max_naval_capacity > 4000
 				used_naval_capacity_percent < value:kuat_modifier_mult_add|kuat_modifier|kuat_super_starbase_fleet_calling_cabibility_mult|kuat_min|1| 
 			}
@@ -166,7 +166,7 @@ kuat_mega_starbase_stormed_closed_carrier = {
 			any_owned_ship = { kuat_ship_is_mega_starbase = yes }
 		}
 		custom_tooltip = {
-			owner = { 
+			owner? = { 
 				max_naval_capacity > 4000
 				used_naval_capacity_percent < value:kuat_modifier_mult_add|kuat_modifier|kuat_super_starbase_fleet_calling_cabibility_mult|kuat_min|1|
 			}
@@ -201,7 +201,7 @@ kuat_mega_starbase_stormed_closed_missle = {
 			any_owned_ship = { kuat_ship_is_mega_starbase = yes }
 		}
 		custom_tooltip = {
-			owner = { 
+			owner? = { 
 				max_naval_capacity > 4000
 				used_naval_capacity_percent < value:kuat_modifier_mult_add|kuat_modifier|kuat_super_starbase_fleet_calling_cabibility_mult|kuat_min|1|
 			}
@@ -221,6 +221,40 @@ kuat_mega_starbase_stormed_closed_missle = {
 	slot = 7
 }
 
+kuat_hyperspace_jump = {
+	user_scope = fleet
+	scope = galactic_object
+
+	click_to_act_key = arkship_galaxy_target_system
+	icon = GFX_fleet_action_button_arkship_exodus_jump
+	icon_selected = GFX_fleet_action_button_arkship_exodus_jump
+
+	button_visible = {
+		any_owned_ship = { kuat_ship_is_mega_starbase = yes }
+	}
+
+	button_clickable = {
+		custom_tooltip = {
+			NOT = { has_fleet_flag = kuat_mega_starbase_stormed_activated }
+			any_owned_ship = { kuat_ship_is_mega_starbase = yes }
+		}
+	}
+
+	# This behaves as a Quantum Catapult, using the ship as the bypass.
+	specific_behavior = scripted_catapult_order
+
+	inline_script = {
+		script = "kuat_utllities_component/kuat_component_defines"
+		CLASS = kuat_hyperspace_jump
+	}
+
+	wait = no
+	cooldown = 360
+
+	cost = { sr_dark_matter = 5000 }
+	slot = 8
+}
+
 
 
 #释放补给风暴 Special
@@ -236,7 +270,7 @@ kuat_mega_starbase_special_stormed = {
 		}
 		custom_tooltip = { 
             fail_text = executor_build.1008.check.flag
-            owner = { NOT = { has_country_flag = kuat_storming_placing_selector_temple } }
+            owner? = { NOT = { has_country_flag = kuat_storming_placing_selector_temple } }
         }
 	}
 	inline_script = {
@@ -285,7 +319,7 @@ kuat_mega_starbase_special_explosion = {
 	button_clickable = {
 		custom_tooltip = { 
             fail_text = "executor_build.1008.check.flag"
-            owner = { NOT = { has_country_flag = kuat_kuat_mega_starbase_special_explosion_temple } }
+            owner? = { NOT = { has_country_flag = kuat_kuat_mega_starbase_special_explosion_temple } }
         }
 		custom_tooltip = {
 			fail_text = "kuat_requires_outside_border_star_killer"
@@ -299,7 +333,7 @@ kuat_mega_starbase_special_explosion = {
 			fail_text = "kuat_requires_a_star_star_killer" 
 			solar_system = { count_fleet_in_system = {
 				count = 0
-				limit = { exists = owner owner = { is_first_galatic_empire_faction = yes } }
+				limit = { exists = owner owner? = { is_first_galatic_empire_faction = yes } }
 			} }
 		}
 	}
@@ -334,7 +368,7 @@ kuat_auto_dreadnought_fleet_action = {
 	button_clickable = {
 		custom_tooltip = {
 			text = "kuat_fleet_attack_action_allow"
-			exists = owner owner = { is_at_war = yes }
+			owner? = { is_at_war = yes }
 		}
 		custom_tooltip = {
 			text = "kuat_fleet_attack_defender_allow"

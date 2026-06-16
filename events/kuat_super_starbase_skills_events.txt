@@ -347,3 +347,41 @@ ship_event = {
         }
     }
 }
+
+
+system_event = {
+	id = kuat_starbase_skills.13
+	title = "kuat_fleet_calling.13.title"
+	desc = "kuat_fleet_calling.13.desc"
+	diplomatic = yes
+	custom_gui = "kuat_event_m_window"
+	custom_gui_option = "kuat_event_option"
+	picture_event_data = { room = astral_rift_dimensional_dump_room }
+	is_triggered_only = yes
+	trigger = {
+		from.owner? = { NOT = { has_country_flag = fired_kuat_starbase_skills.13 } }
+	}
+	immediate = {
+		FROM = {
+			random_owned_ship = { save_event_target_as = kuat_arkship }
+			solar_system = { kuat_arkship_exodus_jump_system_effects = yes }
+		}
+	}
+	option = { name = kuat_fleet_calling.13.a hidden_effect = { from.owner? = { set_country_flag = fired_kuat_starbase_skills.13 } } }
+	option = { name = kuat_fleet_calling.13.b }
+}
+
+system_event = {
+	id = kuat_starbase_skills.14
+	hide_window = yes
+	is_triggered_only = yes
+	trigger = {
+		from.owner? = { has_country_flag = fired_kuat_starbase_skills.13 }
+	}
+	immediate = {
+		FROM = {
+			random_owned_ship = { save_event_target_as = kuat_arkship }
+			solar_system = { kuat_arkship_exodus_jump_system_effects = yes }
+		}
+	}
+}

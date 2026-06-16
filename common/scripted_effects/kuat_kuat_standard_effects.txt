@@ -507,16 +507,27 @@ starkiller_country_destroyed_system_only_fleet = {
 	} }
 	every_ship_in_system = {
 		limit = { 
-			exists = owner 
 			owner? = { NOT = { is_same_value = root.from.owner } }
 			is_disabled = no
 		}
 		while = {
 			limit = { this? = { is_disabled = no } }
-			damage_ship = { amount = 92000000000000 attacker = event_target:foa_target_ship }
+			kuat_battle_kuat_damage_hp_percent = { source = event_target:foa_target_ship value = 100 }
 		}
 	}
 	set_update_modifiers_batch = end
+}
+kuat_arkship_exodus_jump_system_effects = {
+	# Apply VFX
+	create_kuat_starbase_special_expolde_vanilla_boom = yes
+	# Damage every ship in the system
+	every_ship_in_system = {
+		limit = {
+			controller? = { NOT = { is_same_value = event_target:kuat_arkship.controller } }
+			is_disabled = no
+		}
+		kuat_battle_kuat_damage_hp_percent = { source = event_target:foa_target_ship value = 75 }
+	}
 }
 starkiller_fleet_destroyed_system_everything = {
 	optimize_memory
