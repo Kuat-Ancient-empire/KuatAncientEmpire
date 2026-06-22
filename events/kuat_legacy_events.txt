@@ -912,68 +912,9 @@ ship_event = {
 	id = kuat_legacy.45
 	hide_window = yes	
 	is_triggered_only = yes
-	trigger = { 
-		kuat_ship_is_mega_starbase = yes 
-		kuat_ship_is_movable_mega_starbase = no
-	}
+	trigger = { kuat_ship_is_mega_starbase = yes }
 	immediate = {
-		solar_system? = {
-			if = {
-				limit = { root? = { is_ship_size = exe_megastructure_starbase } }
-				every_system = {
-					limit = { has_star_flag = has_starforge_avoid_entity }
-					random_system_planet = { limit = { is_primary_star = yes } change_pc = pc_black_hole set_planet_size = 18 }
-					set_star_class = sc_black_hole
-					remove_star_flag = has_starforge_avoid_entity
-				}
-				if = {
-					limit = { root.fleet = { has_fleet_flag = kuat_mega_starbase_stormed_activated } }
-					kuat_battle_clear_all_storm = yes
-					root? = { kuat_battle_spawn_system_suppliment_storm = yes }
-				}
-				random_system_planet = {
-					limit = { is_primary_star = yes }
-					set_planet_size = 1
-					set_planet_entity = { entity = starforge_avoid_entity }
-					root.fleet = { set_location = { target = prev distance = -1 angle = 0 } }
-				}
-				set_star_flag = has_starforge_avoid_entity
-			}
-			if = {
-				limit = { root? = { is_ship_size = Drift_megastructure_starbase } }		
-				if = {
-					limit = { root.fleet = { has_fleet_flag = kuat_mega_starbase_stormed_activated } }
-					kuat_battle_clear_all_storm = yes
-					root? = { kuat_battle_spawn_system_suppliment_storm = yes }
-				}
-				random_system_planet = {
-					limit = { is_primary_star = yes }
-					set_planet_size = 25
-					change_pc = pc_kuat_white_hole
-					solar_system? = { set_star_class = sc_kuat_white_hole }
-					root.fleet = { set_location = { target = prev distance = -1 angle = 0 } }
-				}
-			}
-			if = {
-				limit = { root? = { is_ship_size = Infinite_megastructure_starbase } }		
-				if = {
-					limit = { root.fleet = { has_fleet_flag = kuat_mega_starbase_stormed_activated } }
-					kuat_battle_clear_all_storm = yes
-					root? = { kuat_battle_spawn_system_suppliment_storm = yes }
-				}
-				random_system_planet = {
-					limit = { is_primary_star = yes }
-					root.fleet = { set_location = { target = prev distance = -1 angle = 0 } }
-				}
-			}
-			else = {
-				if = {
-					limit = { root.fleet = { has_fleet_flag = kuat_mega_starbase_stormed_activated } }
-					kuat_battle_clear_all_storm = yes
-					root? = { kuat_battle_spawn_system_suppliment_storm = yes }
-				}
-			}
-		}
+		kuat_starbase_jump_in_system = { Fleet = root.fleet Ship = root }
 	}
 }
 

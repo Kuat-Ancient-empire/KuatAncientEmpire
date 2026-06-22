@@ -245,7 +245,7 @@ starkiller_country_destroyed_system_everything = {
 		clear_planet_modifiers = yes
 		prevent_anomaly = yes
 	}
-	root? = { random_owned_fleet = { 
+	$Ship$ = { random_owned_fleet = { 
 		save_event_target_as = foa_target_fleet 
 		random_owned_ship = { save_event_target_as = foa_target_ship }
 	} }
@@ -2169,7 +2169,7 @@ kuat_setup_aura_clashing = {
 					value < root.monthly_increase
 				}
 			}
-			root? = { save_event_target_as = winning_system }
+			$Ship$ = { save_event_target_as = winning_system }
 			save_event_target_as = losing_system
 		}
 		else_if = {
@@ -2180,7 +2180,7 @@ kuat_setup_aura_clashing = {
 				}
 			}
 			save_event_target_as = winning_system
-			root? = { save_event_target_as = losing_system }
+			$Ship$ = { save_event_target_as = losing_system }
 		}
 		if = {
 			limit = { exists = event_target:losing_system }
@@ -2198,7 +2198,7 @@ kuat_setup_aura_clashing = {
 			save_event_target_as = tested_system
 			set_star_flag = aura_is_clashing_against_@root
 			kuat_trigger_aura_clashing_event = { FROM = root }
-			root? = {
+			$Ship$ = {
 				set_star_flag = aura_is_clashing_against_@event_target:tested_system
 				kuat_trigger_aura_clashing_event = { FROM = event_target:tested_system }
 			}
@@ -2241,4 +2241,67 @@ kuat_execution_all_system_protecal_flags = {
 	$type$_star_flag = kuat_cannot_be_hit_by_starkillerbase
 	$type$_star_flag = spth_no_star_killer_target_system
 	$type$_star_flag = ag_no_star_killer_target_system
+}
+
+kuat_starbase_jump_in_system = {
+	solar_system? = {
+		if = {
+			limit = { $Ship$ = { is_ship_size = exe_megastructure_starbase } }
+			every_system = {
+				limit = { has_star_flag = has_starforge_avoid_entity }
+				random_system_planet = { limit = { is_primary_star = yes } change_pc = pc_black_hole set_planet_size = 18 }
+				set_star_class = sc_black_hole
+				remove_star_flag = has_starforge_avoid_entity
+			}
+			if = {
+				limit = { $Fleet$ = { has_fleet_flag = kuat_mega_starbase_stormed_activated } }
+				kuat_battle_clear_all_storm = yes
+				$Ship$ = { kuat_battle_spawn_system_suppliment_storm = yes }
+			}
+			random_system_planet = {
+				limit = { is_primary_star = yes }
+				set_planet_size = 1
+				set_planet_entity = { entity = starforge_avoid_entity }
+				$Fleet$ = { set_location = { target = prev distance = -1 angle = 0 } }
+			}
+			set_star_flag = has_starforge_avoid_entity
+		}
+		if = {
+			limit = { $Ship$ = { is_ship_size = Drift_megastructure_starbase } }		
+			if = {
+				limit = { $Fleet$ = { has_fleet_flag = kuat_mega_starbase_stormed_activated } }
+				kuat_battle_clear_all_storm = yes
+				$Ship$ = { kuat_battle_spawn_system_suppliment_storm = yes }
+			}
+			random_system_planet = {
+				limit = { is_primary_star = yes }
+				set_planet_size = 25
+				change_pc = pc_kuat_white_hole
+				solar_system? = { set_star_class = sc_kuat_white_hole }
+				$Fleet$ = { set_location = { target = prev distance = -1 angle = 0 } }
+			}
+		}
+		if = {
+			limit = { $Ship$ = { is_ship_size = Infinite_megastructure_starbase } }		
+			if = {
+				limit = { $Fleet$ = { has_fleet_flag = kuat_mega_starbase_stormed_activated } }
+				kuat_battle_clear_all_storm = yes
+				$Ship$ = { kuat_battle_spawn_system_suppliment_storm = yes }
+			}
+			random_system_planet = {
+				limit = { is_primary_star = yes }
+				$Fleet$ = { set_location = { target = prev distance = -1 angle = 0 } }
+			}
+		}
+		if = {
+			limit = { $Ship$ = { kuat_ship_is_movable_mega_starbase = yes } }
+			kuat_battle_clear_all_storm = yes
+			$Ship$ = { kuat_battle_spawn_system_suppliment_storm = yes }
+		}
+		else_if = {
+			limit = { $Fleet$ = { has_fleet_flag = kuat_mega_starbase_stormed_activated } }
+			kuat_battle_clear_all_storm = yes
+			$Ship$ = { kuat_battle_spawn_system_suppliment_storm = yes }
+		}
+	}
 }
