@@ -79,10 +79,7 @@ kuat_battle_eternal_increase_executor_hp_power = {
 		kuat_battle_clear_ship_modifier = { modifier = shipclass_military_hull_mult DAYS = $DAYS$ subtract = @kuat_flagship_proection_mult }
 		kuat_battle_clear_ship_modifier = { modifier = ship_hull_regen_add_perc DAYS = $DAYS$ subtract = @kuat_flagship_proection_mult }
 
-		if = {
-			limit = { has_hp < 100000000 }
-			add_modifier = { modifier = kt_increase_hp days = $DAYS$ multiplier = value:kuat_eternal_increase_hp_value }
-		}
+		add_modifier = { modifier = ee_increase_hp days = $DAYS$ multiplier = value:kuat_eternal_increase_hp_value }
 
 		set_timed_ship_flag = { flag = kuat_has_eternal_increase_executor_power_hp_temple days = $DAYS$ }
 	}
@@ -105,7 +102,7 @@ kuat_battle_clear_ship_modifier = {
 	[[change] change_variable = { which = $modifier$_value_iep value = $change$ }]
 	[[divide] divide_variable = { which = $modifier$_value_iep value = $divide$ }]
 	[[multiply] multiply_variable = { which = $modifier$_value_iep value = $multiply$ }]
-	add_modifier = { modifier = iep_basic_$modifier$ multiplier = $modifier$_value_iep days = $DAYS$ } 
+	add_modifier = { modifier = iep_basic_$modifier$ multiplier = $modifier$_value_iep days = $DAYS$ time_multiplier = $TIME_MULT|1$ } 
 	clear_variable = $modifier$_value_iep
 }
 
@@ -147,7 +144,6 @@ kuat_battle_remove_increase_hp_modifier = {
 kuat_battle_remove_executor_power = {
 	optimize_memory
 	remove_ship_flag = kuat_has_eternal_increase_executor_power_temple
-	kuat_battle_remove_increase_hp_modifier = { TYPE = kt }
 	kuat_battle_remove_increase_hp_modifier = { TYPE = ee }
 	kuat_battle_remove_standard_modifier_system = { TITLE = iep_basic }
 	kuat_battle_remove_repeatable_modifier_base_and_change_base = yes
@@ -901,7 +897,7 @@ kuat_battle_disable_ship_at_health = {
 	optimize_memory
 	[[FLAG] set_ship_flag = $FLAG$ ]
 	[[Disable_health] set_disable_at_health = $Disable_health$ set_ship_flag = kuat_battle_disable_ship_at_health ]
-	[[WHICH] set_variable = { which = $WHICH$ value = $HEALTH$ }]
+	[[WHICH] set_variable = { which = $WHICH$ value = $HEALTH$ } clear_variable = kuat_upgrade_times ]
 }
 
 #ag_num_ship_killed_targets
@@ -911,7 +907,29 @@ kuat_battle_clear_ship_at_health = {
 	[[REPAIR] repair_ship = $REPAIR$ repair_shield_percentage = 100 repair_armor_percentage = 100 ] 
 	[[INVERT_DISABLE] $INVERT_DISABLE$ = no ]
 	[[Disable_health] set_disable_at_health = $Disable_health$ remove_ship_flag = kuat_battle_disable_ship_at_health ]
-	[[WHICH] subtract_variable = { which = $WHICH$ value = 1 } ]
+	[[WHICH] 
+		subtract_variable = { which = $WHICH$ value = 1 } 
+		change_variable = { which = kuat_upgrade_times value = 1 } 
+		switch = {
+			trigger = has_global_flag
+			easy_exe_invasion = { if = { 
+				limit = { check_modifier_value = { modifier = ship_damage_reduction_mult value < 0.0 } }
+				kuat_battle_clear_ship_modifier = { modifier = ship_damage_reduction_mult subtract = 0.0 DAYS = 2 TIME_MULT = kuat_upgrade_times }
+			} }
+			normal_exe_invasion = { if = { 
+				limit = { check_modifier_value = { modifier = ship_damage_reduction_mult value < 0.25 } }
+				kuat_battle_clear_ship_modifier = { modifier = ship_damage_reduction_mult subtract = 0.25 DAYS = 2 TIME_MULT = kuat_upgrade_times }
+			} }
+			difficult_exe_invasion = { if = { 
+				limit = { check_modifier_value = { modifier = ship_damage_reduction_mult value < 0.50 } }
+				kuat_battle_clear_ship_modifier = { modifier = ship_damage_reduction_mult subtract = 0.50 DAYS = 2 TIME_MULT = kuat_upgrade_times }
+			} }
+			ban_exe_invasion = { if = { 
+				limit = { check_modifier_value = { modifier = ship_damage_reduction_mult value < 0.75 } }
+				kuat_battle_clear_ship_modifier = { modifier = ship_damage_reduction_mult subtract = 0.75 DAYS = 2 TIME_MULT = kuat_upgrade_times }
+			} }
+		}
+	]
 }
 
 kuat_battle_flagship_intial = {

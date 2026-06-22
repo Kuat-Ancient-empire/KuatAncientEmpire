@@ -21,8 +21,8 @@ windup = {
 	min = $WINDUP_MIN$
 	max = $WINDUP_MAX$
 }
-firing_arc = 30
-min_range = 30
+firing_arc = @[ $RANGE$ / 20 ]
+min_range = @[ $RANGE$ / 20 ]
 
 accuracy = 0.95
 tracking = 0.05
@@ -54,6 +54,13 @@ on_hit = {
 		}
 	}
 	hidden_effect = {  	
+		if = {
+			limit = { from? = { OR = {
+				is_ship_size = Drift_Flagship
+				is_ship_size = Spt_Flagship
+			} } }
+			from = { repair_shield_amount = -92000000000000 }
+		}
 		kuat_battle_superlazer_raload_modifier = yes	
 		repair_shield_amount = -92000000000000
 		repair_armor_amount = -92000000000000	

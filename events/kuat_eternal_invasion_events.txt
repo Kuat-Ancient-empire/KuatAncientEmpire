@@ -1440,6 +1440,16 @@ country_event = {
 				} }
 				set_fleet_flag = kuat_has_Imperial_Flagship_fleet
 			}
+			if = {
+				limit = {
+					kuat_fleet_anyone_has_validable_standard_flagship_system = yes
+					solar_system? = { any_ship_in_system = { 
+						kuat_fleet_is_starbase = yes 
+						owner? = { is_same_value = prevprevprev.owner } 
+					} }
+				}
+				set_fleet_flag = kuat_has_Upgrade_Flagship_fleet
+			}
 			# weapon tag
 			if = {
 				limit = { OR = {
@@ -1506,6 +1516,7 @@ fleet_event = {
 			remove_fleet_flag = kuat_has_Drift_Flagship_fleet
 			remove_fleet_flag = kuat_has_Infinite_Flagship_fleet
 			remove_fleet_flag = kuat_has_Imperial_Flagship_fleet
+			remove_fleet_flag = kuat_has_Upgrade_Flagship_fleet
 			remove_fleet_flag = kuat_has_Airpernia_Flagship_fleet
 			#weapon tag
 			remove_fleet_flag = kuat_has_artellary_Flagship_fleet
@@ -1577,7 +1588,7 @@ ship_event = {
 				is_in_combat = yes 
 				solar_system? = { any_fleet_in_system = {
 					kuat_fleet_anyone_has_validable_standard_flagship_system = yes
-					exists = owner owner? = { is_same_value = prevprevprev.owner } 
+					owner? = { is_same_value = prevprevprev.owner } 
 				} } 
 			}
 			repair_ship = yes 
@@ -1600,10 +1611,9 @@ country_event = {
 		kuat_is_player_country = yes
 		fromfrom? = { 
 			any_owned_ship = { kuat_fleet_is_starbase = yes }
-			exists = solar_system
 			solar_system? = { any_fleet_in_system = {
 				kuat_fleet_anyone_has_validable_standard_flagship_system = yes
-				exists = owner owner? = { is_same_value = prevprevprev.owner } 
+				owner? = { is_same_value = prevprevprev.owner } 
 			} } 
 		}
 		NOT = { has_global_flag = kuat_set_forcetrigger_order_enable_crisis_eve_system }
