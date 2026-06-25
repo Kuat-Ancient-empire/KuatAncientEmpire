@@ -362,8 +362,8 @@ kuat_battle_set_kuat_legacy_crisis_fleet_dynamic_modifier = {
 	kuat_battle_set_kuat_damage_control_standard_modifier = { PARAMATER = shipclass_starbase_hull_mult		 	DAYS = @kuat_global_dynamic_delay_times		RELATION = "!=" OUTPUT_VALUE = 0 }		 
 	kuat_battle_set_kuat_damage_control_standard_modifier = { PARAMATER = ship_hull_regen_mult		 			DAYS = @kuat_global_dynamic_delay_times		RELATION = "!=" OUTPUT_VALUE = 0 }		 
 	kuat_battle_set_kuat_damage_control_standard_modifier = { PARAMATER = ship_armor_regen_mult		 			DAYS = @kuat_global_dynamic_delay_times		RELATION = "!=" OUTPUT_VALUE = 0 }		 
-	kuat_battle_set_kuat_damage_control_standard_modifier = { PARAMATER = ship_shield_regen_mult		 		DAYS = @kuat_global_dynamic_delay_times		RELATION = "!=" OUTPUT_VALUE = 0 }		 
-	
+	kuat_battle_set_kuat_damage_control_standard_modifier = { PARAMATER = ship_shield_regen_mult		 		DAYS = @kuat_global_dynamic_delay_times		RELATION = "!=" OUTPUT_VALUE = 0 }		
+
 	# [[hostile] 
 	# 	kuat_battle_set_kuat_damage_control_standard_modifier = { PARAMATER = ship_damage_reduction_mult		DAYS = @kuat_global_dynamic_delay_times		RELATION = ">"  OUTPUT_VALUE = value:kuat_dynamic_ship_damage_reduce_limit }
 	# 	kuat_battle_set_kuat_damage_control_standard_modifier = { PARAMATER = ship_damage_reduction_add			DAYS = @kuat_global_dynamic_delay_times		RELATION = ">"  OUTPUT_VALUE = value:kuat_dynamic_mutiply_factor_limit|MULT|0.001|kuat_add_modifier|ship_hull_add| }
@@ -373,6 +373,12 @@ kuat_battle_set_kuat_legacy_crisis_fleet_dynamic_modifier = {
 	# 	kuat_battle_set_kuat_damage_control_standard_modifier = { PARAMATER = ship_armor_hardening_add			DAYS = @kuat_global_dynamic_delay_times		RELATION = ">"  OUTPUT_VALUE = value:kuat_dynamic_mutiply_factor_limit|MULT|0.000015|kuat_add_modifier|ship_hull_add| }
 	# 	kuat_battle_set_kuat_damage_control_standard_modifier = { PARAMATER = ship_armor_regen_add_static		DAYS = @kuat_global_dynamic_delay_times		RELATION = ">"  OUTPUT_VALUE = value:kuat_dynamic_mutiply_factor_limit|MULT|0.002|kuat_add_modifier|ship_hull_add| }
 	# ]
+
+	[[hostile] 
+		kuat_battle_set_kuat_special_damage_control_standard_modifier = { PARAMATER = ship_hull_damage_mult		DAYS = @kuat_global_dynamic_delay_times		RELATION = "!="  OUTPUT_VALUE = -1 }
+		kuat_battle_set_kuat_special_damage_control_standard_modifier = { PARAMATER = ship_shield_damage_mult	DAYS = @kuat_global_dynamic_delay_times		RELATION = "!="  OUTPUT_VALUE = -1 }
+		kuat_battle_set_kuat_special_damage_control_standard_modifier = { PARAMATER = ship_armor_damage_mult	DAYS = @kuat_global_dynamic_delay_times		RELATION = "!="  OUTPUT_VALUE = -1 }
+	]
 
 	[[frendly]  
 		kuat_battle_set_kuat_damage_control_standard_modifier = { PARAMATER = ship_damage_reduction_mult 		DAYS = @kuat_global_dynamic_delay_times		RELATION = "!=" OUTPUT_VALUE = value:kuat_dynamic_base_special_value }
@@ -452,6 +458,21 @@ kuat_battle_set_modifier_control_eternal_fleet_mult_modifier = {
 		kuat_battle_set_kuat_damage_control_standard_modifier = { PARAMATER = ship_shield_penetration_add		DAYS = @kuat_global_dynamic_delay_times		RELATION = "<"  OUTPUT_VALUE = value:kuat_export_kuat_damage_control_modifier|MODIFIER|ship_shield_penetration_add| }
 		kuat_battle_set_kuat_damage_control_standard_modifier = { PARAMATER = ship_armor_penetration_add		DAYS = @kuat_global_dynamic_delay_times		RELATION = "<"  OUTPUT_VALUE = value:kuat_export_kuat_damage_control_modifier|MODIFIER|ship_armor_penetration_add| }				
 	]	
+}
+
+kuat_battle_set_kuat_special_damage_control_standard_modifier = {
+	optimize_memory
+	if = {
+		limit = { 
+			check_modifier_value = { modifier = $PARAMATER$ value $RELATION$ $OUTPUT_VALUE$ } 
+			fleet? = { has_fleet_flag = has_none_kuat_flagship_system }
+		}
+		set_variable = { which = $PARAMATER$_value value = modifier:$PARAMATER$ }
+		subtract_variable = { which = $PARAMATER$_value value = $OUTPUT_VALUE$ }
+		change_variable = { which = basic_$PARAMATER$_value value = $PARAMATER$_value }
+		add_modifier = { modifier = basic_$PARAMATER$ multiplier = basic_$PARAMATER$_value days = $DAYS$ } 
+		clear_variable = $PARAMATER$_value
+	}
 }
 
 kuat_battle_set_kuat_damage_control_standard_modifier = {
