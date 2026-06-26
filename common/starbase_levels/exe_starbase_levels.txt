@@ -1,12 +1,29 @@
 #starbase_level_foo = {
-#	ship_size = starbase_foo 		# Required
+#	ship_size = starbase_foo		# Required
 #	next_level = starbase_level_bar	# Optional
-#	show_in_outliner = yes			# Default yes, if yes starbase will be shown in outliner
+#	level_tooltip = MY_LOC_KEY		# Optional - loc key shown in the upgrade button, downgrade button, and Arkship Type tooltips
+#	show_in_outliner = yes			# Default yes, if yes starbase will be shown in outliner. This is ignored if the starbase type (NOT LEVEL) has is_waystation = yes.
 #	display_empire_shield = no		# Default no, if yes empire shield will be shown even if there's no colony
 #	display_map_icon = yes			# Default yes, if yes starbase map icon will be shown even if there's no colony
 #	level_weight = 1				# Default 0, used for claim cost and required module/building level
 #	ai_weight = { weight = 1.0 }	# Default 0, THIS = Starbase, FROM = Country - determines which levels are more important to upgrade from
-#	potential_home_base = yes/no		# Default no, if yes starbase may be used as homebase for fleets
+#	picture = foo					# Optional - determines the image used when viewing the starbase. For arkships this is the picture shown next to the systems and modules. Default is GFX_starbase_background which
+#   OR                                is used if this is not set.
+#	picture = {						# Optional - determines the image used when viewing the starbase. For arkships this is the picture shown next to the systems and modules. Default is GFX_starbase_background which
+#       trigger = { --- }             is used if this is not set. Triggers use the starbase as scope.
+#       picture = foo
+#   }
+#	potential_home_base = yes/no	# Default no, if yes starbase may be used as homebase for fleets
+#	can_always_dismantle = yes 		# Default no, if yes you can dismantle this starbase even if there are colonies
+#	display_shipyard_button = no	# Default yes, if yes show shipyard button on mobile starbases fleet UI
+#
+#	module_slots = { <slot1_key> <slot2_key> }		# The module slot keys (simple strings) this can fit, in order. Must have at least the correct size.
+#													# If not, an error will be logged and everything will be able to fit in the out of bounds slots
+#													# Slots named spinal_mount_* are shown in a separate spinal mount grid in the Arkship UI. All spinal_mount_* slots must be contiguous.
+#	building_slots = { <slot1_key> <slot2_key> }	# Same as module_slots but for starbase buildings
+#													# Slots named lower_* are shown in a separate lower buildings grid in the Arkship UI. All lower_* slots must be contiguous.
+#   downgrade_potential = { always = no }           # (scope: starbase) Determines if starbase can be downgraded to previous level
+#                                                   # Note: Downgrading is always blocked for mobile starbases
 #}
 # Normal
 starbase_level_exe_citadel = {
