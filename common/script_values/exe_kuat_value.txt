@@ -357,6 +357,21 @@ kuat_dynamic_ship_damage_reduce_limit = {
 	max = 0.75
 }
 
+kuat_dynamic_damage_control_limit = {
+	base = 0
+	modifier = {
+		set = -0.5
+		fleet? = { NOR = { 
+			has_fleet_flag = has_none_kuat_flagship_system
+			has_fleet_flag = has_super_kuat_flagship_system 
+		} }
+	}
+	modifier = {
+		set = -1
+		fleet? = { has_fleet_flag = has_none_kuat_flagship_system }
+	}
+}
+
 kuat_dynamic_base_special_difficult_has_subflagship = {
 	base = 0
 	modifier = { add = 0.00 has_global_flag = easy_exe_invasion }
@@ -742,13 +757,15 @@ kuat_eternal_increase_hp_value = {
 	base = 0
 	modifier = {
 		NOT = { is_ship_class = shipclass_starbase }
-		add = 1000000000
+		add = 1000
+		mult = trigger:ship_size_multiplier
+		mult = trigger:ship_size_multiplier
 	}
 	modifier = {
 		is_ship_class = shipclass_starbase
 		add = 3000000000
+		mult = trigger:ship_size_multiplier
 	}
-	mult = trigger:ship_size_multiplier
 	min = 0
 }
 

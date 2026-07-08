@@ -32,7 +32,7 @@ kuat_battle_eternal_increase_executor_power = {
 		if = {
 			limit = { 
 				kuat_is_disable_return_ship = yes 
-				exists = owner owner? = { is_invisable_faction = no }
+				owner? = { is_invisable_faction = no }
 				NOT = { has_global_flag = kuat_set_forcetrigger_order_enable_crisis_eve_system }
 			}
 			set_variable = { which = KUAT_SHIP_HEALTH_VAR value = 0 }
@@ -45,7 +45,7 @@ kuat_battle_eternal_increase_executor_power = {
 		else = { kuat_battle_eternal_initial_started_defence_value = { MULT = 0.0005 } }
 		if = {
 			limit = { 
-				exists = owner owner? = { is_invisable_faction = no }
+				owner? = { is_invisable_faction = no }
 				NOT = { has_global_flag = kuat_set_forcetrigger_order_enable_crisis_eve_system }
 				check_modifier_value = { modifier = ship_damage_reduction_mult value < value:kuat_dynamic_ship_damage_reduce_limit } 
 			}
@@ -368,16 +368,16 @@ kuat_battle_set_kuat_legacy_crisis_fleet_dynamic_modifier = {
 	# 	kuat_battle_set_kuat_damage_control_standard_modifier = { PARAMATER = ship_damage_reduction_mult		DAYS = @kuat_global_dynamic_delay_times		RELATION = ">"  OUTPUT_VALUE = value:kuat_dynamic_ship_damage_reduce_limit }
 	# 	kuat_battle_set_kuat_damage_control_standard_modifier = { PARAMATER = ship_damage_reduction_add			DAYS = @kuat_global_dynamic_delay_times		RELATION = ">"  OUTPUT_VALUE = value:kuat_dynamic_mutiply_factor_limit|MULT|0.001|kuat_add_modifier|ship_hull_add| }
 	# 	kuat_battle_set_kuat_damage_control_standard_modifier = { PARAMATER = ship_hull_regen_add_static		DAYS = @kuat_global_dynamic_delay_times		RELATION = ">"  OUTPUT_VALUE = value:kuat_dynamic_mutiply_factor_limit|MULT|0.002|kuat_add_modifier|ship_hull_add| }
-	# 	kuat_battle_set_kuat_damage_control_standard_modifier = { PARAMATER = ship_shield_hardening_add			DAYS = @kuat_global_dynamic_delay_times		RELATION = ">"  OUTPUT_VALUE = value:kuat_dynamic_mutiply_factor_limit|MULT|0.000015|kuat_add_modifier|ship_hull_add| }
+	# 	kuat_battle_set_kuat_damage_control_standard_modifier = { PARAMATER = ship_shield_hardening_add			DAYS = @kuat_global_dynamic_delay_times		RELATION = ">"  OUTPUT_VALUE = value:kuat_dynamic_mutiply_factor_limit|MULT|0.00002|kuat_add_modifier|ship_hull_add| }
 	# 	kuat_battle_set_kuat_damage_control_standard_modifier = { PARAMATER = ship_shield_regen_add_static		DAYS = @kuat_global_dynamic_delay_times		RELATION = ">"  OUTPUT_VALUE = value:kuat_dynamic_mutiply_factor_limit|MULT|0.002|kuat_add_modifier|ship_hull_add| }
-	# 	kuat_battle_set_kuat_damage_control_standard_modifier = { PARAMATER = ship_armor_hardening_add			DAYS = @kuat_global_dynamic_delay_times		RELATION = ">"  OUTPUT_VALUE = value:kuat_dynamic_mutiply_factor_limit|MULT|0.000015|kuat_add_modifier|ship_hull_add| }
+	# 	kuat_battle_set_kuat_damage_control_standard_modifier = { PARAMATER = ship_armor_hardening_add			DAYS = @kuat_global_dynamic_delay_times		RELATION = ">"  OUTPUT_VALUE = value:kuat_dynamic_mutiply_factor_limit|MULT|0.00002|kuat_add_modifier|ship_hull_add| }
 	# 	kuat_battle_set_kuat_damage_control_standard_modifier = { PARAMATER = ship_armor_regen_add_static		DAYS = @kuat_global_dynamic_delay_times		RELATION = ">"  OUTPUT_VALUE = value:kuat_dynamic_mutiply_factor_limit|MULT|0.002|kuat_add_modifier|ship_hull_add| }
 	# ]
 
 	[[hostile] 
-		kuat_battle_set_kuat_special_damage_control_standard_modifier = { PARAMATER = ship_hull_damage_mult		DAYS = @kuat_global_dynamic_delay_times		RELATION = "!="  OUTPUT_VALUE = -1 }
-		kuat_battle_set_kuat_special_damage_control_standard_modifier = { PARAMATER = ship_shield_damage_mult	DAYS = @kuat_global_dynamic_delay_times		RELATION = "!="  OUTPUT_VALUE = -1 }
-		kuat_battle_set_kuat_special_damage_control_standard_modifier = { PARAMATER = ship_armor_damage_mult	DAYS = @kuat_global_dynamic_delay_times		RELATION = "!="  OUTPUT_VALUE = -1 }
+		kuat_battle_set_kuat_special_damage_control_standard_modifier = { PARAMATER = ship_hull_damage_mult		DAYS = @kuat_global_dynamic_delay_times		RELATION = "!="  OUTPUT_VALUE = value:kuat_dynamic_damage_control_limit }
+		kuat_battle_set_kuat_special_damage_control_standard_modifier = { PARAMATER = ship_shield_damage_mult	DAYS = @kuat_global_dynamic_delay_times		RELATION = "!="  OUTPUT_VALUE = value:kuat_dynamic_damage_control_limit }
+		kuat_battle_set_kuat_special_damage_control_standard_modifier = { PARAMATER = ship_armor_damage_mult	DAYS = @kuat_global_dynamic_delay_times		RELATION = "!="  OUTPUT_VALUE = value:kuat_dynamic_damage_control_limit }
 	]
 
 	[[frendly]  
@@ -465,7 +465,10 @@ kuat_battle_set_kuat_special_damage_control_standard_modifier = {
 	if = {
 		limit = { 
 			check_modifier_value = { modifier = $PARAMATER$ value $RELATION$ $OUTPUT_VALUE$ } 
-			fleet? = { has_fleet_flag = has_none_kuat_flagship_system }
+			fleet? = { OR = { 
+				has_fleet_flag = has_none_kuat_flagship_system 
+				NOT = { has_fleet_flag = has_super_kuat_flagship_system }
+			} }
 		}
 		set_variable = { which = $PARAMATER$_value value = modifier:$PARAMATER$ }
 		subtract_variable = { which = $PARAMATER$_value value = $OUTPUT_VALUE$ }
@@ -577,6 +580,7 @@ kuat_battle_remove_fleet_modifier_trigger_flag = {
 	clear_variable = infinite_faction_battle_duplicate_ship
 	remove_fleet_flag = is_modifiering_fleet
 	remove_fleet_flag = has_total_kuat_flagship_system
+	remove_fleet_flag = has_super_kuat_flagship_system
 	remove_fleet_flag = has_none_kuat_flagship_system
 }
 
@@ -980,9 +984,20 @@ kuat_battle_flagship_intial = {
 		else_if = {
 			limit = { kuat_ship_is_mega_starbase = yes }
 			set_fleet_flag = has_total_kuat_flagship_system
+			set_fleet_flag = has_super_kuat_flagship_system
 		}
 		else_if = {
 			limit = { kuat_fleet_anyone_has_validable_super_flagship_system = yes }
+			set_fleet_flag = has_total_kuat_flagship_system
+			set_fleet_flag = has_super_kuat_flagship_system
+		}
+		else_if = {
+			limit = { 
+				is_within_borders_of = owner
+				kuat_fleet_anyone_has_validable_standard_flagship_system = yes
+				kuat_fleet_anyone_has_validable_sub_flagship_system = yes
+			}
+			set_fleet_flag = has_super_kuat_flagship_system
 			set_fleet_flag = has_total_kuat_flagship_system
 		}
 		else_if = {
@@ -1142,8 +1157,11 @@ kuat_battle_eternal_aoe_effect = {
 				has_global_flag = kuat_impulse_mod_settings
 			}
 			repair_shield_amount = -92000000000000
-			repair_armor_amount = -92000000000000	
-			kuat_battle_kuat_damage_hp = { value = 92000000000000 source = from }
+			repair_armor_amount = -92000000000000
+			if = {
+				limit = { is_disabled = no }	
+				kuat_battle_kuat_damage_hp = { value = 92000000000000 source = from }
+			}
 		}
 		1 = {
 			modifier = {
@@ -1151,7 +1169,7 @@ kuat_battle_eternal_aoe_effect = {
 				has_global_flag = kuat_impulse_mod_settings
 			}
 			while = {
-				limit = { this? = { is_disabled = no } }
+				limit = { is_disabled = no }
 				repair_shield_amount = -92000000000000
 				repair_armor_amount = -92000000000000	
 				kuat_battle_kuat_damage_hp = { value = 92000000000000 source = from }
@@ -1180,7 +1198,7 @@ kuat_battle_eternal_aoe_effect = {
 					has_global_flag = kuat_impulse_mod_settings
 				}
 				while = {
-					limit = { this? = { is_disabled = no } }
+					limit = { is_disabled = no }
 					repair_shield_amount = -92000000000000
 					repair_armor_amount = -92000000000000	
 					kuat_battle_kuat_damage_hp = { value = 92000000000000 source = root.from }
