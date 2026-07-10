@@ -73,6 +73,7 @@ kuat_battle_eternal_initial_started_defence_value = {
 
 kuat_battle_eternal_increase_executor_hp_power = {
 	optimize_memory
+	[[lock] fleet = { set_event_locked = yes } ]
 	if = {
 		limit = { NOT = { has_ship_flag = kuat_has_eternal_increase_executor_power_hp_temple } }
 		kuat_battle_clear_ship_modifier = { modifier = ship_hull_mult DAYS = $DAYS$ subtract = @kuat_flagship_proection_mult }
@@ -83,6 +84,7 @@ kuat_battle_eternal_increase_executor_hp_power = {
 
 		set_timed_ship_flag = { flag = kuat_has_eternal_increase_executor_power_hp_temple days = $DAYS$ }
 	}
+	[[lock] fleet = { set_event_locked = no } ]
 }
 
 kuat_battle_increase_ship_hp_effect_hp = {
@@ -90,7 +92,7 @@ kuat_battle_increase_ship_hp_effect_hp = {
 	every_owned_ship = {
 		limit = { kuat_is_kuat_ship = yes }
 		set_timed_ship_flag = { flag = kuat_executor_checkpoint days = $DAYS$ }
-		kuat_battle_eternal_increase_executor_hp_power = { DAYS = $DAYS$ }
+		kuat_battle_eternal_increase_executor_hp_power = { DAYS = $DAYS$ lock = no }
 		ship_event = { id = exe_invasion.119 }
 	}
 }
