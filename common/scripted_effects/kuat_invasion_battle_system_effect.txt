@@ -1153,6 +1153,7 @@ kuat_battle_cretae_aoe_particle_effect = {
 }
 
 kuat_battle_eternal_aoe_effect = {
+	optimize_memory
 	reroll_random = yes
 	random_list = {
 		99 = {
@@ -1163,7 +1164,7 @@ kuat_battle_eternal_aoe_effect = {
 			repair_shield_amount = -92000000000000
 			repair_armor_amount = -92000000000000
 			if = {
-				limit = { is_disabled = no }	
+				limit = { is_disabled = no NOT = { has_ship_flag = spth_invincible } }	
 				kuat_battle_kuat_damage_hp = { value = 92000000000000 source = from }
 			}
 		}
@@ -1173,7 +1174,7 @@ kuat_battle_eternal_aoe_effect = {
 				has_global_flag = kuat_impulse_mod_settings
 			}
 			while = {
-				limit = { is_disabled = no }
+				limit = { is_disabled = no NOT = { has_ship_flag = spth_invincible } }
 				repair_shield_amount = -92000000000000
 				repair_armor_amount = -92000000000000	
 				kuat_battle_kuat_damage_hp = { value = 92000000000000 source = from }
@@ -1185,6 +1186,8 @@ kuat_battle_eternal_aoe_effect = {
 			exists = controller
 			controller? = { is_hostile = root.from.controller }
 			distance = { source = root max_distance <= $RANGE$ same_solar_system = yes }
+			is_in_combat = yes 
+			NOT = { has_ship_flag = spth_invincible }
 		}
 		kuat_battle_cretae_aoe_particle_effect = yes
 		reroll_random = yes
