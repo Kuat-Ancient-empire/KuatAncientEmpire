@@ -1097,7 +1097,7 @@ PixelShader =
 			#endif
 
 			#ifdef WHITE_HOLE
-				vDiffuse.rgb *= 1.0f + pow( abs( dot( vCamLookAtDir, float3( 0.f, 1.f, 0.f ) ) ), 1.5f ) * 2.0f;
+				vDiffuse.rgb *= 1.0f + pow( abs( dot( vCamLookAtDir, float3( 0.f, 1.f, 0.f ) ) ), 1.5f ) * 3.5f;
 			#endif
 
 			#ifdef DISSOLVE
