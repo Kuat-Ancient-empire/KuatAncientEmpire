@@ -140,10 +140,9 @@ kuat_exe_invasion_fleet_wandering_action = {
 								NOT = { is_same_value = prevprevprev }
 							} }
 						}
-						any_ship_in_system = {
-							exists = owner
-							owner? = { is_hostile = event_target:$OWNER$ }
-							is_disabled = no is_cloaked = no
+						any_fleet_in_system = {
+							controller? = { is_hostile = event_target:$OWNER$ }
+							any_owned_ship = { is_disabled = no is_ship_class = shipclass_military }
 						}
 					}
 				}
@@ -238,10 +237,9 @@ kuat_exe_invasion_fleet_action = {
 	else_if = {
 		limit = {
 			exists = solar_system
-			solar_system? = { any_ship_in_system = {
-				exists = owner
-				owner? = { is_hostile = event_target:$OWNER$ }
-				is_disabled = no is_cloaked = no
+			solar_system? = { any_fleet_in_system = {
+				controller? = { is_hostile = event_target:$OWNER$ }
+				any_owned_ship = { is_disabled = no is_ship_class = shipclass_military }
 			} }
 		}
 		solar_system? = {
@@ -267,10 +265,9 @@ kuat_exe_invasion_fleet_action = {
 						exists = starbase
 						starbase = { exists = owner owner? = { is_hostile = event_target:$OWNER$ } }
 					}
-					any_ship_in_system = {
-						exists = owner
-						owner? = { is_hostile = event_target:$OWNER$ }
-						is_disabled = no is_cloaked = no
+					any_fleet_in_system = {
+						controller? = { is_hostile = event_target:$OWNER$ }
+						any_owned_ship = { is_disabled = no is_ship_class = shipclass_military }
 					}
 				}	
 				kuat_is_invisable_target_system = no
@@ -283,10 +280,9 @@ kuat_exe_invasion_fleet_action = {
 						exists = starbase
 						starbase = { exists = owner owner? = { is_hostile = event_target:$OWNER$ } }
 					}
-					any_ship_in_system = {
-						exists = owner
-						owner? = { is_hostile = event_target:$OWNER$ }
-						is_disabled = no is_cloaked = no
+					any_fleet_in_system = {
+						controller? = { is_hostile = event_target:$OWNER$ }
+						any_owned_ship = { is_disabled = no is_ship_class = shipclass_military }
 					}
 				}	
 				kuat_is_invisable_target_system = no
@@ -685,10 +681,9 @@ kuat_exe_invasion_fleet_action = {
 					max_steps = 50
 					limit = {
 						NOT = { is_same_value = prev.solar_system }
-						any_ship_in_system = {
-							exists = owner
-							owner? = { is_hostile = event_target:$OWNER$ }
-							is_disabled = no is_cloaked = no
+						any_fleet_in_system = {
+							controller? = { is_hostile = event_target:$OWNER$ }
+							any_owned_ship = { is_disabled = no is_ship_class = shipclass_military }
 						}
 						kuat_is_invisable_target_system = no
 						prev? = { can_access_system = prev }
@@ -716,10 +711,9 @@ kuat_exe_invasion_fleet_action = {
 						max_steps = 50
 						limit = {
 							NOT = { is_same_value = prev.solar_system }
-							any_ship_in_system = {
-								exists = owner
-								owner? = { is_hostile = event_target:$OWNER$ }
-								is_disabled = no is_cloaked = no
+							any_fleet_in_system = {
+								controller? = { is_hostile = event_target:$OWNER$ }
+								any_owned_ship = { is_disabled = no is_ship_class = shipclass_military }
 							}
 							kuat_is_invisable_target_system = no
 						}
@@ -756,10 +750,9 @@ kuat_exe_invasion_fleet_action = {
 							min_jumps = 1
 							max_jumps = 10
 						}
-						any_ship_in_system = {
-							exists = owner
-							owner? = { is_hostile = event_target:$OWNER$ }
-							is_disabled = no is_cloaked = no
+						any_fleet_in_system = {
+							controller? = { is_hostile = event_target:$OWNER$ }
+							any_owned_ship = { is_disabled = no is_ship_class = shipclass_military }
 						}
 						kuat_is_invisable_target_system = no
 						prev? = { can_access_system = prev }
@@ -793,10 +786,9 @@ kuat_exe_invasion_fleet_action = {
 								min_jumps = 1
 								max_jumps = 10
 							}
-							any_ship_in_system = {
-								exists = owner
-								owner? = { is_hostile = event_target:$OWNER$ }
-								is_disabled = no is_cloaked = no
+							any_fleet_in_system = {
+								controller? = { is_hostile = event_target:$OWNER$ }
+								any_owned_ship = { is_disabled = no is_ship_class = shipclass_military }
 							}
 							kuat_is_invisable_target_system = no
 						}
@@ -1187,11 +1179,9 @@ kuat_kae_ge_assault_fleet_action = {
 			root? = {
 				exists = solar_system
 				solar_system? = {
-					any_ship_in_system = {
-						is_disabled = no
-						is_ship_class = shipclass_military
-						exists = owner
-						owner? = { is_hostile = event_target:Kuat_Galatic_Empire_invasion_country }
+					any_fleet_in_system = {
+						controller? = { is_hostile = event_target:Kuat_Galatic_Empire_invasion_country }
+						any_owned_ship = { is_disabled = no is_ship_class = shipclass_military }
 					}
 				}
 			}
@@ -1751,13 +1741,9 @@ kuat_kae_ge_assault_fleet_action = {
 					max_steps = 15
 					limit = {
 						NOT = { is_same_value = root.solar_system }
-						any_ship_in_system = {
-							is_disabled = no
-							is_ship_class = shipclass_military
-							exists = owner
-							owner? = {
-								is_hostile = event_target:Kuat_Galatic_Empire_invasion_country
-							}
+						any_fleet_in_system = {
+							controller? = { is_hostile = event_target:Kuat_Galatic_Empire_invasion_country }
+							any_owned_ship = { is_disabled = no is_ship_class = shipclass_military }
 						}
 						prev? = { can_access_system = prev }
 					}
@@ -1808,13 +1794,9 @@ kuat_kae_ge_assault_fleet_action = {
 						max_steps = 15
 						limit = {
 							NOT = { is_same_value = root.solar_system }
-							any_ship_in_system = {
-								is_disabled = no
-								is_ship_class = shipclass_military
-								exists = owner
-								owner? = {
-									is_hostile = event_target:Kuat_Galatic_Empire_invasion_country
-								}
+							any_fleet_in_system = {
+								controller? = { is_hostile = event_target:Kuat_Galatic_Empire_invasion_country }
+								any_owned_ship = { is_disabled = no is_ship_class = shipclass_military }
 							}
 						}
 						save_event_target_as = kuat_galatic_empire_ge_assault_fleet_action_target
@@ -1868,13 +1850,9 @@ kuat_kae_ge_assault_fleet_action = {
 							min_jumps = 1
 							max_jumps = 15
 						}
-						any_ship_in_system = {
-							is_disabled = no
-							is_ship_class = shipclass_military
-							exists = owner
-							owner? = {
-								is_hostile = event_target:Kuat_Galatic_Empire_invasion_country
-							}
+						any_fleet_in_system = {
+							controller? = { is_hostile = event_target:Kuat_Galatic_Empire_invasion_country }
+							any_owned_ship = { is_disabled = no is_ship_class = shipclass_military }
 						}
 						prev? = { can_access_system = prev }
 					}
@@ -1929,13 +1907,9 @@ kuat_kae_ge_assault_fleet_action = {
 								min_jumps = 1
 								max_jumps = 15
 							}
-							any_ship_in_system = {
-								is_disabled = no
-								is_ship_class = shipclass_military
-								exists = owner
-								owner? = {
-									is_hostile = event_target:Kuat_Galatic_Empire_invasion_country
-								}
+							any_fleet_in_system = {
+								controller? = { is_hostile = event_target:Kuat_Galatic_Empire_invasion_country }
+								any_owned_ship = { is_disabled = no is_ship_class = shipclass_military }
 							}
 						}
 						save_event_target_as = kuat_galatic_empire_ge_assault_fleet_action_target
@@ -2088,11 +2062,9 @@ kuat_exe_auto_fleet_action = {
 	if = {
 		limit = {
 			exists = solar_system
-			solar_system? = { any_ship_in_system = {
-				exists = controller
+			solar_system? = { any_fleet_in_system = {
 				controller? = { is_at_war_with = $OWNER$ }
-				is_disabled = no is_cloaked = no
-				is_ship_class = shipclass_military
+				any_owned_ship = { is_disabled = no is_ship_class = shipclass_military }
 			} }
 		}
 		solar_system? = {
@@ -2149,10 +2121,9 @@ kuat_exe_auto_fleet_action = {
 					exists = starbase
 					starbase = { exists = controller controller? = { is_at_war_with = $OWNER$ } }
 				}
-				any_ship_in_system = {
-					exists = controller
+				any_fleet_in_system = {
 					controller? = { is_at_war_with = $OWNER$ }
-					is_disabled = no is_cloaked = no
+					any_owned_ship = { is_disabled = no is_ship_class = shipclass_military }
 				}
 			} } }
 		}
@@ -2162,10 +2133,9 @@ kuat_exe_auto_fleet_action = {
 					exists = starbase
 					starbase = { exists = controller controller? = { is_at_war_with = $OWNER$ } }
 				}
-				any_ship_in_system = {
-					exists = controller
+				any_fleet_in_system = {
 					controller? = { is_at_war_with = $OWNER$ }
-					is_disabled = no is_cloaked = no
+					any_owned_ship = { is_disabled = no is_ship_class = shipclass_military }
 				}
 			} }
 			system_star? = { prevprevprev? = { auto_move_to_planet = { target = prev clear_auto_move_on_arrival = yes } } }
@@ -2366,10 +2336,9 @@ kuat_exe_auto_fleet_action = {
 													NOT = { is_same_value = prevprevprev }
 												} }
 											}
-											any_ship_in_system = {
-												exists = controller
+											any_fleet_in_system = {
 												controller? = { is_at_war_with = $OWNER$ }
-												is_disabled = no is_cloaked = no
+												any_owned_ship = { is_disabled = no is_ship_class = shipclass_military }
 											}
 										}
 									}
@@ -2638,10 +2607,9 @@ kuat_exe_auto_fleet_action = {
 					max_steps = 50
 					limit = {
 						NOT = { is_same_value = prev.solar_system }
-						any_ship_in_system = {
-							exists = controller
+						any_fleet_in_system = {
 							controller? = { is_at_war_with = $OWNER$ }
-							is_disabled = no is_cloaked = no
+							any_owned_ship = { is_disabled = no is_ship_class = shipclass_military }
 						}
 						prev? = { can_access_system = prev }
 					}
@@ -2668,10 +2636,9 @@ kuat_exe_auto_fleet_action = {
 						max_steps = 50
 						limit = {
 							NOT = { is_same_value = prev.solar_system }
-							any_ship_in_system = {
-								exists = controller
+							any_fleet_in_system = {
 								controller? = { is_at_war_with = $OWNER$ }
-								is_disabled = no is_cloaked = no
+								any_owned_ship = { is_disabled = no is_ship_class = shipclass_military }
 							}
 						}
 						save_event_target_as = $TYPE$_invasion_fleet_action_target
@@ -2821,10 +2788,9 @@ kuat_exe_auto_fleet_action = {
 							min_jumps = 1
 							max_jumps = 10
 						}
-						any_ship_in_system = {
-							exists = controller
+						any_fleet_in_system = {
 							controller? = { is_at_war_with = $OWNER$ }
-							is_disabled = no is_cloaked = no
+							any_owned_ship = { is_disabled = no is_ship_class = shipclass_military }
 						}
 						prev? = { can_access_system = prev }
 					}
@@ -2857,10 +2823,9 @@ kuat_exe_auto_fleet_action = {
 								min_jumps = 1
 								max_jumps = 10
 							}
-							any_ship_in_system = {
-								exists = controller
+							any_fleet_in_system = {
 								controller? = { is_at_war_with = $OWNER$ }
-								is_disabled = no is_cloaked = no
+								any_owned_ship = { is_disabled = no is_ship_class = shipclass_military }
 							}
 						}
 						save_event_target_as = $TYPE$_invasion_fleet_action_target
