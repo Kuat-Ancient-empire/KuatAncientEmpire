@@ -32,6 +32,13 @@ can_orbital_bombard = {
 				is_country_type = cybrex_empire
 				is_country_type = abandoned_hatchery
 				AND = {
+					OR = {
+						is_country_type = awakened_marauders
+						is_country_type = mechanocalibrator
+					}
+					ROOT.CONTROLLER = { is_hostile = prev }
+				}
+				AND = {
 					has_global_flag = has_ancient_empire_mod
 					ag_can_be_orbital_bombardment_country = yes		
 				}
@@ -100,6 +107,7 @@ can_orbital_bombard = {
 			}
 			from.owner = { is_same_value = root.owner }
 		}
+		ROOT.CONTROLLER = { has_country_flag = can_orbital_bombard } # Used in scenarios or mods
 	}
 }
 
@@ -141,14 +149,23 @@ can_excavate_outside_borders = {
 			solar_system = { NOT = { exists = owner } }
 		}
 		AND = { # Nomadic with Research Agreement
-			from = {
-				solar_system = { exists = owner }
+			OR = {
+				AND = {
+					is_ai = no
+					from = {
+						solar_system = { exists = owner }
+					}
+				}
+				from.solar_system.owner? = { # AI nomads will only poach sites from other AI empires
+					is_ai = yes
+				}
 			}
 			is_nomadic = yes
 			has_research_agreement = from.solar_system.owner
 		}
 		# Nomadic empire with Archivism - will upset the system owner
 		AND = {
+			is_ai = no
 			from = {
 				solar_system = { exists = owner }
 			}
