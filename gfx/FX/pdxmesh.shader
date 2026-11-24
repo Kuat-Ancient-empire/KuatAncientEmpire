@@ -2001,6 +2001,42 @@ Effect PdxMeshFlowAdditiveEmpireColorCloaked
 		}
 }
 
+Effect PdxMeshAdditiveEmpireColor
+{
+	VertexShader = "VertexPdxMeshStandard"
+	PixelShader = "PixelPdxMeshAdditive"
+	BlendState = "BlendStateAdditiveBlend"
+	DepthStencilState = "DepthStencilNoZWrite"
+	Defines =
+		{
+			"ANIMATE_UV"
+			"DISSOLVE"
+			"USE_EMPIRE_COLOR"
+		}
+}
+
+Effect PdxMeshAdditiveEmpireColorCloaked
+{
+	VertexShader = "VertexPdxMeshStandard"
+	PixelShader = "PixelPdxMeshAdditive"
+	BlendState = "BlendStateAdditiveBlend"
+	DepthStencilState = "DepthStencilNoZWrite"
+	Defines =
+		{
+			"ANIMATE_UV"
+			"DISSOLVE"
+			"USE_EMPIRE_COLOR"
+			"CLOAKED"
+		}
+}
+
+Effect PdxMeshAdditiveEmpireColorShadow
+{
+	VertexShader = "VertexPdxMeshStandardShadow"
+	PixelShader = "PixelPdxMeshNoShadow"
+	Defines = { "IS_SHADOW" }
+}
+
 Effect PdxMeshFlowAlpha
 {
 	VertexShader = "VertexPdxMeshStandard"
@@ -4064,6 +4100,36 @@ Effect PdxMeshExtraDimensionalShipSkinnedShadow
 	Defines = { "IS_SHADOW" }
 }
 
+Effect PdxMeshExtraDimensionalShipUpdated
+{
+	VertexShader = "VertexPdxMeshStandard"
+	PixelShader = "PixelPdxMeshExtraDimensionalShipUpdated"
+	BlendState = "BlendStateAlphaBlend"
+	RasterizerState = "RasterizerStateNoCulling"
+}
+
+Effect PdxMeshExtraDimensionalShipUpdatedSkinned
+{
+	VertexShader = "VertexPdxMeshStandardSkinned"
+	PixelShader = "PixelPdxMeshExtraDimensionalShipUpdated"
+	BlendState = "BlendStateAlphaBlend"
+	RasterizerState = "RasterizerStateNoCulling"
+}
+
+Effect PdxMeshExtraDimensionalShipUpdatedShadow
+{
+	VertexShader = "VertexPdxMeshStandardShadow"
+	PixelShader = "PixelPdxMeshStandardShadow"
+	Defines = { "IS_SHADOW" }
+}
+
+Effect PdxMeshExtraDimensionalShipUpdatedSkinnedShadow
+{
+	VertexShader = "VertexPdxMeshStandardSkinnedShadow"
+	PixelShader = "PixelPdxMeshStandardShadow"
+	Defines = { "IS_SHADOW" }
+}
+
 Effect PdxMeshStandardConstruction
 {
 	VertexShader = "VertexPdxMeshStandard"
@@ -4587,7 +4653,7 @@ Effect PdxMeshShipDiffuseEmissiveNoiseConstructionAlphaBlendSkinned
 Effect PdxMeshWhitehole
 {
 	VertexShader = "VertexPdxMeshStandard"
-	PixelShader = "PixelPdxMeshWhitehole"
+	PixelShader = "PixelPdxMeshWhiteHole"
 	#BlendState = "BlendStateAlphaBlend"
 	#DepthStencilState = "DepthStencilNoZWrite"
 	Defines = { "WHITE_HOLE" }
@@ -4596,7 +4662,7 @@ Effect PdxMeshWhitehole
 Effect PdxMeshWhiteholeSkinned
 {
 	VertexShader = "VertexPdxMeshStandardSkinned"
-	PixelShader = "PixelPdxMeshWhitehole"
+	PixelShader = "PixelPdxMeshWhiteHole"
 	#BlendState = "BlendStateAlphaBlend"
 	#DepthStencilState = "DepthStencilNoZWrite"
 	Defines = { "WHITE_HOLE" }
